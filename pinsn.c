@@ -1,1 +1,1 @@
-m88k-pinsn.c
+#include "m88k-pinsn.c"
