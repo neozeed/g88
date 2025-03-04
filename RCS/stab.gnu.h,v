@@ -1,0 +1,57 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     89.09.21.10.21.08;  author paulg;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.30.23.10.46;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@add rcsid stuff
+@
+text
+@/*
+   $Header:  $
+   $Locker:  $
+ */
+#ifndef __GNU_STAB__
+
+/* Indicate the GNU stab.h is in use.  */
+
+#define __GNU_STAB__
+
+#define __define_stab(NAME, CODE, STRING) NAME=CODE,
+
+enum __stab_debug_code
+{
+#include "stab.def"
+};
+
+#undef __define_stab
+
+#endif /* __GNU_STAB_ */
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 4
+@

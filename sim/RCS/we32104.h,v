@@ -1,0 +1,337 @@
+head     1.6;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.6
+date     88.01.25.12.23.12;  author timd;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     88.01.20.15.25.21;  author timd;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.12.08.16.20.26;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.12.08.16.03.44;  author timd;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.12.08.08.44.19;  author timd;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.12.07.15.09.59;  author timd;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.6
+log
+@Changed constant names (INCREMENT --> CONSTANT)
+@
+text
+@/*------------------------------------------------------------------------
+ * we32104.h
+ *
+ * This header file describes the WE32104 Direct Memory Access Controller
+ * (DMAC).
+ *
+ * "The WE32104 DMAC is a memory-mapped peripheral device that performs
+ * memory-to-memory, memory-to-peripheral, and peripheral-to-memory data
+ * transfers quickly and efficiently. The DMAC contains specialized hardware
+ * that permits data transfers at a rate much faster than a typical CPU.
+ * A peripheral bus is provided to couple 8-bit I/O devices to the system
+ * bus."
+ *
+ *
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: we32104.h,v 1.5 88/01/20 15:25:21 timd Exp $		
+ *------------------------------------------------------------------------
+ */
+
+#ifndef WE32104_H
+#define WE32104_H
+
+
+
+/*------------------------------------------------------------------------ 
+ * Offsets into internal memory.
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	WE32104_PERIPH_BUS_ACCESS_0	0x000
+#define	WE32104_PERIPH_BUS_ACCESS_1	0x080
+#define	WE32104_PERIPH_BUS_ACCESS_2	0x100
+#define	WE32104_PERIPH_BUS_ACCESS_3	0x180
+
+#define	WE32104_INTERNAL_REGISTERS_0	0x200
+#define	WE32104_INTERNAL_REGISTERS_1	0x280
+#define	WE32104_INTERNAL_REGISTERS_2	0x300
+#define	WE32104_INTERNAL_REGISTERS_3	0x380
+
+#define	WE32104_GLOBAL_REGISTERS	0x400
+
+#define	WE32104_INTERNAL_DATA_BUFFERS_0	0x600
+#define	WE32104_INTERNAL_DATA_BUFFERS_1	0x680
+#define	WE32104_INTERNAL_DATA_BUFFERS_2	0x700
+#define	WE32104_INTERNAL_DATA_BUFFERS_3	0x780
+
+
+
+/*------------------------------------------------------------------------
+ * Interal Register Offsets
+ *
+ * Add these values to WE32104_INTERNAL_REGISTERS_n
+ *------------------------------------------------------------------------
+ */
+
+#define	WE32104_SOURCE_ADDR_REG	0x00
+#define	WE32104_DEST_ADDR_REG	0x04
+#define	WE32104_BASE_ADDR_REG	0x0c
+#define	WE32104_XFER_COUNT_REG	0x10
+#define	WE32104_INTR_VECTOR_REG	0x18
+#define	WE32104_STATUS_REG	0x20
+#define	WE32104_CTRL_REG	0x20
+#define	WE32104_MODE_REG	0x24
+#define	WE32104_DEVICE_CTRL_REG	0x28
+
+/*------------------------------------------------------------------------
+ * Mode Register Format
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define WE32104_MR_IE			0x0004	/* interrupt enable */
+#define WE32104_MR_DS_BYTE		0x00e0	/* operand size = 8-bits */
+#define WE32104_MR_DS_WORD		0x00c0	/* operand size = 16-bits */
+#define WE32104_MR_DS_LONG		0x0080	/* operand size = 32-bits */
+#define WE32104_MR_DS_DOUBLE		0x00a0	/* operand size = 64-bits */
+#define WE32104_MR_DS_QUAD		0x0060	/* operand size = 128-bits */
+#define WE32104_MR_DAC_CONSTANT		0x0200	/* hold dest addr constant */
+#define WE32104_MR_SAC_CONSTANT		0x0800	/* hold source addr constant */
+#define WE32104_MR_MEM_TO_MEM		0x0000	/* memory-to-memory xfer */
+#define WE32104_MR_PER_TO_MEM		0x2000	/* peripheral-to-memory xfer */
+#define WE32104_MR_MEM_TO_PER		0x4000	/* memory-to-peripheral xfer */
+#define WE32104_MR_MEM_FILL		0x6000	/* memory fill */
+#define WE32104_MR_BURST_MODE		0x8000	/* operate in burst mode */
+
+/*------------------------------------------------------------------------
+ * Device Control Register
+ *
+ *------------------------------------------------------------------------
+ */
+
+/* peripheral bus wait states */
+#define	WE32104_DCR_WAIT_STATES_0	0x0000
+#define	WE32104_DCR_WAIT_STATES_1	0x0080
+#define	WE32104_DCR_WAIT_STATES_2	0x0100
+#define	WE32104_DCR_WAIT_STATES_4	0x0180
+#define	WE32104_DCR_WAIT_STATES_8	0x0200
+#define	WE32104_DCR_WAIT_STATES_16	0x0280
+#define	WE32104_DCR_WAIT_STATES_32	0x0300
+#define	WE32104_DCR_WAIT_STATES_64	0x0380
+
+#define	WE32104_DCR_SYNCHRONOUS		0x0400	/* terminate with wait states */
+
+#define	WE32104_DCR_SINGLE_BYTE		0x2000	/* 1 byte per peripheral bus request */
+
+/* peripheral device chip selects */
+#define	WE32104_DCR_CS_0		0x0000
+#define	WE32104_DCR_CS_1		0x4000
+#define	WE32104_DCR_CS_2		0x8000
+#define	WE32104_DCR_CS_3		0xc000
+
+/*------------------------------------------------------------------------
+ * Status and Control Register
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define WE32104_SCR_NORMAL_TERMINATION		0x0001	/* termination without error */
+#define WE32104_SCR_SYS_BUS_ERR_FAULT		0x0002	/* system bus error due to fault */
+#define WE32104_SCR_SYS_BUS_ERR_FAULT_CS	0x0004	/* system bus error due to CS asserted */
+#define WE32104_SCR_DEATH_BY_SW_ABORT		0x0008	/* aborted by software (see below) */
+#define WE32104_SCR_PER_BUS_TIMEOUT		0x0020	/* peripheal bus timeout */
+#define WE32104_SCR_CHANNEL_ACTIVE		0x0100	/* channel is active */
+#define WE32104_SCR_CAUSE_SW_ABORT		0x0200	/* cause a software abort (see above) */
+#define WE32104_SCR_CHANNEL_HALT		0x0400	/* temporarily halt channel operation */
+#define WE32104_SCR_CHANNEL_START		0x0800	/* start channel operation */
+#define WE32104_SCR_CHAINED_REQUESTS		0x1000	/* use Base Addr Reg as pointer to next request block */
+
+/*------------------------------------------------------------------------
+ * Global Mask Regiser Format
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	WE32104_MASKR_IGNORE_CHAN_0 	0x01
+#define	WE32104_MASKR_IGNORE_CHAN_1 	0x02
+#define	WE32104_MASKR_IGNORE_CHAN_2 	0x04
+#define	WE32104_MASKR_IGNORE_CHAN_3 	0x08
+
+#ifdef DMAC_C_STRUCTURES
+
+struct Dma_Controller {
+
+    /* Peripheral Bus Access */
+    unsigned char	Pba[4][128];
+
+    /* Channel Registers */
+    struct {
+        unsigned long	Sar;	/* Source Address Register */
+        unsigned long	Dar;	/* Destination Address Register */
+        unsigned long	Pad1;
+        unsigned long	Bar;	/* Base Address Register */
+        unsigned long	Tcr;	/* Transfer Count Register */
+        unsigned long	Pad3;
+        unsigned long	Ivr;	/* Interrupt Vector Register */
+        unsigned long	Pad6;
+        unsigned long	Scr;	/* Status and Control Register */
+        unsigned long	Mr;	/* Mode Register */
+        unsigned long	Dcr;	/* Device Control Register */
+        unsigned long	Pad21[21];
+    } Regs[4];
+
+    /* Global Mask Register */
+    unsigned long	Pad4[4];
+    unsigned long	Maskr;
+    unsigned long	Pad123[123];
+
+    /* Internal Data Buffers */
+    union {
+        unsigned long	Mfdr;		/* Memory Fill Data Register: long access only! */
+        unsigned long	Longs[8];	/* leave in for simulator! */
+        unsigned short	Shorts[16];	/* leave in for simulator! */
+        unsigned char	Bytes[32];	/* leave in for simulator! */
+        unsigned char	Pad128[128];    /* don't use this field */
+    } Idb[4];
+
+};
+
+
+struct Dma_Request_Block {
+    unsigned long	SourceAddr;
+    unsigned long	DestAddr;
+    unsigned long	XferCount;
+    unsigned long	BaseAddr;
+};
+
+    
+#endif    /* DMAC_C_STRUCTURES */
+
+#endif    /* WE32104_H */
+@
+
+
+1.5
+log
+@Moved Maskr up 16 bytes.
+@
+text
+@d18 1
+a18 1
+ * $Header: we32104.h,v 1.6 88/01/20 13:23:28 timd Exp $		
+d81 2
+a82 2
+#define WE32104_MR_DAC_INCREMENT	0x0200	/* increment dest addr */
+#define WE32104_MR_SAC_INCREMENT	0x0800	/* increment source addr */
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d18 1
+a18 1
+ * $Header: we32104.h,v 1.3 87/12/08 16:03:44 timd Exp $		
+d156 1
+a156 2
+        unsigned short	Tcr;	/* Transfer Count Register */
+        unsigned short	Pad2;
+d158 1
+a158 2
+        unsigned short	Ivr;	/* Interrupt Vector Register */
+        unsigned short	Pad5;
+d160 3
+a162 6
+        unsigned short	Scr;	/* Status and Control Register */
+        unsigned short	Pad7;
+        unsigned short	Mr;	/* Mode Register */
+        unsigned short	Pad8;
+        unsigned short	Dcr;	/* Device Control Register */
+        unsigned short	Pad9;
+d167 3
+a169 3
+    unsigned char	Maskr;
+    unsigned char	Pad1, Pad2, Pad3;
+    unsigned char	Pad508[508];
+d173 4
+a176 4
+        unsigned long	Mfdr;	/* Memory Fill Data Register */
+        unsigned long	Longs[8];
+        unsigned short	Shorts[16];
+        unsigned char	Bytes[32];
+@
+
+
+1.3
+log
+@Changed "Regs" to "IntRegs"
+@
+text
+@d18 1
+a18 1
+ * $Header: we32104.h,v 1.3 87/12/08 16:03:15 timd Exp $		
+d169 1
+a169 1
+    } IntRegs[4];
+d193 1
+a193 1
+}
+@
+
+
+1.2
+log
+@Added structure for a chained request block.
+@
+text
+@d18 1
+a18 1
+ * $Header: we32104.h,v 1.2 87/12/08 08:43:49 timd Exp $		
+d169 1
+a169 1
+    } Regs[4];
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d18 1
+a18 1
+ * $Header: we32104.h,v 1.1 87/11/23 13:19:34 timd Exp $		
+d186 8
+@

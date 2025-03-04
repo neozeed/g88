@@ -1,0 +1,177 @@
+/* Readline.h -- the names of functions callable from within readline. */
+
+/* $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/readline/RCS/readline.h,v 1.3 89/11/30 14:42:25 andrew Exp $ */
+
+#ifndef _READLINE_H_
+#define _READLINE_H_
+
+#ifndef __FUNCTION_DEF
+typedef int Function ();
+#define __FUNCTION_DEF
+#endif
+
+#ifndef savestring
+#define savestring(x) (char *)strcpy (xmalloc (1 + strlen (x)), (x))
+#endif
+
+#ifndef whitespace
+#define whitespace(c) (((c) == ' ') || ((c) == '\t'))
+#endif
+
+/* The functions for manipulating the text of the line within readline.
+   Most of these functions are bound to keys by default. */
+extern int rl_beg_of_line (), rl_backward (), rl_delete (), rl_end_of_line (),
+rl_forward (), ding (), rl_backward (), rl_newline (), rl_kill_line (),
+rl_clear_screen (), rl_get_next_history (), rl_get_previous_history (),
+rl_quoted_insert (), rl_reverse_search_history (), rl_transpose_chars (),
+rl_unix_line_discard (), rl_quoted_insert (), rl_unix_word_rubout (),
+rl_yank (), rl_prefix_meta (), rl_rubout (), rl_backward_word (),
+rl_kill_word (), rl_forward_word (), rl_tab_insert (), rl_yank_pop (),
+rl_backward_kill_word (), rl_backward_kill_line (), rl_transpose_words (),
+rl_complete (), rl_possible_completions (), rl_do_uppercase_version (),
+rl_digit_argument (), rl_universal_argument (), rl_abort (), rl_do_undo (),
+rl_revert_line (), rl_beginning_of_history (), rl_end_of_history (),
+rl_forward_search_history (), rl_insert (), rl_upcase_word (),
+rl_downcase_word (), rl_capitalize_word (), rl_emacs_editing_mode ();
+
+/* Things for vi mode. */
+extern int rl_vi_movement_mode (), rl_vi_insertion_mode (), rl_vi_arg_digit (),
+rl_vi_prev_word (), rl_vi_next_word (), rl_vi_char_search (), rl_vi_change (),
+rl_vi_editing_mode (), rl_vi_eof_maybe ();
+
+#ifdef TEK_HACK
+extern int rl_suspend_myself();
+#endif /* TEK_HACK */
+
+/* Some character stuff. */
+#define control_character_threshold 0x020   /* smaller than this is control */
+#define meta_character_threshold 0x07f	    /* larger than this is Meta. */
+#define control_character_bit 0x40	    /* 0x000000, must be off. */
+#define meta_character_bit 0x080	    /* x0000000, must be on. */
+
+/* Maintaining the state of undo.  We remember individual deletes and inserts
+   on a chain of things to do. */
+
+/* The actions that undo knows how to undo.  Notice that UNDO_DELETE means
+   to insert some text, and UNDO_INSERT means to delete some text.   I.e.,
+   the code tells undo what to undo, not how to undo it. */
+enum undo_code { UNDO_DELETE, UNDO_INSERT, UNDO_BEGIN, UNDO_END };
+
+/* What an element of THE_UNDO_LIST looks like. */
+typedef struct undo_list {
+  struct undo_list *next;
+  int start, end;		/* Where the change took place. */
+  char *text;			/* The text to insert, if undoing a delete. */
+  enum undo_code what;		/* Delete, Insert, Begin, End. */
+} UNDO_LIST;
+
+/* The current undo list for THE_LINE. */
+extern UNDO_LIST *the_undo_list;
+
+#ifdef CTRL
+#undef CTRL
+#endif
+
+#define CTRL(c) ((c) & (~control_character_bit))
+#define META(c) ((c) | meta_character_bit)
+
+#define UNMETA(c) ((c) & (~meta_character_bit))
+#define UNCTRL(c) to_upper(((c)|control_character_bit))
+
+#define lowercase_p(c) (((c) > ('a' - 1) && (c) < ('z' + 1)))
+#define uppercase_p(c) (((c) > ('A' - 1) && (c) < ('Z' + 1)))
+
+#define pure_alphabetic(c) (lowercase_p(c) || uppercase_p(c))
+
+#ifndef to_upper
+#define to_upper(c) (lowercase_p(c) ? ((c) - 32) : (c))
+#define to_lower(c) (uppercase_p(c) ? ((c) + 32) : (c))
+#endif
+
+#define CTRL_P(c) ((c) < control_character_threshold)
+#define META_P(c) ((c) > meta_character_threshold)
+
+#define NEWLINE '\n'
+#define RETURN CTRL('M')
+#define RUBOUT 0x07f
+#define TAB '\t'
+#define ABORT_CHAR CTRL('G')
+#define PAGE CTRL('L')
+#define SPACE 0x020
+#define ESC CTRL('[')
+
+
+/* **************************************************************** */
+/*								    */
+/*			Well Published Variables		    */
+/*								    */
+/* **************************************************************** */
+
+/* Non-zero means that C-d can return EOF when typed on a blank line,
+   iff it wasn't the last character typed. */
+extern int allow_ctrl_d_for_eof;
+
+/* The line buffer that is in use. */
+extern char *rl_line_buffer;
+
+/* The location of point. */
+extern int rl_point;
+
+/* The location of point, and end. */
+extern int rl_point, rl_end;
+
+/* The name of the terminal to use. */
+extern char *rl_terminal_name;
+
+/* The input and output streams. */
+extern FILE *rl_instream, *rl_outstream;
+
+/* The basic list of characters that signal a break between words for the
+   completer routine.  The contents of this variable is what breaks words
+   in the shell, i.e. "n\"\\'`@$>". */
+extern char *rl_basic_word_break_characters;
+
+/* The list of characters that signal a break between words for
+   rl_complete_internal.  The default list is the contents of
+   rl_basic_word_break_characters.  */
+extern char *rl_completer_word_break_characters;
+
+/* List of characters that are word break characters, but should be left
+   in TEXT when it is passed to the completion function.  The shell uses
+   this to help determine what kind of completing to do. */
+extern char *rl_special_prefixes;
+
+/* Pointer to the generator function for completion_matches ().
+   NULL means to use filename_entry_function (), the default filename
+   completer. */
+Function *rl_completion_entry_function;
+
+/* Pointer to alternative function to create matches.
+   Function is called with TEXT, START, and END.
+   START and END are indices in RL_LINE_BUFFER saying what the boundaries
+   of TEXT are.
+   If this function exists and returns NULL then call the value of
+   rl_completion_entry_function to try to match, otherwise use the
+   array of strings returned. */
+Function *rl_attempted_completion_function;
+
+
+/* **************************************************************** */
+/*								    */
+/*			Well Published Functions		    */
+/*								    */
+/* **************************************************************** */
+
+/* Read a line of input.  Prompt with PROMPT.  A NULL PROMPT means none. */
+extern char *readline ();
+
+/* Return an array of strings which are the result of repeatadly calling
+   FUNC with TEXT. */
+extern char **completion_matches ();
+
+/* If on, then readline handles signals in a way that doesn't screw. */
+#define HANDLE_SIGNALS
+
+#endif /* _READLINE_H_ */
+
+

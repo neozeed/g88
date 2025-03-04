@@ -1,0 +1,79 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.06.24.18.05.06;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.05.26.19.06.46;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@changes I made today
+@
+
+
+1.2
+log
+@added rcsid's
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+To: 88tools
+Fcc: outbox
+Subject: Finally, at long last, d88 runs the kernel again, other fixes.
+-------
+
+Its in //cupcake/UTek/tools/bin/d88.
+
+changes:
+
+  1. It now has an IOB interrupt simulator that works.
+
+  2. The ext, ff0, and ff1 instructions had bugs, are now
+     fixed.  The ext instruction would not sign-extend if the
+     width field was zero (arithmetic right shift).  The ff0 and
+     ff1 instructions did not return the correct result if the
+     source register had the value one.  Thanks to Norman Adams 
+     for reporting these.
+
+  3. The io command now displays more information.  The main addition
+     is that the number of the transaction for the device is displayed.
+
+  4. There is a new signal handling facility that should be used by
+     device simulators instead of UTek's 'signal'.  It has the nice
+     property that it will not call a handler during the execution
+     of an 88000 instruction.  It calls handlers *between* instruction
+     execution.  This eliminates most race conditions.  The timer chip
+     and SCC simulators use the new facility.
+
+  5. A bug that had caused d88 to say "pushvalue: case error" is fixed.
+
+I do not have any kernel sources checked out and all d88 sources 
+are checked in.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 7
+@

@@ -1,0 +1,7241 @@
+head     1.56;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.56
+date     89.08.25.14.05.03;  author robertb;  state Exp;
+branches ;
+next     1.55;
+
+1.55
+date     89.04.25.08.49.37;  author andrew;  state Exp;
+branches ;
+next     1.54;
+
+1.54
+date     88.10.24.12.25.20;  author andrew;  state Exp;
+branches ;
+next     1.53;
+
+1.53
+date     88.10.20.11.13.56;  author andrew;  state Exp;
+branches ;
+next     1.52;
+
+1.52
+date     88.09.19.21.00.20;  author robertb;  state Exp;
+branches ;
+next     1.51;
+
+1.51
+date     88.09.08.09.33.26;  author andrew;  state Exp;
+branches ;
+next     1.50;
+
+1.50
+date     88.08.25.17.16.43;  author andrew;  state Exp;
+branches ;
+next     1.49;
+
+1.49
+date     88.08.25.16.44.49;  author andrew;  state Exp;
+branches ;
+next     1.48;
+
+1.48
+date     88.08.03.13.25.10;  author andrew;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     88.07.25.15.30.40;  author andrew;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     88.07.20.15.25.28;  author robertb;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     88.07.13.21.53.22;  author robertb;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     88.06.30.16.08.13;  author robertb;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     88.06.28.16.42.51;  author robertb;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     88.06.09.17.59.30;  author robertb;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     88.06.07.17.06.33;  author robertb;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     88.05.26.18.44.29;  author robertb;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     88.05.20.16.57.06;  author robertb;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     88.04.30.22.58.11;  author robertb;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     88.04.29.19.17.32;  author robertb;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     88.04.29.17.02.16;  author robertb;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     88.04.28.10.34.55;  author robertb;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     88.04.16.14.20.15;  author robertb;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     88.04.15.14.09.40;  author robertb;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     88.04.08.21.29.26;  author robertb;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     88.03.30.18.53.54;  author robertb;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     88.03.25.17.01.45;  author robertb;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     88.03.19.10.25.54;  author robertb;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     88.03.11.12.13.04;  author brents;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     88.03.10.10.29.04;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     88.02.28.14.41.50;  author robertb;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     88.02.23.13.54.00;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.02.22.11.57.03;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.02.12.16.16.02;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.02.08.16.37.13;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.02.04.14.23.17;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.01.18.19.20.54;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.01.15.11.04.59;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.01.13.22.30.57;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.01.12.19.19.06;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.01.11.10.24.03;  author andrew;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.01.02.11.07.29;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     87.12.10.20.28.13;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     87.12.03.20.08.37;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     87.11.23.14.30.15;  author timd;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     87.11.23.14.24.03;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     87.11.20.12.06.14;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.11.19.19.32.30;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.13.18.58.50;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.12.19.22.40;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.11.22.26.30;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.05.19.39.37;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.03.16.03.58;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.10.28.20.36.37;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.10.28.17.14.54;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.34.40;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Does the actual simulation of 78000 instructions.
+@
+
+
+1.56
+log
+@moved header files to dbx/d88, so had to changed include lines
+in this file.
+@
+text
+@/*
+ * This executes 88000 instructions.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: execute.c,v 1.55 89/04/25 08:49:37 andrew Exp $
+ */
+
+#include "sim.h"
+#include "fields88.h"
+#include "montraps.h"
+
+#define FCMP(x,y) \
+{ if ((x) == (y)) i = 0x6a6; else { if ((x) < (y)) i = 0x66a; else i = 0x69a; }}            
+#define CHKINT  { if (sim_interrupt_flag) goto interrupt_label; }
+
+#define SET_US_MODE             { usmode = PSR_US_MODE; }
+#define USERMODE                (usmode == M_USER)
+#define GEN_EXCEPTION(vector)   { ex = (vector); goto gen_exception;}
+#define EX_IF_USER              { if (USERMODE) goto prv; }
+
+#define CARRY_BIT               ((PSR >> 28) & 1)
+#define SET_CARRY               { PSR |= 0x10000000; }
+#define ZERO_CARRY              { PSR &= 0xefffffff; }
+#define P                       ((struct decoded_i *)p)
+#define IP			(pagela+(p-pagep)/(sizeof(struct decoded_i)/4))
+
+/*
+ * Macros for treating the decoded operands as u_long integers.
+ */
+#define SRC1        (*P->s1)
+#define SRC2        (*P->s2)
+#define DST         (*P->dest)
+
+/*
+ * Macros for treating the decoded operands as single precision
+ * floating point numbers.
+ */
+#define FSRC1       (*(float *)P->s1)
+#define FSRC2       (*(float *)P->s2)
+#define FDST        (*(float *)P->dest)
+
+/*
+ * Macros for treating the decoded operands as double precision
+ * floating point numbers.
+ */
+#define DSRC1       (*(double *)P->s1)
+#define DSRC2       (*(double *)P->s2)
+#define DDST        (*(double *)P->dest)
+
+#define SET_FP_CREGS(s1, s2, dreg)  { sfu1_regs[2] = s1; \
+    sfu1_regs[4] = s2; sfu1_regs[5] = dreg; SBR |= 1 << dreg;}
+
+#define REGNUM(regptr)  (regptr - &regs[0])
+/*
+ * This increments the decoded ip.  It is equivalent to p++;
+ */
+#define INC_D_IP            { p += r_size; }
+
+#define L(name)                           \
+    { name:;                              \
+      asm(" .globl _sim_/**/name");       \
+      asm("_sim_/**/name:"); }
+
+
+/*
+ * Dispatch the decoded instruction pointed to by 'p'.
+ */
+#define DISPATCH                { (P->norm_e_addr)(); }
+
+/*
+ * Dispatches the next instruction after a branch.  This is where
+ * we check for interrupts from the user.
+ */
+#define DISP_AFTER_BR           { CHKINT; DISPATCH; }
+
+/*
+ * Dispatches the next instruction after executing a delayed
+ * branch.
+ */
+#define DISP_AFTER_DELAYED_BR   { INC_D_IP ; DISPATCH; }
+
+/*
+ * If r_delayed_p is non-zero it means that the previous instruction was a
+ * a .n type branch.  
+ */
+#define DISPATCH_NEXT           { if (r_delayed_p) goto delayed_br; \
+                                  INC_D_IP ; DISPATCH; }
+
+/*
+ * The branch instructions' decoded form has the decoded instruction
+ * pointer of the target in the s2 field if the target is on the same
+ * page as the branch.  If it isn't, s2 is zero and the 'literal'
+ * field has the logical 88000 address of the target.
+ */
+#define TAKE_BRANCH                                                           \
+{ if (P->s2) p = (u_long)P->s2;                                               \
+  else { ip = IP + (int)P->dest;                                              \
+         pagela = ip & ~PAGEMASK;                                             \
+         p = (u_long)l_to_d(ip, usmode, &pagep);                              \
+         if (!p) goto cacc; }                                                 \
+  DISP_AFTER_BR; }
+
+#define TAKE_DELAYED_BRANCH \
+{ r_delayed_p = P; delayed_ip = IP + (int)P->dest; DISP_AFTER_DELAYED_BR; }
+
+/*
+ * This calculates the unscaled logical address.  It looks up the
+ * host virtual address in the tlb's.  If it can't find the address
+ * in the tlb then it calls a function 'l_mem_op'
+ * to do the load, store, or exchange for it.
+ */
+#define CALC_ADDR(REG_PTR, SIZE, MEM_OP_TYPE, TLB, MODE)                      \
+    ptr = SRC1 + SRC2;                                                        \
+    if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto macc;                       \
+    else ptr &= ~(SIZE - 1);                                                  \
+    ptr = (u_long)TLB/**/_tlb[btos(ptr)][btop(ptr)] + poff(ptr);              \
+    if (ptr < PAGESIZE) { ip = IP;                                            \
+        ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, MODE);         \
+        if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }
+
+/*
+ * Like the above macro except for use in scaled memory instructions.
+ */
+#define CALC_ADDR_SCALED(REG_PTR, SIZE, MEM_OP_TYPE, TLB, MODE)               \
+    ptr = SRC1 + SRC2 * SIZE;                                                 \
+    if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto macc;                       \
+    else ptr &= ~(SIZE - 1);                                                  \
+    ptr = (u_long)TLB/**/_tlb[btos(ptr)][btop(ptr)] + poff(ptr);              \
+    if (ptr < PAGESIZE) { ip = IP;                                            \
+        ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, MODE);  \
+        if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }
+
+/*
+ * This sets our local pointers to either the user's or supervisors
+ * software tlbs.  We do it when we enter the execution function and
+ * whenever the PSR might have been changed.
+ */
+#define SET_TLB_PTRS                                                           \
+   if (USERMODE) { load_tlb  = &(u_load_tlb[0]); store_tlb = &(u_store_tlb[0]);\
+   } else {        load_tlb  = &(s_load_tlb[0]); store_tlb = &(s_store_tlb[0]);\
+}
+
+/*
+ * This checks the stack pointer (r31) against the stack base register (cr21),
+ * and halts the machine if the stack base register is nonzero, the machine is
+ * in supervisor mode, and the stack pointer is less than the stack base
+ * register.
+ * This check is only made during those instructions that the kernel happens
+ * to use to change r31: add, addu, clr, extu, ld, ldcr, or, or.u, sub, subu.
+ * This is of primary use in certain kernel debugging exercises.
+ * This slows the simulator way down! so normally, CHECK_STACK should be
+ * defined to do nothing.
+ */
+#define CHECK_STACK \
+    if (STACKBASE && (long)PSR<0 /* !user mode */ && regs[31]<STACKBASE) \
+	{ goto stack_overflow; };
+
+/*
+ * The "come-from" register.
+ * This contains the instruction pointer just before the last jmp,
+ * jsr, or rte.  It is not modified by branch instructions because I don't
+ * want to slow them down.  This is useful for determining "who jumped to
+ * garbage".
+ *  -=- /AJK
+ */
+long comefrom;
+
+/*
+ * The "memory breakpoint" register.
+ * If nonzero, any store (or xmem) to this location causes a break.
+ */
+long membrk=0;
+
+/*
+ * The "single-step command" flag.
+ * This is set to zero at the beginning of each command,
+ * and is set to one when about to do a STEP (or STEPI or NEXT or NEXTI)
+ * command.
+ */
+char single_step_command;
+
+/*
+ * This executes 88000 instructions.  If ss is 1, one instruction
+ * will be executed.  If ss is 0, instructions will be executed
+ * until a breakpoint or exceptional condition is reached.
+ */
+int
+sim(ss)
+{
+    register struct decoded_i *r_delayed_p;
+
+    register u_long p;           /* really a struct decoded_i *              */
+    register u_char ***load_tlb; /* 1st level tlb for loads.                 */
+    register u_char ***store_tlb;/* 1st level tlb for stores.                */
+    register u_long ptr;         /* Gets both logical and pointer values.    */
+    register u_long r_size  ;    /* For fast incrementing of p               */
+    register i;                  /* misc temporary used exchanges and counter*/
+
+    /*
+     * Logical address of the page that we are currently executing on.
+     * Always a multiple of PAGESIZE.
+     */
+    register u_long pagela;
+
+    int usmode;                /* 0: user mode, 1: supervisor mode    */
+
+    /*
+     * Really a pointer to a decoded instruction.  Points to the first
+     * decoded instruction slot of the page that we are currently 
+     * executing on.
+     */
+    u_long pagep;
+
+    /*
+     * Temporaries used in arithmetic calculations.
+     */
+    int s1, s2;
+    int s1_neg, s2_neg;
+
+    /*
+     * The exception number of the exception currently being raised
+     * (if any).  Undefined if we're not processing an exception.
+     */
+    int ex;
+
+    /*
+     * Booleans used in the add instructions.
+     */
+    int both_pos, both_neg, res_neg;
+
+    /*
+     * This variable's value is returned as the value of this function.
+     * It can be NONE, BREAKPOINT, INTERRUPT, or HOSED.  It is set
+     * to something other than NONE just before returning.
+     */
+    int cause = NONE;
+
+    /*
+     * Address in our (simulator's) address space of the (simulated) memory
+     * location that is the subject of the memory breakpoint.  Zero if none.
+     */
+    register membrkphys;
+    struct page *page_ptr;
+
+    /*
+     * This decoded instruction is used by the RTE instruction.  It
+     * set the pointer delayed_p to point to it and fills in some of
+     * the fields.  See the code in the rte entry point.  Its harry.
+     */
+    static struct decoded_i rte_decoded_i;
+
+    extern sim_not_decoded();
+
+    /*
+     * Set up the real address of the memory breakpoint.
+     */
+    if (membrk==0) {
+	membrkphys = 0;		/* no memory breakpoint */
+    } else if (membrk>=memory_size) {
+	sim_printf("$membrk=0x%08x, memory size limit is 0x%08x\n",
+			membrk, memory_size);
+    } else {
+	page_ptr = page_table[membrk>>12];
+	if (page_ptr == (struct page *)0) {
+	    page_ptr = allocate_page(poff(membrk));
+	    page_table[membrk>>12] = page_ptr;
+	}
+	membrkphys = (int)((char *)&(page_ptr->values[0]) + poff(membrk));
+    }
+
+    sim_interrupt_flag &= ~INT_FRONT_END;
+
+    r_delayed_p = delayed_p;
+
+    r_size = sizeof(struct decoded_i);
+
+    SET_US_MODE;
+    SET_TLB_PTRS;
+
+    /*
+     * We do this call to make the optimizer know that all
+     * of these variables are active.
+     */
+    sim_zero(load_tlb, store_tlb, r_delayed_p, r_size, p, usmode);
+
+
+    sim_in_execution = 1;
+    if (sim_exception != E_NONE) {
+        ex = sim_exception;
+        goto gen_exception_without_check;
+    }
+
+    pagela = ip & ~PAGEMASK;
+    if ((p = (u_long)l_to_d(ip, usmode, &pagep)) == 0) {
+        goto cacc;
+    }
+    if (ss || tracing) {
+        insert_ss_breakpoint(ip, usmode);
+    }
+
+    /*
+     * This used to be "if (!ss) ...", but this keeps the clock from ticking
+     * when running with a memory breakpoint (e.g., "stopi address") and
+     * prevents me from finding a kernel bug in which a memory location is
+     * trashed but only when the clock ticks.
+     *   Andrew Klossner
+     */
+    if (!single_step_command) {
+        ReleaseOscillator();
+    }
+    DISPATCH;
+
+L(end_of_page);
+    /*
+     * We just tried to execute the instruction on the next page.
+     * We need to set 'p' to point to the first decoded instruction
+     * of the next page.
+     */
+    ip = IP;
+    pagela = ip & ~PAGEMASK;
+    if ((p = (u_long)l_to_d(ip, usmode, &pagep)) == 0) {
+        goto cacc;
+    }
+    DISPATCH;
+
+L(not_decoded);
+    /*
+     * We just tried to execute an instruction that has not yet
+     * been decoded.  We decode it and then try it again.
+     */
+    if (decode(p, IP, usmode)) {
+        goto cacc;
+    }
+    DISPATCH;
+
+L(opc_exception);
+    /*
+     * We just executed an invalid 88000 opcode.  We raise an exception.
+     */
+    GEN_EXCEPTION(E_OPC);
+
+L(ss_breakpoint);
+    /*
+     * This is used both by the single-step facilty and the
+     * execution tracing facility.
+     */
+    P->norm_e_addr = sim_not_decoded;
+    if (ss) {
+        goto return_pt;
+    } else {
+        /*
+         * If we are tracing instruction execution, we want to
+         * call 'insert_ss_breakpoint()' for every instruction that
+         * we execute.  We do this by placing a breakpoint after
+         * instruction.
+         */
+        if (tracing) {
+            insert_ss_breakpoint(IP, usmode);
+        }
+        DISPATCH;
+    }
+
+L(add);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = s1 + s2;
+
+    both_neg = (s1 & s2) >> 31;
+    both_pos = !((s1 | s2) >> 31);
+    res_neg = DST >> 31;
+
+    if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+        goto iov;
+    }
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(add_co);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = s1 + s2;
+
+    both_neg = (s1 & s2) >> 31;
+    both_pos = !((s1 | s2) >> 31);
+    res_neg = DST >> 31;
+
+    if (both_neg || (!res_neg && !both_pos)) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+
+    if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+        goto iov;
+    }
+    DISPATCH_NEXT;
+
+L(add_ci);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = s1 + s2 + CARRY_BIT;
+
+    both_neg = (s1 & s2) >> 31;
+    both_pos = !((s1 | s2) >> 31);
+    res_neg = DST >> 31;
+
+    if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+        goto iov;
+    }
+    DISPATCH_NEXT;
+
+L(add_cio);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = s1 + s2 + CARRY_BIT;
+
+    both_neg = (s1 & s2) >> 31;
+    both_pos = !((s1 | s2) >> 31);
+    res_neg = DST >> 31;
+
+    if (both_neg || (!res_neg && !both_pos)) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+
+    if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+        goto iov;
+    }
+    DISPATCH_NEXT;
+    
+L(addu);
+    DST = SRC1 + SRC2;
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(addu_co);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = s1 + s2;
+
+    both_neg = (s1 & s2) >> 31;
+    both_pos = !((s1 | s2) >> 31);
+    res_neg = DST >> 31;
+
+    if (both_neg || (!res_neg && !both_pos)) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+    DISPATCH_NEXT;
+
+L(addu_ci);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = s1 + s2 + CARRY_BIT;
+    DISPATCH_NEXT;
+
+L(addu_cio);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = s1 + s2 + CARRY_BIT;
+
+    both_neg = (s1 & s2) >> 31;
+    both_pos = !((s1 | s2) >> 31);
+    res_neg = DST >> 31;
+
+    if (both_neg || (!res_neg && !both_pos)) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+    DISPATCH_NEXT;
+    
+L(and);
+    DST = SRC1 & SRC2;
+    DISPATCH_NEXT;
+    
+L(and_c);
+    DST = SRC1 & ~SRC2;
+    DISPATCH_NEXT;
+
+/***
+ *** The branch instructions are at the end of this function,
+ *** so that the labels that a branch targets
+ *** (e.g., gen_exception_without_check) do not fall at the end, so that
+ *** references to them from the beginning do not get "offset too large"
+ *** errors from the stupid assembler.
+ ***/
+
+L(clr);
+    if (W5(SRC2) == 0) {
+        DST = SRC1 & ~(0xffffffff << O5(SRC2));
+    } else {
+        DST = SRC1 & ~(((1 << W5(SRC2)) - 1) << O5(SRC2));
+    }
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(cmp);
+    s1 = SRC1;
+    s2 = SRC2;
+    if (s1 == s2) {
+        DST = 0xaa4;
+    } else {
+
+        /*
+         * First we figure out the u_long bits.
+         */
+        if ((u_long)s1 > (u_long)s2) {
+            DST = 0x908;
+        } else {
+            DST = 0x608;
+        }
+
+        /*
+         * Then we or in the signed bits.
+         */
+        if (s1 > s2) {
+            DST |= 0x90;
+        } else {
+            DST |= 0x60;
+        }
+    }
+    DISPATCH_NEXT;
+
+L(div);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    if ((int)SRC1 < 0 || (int)SRC2 <= 0) {
+        SET_FP_CREGS(SRC1, SRC2, REGNUM(P->dest));
+        GEN_EXCEPTION(E_IDE);
+    }
+    DST = (int)SRC1 / (int)SRC2;
+    DISPATCH_NEXT;
+
+L(divu);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    if (SRC2 == 0) {
+        SET_FP_CREGS(SRC1, SRC2, REGNUM(P->dest));
+        GEN_EXCEPTION(E_IDE);
+    }
+    DST = SRC1 / SRC2;
+    DISPATCH_NEXT;
+
+L(ext);
+    s1 = SRC1;
+    s2 = SRC2;
+    if (W5(s2) == 0) {
+        DST = s1 >> O5(s2);
+    } else {
+        int left_sh_cnt = 32 - (O5(s2) + W5(s2));
+        DST = (s1 << left_sh_cnt) >> (O5(s2) + left_sh_cnt);
+    }
+    DISPATCH_NEXT;
+
+L(extu);
+    if (W5(SRC2) == 0) {
+        DST = SRC1 >> O5(SRC2);
+    } else {
+        DST = (SRC1 >> O5(SRC2)) & ((1 << W5(SRC2)) - 1);
+    }
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(fadd_sss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = FSRC1 + FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fadd_ssd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = FSRC1 + DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fadd_sds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = DSRC1 + FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fadd_sdd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = DSRC1 + DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fadd_dss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = FSRC1 + FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fadd_dsd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = FSRC1 + DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fadd_dds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = DSRC1 + FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fadd_ddd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = DSRC1 + DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fcmp_sss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FCMP(FSRC1, FSRC2);
+    DST = i;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fcmp_ssd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FCMP(FSRC1, DSRC2);
+    DST = i;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fcmp_sds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FCMP(DSRC1, FSRC2);
+    DST = i;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fcmp_sdd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FCMP(DSRC1, DSRC2);
+    DST = i;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fdiv_sss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    if (FSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    FDST = FSRC1 / FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fdiv_ssd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    if (DSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    FDST = FSRC1 / DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fdiv_sds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    if (FSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    FDST = DSRC1 / FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fdiv_sdd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    if (DSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    FDST = DSRC1 / DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fdiv_dss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    if (FSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    DDST = FSRC1 / FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fdiv_dsd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    if (DSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    DDST = FSRC1 / DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fdiv_dds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    if (FSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    DDST = DSRC1 / FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fdiv_ddd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    if (DSRC2 == 0.0) {
+        GEN_EXCEPTION(E_IDE);
+    }
+    DDST = DSRC1 / DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(ff0);
+    for (i = 31 ; i >= 0 ; i--) {
+        if (((SRC2 >> i) & 1) == 0) {
+            DST = i;
+            DISPATCH_NEXT;
+        }
+    }
+    DST = 32;
+    DISPATCH_NEXT;
+
+L(ff1);
+    for (i = 31 ; i >= 0 ; i--) {
+        if (((SRC2 >> i) & 1) == 1) {
+            DST = i;
+            DISPATCH_NEXT;
+        }
+    }
+    DST = 32;
+    DISPATCH_NEXT;
+
+L(flt_ss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = (float)SRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(flt_ds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = (double)SRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fmul_sss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = FSRC1 * FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fmul_ssd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = FSRC1 * DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fmul_sds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = DSRC1 * FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fmul_sdd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = DSRC1 * DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fmul_dss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = FSRC1 * FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fmul_dsd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = FSRC1 * DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fmul_dds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = DSRC1 * FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fmul_ddd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = DSRC1 * DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+/*
+ * fstcr is done by stcr
+ */
+
+L(fsub_sss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = FSRC1 - FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fsub_ssd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = FSRC1 - DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fsub_sds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = DSRC1 - FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fsub_sdd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    FDST = DSRC1 - DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(fsub_dss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = FSRC1 - FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fsub_dsd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = FSRC1 - DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fsub_dds);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = DSRC1 - FSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(fsub_ddd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_double;
+    DDST = DSRC1 - DSRC2;
+    if (fp_exception) goto fp_imprecise_double;
+    DISPATCH_NEXT;
+
+L(int_ss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    DST = (int)FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(int_sd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    DST = (int)DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(jmp);
+    /*
+     * If the jmp target is on-page, do a quick calculation to
+     * find the new decoded pointer.
+     */
+    {   u_long dst = DST & ~3;
+
+	comefrom = IP;
+        if ((dst & ~PAGEMASK) == pagela) {
+            p = (u_long)pagep + poff(dst) * (sizeof(struct decoded_i) / 4);
+        } else {
+            pagela = dst & ~PAGEMASK;
+            if ((p = (u_long)l_to_d(dst, usmode, &pagep)) == 0) {
+                ip = dst;
+                goto cacc;
+            }
+        }
+    }
+    DISP_AFTER_BR;
+
+L(jmp_n);
+    comefrom = IP;
+    delayed_ip = DST & ~3;
+    r_delayed_p = P;
+    DISP_AFTER_DELAYED_BR;
+
+L(jsr);
+    { u_long dst = DST & ~3;
+      u_long curip = IP;
+      comefrom = curip;
+      regs[1] = curip + 4;
+      /*
+       * If the jsr target is on-page, do a quick calculation to
+       * find the new decoded pointer.
+       */
+      if ((dst & ~PAGEMASK) == pagela) {
+          p += (int)(dst - curip) * (sizeof(struct decoded_i) / 4);
+      } else {
+          pagela = dst & ~PAGEMASK;
+          if ((p = (u_long)l_to_d(dst, usmode, &pagep)) == 0) {
+              ip = dst;
+              goto cacc;
+          }
+      }
+      DISP_AFTER_BR;
+    }
+
+L(jsr_n);
+    comefrom = IP;
+    delayed_ip = DST & ~3;
+    regs[1] = IP + 8;
+    r_delayed_p = P;
+    DISP_AFTER_DELAYED_BR;
+
+L(ld_d);
+    CALC_ADDR(P->dest, DWORD, LD, load, usmode);
+    DST = *(u_long *)ptr;
+    *(P->dest + 1) = *(u_long *)(ptr + 4);
+    regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+    regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    DISPATCH_NEXT;
+
+L(ld);
+    CALC_ADDR(P->dest, WORD, LD, load, usmode);
+    DST = *(u_long *)ptr;
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(ld_h);
+    CALC_ADDR(P->dest, HALF, LD, load, usmode);
+    DST = *(short *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_b);
+    CALC_ADDR(P->dest, BYTE, LD, load, usmode);
+    DST = *(char *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_hu);
+    CALC_ADDR(P->dest, HALF, LD_U, load, usmode);
+    DST = *(u_short *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_bu);
+    CALC_ADDR(P->dest, BYTE, LD_U, load, usmode);
+    DST = *(u_char *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_d_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, DWORD, LD, u_load, M_USER);
+    DST = *(u_long *)ptr;
+    *(P->dest + 1) = *(u_long *)(ptr + 4);
+    regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+    regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    DISPATCH_NEXT;
+
+L(ld_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, WORD, LD, u_load, M_USER);
+    DST = *(u_long *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_h_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, HALF, LD, u_load, M_USER);
+    DST = *(short *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_b_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, BYTE, LD, u_load, M_USER);
+    DST = *(char *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_hu_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, HALF, LD_U, u_load, M_USER);
+    DST = *(u_short *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_bu_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, BYTE, LD_U, u_load, M_USER);
+    DST = *(u_char *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_d_sc);
+    CALC_ADDR_SCALED(P->dest, DWORD, LD, load, usmode);
+    DST = *(u_long *)ptr;
+    *(P->dest + 1) = *(u_long *)(ptr + 4);
+    regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+    regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    DISPATCH_NEXT;
+
+L(ld_sc);
+    CALC_ADDR_SCALED(P->dest, WORD, LD, load, usmode);
+    DST = *(u_long *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_h_sc);
+    CALC_ADDR_SCALED(P->dest, HALF, LD, load, usmode);
+    DST = *(short *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_hu_sc);
+    CALC_ADDR_SCALED(P->dest, HALF, LD_U, load, usmode);
+    DST = *(u_short *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_d_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, DWORD, LD, u_load, M_USER);
+    DST = *(u_long *)ptr;
+    *(P->dest + 1) = *(u_long *)(ptr + 4);
+    regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+    regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    DISPATCH_NEXT;
+
+L(ld_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, WORD, LD, u_load, M_USER);
+    DST = *(u_long *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_h_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, HALF, LD, u_load, M_USER);
+    DST = *(short *)ptr;
+    DISPATCH_NEXT;
+
+L(ld_hu_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, HALF, LD_U, u_load, M_USER);
+    DST = *(u_short *)ptr;
+    DISPATCH_NEXT;
+
+L(lda_d)
+    DST = SRC1 + (SRC2 << 3);
+    DISPATCH_NEXT;
+
+L(lda)
+    DST = SRC1 + (SRC2 << 2);
+    DISPATCH_NEXT;
+
+L(lda_h)
+    DST = SRC1 + (SRC2 << 1);
+    DISPATCH_NEXT;
+
+L(ldcr);
+    EX_IF_USER;
+    load_shadow_regs(ip, delayed_ip);
+    DST = SRC1;
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(uldcr);
+    load_shadow_regs(ip, delayed_ip);
+    DST = SRC1;
+    DISPATCH_NEXT;
+
+L(mak);
+    if (W5(SRC2) == 0) {
+        DST = SRC1 << O5(SRC2);
+    } else {
+        DST = (SRC1 & ((1 << W5(SRC2)) - 1)) << O5(SRC2);
+    }
+    DISPATCH_NEXT;
+
+/*
+ * mask and mask_u turn into and's
+ */
+L(mul);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    DST = SRC1 * SRC2;
+    DISPATCH_NEXT;
+
+L(nint_ss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    DST = (int)FSRC1;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(nint_sd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    DST = (int)DSRC1;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(or);
+    DST = SRC1 | SRC2;
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(or_c);
+    DST = SRC1 | ~SRC2;
+    DISPATCH_NEXT;
+
+L(rot);
+    for (i = 0 ; i < O5(SRC2) ; i++) {
+        DST = (DST >> 1) | (DST & 1) << 31;
+    }
+    DISPATCH_NEXT;
+
+L(rte);
+    EX_IF_USER;
+    if ((PSR & 1) == 0) {
+        sim_printf("ERROR: rte being executed with shadowing not frozen.\n");
+        sim_printf("       Real processor would hang in this case.\n");
+        cause = HOSED;
+        goto return_pt;
+    }
+    if ((TPSR & 1) == 1 && !getenv("SIMDIAGS")) {
+        sim_printf("ERROR: rte, TPSR has shadows frozen.\n");
+        sim_printf("       This is almost certainly an error.\n");
+        cause = HOSED;
+        goto return_pt;
+    }
+
+    /* If the RTE is in a branch delay slot, cancel out the branch. */
+    r_delayed_p = (struct decoded_i *)0;
+    comefrom = IP;
+    SBR = SSBR;
+    PSR = (TPSR | 0x3f0) & 0xf800e3ff;
+    /*
+     * If the valid and exception bits in the shadow-next-instruction
+     * pointer are both set, generate a code access fault.
+     */
+    if (SNIP & 3 == 3) {
+        ip = SNIP & ~3;
+        goto cacc;
+    }
+
+    if (SNIP & 2) {
+        ip = SNIP & ~3;
+        if ((SFIP & 3) == 3) {
+            sim(1);
+            goto cacc;
+        }
+        if (SFIP & 2 && (SFIP & ~3) != ((SNIP & ~3) + 4)) {
+            /*
+             * Both the shadow-next-instruction pointer and the
+             * shadow fetched-instruction pointer are valid and
+             * fetched-instruction pointer does not point to the
+             * instruction following the one pointed to by the
+             * shadow-next-instruction pointer.
+             *
+             * So we first have to execute the instruction pointed to by
+             * the shadow-next-instruction pointer and then
+             * jump to the one pointed to by the shadow-fetched-
+             * instruction pointer.
+             *
+             * We use the delayed-instruction facility to do this.
+             * We point r_delayed_p at a decoded instruction structure
+             * with a zero s2 field.  When the delayed branch code
+             * dereferences r_delayed_p and sees this zero, it will
+             * requalify the decoded-instruction pointer, p, by
+             * translating delayed_ip into a decoded pointer.
+             */
+            delayed_ip = SFIP & ~3;
+            rte_decoded_i.s2 = (u_long *)0;
+            r_delayed_p = &rte_decoded_i;
+        }
+    } else {
+        if (SFIP & 2) {
+            ip = SFIP & ~3;
+            if (SFIP & 1) {
+                goto cacc;
+            }
+        } else {
+            ip = (SFIP & ~3) + 4;
+            sim_printf("rte: SNIP and SFIP are not valid, new ip=%X\n", ip);
+            cause = HOSED;
+            goto return_pt;
+        }
+    }
+    SET_US_MODE;
+    SET_TLB_PTRS;
+    pagela = ip & ~PAGEMASK;
+    p = (u_long)l_to_d(ip, usmode, &pagep);
+    if (!p) {
+
+#ifdef NOTDEF
+	/* This message doesn't connote an error an I'm tired of it.  /AJK */
+        sim_printf("rte is raising code access exception.\n");
+#endif
+
+        goto cacc;
+    }
+    if (ss) {
+        goto return_pt;
+    }
+    DISP_AFTER_BR;
+
+L(set);
+    if (W5(SRC2) == 0) {
+        DST = SRC1 | (0xffffffff << O5(SRC2));
+    } else {
+        DST = SRC1 | (((1 << W5(SRC2)) - 1) << O5(SRC2));
+    }
+    DISPATCH_NEXT;
+
+L(st_d);
+    CALC_ADDR(P->dest, DWORD, ST, store, usmode);
+    *(u_long *)ptr = DST;
+    *(u_long *)(ptr + 4) = *(P->dest + 1);
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+7)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st);
+    CALC_ADDR(P->dest, WORD, ST, store, usmode);
+    *(u_long *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_h);
+    CALC_ADDR(P->dest, HALF, ST, store, usmode);
+    *(short *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+1)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_b);
+    CALC_ADDR(P->dest, BYTE, ST, store, usmode);
+    *(char *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_d_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, DWORD, ST, u_store, M_USER);
+    *(u_long *)ptr = DST;
+    *(u_long *)(ptr + 4) = *(P->dest + 1);
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+7)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, WORD, ST, u_store, M_USER);
+    *(u_long *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_h_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, HALF, ST, u_store, M_USER);
+    *(short *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+1)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_b_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, BYTE, ST, u_store, M_USER);
+    *(char *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_d_sc);
+    CALC_ADDR_SCALED(P->dest, DWORD, ST, store, usmode);
+    *(u_long *)ptr = DST;
+    *(u_long *)(ptr + 4) = *(P->dest + 1);
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+7)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_sc);
+    CALC_ADDR_SCALED(P->dest, WORD, ST, store, usmode);
+    *(u_long *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_h_sc);
+    CALC_ADDR_SCALED(P->dest, HALF, ST, store, usmode);
+    *(short *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+1)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_d_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, DWORD, ST, u_store, M_USER);
+    *(u_long *)ptr = DST;
+    *(u_long *)(ptr + 4) = *(P->dest + 1);
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+7)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, WORD, ST, u_store, M_USER);
+    *(u_long *)ptr = DST;
+    *(u_long *)(ptr + 4) = *(P->dest + 1);
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(st_h_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, HALF, ST, u_store, M_USER);
+    *(short *)ptr = DST;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+1)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(stcr);
+    EX_IF_USER;
+    DST = SRC1;
+    fixup_control_regs();
+    check_for_ce_interrupt();
+    SET_US_MODE;
+    SET_TLB_PTRS;
+    DISPATCH_NEXT;
+
+L(ustcr);
+    DST = SRC1;
+    fixup_control_regs();
+    DISPATCH_NEXT;
+
+L(sub);
+    s1 = SRC1;
+    s2 = SRC2;
+    s1_neg = s1 >> 31;
+    s2_neg = s2 >> 31;
+
+    DST = s1 - s2;
+    res_neg = DST >> 31;
+
+    if ((s1_neg && !s2_neg && !res_neg) ||
+        (!s1_neg && s2_neg && res_neg)) {
+        goto iov;
+    }
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(sub_bo);
+    s1 = SRC1;
+    s2 = SRC2;
+    s1_neg = s1 >> 31;
+    s2_neg = s2 >> 31;
+
+    DST = s1 - s2;
+    res_neg = DST >> 31;
+
+    if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+
+    if ((s1_neg && !s2_neg && !res_neg) ||
+        (!s1_neg && s2_neg && res_neg)) {
+        goto iov;
+    }
+    DISPATCH_NEXT;
+
+L(sub_bi);
+    s1 = SRC1;
+    s2 = SRC2;
+    s1_neg = s1 >> 31;
+    s2_neg = s2 >> 31;
+
+    DST = (s1 - s2) + CARRY_BIT;
+    res_neg = DST >> 31;
+
+    if ((s1_neg && !s2_neg && !res_neg) ||
+        (!s1_neg && s2_neg && res_neg)) {
+        goto iov;
+    }
+    DISPATCH_NEXT;
+
+L(sub_bio);
+    s1 = SRC1;
+    s2 = SRC2;
+    s1_neg = s1 >> 31;
+    s2_neg = s2 >> 31;
+
+    DST = (s1 - s2) + CARRY_BIT;
+    res_neg = DST >> 31;
+
+    if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+
+    if ((s1_neg && !s2_neg && !res_neg) ||
+        (!s1_neg && s2_neg && res_neg)) {
+        goto iov;
+    }
+    DISPATCH_NEXT;
+    
+L(subu);
+    DST = SRC1 - SRC2;
+    CHECK_STACK;
+    DISPATCH_NEXT;
+
+L(subu_bo);
+    s1 = SRC1;
+    s2 = SRC2;
+    s1_neg = s1 >> 31;
+    s2_neg = s2 >> 31;
+
+    DST = s1 - s2;
+    res_neg = DST >> 31;
+
+    if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+    DISPATCH_NEXT;
+
+L(subu_bi);
+    s1 = SRC1;
+    s2 = SRC2;
+    DST = (s1 - s2) + CARRY_BIT;
+    DISPATCH_NEXT;
+
+L(subu_bio);
+    s1 = SRC1;
+    s2 = SRC2;
+    s1_neg = s1 >> 31;
+    s2_neg = s2 >> 31;
+
+    DST = (s1 - s2) + CARRY_BIT;
+    res_neg = DST >> 31;
+
+    if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+        SET_CARRY;
+    } else {
+        ZERO_CARRY;
+    }
+    DISPATCH_NEXT;
+    
+L(tb0);
+    if (SBR != 0) {
+        sim_printf("SBR non-zero at tb0, machine hangs\n");
+        cause = HOSED;
+        goto return_pt;
+    }
+    if ((SRC1 & (int)(P->dest)) == 0) {
+        if (USERMODE && (int)(P->s2) < 128) {
+            GEN_EXCEPTION(E_PRV);
+        }
+        switch ((int)(P->s2)) {
+            case TR_BPT: /* breakpoint trap */
+                cause = BREAKPOINT;
+                goto return_pt;
+
+            default:
+                GEN_EXCEPTION((int)(P->s2));
+        }
+    }
+    DISPATCH_NEXT;
+
+L(tb1);
+    if (SBR != 0) {
+        sim_printf("SBR non-zero at tb1, machine hangs\n");
+        cause = HOSED;
+        goto return_pt;
+    }
+    if ((SRC1 & (int)(P->dest)) == 1) {
+        if (USERMODE && (int)(P->s2) < 128) {
+            GEN_EXCEPTION(E_PRV);
+        }
+        GEN_EXCEPTION((int)(P->s2));
+    }
+    DISPATCH_NEXT;
+
+L(tbnd);
+    if (SRC1 > SRC2) {
+        GEN_EXCEPTION(E_BND);
+    }
+    DISPATCH_NEXT;
+
+L(tcnd);
+    { int cc_index;
+      cc_index = ((SRC1 >> 30) & 2) | ((SRC1 & 0x7fffffff) == 0);
+      if (((int)(P->dest) >> cc_index) & 1) {
+        if (USERMODE && (int)(P->s2) < 128) {
+            GEN_EXCEPTION(E_PRV);
+        }
+        GEN_EXCEPTION((int)(P->s2));
+      }
+    }
+    DISPATCH_NEXT;
+
+L(trnc_ss);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    DST = FSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+L(trnc_sd);
+    if (!PSR_FP_UNIT_ON) goto fp_precise_single;
+    DST = DSRC2;
+    if (fp_exception) goto fp_imprecise_single;
+    DISPATCH_NEXT;
+
+/*
+ * SRC1 - register with value to store into control register
+ * SRC2 - control register to exchange with
+ * DST  - destination general register
+ */
+L(xcr);
+    EX_IF_USER;
+    load_shadow_regs(ip, delayed_ip);
+    i = SRC1;
+    DST = SRC2;
+    SRC2 = i;
+    fixup_control_regs();
+    check_for_ce_interrupt();
+    regs[0] = 0;        /* In case r0 got modified. */
+    SET_US_MODE;
+    SET_TLB_PTRS;
+    DISPATCH_NEXT;
+
+/*
+ * SRC1 - register with value to store into control register
+ * SRC2 - control register to exchange with
+ * DST  - destination general register
+ */
+L(uxcr);
+    i = SRC1;
+    DST = SRC2;
+    SRC2 = i;
+    fixup_control_regs();
+    regs[0] = 0;        /* In case r0 was modified. */
+    DISPATCH_NEXT;
+
+L(xmem_bu);
+    CALC_ADDR(P->dest, WORD, XMEM, store, usmode);
+    i = *(u_char *)ptr;
+    *(u_char *)ptr = DST;
+    DST = i;
+    regs[0] = 0;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(xmem);
+    CALC_ADDR(P->dest, WORD, XMEM, store, usmode);
+    i = *(u_long *)ptr;
+    *(u_long *)ptr = DST;
+    DST = i;
+    regs[0] = 0;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(xmem_sc);
+    CALC_ADDR_SCALED(P->dest, WORD, XMEM, store, usmode);
+    i = *(u_long *)ptr;
+    *(u_long *)ptr = DST;
+    DST = i;
+    regs[0] = 0;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(xmem_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, WORD, XMEM, u_store, M_USER);
+    i = *(u_long *)ptr;
+    *(u_long *)ptr = DST;
+    DST = i;
+    regs[0] = 0;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(xmem_bu_usr);
+    EX_IF_USER;
+    CALC_ADDR(P->dest, WORD, XMEM, u_store, M_USER);
+    i = *(u_char *)ptr;
+    *(u_char *)ptr = DST;
+    DST = i;
+    regs[0] = 0;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(xmem_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED(P->dest, WORD, XMEM, u_store, M_USER);
+    i = *(u_long *)ptr;
+    *(u_long *)ptr = DST;
+    DST = i;
+    regs[0] = 0;
+    if (membrkphys && (ptr<=membrkphys+3 && membrkphys<=ptr+3)) {
+	cause = BREAKPOINT;
+	goto return_pt;
+    }
+    DISPATCH_NEXT;
+
+L(xor);
+    DST = SRC1 ^ SRC2;
+    DISPATCH_NEXT;
+
+L(xor_c);
+    DST = SRC1 ^ ~SRC2;
+    DISPATCH_NEXT;
+
+/*
+ * r_delayed_p points to the delayed branch instruction.
+ * If the branch target is on-page we just load p with the target decoded
+ * instruction pointer and go.  If not, we call l_to_d with the
+ * logical address of the branch target, in delayed_ip,  and let 
+ * it tell us what the target's decoded instruction pointer is.
+ *
+ * I use the L() macro here so that there is a global label here
+ * that prof will use.
+ */
+L(delayed_br);
+    if (!(p = (u_long)(r_delayed_p->s2))) {
+        r_delayed_p = (struct decoded_i *)0;
+        pagela = delayed_ip & ~PAGEMASK;
+        if (!(p = (u_long)l_to_d(delayed_ip, usmode, &pagep))) {
+            ip = delayed_ip;
+            goto cacc;
+        }
+    };
+    r_delayed_p = (struct decoded_i *)0;
+    DISP_AFTER_BR;
+
+prv:
+    GEN_EXCEPTION(E_PRV);
+
+cacc:
+    /*
+     * The code access fault exception is special in that the global
+     * 'ip' is already loaded with the ip of the faulted instruction.
+     * For all the other exceptions we can ask the IP macro what the
+     * ip is at the time of the exception.  So we "back-compute"
+     * values for pagela and p so that the IP macro will yeild the
+     * current value of ip.  Note that 'p' is totally bogus as a pointer
+     * to a decoded instruction because it is based on 'pagep', which
+     * isn't pointing to anything relevent.
+     */
+    pagela = ip & ~PAGEMASK;
+    p = pagep + poff(ip) * (sizeof(struct decoded_i)/4);
+    GEN_EXCEPTION(E_CACC);
+
+macc:
+    SBR |= 1 << REGNUM(P->dest);
+    GEN_EXCEPTION(E_MA);
+
+iov:
+    GEN_EXCEPTION(E_IOV);
+
+fp_precise_single:
+    SBR |= 1 << REGNUM(P->dest);
+    GEN_EXCEPTION(E_FP);
+
+fp_precise_double:
+    SBR |= 1 << REGNUM(P->dest);
+    SBR |= 1 << (REGNUM(P->dest) + 1);
+    GEN_EXCEPTION(E_FP);
+
+fp_imprecise_single:
+    fp_exception = 0;
+    SBR |= 1 << REGNUM(P->dest);
+    GEN_EXCEPTION(E_FPIM);
+
+/*
+ * According to Mr CPU, Marvin Denmen, the first SBR bit won't
+ * be set.
+ */
+fp_imprecise_double:
+    fp_exception = 0;
+    SBR |= 1 << (REGNUM(P->dest) + 1);
+    GEN_EXCEPTION(E_FPIM);
+
+/*
+ * Exception processing for the 88000.
+ */
+L(gen_exception);
+    ip = IP;
+    if (ex == E_INT) {
+        /*
+         * The interrupt flag is checked after p has been
+         * updated to point to the instruction that is about
+         * to execute.  The code below expects ip to point
+         * to the exception-generating instruction.  Subtracting
+         * 4 from the ip will make the calculation of snip and
+         * sfip come out right, but sxip will be wrong.  This 
+         * shouldn't matter.  I do not feel good about this kludge -rcb.
+         */
+        ip -= 4;
+    }
+
+    if (sim_catch_exception[ex + 512*!usmode]) {
+        sim_exception = ex;
+        cause = CAUGHT_EXCEPTION;
+        goto return_with_exception;
+    }
+
+/*
+ * We enter at this point if we just entered sim() and
+ * there was an outstanding exception that needed to be processed.
+ */
+L(gen_exception_without_check);
+
+    if (PSR & 1) {
+        sim_printf("Exception with shadow registers frozen ...\n");
+        if (sim_catch_exception[E_ERR + 512*!usmode]) {
+            cause = CAUGHT_EXCEPTION;
+            goto return_pt;
+        }
+        ex = E_ERR;
+    }
+
+    /*
+     * If this isn't a data access exception and shadowing is on,
+     * zero the data memory unit's transaction registers.
+     */
+    if (ex != E_DACC && (PSR & 1) == 0) {
+        DMT0 = DMT1 = DMT2 = 0;
+    }
+
+    sim_exception = E_NONE;
+    TPSR = (PSR | 0x3f0) & 0xf800e3ff;
+    SSBR = SBR;
+    SBR = 0;
+    /*
+     * Set the S/U bit to supervisor.
+     * Disable FP unit and all other other SFU's.
+     * Disable interrupts.
+     * Set the shadow register freeze bit.
+     */
+    PSR |= 0x800003fb;
+    SXIP = ip | 2;
+
+    if (ex == E_CACC) {
+        SXIP |= 1;
+    }
+
+    /*
+     * If we faulted on the instruction following a delayed 
+     * branch instruction, the SNIP will not follow the SXIP, but will 
+     * instead point to the branch target.
+     */
+    if (r_delayed_p) {
+        SNIP = delayed_ip | 2;
+        SFIP = (delayed_ip + 4) | 2;
+        r_delayed_p = 0;
+    } else {
+        SNIP = (ip + 4) | 2;
+        SFIP = (ip + 8) | 2;
+    }
+  
+    /*
+     * See if the next instruction pointer and the fetched instruction
+     * pointer are valid.  If not, set their exception bits.
+     */
+    if (!l_to_d(SNIP & ~3, usmode, 0)) {
+        SNIP |= 1;
+    }
+
+    SSBR = 0;           /* No scoreboard in simulator */
+    usmode = M_SUPERVISOR;
+    SET_TLB_PTRS;
+
+    ip = VBR + ex * 8;
+    pagela = ip & ~PAGEMASK;
+    p = (u_long)l_to_d(ip, M_SUPERVISOR, &pagep);
+    if (!p) {
+        sim_printf("Code fault trying to execute exception vector at\n");
+        sim_printf("address %X, exception=%X", ip, ex);
+        cause = HOSED;
+        goto return_pt;
+    }
+    if (ss) {
+        goto return_pt;
+    }
+    if (tracing) {
+        insert_ss_breakpoint(ip, usmode);
+    }
+    DISPATCH;
+
+L(stack_overflow);
+    sim_printf("stack overflow, r31=0x%08x, cr21=0x%08x\n",
+		regs[31], STACKBASE);
+    cause = HOSED;
+    goto return_pt;
+
+L(interrupt_label);
+    if (sim_interrupt_flag & INT_SINGLESTEP) {
+        sim_interrupt_flag &= ~INT_SINGLESTEP;
+        goto ss_breakpoint;
+    }
+
+    if (sim_interrupt_flag & INT_SIGNAL) {
+        sim_interrupt_flag &= ~INT_SIGNAL;
+        callhandlers();
+        DISP_AFTER_BR;
+    }
+
+    if (sim_interrupt_flag & INT_FRONT_END) {
+        sim_interrupt_flag &= ~INT_FRONT_END;
+        cause = INTERRUPT;
+        goto return_pt;
+    }
+
+    if (sim_interrupt_flag & INT_INTERNAL) {
+        sim_interrupt_flag &= ~INT_INTERNAL;
+        cause = INTERRUPT;
+        goto return_pt;
+    }
+
+    if (sim_interrupt_flag & INT_DEVICE) {
+        sim_interrupt_flag &= ~INT_DEVICE;
+        /*
+         * It is possible that between the time the sim_interrupt_flag
+         * was set and the time that it was read that the PSR interrupt
+         * bit has been reset.  If so, we continue with the intruction
+         * stream after reseting this bit.  sim_interrupt_flag will
+         * be set again when an stcr or xcr enables interrupts again.
+         */
+        if (!PSR_INT_ENABLED) {
+            DISP_AFTER_BR;
+        }
+        GEN_EXCEPTION(E_INT);
+    }
+
+    if (sim_interrupt_flag & INT_RESET) {
+        sim_interrupt_flag &= ~INT_RESET;
+        GEN_EXCEPTION(E_RST);
+    }
+
+    sim_printf("Unknown interrupt, sim_interrupt_flag=0x%X\n", 
+       sim_interrupt_flag);
+    sim_interrupt_flag = 0;
+    cause = HOSED;
+
+
+return_pt:
+    /*
+     * Copy our local representation of the instruction pointer
+     * to the global that the debugger reads.
+     */
+    ip = IP;
+
+    /*
+     * If we are single stepping we need to check to see if a device
+     * interrupt is pending before we return.
+     */
+    if (ss) {
+        sim_interrupt_flag &= ~INT_SINGLESTEP;
+        CHKINT;
+	if (cause != HOSED) {
+            CHECK_STACK;
+        }
+    }
+
+return_with_exception:
+
+    callhandlers();
+    sim_in_execution = 0;
+
+    /*
+     * This used to be "if (!ss) ..."  AJK
+     */
+    if (!single_step_command) {
+        HoldOscillator();
+    }
+
+    /*
+     * Copy our local variable copy of the decoded-delayed-branch
+     * pointer to the global so that when we start up next we
+     * will execute properly.
+     */
+    delayed_p = r_delayed_p;
+
+    if (!sim_zero()) {
+	return cause;
+    }
+    goto dummies;
+
+L(bcnd_eq0);
+    if (SRC1 == 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_ne0);
+    if (SRC1 != 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_gt0);
+    if ((int)SRC1 > 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_lt0);
+    if ((int)SRC1 < 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_ge0);
+    if ((int)SRC1 >= 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_le0);
+    if ((int)SRC1 <= 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(noop);
+    DISPATCH_NEXT;
+
+L(bcnd_4);
+    s1 = SRC1;
+    if (s1 != 0x80000000 && s1 < 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_5);
+    if ((SRC1 & 0x7fffffff) != 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_6);
+    s1 = SRC1;
+    if (s1 <= 0 && s1 != 0x80000000) { 
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_7);
+    if (SRC1 != 0x80000000) { 
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_8);
+    if (SRC1 == 0x80000000) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_9);
+    s1 = SRC1;
+    if (s1 > 0 || s1 == 0x80000000) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_10);
+    if ((SRC1 & 0x7fffffff) == 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_11);
+    s1 = SRC1;
+    if (s1 >= 0 || s1 == 0x80000000) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_always);
+    TAKE_BRANCH;
+
+L(bcnd_eq0_n);
+    if ((int)SRC1 == 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_ne0_n);
+    if ((int)SRC1 != 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_gt0_n);
+    if ((int)SRC1 > 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_lt0_n);
+    if ((int)SRC1 < 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_ge0_n);
+    if ((int)SRC1 >= 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_le0_n);
+    if ((int)SRC1 <= 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_4_n);
+    s1 = SRC1;
+    if (s1 != 0x80000000 && s1 < 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_5_n);
+    if ((SRC1 & 0x7fffffff) != 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_6_n);
+    s1 = SRC1;
+    if (s1 <= 0 && s1 != 0x80000000) { 
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_7_n);
+    if (SRC1 != 0x80000000) { 
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_8_n);
+    if (SRC1 == 0x80000000) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_9_n);
+    s1 = SRC1;
+    if (s1 > 0 || s1 == 0x80000000) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_10_n);
+    if ((SRC1 & 0x7fffffff) == 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_11_n);
+    s1 = SRC1;
+    if (s1 >= 0 || s1 == 0x80000000) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_always_n);
+    TAKE_DELAYED_BRANCH;
+
+L(br);
+    TAKE_BRANCH;
+
+L(br_n);
+    TAKE_DELAYED_BRANCH;
+
+#define BB0(bit) L(bb0_/**/bit); if ((SRC1 & (1 << bit)) == 0) TAKE_BRANCH; \
+                                  DISPATCH_NEXT;
+
+BB0(0);  BB0(1);  BB0(2);  BB0(3);  BB0(4);  BB0(5);  BB0(6);  BB0(7);
+BB0(8);  BB0(9);  BB0(10); BB0(11); BB0(12); BB0(13); BB0(14); BB0(15);
+BB0(16); BB0(17); BB0(18); BB0(19); BB0(20); BB0(21); BB0(22); BB0(23);
+BB0(24); BB0(25); BB0(26); BB0(27); BB0(28); BB0(29); BB0(30); BB0(31);
+
+#undef BB0
+
+#define BB1(bit) L(bb1_/**/bit); if (SRC1 & (1 << bit)) TAKE_BRANCH; \
+                                  DISPATCH_NEXT;
+
+BB1(0);  BB1(1);  BB1(2);  BB1(3);  BB1(4);  BB1(5);  BB1(6);  BB1(7);
+BB1(8);  BB1(9);  BB1(10); BB1(11); BB1(12); BB1(13); BB1(14); BB1(15);
+BB1(16); BB1(17); BB1(18); BB1(19); BB1(20); BB1(21); BB1(22); BB1(23);
+BB1(24); BB1(25); BB1(26); BB1(27); BB1(28); BB1(29); BB1(30); BB1(31);
+
+#undef BB1
+
+#define BB0_N(bit) L(bb0_n_/**/bit); if ((SRC1 & (1 << bit)) == 0)  \
+                                        TAKE_DELAYED_BRANCH;        \
+                                     DISPATCH_NEXT;
+
+BB0_N(0);  BB0_N(1);  BB0_N(2);  BB0_N(3);
+BB0_N(4);  BB0_N(5);  BB0_N(6);  BB0_N(7);
+BB0_N(8);  BB0_N(9);  BB0_N(10); BB0_N(11);
+BB0_N(12); BB0_N(13); BB0_N(14); BB0_N(15);
+BB0_N(16); BB0_N(17); BB0_N(18); BB0_N(19);
+BB0_N(20); BB0_N(21); BB0_N(22); BB0_N(23);
+BB0_N(24); BB0_N(25); BB0_N(26); BB0_N(27);
+BB0_N(28); BB0_N(29); BB0_N(30); BB0_N(31);
+
+#undef BB0_N
+
+#define BB1_N(bit) L(bb1_n_/**/bit); if (SRC1 & (1 << bit))        \
+                                         TAKE_DELAYED_BRANCH;      \
+                                     DISPATCH_NEXT;
+
+BB1_N(0);  BB1_N(1);  BB1_N(2);  BB1_N(3);
+BB1_N(4);  BB1_N(5);  BB1_N(6);  BB1_N(7);
+BB1_N(8);  BB1_N(9);  BB1_N(10); BB1_N(11);
+BB1_N(12); BB1_N(13); BB1_N(14); BB1_N(15);
+BB1_N(16); BB1_N(17); BB1_N(18); BB1_N(19);
+BB1_N(20); BB1_N(21); BB1_N(22); BB1_N(23);
+BB1_N(24); BB1_N(25); BB1_N(26); BB1_N(27);
+BB1_N(28); BB1_N(29); BB1_N(30); BB1_N(31);
+
+#undef BB1_N
+
+L(bsr);
+    regs[1] = IP + 4;
+    TAKE_BRANCH;
+
+L(bsr_n);
+    regs[1] = IP + 8;
+    TAKE_DELAYED_BRANCH;
+
+    /*
+     * Here we fool the compiler by having a reference to each
+     * instruction-entry point label.
+     */
+
+dummies:
+
+#undef L
+#define L(x) if (sim_zero()) goto x;
+#define BB0(x) if (sim_zero()) goto bb0_/**/x;
+#define BB1(x) if (sim_zero()) goto bb1_/**/x;
+#define BB0_N(x) if (sim_zero()) goto bb0_n_/**/x;
+#define BB1_N(x) if (sim_zero()) goto bb1_n_/**/x;
+
+asm("| START DELETING HERE");
+#include "extern.h"
+asm("| STOP DELETING HERE");
+
+#undef L
+#undef BB0
+#undef BB1
+#undef BB0_N
+#undef BB1_N
+
+}
+@
+
+
+1.55
+log
+@Do the wrong thing for RTE in branch delay slot.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.54 88/10/24 12:25:20 andrew Exp $
+d12 1
+a12 1
+#include "../bb_hdrs/montraps.h"
+@
+
+
+1.54
+log
+@Rename "single_stepping" to "single_step_command" (to avoid clashing
+with another global variable.)
+Fix the tests based on this variable; they were inverted.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.53 88/10/20 11:13:56 andrew Exp $
+d1117 3
+@
+
+
+1.53
+log
+@Use TR_BPT instead of a hard constant to form the breakpoint trap 
+instruction.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.52 88/09/19 21:00:20 robertb Exp $
+d177 1
+a177 1
+ * The "single-stepping" flag.
+d182 1
+a182 1
+char single_stepping;
+d310 1
+a310 1
+    if (single_stepping) {
+d1905 1
+a1905 1
+    if (single_stepping) {
+@
+
+
+1.52
+log
+@Added INT_SINGLESTEP.
+fixed bug with looping on stack overflow message.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.51 88/09/08 09:33:26 andrew Exp $
+d12 1
+d1477 1
+a1477 1
+            case 510: /* breakpoint trap */
+@
+
+
+1.51
+log
+@Change "start_clock_ticking" to "ReleaseOscillator".
+Change "stop_clock_ticking" to "HoldOscillator".
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.50 88/08/25 17:16:43 andrew Exp $
+d1828 5
+d1889 1
+d1891 3
+a1893 1
+	CHECK_STACK;
+@
+
+
+1.50
+log
+@Make the "rte, TPSR has shadows frozen" error condition conditional
+on the nonexistence of environment variable SIMDIAGS.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.49 88/08/25 16:44:49 andrew Exp $
+d310 1
+a310 1
+        start_clock_ticking();
+d1897 1
+a1897 1
+        stop_clock_ticking();
+@
+
+
+1.49
+log
+@Get rid of the message "rte is raising code exception."
+It's a normal part of system V operation now.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.48 88/08/03 13:25:10 andrew Exp $
+d1110 1
+a1110 1
+    if ((TPSR & 1) == 1) {
+@
+
+
+1.48
+log
+@Add new registers $comefrom, $membrk, and $stackbase.  $comefrom is set
+by jmp, jmp.n, jsr, jsr.n, and rte.  $membrk is checked on each store
+and xmem.  Stack base checking (stack overflow checking) occurs only in
+those executions that the kernel happens to use to modify r31.
+
+Change the test of whether we're single-stepping to use a flag
+explicitly set by the step/next commands, because sim(1) can also be
+called when running with a (high level) memory breakpoint.  This allows
+us to let the clock tick when running with a memory breakpoint.
+
+Outstanding bug: the simulator can't single-step through a conditional
+branch to self, even when the branch shouldn't happen (PC should
+advance).  I worked around this by removing all such branches from the
+kernel source.
+
+Move the branch instructions to the end of the procedure in an effort
+to make all compiler-generated branch offsets fit in 16 bits; the
+68k assembly can't seem to make a bra.l from a BRA opcode.  Introduce
+comments into the assembler code of the form "START DELETING HERE" and
+"STOP DELETING HERE", used by a post-compilation sed script to remove
+the useless code that refers to labels which the compiler would
+otherwise believe to be unreferenced (and which would cause the
+"unreachable" code to be eliminated).
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.47 88/07/25 15:30:40 andrew Exp $
+d1176 3
+d1180 2
+@
+
+
+1.47
+log
+@Include a new check at RTE: if the TPSR (the PSR to be established)
+has shadowing frozen, publish an error message.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.46 88/07/20 15:25:28 robertb Exp $
+d145 39
+d240 7
+d255 17
+d301 9
+a309 1
+    if (!ss) {
+d376 1
+d435 1
+d484 7
+a490 5
+L(bcnd_eq0);
+    if (SRC1 == 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+a491 243
+L(bcnd_ne0);
+    if (SRC1 != 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_gt0);
+    if ((int)SRC1 > 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_lt0);
+    if ((int)SRC1 < 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_ge0);
+    if ((int)SRC1 >= 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_le0);
+    if ((int)SRC1 <= 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(noop);
+    DISPATCH_NEXT;
+
+L(bcnd_4);
+    s1 = SRC1;
+    if (s1 != 0x80000000 && s1 < 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_5);
+    if ((SRC1 & 0x7fffffff) != 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_6);
+    s1 = SRC1;
+    if (s1 <= 0 && s1 != 0x80000000) { 
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_7);
+    if (SRC1 != 0x80000000) { 
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_8);
+    if (SRC1 == 0x80000000) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_9);
+    s1 = SRC1;
+    if (s1 > 0 || s1 == 0x80000000) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_10);
+    if ((SRC1 & 0x7fffffff) == 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_11);
+    s1 = SRC1;
+    if (s1 >= 0 || s1 == 0x80000000) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_always);
+    TAKE_BRANCH;
+
+L(bcnd_eq0_n);
+    if ((int)SRC1 == 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_ne0_n);
+    if ((int)SRC1 != 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_gt0_n);
+    if ((int)SRC1 > 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_lt0_n);
+    if ((int)SRC1 < 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_ge0_n);
+    if ((int)SRC1 >= 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_le0_n);
+    if ((int)SRC1 <= 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_4_n);
+    s1 = SRC1;
+    if (s1 != 0x80000000 && s1 < 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_5_n);
+    if ((SRC1 & 0x7fffffff) != 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_6_n);
+    s1 = SRC1;
+    if (s1 <= 0 && s1 != 0x80000000) { 
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_7_n);
+    if (SRC1 != 0x80000000) { 
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_8_n);
+    if (SRC1 == 0x80000000) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_9_n);
+    s1 = SRC1;
+    if (s1 > 0 || s1 == 0x80000000) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_10_n);
+    if ((SRC1 & 0x7fffffff) == 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_11_n);
+    s1 = SRC1;
+    if (s1 >= 0 || s1 == 0x80000000) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+
+L(bcnd_always_n);
+    TAKE_DELAYED_BRANCH;
+
+L(br);
+    TAKE_BRANCH;
+
+L(br_n);
+    TAKE_DELAYED_BRANCH;
+
+#define BB0(bit) L(bb0_/**/bit); if ((SRC1 & (1 << bit)) == 0) TAKE_BRANCH; \
+                                  DISPATCH_NEXT;
+
+BB0(0);  BB0(1);  BB0(2);  BB0(3);  BB0(4);  BB0(5);  BB0(6);  BB0(7);
+BB0(8);  BB0(9);  BB0(10); BB0(11); BB0(12); BB0(13); BB0(14); BB0(15);
+BB0(16); BB0(17); BB0(18); BB0(19); BB0(20); BB0(21); BB0(22); BB0(23);
+BB0(24); BB0(25); BB0(26); BB0(27); BB0(28); BB0(29); BB0(30); BB0(31);
+
+#undef BB0
+
+#define BB1(bit) L(bb1_/**/bit); if (SRC1 & (1 << bit)) TAKE_BRANCH; \
+                                  DISPATCH_NEXT;
+
+BB1(0);  BB1(1);  BB1(2);  BB1(3);  BB1(4);  BB1(5);  BB1(6);  BB1(7);
+BB1(8);  BB1(9);  BB1(10); BB1(11); BB1(12); BB1(13); BB1(14); BB1(15);
+BB1(16); BB1(17); BB1(18); BB1(19); BB1(20); BB1(21); BB1(22); BB1(23);
+BB1(24); BB1(25); BB1(26); BB1(27); BB1(28); BB1(29); BB1(30); BB1(31);
+
+#undef BB1
+
+#define BB0_N(bit) L(bb0_n_/**/bit); if ((SRC1 & (1 << bit)) == 0)  \
+                                        TAKE_DELAYED_BRANCH;        \
+                                     DISPATCH_NEXT;
+
+BB0_N(0);  BB0_N(1);  BB0_N(2);  BB0_N(3);
+BB0_N(4);  BB0_N(5);  BB0_N(6);  BB0_N(7);
+BB0_N(8);  BB0_N(9);  BB0_N(10); BB0_N(11);
+BB0_N(12); BB0_N(13); BB0_N(14); BB0_N(15);
+BB0_N(16); BB0_N(17); BB0_N(18); BB0_N(19);
+BB0_N(20); BB0_N(21); BB0_N(22); BB0_N(23);
+BB0_N(24); BB0_N(25); BB0_N(26); BB0_N(27);
+BB0_N(28); BB0_N(29); BB0_N(30); BB0_N(31);
+
+#undef BB0_N
+
+#define BB1_N(bit) L(bb1_n_/**/bit); if (SRC1 & (1 << bit))        \
+                                         TAKE_DELAYED_BRANCH;      \
+                                     DISPATCH_NEXT;
+
+BB1_N(0);  BB1_N(1);  BB1_N(2);  BB1_N(3);
+BB1_N(4);  BB1_N(5);  BB1_N(6);  BB1_N(7);
+BB1_N(8);  BB1_N(9);  BB1_N(10); BB1_N(11);
+BB1_N(12); BB1_N(13); BB1_N(14); BB1_N(15);
+BB1_N(16); BB1_N(17); BB1_N(18); BB1_N(19);
+BB1_N(20); BB1_N(21); BB1_N(22); BB1_N(23);
+BB1_N(24); BB1_N(25); BB1_N(26); BB1_N(27);
+BB1_N(28); BB1_N(29); BB1_N(30); BB1_N(31);
+
+#undef BB1_N
+
+L(bsr);
+    regs[1] = IP + 4;
+    TAKE_BRANCH;
+
+L(bsr_n);
+    regs[1] = IP + 8;
+    TAKE_DELAYED_BRANCH;
+
+d498 1
+d563 1
+d865 1
+d879 1
+d887 1
+d906 1
+d923 1
+d1051 1
+d1089 1
+d1116 1
+d1196 4
+d1205 4
+d1214 4
+d1223 4
+d1234 4
+d1244 4
+d1254 4
+d1264 4
+d1274 4
+d1283 4
+d1292 4
+d1303 4
+d1314 4
+d1324 4
+d1357 1
+d1419 1
+d1562 4
+d1574 4
+d1586 4
+d1599 4
+d1612 4
+d1625 4
+d1816 6
+d1880 1
+d1888 4
+a1891 1
+    if (!ss) {
+d1903 1
+a1903 1
+        return cause;
+d1905 1
+a1905 1
+    /* NOTREACHED */
+d1907 249
+d2161 2
+d2170 1
+d2172 1
+d2179 1
+@
+
+
+1.46
+log
+@tweaks.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.45 88/07/13 21:53:22 robertb Exp $
+d1264 1
+a1264 1
+        sim_printf("ERROR: rte being executed with shadowing enabled.\n");
+d1266 6
+@
+
+
+1.45
+log
+@changed breakpoint trap to 510 to match change in machine.c
+now zero DMT registers on a non-DACC exception.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.44 88/06/30 16:08:13 robertb Exp $
+d1210 1
+d1215 1
+d1626 1
+d1844 1
+a1844 1
+    * If we faulted on the instruction following a delayed 
+d1850 1
+d1853 2
+a1854 1
+        SNIP = SXIP + 4;
+a1855 1
+    SFIP = SNIP + 4;
+a1862 4
+    }
+
+    if (!l_to_d(SFIP & ~3, usmode, 0)) {
+        SFIP |= 1;
+@
+
+
+1.44
+log
+@Now check to make sure that shadow registers are frozen before
+doing an rte.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.43 88/06/28 16:42:51 robertb Exp $
+d1563 1
+a1563 1
+            case 131: /* breakpoint trap */
+d1814 9
+@
+
+
+1.43
+log
+@numereous tweaks.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.42 88/06/09 17:59:30 robertb Exp $
+d1261 6
+@
+
+
+1.42
+log
+@added the uncommon bcnd instructions
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.41 88/06/07 17:06:33 robertb Exp $
+a14 2
+#define RETURN  { goto return_pt; }
+
+a19 1
+#define GEN_CACC                { goto cacc; }
+a20 2
+#define EX_IF_FP_OFF            { if (!PSR_FP_UNIT_ON) goto fp_precise; }
+#define EX_IF_FP_ERR            { if (fp_exception) goto fp_precise; }
+d52 1
+a52 1
+    sfu1_regs[4] = s2; sfu1_regs[5] = dreg; }
+d101 1
+a101 1
+         if (!p) GEN_CACC; }                                                  \
+d115 2
+d120 1
+a120 3
+        if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }           \
+    if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto misaligned_access;          \
+    else ptr &= ~(SIZE - 1);
+d127 2
+d132 1
+a132 3
+        if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }           \
+    if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto misaligned_access;          \
+    else ptr &= ~(SIZE - 1);
+d233 1
+a233 1
+        GEN_CACC;
+d252 1
+a252 1
+        GEN_CACC;
+d262 1
+a262 1
+        GEN_CACC;
+d279 1
+a279 1
+        RETURN;
+d303 1
+a303 1
+        GEN_EXCEPTION(E_IOV);
+d323 1
+a323 1
+        GEN_EXCEPTION(E_IOV);
+d337 1
+a337 1
+        GEN_EXCEPTION(E_IOV);
+d357 1
+a357 1
+        GEN_EXCEPTION(E_IOV);
+d696 1
+a696 1
+    EX_IF_FP_OFF;
+d705 1
+a705 1
+    EX_IF_FP_OFF;
+d733 1
+a733 1
+    EX_IF_FP_OFF;
+d735 1
+a735 1
+    EX_IF_FP_ERR;
+d739 1
+a739 1
+    EX_IF_FP_OFF;
+d741 1
+a741 1
+    EX_IF_FP_ERR;
+d745 1
+a745 1
+    EX_IF_FP_OFF;
+d747 1
+a747 1
+    EX_IF_FP_ERR;
+d751 1
+a751 1
+    EX_IF_FP_OFF;
+d753 1
+a753 1
+    EX_IF_FP_ERR;
+d757 1
+a757 1
+    EX_IF_FP_OFF;
+d759 1
+a759 1
+    EX_IF_FP_ERR;
+d763 1
+a763 1
+    EX_IF_FP_OFF;
+d765 1
+a765 1
+    EX_IF_FP_ERR;
+d769 1
+a769 1
+    EX_IF_FP_OFF;
+d771 1
+a771 1
+    EX_IF_FP_ERR;
+d775 1
+a775 1
+    EX_IF_FP_OFF;
+d777 1
+a777 1
+    EX_IF_FP_ERR;
+d781 1
+a781 1
+    EX_IF_FP_OFF;
+d784 1
+a784 1
+    EX_IF_FP_ERR;
+d788 1
+a788 1
+    EX_IF_FP_OFF;
+d791 1
+a791 1
+    EX_IF_FP_ERR;
+d795 1
+a795 1
+    EX_IF_FP_OFF;
+d798 1
+a798 1
+    EX_IF_FP_ERR;
+d802 1
+a802 1
+    EX_IF_FP_OFF;
+d805 1
+a805 1
+    EX_IF_FP_ERR;
+d809 1
+a809 1
+    EX_IF_FP_OFF;
+d814 1
+a814 1
+    EX_IF_FP_ERR;
+d818 1
+a818 1
+    EX_IF_FP_OFF;
+d823 1
+a823 1
+    EX_IF_FP_ERR;
+d827 1
+a827 1
+    EX_IF_FP_OFF;
+d832 1
+a832 1
+    EX_IF_FP_ERR;
+d836 1
+a836 1
+    EX_IF_FP_OFF;
+d841 1
+a841 1
+    EX_IF_FP_ERR;
+d845 1
+a845 1
+    EX_IF_FP_OFF;
+d850 1
+a850 1
+    EX_IF_FP_ERR;
+d854 1
+a854 1
+    EX_IF_FP_OFF;
+d859 1
+a859 1
+    EX_IF_FP_ERR;
+d863 1
+a863 1
+    EX_IF_FP_OFF;
+d868 1
+a868 1
+    EX_IF_FP_ERR;
+d872 1
+a872 1
+    EX_IF_FP_OFF;
+d877 1
+a877 1
+    EX_IF_FP_ERR;
+a887 1
+    EX_IF_FP_ERR;
+a897 1
+    EX_IF_FP_ERR;
+d901 1
+a901 1
+    EX_IF_FP_OFF;
+d903 1
+a903 1
+    EX_IF_FP_ERR;
+d907 1
+a907 1
+    EX_IF_FP_OFF;
+d909 1
+a909 1
+    EX_IF_FP_ERR;
+d913 1
+a913 1
+    EX_IF_FP_OFF;
+d915 1
+a915 1
+    EX_IF_FP_ERR;
+d919 1
+a919 1
+    EX_IF_FP_OFF;
+d921 1
+a921 1
+    EX_IF_FP_ERR;
+d925 1
+a925 1
+    EX_IF_FP_OFF;
+d927 1
+a927 1
+    EX_IF_FP_ERR;
+d931 1
+a931 1
+    EX_IF_FP_OFF;
+d933 1
+a933 1
+    EX_IF_FP_ERR;
+d937 1
+a937 1
+    EX_IF_FP_OFF;
+d939 1
+a939 1
+    EX_IF_FP_ERR;
+d943 1
+a943 1
+    EX_IF_FP_OFF;
+d945 1
+a945 1
+    EX_IF_FP_ERR;
+d949 1
+a949 1
+    EX_IF_FP_OFF;
+d951 1
+a951 1
+    EX_IF_FP_ERR;
+d955 1
+a955 1
+    EX_IF_FP_OFF;
+d957 1
+a957 1
+    EX_IF_FP_ERR;
+d965 1
+a965 1
+    EX_IF_FP_OFF;
+d967 1
+a967 1
+    EX_IF_FP_ERR;
+d971 1
+a971 1
+    EX_IF_FP_OFF;
+d973 1
+a973 1
+    EX_IF_FP_ERR;
+d977 1
+a977 1
+    EX_IF_FP_OFF;
+d979 1
+a979 1
+    EX_IF_FP_ERR;
+d983 1
+a983 1
+    EX_IF_FP_OFF;
+d985 1
+a985 1
+    EX_IF_FP_ERR;
+d989 1
+a989 1
+    EX_IF_FP_OFF;
+d991 1
+a991 1
+    EX_IF_FP_ERR;
+d995 1
+a995 1
+    EX_IF_FP_OFF;
+d997 1
+a997 1
+    EX_IF_FP_ERR;
+d1001 1
+a1001 1
+    EX_IF_FP_OFF;
+d1003 1
+a1003 1
+    EX_IF_FP_ERR;
+d1007 1
+a1007 1
+    EX_IF_FP_OFF;
+d1009 1
+a1009 1
+    EX_IF_FP_ERR;
+d1013 1
+a1013 1
+    EX_IF_FP_OFF;
+d1015 1
+a1015 1
+    EX_IF_FP_ERR;
+d1019 1
+a1019 1
+    EX_IF_FP_OFF;
+d1021 1
+a1021 1
+    EX_IF_FP_ERR;
+d1037 1
+a1037 1
+                GEN_CACC;
+d1062 1
+a1062 1
+              GEN_CACC;
+d1229 1
+a1229 1
+    EX_IF_FP_OFF;
+d1234 1
+a1234 1
+    EX_IF_FP_OFF;
+d1236 1
+a1236 1
+    EX_IF_FP_ERR;
+d1240 1
+a1240 1
+    EX_IF_FP_OFF;
+d1242 1
+a1242 1
+    EX_IF_FP_ERR;
+a1260 6
+    if (SSBR != 0) {
+        sim_printf("SSBR not 0 on RTE at 0x%X\n", IP);
+        cause = HOSED;
+        goto return_pt;
+    }
+
+d1269 1
+a1269 1
+        GEN_CACC;
+d1276 1
+a1276 1
+            GEN_CACC;
+d1306 1
+a1306 1
+                GEN_CACC;
+d1311 2
+a1312 1
+            RETURN;
+d1321 1
+a1321 1
+        GEN_CACC;
+d1324 1
+a1324 1
+        RETURN;
+d1443 1
+a1443 1
+        GEN_EXCEPTION(E_IOV);
+d1464 1
+a1464 1
+        GEN_EXCEPTION(E_IOV);
+d1479 1
+a1479 1
+        GEN_EXCEPTION(E_IOV);
+d1500 1
+a1500 1
+        GEN_EXCEPTION(E_IOV);
+d1547 5
+d1559 1
+a1559 1
+                RETURN;
+d1568 5
+d1600 1
+a1600 1
+    EX_IF_FP_OFF;
+d1602 1
+a1602 1
+    EX_IF_FP_ERR;
+d1606 1
+a1606 1
+    EX_IF_FP_OFF;
+d1608 1
+a1608 1
+    EX_IF_FP_ERR;
+d1716 1
+a1716 1
+            GEN_CACC;
+d1740 2
+a1741 1
+misaligned_access:
+d1744 5
+a1748 2
+fp_precise:
+    fp_exception = 0;
+d1751 10
+d1762 9
+d1804 1
+a1804 1
+            RETURN;
+d1860 2
+a1861 1
+        RETURN;
+d1864 1
+a1864 1
+        RETURN;
+@
+
+
+1.41
+log
+@Added a call to "callhandlers()" to support the new signal mechanism.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.40 88/05/26 18:44:29 robertb Exp $
+d452 58
+d546 55
+a1892 4
+    /*
+     * Here we fool the compiler by having a reference to each
+     * instruction-entry point label.
+     */
+a1893 15
+#undef L
+#define L(x) if (sim_zero()) goto x;
+#define BB0(x) if (sim_zero()) goto bb0_/**/x;
+#define BB1(x) if (sim_zero()) goto bb1_/**/x;
+#define BB0_N(x) if (sim_zero()) goto bb0_n_/**/x;
+#define BB1_N(x) if (sim_zero()) goto bb1_n_/**/x;
+
+#include "extern.h"
+
+#undef L
+#undef BB0
+#undef BB1
+#undef BB0_N
+#undef BB1_N
+
+d1925 24
+a1948 1
+    return cause;
+@
+
+
+1.40
+log
+@Added a new signal handling mechanism to avoid race
+conditions inside the simulator.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.39 88/05/20 16:57:06 robertb Exp $
+d1817 1
+@
+
+
+1.39
+log
+@fixed bug with cmp instructions.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.38 88/04/30 22:58:11 robertb Exp $
+d606 4
+a609 2
+    if (W5(SRC2) == 0) {
+        DST = SRC1 >> O5(SRC2);
+d611 2
+a612 2
+        int left_sh_cnt = 32 - (O5(SRC2) + W5(SRC2));
+        DST = (SRC1 << left_sh_cnt) >> (O5(SRC2) + left_sh_cnt);
+d773 1
+a773 1
+    for (i = 31 ; i > 0 ; i--) {
+d784 1
+a784 1
+    for (i = 31 ; i > 0 ; i--) {
+d1737 6
+@
+
+
+1.38
+log
+@added execution trace facility
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.37 88/04/29 19:17:32 robertb Exp $
+d561 3
+a563 1
+    if (SRC1 == SRC2) {
+d566 1
+d570 1
+a570 1
+        if (SRC1 > SRC2) {
+d579 1
+a579 1
+        if ((int)SRC1 > (int)SRC2) {
+@
+
+
+1.37
+log
+@Fixed use of p, use P instead.
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.36 88/04/29 17:02:16 robertb Exp $
+d240 1
+a240 1
+    if (ss) {
+d242 2
+a243 1
+    } else {
+d278 4
+d286 9
+d1725 3
+@
+
+
+1.36
+log
+@removed sim_ss(), switched to new scheme for single stepping
+@
+text
+@d7 1
+a7 1
+ * $Header: execute.c,v 1.35 88/04/28 10:34:55 robertb Exp $
+d277 1
+a277 1
+    p->norm_e_addr = sim_not_decoded;
+@
+
+
+1.35
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@a3 4
+ * This is compiled twice, once with SINGLE_STEP defined
+ * and once with NORMAL defined.  We generate and link 2 object
+ * files from this single .c file.
+ *
+d7 1
+a7 1
+ * $Header: execute.c,v 1.34 88/04/16 14:20:15 robertb Exp $
+a14 5
+#define GEN_GLOBAL_SYM(name, suffix)                \
+    { name:;                                        \
+      asm(" .globl _sim_/**/name/**/suffix");       \
+      asm("_sim_/**/name/**/suffix:"); }
+
+d65 4
+a68 1
+#ifdef SINGLE_STEP
+a69 4
+/*
+ * These are for single-stepping.
+ */
+#define L(x)                    GEN_GLOBAL_SYM(x,_ss)
+a70 4
+#define DISPATCH                {(normal_to_ss(P))(); }
+#define DISP_AFTER_BR           { RETURN; }
+#define DISP_AFTER_DELAYED_BR   { INC_D_IP ; RETURN; }
+
+a71 15
+ * If r_delayed_p is non-zero it means that the last instruction was a
+ * a .n type branch.  
+ */
+#define DISPATCH_NEXT           { if (r_delayed_p) goto delayed_br;     \
+                                  INC_D_IP ; RETURN; }
+
+#define SIM_FNAME       sim_ss
+
+#endif
+
+#ifdef NORMAL
+
+#define L(x)                    GEN_GLOBAL_SYM(x,)
+
+/*
+a94 4
+#define SIM_FNAME        sim
+
+#endif
+
+d144 4
+a147 7
+#define SET_TLB_PTRS if (USERMODE) {                    \
+                         load_tlb  = &(u_load_tlb[0]);  \
+                         store_tlb = &(u_store_tlb[0]); \
+                     } else {                           \
+                         load_tlb  = &(s_load_tlb[0]);  \
+                         store_tlb = &(s_store_tlb[0]); \
+                     }
+d149 5
+d155 1
+a155 1
+SIM_FNAME()
+d172 1
+a172 2
+    int usmode;                /* 0: user mode, 1: supervisor mode         */
+    int always0 = zero();
+d212 2
+d227 1
+a227 1
+    zero(load_tlb, store_tlb, r_delayed_p, r_size, p, usmode);
+a228 3
+#ifdef NORMAL
+    start_clock_ticking();
+#endif
+d240 5
+d276 8
+d1156 1
+a1156 1
+            sim_ss();
+d1203 3
+d1642 1
+a1642 1
+ * We enter at this point if we just entered sim() or sim_ss() and
+d1709 4
+a1712 1
+    DISP_AFTER_BR;
+d1758 5
+a1762 5
+#define L(x) if (always0) goto x;
+#define BB0(x) if (always0) goto bb0_/**/x;
+#define BB1(x) if (always0) goto bb1_/**/x;
+#define BB0_N(x) if (always0) goto bb0_n_/**/x;
+#define BB1_N(x) if (always0) goto bb1_n_/**/x;
+d1783 3
+a1785 3
+#ifdef SINGLE_STEP
+    CHKINT;
+#endif
+d1791 3
+a1793 3
+#ifdef NORMAL
+    stop_clock_ticking();
+#endif
+a1802 9
+}
+
+/*
+ * To help fool the optimizer.
+ */
+static
+int zero()
+{
+    return 0;
+@
+
+
+1.34
+log
+@Made the CALC_ADDR macros all have inline code to handle
+the common case.
+Removed a call to CHKINT in the exception handling that
+could cause errors.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.33 88/04/15 14:09:40 robertb Exp $
+d18 1
+a18 1
+{ if (x == y) i = 0x6a6; else { if (x < y) i = 0x66a; else i = 0x69a; }}            
+d20 3
+a22 1
+    { asm(" .globl _sim_/**/name/**/suffix"); asm("_sim_/**/name/**/suffix:"); }
+d24 1
+a24 1
+#define RETURN  { if (always1) goto return_pt; }
+d30 2
+a31 2
+#define GEN_EXCEPTION(vector)   { ex = vector; if (always1) goto gen_exception;}
+#define GEN_CACC                { if (always1) goto cacc; }
+d40 1
+a77 3
+ * The "if (always1)" in the DISPATCH_NEXT macro is there just to
+ * fool the compiler into not thinking the following entry points
+ * are dead code.  
+d81 1
+a81 2
+#define DISPATCH                {(normal_to_ss(P))(); \
+                                 if (always1) goto top; }
+d83 1
+a83 1
+#define DISP_AFTER_DELAYED_BR   { INC_D_IP ; r_ip += 4; RETURN; }
+d90 1
+a90 1
+                                  INC_D_IP ; r_ip += 4; RETURN; }
+d103 1
+a103 1
+#define DISPATCH                { (P->norm_e_addr)(); if (always1) goto top; }
+d115 1
+a115 1
+#define DISP_AFTER_DELAYED_BR   { INC_D_IP ; r_ip += 4; DISPATCH; }
+d122 1
+a122 1
+                                  INC_D_IP ; r_ip += 4; DISPATCH; }
+d134 7
+a140 4
+#define TAKE_BRANCH                                                         \
+{ r_ip += P->literal;                                                       \
+  if (!(p = (u_long)(P->s2))) {                                             \
+    p = (u_long)l_to_d(r_ip, usmode); if (!p) GEN_CACC;} DISP_AFTER_BR; }
+d143 1
+a143 1
+{ r_delayed_p = P; delayed_ip = r_ip + P->literal; DISP_AFTER_DELAYED_BR; }
+d147 2
+a148 2
+ * host physical address in the tlb's.  If it can't find the address
+ * in one of the tlb's then it calls a function 'l_mem_op'
+d151 1
+a151 18
+#define CALC_ADDR(REG_PTR, SIZE, MEM_OP_TYPE, TLB)                          \
+    ptr = SRC1 + SRC2;                                                      \
+    if (ptr < LOW_TLB_RANGE)                                                \
+        ptr = (u_long)(TLB/**/_tlb_low[ptr >> 12] + (ptr & PAGE_MASK));     \
+    else if (ptr >= HIGH_TLB_RANGE)                                         \
+            ptr = (u_long)(TLB/**/_tlb_high[(ptr >> 12) - TLB_HIGH_BASE] +  \
+                                                    (ptr & PAGE_MASK));     \
+         else ptr = 0;                                                      \
+    if (ptr < PAGE_SIZE) { ip = r_ip;                                       \
+        ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, usmode);     \
+        if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }         \
+    if (ptr & (SIZE - 1))  if (PSR_MA_CHECK_ON) goto misaligned_access;     \
+    else ptr &= ~(SIZE - 1);
+
+/*
+ * Like the macro above, except for the .usr (unscaled) memory instructions.
+ */
+#define CALC_ADDR_USER(REG_PTR, SIZE, MEM_OP_TYPE, TLB)                       \
+d153 3
+a155 8
+    if (ptr < LOW_TLB_RANGE)                                                  \
+        ptr = (u_long)(/**/TLB/**/_tlb_low[ptr >> 12] + (ptr & PAGE_MASK));   \
+    else if (ptr >= HIGH_TLB_RANGE)                                           \
+            ptr = (u_long)(/**/TLB/**/_tlb_high[(ptr >> 12) - TLB_HIGH_BASE]  \
+                                          +  (ptr & PAGE_MASK));              \
+         else ptr = 0;                                                        \
+    if (ptr < PAGE_SIZE) { ip = r_ip;                                         \
+        ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, M_USER);       \
+d157 1
+a157 1
+    if (ptr & (SIZE - 1))  if (PSR_MA_CHECK_ON) goto misaligned_access;       \
+d161 1
+a161 2
+ * Like the above two macros, except for regular (not .usr) scaled
+ * memory instructions.
+d163 1
+a163 18
+#define CALC_ADDR_SCALED(REG_PTR, SIZE, MEM_OP_TYPE, TLB)                   \
+    ptr = SRC1 + SRC2 * SIZE;                                               \
+    if (ptr < LOW_TLB_RANGE)                                                \
+        ptr = (u_long)(TLB/**/_tlb_low[ptr >> 12] + (ptr & PAGE_MASK));     \
+    else if (ptr >= HIGH_TLB_RANGE)                                         \
+            ptr = (u_long)(TLB/**/_tlb_high[(ptr >> 12) - TLB_HIGH_BASE] +  \
+                                                    (ptr & PAGE_MASK));     \
+         else ptr = 0;                                                      \
+    if (ptr < PAGE_SIZE) { ip = r_ip;                                       \
+        ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, usmode);\
+        if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }         \
+    if (ptr & (SIZE - 1))  if (PSR_MA_CHECK_ON) goto misaligned_access;     \
+    else ptr &= ~(SIZE - 1);
+
+/*
+ * Like the above three macros, except for the scaled .usr instructions.
+ */
+#define CALC_ADDR_SCALED_USER(REG_PTR, SIZE, MEM_OP_TYPE, TLB)                \
+d165 3
+a167 8
+    if (ptr < LOW_TLB_RANGE)                                                  \
+        ptr = (u_long)(/**/TLB/**/_tlb_low[ptr >> 12] + (ptr & PAGE_MASK));   \
+    else if (ptr >= HIGH_TLB_RANGE)                                           \
+            ptr = (u_long)(/**/TLB/**/_tlb_high[(ptr >> 12) - TLB_HIGH_BASE]  \
+                                          +  (ptr & PAGE_MASK));              \
+         else ptr = 0;                                                        \
+    if (ptr < PAGE_SIZE) { ip = r_ip;                                         \
+        ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, M_USER);\
+d169 1
+a169 1
+    if (ptr & (SIZE - 1))  if (PSR_MA_CHECK_ON) goto misaligned_access;       \
+a171 2
+#define UNIMPLEMENTED { if (always1) goto unimplemented; }
+
+d178 6
+a183 9
+    load_tlb_high  = &(u_load_tlb_high[0]);             \
+    load_tlb_low   = &(u_load_tlb_low[0]);              \
+    store_tlb_high = &(u_store_tlb_high[0]);            \
+    store_tlb_low  = &(u_store_tlb_low[0]); } else {    \
+                                                        \
+    load_tlb_high  = &(s_load_tlb_high[0]);             \
+    load_tlb_low   = &(s_load_tlb_low[0]);              \
+    store_tlb_high = &(s_store_tlb_high[0]);            \
+    store_tlb_low  = &(s_store_tlb_low[0]); }
+d190 6
+a195 7
+    register u_long p;      /* really a struct decoded_i *              */
+    register int r_ip;          /* local copy of the instruction pointer.   */
+    register char **load_tlb_low;   /* tlb covering low logical addresses.  */
+    register char **store_tlb_low;  /* tlb covering low logical addresses.  */
+    register u_long ptr;        /* Gets both logical and pointer values.    */
+    register u_long r_size; /* For fast incrementing of p               */
+    register i;                 /* misc temporary used exchanges and counter*/
+d197 5
+a201 2
+    char **load_tlb_high;       /* Doesn't need to be a register variable   */
+    char **store_tlb_high;      /* Doesn't need to be a register variable   */
+a202 1
+    int always1;                /* To help fool the GH compiler.            */
+d204 12
+d218 5
+d224 11
+a234 3
+    int both_pos, both_neg;
+    int res_neg;
+    int err_exception_count = 0;/* Counts E_ERR exceptions, we bail out >10 */
+d237 6
+a242 1
+    static struct decoded_i rte_decoded_i;  /* For RTE instruction.         */
+a243 9
+/*
+ * This label is never branched to.  It is here, along with the 
+ * goto's to it, to fool the GH compiler into not reusing some
+ * register variables.
+ */
+top:
+    fool_the_gh_compiler(p, r_delayed_p, load_tlb_high, load_tlb_low, ptr);
+    fool_the_gh_compiler(store_tlb_low, store_tlb_high);
+    fool_the_gh_compiler(usmode, ex, always1, delayed_ip);
+d246 1
+a246 3
+    if (regs[0]) {
+        sim_printf("fatal simulator error, r0=%X\n", regs[0]);
+    }
+a247 3
+    always1 = 1;
+    r_delayed_p = delayed_p;
+    r_ip = ip;
+d253 6
+d269 2
+a270 2
+redispatch_from_ip:
+    if ((p = (u_long)l_to_d(r_ip, usmode)) == 0) {
+d281 4
+a284 3
+    if (r_ip & PAGE_MASK) {
+        sim_printf("end_of_page: internal fault, ip and decoded-ip out.\n");
+        sim_printf("of sync, r_ip=%X  p=%X\n", r_ip, p);
+d286 1
+a286 1
+    if (always1) goto redispatch_from_ip;
+d293 1
+a293 1
+    if (decode(p, r_ip, usmode)) {
+a297 13
+L(unimplemented);
+    /*
+     * We just tried to execute an instruction that is not implemented
+     * in this 88000 simulator.
+     */
+    UNIMPLEMENTED;
+
+L(decode_problem);
+    /*
+     * There was some problem in decoding the instruction.
+     */
+    RETURN;
+
+a457 12
+/*
+ * This handles the general case of a conditional branch.
+ */
+L(bcnd);
+    { int cc_index;
+      cc_index = ((SRC1 >> 30) & 2) | ((SRC1 & 0x7fffffff) == 0);
+      if (((int)(P->dest) >> cc_index) & 1) {
+        TAKE_BRANCH;
+      }
+    }
+    DISPATCH_NEXT;
+
+a493 12
+/*
+ * This handles the general case of a delayed conditional branch.
+ */
+L(bcnd_n);
+    { int cc_index;
+      cc_index = ((SRC1 >> 30) & 2) | ((SRC1 & 0x7fffffff) == 0);
+      if (((int)(P->dest) >> cc_index) & 1) {
+        TAKE_DELAYED_BRANCH;
+      }
+    }
+    DISPATCH_NEXT;
+
+d500 2
+a501 5
+L(bb0);
+    if ((SRC1 & (int)(P->dest)) == 0) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+d503 4
+a506 5
+L(bb0_n);
+    if ((SRC1 & (int)(P->dest)) == 0) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+d508 1
+a508 5
+L(bb1);
+    if (SRC1 & (int)(P->dest)) {
+        TAKE_BRANCH;
+    }
+    DISPATCH_NEXT;
+d510 2
+a511 5
+L(bb1_n);
+    if (SRC1 & (int)(P->dest)) {
+        TAKE_DELAYED_BRANCH;
+    }
+    DISPATCH_NEXT;
+d513 37
+d551 1
+a551 1
+    regs[1] = r_ip + 4;
+d555 1
+a555 1
+    regs[1] = r_ip + 8;
+a794 4
+/*
+ * fldcr is done by ldcr
+ */
+
+a906 4
+/*
+ * fxcr is done by xcr
+ */
+
+d921 1
+a921 1
+     * The jmp target is on-page, do a quick calculation to
+d925 3
+a927 7
+        if ((dst & ~PAGE_MASK) == (r_ip & ~PAGE_MASK)) {
+            if (dst > r_ip) {
+                p += ((dst - r_ip) >> 2) * r_size;
+            } else {
+                p -= ((r_ip - dst) >> 2) * r_size;
+            }
+            r_ip = dst;
+d929 3
+a931 2
+            r_ip = dst;
+            if ((p = (u_long)l_to_d(r_ip, usmode)) == 0) {
+d944 17
+a960 5
+    i = r_ip + 4;
+    r_ip = DST & ~3;
+    regs[1] = i;
+    if ((p = (u_long)l_to_d(r_ip, usmode)) == 0) {
+        GEN_CACC;
+a961 1
+    DISP_AFTER_BR;
+d965 1
+a965 1
+    regs[1] = r_ip + 8;
+a968 4
+/*
+ * Unscaled loads
+ */
+
+d970 5
+a974 6
+    CALC_ADDR(P->dest, DWORD, LD, load) {
+        DST = *(u_long *)ptr;
+        *(P->dest + 1) = *(u_long *)(ptr + 4);
+        regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+        regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    }
+a976 12
+L(lda_d)
+    DST = SRC1 + (SRC2 << 3);
+    DISPATCH_NEXT;
+
+L(lda)
+    DST = SRC1 + (SRC2 << 2);
+    DISPATCH_NEXT;
+
+L(lda_h)
+    DST = SRC1 + (SRC2 << 1);
+    DISPATCH_NEXT;
+
+d978 2
+a979 3
+    CALC_ADDR(P->dest, WORD, LD, load) {
+        DST = *(u_long *)ptr;
+    }
+d983 2
+a984 3
+    CALC_ADDR(P->dest, HALF, LD, load) {
+        DST = *(short *)ptr;
+    }
+d988 2
+a989 3
+    CALC_ADDR(P->dest, BYTE, LD, load) {
+        DST = *(char *)ptr;
+    }
+a991 16
+L(xmem_bu);
+    CALC_ADDR(P->dest, WORD, XMEM, store) {
+        i = *(u_char *)ptr;
+        *(u_char *)ptr = DST;
+        DST = i;
+    }
+    DISPATCH_NEXT;
+
+L(xmem);
+    CALC_ADDR(P->dest, WORD, XMEM, store) {
+        i = *(u_long *)ptr;
+        *(u_long *)ptr = DST;
+        DST = i;
+    }
+    DISPATCH_NEXT;
+
+d993 2
+a994 3
+    CALC_ADDR(P->dest, HALF, LD_U, load) {
+        DST = *(u_short *)ptr;
+    }
+d998 2
+a999 3
+    CALC_ADDR(P->dest, BYTE, LD_U, load) {
+        DST = *(u_char *)ptr;
+    }
+d1004 5
+a1008 6
+    CALC_ADDR_USER(P->dest, DWORD, LD, u_load) {
+        DST = *(u_long *)ptr;
+        *(P->dest + 1) = *(u_long *)(ptr + 4);
+        regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+        regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    }
+d1013 2
+a1014 3
+    CALC_ADDR_USER(P->dest, WORD, LD, u_load) {
+        DST = *(u_long *)ptr;
+    }
+d1019 2
+a1020 3
+    CALC_ADDR_USER(P->dest, HALF, LD, u_load) {
+        DST = *(short *)ptr;
+    }
+d1025 2
+a1026 3
+    CALC_ADDR_USER(P->dest, BYTE, LD, u_load) {
+        DST = *(char *)ptr;
+    }
+a1028 18
+L(xmem_bu_usr);
+    EX_IF_USER;
+    CALC_ADDR_USER(P->dest, WORD, XMEM, u_store) {
+        i = *(u_char *)ptr;
+        *(u_char *)ptr = DST;
+        DST = i;
+    }
+    DISPATCH_NEXT;
+
+L(xmem_usr);
+    EX_IF_USER;
+    CALC_ADDR_USER(P->dest, WORD, XMEM, u_store) {
+        i = *(u_long *)ptr;
+        *(u_long *)ptr = DST;
+        DST = i;
+    }
+    DISPATCH_NEXT;
+
+d1031 2
+a1032 3
+    CALC_ADDR_USER(P->dest, HALF, LD_U, u_load) {
+        DST = *(u_short *)ptr;
+    }
+d1037 2
+a1038 3
+    CALC_ADDR_USER(P->dest, BYTE, LD_U, u_load) {
+        DST = *(u_char *)ptr;
+    }
+a1040 4
+/*
+ * Scaled loads
+ */
+
+d1042 5
+a1046 6
+    CALC_ADDR_SCALED(P->dest, DWORD, LD, load) {
+        DST = *(u_long *)ptr;
+        *(P->dest + 1) = *(u_long *)(ptr + 4);
+        regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+        regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    }
+d1050 2
+a1051 3
+    CALC_ADDR_SCALED(P->dest, WORD, LD, load) {
+        DST = *(u_long *)ptr;
+    }
+d1055 2
+a1056 3
+    CALC_ADDR_SCALED(P->dest, HALF, LD, load) {
+        DST = *(short *)ptr;
+    }
+a1058 8
+L(xmem_sc);
+    CALC_ADDR_SCALED(P->dest, WORD, XMEM, store) {
+        i = *(u_long *)ptr;
+        *(u_long *)ptr = DST;
+        DST = i;
+    }
+    DISPATCH_NEXT;
+
+d1060 2
+a1061 3
+    CALC_ADDR_SCALED(P->dest, HALF, LD_U, load) {
+        DST = *(u_short *)ptr;
+    }
+d1066 5
+a1070 6
+    CALC_ADDR_SCALED_USER(P->dest, DWORD, LD, u_load) {
+        DST = *(u_long *)ptr;
+        *(P->dest + 1) = *(u_long *)(ptr + 4);
+        regs[0] = 0;    /* Zer0 r0 in case this was a double load of r0 */
+        regs[32] = 0;   /* Zero r32 in case this was a double load of r31 */
+    }
+d1075 2
+a1076 3
+    CALC_ADDR_SCALED_USER(P->dest, WORD, LD, u_load) {
+        DST = *(u_long *)ptr;
+    }
+d1081 2
+a1082 3
+    CALC_ADDR_SCALED_USER(P->dest, HALF, LD, u_load) {
+        DST = *(short *)ptr;
+    }
+d1085 1
+a1085 1
+L(xmem_usr_sc);
+d1087 2
+a1088 5
+    CALC_ADDR_SCALED_USER(P->dest, WORD, XMEM, u_store) {
+        i = *(u_long *)ptr;
+        *(u_long *)ptr = DST;
+        DST = i;
+    }
+d1091 2
+a1092 5
+L(ld_hu_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED_USER(P->dest, HALF, LD_U, u_load) {
+        DST = *(u_short *)ptr;
+    }
+d1095 2
+a1096 5
+L(ld_bu_usr_sc);
+    EX_IF_USER;
+    CALC_ADDR_SCALED_USER(P->dest, HALF, LD_U, u_load) {
+        DST = *(u_short *)ptr;
+    }
+d1099 4
+d1104 1
+a1104 3
+    if (P->literal && USERMODE) {
+        GEN_EXCEPTION(E_PRV);
+    }
+d1108 4
+a1154 3
+    if (VERBOSE) {
+        sim_printf("Executing RTE at 0x%X  ", r_ip);
+    }
+d1157 1
+a1157 1
+        sim_printf("SSBR not 0 on RTE at 0x%X\n", r_ip);
+d1169 1
+a1169 1
+        r_ip = SNIP & ~3;
+d1174 1
+a1174 4
+        r_ip = SNIP & ~3;
+        if (VERBOSE) {
+            sim_printf("using SNIP, next instr at 0x%X\n", r_ip);
+        }
+a1175 1
+            ip = r_ip;
+d1187 1
+a1187 1
+             * So we first have to execute the one pointed to by
+d1197 1
+a1197 1
+             * translating r_delayed_ip into a decoded pointer.
+a1201 4
+            if (VERBOSE) {
+                sim_printf("After instr at 0x%X will execute instr at 0x%X\n",
+                                r_ip, delayed_ip);
+            }
+d1205 1
+a1205 4
+            r_ip = SFIP & ~3;
+            if (VERBOSE) {
+                sim_printf("using SFIP, next instr at 0x%X\n", r_ip);
+            }
+d1210 2
+a1211 2
+            r_ip = (SFIP & ~3) + 4;
+            sim_printf("rte: SNIP and SFIP are not valid, new ip=%X\n", r_ip);
+d1217 2
+a1218 1
+    p = (u_long)l_to_d(r_ip, usmode);
+a1232 4
+/*
+ * Unscaled stores.
+ */
+
+d1234 3
+a1236 4
+    CALC_ADDR(P->dest, DWORD, ST, store) {
+        *(u_long *)ptr = DST;
+        *(u_long *)(ptr + 4) = *(P->dest + 1);
+    }
+d1240 2
+a1241 3
+    CALC_ADDR(P->dest, WORD, ST, store) {
+        *(u_long *)ptr = DST;
+    }
+d1245 2
+a1246 3
+    CALC_ADDR(P->dest, HALF, ST, store) {
+        *(short *)ptr = DST;
+    }
+d1250 2
+a1251 3
+    CALC_ADDR(P->dest, BYTE, ST, store) {
+        *(char *)ptr = DST;
+    }
+a1253 4
+/*
+ * User space unscaled stores.
+ */
+
+d1256 3
+a1258 4
+    CALC_ADDR_USER(P->dest, DWORD, ST, u_store) {
+        *(u_long *)ptr = DST;
+        *(u_long *)(ptr + 4) = *(P->dest + 1);
+    }
+d1263 2
+a1264 3
+    CALC_ADDR_USER(P->dest, WORD, ST, u_store) {
+        *(u_long *)ptr = DST;
+    }
+d1269 2
+a1270 3
+    CALC_ADDR_USER(P->dest, HALF, ST, u_store) {
+        *(short *)ptr = DST;
+    }
+d1275 2
+a1276 3
+    CALC_ADDR_USER(P->dest, BYTE, ST, u_store) {
+        *(char *)ptr = DST;
+    }
+a1278 4
+/*
+ * Scaled stores.
+ */
+
+d1280 3
+a1282 4
+    CALC_ADDR_SCALED(P->dest, DWORD, ST, store) {
+        *(u_long *)ptr = DST;
+        *(u_long *)(ptr + 4) = *(P->dest + 1);
+    }
+d1286 2
+a1287 3
+    CALC_ADDR_SCALED(P->dest, WORD, ST, store) {
+        *(u_long *)ptr = DST;
+    }
+d1291 2
+a1292 3
+    CALC_ADDR_SCALED(P->dest, HALF, ST, store) {
+        *(short *)ptr = DST;
+    }
+d1297 3
+a1299 4
+    CALC_ADDR_SCALED_USER(P->dest, DWORD, ST, u_store) {
+        *(u_long *)ptr = DST;
+        *(u_long *)(ptr + 4) = *(P->dest + 1);
+    }
+d1304 3
+a1306 4
+    CALC_ADDR_SCALED_USER(P->dest, DWORD, ST, u_store) {
+        *(u_long *)ptr = DST;
+        *(u_long *)(ptr + 4) = *(P->dest + 1);
+    }
+d1311 2
+a1312 3
+    CALC_ADDR_SCALED_USER(P->dest, HALF, ST, u_store) {
+        *(short *)ptr = DST;
+    }
+a1314 3
+/*
+ */
+
+d1316 1
+a1316 3
+    if (P->literal && USERMODE) {
+        GEN_EXCEPTION(E_PRV);
+    }
+d1324 5
+d1504 1
+a1504 3
+    if (P->literal && USERMODE) {
+        GEN_EXCEPTION(E_PRV);
+    }
+d1515 64
+a1586 4
+unimplemented:
+    sim_printf("instruction not implemented in simulator.");
+    RETURN;
+
+d1593 3
+d1597 1
+a1597 2
+delayed_br:
+    r_ip = delayed_ip;
+d1600 3
+a1602 1
+        if (!(p = (u_long)l_to_d(r_ip, usmode))) {
+d1613 12
+d1628 1
+a1629 3
+    ex = E_MA;
+    goto gen_exception;
+
+d1632 1
+a1632 2
+    ex = E_FP;
+    goto gen_exception;
+d1637 15
+a1651 2
+gen_exception:
+    sim_exception = ex;
+d1653 1
+d1655 1
+a1655 1
+        RETURN;
+d1658 5
+a1662 1
+gen_exception_without_check:
+d1683 1
+a1683 1
+    SXIP = r_ip | 2;
+d1706 1
+a1706 1
+    if (!l_to_d(SNIP & ~3, usmode)) {
+d1710 1
+a1710 1
+    if (!l_to_d(SFIP & ~3, usmode)) {
+d1718 3
+a1720 2
+    r_ip = VBR + ex * 8;
+    p = (u_long)l_to_d(r_ip, M_SUPERVISOR);
+d1723 1
+a1723 1
+        sim_printf("address %X, exception=%X", r_ip, ex - 1);
+d1728 1
+a1728 1
+interrupt_label:
+a1752 11
+        /*
+         * The interrupt flag is checked after r_ip has been
+         * updated to point to the instruction that is about
+         * to execute.  GEN_EXCEPTION expects r_ip to point
+         * to the exception-generating instruction.  Subtracing
+         * 4 from the ip will make the calculation of snip and
+         * sfip come out right, but sxip will be wrong.  This 
+         * shouldn't matter.
+         */
+        r_ip -= 4;
+
+d1766 4
+a1769 2
+return_pt:;
+    sim_in_execution = 0;
+d1771 16
+d1788 6
+d1801 4
+a1808 1
+
+a1809 6
+     * Copy our local variable copy of the instruction pointer
+     * to the global that the debugger reads.
+     */
+    ip = r_ip;
+
+    /*
+d1816 2
+a1817 3
+    if (regs[0]) {
+        sim_printf("fatal simulator error, r0=%X\n", regs[0]);
+    }
+d1819 7
+a1825 1
+    return cause;
+@
+
+
+1.33
+log
+@Now call routines to start and stop virtual timer
+when we enter and execute sim().
+changed us_mode to usmode.
+added ability to stop on user or supervisor exceptions.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.32 88/04/08 21:29:26 robertb Exp $
+d158 1
+a158 1
+        ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, usmode);    \
+d164 1
+a164 2
+ * We use this macro instead of the big form in big_macro.c to improve compile
+ * time of execute.c
+d166 13
+a178 3
+#define CALC_ADDR_USER(REG_PTR, SIZE, MEM_OP_TYPE) ip = r_ip;               \
+    ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, M_USER);         \
+    if (ex != E_NONE) goto gen_exception; if (0) 
+d181 2
+a182 2
+ * This is slow to execute, but faster to compile.  The Moto compiler
+ * doesn't used scaled addressing currently, so it shouldn't be a loss.
+d184 13
+a196 3
+#define CALC_ADDR_SCALED(REG_PTR, SIZE, MEM_OP_TYPE) ip = r_ip;             \
+    ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, usmode); \
+    if (ex != E_NONE) goto gen_exception; if (0) 
+d199 1
+a199 1
+ * Slow to execute, fast to compile.
+d201 13
+a213 3
+#define CALC_ADDR_SCALED_USER(REG_PTR, SIZE, MEM_OP_TYPE) ip = r_ip;        \
+    ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, M_USER);  \
+    if (ex != E_NONE) goto gen_exception; if (0) 
+d1048 1
+a1048 1
+    CALC_ADDR(P->dest, WORD, XMEM, load) {
+d1056 1
+a1056 1
+    CALC_ADDR(P->dest, WORD, XMEM, load) {
+d1077 1
+a1077 1
+    CALC_ADDR_USER(P->dest, DWORD, LD) {
+d1087 1
+a1087 1
+    CALC_ADDR_USER(P->dest, WORD, LD) {
+d1094 1
+a1094 1
+    CALC_ADDR_USER(P->dest, HALF, LD) {
+d1101 1
+a1101 1
+    CALC_ADDR_USER(P->dest, BYTE, LD) {
+d1108 1
+a1108 1
+    CALC_ADDR_USER(P->dest, WORD, XMEM) {
+d1117 1
+a1117 1
+    CALC_ADDR_USER(P->dest, WORD, XMEM) {
+d1126 1
+a1126 1
+    CALC_ADDR_USER(P->dest, HALF, LD_U) {
+d1133 1
+a1133 1
+    CALC_ADDR_USER(P->dest, BYTE, LD_U) {
+d1143 1
+a1143 1
+    CALC_ADDR_SCALED(P->dest, DWORD, LD) {
+d1152 1
+a1152 1
+    CALC_ADDR_SCALED(P->dest, WORD, LD) {
+d1158 1
+a1158 1
+    CALC_ADDR_SCALED(P->dest, HALF, LD) {
+d1164 1
+a1164 1
+    CALC_ADDR_SCALED(P->dest, WORD, XMEM) {
+d1172 1
+a1172 1
+    CALC_ADDR_SCALED(P->dest, HALF, LD_U) {
+d1179 1
+a1179 1
+    CALC_ADDR_SCALED_USER(P->dest, DWORD, LD) {
+d1189 1
+a1189 1
+    CALC_ADDR_SCALED_USER(P->dest, WORD, LD) {
+d1196 1
+a1196 1
+    CALC_ADDR_SCALED_USER(P->dest, HALF, LD) {
+d1203 1
+a1203 1
+    CALC_ADDR_SCALED_USER(P->dest, WORD, XMEM) {
+d1212 1
+a1212 1
+    CALC_ADDR_SCALED_USER(P->dest, HALF, LD_U) {
+d1219 1
+a1219 1
+    CALC_ADDR_SCALED_USER(P->dest, HALF, LD_U) {
+d1400 1
+a1400 1
+    CALC_ADDR_USER(P->dest, DWORD, ST) {
+d1408 1
+a1408 1
+    CALC_ADDR_USER(P->dest, WORD, ST) {
+d1415 1
+a1415 1
+    CALC_ADDR_USER(P->dest, HALF, ST) {
+d1422 1
+a1422 1
+    CALC_ADDR_USER(P->dest, BYTE, ST) {
+d1432 1
+a1432 1
+    CALC_ADDR_SCALED(P->dest, DWORD, ST) {
+d1439 1
+a1439 1
+    CALC_ADDR_SCALED(P->dest, WORD, ST) {
+d1445 1
+a1445 1
+    CALC_ADDR_SCALED(P->dest, HALF, ST) {
+d1452 1
+a1452 1
+    CALC_ADDR_SCALED_USER(P->dest, DWORD, ST) {
+d1460 1
+a1460 1
+    CALC_ADDR_SCALED_USER(P->dest, DWORD, ST) {
+d1468 1
+a1468 1
+    CALC_ADDR_SCALED_USER(P->dest, HALF, ST) {
+d1735 1
+a1735 1
+        if (sim_catch_exception[E_ERR + 512*usmode]) {
+a1741 1
+    CHKINT;
+@
+
+
+1.32
+log
+@Now or'in and and'off certain bits in the PSR based
+on what the Moto system V kernel expects.  Fixed a race
+condition with device interrupts.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.31 88/03/30 18:53:54 robertb Exp $
+d26 2
+a27 2
+#define SET_US_MODE             { us_mode = PSR_US_MODE; }
+#define USERMODE                (us_mode == M_USER)
+d138 1
+a138 1
+    p = (u_long)l_to_d(r_ip, us_mode); if (!p) GEN_CACC;} DISP_AFTER_BR; }
+d158 1
+a158 1
+        ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, us_mode);    \
+d176 1
+a176 1
+    ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, us_mode); \
+d221 1
+a221 1
+    int us_mode;                /* 0: user mode, 1: supervisor mode         */
+d240 1
+a240 1
+    fool_the_gh_compiler(us_mode, ex, always1, delayed_ip);
+d255 4
+d266 1
+a266 1
+    if ((p = (u_long)l_to_d(r_ip, us_mode)) == 0) {
+d288 1
+a288 1
+    if (decode(p, r_ip, us_mode)) {
+d948 1
+a948 1
+            if ((p = (u_long)l_to_d(r_ip, us_mode)) == 0) {
+d964 1
+a964 1
+    if ((p = (u_long)l_to_d(r_ip, us_mode)) == 0) {
+d1321 1
+a1321 1
+    p = (u_long)l_to_d(r_ip, us_mode);
+d1669 1
+a1669 1
+        if (!(p = (u_long)l_to_d(r_ip, us_mode))) {
+d1697 1
+a1697 1
+    if (sim_catch_exception[ex]) {
+d1706 1
+a1706 1
+        if (sim_catch_exception[E_ERR]) {
+d1747 1
+a1747 1
+    if (!l_to_d(SNIP & ~3, us_mode)) {
+d1751 1
+a1751 1
+    if (!l_to_d(SFIP & ~3, us_mode)) {
+d1756 1
+a1756 1
+    us_mode = M_SUPERVISOR;
+d1827 5
+@
+
+
+1.31
+log
+@Changed exception codes back so that internal codes match
+the exeception numbers that the user sees.  Also improved the
+action when an exception happens and the shadow registers
+are frozen.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.30 88/03/25 17:01:45 robertb Exp $
+d1252 1
+a1252 1
+    PSR = TPSR;
+d1710 1
+a1710 1
+    TPSR = PSR;
+d1713 7
+a1719 4
+    PSR |= 1;       /* Set the shadow register freeze bit.*/
+    PSR |= 0x80000000;  /* Set the S/U bit to supervisor.*/
+    PSR |= 8;       /* Disable FP unit. */
+    PSR |= 2;       /* Disable interrupts. */
+d1779 10
+@
+
+
+1.30
+log
+@Fixed bugs associated with making the internal exception numbers
+be one greater than the real 88k exception codes.
+Fixed the jsr.n instruction and the jsr instruction.
+Fixed the set instruction.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.29 88/03/19 10:25:54 robertb Exp $
+d1579 1
+a1579 1
+                GEN_EXCEPTION((int)(P->s2) + 1);
+d1589 1
+a1589 1
+        GEN_EXCEPTION((int)(P->s2) + 1);
+d1606 1
+a1606 1
+        GEN_EXCEPTION((int)(P->s2) + 1);
+a1699 6
+    sim_exception = E_NONE;
+
+    if (VERBOSE) {
+        sim_printf("exception %s occured at 0x%X\n", ex_name(ex), r_ip);
+    }
+    CHKINT;
+d1701 3
+a1703 5
+        sim_printf("exception %d occurred while shadow registers frozen.\n",
+                    ex);
+        if (err_exception_count++ > 3) {
+            sim_printf("giving up and returning contol to user ...\n");
+            cause = HOSED;
+d1707 11
+a1717 9
+    } else {
+        TPSR = PSR;
+        SSBR = SBR;
+        SBR = 0;
+        PSR |= 1;       /* Set the shadow register freeze bit.*/
+        PSR |= 0x80000000;  /* Set the S/U bit to supervisor.*/
+        PSR |= 8;       /* Disable FP unit. */
+        PSR |= 2;       /* Disable interrupts. */
+        SXIP = r_ip | 2;
+d1719 3
+a1721 3
+        if (ex == E_CACC) {
+            SXIP |= 1;
+        }
+d1723 20
+a1742 20
+        /*
+        * If we faulted on the instruction following a delayed 
+         * branch instruction, the SNIP will not follow the SXIP, but will 
+         * instead point to the branch target.
+         */
+        if (r_delayed_p) {
+            SNIP = delayed_ip | 2;
+            r_delayed_p = 0;
+        } else {
+            SNIP = SXIP + 4;
+        }
+        SFIP = SNIP + 4;
+    
+        /*
+         * See if the next instruction pointer and the fetched instruction
+         * pointer are valid.  If not, set their exception bits.
+         */
+        if (!l_to_d(SNIP & ~3, us_mode)) {
+            SNIP |= 1;
+        }
+d1744 2
+a1745 5
+        if (!l_to_d(SFIP & ~3, us_mode)) {
+            SFIP |= 1;
+        }
+
+        SSBR = 0;           /* No scoreboard in simulator */
+d1748 1
+d1752 1
+a1752 1
+    r_ip = VBR + (ex - 1) * 8;
+@
+
+
+1.29
+log
+@Fiddled with exception codes, changed 78 to 88
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.28 88/03/11 12:13:04 brents Exp $
+d957 1
+a957 2
+    regs[1] = r_ip + 4;
+
+d959 1
+d966 1
+d968 1
+a968 3
+
+    delayed_ip = DST & ~3;
+    delayed_p = P;
+d1326 1
+a1326 1
+        DST |= 0xffffffff << O5(SRC2);
+d1328 1
+a1328 1
+        DST |= ((1 << W5(SRC2)) - 1) << O5(SRC2);
+d1579 1
+a1579 1
+                GEN_EXCEPTION((int)(P->s2));
+d1589 1
+a1589 1
+        GEN_EXCEPTION((int)(P->s2));
+d1606 1
+a1606 1
+        GEN_EXCEPTION((int)(P->s2));
+@
+
+
+1.28
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+ * This executes 78000 instructions.
+d11 1
+a11 1
+ * $Header: execute.c,v 1.27 88/03/10 10:29:04 robertb Exp $
+d15 1
+a15 1
+#include "fields78.h"
+d133 1
+a133 1
+ * field has the logical 78000 address of the target.
+d137 1
+a137 1
+  if (!(p = (u_long)(P->s2))) {                                 \
+d152 1
+a152 1
+        ptr = (u_long)(TLB/**/_tlb_low[ptr >> 12] + (ptr & PAGE_MASK)); \
+d154 1
+a154 1
+            ptr = (u_long)(TLB/**/_tlb_high[(ptr >> 12) - TLB_HIGH_BASE] +\
+d158 2
+a159 2
+        if (ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, us_mode))\
+            goto gen_exception; else DISPATCH_NEXT; }                       \
+d168 2
+a169 2
+    if (ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, M_USER))     \
+        goto gen_exception; if (0) 
+d176 2
+a177 2
+    if (ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, us_mode))\
+        goto gen_exception; if (0) 
+d183 2
+a184 2
+    if (ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, M_USER))\
+        goto gen_exception; if (0) 
+d224 1
+a224 1
+        int ex;
+a228 1
+    extern int wrong_andc;
+d241 1
+a241 1
+    sim_interrupt_flag &= ~FRONT_END_INTERRUPT;
+d256 1
+a256 1
+    if (sim_exception) {
+d258 1
+a258 1
+                goto gen_exception_without_check;
+a272 2
+/*
+ * Bug in the GH compiler makes this test always pass
+a276 1
+ */
+d292 1
+a292 1
+     * in this 78000 simulator.
+d304 1
+a304 1
+     * We just executed an invalid 78000 opcode.  We raise an exception.
+d423 1
+a423 5
+    if (wrong_andc) {
+        DST = ~SRC1 & SRC2;
+    } else {
+        DST = SRC1 & ~SRC2;
+    } 
+d934 1
+a934 1
+    {   u_long dst = DST;
+d952 1
+a952 1
+    delayed_ip = DST;
+d959 1
+a959 1
+    r_ip = DST;
+d968 1
+a968 1
+    delayed_ip = DST;
+d1690 1
+a1690 1
+ * Exception processing for the 78000.
+d1701 1
+a1701 1
+    sim_exception = 0;
+d1761 1
+a1761 1
+    r_ip = VBR + ex * 8;
+d1765 1
+a1765 1
+        sim_printf("address %X, exception=%X", r_ip, ex);
+d1771 2
+a1772 2
+    if (sim_interrupt_flag & FRONT_END_INTERRUPT) {
+        sim_interrupt_flag &= ~FRONT_END_INTERRUPT;
+d1777 2
+a1778 2
+    if (sim_interrupt_flag & INTERNAL_INTERRUPT) {
+        sim_interrupt_flag &= ~INTERNAL_INTERRUPT;
+d1783 13
+a1795 2
+    if (sim_interrupt_flag & DEVICE_INTERRUPT) {
+        sim_interrupt_flag &= ~DEVICE_INTERRUPT;
+d1797 5
+@
+
+
+1.27
+log
+@Changed macros that look at psr bits to have a prepended PSR_.
+Added call to check_for_ce_interrupt() after instructions
+that might change the interrupt enable bit in the PSR.
+simplified CHKINT macro.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.26 88/02/28 14:41:50 robertb Exp $
+a1692 1
+    PSR |= 8;   /* Disable floating point unit */
+d1731 1
+@
+
+
+1.26
+log
+@Added sim_in_execution.  This is set when we are executing 78k
+instructions in sim().
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.25 88/02/23 13:54:00 robertb Exp $
+d24 1
+a24 3
+#define CHKINT  { if (sim_interrupt_flag)                              \
+                     if (sim_interrupt_flag != DEVICE_INTERRUPT ||     \
+                         (PSR & 2) == 0) goto interrupt_label; }
+d26 1
+a26 1
+#define SET_US_MODE             { us_mode = US_MODE; }
+d31 1
+a31 1
+#define EX_IF_FP_OFF            { if (!FP_UNIT_ON) goto fp_precise; }
+d160 1
+a160 1
+    if (ptr & (SIZE - 1))  if (MA_CHECK_ON) goto misaligned_access;         \
+d1458 1
+d1645 1
+@
+
+
+1.25
+log
+@Added kludge to get around GH compiler problem with the and.c
+instruction.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.24 88/02/22 11:57:03 robertb Exp $
+d258 1
+d1802 1
+@
+
+
+1.24
+log
+@Changed to using u_long, u_short and u_char.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.23 88/02/12 16:16:02 robertb Exp $
+d231 1
+d428 5
+a432 1
+    DST = SRC1 & ~SRC2;
+@
+
+
+1.23
+log
+@Added copyright notice.
+@
+text
+@d11 1
+a11 1
+ * $Header: execute.c,v 1.22 88/02/08 16:37:13 robertb Exp $
+d18 3
+a20 3
+{ if (x == y) i = 0x6a6; else { if (x < y) i = 0x66a; else i = 0x69a; }}			
+#define	GEN_GLOBAL_SYM(name, suffix)				\
+	{ asm(" .globl _sim_/**/name/**/suffix"); asm("_sim_/**/name/**/suffix:"); }
+d22 1
+a22 1
+#define	RETURN	{ if (always1) goto return_pt; }
+d24 1
+a24 1
+#define	CHKINT	{ if (sim_interrupt_flag)                              \
+d28 7
+a34 7
+#define	SET_US_MODE				{ us_mode = US_MODE; }
+#define	USERMODE				(us_mode == M_USER)
+#define	GEN_EXCEPTION(vector)	{ ex = vector; if (always1) goto gen_exception;}
+#define	GEN_CACC				{ if (always1) goto cacc; }
+#define	EX_IF_USER				{ if (USERMODE) goto prv; }
+#define EX_IF_FP_OFF			{ if (!FP_UNIT_ON) goto fp_precise; }
+#define	EX_IF_FP_ERR			{ if (fp_exception) goto fp_precise; }
+d36 4
+a39 4
+#define	CARRY_BIT				((PSR >> 28) & 1)
+#define	SET_CARRY				{ PSR |= 0x10000000; }
+#define	ZERO_CARRY				{ PSR &= 0xefffffff; }
+#define	P						((struct decoded_i *)p)
+d42 1
+a42 1
+ * Macros for treating the decoded operands as unsigned integers.
+d44 3
+a46 3
+#define SRC1		(*P->s1)
+#define	SRC2		(*P->s2)
+#define	DST			(*P->dest)
+d52 3
+a54 3
+#define	FSRC1		(*(float *)P->s1)
+#define	FSRC2		(*(float *)P->s2)
+#define	FDST		(*(float *)P->dest)
+d60 3
+a62 3
+#define	DSRC1		(*(double *)P->s1)
+#define	DSRC2		(*(double *)P->s2)
+#define	DDST		(*(double *)P->dest)
+d64 2
+a65 2
+#define	SET_FP_CREGS(s1, s2, dreg)	{ sfu1_regs[2] = s1; \
+	sfu1_regs[4] = s2; sfu1_regs[5] = dreg; }
+d67 1
+a67 1
+#define	REGNUM(regptr)	(regptr - &regs[0])
+d71 1
+a71 1
+#define	INC_D_IP			{ p += r_size; }
+d81 1
+a81 1
+#define L(x)					GEN_GLOBAL_SYM(x,_ss)
+d83 1
+a83 1
+#define	DISPATCH 				{(normal_to_ss(P))(); \
+d85 2
+a86 2
+#define	DISP_AFTER_BR			{ RETURN; }
+#define	DISP_AFTER_DELAYED_BR	{ INC_D_IP ; r_ip += 4; RETURN; }
+d92 2
+a93 2
+#define DISPATCH_NEXT 			{ if (r_delayed_p) goto delayed_br;		\
+								  INC_D_IP ; r_ip += 4; RETURN; }
+d95 1
+a95 1
+#define	SIM_FNAME		sim_ss
+d101 1
+a101 1
+#define	L(x)					GEN_GLOBAL_SYM(x,)
+d106 1
+a106 1
+#define	DISPATCH				{ (P->norm_e_addr)(); if (always1) goto top; }
+d112 1
+a112 1
+#define	DISP_AFTER_BR			{ CHKINT; DISPATCH; }
+d118 1
+a118 1
+#define	DISP_AFTER_DELAYED_BR	{ INC_D_IP ; r_ip += 4; DISPATCH; }
+d124 2
+a125 2
+#define DISPATCH_NEXT 			{ if (r_delayed_p) goto delayed_br; \
+					   			  INC_D_IP ; r_ip += 4; DISPATCH; }
+d127 1
+a127 1
+#define	SIM_FNAME		 sim
+d137 4
+a140 4
+#define TAKE_BRANCH 														\
+{ r_ip += P->literal;														\
+  if (!(p = (unsigned)(P->s2))) {									\
+	p = (unsigned)l_to_d(r_ip, us_mode); if (!p) GEN_CACC;} DISP_AFTER_BR; }
+d142 1
+a142 1
+#define	TAKE_DELAYED_BRANCH \
+d151 12
+a162 12
+#define	CALC_ADDR(REG_PTR, SIZE, MEM_OP_TYPE, TLB)							\
+	ptr = SRC1 + SRC2; 														\
+	if (ptr < LOW_TLB_RANGE)												\
+		ptr = (unsigned)(TLB/**/_tlb_low[ptr >> 12] + (ptr & PAGE_MASK));	\
+    else if (ptr >= HIGH_TLB_RANGE)											\
+			ptr = (unsigned)(TLB/**/_tlb_high[(ptr >> 12) - TLB_HIGH_BASE] +\
+													(ptr & PAGE_MASK));		\
+		 else ptr = 0;														\
+	if (ptr < PAGE_SIZE) { ip = r_ip;										\
+		if (ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, us_mode))\
+			goto gen_exception; else DISPATCH_NEXT; }						\
+	if (ptr & (SIZE - 1))  if (MA_CHECK_ON) goto misaligned_access;			\
+d169 3
+a171 3
+#define	CALC_ADDR_USER(REG_PTR, SIZE, MEM_OP_TYPE) ip = r_ip;				\
+	if (ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, M_USER))		\
+		goto gen_exception; if (0) 
+d177 3
+a179 3
+#define	CALC_ADDR_SCALED(REG_PTR, SIZE, MEM_OP_TYPE) ip = r_ip;				\
+	if (ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, us_mode))\
+		goto gen_exception; if (0) 
+d184 3
+a186 3
+#define	CALC_ADDR_SCALED_USER(REG_PTR, SIZE, MEM_OP_TYPE) ip = r_ip;		\
+	if (ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, M_USER))\
+		goto gen_exception; if (0) 
+d188 1
+a188 1
+#define	UNIMPLEMENTED { if (always1) goto unimplemented; }
+d195 10
+a204 10
+#define	SET_TLB_PTRS if (USERMODE) {					\
+	load_tlb_high  = &(u_load_tlb_high[0]);				\
+	load_tlb_low   = &(u_load_tlb_low[0]);				\
+	store_tlb_high = &(u_store_tlb_high[0]);			\
+	store_tlb_low  = &(u_store_tlb_low[0]); } else {	\
+														\
+	load_tlb_high  = &(s_load_tlb_high[0]);				\
+	load_tlb_low   = &(s_load_tlb_low[0]);				\
+	store_tlb_high = &(s_store_tlb_high[0]);			\
+	store_tlb_low  = &(s_store_tlb_low[0]); }
+d209 1
+a209 1
+	register struct decoded_i *r_delayed_p;
+d211 7
+a217 7
+	register unsigned p;		/* really a struct decoded_i *				*/
+	register int r_ip;			/* local copy of the instruction pointer.	*/
+	register char **load_tlb_low;	/* tlb covering low logical addresses.	*/
+	register char **store_tlb_low;	/* tlb covering low logical addresses.	*/
+	register unsigned ptr;		/* Gets both logical and pointer values.	*/
+	register unsigned r_size;	/* For fast incrementing of p				*/
+	register i;					/* misc temporary used exchanges and counter*/
+d219 2
+a220 2
+	char **load_tlb_high;		/* Doesn't need to be a register variable	*/
+	char **store_tlb_high;		/* Doesn't need to be a register variable	*/
+d222 4
+a225 4
+	int always1;				/* To help fool the GH compiler.			*/
+	int us_mode;				/* 0: user mode, 1: supervisor mode			*/
+	int s1, s2;
+	int s1_neg, s2_neg;
+d227 4
+a230 4
+	int both_pos, both_neg;
+	int res_neg;
+	int err_exception_count = 0;/* Counts E_ERR exceptions, we bail out >10	*/
+	int cause = NONE;
+d232 1
+a232 1
+	static struct decoded_i rte_decoded_i;	/* For RTE instruction.			*/
+d240 4
+a243 4
+	fool_the_gh_compiler(p, r_delayed_p, load_tlb_high, load_tlb_low, ptr);
+	fool_the_gh_compiler(store_tlb_low, store_tlb_high);
+	fool_the_gh_compiler(us_mode, ex, always1, delayed_ip);
+	sim_interrupt_flag &= ~FRONT_END_INTERRUPT;
+d245 3
+a247 3
+	if (regs[0]) {
+		sim_printf("fatal simulator error, r0=%X\n", regs[0]);
+	}
+d249 4
+a252 4
+	always1 = 1;
+	r_delayed_p = delayed_p;
+	r_ip = ip;
+	r_size = sizeof(struct decoded_i);
+d254 2
+a255 2
+	SET_US_MODE;
+	SET_TLB_PTRS;
+d257 2
+a258 2
+	if (sim_exception) {
+		ex = sim_exception;
+d260 1
+a260 1
+	}
+d263 4
+a266 4
+	if ((p = (unsigned)l_to_d(r_ip, us_mode)) == 0) {
+		GEN_CACC;
+	}
+	DISPATCH;
+d269 5
+a273 5
+	/*
+	 * We just tried to execute the instruction on the next page.
+	 * We need to set 'p' to point to the first decoded instruction
+	 * of the next page.
+	 */
+d276 4
+a279 4
+	if (r_ip & PAGE_MASK) {
+		sim_printf("end_of_page: internal fault, ip and decoded-ip out.\n");
+		sim_printf("of sync, r_ip=%X  p=%X\n", r_ip, p);
+	}
+d281 1
+a281 1
+	if (always1) goto redispatch_from_ip;
+d284 8
+a291 8
+	/*
+	 * We just tried to execute an instruction that has not yet
+	 * been decoded.  We decode it and then try it again.
+	 */
+	if (decode(p, r_ip, us_mode)) {
+		GEN_CACC;
+	}
+	DISPATCH;
+d294 5
+a298 5
+	/*
+	 * We just tried to execute an instruction that is not implemented
+	 * in this 78000 simulator.
+	 */
+	UNIMPLEMENTED;
+d301 4
+a304 4
+	/*
+	 * There was some problem in decoding the instruction.
+	 */
+	RETURN;
+d307 4
+a310 4
+	/*
+	 * We just executed an invalid 78000 opcode.  We raise an exception.
+	 */
+	GEN_EXCEPTION(E_OPC);
+d313 3
+a315 3
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = s1 + s2;
+d317 3
+a319 3
+	both_neg = (s1 & s2) >> 31;
+	both_pos = !((s1 | s2) >> 31);
+	res_neg = DST >> 31;
+d321 4
+a324 4
+	if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+d327 3
+a329 3
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = s1 + s2;
+d331 3
+a333 3
+	both_neg = (s1 & s2) >> 31;
+	both_pos = !((s1 | s2) >> 31);
+	res_neg = DST >> 31;
+d335 5
+a339 5
+	if (both_neg || (!res_neg && !both_pos)) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+d341 4
+a344 4
+	if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+d347 3
+a349 3
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = s1 + s2 + CARRY_BIT;
+d351 3
+a353 3
+	both_neg = (s1 & s2) >> 31;
+	both_pos = !((s1 | s2) >> 31);
+	res_neg = DST >> 31;
+d355 4
+a358 4
+	if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+d361 3
+a363 3
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = s1 + s2 + CARRY_BIT;
+d365 3
+a367 3
+	both_neg = (s1 & s2) >> 31;
+	both_pos = !((s1 | s2) >> 31);
+	res_neg = DST >> 31;
+d369 5
+a373 5
+	if (both_neg || (!res_neg && !both_pos)) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+d375 5
+a379 5
+	if ((both_neg && !res_neg) || (both_pos && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+	
+d381 2
+a382 2
+	DST = SRC1 + SRC2;
+	DISPATCH_NEXT;
+d385 3
+a387 3
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = s1 + s2;
+d389 3
+a391 3
+	both_neg = (s1 & s2) >> 31;
+	both_pos = !((s1 | s2) >> 31);
+	res_neg = DST >> 31;
+d393 6
+a398 6
+	if (both_neg || (!res_neg && !both_pos)) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+	DISPATCH_NEXT;
+d401 4
+a404 4
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = s1 + s2 + CARRY_BIT;
+	DISPATCH_NEXT;
+d407 3
+a409 3
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = s1 + s2 + CARRY_BIT;
+d411 3
+a413 3
+	both_neg = (s1 & s2) >> 31;
+	both_pos = !((s1 | s2) >> 31);
+	res_neg = DST >> 31;
+d415 7
+a421 7
+	if (both_neg || (!res_neg && !both_pos)) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+	DISPATCH_NEXT;
+	
+d423 3
+a425 3
+	DST = SRC1 & SRC2;
+	DISPATCH_NEXT;
+	
+d427 2
+a428 2
+	DST = SRC1 & ~SRC2;
+	DISPATCH_NEXT;
+d431 4
+a434 4
+	if (SRC1 == 0) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d437 4
+a440 4
+	if (SRC1 != 0) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d443 4
+a446 4
+	if ((int)SRC1 > 0) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d449 4
+a452 4
+	if ((int)SRC1 < 0) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d455 4
+a458 4
+	if ((int)SRC1 >= 0) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d461 4
+a464 4
+	if ((int)SRC1 <= 0) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d470 7
+a476 7
+	{ int cc_index;
+	  cc_index = ((SRC1 >> 30) & 2) | ((SRC1 & 0x7fffffff) == 0);
+	  if (((int)(P->dest) >> cc_index) & 1) {
+		TAKE_BRANCH;
+	  }
+	}
+	DISPATCH_NEXT;
+d479 4
+a482 4
+	if ((int)SRC1 == 0) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d485 4
+a488 4
+	if ((int)SRC1 != 0) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d491 4
+a494 4
+	if ((int)SRC1 > 0) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d497 4
+a500 4
+	if ((int)SRC1 < 0) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d503 4
+a506 4
+	if ((int)SRC1 >= 0) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d509 4
+a512 4
+	if ((int)SRC1 <= 0) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d518 7
+a524 7
+	{ int cc_index;
+	  cc_index = ((SRC1 >> 30) & 2) | ((SRC1 & 0x7fffffff) == 0);
+	  if (((int)(P->dest) >> cc_index) & 1) {
+		TAKE_DELAYED_BRANCH;
+	  }
+	}
+	DISPATCH_NEXT;
+d527 1
+a527 1
+	TAKE_BRANCH;
+d530 1
+a530 1
+	TAKE_DELAYED_BRANCH;
+d533 4
+a536 4
+	if ((SRC1 & (int)(P->dest)) == 0) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d539 4
+a542 4
+	if ((SRC1 & (int)(P->dest)) == 0) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d545 4
+a548 4
+	if (SRC1 & (int)(P->dest)) {
+		TAKE_BRANCH;
+	}
+	DISPATCH_NEXT;
+d551 4
+a554 4
+	if (SRC1 & (int)(P->dest)) {
+		TAKE_DELAYED_BRANCH;
+	}
+	DISPATCH_NEXT;
+d557 2
+a558 2
+	regs[1] = r_ip + 4;
+	TAKE_BRANCH;
+d561 2
+a562 2
+	regs[1] = r_ip + 8;
+	TAKE_DELAYED_BRANCH;
+d565 6
+a570 6
+	if (W5(SRC2) == 0) {
+		DST = SRC1 & ~(0xffffffff << O5(SRC2));
+	} else {
+		DST = SRC1 & ~(((1 << W5(SRC2)) - 1) << O5(SRC2));
+	}
+	DISPATCH_NEXT;
+d573 11
+a583 11
+	if (SRC1 == SRC2) {
+		DST = 0xaa4;
+	} else {
+		/*
+		 * First we figure out the unsigned bits.
+		 */
+		if (SRC1 > SRC2) {
+			DST = 0x908;
+		} else {
+			DST = 0x608;
+		}
+d585 10
+a594 10
+		/*
+		 * Then we or in the signed bits.
+		 */
+		if ((int)SRC1 > (int)SRC2) {
+			DST |= 0x90;
+		} else {
+			DST |= 0x60;
+		}
+	}
+	DISPATCH_NEXT;
+d597 7
+a603 7
+	EX_IF_FP_OFF;
+	if ((int)SRC1 < 0 || (int)SRC2 <= 0) {
+		SET_FP_CREGS(SRC1, SRC2, REGNUM(P->dest));
+		GEN_EXCEPTION(E_IDE);
+	}
+	DST = (int)SRC1 / (int)SRC2;
+	DISPATCH_NEXT;
+d606 7
+a612 7
+	EX_IF_FP_OFF;
+	if (SRC2 == 0) {
+		SET_FP_CREGS(SRC1, SRC2, REGNUM(P->dest));
+		GEN_EXCEPTION(E_IDE);
+	}
+	DST = SRC1 / SRC2;
+	DISPATCH_NEXT;
+d615 7
+a621 7
+	if (W5(SRC2) == 0) {
+		DST = SRC1 >> O5(SRC2);
+	} else {
+		int left_sh_cnt = 32 - (O5(SRC2) + W5(SRC2));
+		DST = (SRC1 << left_sh_cnt) >> (O5(SRC2) + left_sh_cnt);
+	}
+	DISPATCH_NEXT;
+d624 6
+a629 6
+	if (W5(SRC2) == 0) {
+		DST = SRC1 >> O5(SRC2);
+	} else {
+		DST = (SRC1 >> O5(SRC2)) & ((1 << W5(SRC2)) - 1);
+	}
+	DISPATCH_NEXT;
+d632 4
+a635 4
+	EX_IF_FP_OFF;
+	FDST = FSRC1 + FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d638 4
+a641 4
+	EX_IF_FP_OFF;
+	FDST = FSRC1 + DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d644 4
+a647 4
+	EX_IF_FP_OFF;
+	FDST = DSRC1 + FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d650 4
+a653 4
+	EX_IF_FP_OFF;
+	FDST = DSRC1 + DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d656 4
+a659 4
+	EX_IF_FP_OFF;
+	DDST = FSRC1 + FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d662 4
+a665 4
+	EX_IF_FP_OFF;
+	DDST = FSRC1 + DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d668 4
+a671 4
+	EX_IF_FP_OFF;
+	DDST = DSRC1 + FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d674 4
+a677 4
+	EX_IF_FP_OFF;
+	DDST = DSRC1 + DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d680 5
+a684 5
+	EX_IF_FP_OFF;
+	FCMP(FSRC1, FSRC2);
+	DST = i;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d687 5
+a691 5
+	EX_IF_FP_OFF;
+	FCMP(FSRC1, DSRC2);
+	DST = i;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d694 5
+a698 5
+	EX_IF_FP_OFF;
+	FCMP(DSRC1, FSRC2);
+	DST = i;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d701 5
+a705 5
+	EX_IF_FP_OFF;
+	FCMP(DSRC1, DSRC2);
+	DST = i;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d708 7
+a714 7
+	EX_IF_FP_OFF;
+	if (FSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	FDST = FSRC1 / FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d717 7
+a723 7
+	EX_IF_FP_OFF;
+	if (DSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	FDST = FSRC1 / DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d726 7
+a732 7
+	EX_IF_FP_OFF;
+	if (FSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	FDST = DSRC1 / FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d735 7
+a741 7
+	EX_IF_FP_OFF;
+	if (DSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	FDST = DSRC1 / DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d744 7
+a750 7
+	EX_IF_FP_OFF;
+	if (FSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	DDST = FSRC1 / FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d753 7
+a759 7
+	EX_IF_FP_OFF;
+	if (DSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	DDST = FSRC1 / DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d762 7
+a768 7
+	EX_IF_FP_OFF;
+	if (FSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	DDST = DSRC1 / FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d771 7
+a777 7
+	EX_IF_FP_OFF;
+	if (DSRC2 == 0.0) {
+		GEN_EXCEPTION(E_IDE);
+	}
+	DDST = DSRC1 / DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d780 9
+a788 9
+	for (i = 31 ; i > 0 ; i--) {
+		if (((SRC2 >> i) & 1) == 0) {
+			DST = i;
+			DISPATCH_NEXT;
+		}
+	}
+	DST = 32;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d791 9
+a799 9
+	for (i = 31 ; i > 0 ; i--) {
+		if (((SRC2 >> i) & 1) == 1) {
+			DST = i;
+			DISPATCH_NEXT;
+		}
+	}
+	DST = 32;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d806 4
+a809 4
+	EX_IF_FP_OFF;
+	FDST = (float)SRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d812 4
+a815 4
+	EX_IF_FP_OFF;
+	DDST = (double)SRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d818 4
+a821 4
+	EX_IF_FP_OFF;
+	FDST = FSRC1 * FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d824 4
+a827 4
+	EX_IF_FP_OFF;
+	FDST = FSRC1 * DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d830 4
+a833 4
+	EX_IF_FP_OFF;
+	FDST = DSRC1 * FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d836 4
+a839 4
+	EX_IF_FP_OFF;
+	FDST = DSRC1 * DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d842 4
+a845 4
+	EX_IF_FP_OFF;
+	DDST = FSRC1 * FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d848 4
+a851 4
+	EX_IF_FP_OFF;
+	DDST = FSRC1 * DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d854 4
+a857 4
+	EX_IF_FP_OFF;
+	DDST = DSRC1 * FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d860 4
+a863 4
+	EX_IF_FP_OFF;
+	DDST = DSRC1 * DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d870 4
+a873 4
+	EX_IF_FP_OFF;
+	FDST = FSRC1 - FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d876 4
+a879 4
+	EX_IF_FP_OFF;
+	FDST = FSRC1 - DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d882 4
+a885 4
+	EX_IF_FP_OFF;
+	FDST = DSRC1 - FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d888 4
+a891 4
+	EX_IF_FP_OFF;
+	FDST = DSRC1 - DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d894 4
+a897 4
+	EX_IF_FP_OFF;
+	DDST = FSRC1 - FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d900 4
+a903 4
+	EX_IF_FP_OFF;
+	DDST = FSRC1 - DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d906 4
+a909 4
+	EX_IF_FP_OFF;
+	DDST = DSRC1 - FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d912 4
+a915 4
+	EX_IF_FP_OFF;
+	DDST = DSRC1 - DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d922 4
+a925 4
+	EX_IF_FP_OFF;
+	DST = (int)FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d928 4
+a931 4
+	EX_IF_FP_OFF;
+	DST = (int)DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d934 20
+a953 20
+	/*
+	 * The jmp target is on-page, do a quick calculation to
+	 * find the new decoded pointer.
+	 */
+	{   unsigned dst = DST;
+		if ((dst & ~PAGE_MASK) == (r_ip & ~PAGE_MASK)) {
+			if (dst > r_ip) {
+				p += ((dst - r_ip) >> 2) * r_size;
+			} else {
+				p -= ((r_ip - dst) >> 2) * r_size;
+			}
+			r_ip = dst;
+		} else {
+			r_ip = dst;
+			if ((p = (unsigned)l_to_d(r_ip, us_mode)) == 0) {
+				GEN_CACC;
+			}
+		}
+	}
+	DISP_AFTER_BR;
+d956 3
+a958 3
+	delayed_ip = DST;
+	r_delayed_p = P;
+	DISP_AFTER_DELAYED_BR;
+d961 1
+a961 1
+	regs[1] = r_ip + 4;
+d963 5
+a967 5
+	r_ip = DST;
+	if ((p = (unsigned)l_to_d(r_ip, us_mode)) == 0) {
+		GEN_CACC;
+	}
+	DISP_AFTER_BR;
+d970 1
+a970 1
+	regs[1] = r_ip + 8;
+d972 3
+a974 3
+	delayed_ip = DST;
+	delayed_p = P;
+	DISP_AFTER_DELAYED_BR;
+d981 7
+a987 7
+	CALC_ADDR(P->dest, DWORD, LD, load) {
+		DST = *(unsigned *)ptr;
+		*(P->dest + 1) = *(unsigned *)(ptr + 4);
+		regs[0] = 0;	/* Zer0 r0 in case this was a double load of r0 */
+		regs[32] = 0;	/* Zero r32 in case this was a double load of r31 */
+	}
+	DISPATCH_NEXT;
+d990 2
+a991 2
+	DST = SRC1 + (SRC2 << 3);
+	DISPATCH_NEXT;
+d994 2
+a995 2
+	DST = SRC1 + (SRC2 << 2);
+	DISPATCH_NEXT;
+d998 2
+a999 2
+	DST = SRC1 + (SRC2 << 1);
+	DISPATCH_NEXT;
+d1002 4
+a1005 4
+	CALC_ADDR(P->dest, WORD, LD, load) {
+		DST = *(unsigned *)ptr;
+	}
+	DISPATCH_NEXT;
+d1008 4
+a1011 4
+	CALC_ADDR(P->dest, HALF, LD, load) {
+		DST = *(short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1014 4
+a1017 4
+	CALC_ADDR(P->dest, BYTE, LD, load) {
+		DST = *(char *)ptr;
+	}
+	DISPATCH_NEXT;
+d1020 6
+a1025 6
+	CALC_ADDR(P->dest, WORD, XMEM, load) {
+		i = *(unsigned char *)ptr;
+		*(unsigned char *)ptr = DST;
+		DST = i;
+	}
+	DISPATCH_NEXT;
+d1028 6
+a1033 6
+	CALC_ADDR(P->dest, WORD, XMEM, load) {
+		i = *(unsigned *)ptr;
+		*(unsigned *)ptr = DST;
+		DST = i;
+	}
+	DISPATCH_NEXT;
+d1036 4
+a1039 4
+	CALC_ADDR(P->dest, HALF, LD_U, load) {
+		DST = *(unsigned short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1042 4
+a1045 4
+	CALC_ADDR(P->dest, BYTE, LD_U, load) {
+		DST = *(unsigned char *)ptr;
+	}
+	DISPATCH_NEXT;
+d1048 8
+a1055 8
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, DWORD, LD) {
+		DST = *(unsigned *)ptr;
+		*(P->dest + 1) = *(unsigned *)(ptr + 4);
+		regs[0] = 0;	/* Zer0 r0 in case this was a double load of r0 */
+		regs[32] = 0;	/* Zero r32 in case this was a double load of r31 */
+	}
+	DISPATCH_NEXT;
+d1058 5
+a1062 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, WORD, LD) {
+		DST = *(unsigned *)ptr;
+	}
+	DISPATCH_NEXT;
+d1065 5
+a1069 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, HALF, LD) {
+		DST = *(short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1072 5
+a1076 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, BYTE, LD) {
+		DST = *(char *)ptr;
+	}
+	DISPATCH_NEXT;
+d1079 7
+a1085 7
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, WORD, XMEM) {
+		i = *(unsigned char *)ptr;
+		*(unsigned char *)ptr = DST;
+		DST = i;
+	}
+	DISPATCH_NEXT;
+d1088 7
+a1094 7
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, WORD, XMEM) {
+		i = *(unsigned *)ptr;
+		*(unsigned *)ptr = DST;
+		DST = i;
+	}
+	DISPATCH_NEXT;
+d1097 5
+a1101 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, HALF, LD_U) {
+		DST = *(unsigned short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1104 5
+a1108 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, BYTE, LD_U) {
+		DST = *(unsigned char *)ptr;
+	}
+	DISPATCH_NEXT;
+d1115 7
+a1121 7
+	CALC_ADDR_SCALED(P->dest, DWORD, LD) {
+		DST = *(unsigned *)ptr;
+		*(P->dest + 1) = *(unsigned *)(ptr + 4);
+		regs[0] = 0;	/* Zer0 r0 in case this was a double load of r0 */
+		regs[32] = 0;	/* Zero r32 in case this was a double load of r31 */
+	}
+	DISPATCH_NEXT;
+d1124 4
+a1127 4
+	CALC_ADDR_SCALED(P->dest, WORD, LD) {
+		DST = *(unsigned *)ptr;
+	}
+	DISPATCH_NEXT;
+d1130 4
+a1133 4
+	CALC_ADDR_SCALED(P->dest, HALF, LD) {
+		DST = *(short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1136 6
+a1141 6
+	CALC_ADDR_SCALED(P->dest, WORD, XMEM) {
+		i = *(unsigned *)ptr;
+		*(unsigned *)ptr = DST;
+		DST = i;
+	}
+	DISPATCH_NEXT;
+d1144 4
+a1147 4
+	CALC_ADDR_SCALED(P->dest, HALF, LD_U) {
+		DST = *(unsigned short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1150 8
+a1157 8
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, DWORD, LD) {
+		DST = *(unsigned *)ptr;
+		*(P->dest + 1) = *(unsigned *)(ptr + 4);
+		regs[0] = 0;	/* Zer0 r0 in case this was a double load of r0 */
+		regs[32] = 0;	/* Zero r32 in case this was a double load of r31 */
+	}
+	DISPATCH_NEXT;
+d1160 5
+a1164 5
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, WORD, LD) {
+		DST = *(unsigned *)ptr;
+	}
+	DISPATCH_NEXT;
+d1167 5
+a1171 5
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, HALF, LD) {
+		DST = *(short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1174 7
+a1180 7
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, WORD, XMEM) {
+		i = *(unsigned *)ptr;
+		*(unsigned *)ptr = DST;
+		DST = i;
+	}
+	DISPATCH_NEXT;
+d1183 5
+a1187 5
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, HALF, LD_U) {
+		DST = *(unsigned short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1190 5
+a1194 5
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, HALF, LD_U) {
+		DST = *(unsigned short *)ptr;
+	}
+	DISPATCH_NEXT;
+d1197 5
+a1201 5
+	if (P->literal && USERMODE) {
+		GEN_EXCEPTION(E_PRV);
+	}
+	DST = SRC1;
+	DISPATCH_NEXT;
+d1204 6
+a1209 6
+	if (W5(SRC2) == 0) {
+		DST = SRC1 << O5(SRC2);
+	} else {
+		DST = (SRC1 & ((1 << W5(SRC2)) - 1)) << O5(SRC2);
+	}
+	DISPATCH_NEXT;
+d1215 3
+a1217 3
+	EX_IF_FP_OFF;
+	DST = SRC1 * SRC2;
+	DISPATCH_NEXT;
+d1220 4
+a1223 4
+	EX_IF_FP_OFF;
+	DST = (int)FSRC1;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d1226 4
+a1229 4
+	EX_IF_FP_OFF;
+	DST = (int)DSRC1;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d1232 2
+a1233 2
+	DST = SRC1 | SRC2;
+	DISPATCH_NEXT;
+d1236 2
+a1237 2
+	DST = SRC1 | ~SRC2;
+	DISPATCH_NEXT;
+d1240 4
+a1243 4
+	for (i = 0 ; i < O5(SRC2) ; i++) {
+		DST = (DST >> 1) | (DST & 1) << 31;
+	}
+	DISPATCH_NEXT;
+d1246 9
+a1254 9
+	if (VERBOSE) {
+		sim_printf("Executing RTE at 0x%X  ", r_ip);
+	}
+	EX_IF_USER;
+	if (SSBR != 0) {
+		sim_printf("SSBR not 0 on RTE at 0x%X\n", r_ip);
+		cause = HOSED;
+		goto return_pt;
+	}
+d1256 10
+a1265 10
+	SBR = SSBR;
+	PSR = TPSR;
+	/*
+	 * If the valid and exception bits in the shadow-next-instruction
+	 * pointer are both set, generate a code access fault.
+	 */
+	if (SNIP & 3 == 3) {
+		r_ip = SNIP & ~3;
+		GEN_CACC;
+	}
+d1267 61
+a1327 61
+	if (SNIP & 2) {
+		r_ip = SNIP & ~3;
+		if (VERBOSE) {
+			sim_printf("using SNIP, next instr at 0x%X\n", r_ip);
+		}
+		if ((SFIP & 3) == 3) {
+			ip = r_ip;
+			sim_ss();
+			GEN_CACC;
+		}
+		if (SFIP & 2 && (SFIP & ~3) != ((SNIP & ~3) + 4)) {
+			/*
+			 * Both the shadow-next-instruction pointer and the
+			 * shadow fetched-instruction pointer are valid and
+			 * fetched-instruction pointer does not point to the
+			 * instruction following the one pointed to by the
+			 * shadow-next-instruction pointer.
+			 *
+			 * So we first have to execute the one pointed to by
+			 * the shadow-next-instruction pointer and then
+			 * jump to the one pointed to by the shadow-fetched-
+			 * instruction pointer.
+			 *
+			 * We use the delayed-instruction facility to do this.
+			 * We point r_delayed_p at a decoded instruction structure
+			 * with a zero s2 field.  When the delayed branch code
+			 * dereferences r_delayed_p and sees this zero, it will
+			 * requalify the decoded-instruction pointer, p, by
+			 * translating r_delayed_ip into a decoded pointer.
+			 */
+			delayed_ip = SFIP & ~3;
+			rte_decoded_i.s2 = (unsigned *)0;
+			r_delayed_p = &rte_decoded_i;
+			if (VERBOSE) {
+				sim_printf("After instr at 0x%X will execute instr at 0x%X\n",
+								r_ip, delayed_ip);
+			}
+		}
+	} else {
+		if (SFIP & 2) {
+			r_ip = SFIP & ~3;
+			if (VERBOSE) {
+				sim_printf("using SFIP, next instr at 0x%X\n", r_ip);
+			}
+			if (SFIP & 1) {
+				GEN_CACC;
+			}
+		} else {
+			r_ip = (SFIP & ~3) + 4;
+			sim_printf("rte: SNIP and SFIP are not valid, new ip=%X\n", r_ip);
+			RETURN;
+		}
+	}
+	SET_US_MODE;
+	SET_TLB_PTRS;
+	p = (unsigned)l_to_d(r_ip, us_mode);
+	if (!p) {
+		sim_printf("rte is raising code access exception.\n");
+		GEN_CACC;
+	}
+	DISP_AFTER_BR;
+d1330 6
+a1335 6
+	if (W5(SRC2) == 0) {
+		DST |= 0xffffffff << O5(SRC2);
+	} else {
+		DST |= ((1 << W5(SRC2)) - 1) << O5(SRC2);
+	}
+	DISPATCH_NEXT;
+d1342 5
+a1346 5
+	CALC_ADDR(P->dest, DWORD, ST, store) {
+		*(unsigned *)ptr = DST;
+		*(unsigned *)(ptr + 4) = *(P->dest + 1);
+	}
+	DISPATCH_NEXT;
+d1349 4
+a1352 4
+	CALC_ADDR(P->dest, WORD, ST, store) {
+		*(unsigned *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1355 4
+a1358 4
+	CALC_ADDR(P->dest, HALF, ST, store) {
+		*(short *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1361 4
+a1364 4
+	CALC_ADDR(P->dest, BYTE, ST, store) {
+		*(char *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1371 6
+a1376 6
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, DWORD, ST) {
+		*(unsigned *)ptr = DST;
+		*(unsigned *)(ptr + 4) = *(P->dest + 1);
+	}
+	DISPATCH_NEXT;
+d1379 5
+a1383 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, WORD, ST) {
+		*(unsigned *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1386 5
+a1390 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, HALF, ST) {
+		*(short *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1393 5
+a1397 5
+	EX_IF_USER;
+	CALC_ADDR_USER(P->dest, BYTE, ST) {
+		*(char *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1404 5
+a1408 5
+	CALC_ADDR_SCALED(P->dest, DWORD, ST) {
+		*(unsigned *)ptr = DST;
+		*(unsigned *)(ptr + 4) = *(P->dest + 1);
+	}
+	DISPATCH_NEXT;
+d1411 4
+a1414 4
+	CALC_ADDR_SCALED(P->dest, WORD, ST) {
+		*(unsigned *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1417 4
+a1420 4
+	CALC_ADDR_SCALED(P->dest, HALF, ST) {
+		*(short *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1423 6
+a1428 6
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, DWORD, ST) {
+		*(unsigned *)ptr = DST;
+		*(unsigned *)(ptr + 4) = *(P->dest + 1);
+	}
+	DISPATCH_NEXT;
+d1431 6
+a1436 6
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, DWORD, ST) {
+		*(unsigned *)ptr = DST;
+		*(unsigned *)(ptr + 4) = *(P->dest + 1);
+	}
+	DISPATCH_NEXT;
+d1439 5
+a1443 5
+	EX_IF_USER;
+	CALC_ADDR_SCALED_USER(P->dest, HALF, ST) {
+		*(short *)ptr = DST;
+	}
+	DISPATCH_NEXT;
+d1449 8
+a1456 8
+	if (P->literal && USERMODE) {
+		GEN_EXCEPTION(E_PRV);
+	}
+	DST = SRC1;
+	fixup_control_regs();
+	SET_US_MODE;
+	SET_TLB_PTRS;
+	DISPATCH_NEXT;
+d1459 4
+a1462 4
+	s1 = SRC1;
+	s2 = SRC2;
+	s1_neg = s1 >> 31;
+	s2_neg = s2 >> 31;
+d1464 2
+a1465 2
+	DST = s1 - s2;
+	res_neg = DST >> 31;
+d1467 5
+a1471 5
+	if ((s1_neg && !s2_neg && !res_neg) ||
+		(!s1_neg && s2_neg && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+d1474 4
+a1477 4
+	s1 = SRC1;
+	s2 = SRC2;
+	s1_neg = s1 >> 31;
+	s2_neg = s2 >> 31;
+d1479 2
+a1480 2
+	DST = s1 - s2;
+	res_neg = DST >> 31;
+d1482 5
+a1486 5
+	if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+d1488 5
+a1492 5
+	if ((s1_neg && !s2_neg && !res_neg) ||
+		(!s1_neg && s2_neg && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+d1495 4
+a1498 4
+	s1 = SRC1;
+	s2 = SRC2;
+	s1_neg = s1 >> 31;
+	s2_neg = s2 >> 31;
+d1500 2
+a1501 2
+	DST = (s1 - s2) + CARRY_BIT;
+	res_neg = DST >> 31;
+d1503 5
+a1507 5
+	if ((s1_neg && !s2_neg && !res_neg) ||
+		(!s1_neg && s2_neg && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+d1510 4
+a1513 4
+	s1 = SRC1;
+	s2 = SRC2;
+	s1_neg = s1 >> 31;
+	s2_neg = s2 >> 31;
+d1515 2
+a1516 2
+	DST = (s1 - s2) + CARRY_BIT;
+	res_neg = DST >> 31;
+d1518 5
+a1522 5
+	if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+d1524 6
+a1529 6
+	if ((s1_neg && !s2_neg && !res_neg) ||
+		(!s1_neg && s2_neg && res_neg)) {
+		GEN_EXCEPTION(E_IOV);
+	}
+	DISPATCH_NEXT;
+	
+d1531 2
+a1532 2
+	DST = SRC1 - SRC2;
+	DISPATCH_NEXT;
+d1535 4
+a1538 4
+	s1 = SRC1;
+	s2 = SRC2;
+	s1_neg = s1 >> 31;
+	s2_neg = s2 >> 31;
+d1540 2
+a1541 2
+	DST = s1 - s2;
+	res_neg = DST >> 31;
+d1543 6
+a1548 6
+	if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+	DISPATCH_NEXT;
+d1551 4
+a1554 4
+	s1 = SRC1;
+	s2 = SRC2;
+	DST = (s1 - s2) + CARRY_BIT;
+	DISPATCH_NEXT;
+d1557 4
+a1560 4
+	s1 = SRC1;
+	s2 = SRC2;
+	s1_neg = s1 >> 31;
+	s2_neg = s2 >> 31;
+d1562 2
+a1563 2
+	DST = (s1 - s2) + CARRY_BIT;
+	res_neg = DST >> 31;
+d1565 7
+a1571 7
+	if ((s1_neg && s1_neg) || (res_neg && (!(s1_neg) || !(s2_neg)))) {
+		SET_CARRY;
+	} else {
+		ZERO_CARRY;
+	}
+	DISPATCH_NEXT;
+	
+d1573 8
+a1580 8
+	if ((SRC1 & (int)(P->dest)) == 0) {
+		if (USERMODE && (int)(P->s2) < 128) {
+			GEN_EXCEPTION(E_PRV);
+		}
+		switch ((int)(P->s2)) {
+			case 131: /* breakpoint trap */
+				cause = BREAKPOINT;
+				RETURN;
+d1582 5
+a1586 5
+			default:
+				GEN_EXCEPTION((int)(P->s2));
+		}
+	}
+	DISPATCH_NEXT;
+d1589 7
+a1595 7
+	if ((SRC1 & (int)(P->dest)) == 1) {
+		if (USERMODE && (int)(P->s2) < 128) {
+			GEN_EXCEPTION(E_PRV);
+		}
+		GEN_EXCEPTION((int)(P->s2));
+	}
+	DISPATCH_NEXT;
+d1598 4
+a1601 4
+	if (SRC1 > SRC2) {
+		GEN_EXCEPTION(E_BND);
+	}
+	DISPATCH_NEXT;
+d1604 10
+a1613 10
+	{ int cc_index;
+	  cc_index = ((SRC1 >> 30) & 2) | ((SRC1 & 0x7fffffff) == 0);
+	  if (((int)(P->dest) >> cc_index) & 1) {
+		if (USERMODE && (int)(P->s2) < 128) {
+			GEN_EXCEPTION(E_PRV);
+		}
+		GEN_EXCEPTION((int)(P->s2));
+	  }
+	}
+	DISPATCH_NEXT;
+d1616 4
+a1619 4
+	EX_IF_FP_OFF;
+	DST = FSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d1622 4
+a1625 4
+	EX_IF_FP_OFF;
+	DST = DSRC2;
+	EX_IF_FP_ERR;
+	DISPATCH_NEXT;
+d1633 11
+a1643 11
+	if (P->literal && USERMODE) {
+		GEN_EXCEPTION(E_PRV);
+	}
+	i = SRC1;
+	DST = SRC2;
+	SRC2 = i;
+	fixup_control_regs();
+	regs[0] = 0;		/* In case r0 got modified. */
+	SET_US_MODE;
+	SET_TLB_PTRS;
+	DISPATCH_NEXT;
+d1646 2
+a1647 2
+	DST = SRC1 ^ SRC2;
+	DISPATCH_NEXT;
+d1650 2
+a1651 2
+	DST = SRC1 ^ ~SRC2;
+	DISPATCH_NEXT;
+d1654 2
+a1655 2
+	sim_printf("instruction not implemented in simulator.");
+	RETURN;
+d1665 9
+a1673 9
+	r_ip = delayed_ip;
+	if (!(p = (unsigned)(r_delayed_p->s2))) {
+		r_delayed_p = (struct decoded_i *)0;
+		if (!(p = (unsigned)l_to_d(r_ip, us_mode))) {
+			GEN_CACC;
+		}
+	};
+	r_delayed_p = (struct decoded_i *)0;
+	DISP_AFTER_BR;
+d1676 1
+a1676 1
+	GEN_EXCEPTION(E_PRV);
+d1679 1
+a1679 1
+	GEN_EXCEPTION(E_CACC);
+d1683 2
+a1684 2
+	ex = E_MA;
+	goto gen_exception;
+d1687 4
+a1690 4
+	PSR |= 8;	/* Disable floating point unit */
+	fp_exception = 0;
+	ex = E_FP;
+	goto gen_exception;
+d1696 5
+a1700 5
+	sim_exception = ex;
+	if (sim_catch_exception[ex]) {
+		cause = CAUGHT_EXCEPTION;
+		RETURN;
+	}
+d1704 1
+a1704 1
+	sim_exception = 0;
+d1706 21
+a1726 21
+	if (VERBOSE) {
+		sim_printf("exception %s occured at 0x%X\n", ex_name(ex), r_ip);
+	}
+	CHKINT;
+	if (PSR & 1) {
+		sim_printf("exception %d occurred while shadow registers frozen.\n",
+					ex);
+		if (err_exception_count++ > 3) {
+			sim_printf("giving up and returning contol to user ...\n");
+			cause = HOSED;
+			RETURN;
+		}
+		ex = E_ERR;
+	} else {
+		TPSR = PSR;
+		SSBR = SBR;
+		SBR = 0;
+		PSR |= 1;		/* Set the shadow register freeze bit.*/
+		PSR |= 0x80000000;	/* Set the S/U bit to supervisor.*/
+		PSR |= 8;		/* Disable FP unit. */
+		SXIP = r_ip | 2;
+d1728 3
+a1730 3
+		if (ex == E_CACC) {
+			SXIP |= 1;
+		}
+d1732 20
+a1751 20
+		/*
+	 	* If we faulted on the instruction following a delayed 
+		 * branch instruction, the SNIP will not follow the SXIP, but will 
+		 * instead point to the branch target.
+		 */
+		if (r_delayed_p) {
+			SNIP = delayed_ip | 2;
+			r_delayed_p = 0;
+		} else {
+			SNIP = SXIP + 4;
+		}
+		SFIP = SNIP + 4;
+	
+		/*
+		 * See if the next instruction pointer and the fetched instruction
+		 * pointer are valid.  If not, set their exception bits.
+		 */
+		if (!l_to_d(SNIP & ~3, us_mode)) {
+			SNIP |= 1;
+		}
+d1753 3
+a1755 3
+		if (!l_to_d(SFIP & ~3, us_mode)) {
+			SFIP |= 1;
+		}
+d1757 2
+a1758 2
+		SSBR = 0;			/* No scoreboard in simulator */
+	}
+d1760 2
+a1761 2
+	us_mode = M_SUPERVISOR;
+	SET_TLB_PTRS;
+d1763 8
+a1770 8
+	r_ip = VBR + ex * 8;
+	p = (unsigned)l_to_d(r_ip, M_SUPERVISOR);
+	if (!p) {
+		sim_printf("Code fault trying to execute exception vector at\n");
+		sim_printf("address %X, exception=%X", r_ip, ex);
+		RETURN;
+	}
+	DISP_AFTER_BR;
+d1773 5
+a1777 5
+	if (sim_interrupt_flag & FRONT_END_INTERRUPT) {
+		sim_interrupt_flag &= ~FRONT_END_INTERRUPT;
+		cause = INTERRUPT;
+		goto return_pt;
+	}
+d1779 5
+a1783 5
+	if (sim_interrupt_flag & INTERNAL_INTERRUPT) {
+		sim_interrupt_flag &= ~INTERNAL_INTERRUPT;
+		cause = INTERRUPT;
+		goto return_pt;
+	}
+d1785 4
+a1788 4
+	if (sim_interrupt_flag & DEVICE_INTERRUPT) {
+		sim_interrupt_flag &= ~DEVICE_INTERRUPT;
+		GEN_EXCEPTION(E_INT);
+	}
+d1790 1
+a1790 1
+	sim_printf("Unknown interrupt, sim_interrupt_flag=0x%X\n", 
+d1792 2
+a1793 2
+	sim_interrupt_flag = 0;
+	cause = HOSED;
+d1797 4
+a1800 4
+	/*
+	 * If we are single stepping we need to check to see if a device
+	 * interrupt is pending before we return.
+	 */
+d1802 1
+a1802 1
+	CHKINT;
+d1805 5
+a1809 5
+	/*
+	 * Copy our local variable copy of the instruction pointer
+	 * to the global that the debugger reads.
+	 */
+	ip = r_ip;
+d1811 6
+a1816 6
+	/*
+	 * Copy our local variable copy of the decoded-delayed-branch
+	 * pointer to the global so that when we start up next we
+	 * will execute properly.
+	 */
+	delayed_p = r_delayed_p;
+d1818 3
+a1820 3
+	if (regs[0]) {
+		sim_printf("fatal simulator error, r0=%X\n", regs[0]);
+	}
+d1822 1
+a1822 1
+	return cause;
+@
+
+
+1.22
+log
+@We now check the shadow scoreboard register before doing an RTE,
+to make sure that it is zero.  We return to the front end if it
+is not zero.  We set the scoreboard register when we get a DMU fault
+now.
+@
+text
+@a0 1
+/* $Header: execute.c,v 1.21 88/02/04 14:23:17 robertb Exp $ */
+d7 5
+d1722 1
+@
+
+
+1.21
+log
+@Added code to set the destination register field of the FPU control
+register number 5 on divide exceptions
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.20 88/01/18 19:20:54 robertb Exp $ */
+d1246 7
+d1717 1
+@
+
+
+1.20
+log
+@Fixed bug where the SFD1 bit was not being set on an exception.
+Also made div and divu generate FP precise exceptions if the FPU is
+off.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.19 88/01/15 11:04:59 robertb Exp $ */
+d60 4
+d595 1
+d604 1
+@
+
+
+1.19
+log
+@Fixed fsub.ddd and flt.ss.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.18 88/01/13 22:30:57 robertb Exp $ */
+d589 1
+d597 1
+d1704 3
+a1706 2
+		PSR |= 1;			/* Set the shadow register freeze bit.	*/
+		PSR |= 0x80000000;	/* Set the S/U bit to supervisor.		*/
+@
+
+
+1.18
+log
+@Added the facility for catching exceptions selectively.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.17 88/01/12 19:19:06 robertb Exp $ */
+d795 1
+a795 1
+	DDST = (float)SRC2;
+@
+
+
+1.17
+log
+@Commented out a check which the GH compiler incorrectly generates
+code for.  The GH compiler optimizes away most of an expression
+in the conditional part of an if statement.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.16 88/01/11 10:24:03 andrew Exp $ */
+a213 1
+	int ex;						/* Exception code.							*/
+d218 1
+d249 5
+d1677 10
+@
+
+
+1.16
+log
+@Fix div: if either operand is negative, trap.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.15 88/01/02 11:07:29 robertb Exp $ */
+d261 2
+d267 1
+@
+
+
+1.15
+log
+@Now checks interrupt-enable bit in PSR when checking for interrupts.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.14 87/12/10 20:28:13 robertb Exp $ */
+d581 1
+a581 1
+	if (SRC2 == 0) {
+@
+
+
+1.14
+log
+@Fixed bug with single stepping over an RTE with SNIP != SFIP + 4.
+Also made the verbose mode of the simulator more verbose.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.13 87/12/03 20:08:37 robertb Exp $ */
+d20 3
+a22 1
+#define	CHKINT	{ if (sim_interrupt_flag) goto interrupt_label; }
+@
+
+
+1.13
+log
+@Introduced optimization for the jmp instruction.
+If the target of the jmp is on page, we don't have to call l_to_d.
+@
+text
+@d1 1
+a1 1
+/* $Header: execute.c,v 1.12 87/11/23 14:30:15 timd Exp $ */
+d222 2
+a223 1
+	struct decoded_i rte_decoded_i;	/* For RTE instruction.					*/
+d1224 3
+d1240 3
+d1271 4
+d1279 3
+a1646 3
+	if (VERBOSE) {
+		sim_printf("privilege violation.\n");
+	}
+a1649 3
+	if (VERBOSE) {
+		sim_printf("code access fault.\n");
+	}
+a1653 3
+	if (VERBOSE) {
+		sim_printf("misaligned access at address %X\n", ptr);
+	}
+a1658 3
+	if (VERBOSE) {
+		sim_printf("floating point precise exception.\n");
+	}
+d1667 3
+@
+
+
+1.12
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d911 18
+a928 3
+	r_ip = DST;
+	if ((p = (unsigned)l_to_d(r_ip, us_mode)) == 0) {
+		GEN_CACC;
+d1236 5
+@
+
+
+1.11
+log
+@Got rid of kludge (that didn't work anyway) to use new GH compiler.
+Fixed bugs with FP conversion instructions (was using S1 instead of
+S2).
+Now check for FP exception after every FP instruction.
+@
+text
+@d1 1
+a1 1
+
+@
+
+
+1.10
+log
+@kludged around problem in GH compiler with asm inserts
+@
+text
+@d16 1
+a16 1
+	{ asm("^ .globl _sim_/**/name/**/suffix"); asm("^_sim_/**/name/**/suffix:"); }
+d28 1
+d611 1
+d617 1
+d623 1
+d629 1
+d635 1
+d641 1
+d647 1
+d653 1
+d660 1
+d667 1
+d674 1
+d681 1
+d690 1
+d699 1
+d708 1
+d717 1
+d726 1
+d735 1
+d744 1
+d753 1
+d764 1
+d775 1
+d784 2
+a785 1
+	DDST = (float)SRC1;
+d790 2
+a791 1
+	DDST = (double)SRC1;
+d797 1
+d803 1
+d809 1
+d815 1
+d821 1
+d827 1
+d833 1
+d839 1
+d849 1
+d855 1
+d861 1
+d867 1
+d873 1
+d879 1
+d885 1
+d891 1
+d900 2
+a901 1
+	DST = (int)FSRC1;
+d906 2
+a907 1
+	DST = (int)DSRC1;
+d1184 1
+d1190 1
+d1553 3
+a1555 1
+	DST = FSRC1;
+d1560 2
+a1561 1
+	DST = DSRC1;
+d1633 1
+d1637 1
+@
+
+
+1.9
+log
+@Eliminated ss_e_addr field in decoded_i structure
+@
+text
+@d16 1
+a16 1
+	{ asm(" .globl _sim_/**/name/**/suffix"); asm("_sim_/**/name/**/suffix:"); }
+@
+
+
+1.8
+log
+@See changes_nov_13.doc
+@
+text
+@d72 2
+a73 1
+#define	DISPATCH 				{(P->ss_e_addr)(); if (always1) goto top; }
+@
+
+
+1.7
+log
+@added ability to have devices generate interrupt exceptions.
+@
+text
+@d147 1
+a147 1
+	if (ptr < PAGE_SIZE) { 													\
+d157 1
+a157 1
+#define	CALC_ADDR_USER(REG_PTR, SIZE, MEM_OP_TYPE)							\
+d165 1
+a165 1
+#define	CALC_ADDR_SCALED(REG_PTR, SIZE, MEM_OP_TYPE)						\
+d172 1
+a172 1
+#define	CALC_ADDR_SCALED_USER(REG_PTR, SIZE, MEM_OP_TYPE)					\
+@
+
+
+1.6
+log
+@see changes_10_11.doc
+@
+text
+@d20 1
+a20 1
+#define	CHKINT	{ if (mkfault) goto interrupt_label; }
+a226 1
+	mkfault = 0;
+d230 1
+d1655 5
+a1659 2
+	cause = INTERRUPT;
+	goto return_pt;
+d1661 16
+d1680 8
+a1702 6
+
+	/*
+	 * In case we stopped because of a control-C, we zero the
+	 * flag that told us to return.
+	 */
+	mkfault = 0;
+@
+
+
+1.5
+log
+@Added scaled lda instructions.
+@
+text
+@a11 1
+#include "exception.h"
+@
+
+
+1.4
+log
+@Added code to return the interrupt reason as the value of
+sim() and sim_ss().
+@
+text
+@d908 12
+@
+
+
+1.3
+log
+@Added checks to the fp instructions to see if the floating point
+unit is enabled.  Fixed up exception stuff a little.
+@
+text
+@d21 1
+a21 1
+#define	CHKINT	{ if (mkfault) goto return_pt; }
+d195 1
+a195 1
+void
+d219 1
+d1459 1
+d1589 1
+d1643 4
+d1671 2
+@
+
+
+1.2
+log
+@tweaked exception handling code to match manual better.
+@
+text
+@d28 1
+d607 1
+d612 1
+d617 1
+d622 1
+d627 1
+d632 1
+d637 1
+d642 1
+d647 1
+d653 1
+d659 1
+d665 1
+d671 1
+d679 1
+d687 1
+d695 1
+d703 1
+d711 1
+d719 1
+d727 1
+d759 1
+d764 1
+d769 1
+d774 1
+d779 1
+d784 1
+d789 1
+d794 1
+d799 1
+d804 1
+d813 1
+d818 1
+d823 1
+d828 1
+d833 1
+d838 1
+d843 1
+d848 1
+d857 1
+d862 1
+d1121 1
+d1126 1
+d1131 1
+a1459 8
+			case 290:
+				sim_putchar(regs[2]);
+				break;
+
+			case 291:
+				regs[2] = getchar();
+				break;
+
+d1498 1
+d1570 7
+d1585 1
+a1585 1
+		if (err_exception_count++ > 10) {
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d1542 1
+a1542 1
+			sim_printf("giving up ...\n");
+d1548 2
+a1586 1
+	PSR |= 0x800001fb;
+@

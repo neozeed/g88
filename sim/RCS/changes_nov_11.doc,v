@@ -1,0 +1,141 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.02.12.16.14.11;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.11.22.30.39;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Describes changes made to the simulator and front end today.
+@
+
+
+1.2
+log
+@Added copyright notice and rcs header.
+@
+text
+@
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * $Header: $
+
+Date: Wed, 11 Nov 87 16:23:15 PST
+From: robertb
+To: 78tools
+Fcc: outbox
+Subject: new ad78 and d78, some new commands
+
+
+For d78, the dbx front end ...
+
+There is a new command "listi" that is just like "list".  Listi will,
+in addition to printing source lines, print the instructions associated
+with the source lines.  
+
+A leading zero on a number now means that the number is hexadecimal.
+It used to mean octal.  "0x" is still allowed for hex.  Nobody uses
+octal any more and the user is constantly using both hex (for
+addresses) and decimal (for line numbers).  The "0x" is burdensome to
+type in.  You can still set $hexin and $octin to make the scanner
+interpret all numbers typed by the user that do not have a "0", "0x",
+or "0t" prefix to interpreted as hex or octal respectively.
+
+There is a new command "pio" that prints information on IO devices.
+Its takes a list of expressions, just like "print", and interprets them
+as IO addresses.  Each device in the simulator now has a routine that
+can be called by the dbx front end.  The only interesting such routine
+is the one for the cmmu's.  Try "pio 0fff00000".
+
+
+
+For both front ends ...
+
+The drastic slowdown in execution that Brent experienced when executing
+out of the ROM should be fixed.
+
+The status register in two of the cmmu's is now set to indicate a Mbus
+r/w error when an attempt is made to access non-existent memory.  The
+two cmmu's selected to have their status register updated is selected
+by bits 12 and 13 of the addresses location, as in the real hardware.
+Unlike the real hardware, for the time being, both the code and data
+cmmu's status registers are written.  All the funny codes for bus
+errors on table walking are no supported.  This is going to change soon
+in the real CMMU so I'd like to wait and just implement the new operation.
+Also I doubt that we are writting any code that will use this information.
+
+	Rob
+
+
+To: 78tools
+Fcc: outbox
+Subject: Another round of simulators ...
+-------
+
+There are new versions of ad78 and d78.
+
+The changes:
+
+  1. There is now a command "dev" in d78 that prints a list of
+     all the IO devices and their addresses.  It also shows a
+     small integer for each device.  This is called the device's
+     index.  The index can be used with the pio command.
+
+  2. The "stepi" and "nexti" commands now single step properly
+     on exception-generating instruction.  It had been executing 
+     too many instructions in these cases.
+
+  3. The bug that Tim Dale reported where 
+
+           print Uut->Ctr[0].Bits.PhyAddr
+
+     would crash d78 is fixed.
+    
+  4. The "nexti" command should work properly with delayed bsr's
+     (i.e., bsr.n) again.
+
+  5. The exception status field of the status register in the cmmu's
+     now should be just as the current manual says.  In my last mail
+     I said that I was going to wait for the changes that Motorola
+     plans to make in this field.  However, Tim Dale needs to the
+     information contain in it.  When the new definition is available
+     it won't take long to change the simulator to match it (maybe
+     1/2 hour).
+
+  6. The "pio" command can now take either an address, as before, or
+     a device index.  You can see the device indices with the "dev"
+     command.  Try "pio 4".
+
+  7. Accesses of cmmu registers with byte or half word instructions will
+     cause a warning message to be displayed.  The real hardware will
+     be confused by these accesses and so I thought it would be good
+     to check for this.
+
+I wrote code to initialize the cmmu's, a segment table, and a page
+table for kernel initialization.  As a test, I then have it read and
+write a bunch of pages.  This all works and I found and fixed a number
+of bugs in the cmmu simulator in getting it working.  No doubt there
+are a few bugs left that you will run into.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 5
+@

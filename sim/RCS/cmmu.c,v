@@ -1,0 +1,4433 @@
+head     1.34;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.34
+date     90.12.29.21.28.40;  author robertb;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     90.06.30.18.07.31;  author robertb;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     90.04.29.19.12.13;  author robertb;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     89.08.28.11.55.56;  author robertb;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     88.12.28.11.19.12;  author andrew;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     88.12.21.15.33.11;  author andrew;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     88.10.14.13.11.19;  author andrew;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     88.09.19.21.02.07;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     88.07.13.21.42.26;  author robertb;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     88.06.28.16.42.28;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.06.09.17.59.50;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.04.30.22.58.01;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.04.29.17.05.16;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.04.28.10.35.34;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.04.14.17.15.06;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.04.08.21.27.56;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.03.25.15.58.49;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.03.10.10.27.27;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.02.25.14.34.28;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.02.24.20.08.57;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.02.23.13.52.14;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.19.22.00.46;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.02.12.16.52.16;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.12.16.12.24;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.01.15.11.05.57;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.12.18.16.53.26;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.12.11.19.48.57;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.12.01.22.24.53;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.23.14.39.53;  author timd;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.11.22.26.11;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.09.22.38.47;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.04.14.28.18;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.10.28.15.47.22;  author brents;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.32.50;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.34
+log
+@Moved sim_v_to_p() to simgdb.c, spiffed up copyright.
+@
+text
+@/* 88200 CMMU simulator.  *
+ * Copyright (c) 1987, 1988, Tektronix Inc.  
+
+    It may freely be redistributed and modified so long as the copyright
+    notices and credit attributions remain intact.
+
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/sim/RCS/cmmu.c,v 1.33 90/06/30 18:07:31 robertb Exp Locker: robertb $ 
+ */
+#include "sim.h"
+#include "cmmu.h"
+#include "io.h"
+
+#define CMMUMAX (8)
+struct cmmu_registers *cmmu_table[CMMUMAX];
+
+/*
+ * This maps the 2 bits of logical address in A12 and A13 to
+ * a cmmu number in 0..7 based on the cmmu configuration
+ * as described by 'cmmus'.
+ */
+u_long cmmu_number_table[CMMUMAX];
+
+static int wp;
+
+int last_global;
+int last_writethru;
+int last_cacheinhibit;
+int last_writeprotect;
+
+u_long cmmus;
+#define	SIMCMMU	"simcmmu"
+
+/*
+ * This converts a one-word structure to an unsigned integer.
+ * On a 68020, this is a no-op.  But on a machine where integer
+ * parameters are passed in registers an structures are passed in
+ * memory, this function would have a structure-typed formal parameter
+ * and return an unsigned:
+ */
+u_long s_to_u(x)
+   struct d { u_long e; } *x;
+{
+   return x->e;
+}
+
+/*
+ * These converts the other way, from u_long's to structures.
+ */
+struct segment_descriptor u_to_sd(x)
+    u_long x;
+{
+    union { u_long i; struct segment_descriptor sd; } u;
+    u.i = x;
+    return u.sd;
+}
+
+struct page_descriptor u_to_pd(x)
+    u_long x;
+{
+    union { u_long i; struct page_descriptor pd; } u;
+    u.i = x;
+    return u.pd;
+}
+
+struct area_descriptor u_to_ad(x)
+    u_long x;
+{
+    union { u_long i; struct area_descriptor ad; } u;
+    u.i = x;
+    return u.ad;
+}
+
+u_long sctr_to_u(s)
+    struct cmmu_sctr s;
+{
+    union { u_long i; struct cmmu_sctr sctr; } u;
+    u.sctr = s;
+    return u.i;
+}
+
+struct cmmu_sctr u_to_sctr(i)
+    u_long i;
+{
+    union { u_long i; struct cmmu_sctr sctr; } u;
+    u.i = i;
+    return u.sctr;
+}
+
+/*
+ * This translates a logical 88000 address to a physical 88000 address.
+ * It an exception code to say if the translation was successful.
+ */
+int
+l_to_p(usmode, logical_address, physical_address, cmmu, read_or_write)
+    int usmode;
+    u_long logical_address;
+    u_long *physical_address;
+    int      cmmu;
+    int      read_or_write;
+{
+#define DACC_OR_CACC    (cmmu < 4 ? E_DACC : E_CACC)
+
+    u_long segment_base;
+    u_long segment_number;
+    u_long page_number;
+    u_long page_base;
+    u_long page_frame_address;
+    u_long page_offset;
+    struct cmmu_registers *cmmu_regs;
+    int i;
+
+    if (!(cmmus & (1 << cmmu))) {
+        err("l_to_p: cmmu not active\n", __LINE__, __FILE__);
+    }
+
+    /* This next line is new for the multi-processor simulator.
+       We no longer support more than one code and one data CMMU per
+       processor (though it would be easy to add back in).  So the
+       choice of CMMU is based on whether we are loading code or
+       accessing data and the selected CPU. -rcb 6/90 */
+
+    cmmu = selected_processor + ((cmmu >= 4) ? 4 : 0);
+
+    cmmu_regs = cmmu_table[cmmu];
+    *physical_address = 0;
+    last_writeprotect = 0;
+    cmmu_regs->batc.valid = 0;
+    /*
+     * Check the hardwired BATC ports for control memory first.
+     */
+    if (usmode == M_SUPERVISOR && 
+       (logical_address & 0xfff00000) == 0xfff00000) {
+        *physical_address = logical_address;
+        cmmu_regs->batc.valid = 1;
+
+        last_writeprotect = cmmu_regs->batc.writeprotect = 0;
+        last_cacheinhibit = cmmu_regs->batc.cacheinhibit  = 1;
+        last_global       = cmmu_regs->batc.global        = 0;
+        last_writethru    = cmmu_regs->batc.writethru     = 1;
+
+        cmmu_regs->batc.supervisor = 1;
+        cmmu_regs->batc.p_base_address = 
+                                 0x1ffe | ((logical_address >> 19) & 1);
+        cmmu_regs->batc.l_base_address = 
+                                 0x1ffe | ((logical_address >> 19) & 1);
+        cmmu_regs->segment_descriptor_address = -1;
+        return E_NONE;
+    }
+
+
+    /*
+     * Fetch the area descriptor out of the CMMU page.
+     */
+    if (usmode == M_USER) {
+        cmmu_regs->area_descriptor = cmmu_regs->uapr;
+    } else {
+        cmmu_regs->area_descriptor = cmmu_regs->sapr;
+    }
+
+    /*
+     * Save away information in case we are tracing execution or
+     * we are doing a probe command.
+     */
+    last_cacheinhibit = cmmu_regs->area_descriptor.cacheinhibit;
+    last_global       = cmmu_regs->area_descriptor.global;
+    last_writethru    = cmmu_regs->area_descriptor.writethru;
+
+    /*
+     * If the segment table is not valid, make a straight-thru mapping.
+     */
+    if (!cmmu_regs->area_descriptor.valid) {
+        cmmu_regs->segment_descriptor_address = -1;
+        *physical_address = logical_address;
+        return E_NONE;
+    }
+
+    /*
+     * Search the BATC for valid entries that have the
+     * same user/supervisor mode as that passed to us.  And its
+     * logical address must match that passed to us in the top
+     * 13 bits.
+     */
+    for (i = 0 ; i <= 7 ; i++) {
+        struct cmmu_batc *b = &(cmmu_regs->bwp[i]);
+        if (b->valid &&
+            b->l_base_address == logical_address >> 19 &&
+            b->supervisor == usmode) {
+            
+            cmmu_regs->batc = *b;
+            *physical_address = (b->p_base_address << 19) | 
+                                (logical_address & 0x7ffff);
+
+            cmmu_regs->segment_descriptor_address = -1;
+
+            last_cacheinhibit |= b->cacheinhibit;
+            last_global       |= b->global;
+            last_writethru    |= b->writethru;
+            last_writeprotect  = b->writeprotect;
+
+            if (last_writeprotect && read_or_write == WRITE) {
+                return DACC_OR_CACC;
+            } else {
+                return E_NONE;
+            }
+        }
+    }
+
+    segment_base = cmmu_regs->area_descriptor.segment_table_base * PAGESIZE;
+    segment_number = btos(logical_address);
+    cmmu_regs->segment_descriptor_address = segment_base + segment_number * 4;
+    cmmu_regs->segment_descriptor = 
+                   u_to_sd(read_sim_w(cmmu_regs->segment_descriptor_address));
+    if (sim_errno) {
+        cmmu_regs->page_descriptor_address = -1;
+        cmmu_regs->lsr.faultcode = 3;
+        return DACC_OR_CACC;
+    }
+
+    /*
+     * If the segment descriptor is not valid, return.
+     */
+    if (!cmmu_regs->segment_descriptor.valid) {
+        cmmu_regs->page_descriptor_address = -1;
+        cmmu_regs->lsr.faultcode = 4;
+        return DACC_OR_CACC;
+    }
+
+    last_cacheinhibit |= cmmu_regs->segment_descriptor.cacheinhibit;
+    last_global       |= cmmu_regs->segment_descriptor.global;
+    last_writethru    |= cmmu_regs->segment_descriptor.writethru;
+
+    /*
+     * If the segment is supervisor-only and the mode of access is user,
+     * then return with a not-translatable status.
+     */
+    if (usmode == M_USER && cmmu_regs->segment_descriptor.supervisor_only) {
+        cmmu_regs->page_descriptor_address = -1;
+        cmmu_regs->lsr.faultcode = 6;
+        return DACC_OR_CACC;
+    }
+
+    page_base = cmmu_regs->segment_descriptor.page_table_base * PAGESIZE;
+    page_number = (logical_address >> 12) & 0x3ff;
+    cmmu_regs->page_descriptor_address = page_base + page_number * 4;
+    cmmu_regs->page_descriptor = 
+                      u_to_pd(read_sim_w(cmmu_regs->page_descriptor_address));
+    if (sim_errno) {
+        cmmu_regs->lsr.faultcode = 3;
+        return DACC_OR_CACC;
+    }
+
+    /*
+     * If the page descriptor is not valid, return with not-translatable
+     * status.
+     */
+    if (!cmmu_regs->page_descriptor.valid) {
+        cmmu_regs->lsr.faultcode = 5;
+        return DACC_OR_CACC;
+    }
+
+    /*
+     * If the page is supervisor-only and the mode of access is user,
+     * return with a not-translatable status.
+     */
+    if (usmode == M_USER && cmmu_regs->page_descriptor.supervisor_only) {
+        cmmu_regs->lsr.faultcode = 6;
+        return DACC_OR_CACC;
+    }
+
+    page_frame_address = cmmu_regs->page_descriptor.page_frame_base * PAGESIZE;
+    page_offset = poff(logical_address);
+    *physical_address = page_frame_address + page_offset;
+
+    last_writeprotect = cmmu_regs->segment_descriptor.writeprotect | 
+         cmmu_regs->page_descriptor.writeprotect;
+
+    if (read_or_write == WRITE) {
+        /*
+         * If the write-protect bits in either the segment descriptor
+         * of the page descriptor are set and a write is attempted,
+         * return an exception.
+         */
+        if (last_writeprotect) {
+            cmmu_regs->lsr.faultcode = 7;
+            return DACC_OR_CACC;
+        }
+        /*
+         * Update the modified and used bits in the page descriptor.
+         */
+        cmmu_regs->page_descriptor.modified = 1;
+        cmmu_regs->page_descriptor.used = 1;
+        write_sim_w(cmmu_regs->page_descriptor_address, 
+                    s_to_u(&cmmu_regs->page_descriptor));
+        if (sim_errno) {
+            cmmu_regs->lsr.faultcode = 3;
+        };
+    } else {
+        /*
+         * Update the used bit in the page descriptor.
+         */
+        cmmu_regs->page_descriptor.used = 1;
+        write_sim_w(cmmu_regs->page_descriptor_address, 
+                    s_to_u(&cmmu_regs->page_descriptor));
+        if (sim_errno) {
+            cmmu_regs->lsr.faultcode = 3;
+        };
+    }
+
+    last_cacheinhibit |= cmmu_regs->page_descriptor.cacheinhibit;
+    last_global       |= cmmu_regs->page_descriptor.global;
+    last_writethru    |= cmmu_regs->page_descriptor.writethru;
+
+    return E_NONE;
+
+#undef  DACC_OR_CACC
+}
+
+       
+/*
+ * Called the first time that cmmu_init() is called.
+ */
+init_cmmu_vars()
+{ 
+    int i, n;
+
+    cmmus = varvalue(SIMCMMU);
+    if (cmmus > 255) {
+      sim_printf("error, $%s not valid, must be in 0..255\n", SIMCMMU);
+      cmmus = 0;
+    }
+    if (cmmus == 0) {
+        cmmus = 0xff;
+        setvar(SIMCMMU, cmmus);
+    }
+    for (i = 0 ; i < 8 ; i += 4) {
+        switch ((cmmus >> i) & 0xf) {
+            /*
+             * These are the cases of 1 CMMU being plugged in.
+             */
+            case 1:  for (n = 0;n < 4;n++) cmmu_number_table[i+n] = i+0; break;
+            case 2:  for (n = 0;n < 4;n++) cmmu_number_table[i+n] = i+1; break;
+            case 4:  for (n = 0;n < 4;n++) cmmu_number_table[i+n] = i+2; break;
+            case 8:  for (n = 0;n < 4;n++) cmmu_number_table[i+n] = i+3; break;
+
+            /*
+             * These are the cases of 2 CMMU's being plugged in.
+             */
+            case 3:
+                cmmu_number_table[i+0] = i;
+                cmmu_number_table[i+1] = i + 1;
+                cmmu_number_table[i+2] = i;
+                cmmu_number_table[i+3] = i + 1;
+                break;
+
+            case 0xc:
+                cmmu_number_table[i+0] = i;
+                cmmu_number_table[i+1] = i + 1;
+                cmmu_number_table[i+2] = i;
+                cmmu_number_table[i+3] = i + 1;
+                break;
+
+            /*
+             * This is the case of all 4 CMMU's being plugged in.
+             */
+            case 15: for (n = 0;n < 4;n++) cmmu_number_table[i+n] = i+n; break;
+
+            default:
+                sim_printf("init_cmmu_vars: invalid cmmu configuration\n");
+                exit(1);
+            
+        }
+    }
+}
+
+/*
+ * Called once for each cmmu that is in the io table at initialization.
+ */
+cmmu_init(cmmu)
+{
+    struct cmmu_registers *p;
+    int i;
+
+    init_cmmu_vars(); /* This is called more than once, but that's ok */
+    /*
+     * If this cmmu isn't plugged in, let the init routine for it know.
+     */
+    if (!(cmmus & (1 << cmmu))) {
+        return -1;
+    }
+
+    p = cmmu_table[cmmu];
+    if (!p) {
+        p = (struct cmmu_registers *)sbrk(sizeof(struct cmmu_registers));
+        if (!p) {
+            sim_printf("cmmu: unable to sbrk for cmmu_registers.\n");
+            exit(1);
+        }
+        cmmu_table[cmmu] = p;
+    } else {
+        bzero(p, sizeof(struct cmmu_registers));
+    }
+
+    p->idr.id = cmmu;
+    p->idr.type = 5;
+    p->idr.version = 0;
+
+    p->sapr.cacheinhibit = 1;
+    p->uapr.cacheinhibit = 1;
+    p->clkvr = 0x3f0fc000;  /* */
+    for (i = 0 ; i < 256 ; i++) {
+        p->cache_clkvr[i] = p->clkvr;
+    }
+    p->page_descriptor_address = -1;
+    p->segment_descriptor_address = -1;
+    p->page_descriptor = u_to_pd(-1);
+    p->segment_descriptor = u_to_sd(-1);
+    p->area_descriptor = u_to_ad(-1);
+
+    return 0;
+}
+
+/*
+ * These routines used to call io_change_addr if cmmu_init didn't return
+ * -1.  This is wrong, because reads and writes to non-existent CMMUs do not
+ * cause DACCs.  Writes are ignored.  There is no good reason to do a read or
+ * xmem, so these will continue to print an error message and cause a DACC, for
+ * software development purposes.
+ */
+void
+data_cmmu_0_init()
+{
+    (void) cmmu_init(0);
+}
+
+/*
+ */
+void
+data_cmmu_1_init()
+{
+    (void) cmmu_init(1);
+}
+
+/*
+ */
+void
+data_cmmu_2_init()
+{
+    (void) cmmu_init(2);
+}
+
+/*
+ */
+void
+data_cmmu_3_init()
+{
+    (void) cmmu_init(3);
+}
+
+/*
+ */
+void
+code_cmmu_0_init()
+{
+    (void) cmmu_init(4);
+}
+
+/*
+ */
+void
+code_cmmu_1_init()
+{
+    (void) cmmu_init(5);
+}
+
+/*
+ */
+void
+code_cmmu_2_init()
+{
+    (void) cmmu_init(6);
+}
+
+/*
+ */
+void
+code_cmmu_3_init()
+{
+    (void) cmmu_init(7);
+}
+
+/*
+ * This prints the registers of a CMMU in an informative way for the user.
+ */
+void
+cmmu_print(cmmu)
+    int cmmu;
+{
+    struct cmmu_registers *cmmu_regs;
+    u_long i, first;
+
+    if (!(cmmus & (1 << cmmu))) {
+        sim_printf("cmmu %d: not active\n", cmmu);
+        return;
+    }
+
+    cmmu_regs = cmmu_table[cmmu];
+
+    sim_printf("cmmu %d:  idr=0x%08x  scmr=0x%08x  ssr=0x%08x  sadr=0x%08x\n",
+                  cmmu, 
+                  s_to_u(&cmmu_regs->idr),
+                  s_to_u(&cmmu_regs->scmr), 
+                  s_to_u(&cmmu_regs->ssr),
+                  s_to_u(&cmmu_regs->sadr));
+
+    sim_printf("          lsr=0x%x  ladr=0x%x\n",
+                                s_to_u(&cmmu_regs->lsr), cmmu_regs->ladr);
+
+    sim_printf("          sapr=0x%08x uapr=0x%08x\n", 
+                            s_to_u(&cmmu_regs->sapr), s_to_u(&cmmu_regs->uapr));
+
+    sim_printf("last area descriptor=0x%08x\n", 
+                                     s_to_u(&cmmu_regs->area_descriptor));
+
+    /*
+     * If the segment descriptor address is -1, it means that it,
+     * the segment descriptor itself, and the page descriptor and its
+     * address are not valid.  In this case we don't display them.
+     */
+    if (cmmu_regs->segment_descriptor_address != -1) {
+        sim_printf("last segment descriptor=0x%08x fetched from 0x%08x\n", 
+                s_to_u(&cmmu_regs->segment_descriptor), 
+                cmmu_regs->segment_descriptor_address);
+
+        if (cmmu_regs->page_descriptor_address != -1) {
+            sim_printf("last page descriptor=0x%08x fetched from 0x%08x\n", 
+                        s_to_u(&cmmu_regs->page_descriptor), 
+                        cmmu_regs->page_descriptor_address);
+        }
+    }
+
+    /*
+     * Display any non-zero batc entries.
+     */
+    first = 1;
+    for (i = 0 ; i < 8 ; i++) {
+        struct cmmu_batc *b = &cmmu_regs->bwp[i];
+        if (b->valid) {
+            if (first) {
+                sim_printf("port #   logical       physical      raw value\n");
+                first = 0;
+            }
+            sim_printf("  %d      0x%08x    0x%08x    0x%08x\n",
+                          i, 
+                          b->l_base_address << 19,
+                          b->p_base_address << 19,
+                          s_to_u(b));
+        }
+    }
+}
+
+void data_cmmu_0_print() { cmmu_print(0); }
+void data_cmmu_1_print() { cmmu_print(1); }
+void data_cmmu_2_print() { cmmu_print(2); }
+void data_cmmu_3_print() { cmmu_print(3); }
+void code_cmmu_0_print() { cmmu_print(4); }
+void code_cmmu_1_print() { cmmu_print(5); }
+void code_cmmu_2_print() { cmmu_print(6); }
+void code_cmmu_3_print() { cmmu_print(7); }
+
+/*
+ * This executes the CMMU's probe command.  We are passed M_USER
+ * or M_SUPERVISOR.
+ */
+static
+int
+probe(mode, cmmu)
+    int mode;       /* M_USER or M_SUPERVISOR */
+    int cmmu;       /* 0..7 */
+{
+    int status;
+    struct cmmu_registers *cmmu_regs;
+    u_long addr_to_trans;
+
+    if (!(cmmus & (1 << cmmu))) {
+        sim_printf("cmmu: probe internal error cmmu=%d, cmmus=0x%x\n", 
+                                                    cmmu, cmmus);
+        return E_DACC;
+    }
+
+    cmmu_regs = cmmu_table[cmmu];
+    addr_to_trans = cmmu_regs->sadr;
+
+    cmmu_regs->sadr = 0;
+    status = l_to_p(mode, addr_to_trans, &(cmmu_regs->sadr), cmmu, READ);
+    cmmu_regs->ssr.writeprotect = last_writeprotect;
+    switch (status) {
+        case E_NONE:
+            cmmu_regs->ssr.valid = 1;
+            break;
+
+        default:
+            cmmu_regs->ssr.valid = 0;
+            return;
+            break;
+    }
+
+    /*
+     * The translation used the block address translation
+     * mechanism.  Set the status register.
+     */
+    if (cmmu_regs->batc.valid) {
+        /*
+         * The access was translated using the BATC
+         */
+        cmmu_regs->ssr.copybackerror = 0;
+        cmmu_regs->ssr.buserror = 0;
+        cmmu_regs->ssr.writethru = cmmu_regs->batc.writethru;
+        cmmu_regs->ssr.supervisoronly = mode;
+        cmmu_regs->ssr.global = cmmu_regs->batc.global;
+        cmmu_regs->ssr.cacheinhibit = cmmu_regs->batc.cacheinhibit;
+        cmmu_regs->ssr.modified = 0;
+        cmmu_regs->ssr.used = 0;
+        cmmu_regs->ssr.batchit = 1;
+        return;
+    }
+
+    /*
+     * The translation used the paged address translation
+     * mechanism.  Set the status register.
+     */
+    cmmu_regs->ssr.batchit = 0;
+    cmmu_regs->ssr.used = cmmu_regs->page_descriptor.used;
+    cmmu_regs->ssr.modified = cmmu_regs->page_descriptor.modified;
+
+    cmmu_regs->ssr.cacheinhibit = last_cacheinhibit;
+    cmmu_regs->ssr.global = last_global;
+    cmmu_regs->ssr.supervisoronly = 
+                   cmmu_regs->segment_descriptor.supervisor_only ||
+                   cmmu_regs->page_descriptor.supervisor_only;
+
+    cmmu_regs->ssr.writethru = last_writethru;
+}
+
+int data_cmmu_0_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{ 
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 0, override);
+}
+
+int data_cmmu_1_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 1, override);
+}
+
+int data_cmmu_2_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 2, override);
+}
+
+int data_cmmu_3_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 3, override);
+}
+
+int code_cmmu_0_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 4, override);
+}
+
+int code_cmmu_1_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 5, override);
+}
+
+int code_cmmu_2_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 6, override);
+}
+
+int code_cmmu_3_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    return 
+      cmmu_operation(address_offset, reg_ptr, size, mem_op_type, 7, override);
+}
+
+/*
+ * This translates the address offset into an offset within
+ * a cmmu_registes structure.  Only the page offset part of the address
+ * is used.  If the offset does not touch a cmmu register, -1 is returned.
+ */
+int
+cmmu_register_ptr(offset)
+    u_long offset;
+{
+    u_long o = offset;
+    struct cmmu_registers s;
+
+#define CHECK(l, u, f)  if ((l) <= o && o <= (u)) \
+  return ((int)&(s.f) - (int)&s) + (o - (l));
+
+    CHECK(CMMU_IDR, CMMU_SADR, idr);
+    CHECK(CMMU_SCTR, CMMU_LADR, sctr);
+    CHECK(CMMU_SAD, CMMU_UAD, sapr);
+    CHECK(CMMU_BATC0, CMMU_BATC7, bwp[0]);
+    CHECK(CMMU_CDR0, CMMU_CDR3, cdr[0]);
+    CHECK(CMMU_CTR0, CMMU_CTR3, ctr[0]);
+    CHECK(CMMU_CLKVR, CMMU_CLKVR, clkvr);
+
+#undef CHECK
+
+    return -1;
+}
+
+/*
+ * Called to execute a load, store, or xmem with a CMMU register.
+ */
+int
+cmmu_operation(address_offset, reg_ptr, size, mem_op_type, cmmu, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      cmmu;          /* 0..7 */
+    int      override;
+{
+    static int cmmu_warning1 = 0;
+    struct cmmu_registers *cmmu_regs;
+    u_long dummy_zero[2];
+    u_long old_sadr;
+    struct cmmu_batc old_bwp[8];
+    char   *mem_ptr;
+    int    offset;
+    int    i;
+
+    if (size < WORD && mem_op_type == ST) {
+        sim_printf("error: store into cmmu register smaller than word.\n");
+        return E_DACC;
+    }
+
+    /*
+     * If this CMMU doesn't exist, then writes are ignored.
+     * Other operations cause an error message and a DACC -- this isn't the
+     * way the hardware works, but it's useful for program development.
+     */
+    if (!(cmmus & (1 << cmmu))) {
+	switch (mem_op_type) {
+	case ST:
+	    return E_NONE;
+	case LD:
+	case LD_U:
+	    sim_printf("error: read from non-existent CMMU.\n");
+	    return E_DACC;
+	default:
+	    sim_printf("error: bizarre operation on non-existent CMMU.\n");
+	    return E_DACC;
+	}
+    }
+
+    cmmu_regs = cmmu_table[cmmu];
+
+    offset = cmmu_register_ptr(address_offset);
+
+    if (offset == -1) {
+        mem_ptr = (char *) &dummy_zero[0];
+        dummy_zero[0] = 0;
+        dummy_zero[1] = 0;
+        sim_printf("access misses cmmu registers, raising dacc.\n");
+        return E_DACC;
+    } else {
+        mem_ptr = (char *)cmmu_regs + offset;
+    }
+
+    /*
+     * The BATC registers are write-only.  
+     */
+    if ((mem_op_type == LD || mem_op_type == LD_U) && !override &&
+        (CMMU_BATC0 <= address_offset && address_offset <= CMMU_BATC7)){
+        mem_ptr = (char *) &dummy_zero[0];
+        dummy_zero[0] = 0;
+        dummy_zero[1] = 0;
+        sim_printf("warning: trying to read a BATC write port.\n");
+    }
+
+    /*
+     * The BATC registers are write-only.  We let it go thru, but
+     * annoy the user with a message.
+     */
+    if ((mem_op_type == XMEM || mem_op_type == XMEM_U) && !override &&
+        (CMMU_BATC0 <= address_offset && address_offset <= CMMU_BATC7)){
+        sim_printf("warning: allowing xmem with a BATC write port.\n");
+    }
+
+    old_sadr = cmmu_regs->sadr;
+
+    if (CMMU_BATC0 <= address_offset && address_offset <= CMMU_BATC7) {
+        for (i = 0 ; i < 8 ; i++) {
+            old_bwp[i] = cmmu_regs->bwp[i];
+        }
+    }
+
+    /*
+     * Do the actual operation between the CPU register and the CMMU register.
+     */
+    do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+
+    if (mem_op_type == LD || mem_op_type == LD_U) {
+        return E_NONE;
+    }
+
+    /*
+     * If the program writes any of the BATC ports, we must dump the part
+     * of the software tlb's that was mapped by the old contents of the BATC.
+     */
+    if (CMMU_BATC0 <= address_offset && address_offset <= CMMU_BATC7) {
+        for (i = 0 ; i < 8 ; i++) {
+            if (s_to_u(&old_bwp[i]) != s_to_u(&cmmu_regs->bwp[i])) {
+                if (cmmu < 4) {
+                    flush_tlb_range(old_bwp[i].l_base_address << 19, 
+                                    0x80000, 
+                                    old_bwp[i].supervisor);
+                } else {
+                    flush_deccache(old_bwp[i].supervisor);
+                }
+            }
+        }
+    }
+
+    /*
+     * In case this was a double store or exchange, zero the pad fields of
+     * the cmmu_registers structure.
+     */
+    if (size == DWORD) {
+        cmmu_regs->pad1 = 0;
+        cmmu_regs->pad2 = 0;
+        cmmu_regs->pad3 = 0;
+        cmmu_regs->pad4 = 0;
+        cmmu_regs->pad5 = 0;
+        cmmu_regs->pad6 = 0;
+    }
+
+    cmmu_regs->idr.type = 5;
+    cmmu_regs->idr.version = 0;
+    cmmu_regs->idr.reserved = 0;
+
+    cmmu_regs->lsr.reserved1 = 0;
+    cmmu_regs->lsr.reserved2 = 0;
+
+    cmmu_regs->ssr.reserved1 = 0;
+    cmmu_regs->ssr.reserved2 = 0;
+    cmmu_regs->ssr.reserved3 = 0;
+
+    cmmu_regs->sctr.reserved1 = 0;
+    cmmu_regs->sctr.reserved2 = 0;
+
+    cmmu_regs->uapr.reserved1 = 0;
+    cmmu_regs->uapr.reserved2 = 0;
+    cmmu_regs->uapr.reserved3 = 0;
+
+    cmmu_regs->sapr.reserved1 = 0;
+    cmmu_regs->sapr.reserved2 = 0;
+    cmmu_regs->sapr.reserved3 = 0;
+
+    /*
+     * If any of the cache data registers were touched, write
+     * all four of them back to the cache data arrays.
+     */
+    if (CMMU_CDR0 <= address_offset && address_offset <= CMMU_CDR3) {
+        i = (cmmu_regs->sadr >> 2) & 0x3ff;
+        cmmu_regs->cache_data0[i] = cmmu_regs->cdr[0];
+        cmmu_regs->cache_data1[i] = cmmu_regs->cdr[1];
+        cmmu_regs->cache_data2[i] = cmmu_regs->cdr[2];
+        cmmu_regs->cache_data3[i] = cmmu_regs->cdr[3];
+    }
+
+    /*
+     * If any of the cache tag registers were touched, mask and
+     * write them all back to the simulated cache tag arrays.
+     */
+    if (CMMU_CTR0 <= address_offset && address_offset <= CMMU_CTR3) {
+        cmmu_regs->ctr[0] &= 0xfffff000;
+        cmmu_regs->ctr[1] &= 0xfffff000;
+        cmmu_regs->ctr[2] &= 0xfffff000;
+        cmmu_regs->ctr[3] &= 0xfffff000;
+
+        i = (cmmu_regs->sadr >> 4) & 0xff;
+        cmmu_regs->cache_tag0[i] = cmmu_regs->ctr[0];
+        cmmu_regs->cache_tag1[i] = cmmu_regs->ctr[1];
+        cmmu_regs->cache_tag2[i] = cmmu_regs->ctr[2];
+        cmmu_regs->cache_tag3[i] = cmmu_regs->ctr[3];
+    }
+
+    /*
+     * If the cache clkvr register is addressed, mask it and
+     * write it back to the clkvr array.
+     */
+    if (CMMU_CLKVR == address_offset) {
+        cmmu_regs->clkvr &= 0x3ffff000;
+        i = (cmmu_regs->sadr >> 4) & 0xff;
+        cmmu_regs->cache_clkvr[i] = cmmu_regs->clkvr;
+    }
+
+    if (address_offset == CMMU_SCMR) {
+        /*
+         * The control register has been loaded, decode the command
+         * code.
+         */
+        switch ((cmmu_regs->scmr >> 2) & 0xf) {
+            case 0: case 1: case 2: case 3: case 4:/* no op*/
+                break;
+
+                break;
+
+            case 6: /* data copyback only, no op for simulator */
+                break;
+
+            case 7: 
+            case 5:
+                /* 
+                 * The 88000 program is telling us to flush our cache.
+                 * We don't have a real data cache in the simulator,
+                 * but we do have a cache of decoded instructions, so
+                 * if a code cmmu is being flushed, flush the
+                 * decoded instructions.
+                 */ 
+                if (cmmu >= 4) {
+                    switch ((cmmu_regs->scmr) & 3) {
+                        case 0:
+                            cache_flush_line(cmmu_regs->sadr >> 4);
+                            break;
+
+                        case 1:
+                            cache_flush_page(cmmu_regs->sadr >> 12);
+                            break;
+
+                        case 2:
+                            cache_flush_segment(btos(cmmu_regs->sadr));
+                            break;
+
+                        case 3:
+                            cache_flush_all();
+                            break;
+                    }
+                }
+                break;
+
+            case 8: case 0xa: /* ATC probe user */
+                probe(M_USER, cmmu);
+                break;
+
+            case 9: case 0xb: /* ATC probe supervisor. */
+                probe(M_SUPERVISOR, cmmu);
+                break;
+
+            case 0xc: case 0xe: /* Flush user ATC */
+                if (cmmu < 4) {
+                    switch ((cmmu_regs->scmr) & 3) {
+                        case 0:
+                            sim_printf("cmmu: can't flush line of patc\n");
+                            break;
+
+                        case 1:
+                            flush_user_tlb_page(cmmu_regs->sadr >> 12);
+                            break;
+
+                        case 2:
+                            flush_user_tlb_segment(btos(cmmu_regs->sadr));
+                            break;
+
+                        case 3:
+                            flush_user_tlb_all();
+                            break;
+                    }
+                } else {
+                    flush_deccache(M_USER);
+                }
+                break;
+
+            case 0xd: case 0xf: /* Flush supervisor ATC */
+                if (cmmu < 4) {
+                    switch ((cmmu_regs->scmr) & 3) {
+                        case 0:
+                            sim_printf("cmmu: can't flush line of patc\n");
+                            break;
+
+                        case 1:
+                            flush_supervisor_tlb_page(cmmu_regs->sadr >> 12);
+                            break;
+
+                        case 2:
+                            flush_supervisor_tlb_segment(btos(cmmu_regs->sadr));
+                            break;
+
+                        case 3:
+                            flush_supervisor_tlb_all();
+                            break;
+                    }
+                } else {
+                    flush_deccache(M_SUPERVISOR);
+                }
+                break;
+
+            default:
+                sim_printf("cmmu_operation: case error.\n");
+                break;
+        }
+    }
+
+    /*
+     * If the address register has changed we need to reload the
+     * cache data and tag registers.
+     */
+    if (old_sadr != cmmu_regs->sadr) {
+        i = (cmmu_regs->sadr >> 2) & 0x3ff;
+        cmmu_regs->cdr[0] = cmmu_regs->cache_data0[i];
+        cmmu_regs->cdr[1] = cmmu_regs->cache_data1[i];
+        cmmu_regs->cdr[2] = cmmu_regs->cache_data2[i];
+        cmmu_regs->cdr[3] = cmmu_regs->cache_data3[i];
+
+        i = (cmmu_regs->sadr >> 4) & 0xff;
+        cmmu_regs->ctr[0] = cmmu_regs->cache_tag0[i];
+        cmmu_regs->ctr[1] = cmmu_regs->cache_tag1[i];
+        cmmu_regs->ctr[2] = cmmu_regs->cache_tag2[i];
+        cmmu_regs->ctr[3] = cmmu_regs->cache_tag3[i];
+
+        cmmu_regs->clkvr = cmmu_regs->cache_clkvr[i];
+    }
+    /*
+     * The 4/18/88 manual doesn't say it, but the SCMR and the SCTR
+     * registers are effectively or'd together on a read.
+     */
+    if (mem_op_type == ST) {
+        cmmu_regs->scmr = 
+          (cmmu_regs->scmr & 0x3f) | (sctr_to_u(cmmu_regs->sctr) & 0xe000);
+        cmmu_regs->sctr = u_to_sctr(cmmu_regs->scmr);
+    }
+    return E_NONE;
+}
+
+/*
+ * This is called when a bus error occurs because there is no
+ * memory at the addressed location. We set the exception status
+ * in the data and code cmmu associated with the access.
+ */
+void
+cmmu_set_bus_error(physical_address)
+    u_long physical_address;
+{
+    u_long cmmu;
+    struct cmmu_registers *cmmu_regs;
+
+    cmmu = DATA_CMMU(physical_address);
+    cmmu_regs = cmmu_table[cmmu];
+    cmmu_regs->lsr.faultcode = 3;
+
+    cmmu = CODE_CMMU(physical_address);
+    cmmu_regs = cmmu_table[cmmu];
+    cmmu_regs->lsr.faultcode = 3;
+}
+
+/*
+ * This flushes the all of the decoded pages.
+ */
+cache_flush_all()
+{
+    struct page *p;
+    int i;
+
+    for (i = 0 ; i < page_table_size ; i++) {
+        if (p = page_table[i]) {
+            clean_decoded_part(p->decoded_part);
+        }
+    }
+    free_literals();
+}
+
+/*
+ */
+cache_flush_line(line)
+    u_long line;
+{
+    cache_flush_page(line >> 8);
+}
+
+/*
+ */
+cache_flush_page(page)
+    u_long page;
+{
+    struct page *p;
+
+    if (page < page_table_size && (p = page_table[page])) {
+        clean_decoded_part(p->decoded_part);
+    }
+}
+
+/*
+ */
+cache_flush_segment(segment)
+    u_long segment;
+{
+    cache_flush_all();
+}
+@
+
+
+1.33
+log
+@Made CMMU used in l_to_p be based on code/data and current
+processor instead of code/data and a12 and a13 of virtual
+address.  Fix problem of converting a 1-word structure to
+an integer.
+@
+text
+@d1 8
+a8 1
+/* * 88200 CMMU simulator.  * * Copyright (c) 1987, 1988, Tektronix Inc.  * All Rights Reserved * * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/cmmu.c,v 1.32 90/04/29 19:12:13 robertb Exp $ */
+a86 16
+}
+
+/*
+ * This translates kernel logical addresses to physical.
+ * This is called by the front end.
+ */
+int
+sim_v_to_p(la, pa, usmode)
+    u_long la;
+    u_long *pa;
+    int usmode;
+{
+    if (usmode == M_CURMODE) {
+        usmode = PSR_US_MODE;
+    }
+    return l_to_p(usmode, la, pa, CODE_CMMU(la), READ);
+@
+
+
+1.32
+log
+@Ported to system V.  Changed format effectors in printf's.
+Now conversion of structure to unsigned long needs a function.
+Got rid of environment variable use, now use gdb convenience variable.
+@
+text
+@d1 1
+a1 9
+/*
+ * 88200 CMMU simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: cmmu.c,v 1.31 89/08/28 11:55:56 robertb Exp $
+ */
+
+d34 1
+a34 1
+   struct d { u_long e; } x;
+d36 1
+a36 1
+   return x.e;
+d125 8
+d302 1
+a302 1
+                    s_to_u(cmmu_regs->page_descriptor));
+d312 1
+a312 1
+                    s_to_u(cmmu_regs->page_descriptor));
+d519 4
+a522 4
+                  s_to_u(cmmu_regs->idr),
+                  s_to_u(cmmu_regs->scmr), 
+                  s_to_u(cmmu_regs->ssr),
+                  s_to_u(cmmu_regs->sadr));
+d525 1
+a525 1
+                                s_to_u(cmmu_regs->lsr), cmmu_regs->ladr);
+d528 1
+a528 1
+                            s_to_u(cmmu_regs->sapr), s_to_u(cmmu_regs->uapr));
+d531 1
+a531 1
+                                     s_to_u(cmmu_regs->area_descriptor));
+d540 1
+a540 1
+                s_to_u(cmmu_regs->segment_descriptor), 
+d545 1
+a545 1
+                        s_to_u(cmmu_regs->page_descriptor), 
+d565 1
+a565 1
+                          s_to_u(*b));
+d871 1
+a871 1
+            if (old_bwp[i] != cmmu_regs->bwp[i]) {
+@
+
+
+1.31
+log
+@name change.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.30 88/12/28 11:19:12 andrew Exp $
+d32 1
+a32 1
+#define	SIMCMMU	"SIMCMMU"
+a39 6
+ *
+ *   u_long s_to_u(x)
+ *       struct d { u_long e; } x;
+ *   {
+ *       return x.e;
+ *   }
+d41 5
+a46 2
+#define s_to_u(x)  (x)
+
+a332 1
+    char *env, *getenv();
+d335 6
+a340 2
+    env = getenv(SIMCMMU);
+    if (!env) {
+d342 1
+a342 9
+    } else {
+        for (i = 0 ; i < strlen(env) ; i++) {
+            if (env[i] != '0' && env[i] != '1') {
+                sim_printf("cmmu: %s must be a string of eight 0's and 1's\n", 
+                                                                      SIMCMMU);
+                exit(1);
+            }
+            cmmus = (cmmus << 1) | env[i] == '1';
+        }
+a390 1
+    static first_time = 1;
+d392 1
+a392 3
+    if (first_time) {
+        init_cmmu_vars();
+    }
+d517 1
+a517 1
+    sim_printf("cmmu %D:  idr=0x%08X  scmr=0x%08X  ssr=0x%08X  sadr=0x%08X\n",
+d524 1
+a524 1
+    sim_printf("          lsr=0x%X  ladr=0x%X\n",
+d527 1
+a527 1
+    sim_printf("          sapr=0x%08X uapr=0x%08X\n", 
+d530 1
+a530 1
+    sim_printf("last area descriptor=0x%08X\n", 
+d539 1
+a539 1
+        sim_printf("last segment descriptor=0x%08X fetched from 0x%08X\n", 
+d544 1
+a544 1
+            sim_printf("last page descriptor=0x%08X fetched from 0x%08X\n", 
+d561 1
+a561 1
+            sim_printf("  %D      0x%08X    0x%08X    0x%08X\n",
+d594 1
+a594 1
+        sim_printf("cmmu: probe internal error cmmu=%d, cmmus=0x%X\n", 
+@
+
+
+1.30
+log
+@Add casts to eliminate "Illegal combination of pointer and integer"
+warnings from our new C compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.29 88/12/21 15:33:11 andrew Exp $
+d98 1
+a98 1
+sim_l_to_p(la, pa, usmode)
+@
+
+
+1.29
+log
+@Allow writes to non-existent CMMUs, just as the hardware does.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.28 88/10/14 13:11:19 andrew Exp $
+d830 1
+a830 1
+        mem_ptr = &dummy_zero[0];
+d844 1
+a844 1
+        mem_ptr = &dummy_zero[0];
+@
+
+
+1.28
+log
+@The BATC "raw value" printed by psym was garbage.  Fixed.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.27 88/09/19 21:02:07 robertb Exp $
+d443 5
+d452 1
+a452 3
+    if (cmmu_init(0) == -1) {
+        io_change_addr(data_cmmu_0_operation, 0, 0);
+    }
+d460 1
+a460 3
+    if (cmmu_init(1) == -1) {
+        io_change_addr(data_cmmu_1_operation, 0, 0);
+    }
+d468 1
+a468 3
+    if (cmmu_init(2) == -1) {
+        io_change_addr(data_cmmu_2_operation, 0, 0);
+    }
+d476 1
+a476 3
+    if (cmmu_init(3) == -1) {
+        io_change_addr(data_cmmu_3_operation, 0, 0);
+    }
+d484 1
+a484 3
+    if (cmmu_init(4) == -1) {
+        io_change_addr(code_cmmu_0_operation, 0, 0);
+    }
+d492 1
+a492 3
+    if (cmmu_init(5) == -1) {
+        io_change_addr(code_cmmu_1_operation, 0, 0);
+    }
+d500 1
+a500 3
+    if (cmmu_init(6) == -1) {
+        io_change_addr(code_cmmu_2_operation, 0, 0);
+    }
+d508 1
+a508 3
+    if (cmmu_init(7) == -1) {
+        io_change_addr(code_cmmu_3_operation, 0, 0);
+    }
+d806 5
+d812 11
+a822 2
+        sim_printf("cmmu: internal error cmmu=%d, cmmus=0x%X \n", cmmu, cmmus);
+        return E_DACC;
+@
+
+
+1.27
+log
+@tweak to return E_DACC instead of just printing a message
+if a control page access misses the registers
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.26 88/07/13 21:42:26 robertb Exp $
+d530 1
+a530 1
+    u_long bwp, i, first;
+d587 1
+a587 1
+                          s_to_u(bwp));
+@
+
+
+1.26
+log
+@made cmmu simulator be able to model more configurations, so
+that the hardware configuration used in the E-phase units
+can be modeled.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.25 88/06/28 16:42:28 robertb Exp $
+d830 2
+a831 3
+        if(!cmmu_warning1++) {
+            sim_printf("warning: access misses cmmu registers.\n");
+        }
+@
+
+
+1.25
+log
+@Made changes to support the beta cmmu
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.24 88/06/09 17:59:50 robertb Exp $
+d17 7
+d106 1
+a106 1
+    return l_to_p(usmode, la, pa, 0, READ);
+d132 4
+d330 1
+d332 1
+a332 1
+ * Called once for each cmmu that is in the io table at initialization.
+d334 2
+a335 4
+cmmu_init(cmmu)
+{
+    struct cmmu_registers *p;
+    int i;
+d337 1
+a337 1
+    static already_warned = 0;
+d341 1
+a341 1
+        cmmus = 4;
+d343 7
+a349 6
+        cmmus = atoi(env);
+        if (cmmus != 1 && cmmus != 2 && cmmus != 4 && !already_warned) {
+            sim_printf("cmmu simulator: %s must be 1, 2, or 4, can not be %d\n",
+                                        SIMCMMU, cmmus);
+            cmmus = 4;
+            already_warned = 1;
+d352 9
+d362 46
+a407 1
+    if (cmmu % 4 >= cmmus) {
+d416 1
+a416 1
+            return -1;
+d441 1
+d448 1
+a448 1
+        err("data_cmmu_0_init: must have at least one data cmmu.\n");
+a452 1
+ * This code assumes that data_cmmu_0_init has already been called.
+a457 1
+        cmmu_table[1] = cmmu_table[0];
+a462 1
+ * This code assumes that data_cmmu_0_init has already been called.
+a467 1
+        cmmu_table[2] = cmmu_table[0];
+a472 1
+ * This code assumes that data_cmmu_1_init has already been called.
+a477 1
+        cmmu_table[3] = cmmu_table[1];
+d488 1
+a488 1
+        err("code_cmmu_0_init: must have at least one code cmmu.\n");
+a492 1
+ * This code assumes that code_cmmu_0_init has already been called.
+a497 1
+        cmmu_table[5] = cmmu_table[4];
+a502 1
+ * This code assumes that code_cmmu_0_init has already been called.
+a507 1
+        cmmu_table[6] = cmmu_table[4];
+a512 1
+ * This code assumes that code_cmmu_1_init has already been called.
+a517 1
+        cmmu_table[7] = cmmu_table[5];
+d532 2
+a533 2
+    if (cmmu % 4 >= cmmus) {
+        sim_printf("cmmu %d: not active\n");
+d615 2
+a616 2
+    if (cmmu % 4 >= cmmus) {
+        sim_printf("cmmu: probe internal error cmmu=%d, cmmus=%d\n", 
+d817 2
+a818 2
+    if (cmmu % 4 >= cmmus) {
+        sim_printf("cmmu: internal error cmmu=%d, cmmus=%d \n", cmmu, cmmus);
+@
+
+
+1.24
+log
+@When we flush all of the decoded pages, we now also free the
+literal pool.
+
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.23 88/04/30 22:58:01 robertb Exp $
+d28 11
+a38 1
+ * Like UNCHECKED_CONVERSION in Ada.
+a39 8
+union kl {
+    u_long u;
+    struct area_descriptor area_descriptor;
+    struct segment_descriptor segment_descriptor;
+    struct cmmu_batc_word cmmu_batc_word;
+    struct page_descriptor page_descriptor;
+    struct cmmu_sr cmmu_sr;
+} kl;
+d41 1
+a41 15
+struct cmmu_batc_word
+u_to_batc(u)
+    u_long u;
+{
+    kl.u = u;
+    return kl.cmmu_batc_word;
+}
+    
+struct area_descriptor
+u_to_ad(u)
+    u_long u;
+{
+    kl.u = u;
+    return kl.area_descriptor;
+}
+d43 5
+a47 3
+u_long
+ad_to_u(ar)
+    struct area_descriptor ar;
+d49 3
+a51 2
+    kl.area_descriptor = ar;
+    return kl.u;
+d54 2
+a55 3
+struct segment_descriptor
+u_to_sd(u)
+    u_long u;
+d57 3
+a59 2
+    kl.u = u;
+    return kl.segment_descriptor;
+d62 2
+a63 3
+u_long
+sd_to_u(sd)
+    struct segment_descriptor sd;
+d65 3
+a67 2
+    kl.segment_descriptor = sd;
+    return kl.u;
+d70 2
+a71 3
+struct page_descriptor
+u_to_pd(u)
+    u_long u;
+d73 3
+a75 2
+    kl.u = u;
+    return kl.page_descriptor;
+d78 2
+a79 3
+u_long
+pd_to_u(pd)
+    struct page_descriptor pd;
+d81 3
+a83 2
+    kl.page_descriptor = pd;
+    return kl.u;
+a85 16
+struct cmmu_sr
+u_to_sr(u)
+    u_long u;
+{
+    kl.u = u;
+    return kl.cmmu_sr;
+}
+
+u_long
+sr_to_u(sr)
+    struct cmmu_sr sr;
+{
+    kl.cmmu_sr = sr;
+    return kl.u;
+}
+
+a121 2
+    u_long batc_pattern;
+    u_long batc_base;
+d128 1
+a128 1
+    cmmu_regs->batc_word.valid = 0;
+d135 1
+a135 1
+        cmmu_regs->batc_word.valid = 1;
+d137 4
+a140 4
+        last_writeprotect = cmmu_regs->batc_word.writeprotect = 0;
+        last_cacheinhibit = cmmu_regs->batc_word.cacheinhibit  = 1;
+        last_global       = cmmu_regs->batc_word.global        = 0;
+        last_writethru    = cmmu_regs->batc_word.writethru     = 1;
+d142 2
+a143 2
+        cmmu_regs->batc_word.supervisor = 1;
+        cmmu_regs->batc_word.p_base_address = 
+d145 1
+a145 1
+        cmmu_regs->batc_word.l_base_address = 
+d156 1
+a156 1
+        cmmu_regs->area_descriptor = u_to_ad(cmmu_regs->uapr);
+d158 1
+a158 1
+        cmmu_regs->area_descriptor = u_to_ad(cmmu_regs->sapr);
+a183 1
+    batc_pattern = (logical_address & 0xfff80000) | usmode << 5 | 1;
+d185 8
+a192 4
+        if ((cmmu_regs->bwp[i] & 0xfff80021) == batc_pattern) {
+            cmmu_regs->batc_word = u_to_batc(cmmu_regs->bwp[i]);
+            batc_base = cmmu_regs->batc_word.p_base_address;
+            *physical_address = batc_base << 19 | (logical_address & 0x7ffff);
+d196 4
+a199 4
+            last_cacheinhibit |= cmmu_regs->batc_word.cacheinhibit;
+            last_global       |= cmmu_regs->batc_word.global;
+            last_writethru    |= cmmu_regs->batc_word.writethru;
+            last_writeprotect  = cmmu_regs->batc_word.writeprotect;
+d216 1
+a216 1
+        cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0x9000;
+d225 1
+a225 1
+        cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xb000;
+d239 1
+a239 1
+        cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xb000;
+d249 1
+a249 1
+        cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0x8000;
+d258 1
+a258 1
+        cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xa000;
+d267 1
+a267 1
+        cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xa000;
+d285 1
+a285 1
+            cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xf000;
+d294 1
+a294 1
+                    pd_to_u(cmmu_regs->page_descriptor));
+d296 1
+a296 1
+            cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xc000;
+d304 1
+a304 1
+                    pd_to_u(cmmu_regs->page_descriptor));
+d306 1
+a306 1
+            cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xc000;
+d358 6
+a363 3
+    p->id = (0x00a00000|(cmmu<<24));
+    p->sapr = 0x40;         /* Cache inhibit */
+    p->uapr = 0x40;         /* Cache inhibit */
+d485 6
+a490 2
+    sim_printf("cmmu %D:  id=0x%08X  cr=0x%08X  sr=0x%08X  adr=0x%08X\n",
+            cmmu, cmmu_regs->id, cmmu_regs->cr, cmmu_regs->sr, cmmu_regs->adr);
+d492 2
+a493 2
+    sim_printf("         sapr=0x%08X uapr=0x%08X\n", 
+                                     cmmu_regs->sapr, cmmu_regs->uapr);
+d495 3
+d499 1
+a499 1
+                                     ad_to_u(cmmu_regs->area_descriptor));
+d508 1
+a508 1
+                sd_to_u(cmmu_regs->segment_descriptor), 
+d513 1
+a513 1
+                        pd_to_u(cmmu_regs->page_descriptor), 
+d523 2
+a524 2
+        bwp = cmmu_regs->bwp[i];
+        if (bwp != 0) {
+d530 4
+a533 1
+                          i, bwp & 0xfff80000, (bwp << 13) & 0xfff80000, bwp);
+a557 1
+    struct cmmu_sr sr;
+d568 1
+a568 1
+    addr_to_trans = cmmu_regs->adr;
+d570 3
+a572 5
+    cmmu_regs->adr = 0;
+    status = l_to_p(mode, addr_to_trans, &(cmmu_regs->adr), cmmu, READ);
+
+    sr = u_to_sr(cmmu_regs->sr);
+    sr.writeprotect = last_writeprotect;
+d575 1
+a575 1
+            sr.valid = 1;
+d579 1
+a579 2
+            sr.valid = 0;
+            cmmu_regs->sr = sr_to_u(sr);
+d588 1
+a588 1
+    if (cmmu_regs->batc_word.valid) {
+d592 9
+a600 9
+        sr.batc_hit = 1;
+        sr.used = 0;
+        sr.modified = 0;
+        sr.cacheinhibit = cmmu_regs->batc_word.cacheinhibit;
+        sr.global = cmmu_regs->batc_word.global;
+        sr.supervisor_only = mode;
+        sr.writethru = cmmu_regs->batc_word.writethru;
+        sr.exception_status = 0;
+        cmmu_regs->sr = sr_to_u(sr);
+d608 3
+a610 3
+    sr.batc_hit = 0;
+    sr.used = cmmu_regs->page_descriptor.used;
+    sr.modified = cmmu_regs->page_descriptor.modified;
+d612 7
+a618 6
+    sr.cacheinhibit = last_cacheinhibit;
+    sr.global = last_global;
+    sr.supervisor_only = cmmu_regs->segment_descriptor.supervisor_only ||
+                         cmmu_regs->page_descriptor.supervisor_only;
+    sr.writethru = last_writethru;
+    cmmu_regs->sr = sr_to_u(sr);
+d724 2
+a725 1
+    CHECK(CMMU_ID, CMMU_AR, id);
+d752 2
+a753 2
+    u_long old_adr;
+    u_long old_bwp[8];
+d803 1
+a803 1
+    old_adr = cmmu_regs->adr;
+a826 1
+                int usmode = old_bwp[i] & 0x20 ? M_SUPERVISOR : M_USER;
+d828 3
+a830 1
+                    flush_tlb_range(old_bwp[i] & 0xfff80000, 0x80000, usmode);
+d832 1
+a832 1
+                    flush_deccache(usmode);
+d851 3
+a853 5
+    cmmu_regs->id &= 0xffff0000;
+    cmmu_regs->cr &= 0xe03f;
+    cmmu_regs->sr &= 0xf3df;
+    cmmu_regs->sapr &= 0xfffff2c1;
+    cmmu_regs->uapr &= 0xfffff2c1;
+d855 18
+d878 1
+a878 1
+        i = (cmmu_regs->adr >> 2) & 0x3ff;
+d895 1
+a895 1
+        i = (cmmu_regs->adr >> 4) & 0xff;
+d908 1
+a908 1
+        i = (cmmu_regs->adr >> 4) & 0xff;
+d912 1
+a912 1
+    if (address_offset == CMMU_CR) {
+d917 1
+a917 1
+        switch ((cmmu_regs->cr >> 2) & 0xf) {
+d936 1
+a936 1
+                    switch ((cmmu_regs->cr) & 3) {
+d938 1
+a938 1
+                            cache_flush_line(cmmu_regs->adr >> 4);
+d942 1
+a942 1
+                            cache_flush_page(cmmu_regs->adr >> 12);
+d946 1
+a946 1
+                            cache_flush_segment(btos(cmmu_regs->adr));
+d966 1
+a966 1
+                    switch ((cmmu_regs->cr) & 3) {
+d972 1
+a972 1
+                            flush_user_tlb_page(cmmu_regs->adr >> 12);
+d976 1
+a976 1
+                            flush_user_tlb_segment(btos(cmmu_regs->adr));
+d990 1
+a990 1
+                    switch ((cmmu_regs->cr) & 3) {
+d996 1
+a996 1
+                            flush_supervisor_tlb_page(cmmu_regs->adr >> 12);
+d1000 1
+a1000 1
+                            flush_supervisor_tlb_segment(btos(cmmu_regs->adr));
+d1022 2
+a1023 2
+    if (old_adr != cmmu_regs->adr) {
+        i = (cmmu_regs->adr >> 2) & 0x3ff;
+d1029 1
+a1029 1
+        i = (cmmu_regs->adr >> 4) & 0xff;
+d1037 9
+d1063 1
+a1063 1
+    cmmu_regs->sr = (cmmu_regs->sr & 0xfff) | 0x2000;
+d1067 1
+a1067 1
+    cmmu_regs->sr = (cmmu_regs->sr & 0xfff) | 0x2000;
+@
+
+
+1.23
+log
+@added execution trace facility
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.22 88/04/29 17:05:16 robertb Exp $
+d1070 1
+@
+
+
+1.22
+log
+@fixed bug in diagnostic ports that brents reported
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.21 88/04/28 10:35:34 robertb Exp $
+d19 5
+d154 1
+a154 1
+    wp = 0;
+d163 6
+a168 4
+        wp = cmmu_regs->batc_word.write_protect = 0;
+        cmmu_regs->batc_word.cache_inhibit = 1;
+        cmmu_regs->batc_word.global = 0;
+        cmmu_regs->batc_word.write_through = 1;
+d189 8
+d219 7
+a225 2
+            wp = cmmu_regs->batc_word.write_protect;
+            if (wp && read_or_write == WRITE) {
+d253 4
+d299 2
+a300 2
+    wp = cmmu_regs->segment_descriptor.write_protect | 
+         cmmu_regs->page_descriptor.write_protect;
+d308 1
+a308 1
+        if (wp) {
+d334 4
+d586 1
+a586 1
+    sr.write_protect = wp;
+d610 1
+a610 1
+        sr.cache_inhibit = cmmu_regs->batc_word.cache_inhibit;
+d613 1
+a613 1
+        sr.write_through = cmmu_regs->batc_word.write_through;
+d627 2
+a628 8
+    sr.cache_inhibit = cmmu_regs->area_descriptor.cache_inhibit ||
+                       cmmu_regs->segment_descriptor.cache_inhibit ||
+                       cmmu_regs->page_descriptor.cache_inhibit;
+
+    sr.global = cmmu_regs->area_descriptor.global ||
+                cmmu_regs->segment_descriptor.global ||
+                cmmu_regs->page_descriptor.global;
+
+d631 1
+a631 5
+
+    sr.write_through = cmmu_regs->area_descriptor.write_through ||
+                       cmmu_regs->segment_descriptor.write_through ||
+                       cmmu_regs->page_descriptor.write_through;
+
+@
+
+
+1.21
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.20 88/04/14 17:15:06 robertb Exp $
+d358 1
+a358 1
+    for (i = 0 ; i < 1024 ; i++) {
+a850 1
+    i = (cmmu_regs->adr >> 2) & 0x3ff;
+d856 1
+d873 1
+d886 1
+a886 1
+
+d1001 1
+d1007 1
+@
+
+
+1.20
+log
+@tweak to sim_l_to_p.
+@
+text
+@d2 1
+a2 1
+ * 78200 CMMU simulator.
+d7 1
+a7 1
+ * $Header: cmmu.c,v 1.19 88/04/08 21:27:56 robertb Exp $
+d14 2
+a15 1
+static struct cmmu_registers cmmu_table[8];
+d17 1
+a17 7
+/*
+ * These are used by l_to_p.  They contain the last segment descriptor
+ * and page descriptor fetched by l_to_p.  The probe commands reads
+ * them.
+ */
+static struct segment_descriptor segment_descriptor;
+static u_long segment_descriptor_address;
+a18 7
+static struct page_descriptor page_descriptor;
+static u_long page_descriptor_address;
+
+static struct area_descriptor area_descriptor;
+static struct cmmu_batc_word batc_word;
+
+int wp;
+d116 1
+a116 1
+    if (usmode == 2) {
+d123 1
+a123 1
+ * This translates a logical 78000 address to a physical 78000 address.
+d127 2
+a128 2
+l_to_p(us_mode, logical_address, physical_address, cmmu, read_or_write)
+    int us_mode;
+d147 2
+a148 5
+    /*
+     * Modify the cmmu number if it for a cmmu that is not "plugged in"
+     */
+    cmmu = (cmmu < 4 ? 0 : 4) + (cmmu % cmmus);
+
+d150 1
+a150 1
+    batc_word.valid = 0;
+d154 1
+a154 1
+    if (us_mode == M_SUPERVISOR && 
+d157 11
+a167 8
+        batc_word.valid = 1;
+        wp = batc_word.write_protect = 0;
+        batc_word.cache_inhibit = 1;
+        batc_word.global = 0;
+        batc_word.write_through = 1;
+        batc_word.supervisor = 1;
+        batc_word.p_base_address = 0x1ffe | ((logical_address >> 19) & 1);
+        batc_word.l_base_address = 0x1ffe | ((logical_address >> 19) & 1);
+a170 1
+    cmmu_regs = &(cmmu_table[cmmu]);
+d175 2
+a176 2
+    if (us_mode == M_USER) {
+        area_descriptor = u_to_ad(cmmu_regs->uapr);
+d178 1
+a178 1
+        area_descriptor = u_to_ad(cmmu_regs->sapr);
+d184 2
+a185 1
+    if (!area_descriptor.valid) {
+d196 1
+a196 1
+    batc_pattern = (logical_address & 0xfff80000) | us_mode << 5 | 1;
+d199 2
+a200 2
+            batc_word = u_to_batc(cmmu_regs->bwp[i]);
+            batc_base = batc_word.p_base_address;
+d203 2
+a204 1
+            wp = batc_word.write_protect;
+d213 5
+a217 4
+    segment_base = area_descriptor.segment_table_base * PAGE_SIZE;
+    segment_number = logical_address >> 22;
+    segment_descriptor_address = segment_base + segment_number * 4;
+    segment_descriptor = u_to_sd(read_sim_w(segment_descriptor_address));
+d219 1
+d227 2
+a228 1
+    if (!segment_descriptor.valid) {
+d237 2
+a238 1
+    if (us_mode == M_USER && segment_descriptor.supervisor_only) {
+d243 1
+a243 1
+    page_base = segment_descriptor.page_table_base * PAGE_SIZE;
+d245 3
+a247 2
+    page_descriptor_address = page_base + page_number * 4;
+    page_descriptor = u_to_pd(read_sim_w(page_descriptor_address));
+d257 1
+a257 1
+    if (!page_descriptor.valid) {
+d266 1
+a266 1
+    if (us_mode == M_USER && page_descriptor.supervisor_only) {
+d271 2
+a272 2
+    page_frame_address = page_descriptor.page_frame_base * PAGE_SIZE;
+    page_offset = logical_address & PAGE_MASK;
+d275 2
+a276 8
+    /*
+     * Update the used bit in the page descriptor.
+     */
+    page_descriptor.used = 1;
+    write_sim_w(page_descriptor_address, pd_to_u(page_descriptor));
+    if (sim_errno) {
+        cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xc000;
+    };
+a277 1
+    wp = segment_descriptor.write_protect | page_descriptor.write_protect;
+d289 1
+a289 1
+         * Update the modified bit in the page descriptor.
+d291 4
+a294 2
+        page_descriptor.modified = 1;
+        write_sim_w(page_descriptor_address, pd_to_u(page_descriptor));
+d298 10
+d316 1
+a316 1
+ * Called when the simulator is initialized.
+d342 11
+a352 5
+    page_descriptor_address = -1;
+    segment_descriptor_address = -1;
+    page_descriptor = u_to_pd(-1);
+    segment_descriptor = u_to_sd(-1);
+    area_descriptor = u_to_ad(-1);
+a353 4
+    p = &(cmmu_table[cmmu]);
+
+    bzero(p, sizeof(struct cmmu_registers));
+
+d361 6
+d375 1
+a375 1
+        io_change_addr(data_cmmu_0_operation, 0, 0);
+d380 1
+d386 1
+d392 1
+d398 1
+d404 1
+d410 1
+d421 1
+a421 1
+        io_change_addr(code_cmmu_0_operation, 0, 0);
+d426 1
+d432 1
+d438 1
+d444 1
+d450 1
+d456 1
+d462 1
+a462 1
+ * This prints the registers of a CMMU in a nice form for the user.
+d476 1
+a476 1
+    cmmu_regs = &(cmmu_table[cmmu]);
+d482 1
+a482 1
+                  cmmu_regs->sapr, cmmu_regs->uapr);
+d484 2
+a485 1
+    sim_printf("last area descriptor=0x%08X\n", ad_to_u(area_descriptor));
+d487 6
+a492 1
+    if (segment_descriptor_address != -1) {
+d494 2
+a495 2
+                sd_to_u(segment_descriptor), segment_descriptor_address);
+    }
+d497 5
+a501 3
+    if (page_descriptor_address != -1) {
+        sim_printf("last page descriptor=0x%08X fetched from 0x%08X\n", 
+                    pd_to_u(page_descriptor), page_descriptor_address);
+d504 3
+d521 8
+a530 64
+ */
+void
+data_cmmu_0_print()
+{
+    cmmu_print(0);
+}
+
+/*
+ */
+void
+data_cmmu_1_print()
+{
+    cmmu_print(1);
+}
+
+/*
+ */
+void
+data_cmmu_2_print()
+{
+    cmmu_print(2);
+}
+
+/*
+ */
+void
+data_cmmu_3_print()
+{
+    cmmu_print(3);
+}
+
+/*
+ */
+void
+code_cmmu_0_print()
+{
+    cmmu_print(4);
+}
+
+/*
+ */
+void
+code_cmmu_1_print()
+{
+    cmmu_print(5);
+}
+
+/*
+ */
+void
+code_cmmu_2_print()
+{
+    cmmu_print(6);
+}
+
+/*
+ */
+void
+code_cmmu_3_print()
+{
+    cmmu_print(7);
+}
+
+/*
+d551 1
+a551 1
+    cmmu_regs = &(cmmu_table[cmmu]);
+a555 5
+    if (VERBOSE) {
+        sim_printf("area_descriptor=%X\n", ad_to_u(area_descriptor));
+        sim_printf("segment_descriptor=%X\n", sd_to_u(segment_descriptor));
+        sim_printf("page_descriptor=%X\n", pd_to_u(page_descriptor));
+    }
+d575 1
+a575 1
+    if (batc_word.valid) {
+d582 2
+a583 2
+        sr.cache_inhibit = batc_word.cache_inhibit;
+        sr.global = batc_word.global;
+d585 1
+a585 1
+        sr.write_through = batc_word.write_through;
+d596 2
+a597 2
+    sr.used = page_descriptor.used;
+    sr.modified = page_descriptor.modified;
+d599 3
+a601 3
+    sr.cache_inhibit = area_descriptor.cache_inhibit ||
+                       segment_descriptor.cache_inhibit ||
+                       page_descriptor.cache_inhibit;
+d603 3
+a605 3
+    sr.global = area_descriptor.global ||
+                segment_descriptor.global ||
+                page_descriptor.global;
+d607 2
+a608 2
+    sr.supervisor_only = segment_descriptor.supervisor_only ||
+                         page_descriptor.supervisor_only;
+d610 3
+a612 3
+    sr.write_through = area_descriptor.write_through ||
+                       segment_descriptor.write_through ||
+                       page_descriptor.write_through;
+d617 1
+a617 4
+/*
+ */
+int
+data_cmmu_0_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d622 2
+a623 2
+    int      override;
+{
+d628 1
+a628 4
+/*
+ */
+int
+data_cmmu_1_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d633 1
+a633 1
+    int      override;
+d639 1
+a639 4
+/*
+ */
+int
+data_cmmu_2_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d644 1
+a644 1
+    int      override;
+d650 1
+a650 4
+/*
+ */
+int
+data_cmmu_3_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d655 1
+a655 1
+    int      override;
+d661 1
+a661 4
+/*
+ */
+int
+code_cmmu_0_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d666 1
+a666 1
+    int      override;
+d672 1
+a672 4
+/*
+ */
+int
+code_cmmu_1_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d677 1
+a677 1
+    int      override;
+d683 1
+a683 4
+/*
+ */
+int
+code_cmmu_2_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d688 1
+a688 1
+    int      override;
+d694 1
+a694 4
+/*
+ */
+int
+code_cmmu_3_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d699 1
+a699 1
+    int      override;
+d763 1
+a763 1
+    cmmu_regs = &(cmmu_table[cmmu]);
+d822 6
+a827 1
+                flush_tlb_range(old_bwp[i] & 0xfff80000, 0x80000);
+d905 12
+a916 4
+                switch ((cmmu_regs->cr) & 3) {
+                    case 0:
+                        cache_flush_line(cmmu_regs->adr >> 4);
+                        break;
+d918 3
+a920 3
+                    case 1:
+                        cache_flush_page(cmmu_regs->adr >> 12);
+                        break;
+d922 3
+a924 3
+                    case 2:
+                        cache_flush_segment(cmmu_regs->adr >> 22);
+                        break;
+d926 4
+a929 3
+                    case 3:
+                        cache_flush_all();
+                        break;
+d942 21
+a962 1
+                flush_user_tlb();
+d966 21
+a986 1
+                flush_supervisor_tlb();
+d1028 1
+a1028 1
+    cmmu_regs = &(cmmu_table[cmmu]);
+d1032 1
+a1032 1
+    cmmu_regs = &(cmmu_table[cmmu]);
+a1077 1
+
+@
+
+
+1.19
+log
+@Now look at u/s bit in PSR when mapping front-end addresses.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.18 88/03/25 15:58:49 robertb Exp $
+d123 1
+a123 1
+sim_l_to_p(la, pa)
+d126 1
+d128 4
+a131 1
+    return l_to_p(PSR_US_MODE, la, pa, 0, READ);
+@
+
+
+1.18
+log
+@Now emit an error message if a store of a byte or halfword is
+attempted to a cmmu control register.  we used to give a warning
+on any byte of half operation on a control register.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.17 88/03/10 10:27:27 robertb Exp $
+d127 1
+a127 1
+    return l_to_p(M_SUPERVISOR, la, pa, 0, READ);
+@
+
+
+1.17
+log
+@Now checks BATC after seeing that the area descriptor valid bit
+is set.  Anahita pointed this out to me.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.16 88/02/25 14:34:28 robertb Exp $
+d804 3
+a806 2
+    if (size < WORD) {
+        sim_printf("warning: access of cmmu registers smaller than word.\n");
+@
+
+
+1.16
+log
+@Tuned the cache flushing code so that flushing lines and pages
+is a lot faster.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.15 88/02/24 20:08:57 robertb Exp $
+d180 1
+d182 17
+a217 20
+    }
+
+    /*
+     * We didn't find the address in the BATC, so now we do a table walk
+     * of the Page Address Translation structures.
+     *
+     * Fetch the area descriptor out of the CMMU page.
+     */
+    if (us_mode == M_USER) {
+        area_descriptor = u_to_ad(cmmu_regs->uapr);
+    } else {
+        area_descriptor = u_to_ad(cmmu_regs->sapr);
+    }
+
+    /*
+     * If the segment table is not valid, make a straight-thru mapping.
+     */
+    if (!area_descriptor.valid) {
+        *physical_address = logical_address;
+        return E_NONE;
+@
+
+
+1.15
+log
+@Fixed the probe function
+Made the io_print of the batc's no show zero batc entries.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.14 88/02/23 13:52:14 robertb Exp $
+d22 1
+a22 1
+static unsigned segment_descriptor_address;
+d25 1
+a25 1
+static unsigned page_descriptor_address;
+d38 1
+a38 1
+    unsigned u;
+d48 1
+a48 1
+    unsigned u;
+d56 1
+a56 1
+    unsigned u;
+d62 1
+a62 1
+unsigned
+d72 1
+a72 1
+    unsigned u;
+d78 1
+a78 1
+unsigned
+d88 1
+a88 1
+    unsigned u;
+d94 1
+a94 1
+unsigned
+d104 1
+a104 1
+    unsigned u;
+d110 1
+a110 1
+unsigned
+d124 2
+a125 2
+    unsigned la;
+    unsigned *pa;
+d137 2
+a138 2
+    unsigned logical_address;
+    unsigned *physical_address;
+d144 8
+a151 8
+    unsigned segment_base;
+    unsigned segment_number;
+    unsigned page_number;
+    unsigned page_base;
+    unsigned page_frame_address;
+    unsigned page_offset;
+    unsigned batc_pattern;
+    unsigned batc_base;
+d448 1
+a448 1
+    unsigned bwp, i, first;
+a476 4
+        if (first) {
+            sim_printf("port #   logical       physical      raw contents\n");
+            first = 0;
+        }
+d479 4
+d567 1
+a567 1
+    unsigned addr_to_trans;
+d650 4
+a653 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d664 4
+a667 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d678 4
+a681 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d692 4
+a695 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d706 4
+a709 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d720 4
+a723 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d734 4
+a737 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d748 4
+a751 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d765 1
+a765 1
+    unsigned offset;
+d767 1
+a767 1
+    unsigned o = offset;
+d790 4
+a793 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d799 3
+a801 3
+    unsigned dummy_zero[2];
+    unsigned old_adr;
+    unsigned old_bwp[8];
+d950 2
+a951 2
+            case 7: /* 5 & 6, no op for simulator. */
+            case 5: /* data invalidate only, no op for simulator */
+d954 1
+a954 1
+                        cache_flush_line(cmmu_regs->adr & 3);
+d1020 1
+a1020 1
+    unsigned physical_address;
+d1022 1
+a1022 1
+    unsigned cmmu;
+d1052 1
+a1052 1
+    unsigned line;
+d1054 1
+a1054 1
+    cache_flush_all();
+d1060 1
+a1060 1
+    unsigned page;
+d1062 5
+a1066 1
+    cache_flush_all();
+d1072 1
+a1072 1
+    unsigned segment;
+@
+
+
+1.14
+log
+@Added SIMCMMU facility to allow variable number of CMMU's.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.13 88/02/19 22:00:46 robertb Exp $
+d30 1
+d160 1
+d169 1
+a169 1
+        batc_word.write_protect = 0;
+d193 2
+a194 1
+            if (batc_word.write_protect && read_or_write == WRITE) {
+d288 1
+d295 1
+a295 2
+        if (segment_descriptor.write_protect || 
+            page_descriptor.write_protect) {
+d448 1
+a448 1
+    unsigned bwp, i;
+d465 2
+a466 1
+    sim_printf("last segment descriptor=0x%08X fetched from address 0x%08X\n", 
+d468 1
+d470 4
+a473 2
+    sim_printf("last page descriptor=0x%08X fetched from address 0x%08X\n", 
+                pd_to_u(page_descriptor), page_descriptor_address);
+d475 1
+a475 2
+
+        sim_printf("port #   logical       physical      raw contents\n");
+d477 4
+d482 4
+a485 2
+        sim_printf("  %D      0x%08X    0x%08X    0x%08X\n",
+                i, bwp & 0xfff80000, (bwp << 13) & 0xfff80000, bwp);
+d587 1
+d589 1
+a589 2
+        case RD_ONLY:
+            sr.write_protect = 1;
+d593 1
+a593 6
+        case RDWR:
+            sr.write_protect = 0;
+            sr.valid = 1;
+            break;
+
+        case NO_TRAN:
+a596 4
+            break;
+
+        default:
+            sim_printf("probe: case error.\n");
+@
+
+
+1.13
+log
+@Added the sim_l_to_p() function, to support the tran command
+in d78 and to support the logical mapping of target addresses.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.12 88/02/12 16:52:16 robertb Exp $
+d12 1
+d30 3
+d154 5
+d312 1
+d314 46
+d362 3
+a364 1
+    cmmu_init(0);
+d369 1
+d372 3
+a374 1
+    cmmu_init(1);
+d379 1
+d382 3
+a384 1
+    cmmu_init(2);
+d389 1
+d392 3
+a394 1
+    cmmu_init(3);
+d399 1
+d402 3
+a404 1
+    cmmu_init(4);
+d409 1
+d412 3
+a414 1
+    cmmu_init(5);
+d419 1
+d422 3
+a424 1
+    cmmu_init(6);
+d429 1
+d432 3
+a434 1
+    cmmu_init(7);
+d438 1
+a438 1
+ * Called when the simulator is initialized.
+d440 3
+a442 1
+cmmu_init(cmmu)
+d444 2
+a445 2
+    struct cmmu_registers *p;
+    int i;
+d447 4
+a450 5
+    page_descriptor_address = -1;
+    segment_descriptor_address = -1;
+    page_descriptor = u_to_pd(-1);
+    segment_descriptor = u_to_sd(-1);
+    area_descriptor = u_to_ad(-1);
+d452 1
+a452 1
+    p = &(cmmu_table[cmmu]);
+d454 2
+a455 1
+    bzero(p, sizeof(struct cmmu_registers));
+d457 17
+a473 6
+    p->id = (0x00a00000|(cmmu<<24));
+    p->sapr = 0x40;         /* Cache inhibit */
+    p->uapr = 0x40;         /* Cache inhibit */
+    p->clkvr = 0x3f0fc000;  /* */
+    for (i = 0 ; i < 1024 ; i++) {
+        p->cache_clkvr[i] = p->clkvr;
+d477 1
+d480 1
+d488 1
+d496 1
+d504 1
+d512 1
+d520 1
+d528 1
+d536 1
+a542 34
+ * This prints the registers of a CMMU in a nice form for the user.
+ */
+cmmu_print(cmmu)
+    int cmmu;
+{
+    struct cmmu_registers *cmmu_regs;
+    unsigned bwp, i;
+
+    cmmu_regs = &(cmmu_table[cmmu]);
+
+    sim_printf("cmmu %D:  id=0x%08X  cr=0x%08X  sr=0x%08X  adr=0x%08X\n",
+            cmmu, cmmu_regs->id, cmmu_regs->cr, cmmu_regs->sr, cmmu_regs->adr);
+
+    sim_printf("         sapr=0x%08X uapr=0x%08X\n", 
+                  cmmu_regs->sapr, cmmu_regs->uapr);
+
+    sim_printf("last area descriptor=0x%08X\n", ad_to_u(area_descriptor));
+
+    sim_printf("last segment descriptor=0x%08X fetched from address 0x%08X\n", 
+                sd_to_u(segment_descriptor), segment_descriptor_address);
+
+    sim_printf("last page descriptor=0x%08X fetched from address 0x%08X\n", 
+                pd_to_u(page_descriptor), page_descriptor_address);
+
+
+        sim_printf("port #   logical       physical      raw contents\n");
+    for (i = 0 ; i < 8 ; i++) {
+        bwp = cmmu_regs->bwp[i];
+        sim_printf("  %D      0x%08X    0x%08X    0x%08X\n",
+                i, bwp & 0xfff80000, (bwp << 13) & 0xfff80000, bwp);
+    }
+}
+
+/*
+d546 2
+d557 6
+d645 1
+d659 1
+d673 1
+d687 1
+d701 1
+d715 1
+d729 1
+d743 1
+d805 5
+@
+
+
+1.12
+log
+@Deleted extra */ in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.11 88/02/12 16:12:24 robertb Exp $
+d33 6
+a38 6
+	unsigned u;
+	struct area_descriptor area_descriptor;
+	struct segment_descriptor segment_descriptor;
+	struct cmmu_batc_word cmmu_batc_word;
+	struct page_descriptor page_descriptor;
+	struct cmmu_sr cmmu_sr;
+d43 1
+a43 1
+	unsigned u;
+d45 2
+a46 2
+	kl.u = u;
+	return kl.cmmu_batc_word;
+d48 1
+a48 1
+	
+d51 1
+a51 1
+	unsigned u;
+d53 2
+a54 2
+	kl.u = u;
+	return kl.area_descriptor;
+d59 1
+a59 1
+	struct area_descriptor ar;
+d61 2
+a62 2
+	kl.area_descriptor = ar;
+	return kl.u;
+d67 1
+a67 1
+	unsigned u;
+d69 2
+a70 2
+	kl.u = u;
+	return kl.segment_descriptor;
+d75 1
+a75 1
+	struct segment_descriptor sd;
+d77 2
+a78 2
+	kl.segment_descriptor = sd;
+	return kl.u;
+d83 1
+a83 1
+	unsigned u;
+d85 2
+a86 2
+	kl.u = u;
+	return kl.page_descriptor;
+d91 1
+a91 1
+	struct page_descriptor pd;
+d93 2
+a94 2
+	kl.page_descriptor = pd;
+	return kl.u;
+d99 1
+a99 1
+	unsigned u;
+d101 2
+a102 2
+	kl.u = u;
+	return kl.cmmu_sr;
+d107 1
+a107 1
+	struct cmmu_sr sr;
+d109 2
+a110 2
+	kl.cmmu_sr = sr;
+	return kl.u;
+d114 12
+d131 5
+a135 5
+	int us_mode;
+	unsigned logical_address;
+	unsigned *physical_address;
+	int		 cmmu;
+	int		 read_or_write;
+d137 1
+a137 1
+#define	DACC_OR_CACC	(cmmu < 4 ? E_CACC : E_DACC)
+d139 10
+a148 10
+	unsigned segment_base;
+	unsigned segment_number;
+	unsigned page_number;
+	unsigned page_base;
+	unsigned page_frame_address;
+	unsigned page_offset;
+	unsigned batc_pattern;
+	unsigned batc_base;
+	struct cmmu_registers *cmmu_regs;
+	int i;
+d150 5
+a154 5
+	batc_word.valid = 0;
+	/*
+	 * Check the hardwired BATC ports for control memory first.
+	 */
+	if (us_mode == M_SUPERVISOR && 
+d156 11
+a166 11
+		*physical_address = logical_address;
+		batc_word.valid = 1;
+		batc_word.write_protect = 0;
+		batc_word.cache_inhibit = 1;
+		batc_word.global = 0;
+		batc_word.write_through = 1;
+		batc_word.supervisor = 1;
+		batc_word.p_base_address = 0x1ffe | ((logical_address >> 19) & 1);
+		batc_word.l_base_address = 0x1ffe | ((logical_address >> 19) & 1);
+		return E_NONE;
+	}
+d168 13
+a180 13
+	cmmu_regs = &(cmmu_table[cmmu]);
+	/*
+	 * Search the BATC for valid entries that have the
+	 * same user/supervisor mode as that passed to us.  And its
+	 * logical address must match that passed to us in the top
+	 * 13 bits.
+	 */
+	batc_pattern = (logical_address & 0xfff80000) | us_mode << 5 | 1;
+	for (i = 0 ; i <= 7 ; i++) {
+		if ((cmmu_regs->bwp[i] & 0xfff80021) == batc_pattern) {
+			batc_word = u_to_batc(cmmu_regs->bwp[i]);
+			batc_base = batc_word.p_base_address;
+			*physical_address = batc_base << 19 | (logical_address & 0x7ffff);
+d182 7
+a188 7
+			if (batc_word.write_protect && read_or_write == WRITE) {
+				return DACC_OR_CACC;
+			} else {
+				return E_NONE;
+			}
+		}
+	}
+d190 11
+a200 11
+	/*
+	 * We didn't find the address in the BATC, so now we do a table walk
+	 * of the Page Address Translation structures.
+	 *
+	 * Fetch the area descriptor out of the CMMU page.
+	 */
+	if (us_mode == M_USER) {
+		area_descriptor = u_to_ad(cmmu_regs->uapr);
+	} else {
+		area_descriptor = u_to_ad(cmmu_regs->sapr);
+	}
+d202 7
+a208 7
+	/*
+	 * If the segment table is not valid, make a straight-thru mapping.
+	 */
+	if (!area_descriptor.valid) {
+		*physical_address = logical_address;
+		return E_NONE;
+	}
+d210 8
+a217 8
+	segment_base = area_descriptor.segment_table_base * PAGE_SIZE;
+	segment_number = logical_address >> 22;
+	segment_descriptor_address = segment_base + segment_number * 4;
+	segment_descriptor = u_to_sd(read_sim_w(segment_descriptor_address));
+	if (sim_errno) {
+		cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0x9000;
+		return DACC_OR_CACC;
+	}
+d219 7
+a225 7
+	/*
+	 * If the segment descriptor is not valid, return.
+	 */
+	if (!segment_descriptor.valid) {
+		cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xb000;
+		return DACC_OR_CACC;
+	}
+d227 8
+a234 8
+	/*
+	 * If the segment is supervisor-only and the mode of access is user,
+	 * then return with a not-translatable status.
+	 */
+	if (us_mode == M_USER && segment_descriptor.supervisor_only) {
+		cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xb000;
+		return DACC_OR_CACC;
+	}
+d236 8
+a243 8
+	page_base = segment_descriptor.page_table_base * PAGE_SIZE;
+	page_number = (logical_address >> 12) & 0x3ff;
+	page_descriptor_address = page_base + page_number * 4;
+	page_descriptor = u_to_pd(read_sim_w(page_descriptor_address));
+	if (sim_errno) {
+		cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0x8000;
+		return DACC_OR_CACC;
+	}
+d245 8
+a252 8
+	/*
+	 * If the page descriptor is not valid, return with not-translatable
+	 * status.
+	 */
+	if (!page_descriptor.valid) {
+		cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xa000;
+		return DACC_OR_CACC;
+	}
+d254 8
+a261 8
+	/*
+	 * If the page is supervisor-only and the mode of access is user,
+	 * return with a not-translatable status.
+	 */
+	if (us_mode == M_USER && page_descriptor.supervisor_only) {
+		cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xa000;
+		return DACC_OR_CACC;
+	}
+d263 3
+a265 3
+	page_frame_address = page_descriptor.page_frame_base * PAGE_SIZE;
+	page_offset = logical_address & PAGE_MASK;
+	*physical_address = page_frame_address + page_offset;
+d267 8
+a274 8
+	/*
+	 * Update the used bit in the page descriptor.
+	 */
+	page_descriptor.used = 1;
+	write_sim_w(page_descriptor_address, pd_to_u(page_descriptor));
+	if (sim_errno) {
+		cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xc000;
+	};
+d276 7
+a282 7
+	if (read_or_write == WRITE) {
+		/*
+		 * If the write-protect bits in either the segment descriptor
+		 * of the page descriptor are set and a write is attempted,
+		 * return an exception.
+		 */
+		if (segment_descriptor.write_protect || 
+d284 12
+a295 12
+			cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xf000;
+			return DACC_OR_CACC;
+		}
+		/*
+		 * Update the modified bit in the page descriptor.
+		 */
+		page_descriptor.modified = 1;
+		write_sim_w(page_descriptor_address, pd_to_u(page_descriptor));
+		if (sim_errno) {
+			cmmu_regs->sr = (cmmu_regs->sr & 0x3ff) | 0xc000;
+		};
+	}
+d297 1
+a297 1
+	return E_NONE;
+d299 1
+a299 1
+#undef	DACC_OR_CACC
+d306 1
+a306 1
+	cmmu_init(0);
+d313 1
+a313 1
+	cmmu_init(1);
+d320 1
+a320 1
+	cmmu_init(2);
+d327 1
+a327 1
+	cmmu_init(3);
+d334 1
+a334 1
+	cmmu_init(4);
+d341 1
+a341 1
+	cmmu_init(5);
+d348 1
+a348 1
+	cmmu_init(6);
+d355 1
+a355 1
+	cmmu_init(7);
+d363 2
+a364 2
+	struct cmmu_registers *p;
+	int i;
+d366 5
+a370 5
+	page_descriptor_address = -1;
+	segment_descriptor_address = -1;
+	page_descriptor = u_to_pd(-1);
+	segment_descriptor = u_to_sd(-1);
+	area_descriptor = u_to_ad(-1);
+d372 1
+a372 1
+	p = &(cmmu_table[cmmu]);
+d374 1
+a374 1
+	bzero(p, sizeof(struct cmmu_registers));
+d376 7
+a382 7
+	p->id = (0x00a00000|(cmmu<<24));
+	p->sapr = 0x40;			/* Cache inhibit */
+	p->uapr = 0x40;			/* Cache inhibit */
+	p->clkvr = 0x3f0fc000;	/* */
+	for (i = 0 ; i < 1024 ; i++) {
+		p->cache_clkvr[i] = p->clkvr;
+	}
+d389 1
+a389 1
+	cmmu_print(0);
+d396 1
+a396 1
+	cmmu_print(1);
+d403 1
+a403 1
+	cmmu_print(2);
+d410 1
+a410 1
+	cmmu_print(3);
+d417 1
+a417 1
+	cmmu_print(4);
+d424 1
+a424 1
+	cmmu_print(5);
+d431 1
+a431 1
+	cmmu_print(6);
+d438 1
+a438 1
+	cmmu_print(7);
+d445 1
+a445 1
+	int cmmu;
+d447 2
+a448 2
+	struct cmmu_registers *cmmu_regs;
+	unsigned bwp, i;
+d450 1
+a450 1
+	cmmu_regs = &(cmmu_table[cmmu]);
+d452 2
+a453 2
+	sim_printf("cmmu %D:  id=0x%08X  cr=0x%08X  sr=0x%08X  adr=0x%08X\n",
+			cmmu, cmmu_regs->id, cmmu_regs->cr, cmmu_regs->sr, cmmu_regs->adr);
+d455 1
+a455 1
+	sim_printf("         sapr=0x%08X uapr=0x%08X\n", 
+d458 1
+a458 1
+	sim_printf("last area descriptor=0x%08X\n", ad_to_u(area_descriptor));
+d460 1
+a460 1
+	sim_printf("last segment descriptor=0x%08X fetched from address 0x%08X\n", 
+d463 1
+a463 1
+	sim_printf("last page descriptor=0x%08X fetched from address 0x%08X\n", 
+d467 6
+a472 6
+		sim_printf("port #   logical       physical      raw contents\n");
+	for (i = 0 ; i < 8 ; i++) {
+		bwp = cmmu_regs->bwp[i];
+		sim_printf("  %D      0x%08X    0x%08X    0x%08X\n",
+				i, bwp & 0xfff80000, (bwp << 13) & 0xfff80000, bwp);
+	}
+d480 2
+a481 2
+	int mode;		/* M_USER or M_SUPERVISOR */
+	int cmmu;		/* 0..7 */
+d483 4
+a486 4
+	int status;
+	struct cmmu_sr sr;
+	struct cmmu_registers *cmmu_regs;
+	unsigned addr_to_trans;
+d488 2
+a489 2
+	cmmu_regs = &(cmmu_table[cmmu]);
+	addr_to_trans = cmmu_regs->adr;
+d491 7
+a497 7
+	cmmu_regs->adr = 0;
+	status = l_to_p(mode, addr_to_trans, &(cmmu_regs->adr), cmmu, READ);
+	if (VERBOSE) {
+		sim_printf("area_descriptor=%X\n", ad_to_u(area_descriptor));
+		sim_printf("segment_descriptor=%X\n", sd_to_u(segment_descriptor));
+		sim_printf("page_descriptor=%X\n", pd_to_u(page_descriptor));
+	}
+d499 6
+a504 6
+	sr = u_to_sr(cmmu_regs->sr);
+	switch (status) {
+		case RD_ONLY:
+			sr.write_protect = 1;
+			sr.valid = 1;
+			break;
+d506 4
+a509 4
+		case RDWR:
+			sr.write_protect = 0;
+			sr.valid = 1;
+			break;
+d511 5
+a515 5
+		case NO_TRAN:
+			sr.valid = 0;
+			cmmu_regs->sr = sr_to_u(sr);
+			return;
+			break;
+d517 4
+a520 4
+		default:
+			sim_printf("probe: case error.\n");
+			break;
+	}
+d522 19
+a540 19
+	/*
+ 	 * The translation used the block address translation
+	 * mechanism.  Set the status register.
+	 */
+	if (batc_word.valid) {
+		/*
+		 * The access was translated using the BATC
+		 */
+		sr.batc_hit = 1;
+		sr.used = 0;
+		sr.modified = 0;
+		sr.cache_inhibit = batc_word.cache_inhibit;
+		sr.global = batc_word.global;
+		sr.supervisor_only = mode;
+		sr.write_through = batc_word.write_through;
+		sr.exception_status = 0;
+		cmmu_regs->sr = sr_to_u(sr);
+		return;
+	}
+d542 7
+a548 7
+	/*
+	 * The translation used the paged address translation
+	 * mechanism.  Set the status register.
+	 */
+	sr.batc_hit = 0;
+	sr.used = page_descriptor.used;
+	sr.modified = page_descriptor.modified;
+d550 3
+a552 3
+	sr.cache_inhibit = area_descriptor.cache_inhibit ||
+					   segment_descriptor.cache_inhibit ||
+					   page_descriptor.cache_inhibit;
+d554 3
+a556 3
+	sr.global = area_descriptor.global ||
+				segment_descriptor.global ||
+				page_descriptor.global;
+d558 2
+a559 2
+	sr.supervisor_only = segment_descriptor.supervisor_only ||
+						 page_descriptor.supervisor_only;
+d561 3
+a563 3
+	sr.write_through = area_descriptor.write_through ||
+					   segment_descriptor.write_through ||
+					   page_descriptor.write_through;
+d565 1
+a565 1
+	cmmu_regs->sr = sr_to_u(sr);
+d571 5
+a575 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d577 1
+a577 1
+	return 
+d584 5
+a588 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d590 1
+a590 1
+	return 
+d597 5
+a601 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d603 1
+a603 1
+	return 
+d610 5
+a614 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d616 1
+a616 1
+	return 
+d623 5
+a627 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d629 1
+a629 1
+	return 
+d636 5
+a640 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d642 1
+a642 1
+	return 
+d649 5
+a653 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d655 1
+a655 1
+	return 
+d662 5
+a666 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d668 1
+a668 1
+	return 
+d679 1
+a679 1
+	unsigned offset;
+d681 2
+a682 2
+	unsigned o = offset;
+	struct cmmu_registers s;
+d684 1
+a684 1
+#define	CHECK(l, u, f)	if ((l) <= o && o <= (u)) \
+d687 6
+a692 6
+	CHECK(CMMU_ID, CMMU_AR, id);
+	CHECK(CMMU_SAD, CMMU_UAD, sapr);
+	CHECK(CMMU_BATC0, CMMU_BATC7, bwp[0]);
+	CHECK(CMMU_CDR0, CMMU_CDR3, cdr[0]);
+	CHECK(CMMU_CTR0, CMMU_CTR3, ctr[0]);
+	CHECK(CMMU_CLKVR, CMMU_CLKVR, clkvr);
+d696 1
+a696 1
+	return -1;
+d704 6
+a709 6
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      cmmu;			/* 0..7 */
+	int      override;
+d711 8
+a718 8
+	static int cmmu_warning1 = 0;
+	struct cmmu_registers *cmmu_regs;
+	unsigned dummy_zero[2];
+	unsigned old_adr;
+	unsigned old_bwp[8];
+	char   *mem_ptr;
+	int	   offset;
+	int    i;
+d720 3
+a722 3
+	if (size < WORD) {
+		sim_printf("warning: access of cmmu registers smaller than word.\n");
+	}
+d724 1
+a724 1
+	cmmu_regs = &(cmmu_table[cmmu]);
+d726 1
+a726 1
+	offset = cmmu_register_ptr(address_offset);
+d728 10
+a737 10
+	if (offset == -1) {
+		mem_ptr = &dummy_zero[0];
+		dummy_zero[0] = 0;
+		dummy_zero[1] = 0;
+		if(!cmmu_warning1++) {
+			sim_printf("warning: access misses cmmu registers.\n");
+		}
+	} else {
+		mem_ptr = (char *)cmmu_regs + offset;
+	}
+d739 4
+a742 4
+	/*
+	 * The BATC registers are write-only.  
+	 */
+	if ((mem_op_type == LD || mem_op_type == LD_U) && !override &&
+d744 5
+a748 5
+		mem_ptr = &dummy_zero[0];
+		dummy_zero[0] = 0;
+		dummy_zero[1] = 0;
+		sim_printf("warning: trying to read a BATC write port.\n");
+	}
+d750 2
+a751 2
+	/*
+	 * The BATC registers are write-only.  We let it go thru, but
+d753 2
+a754 2
+	 */
+	if ((mem_op_type == XMEM || mem_op_type == XMEM_U) && !override &&
+d756 2
+a757 2
+		sim_printf("warning: allowing xmem with a BATC write port.\n");
+	}
+d759 1
+a759 1
+	old_adr = cmmu_regs->adr;
+d761 5
+a765 5
+	if (CMMU_BATC0 <= address_offset && address_offset <= CMMU_BATC7) {
+		for (i = 0 ; i < 8 ; i++) {
+			old_bwp[i] = cmmu_regs->bwp[i];
+		}
+	}
+d767 4
+a770 4
+	/*
+	 * Do the actual operation between the CPU register and the CMMU register.
+	 */
+	do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+d772 3
+a774 3
+	if (mem_op_type == LD || mem_op_type == LD_U) {
+		return E_NONE;
+	}
+d776 11
+a786 11
+	/*
+	 * If the program writes any of the BATC ports, we must dump the part
+	 * of the software tlb's that was mapped by the old contents of the BATC.
+	 */
+	if (CMMU_BATC0 <= address_offset && address_offset <= CMMU_BATC7) {
+		for (i = 0 ; i < 8 ; i++) {
+			if (old_bwp[i] != cmmu_regs->bwp[i]) {
+				flush_tlb_range(old_bwp[i] & 0xfff80000, 0x80000);
+			}
+		}
+	}
+d788 12
+a799 12
+	/*
+	 * In case this was a double store or exchange, zero the pad fields of
+	 * the cmmu_registers structure.
+	 */
+	if (size == DWORD) {
+		cmmu_regs->pad1 = 0;
+		cmmu_regs->pad2 = 0;
+		cmmu_regs->pad3 = 0;
+		cmmu_regs->pad4 = 0;
+		cmmu_regs->pad5 = 0;
+		cmmu_regs->pad6 = 0;
+	}
+d801 5
+a805 5
+	cmmu_regs->id &= 0xffff0000;
+	cmmu_regs->cr &= 0xe03f;
+	cmmu_regs->sr &= 0xf3df;
+	cmmu_regs->sapr &= 0xfffff2c1;
+	cmmu_regs->uapr &= 0xfffff2c1;
+d807 11
+a817 11
+	i = (cmmu_regs->adr >> 2) & 0x3ff;
+	/*
+	 * If any of the cache data registers were touched, write
+	 * all four of them back to the cache data arrays.
+	 */
+	if (CMMU_CDR0 <= address_offset && address_offset <= CMMU_CDR3) {
+		cmmu_regs->cache_data0[i] = cmmu_regs->cdr[0];
+		cmmu_regs->cache_data1[i] = cmmu_regs->cdr[1];
+		cmmu_regs->cache_data2[i] = cmmu_regs->cdr[2];
+		cmmu_regs->cache_data3[i] = cmmu_regs->cdr[3];
+	}
+d819 9
+a827 9
+	/*
+	 * If any of the cache tag registers were touched, mask and
+	 * write them all back to the simulated cache tag arrays.
+	 */
+	if (CMMU_CTR0 <= address_offset && address_offset <= CMMU_CTR3) {
+		cmmu_regs->ctr[0] &= 0xfffff000;
+		cmmu_regs->ctr[1] &= 0xfffff000;
+		cmmu_regs->ctr[2] &= 0xfffff000;
+		cmmu_regs->ctr[3] &= 0xfffff000;
+d829 5
+a833 5
+		cmmu_regs->cache_tag0[i] = cmmu_regs->ctr[0];
+		cmmu_regs->cache_tag1[i] = cmmu_regs->ctr[1];
+		cmmu_regs->cache_tag2[i] = cmmu_regs->ctr[2];
+		cmmu_regs->cache_tag3[i] = cmmu_regs->ctr[3];
+	}
+d835 6
+a840 6
+	/*
+	 * If the cache clkvr register is addressed, mask it and
+	 * write it back to the clkvr array.
+	 */
+	if (CMMU_CLKVR == address_offset) {
+		cmmu_regs->clkvr &= 0x3ffff000;
+d842 2
+a843 2
+		cmmu_regs->cache_clkvr[i] = cmmu_regs->clkvr;
+	}
+d845 8
+a852 8
+	if (address_offset == CMMU_CR) {
+		/*
+		 * The control register has been loaded, decode the command
+		 * code.
+		 */
+		switch ((cmmu_regs->cr >> 2) & 0xf) {
+			case 0: case 1: case 2: case 3: case 4:/* no op*/
+				break;
+d854 1
+a854 1
+				break;
+d856 2
+a857 2
+			case 6: /* data copyback only, no op for simulator */
+				break;
+d859 6
+a864 6
+			case 7: /* 5 & 6, no op for simulator. */
+			case 5: /* data invalidate only, no op for simulator */
+				switch ((cmmu_regs->cr) & 3) {
+					case 0:
+						cache_flush_line(cmmu_regs->adr & 3);
+						break;
+d866 3
+a868 3
+					case 1:
+						cache_flush_page(cmmu_regs->adr >> 12);
+						break;
+d870 3
+a872 3
+					case 2:
+						cache_flush_segment(cmmu_regs->adr >> 22);
+						break;
+d874 5
+a878 5
+					case 3:
+						cache_flush_all();
+						break;
+				}
+				break;
+d880 3
+a882 3
+			case 8: case 0xa: /* ATC probe user */
+				probe(M_USER, cmmu);
+				break;
+d884 3
+a886 3
+			case 9: case 0xb: /* ATC probe supervisor. */
+				probe(M_SUPERVISOR, cmmu);
+				break;
+d888 3
+a890 3
+			case 0xc: case 0xe: /* Flush user ATC */
+				flush_user_tlb();
+				break;
+d892 3
+a894 3
+			case 0xd: case 0xf: /* Flush supervisor ATC */
+				flush_supervisor_tlb();
+				break;
+d896 5
+a900 5
+			default:
+				sim_printf("cmmu_operation: case error.\n");
+				break;
+		}
+	}
+d902 9
+a910 9
+	/*
+	 * If the address register has changed we need to reload the
+	 * cache data and tag registers.
+	 */
+	if (old_adr != cmmu_regs->adr) {
+		cmmu_regs->cdr[0] = cmmu_regs->cache_data0[i];
+		cmmu_regs->cdr[1] = cmmu_regs->cache_data1[i];
+		cmmu_regs->cdr[2] = cmmu_regs->cache_data2[i];
+		cmmu_regs->cdr[3] = cmmu_regs->cache_data3[i];
+d912 4
+a915 4
+		cmmu_regs->ctr[0] = cmmu_regs->cache_tag0[i];
+		cmmu_regs->ctr[1] = cmmu_regs->cache_tag1[i];
+		cmmu_regs->ctr[2] = cmmu_regs->cache_tag2[i];
+		cmmu_regs->ctr[3] = cmmu_regs->cache_tag3[i];
+d917 3
+a919 3
+		cmmu_regs->clkvr = cmmu_regs->cache_clkvr[i];
+	}
+	return E_NONE;
+d929 1
+a929 1
+	unsigned physical_address;
+d931 2
+a932 2
+	unsigned cmmu;
+	struct cmmu_registers *cmmu_regs;
+d934 3
+a936 3
+	cmmu = DATA_CMMU(physical_address);
+	cmmu_regs = &(cmmu_table[cmmu]);
+	cmmu_regs->sr = (cmmu_regs->sr & 0xfff) | 0x2000;
+d938 3
+a940 3
+	cmmu = CODE_CMMU(physical_address);
+	cmmu_regs = &(cmmu_table[cmmu]);
+	cmmu_regs->sr = (cmmu_regs->sr & 0xfff) | 0x2000;
+d948 2
+a949 2
+	struct page *p;
+	int i;
+d951 5
+a955 5
+	for (i = 0 ; i < page_table_size ; i++) {
+		if (p = page_table[i]) {
+			clean_decoded_part(p->decoded_part);
+		}
+	}
+d961 1
+a961 1
+	unsigned line;
+d963 1
+a963 1
+	cache_flush_all();
+d969 1
+a969 1
+	unsigned page;
+d971 1
+a971 1
+	cache_flush_all();
+d977 1
+a977 1
+	unsigned segment;
+d979 1
+a979 1
+	cache_flush_all();
+@
+
+
+1.11
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.c,v 1.10 88/01/15 11:05:57 robertb Exp $ */
+a8 1
+
+@
+
+
+1.10
+log
+@Fixed flushing of data cache.
+@
+text
+@a0 2
+/* $Header: cmmu.c,v 1.9 87/12/18 16:53:26 robertb Exp $ */
+
+d3 5
+d9 1
+@
+
+
+1.9
+log
+@Fixed bug where the array of clkvr bits in the CMMU were not
+initialized correctly.
+@
+text
+@d1 1
+a1 1
+/* $Header: cmmu.c,v 1.8 87/12/11 19:48:57 robertb Exp $ */
+d699 1
+a699 1
+	unsigned old_cr, old_adr;
+a743 1
+	old_cr = cmmu_regs->cr;
+d830 1
+a830 1
+	if (old_cr != cmmu_regs->cr) {
+@
+
+
+1.8
+log
+@Added ability to flush the cache.  In the simulator this
+has the effect of flushing the decoded instructions.
+This was needed to make the cross-debugging work with the
+simulation environment.
+@
+text
+@d1 1
+a1 1
+/* $Header: cmmu.c,v 1.7 87/12/01 22:24:53 robertb Exp $ */
+d349 1
+d365 3
+@
+
+
+1.7
+log
+@We now flush part of the tlb's by calling "flush_tlb_range"
+when the program writes a BATC port.
+@
+text
+@d1 1
+a1 1
+/* $Header: cmmu.c,v 1.6 87/11/23 14:39:53 timd Exp $ */
+a835 1
+			case 5: /* data invalidate only, no op for simulator */
+d842 18
+d924 40
+@
+
+
+1.6
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d696 1
+d743 6
+d756 12
+@
+
+
+1.5
+log
+@see changes_10_11.doc
+@
+text
+@d1 1
+@
+
+
+1.4
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a7 1
+#include "exception.h"
+d13 2
+a14 2
+ * and page descriptor fetched by l_to_p.  The probe commands read
+ * them.  So does set_u_and_m_bits().
+d17 1
+d111 1
+a111 2
+ * It return a code to say if the translation was successful and if so
+ * whether writes to the address are allowed.
+d114 1
+a114 1
+l_to_p(us_mode, logical_address, physical_address, cmmu)
+d119 1
+d121 2
+a133 1
+	page_descriptor_address = 1;
+d149 1
+a149 1
+		return RDWR;
+d166 2
+a167 2
+			if (batc_word.write_protect) {
+				return RD_ONLY;
+d169 1
+a169 1
+				return RDWR;
+d191 1
+a191 1
+		return RDWR;
+d194 8
+a201 3
+	segment_base = area_descriptor.segment_table_base;
+	segment_number = logical_address >> 21;
+	segment_descriptor = u_to_sd(read_sim_w(segment_base + segment_number * 4));
+d207 2
+a208 1
+		return NO_TRAN;
+d216 2
+a217 1
+		return NO_TRAN;
+d220 1
+a220 1
+	page_base = segment_descriptor.page_table_base;
+d224 4
+d234 2
+a235 2
+		page_descriptor_address = 1;
+		return NO_TRAN;
+d243 2
+a244 2
+		page_descriptor_address = 1;
+		return NO_TRAN;
+d247 2
+a248 2
+	page_frame_address = page_descriptor.page_frame_base;
+	page_offset = logical_address & ~PAGE_MASK;
+d252 1
+a252 3
+	 * If the write-protect bits in either the segment descriptor
+	 * of the page descriptor are set, then return "read-only" as
+	 * the status of this page.
+d254 5
+a258 6
+	if (segment_descriptor.write_protect || page_descriptor.write_protect) {
+		return RD_ONLY;
+	} else {
+		return RDWR;
+	}
+}
+d260 19
+a278 14
+/*
+ * This sets the used and modified bits in the page table entry
+ * last fetched by l_to_p.  The used bit is always set.  The modified
+ * bit is set if the passed parameter indicates a store.
+ */
+set_u_and_m_bits(mem_op_type)
+	int mem_op_type;
+{
+	/*
+	 * It may be that there is no page descriptor right now, like
+	 * if the mapping is straight thru.
+	 */
+	if (page_descriptor_address == 1) {
+		return;
+d281 3
+a283 7
+	page_descriptor.used = 1;
+	if (mem_op_type == ST || mem_op_type == XMEM || mem_op_type == XMEM_U) {
+		page_descriptor.modified = 1;
+	}
+	if (write_sim_w(page_descriptor_address, pd_to_u(page_descriptor)) == -1) {
+		sim_printf("set_u_and_m_bits: unable to write page descriptor.\n");
+	};
+d349 6
+d366 90
+d472 1
+a472 1
+	status = l_to_p(mode, addr_to_trans, &(cmmu_regs->adr), cmmu);
+d699 4
+d797 10
+d861 2
+d865 21
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d10 1
+a10 1
+static struct page cmmu_table[8];
+d129 1
+a129 1
+	struct page *cmmu_page;
+d151 1
+a151 1
+	cmmu_page = &(cmmu_table[cmmu]);
+d159 3
+a161 3
+	for (i = CMMU_BATC0 ; i <= CMMU_BATC7 ; i++) {
+		if ((cmmu_page->values[i] & 0xfff80021) == batc_pattern) {
+			batc_word = u_to_batc(cmmu_page->values[i]);
+d180 1
+a180 1
+		area_descriptor = u_to_ad(cmmu_page->values[CMMU_UAD]);
+d182 1
+a182 1
+		area_descriptor = u_to_ad(cmmu_page->values[CMMU_SAD]);
+d337 1
+a337 1
+	struct page *cmmu_page;
+d339 1
+a339 1
+	cmmu_page = &(cmmu_table[cmmu]);
+d341 1
+a341 1
+	bzero(cmmu_page, sizeof(cmmu_page));
+d343 4
+a346 5
+	cmmu_page->values[CMMU_ID] = (0x00a00000|(cmmu<<24));
+	cmmu_page->values[CMMU_CR] = 0x0;			/* ctl reg */
+	cmmu_page->values[CMMU_SAD] = 0x40;			/* Cache inhibit */
+	cmmu_page->values[CMMU_UAD] = 0x40;			/* Cache inhibit */
+	cmmu_page->values[CMMU_CLRU] = 0x3f0fc000;	/* */
+a349 22
+ * This returns true if the passed page offset address a CMMU
+ * register.
+ */
+int
+cmmu_address_valid(word_index)
+	unsigned word_index;
+{
+	/*
+	 * Check to see the physical address hits any of the CMMU registers.
+	 */
+	if ((0          <= word_index && word_index <= CMMU_AR)    ||
+		(CMMU_SAD   <= word_index && word_index <= CMMU_UAD)   ||
+		(CMMU_BATC0 <= word_index && word_index <= CMMU_BATC7) ||
+		(CMMU_CDR0  <= word_index && word_index <= CMMU_CDR3)  ||
+		(CMMU_CTR0  <= word_index && word_index <= CMMU_CTR3)  ||
+		(CMMU_CLRU == word_index)) {
+		return 1;
+	}
+	return 0;
+}
+
+/*
+d359 1
+a359 1
+	struct page *cmmu_page;
+d362 2
+a363 2
+	cmmu_page = &(cmmu_table[cmmu]);
+	addr_to_trans = cmmu_page->values[CMMU_AR];
+d365 2
+a366 2
+	cmmu_page->values[CMMU_AR] = 0;
+	status = l_to_p(mode, addr_to_trans, &(cmmu_page->values[CMMU_AR]), cmmu);
+d373 1
+a373 1
+	sr = u_to_sr(cmmu_page->values[CMMU_SR]);
+d387 1
+a387 1
+			cmmu_page->values[CMMU_SR] = sr_to_u(sr);
+d412 1
+a412 1
+		cmmu_page->values[CMMU_SR] = sr_to_u(sr);
+d439 1
+a439 1
+	cmmu_page->values[CMMU_SR] = sr_to_u(sr);
+d444 2
+a445 2
+data_cmmu_0_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d449 1
+d451 2
+a452 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 0);
+d457 2
+a458 2
+data_cmmu_1_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d462 1
+d464 2
+a465 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 1);
+d470 2
+a471 2
+data_cmmu_2_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d475 1
+d477 2
+a478 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 2);
+d483 2
+a484 2
+data_cmmu_3_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d488 1
+d490 2
+a491 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 3);
+d496 2
+a497 2
+code_cmmu_0_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d501 1
+d503 2
+a504 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 4);
+d509 2
+a510 2
+code_cmmu_1_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d514 1
+d516 2
+a517 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 5);
+d522 2
+a523 2
+code_cmmu_2_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d527 1
+d529 2
+a530 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 6);
+d535 2
+a536 2
+code_cmmu_3_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d540 1
+d542 2
+a543 1
+	return cmmu_operation(physical_address, reg_ptr, size, mem_op_type, 7);
+d547 27
+d577 2
+a578 2
+cmmu_operation(physical_address, reg_ptr, size, mem_op_type, cmmu)
+	unsigned physical_address;
+d583 1
+a584 5
+	unsigned word_index;
+	unsigned value;
+	char 	 *mem_ptr;
+	unsigned page_offset;
+	int		 ok_reg;
+d586 6
+a591 2
+	static int cmmu_warning2 = 0;
+	struct page *cmmu_page;
+d593 1
+a593 2
+	page_offset = physical_address & PAGE_MASK;
+	word_index = page_offset >> 2;
+d595 1
+a595 1
+	ok_reg = cmmu_address_valid(word_index);
+d597 9
+a605 2
+	if (!ok_reg && !cmmu_warning1++) {
+		sim_printf("warning: access CMMU register page misses registers.\n");
+d609 1
+a609 3
+	 * The BATC registers are write-only.  We allow them to read, partly
+	 * to make life easier for people debugging their code on the
+	 * the simulator.  We emit a message to warn them.
+d611 6
+a616 6
+/*
+	if ((mem_op_type == LD || mem_op_type == LD_U || mem_op_type == XMEM ||
+		 mem_op_type == XMEM_U) && 
+        (CMMU_BATC0 <= word_index && word_index <= CMMU_BATC7) && 
+		!cmmu_warning2++) {
+		sim_printf("warning: allowing read of a BATC write port.\n");
+a617 1
+*/
+d619 8
+a626 2
+	cmmu_page = &(cmmu_table[cmmu]);
+	mem_ptr = &(cmmu_page->values[word_index]);
+d628 3
+d636 4
+d641 2
+a642 5
+	 * If the instruction was an XMEM with a non-existent CMMU register,
+	 * then zero the addressed CMMU register.  This also covers the
+	 * case of double stores adn double xmem's that start at an invalid
+	 * address and spill over to a valid address.  Just the first (invalid)
+	 * word will be zero'd.
+d644 7
+a650 3
+	if (!ok_reg && 
+	     (mem_op_type == ST || mem_op_type == XMEM || mem_op_type == XMEM_U)) {
+		cmmu_page->values[word_index] = 0;
+d653 7
+d661 2
+a662 2
+	 * If we are doing a double store or xmem to a CMMU register and it
+	 * spills over to an invalid word, zero that word.
+d664 5
+a668 5
+	if (ok_reg && size == DWORD && 
+	    (mem_op_type == ST || mem_op_type == XMEM || mem_op_type == XMEM_U)) {
+		if (!cmmu_address_valid(page_offset + 1)) {
+			cmmu_page->values[word_index + 1] = 0;
+		}
+d671 14
+a684 2
+	if (mem_op_type == LD || mem_op_type == LD_U) {
+		return E_NONE;
+d687 8
+a694 10
+	value = cmmu_page->values[word_index];
+	switch (word_index) {
+		case CMMU_CR:
+			/*
+			 * The control register has been loaded, decode the command
+			 * code.
+			 */
+			switch ((value >> 2) & 0xf) {
+				case 0: case 1: case 2: case 3: case 4:/* no op*/
+					break;
+d696 2
+a697 2
+				case 5: /* data invalidate only, no op for simulator */
+					break;
+d699 2
+a700 2
+				case 6: /* data copyback only, no op for simulator */
+					break;
+d702 2
+a703 2
+				case 7: /* 5 & 6, no op for simulator. */
+					break;
+d705 3
+a707 3
+				case 8: case 0xa: /* ATC probe user */
+					probe(M_USER, cmmu);
+					break;
+d709 3
+a711 3
+				case 9: case 0xb: /* ATC probe supervisor. */
+					probe(M_SUPERVISOR, cmmu);
+					break;
+d713 3
+a715 3
+				case 0xc: case 0xe: /* Flush user ATC */
+					flush_user_tlb();
+					break;
+d717 3
+a719 3
+				case 0xd: case 0xf: /* Flush supervisor ATC */
+					flush_supervisor_tlb();
+					break;
+d721 5
+a725 5
+				default:
+					sim_printf("cmmu_operation: case error.\n");
+					break;
+			}
+			return 0;
+d727 14
+a740 2
+		default:
+			break;
+@
+
+
+1.2
+log
+@brents fixed id field of CMMU ID reg on initialization
+@
+text
+@@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d343 2
+a344 1
+	cmmu_page->values[CMMU_ID] = 0x00a00000;
+@

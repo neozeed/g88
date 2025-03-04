@@ -1,0 +1,48 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     90.05.17.13.41.34;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Describes what is in this directory
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@
+This directory contains simulator source and documentation files.
+
+paper.txt  - Ventura Publisher source of the USENIX paper on the simulator
+             This does not have the diagrams, so is of limited use.
+             See the real thing in the Winter 1990 USENIX Technical
+             Conference Proceedings.
+
+changes*   - Email I sent to simulator users.  Contains explanations
+             of special simulator commands.  Most of this still applies
+             to the gdb-front-ended simulator that you find here.
+
+The result of running the Makefile is an object file, sim.o.  This
+is then linked with the rest of gdb by gdb's Makefile.
+
+Some symbolic links are made to source files in ..
+
+If you don't need the I/O simulators, remove the reference to them
+in io.c and delete their .o file from the list in Makefile.  Note
+that you can not remove the CMMU simulator.
+
+
+
+@

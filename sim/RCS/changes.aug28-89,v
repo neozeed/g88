@@ -1,0 +1,104 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.1
+date     89.08.28.11.51.34;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@changes made today.
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@To: m88kernel, garyho, paulm@@hammer, jeffb@@hammer, larryh@@hammer, billk, stans
+Cc: andrew, greggf
+Subject: New d88, many changes
+-------
+
+It is installed on cupcake.  The man page on cupcake is up to date.
+The help command lists every command in d88.
+
+Bugs fixed:
+
+1. Call now works more than once with print_scb_log().
+
+2. Parameters are now correct, you no longer need to disassemble the
+   first few instructions of a function to find where your parameter
+   was stored.
+
+3. Can now interrupt d88 while it is tracing.  Interrupting d88 in
+   general is much improved.
+
+4. No longer core dumps after an unsuccessful initial attempt to reset
+   the target.
+
+5. Now handles DACCs that occur as the result of debugger commands
+   gracefully.
+
+New features:
+
+1. flush command: flushes d88's cache of target memory and tty line buffer.
+
+2. bzero command, just like the kernel function, zero's target memory
+
+3. bcopy command, just like the kernel function, copies target memory.
+
+4. search command, searches target memory for a pattern.
+
+5. probe and uprobe commands, like the aliases that many people used
+   but gives more information.  The aliases stopped working when d88
+   was changed to deal with write-protected kernel text, so please
+   delete your probe and uprobe aliases.
+
+   I removed the tran command as the probe and uprobe commands do
+   about the same thing.
+
+6. Take less VM.  When loading the kernel without net debugging symbols,
+   it used to consume 14 MB, now it takes 10.4 MB.  This makes it
+   faster on memory-starved systems.
+
+7. Now single steps the machine after continue or run or when single
+   stepping by source lines if there is a breakpoint at the current pc.
+   This makes d88 faster and makes it easier to look at logic analyizer
+   traces.
+
+8. If $noparityinit is set, things will run faster.  The only time you
+   can't have this set is between the time you turn the system on
+   and the first download.
+
+9. Now opens the remote tty line for exclusive use, so if someone else
+   tries to use the same line they won't be able to.
+
+10.If you use the -z flag and d88 is unable to interrupt the target it
+   is a fatal error, d88 will no longer try to reset the target.
+
+11.The help command now describes almost every command and only describes
+   commands appropriate to the mode (remote or simulator).
+
+You need new ROMs to use the bcopy and search commands.
+
+If you know of any bugs besides the two listed at the end of the d88
+man page, please let me know.  They are:
+
+1. Recursive function invocation can confuse the where and
+    return commands.
+
+2. Assignment to bitfields doesn't work.
+
+Thursday is my last day.
+
+	Rob
+
+@

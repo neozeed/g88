@@ -1,0 +1,236 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.1
+date     88.08.13.16.24.12;  author kernel;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of doc files that Rob left behind.
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * $Header: sim_interface.doc,v 1.3 88/02/12 16:14:25 robertb Exp $
+
+
+           88000 SIMULATOR INTERFACE
+
+
+
+DATE:    December 7, 1987
+REVISED: June 27, 1988
+
+FROM:    Robert Bedichek
+
+
+This note details the interface that the 88000 UTek simulator presents
+to a front-end.  This is a starting point for understanding the
+simulator and also serves any one connecting the simulator to a new
+front end.
+
+Currently the simulator has one front-end, dbx.   The front-end
+of dbx and the 88k simulator together are called d88.  There was
+an adb front-end, but it hasn't been kept in sync with the simulator
+for about 7 months.
+
+The most important C file to look at in order to understand the
+interface and one that should be included by any program connecting to
+the simulator is sim_interface.h.  
+
+In d88, the dbx front end, look in "sim.c", "process.c", "machine.c",
+and "main.c".  Grep for "sim_" in these files.  Currently the
+files in the directory "d88" are under RCS in //cupcake/UTek/src/dbx/d88.
+
+The ad78 front end is not up to date, but if you want to look at
+the interface to the simulator, examine files "runpcs.c" and "sr71.c".
+
+
+
+           88000 REGISTERS
+
+The 88000 registers are modeled with three separated arrays of unsigned
+integers.  One each for the general registers, the Integer Unit control
+registers, and the Floating Point control registers.  The general registers
+are in "regs".  regs[0] is r0 (should always be zero), r31 is in r[31].
+There is an element regs[32]; it exits in case an instruction such as
+
+        ld.d    r31,r0,_foo
+
+is executed.  regs[32] would get the superfluous data.
+
+The control unit registers are modeled with the "sfu0_regs" and
+"sfu1_regs" arrays.  Each is 64 elements and each element is an
+unsigned.  They are indexed with the control register numbers listed in
+the 88000 user's manual.
+
+The XIP, the executing instruction pointer, is modeled by the global
+variable "ip".  Note that in a real machine this register is not
+accessible to software or external hardware directly.  Its value is
+read when the simulation function sim() is entered and is written
+before sim() exits.  The simulated ip is kept in a register variable
+during instruction execution.
+
+
+           EXECUTION OF 88000 INSTRUCTIONS
+
+To execute one instruction call sim(1).  This will execute the
+instruction pointed to by the instruction pointer in "ip".  To execute
+many instructions call sim(0).  This will keep executing until one of
+the following occurs:
+
+    1. A breakpoint instruction is encountered.  This instruction
+       is "tb0 0,r0,131".
+      
+    2. The user hits control C.  Control from sim() will return
+       after the next branch instruction that is taken.  It is up 
+       to the front end to provide the SIGINT handler and to have 
+       the line "sim_interrupt_flag |= INT_FRONT_END" in this handler.
+
+    3. The program writes to the interrupt device.  This is a word
+       in the IO region.  It has exactly the same effect as hitting
+       control C.
+
+    4. The simulator gets into a state that would cause a real 88k
+       to lock up.  For example, doing a "tb0 0,r0,xxx" with a non-zero
+       scoreboard register will cause a real machine to lock up and
+       will cause the simulator to stop with a message.
+
+The function sim() is the only entry point in the simulator that cause 
+instructions to be executed.  The rest of the entry points are for 
+reading and writing simulated memory or for printing internal device
+information that may be interesting to a user.  Sim() returns its reason 
+for returning.  The identifiers that
+associate return causes and their meanings are:
+
+    NONE       : returned by sim_ss when nothing exceptional happened.
+
+    BREAKPOINT : returned when a "tb0 0,t0,131" instruction is executed.  
+
+    INTERRUPT  : returned when the global flag "sim_interrupt_flag"
+                 has the INT_FRONT_END bit set (used to implement 
+                 control-C).
+
+    HOSED      : returned when there have been too many exceptions with 
+                 the shadow registers frozed or some other condition 
+                 that would cause a real 88k to lock up.
+
+    CAUGHT_EXCEPTION : returned when an exception occurs that is
+                       being caught.
+          
+
+Before calling any other simulator function, the function sim_init()
+should be called.  This initializes all of the registers, simulated
+memory, and IO devices.  It can be called at any time to reinitialize
+the entire simulator.  It completely resets the simulator state, except
+that structures for modeling data and instruction pages are not freed,
+just cleaned.  This affects the display of memory use when the
+sim_printmap() function is called.
+
+
+           READING AND WRITING LOCATIONS
+
+There are nine functions for reading and writing locations in the
+physical address space.  Three functions are for reading and three are
+for writing a word or less at a time.  In each set of three there is 
+one for bytes, one for half words, and one for words.  Reads are 
+always unsigned, the sign bit of a byte of half word are not sign extended.
+There are two functions for reading or writing a file directly from
+simulation memory.  One function can clear a block of simulation
+memory.
+
+After the fashion of "errno", there is a global called "sim_errno" that
+is set by these functions to a non zero value if the memory operation
+would have caused an exception had the processor tried to do it.
+
+Note that all of these memory access routines deal in physical
+addresses.  There is a routine called "l_to_p" that will translate
+logical addresses to physical addresses but it is not presently called
+by either front end.
+
+           FUNCTIONS THAT THE FRONT END MUST PROVIDE
+
+The simulator relies on the front end to do its IO.  The front end
+must provide the following functions:
+
+    1. sim_printf().      Called to print out all error and warning
+                          messages.
+
+    2. sim_consputchar(). Called when the 88000 program writes to the
+                          simulated console.
+
+    3. sim_consgetchar(). Called when the 88000 program reads from the
+                          simulated console device.
+
+The front end is free to do whatever it wishes when these routines are
+called.  The simulator makes no assumptions about what actually happens
+when these functions execute.  Only the return value from sim_getchar()
+is used.
+
+There is a global word that the front end must declare called
+"sim_interrupt_flag".  The simulator checks this after each branch that
+is taken.  If the INT_FRONT_END bit is non zero when the simulator 
+checks it, then sim() return with the code INTERRUPT.
+
+           SPECIAL ENTRY POINTS
+
+There are several simulator functions that print information about the
+IO simulators.  sim_io_print_devices() lists all of the IO simulators,
+the number of operations completed with them, their addresses,
+sim_io_print() is passed a device index or a physical address.  If the
+device index or address corresponds to a valid device, that device's
+print function is called.  If there is no such correspondence, it
+sim_io_print() returns silently.
+
+  sim_io_trace(trace_code, physical_address, number_to_show) 
+
+This prints IO trace records.  The third parameter says how many trace
+records to display.  One record is displayed per line and the most
+recent records are displayed first.   If the first parameter,
+trace_code, is SHOW_IO_TRACE_ALL, trace records for all devices are
+shown and the second parameter is ignored.
+
+If trace_code is SHOW_IO_TRACE_DEVICE, trace records for just one
+device are shown.  In this case the second parameter, physical_address,
+is used.  It is either a small integer, giving the device's index, or a
+large one, giving the device's IO address.  If it a device index, trace
+records in the trace buffer for the indicated device are displayed.  If
+it is an address, only trace records from IO operations with the
+specified address are shown.  This is the most selective form of the
+sim_io_trace() call.
+
+           NOTES
+
+The simulator calls malloc() and sbrk() to allocate memory while it
+executes.  It is possible for the system to run out of memory at any
+time.  If this happens the simulator will terminate with a message
+saying it was unable to malloc or sbrk more memory.
+
+           LINKING IN THE SIMULATOR
+
+
+The simulator uses asm inserts so the compiler that compiles it must
+support them.
+
+One part of the building process is a little tricky and bears
+explanation.  The result of this compilation is an assembly files that
+is processed with both a sed script and a small program that converts
+indirect function calls into indirect branches.  This filtered file is
+assembled to produce execute.o.  Execute.o contains the sim() function.
+The fixup program is call "fixup" and its operation is very compiler-
+dependent.
+@

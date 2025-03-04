@@ -1,0 +1,140 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     87.12.07.14.20.20;  author timd;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.25.14.22.05;  author timd;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@DMA Peripheral Bus Address map
+@
+
+
+1.2
+log
+@Reflect changes in Dec 4, 1987 IOB spec.
+@
+text
+@/*------------------------------------------------------------------------
+ * dma.h
+ *
+ * This file defines the addresses of those I/O devices on the I/O board
+ * that are accessible only through the peripheral bus access space of
+ * the DMA Controllers.
+ *
+ * All addresses given are offsets from the appropriate DMAC's base address.
+ *
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: dma.h,v 1.2 87/12/07 12:03:52 timd Exp $
+ *------------------------------------------------------------------------
+ */
+
+
+/*------------------------------------------------------------------------
+ * DMA Controller "A"
+ *
+ *------------------------------------------------------------------------
+ */
+
+
+/* --------------- */
+/* SCSI Controller */
+/* --------------- */
+
+#define	DMA_PBA_SCSI_XFER_COUNT_MSB	0x80	/* r/w */
+#define	DMA_PBA_SCSI_XFER_COUNT_LSB	0x84	/* r/w */
+#define DMA_PBA_SCSI_FIFO_PIO		0x88	/* r/w */
+#define DMA_PBA_SCSI_FIFO_DMA		0xc8	/* r/w */
+#define	DMA_PBA_SCSI_CMD_REG		0x8c	/* r/w */
+#define DMA_PBA_SCSI_STATUS		0x90	/* read */
+#define DMA_PBA_SCSI_BUS_ID		0x90	/* write */
+#define DMA_PBA_SCSI_INTR_STATUS	0x94	/* read */
+#define DMA_PBA_SCSI_TIMEOUT		0x94	/* write */
+#define DMA_PBA_SCSI_SEQUENCE_STEP	0x98	/* read */
+#define DMA_PBA_SCSI_SYNC_PERIOD	0x98	/* write */
+#define DMA_PBA_SCSI_FIFO_FLAGS		0x9c	/* read */
+#define DMA_PBA_SCSI_SYNC_OFFSET	0x9c	/* write */
+#define DMA_PBA_SCSI_CONFIGURATION	0xa0	/* r/w */
+#define DMA_PBA_SCSI_CLOCK_CONVERSION	0xa4	/* write */
+
+
+/* ---------- */
+/* Centronics */
+/* ---------- */
+
+#define	DMA_PBA_CEN_SINGLE		0x180	/* write */
+#define	DMA_PBA_CEN_STREAM		0x1a0	/* write */
+#define	DMA_PBA_CEN_INPRIME		0x1c0	/* write */
+#define DMA_PBA_CEN_REQDMA		0x1e0	/* write */
+#define	DMA_PBA_CEN_STATUS		0x180	/* read  */
+
+
+/*------------------------------------------------------------------------
+ * DMA Controller "B"
+ *
+ *------------------------------------------------------------------------
+ */
+
+
+/* --- */
+/* SCC */
+/* --- */
+
+#define	DMA_PBA_SCC_B_CTRL	0x000
+#define	DMA_PBA_SCC_B_DATA	0x004
+#define	DMA_PBA_SCC_A_CTRL	0x008
+#define	DMA_PBA_SCC_A_DATA	0x00C
+
+
+
+
+/* ------------------------------------- */
+/* Serial Control Register (Model Lines) */
+/* ------------------------------------- */
+
+#define DMA_PBA_SCR		0x040
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d13 1
+a13 1
+ * $Header: dma.h,v 1.1 87/11/25 14:17:56 timd Exp $
+d29 15
+a43 15
+#define	DMA_PBA_SCSI_DATA_REG_1		0x80
+#define	DMA_PBA_SCSI_CMD_REG		0x84
+#define	DMA_PBA_SCSI_CTRL_REG		0x88
+#define	DMA_PBA_SCSI_DEST_ID		0x8C
+#define	DMA_PBA_SCSI_AUX_STATUS		0x90
+#define	DMA_PBA_SCSI_ID_REG		0x94
+#define	DMA_PBA_SCSI_INTR_REG		0x98
+#define	DMA_PBA_SCSI_SOURCE_ID		0x9c
+#define	DMA_PBA_SCSI_DATA_REG_2		0xa0
+#define	DMA_PBA_SCSI_DIAG_STATUS	0xa4
+#define	DMA_PBA_SCSI_XFER_COUNT_MSB	0xb0
+#define	DMA_PBA_SCSI_XFER_COUNT_MID	0xb4
+#define	DMA_PBA_SCSI_XFER_COUNT_LSB	0xb8
+#define	DMA_PBA_SCSI_TEST		0xbc
+#define	DMA_PBA_SCSI_EXT_ID_REG		0xc0
+a45 1
+
+d53 1
+@

@@ -1,0 +1,565 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.1
+date     88.08.13.16.21.02;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/*
+ * This generates the mapping table for xdebug.
+ *
+ * We read in the text and data of the file specified by the
+ * first command line argument.
+ *
+ * We make three passes over the data, once for words, then
+ * for shorts and finally for bytes.  In each pass we count
+ * the number of times each pattern of the given size occurs.
+ *
+ * At the end of each pass we select the 84 most common patterns
+ * of the given size and write them out to the second file.  This
+ * second file will be #include'd by both the ROM monitor and the
+ * debugger's downloading function.
+ *
+ * As we find each of the 83 most common patterns we search the
+ * entire text and data and zero each instance of the pattern.
+ * We do this so that when we look for shorts to compress we won't
+ * consider shorts that are a part of words that have already
+ * been compressed.  And likewise for bytes that are found in
+ * words and shorts.
+ *
+ */
+#include <stdio.h>
+#include <sys/file.h>
+#include <a.out.h>
+#include "../bb_hdrs/moncomm.h"
+
+/*
+ * These are the characters whose entry in the table should
+ * not be used for compression.
+ */
+unsigned char avoid_list[] = { C_RESET, 
+                               C_NMI, 
+                               COMMAND_PREFIX1, 
+                               COMMAND_PREFIX2 };
+
+#define	MAX_HASH	(0xfff)		/* Must be a power of 2	minus one*/
+
+struct cnt {
+	unsigned pattern;
+	unsigned count;
+	struct cnt *next; };
+
+struct cnt *hash_table[MAX_HASH + 1];
+
+struct delete {
+	unsigned pattern;
+	struct delete *next; };
+
+struct delete *delete_table[MAX_HASH + 1];
+
+#define	HASH(w)		((((w)        & MAX_HASH) + 	\
+                     (((w) >> 12) & MAX_HASH) + 	\
+                     (((w) >> 24) & MAX_HASH)) & MAX_HASH)
+
+int	input_fd;
+FILE *output_file;
+
+char *output_fname;
+char *input_fname;
+
+/*
+ * Number of zero bytes, shorts, and words
+ * in the text and data of the input file.
+ */
+unsigned zero_bytes = 0;
+unsigned zero_shorts = 0;
+unsigned zero_words = 0;
+
+/*
+ * Number of words, short, and byte patterns covered by the table
+ * we generate.
+ */
+unsigned words_covered = 0;
+unsigned shorts_covered = 0;
+unsigned bytes_covered = 0;
+
+/*
+ * Number of entries for words, shorts, and bytes.
+ */
+unsigned e_words;
+unsigned e_shorts;
+unsigned e_bytes;
+
+unsigned bytes_compressed = 0;
+/*
+ * Number of bytes in the text and data combined.
+ */
+unsigned t_and_d_size;
+unsigned orig_t_and_d_size;
+
+/*
+ * Pointer to the text and data array.
+ */
+unsigned char *t_and_d;
+
+/*
+ * Contains the a.out header of the input file.
+ */
+struct zexec zexec;
+
+main(argc, argv)
+	int argc;
+	char *argv[];
+{
+	unsigned total_bytes_covered;
+	unsigned total_bytes_not_covered;
+	unsigned bytes_to_transmit;
+	double speedup_factor;
+
+	if (argc != 6) {
+		fprintf(stderr, 
+                "usage: gentab #words #shorts #bytes a.out_file table_file\n");
+		exit(1);
+	}
+
+	e_words = atoi(argv[1]);
+	e_shorts = atoi(argv[2]);
+	e_bytes = atoi(argv[3]);
+
+	input_fname = argv[4];
+	output_fname = argv[5];
+
+	open_files();
+	read_code_and_data();
+	count_zero_bytes();
+
+	fprintf(output_file, "/*\n");
+	fprintf(output_file, " * built from %s, size=%d bytes\n", 
+                                        input_fname, orig_t_and_d_size);
+
+	fprintf(output_file, " * contains %5d zero words.\n", zero_words);
+
+	fprintf(output_file, " * contains %5d zero shorts not in a zero word.\n", 
+                                                           zero_shorts);
+
+	fprintf(output_file, 
+" * contains %5d zero bytes not in a zero word or short.\n", zero_bytes);
+
+	fprintf(output_file, " */\n");
+
+	fprintf(output_file, "\n");
+
+	count(4);
+	select_and_print(e_words, 4);
+
+	count(2);
+	select_and_print(e_shorts, 2);
+
+	count(1);
+	select_and_print(e_bytes, 1);
+
+	fprintf(output_file, "{ 0, 0 }\n");
+
+	fprintf(output_file, "\n");
+	fprintf(output_file, "/*\n");
+	fprintf(output_file, 
+           " * %5d * %d = %6d bytes covered by word compression.\n",
+				words_covered, sizeof(long), words_covered * sizeof(long));
+
+	fprintf(output_file, 
+           " * %5d * %d = %6d bytes covered by short compression.\n",
+				shorts_covered, sizeof(short), shorts_covered * sizeof(short));
+
+	fprintf(output_file, 
+           " * %5d * %d = %6d bytes covered by byte compression.\n",
+					bytes_covered, sizeof(char), bytes_covered * sizeof(char));
+
+	total_bytes_covered = words_covered * sizeof(long) +
+                          shorts_covered * sizeof(short) +
+                          bytes_covered * sizeof(char);
+
+	fprintf(output_file, " * %5d total bytes of text and data covered by\n",
+                             total_bytes_covered);
+
+	fprintf(output_file, " * a compression code.\n");
+
+	total_bytes_not_covered = orig_t_and_d_size - total_bytes_covered;
+
+	fprintf(output_file, " * %5d bytes not covered by any compression.\n",
+							total_bytes_not_covered);
+
+	bytes_to_transmit = words_covered + 
+                        shorts_covered + 
+                        bytes_covered +
+                        total_bytes_not_covered * 2;
+
+	fprintf(output_file, " * Should require %d bytes of transmission to \n",
+                            bytes_to_transmit);
+
+	fprintf(output_file, " * download %d text and data bytes. \n",
+                            orig_t_and_d_size);
+
+	speedup_factor = (double)orig_t_and_d_size / (double)bytes_to_transmit;
+
+	fprintf(output_file, " * Speed-up factor is %6.4f\n", speedup_factor);
+
+	if (bytes_compressed != total_bytes_covered) {
+		fprintf(output_file, " */  ERROR: bytes compressed is %d\n", 
+                        bytes_compressed);
+	}
+	fprintf(output_file, " */\n");
+	close_files();
+	printf("%3d %3d %3d %6.2f\n", e_words, e_shorts, e_bytes, speedup_factor);
+}
+
+/*
+ * Counts the number of zero words, shorts and bytes.
+ */
+count_zero_bytes()
+{
+	register unsigned char *p;
+	register unsigned char *t_and_d_end = t_and_d + t_and_d_size;
+
+	for (p = t_and_d ; p < t_and_d_end ; p += sizeof(long)) {
+		if (*(int *)p == 0) {
+			zero_words++;
+		} else {
+			if (*(short *)p == 0) {
+				zero_shorts++;
+			} else {
+				if (*p == 0) {
+					zero_bytes++;
+				} else {
+					if (*(p + 1) == 0) {
+						zero_bytes++;
+					}
+				}
+				if (*(short *)(p + 2) == 0) {
+					zero_shorts++;
+				} else {
+					if (*(p + 2) == 0) {
+						zero_bytes++;
+					} else {
+						if (*(p + 3) == 0) {
+							zero_bytes++;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/*
+ * This counts the number of times each pattern is found
+ */
+count(width)
+	register int width;
+{
+	register unsigned w, hash_index;
+	register struct cnt *cnt_ptr, *cnt_head;
+	unsigned char *p, *last;
+
+	last = t_and_d + t_and_d_size;
+	bzero(hash_table, sizeof(hash_table));
+
+	for (p = t_and_d ; p < last ; p += width) {
+		switch (width) {
+			case 1:
+				w = *p;
+				break;
+
+			case 2:
+				w = *(unsigned short *)p;
+				break;
+
+			case 4:
+				w = *(unsigned long *)p;
+				break;
+
+			default:
+				fatal("case error in count");
+				break;
+		}
+		hash_index = HASH(w);
+		cnt_head = hash_table[hash_index];
+		if (cnt_head == 0) {
+			hash_table[hash_index] = (struct cnt *)malloc(sizeof(struct cnt));
+			hash_table[hash_index]->pattern = w;
+			hash_table[hash_index]->count = 1;
+			hash_table[hash_index]->next = 0;
+			continue;
+		}
+
+		/*
+		 * Search the list of count structures for the pattern that
+		 * we have found.
+		 */
+		for (cnt_ptr = cnt_head ; cnt_ptr ; cnt_ptr = cnt_ptr->next) {
+			if (cnt_ptr->pattern == w) {
+				cnt_ptr->count++;
+				goto continue_outer_loop;
+			}
+		}
+
+		cnt_ptr = (struct cnt *)malloc(sizeof(struct cnt));
+		if (!cnt_ptr) {
+			fatal("unable to malloc");
+		}
+		cnt_ptr->next = hash_table[hash_index];
+		cnt_ptr->pattern = w;
+		cnt_ptr->count = 1;
+		hash_table[hash_index] = cnt_ptr;
+
+	continue_outer_loop:;
+	}
+}
+
+/*
+ * This selects the most popular count patterns and writes
+ * them to the output file.
+ */
+select_and_print(count, width)
+	register unsigned count;
+	unsigned width;
+{
+	register unsigned i;
+	unsigned j;
+	register struct cnt *cnt_ptr, *most_cnt;
+	register struct cnt **hash_head, **last_hash;
+	static char_index = 0;
+	static struct cnt dummy_cnt = { 0, 0, 0};
+
+	init_delete_table();
+	for (i = 0 ; i < count ; char_index++) {
+		fprintf(output_file, "/* entry %3d */ ", char_index);
+
+		for (j = 0 ; j < sizeof(avoid_list) ; j++) {
+			if (char_index == avoid_list[j]) {
+				fprintf(output_file, 
+                "{ 0, %d },          /* This entry avoided */\n", char_index);
+				goto continue_outer_loop;
+			}
+		}
+		i++;
+
+		most_cnt = &dummy_cnt;
+		last_hash = &hash_table[MAX_HASH];
+		for (hash_head = hash_table ; hash_head < last_hash ; hash_head++) {
+			if (*hash_head) {
+				for (cnt_ptr = *hash_head ; cnt_ptr ; cnt_ptr = cnt_ptr->next) {
+					if (cnt_ptr->count > most_cnt->count) {
+						most_cnt = cnt_ptr;
+					}
+				}
+			}
+		}
+
+		fprintf(output_file, "{ 0x%08X, %d }, /* occurred ", 
+                most_cnt->pattern, width);
+
+		fprintf(output_file, "%d times */\n", most_cnt->count);
+
+		switch (width) {
+			case 1:
+				bytes_covered += most_cnt->count;
+				break;
+
+			case 2:
+				shorts_covered += most_cnt->count;
+				break;
+
+			case 4:
+				words_covered += most_cnt->count;
+				break;
+
+			default:
+				fatal("case error in select_and_print\n");
+		}
+
+		most_cnt->count = 0;
+		add_to_delete_list(most_cnt->pattern);
+
+	continue_outer_loop:;
+	}
+	delete_from_t_and_d(width);
+}
+
+/*
+ * This initializes the delete table
+ */
+init_delete_table()
+{
+	bzero(delete_table, sizeof(delete_table));
+}
+
+/*
+ * This adds the passed pattern to the delete list.
+ */
+add_to_delete_list(pattern)
+	unsigned pattern;
+{
+	unsigned hash_index;
+	struct delete *new_delete;
+
+	hash_index = HASH(pattern);
+	new_delete = (struct delete *)malloc(sizeof(struct delete));
+	new_delete->pattern = pattern;
+	new_delete->next = delete_table[hash_index];
+	delete_table[hash_index] = new_delete;
+}
+
+/*
+ * This removes all of the patterns in the delete table from
+ * the text and data.
+ */
+delete_from_t_and_d(width)
+	register unsigned width;
+{
+	register unsigned w;
+	register struct delete *d;
+	register unsigned char *put_ptr, *get_ptr;
+	unsigned char *last;
+	unsigned hash_index;
+	unsigned bytes_compressed_this_call = 0;
+
+	put_ptr = t_and_d;
+	last = t_and_d + t_and_d_size;
+	for (get_ptr = t_and_d ; get_ptr < last ; get_ptr += width) {
+		switch (width) {
+			case 1:
+				w = *get_ptr;
+				break;
+
+			case 2:
+				w = *(unsigned short *)get_ptr;
+				break;
+
+			case 4:
+				w = *(unsigned long *)get_ptr;
+				break;
+
+			default:
+				fatal("case error in delete_from_t_and_d");
+				break;
+		}
+		hash_index = HASH(w);
+		d = delete_table[hash_index];
+		for (; d ; d = d->next) {
+			if (d->pattern == w) {
+				bytes_compressed_this_call += width;
+				goto continue_outer_loop;
+			}
+		}
+		/*
+		 * We couldn't find this byte, short, or word in the delete
+		 * hash table.  So keep it in the text and data array.
+		 */
+		switch (width) {
+			case 1:
+				*put_ptr = w;
+				break;
+
+			case 2:
+				*(unsigned short *)put_ptr = w;
+				break;
+
+			case 4:
+				*(unsigned long *)put_ptr = w;
+				break;
+
+			default:
+				fatal("case error in delete_from_t_and_d");
+				break;
+		}
+		put_ptr += width;
+
+	continue_outer_loop:;
+	}
+	t_and_d_size -= bytes_compressed_this_call;
+	bytes_compressed += bytes_compressed_this_call;
+}
+
+/*
+ * This reads the code and data into our memory.  It also
+ * zero's the bss region.
+ */
+read_code_and_data()
+{
+    if (read(input_fd, &zexec, sizeof(zexec)) != sizeof(zexec)) {
+		fatal("error reading a.out header of input file.");
+	}
+
+    if (N_BADMAG(zexec)) {
+        fatal("bad magic number");
+    }
+
+    orig_t_and_d_size = t_and_d_size = zexec.a_text + zexec.a_data;
+    t_and_d = (unsigned char *)malloc(t_and_d_size);
+
+    lseek(input_fd, (long)N_TXTOFF(zexec), 0);
+    if (read(input_fd, t_and_d, t_and_d_size) != t_and_d_size) {
+        fatal("read error in read_code_and_data");
+    }
+}
+
+/*
+ * Open the input file for reading, the output file for writing.
+ */
+open_files()
+{
+	input_fd = open(input_fname, O_RDONLY, 0);
+	if (input_fd == 0) {
+		fprintf(stderr, "Can't open %s for reading.\n", input_fname);
+		exit(1);
+	}
+
+	output_file = fopen(output_fname, "w");
+	if (output_file == 0) {
+		fprintf(stderr, "Can't open %s for writing.\n", output_fname);
+		exit(1);
+	}
+}
+
+/*
+ * Close both files.
+ */
+close_files()
+{
+	if (close(input_fd) != 0) {
+		fprintf(stderr, "Can't close %s\n", input_fname);
+	}
+
+	if (fclose(output_file) != 0) {
+		fprintf(stderr, "Can't close %s\n", output_fname);
+	}
+}
+
+/*
+ * Fatal error
+ */
+/* VARARGS */
+fatal(fmt, a, b, c, d, e, f)
+	char *fmt;
+{
+	fprintf(stderr, fmt, a, b, c, d, e, f);
+	exit(1);
+}
+@
+

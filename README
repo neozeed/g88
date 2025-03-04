@@ -1,0 +1,146 @@
+
+This is GDB with an 88000 simulator and cross-debugging support.
+It is called g88 and is hosted on a SUN/4.  G88 is currently in
+active use by Horizon Research.  They have Mach running under the
+simulator and on a real machine with g88 acting as a cross-debugger.
+
+The first thing for a new cross-debugger or simulator user to do 
+is "nroff -man crossgdb.8|more".
+
+If your target is not a Motorola MVME188, you have some coding to
+do.  Look at r*.[ch], motomode.c, and the target debug monitor in
+directory hmon.
+
+The subdirectory sim has the simulator.  If you don't want the
+simulator, delete this directory.
+
+G88 has had almost all of its testing with COFF executables being
+fed to it.  So coffread.c has had a lot of testing.  It is currently set
+up to read a.out files (i.e., dbx style debugging info) because I
+figured that this is what most people outside of Horizon would want.
+To switch back to COFF, put the option -DUSEDGCOFF on the command line
+(search for this string in the Makefile).
+
+The subdirectory hmon has the target debug monitor for the Motorola 188
+board.  It is built with the 88k GNU tools (~ftp/pub/tools88.tar.Z from
+cs.washington.edu).  I type this kludgey alias before compiling:
+
+alias m88k "setenv GCC_EXEC_PREFIX ~/m88k/lib/m88k-; \
+            set path=(~/m88k/bin ~/m88k/lib  ....
+
+And I put the 88k tools in ~/m88k/{bin,lib}.
+
+The subdirectory gentab has the tools to build a new compress.h from
+a target a.out file.
+
+If you compile your C code (that which you wish to debug with g88) with
+gcc, put this in your .gdbinit file:
+
+set $gcc_compiled = 1
+
+	Robert Bedichek  1/13/91  robertb@cs.washington.edu.
+
+
+
+And now back to our regularly scheduled file,
+
+This is GDB, a source-level debugger intended for GNU,
+presently running under un*x.
+
+Before compiling GDB, you must set up links to five files according to
+the kind of machine you are running on.  To do this, type `config.gdb
+machine', where machine is something like `vax' or `sun2'.  This
+creates links named `param.h', `opcode.h', `pinsn.c', and `infdep.c'.
+
+You might also want to see the comments at the top of the Makefile
+about flags needed for various different machine types.
+
+Once these files are set up, just `make' will do everything,
+producing an executable `gdb' in this directory.
+
+If you want a new (current to this release) version of the manual, you
+will have to use the gdb.texinfo file provided with this distribution.
+You may also need to edit the @setfilename command within the texinfo
+file (since it is set as if gdb was in it's normal location within the
+emacs source tree).
+
+About the machine-dependent files...
+
+m-<machine>.h
+
+This file contains macro definitions that express information
+about the machine's registers, stack frame format and instructions.
+
+<machine>-opcode.h, <machine>-pinsn.c
+These files contain the information necessary to print instructions
+for your cpu type.
+
+<machine>-dep.c
+Those routines which provide a low level interface to ptrace and which
+tend to be machine-dependent.  (The machine-independent routines are in
+`infrun.c' and `inflow.c')
+
+About debugging gdb with itself...
+
+You probably want to do a "make TAGS" after you configure your
+distribution; this will put the machine dependent routines for your
+local machine where they will be accessed first by a M-period .
+
+Also, you want to make sure that gdb is not compiled with shared
+libraries on the Sun 4.  And you want to make sure that you've
+compiled gdb with your local cc or taken appropriate precautions
+regarding ansification of include files.  See the Makefile for more
+information. 
+
+The "info" command, when executed without a subcommand in a gdb being
+debugged by gdb, will pop you back up to the top level gdb.  See
+.gdbinit for more details.
+
+About languages other than C...
+
+C++ support has been integrated into gdb; it works, but somewhat
+buggily.  Pascal support has not yet been integrated in gdb; the work
+is being done.
+
+About -gg format...
+
+Currently GDB version 3.x does *not* support GCC's -gg format.  This
+is because it is (in theory) has fast enough startup on dbx debugging
+format object files that -gg format is unnecessary (and hence
+undesirable, since it wastes space and processing power in gcc).  I
+would like to hear people's opinions on the amount of time currently
+spent in startup; is it fast enough?
+
+About the remote protocol...
+
+The two files remote-multi.shar and remote-sa.m68k.shar contain two
+examples of a remote stub to be used with remote.c.  The the -multi
+file is a general stub that can probably be running on various
+different flavors of unix to allow debugging over a serial line from
+one machine to another.  The remote-sa.m68k.shar is designed to run
+standalone on a 68k type cpu and communicate properley with the
+remote.c stub over a serial line.  While these two files are provided
+without any support (ie. they are passed on directly from the people
+who wrote them) comments and suggestions (both implemented and
+otherwise) on these files would be appreciated.  Just don't count on
+us doing anything about them; mainstream GDB has a higher priority at
+the moment.
+
+About reporting bugs...
+
+The correct address for reporting bugs found with gdb is
+"bug-gdb@prep.ai.mit.edu".  Please send all bugs to that address.
+
+About xgdb...
+
+xgdb.c was provided to us by the user community; it is not an integral
+part of the gdb distribution.  The problem of providing visual
+debugging support on top of gdb is peripheral to the GNU project and
+(at least right now) we can't afford to put time into it.  So while we
+will be happy to incorporate user fixes to xgdb.c, we do not guarantee
+that it will work and we will not fix bugs reported in it.
+
+For those interested in auto display of source and the availability of
+an editor while debugging I suggest trying gdb-mode in gnu-emacs.
+Comments on this mode are welcome.
+

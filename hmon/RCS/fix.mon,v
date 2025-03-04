@@ -1,0 +1,30 @@
+head     1.1;
+branch   ;
+access   ;
+symbols  ;
+locks    robertb:1.1; strict;
+comment  @@;
+
+
+1.1
+date     90.04.10.11.45.05;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@An ex file that deletes lines with 'data' on them.  Used to make
+all of the debug monitor data be in the text segment.
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@g/	data/d
+:w
+:q
+@

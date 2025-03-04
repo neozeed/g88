@@ -1,0 +1,416 @@
+head     1.11;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.11
+date     90.11.01.00.19.44;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     90.08.07.12.25.25;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     90.08.07.12.21.02;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     90.08.07.12.06.59;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     90.08.07.11.41.38;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     90.08.07.10.19.26;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     90.08.06.09.52.21;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     90.07.01.12.40.06;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     90.05.11.11.50.33;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     90.04.29.19.20.00;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.04.28.02.39.12;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@This makefile builds sim.o, the object file that is linked with
+gdb to make an 88000 simulator.
+@
+
+
+1.11
+log
+@Added duart simulator
+@
+text
+@
+# Makefile to build sim.o, the object file with the 88000 simulator.
+
+CFLAGS= -g 
+
+HEADERS= CE_defs.h DEFS.h FBUS_defs.h IOB_defs.h cmmu.h decode.h \
+         io.h sim.h sim_interface.h stacks.h
+
+SOURCES= ce.c cmmu.c console.c simdecode.c simdisasm.c disk.c \
+         execute.c gettime.c mvme188.c siminit.c io.c\
+         memory.c misc.c simgdb.c duart.c
+
+# Kludge to make ctags work on simulator files from the gdb source
+# directory.  There must be a better way.
+
+SLASH_HEADERS= sim/CE_defs.h sim/DEFS.h sim/FBUS_defs.h sim/IOB_defs.h \
+               sim/cmmu.h sim/decode.h sim/io.h \
+               sim/sim.h sim/sim_interface.h sim/stacks.h
+               
+
+SLASH_SOURCES= sim/ce.c sim/cmmu.c sim/console.c sim/simdecode.c sim/simdisasm.c \
+               sim/disk.c\
+               sim/execute.c sim/gettime.c sim/siminit.c sim/io.c\
+               sim/memory.c sim/misc.c \
+               sim/simgdb.c sim/duart.c\
+	       sim/mvme188.c
+
+OBJECTS= cmmu.o console.o disk.o simdecode.o simdisasm.o execute.o \
+	 gettime.o siminit.o io.o memory.o misc.o mvme188.o \
+	 simgdb.o duart.o
+
+sim.o: $(OBJECTS)
+	ld -r -o sim.o $(OBJECTS)
+
+extern.h: execute.c
+	egrep "^L" execute.c > extern.h
+	-egrep "^BB" execute.c >> extern.h
+
+disasm.h:
+	ln -s ../disasm.h
+
+fields88.h:
+	ln -s ../fields88.h
+
+format.h:
+	ln -s ../format.h
+
+m-m88k.h:
+	ln -s ../m-m88k.h
+
+montraps.h:
+	ln -s ../montraps.h
+
+execute.o: execute.c sim.h sim_interface.h fields88.h extern.h montraps.h
+	-$(CC) -g -S execute.c
+	sed -e 's.\/\*\*\/..g' \
+	    -e '/START DELETING HERE/,/STOP DELETING HERE/d' execute.s \
+		     >execute1.s
+	$(AS) -o execute.o execute1.s
+
+co-all:
+	colast $(SOURCES) $(HEADERS)
+
+clean:
+	rm -f $(OBJECTS) sim.o extern.h execute1.s execute.s
+	rm -f disasm.h format.h fields88.h m-m88k.h montraps.h
+
+exterminate:
+	make clean
+	rm -f $(SOURCES) $(HEADERS) Makefile
+
+depend: extern.h format.h fields88.h montraps.h disasm.h m-m88k.h
+	makedepend $(CDEFINES) $(CINCLUDES) -f Makefile  \
+         -s '# DO NOT DELETE THIS LINE' $(SOURCES)
+
+trace: trace.c sim_interface.h
+	$(CC) $(CFLAGS) -o trace trace.c
+
+tags: $(HEADERS) $(SOURCES)
+	ctags -w $(SOURCES) $(HEADERS)
+
+gdbtags: $(HEADERS) $(SOURCES)
+	cd .. ; ctags -w $(SLASH_SOURCES) $(SLASH_HEADERS)
+
+
+# DO NOT DELETE THIS LINE - makedepend needs it
+
+ce.o: sim.h sim_interface.h io.h CE_defs.h FBUS_defs.h IOB_defs.h
+cmmu.o: sim.h sim_interface.h cmmu.h io.h
+console.o: sim.h sim_interface.h
+simdecode.o: sim.h sim_interface.h decode.h format.h fields88.h extern.h
+simdisasm.o: /usr/include/stdio.h fields88.h disasm.h format.h
+disk.o: /usr/include/sys/types.h /usr/include/sys/fcntl.h sim.h
+disk.o: sim_interface.h
+dmac.o: sim.h sim_interface.h dma.h we32104.h
+dram_errs.o: sim.h sim_interface.h cmmu.h
+dram_mapper.o: sim.h sim_interface.h
+execute.o: sim.h sim_interface.h fields88.h montraps.h extern.h
+gettime.o: sim.h sim_interface.h /usr/include/sys/time.h
+siminit.o: sim.h sim_interface.h /usr/include/signal.h
+siminit.o: /usr/include/sys/signal.h
+io.o: sim.h sim_interface.h io.h
+iob.o: sim.h sim_interface.h io.h FBUS_defs.h IOB_defs.h
+lanram.o: sim_interface.h
+lcsr.o: sim.h sim_interface.h io.h
+led.o: sim.h sim_interface.h led.h
+memory.o: sim.h sim_interface.h
+misc.o: sim.h sim_interface.h cmmu.h decode.h format.h fields88.h
+misc.o: /usr/include/string.h /usr/include/signal.h /usr/include/sys/signal.h
+misc.o: /usr/include/stdio.h
+newcons.o: /usr/include/errno.h /usr/include/sys/errno.h
+newcons.o: /usr/include/sys/file.h /usr/include/sys/types.h
+newcons.o: /usr/include/sys/stat.h /usr/include/fcntl.h
+newcons.o: /usr/include/sys/fcntl.h /usr/include/signal.h
+newcons.o: /usr/include/sys/signal.h /usr/include/sgtty.h
+newcons.o: /usr/include/stdio.h sim.h sim_interface.h io.h
+rom.o: /usr/include/sys/fcntl.h /usr/include/sys/types.h sim.h
+rom.o: sim_interface.h
+scc.o: /usr/include/errno.h /usr/include/sys/errno.h /usr/include/sys/types.h
+scc.o: /usr/include/sys/stat.h /usr/include/fcntl.h /usr/include/sys/fcntl.h
+scc.o: /usr/include/signal.h /usr/include/sys/signal.h /usr/include/stdio.h
+scc.o: /usr/include/sys/ioctl.h /usr/include/sys/termio.h sim.h
+scc.o: sim_interface.h io.h
+simgdb.o: /usr/include/stdio.h sim_interface.h m-m88k.h ../ui.h ../defs.h
+simgdb.o: /usr/include/signal.h /usr/include/sys/signal.h
+timer.o: /usr/include/sys/time.h /usr/include/signal.h
+timer.o: /usr/include/sys/signal.h sim.h sim_interface.h dp8571.h
+mvme188.o: sim.h sim_interface.h
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d11 1
+a11 1
+         memory.c misc.c simgdb.c
+d25 1
+a25 1
+               sim/simgdb.c \
+d30 1
+a30 1
+	 simgdb.o 
+@
+
+
+1.9
+log
+@added exterminate target
+@
+text
+@d66 1
+a66 1
+	rm -f disasm.h format.h fields88.h m-m88k.h
+d70 1
+a70 1
+	rm -f $(SOURCES) $(HEADERS)
+@
+
+
+1.8
+log
+@tweak
+@
+text
+@d68 4
+@
+
+
+1.7
+log
+@tweak.
+@
+text
+@d11 1
+a11 1
+         memory.c misc.c mvme.c simgdb.c
+d26 1
+a26 1
+	       sim/mvme.c
+d124 1
+@
+
+
+1.6
+log
+@deleted unneeded files from source, header, and object lists.
+Made co-all only check out what we really need.
+@
+text
+@d10 1
+a10 1
+         execute.c gettime.c siminit.c io.c\
+@
+
+
+1.5
+log
+@added clean target.
+@
+text
+@d7 1
+a7 2
+         dma.h dp8571.h io.h led.h sim.h sim_interface.h stacks.h\
+          we32104.h
+d9 3
+a11 4
+SOURCES= ce.c cmmu.c console.c simdecode.c simdisasm.c disk.c dmac.c\
+         dram_errs.c dram_mapper.c execute.c gettime.c siminit.c io.c iob.c\
+         lanram.c lcsr.c led.c memory.c misc.c mvme.c newcons.c rom.c scc.c\
+         simgdb.c timer.c
+d17 3
+a19 3
+               sim/cmmu.h sim/decode.h sim/dma.h sim/dp8571.h sim/io.h \
+               sim/led.h sim/sim.h sim/sim_interface.h sim/stacks.h\
+               sim/we32104.h
+d22 4
+a25 4
+               sim/disk.c sim/dmac.c sim/dram_errs.c sim/dram_mapper.c \
+               sim/execute.c sim/gettime.c sim/siminit.c sim/io.c sim/iob.c\
+               sim/lanram.c sim/lcsr.c sim/led.c sim/memory.c sim/misc.c \
+               sim/newcons.c sim/rom.c sim/scc.c sim/simgdb.c sim/timer.c \
+d30 1
+a30 1
+	 rom.o simgdb.o 
+d62 1
+a62 1
+	colast RCS/*.[ch],v
+@
+
+
+1.4
+log
+@Regrooved for the SUN-4.  Removed Tektronix IO simulators, added
+some  188 simulators.
+@
+text
+@d66 4
+@
+
+
+1.3
+log
+@Added tags target.  Other tweaks.
+@
+text
+@d12 1
+a12 1
+         lanram.c lcsr.c led.c memory.c misc.c newcons.c rom.c scc.c\
+d27 2
+a28 1
+               sim/newcons.c sim/rom.c sim/scc.c sim/simgdb.c sim/timer.c
+d30 3
+a32 4
+OBJECTS= ce.o cmmu.o console.o simdecode.o simdisasm.o disk.o dmac.o\
+         dram_errs.o dram_mapper.o execute.o gettime.o siminit.o io.o iob.o\
+         lanram.o lcsr.o led.o memory.o misc.o rom.o scc.o\
+         simgdb.o timer.o
+d57 4
+a60 8
+	-$(CC) -X159 -g -S execute.c >execute.log 2>&1
+	(echo 'g/Green Hills Software, Inc. All rights reserved./d';\
+	 echo 'wq') | ex execute.log
+	if fgrep -v "asm statement is not portable" execute.log; \
+		then false; else true; fi
+	sed	-e 's.\/\*\*\/..g' \
+		-e '/START DELETING HERE/,/STOP DELETING HERE/d' \
+		-e 's/	jsr/	jmp/' execute.s >execute1.s
+@
+
+
+1.2
+log
+@Now compiles a simulator that can execute the kernel until
+go_nogo_init().
+@
+text
+@d10 2
+a11 2
+SOURCES= ce.c cmmu.c console.c simdecode.c disasm.c disk.c dmac.c\
+         dram_errs.c dram_mapper.c execute.c gettime.c init.c io.c iob.c\
+d15 16
+a30 2
+OBJECTS= ce.o cmmu.o console.o simdecode.o disasm.o disk.o dmac.o\
+         dram_errs.o dram_mapper.o execute.o gettime.o init.o io.o iob.o\
+d77 7
+d90 1
+a90 1
+disasm.o: /usr/include/stdio.h fields88.h disasm.h format.h
+d98 2
+a99 1
+init.o: sim.h sim_interface.h /usr/include/signal.h /usr/include/sys/signal.h
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 2
+d8 1
+a8 1
+         target.h we32104.h
+d10 4
+a13 4
+SOURCES= ce.c cmmu.c console.c decode.c disasm.c disk.c dmac.c\
+         dram_errs.c dram_mapper.c execute.c fixjmp.c gettime.c io.c iob.c\
+         lanram.c lcsr.c led.c memory.c misc.c rom.c scc.c\
+         sim.c target.c timer.c trace.c
+d15 2
+a16 2
+OBJECTS= ce.o cmmu.o console.o decode.o disasm.o disk.o dmac.o\
+         dram_errs.o dram_mapper.o execute.o fixjmp.o gettime.o io.o iob.o\
+d18 1
+a18 1
+         sim.o target.o timer.o trace.o
+d27 3
+d36 3
+d43 1
+a43 1
+	-$(CC) -O -Z122 -S execute.c >execute.log 2>&1
+d50 2
+a51 3
+		execute.s | ./fixjmp >execute1.s
+	mv -f execute1.s execute.s
+	$(AS) -o execute.o execute.s
+d53 1
+a53 1
+depend: extern.h
+d55 2
+d58 1
+a58 1
+         -s '# DO NOT DELETE THIS LINE' $(MINSRC) $(XWINSRC) $(M88SRC) $(SIMSRC)
+d61 1
+a61 1
+	$(CC) -o trace trace.c
+d64 40
+@

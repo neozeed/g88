@@ -1,0 +1,71 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.05.14.15.41.44;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.30.14.07.25;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@added rcsid's and copyrights
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+To: 78tools
+Fcc: outbox
+Subject: new d78 on cupcake
+-------
+
+I have changed:
+
+ //cupcake/UTek/tools/bin/d78
+ //cupcake/UTek/tools/lib78/{crt0.o,libc.a}
+ //cupcake/usr/man/man1/d78.1
+
+d78 now sports a "catch" and "ignore" command.  These set
+and unset breakpoints on exceptions.  So if you want to
+stop if you get an integer divide exception, type:
+
+  catch IDE
+
+When you continue, with the "cont" or "step" or "next" commands,
+the exception will happen.  You can't tell d78 to ignore the
+exception.
+
+When single stepping by instructions there is more information
+displayed now.  d78 will tell you what register was changed by
+the last instruction and what its new value is.  If it was a
+load or store, it will tell you the effective address used.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 7
+@

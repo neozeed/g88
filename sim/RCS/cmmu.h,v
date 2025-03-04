@@ -1,0 +1,753 @@
+head     1.10;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.10
+date     88.06.28.16.42.43;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.04.30.22.58.26;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.04.29.17.05.22;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.04.28.10.35.42;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.02.12.16.54.11;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     88.02.12.16.13.06;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.23.14.42.49;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.11.22.26.17;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.09.22.38.54;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.37.24;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.10
+log
+@Made changes to support the beta cmmu
+@
+text
+@/*
+ * For 88200 CMMU simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: cmmu.h,v 1.9 88/04/30 22:58:26 robertb Exp $
+ */
+
+#define CMMU_IDR    (0)
+
+#define CMMU_SCMR   (4)
+#define CMMU_SSR    (8)
+#define CMMU_SADR   (0xc)
+#define CMMU_SCTR   (0x104)
+#define CMMU_LSR    (0x108)
+#define CMMU_LADR   (0x10c)
+
+#define CMMU_SAD    (0x200)
+#define CMMU_UAD    (0x204)
+#define CMMU_BATC0  (0x400)
+#define CMMU_BATC1  (0x404)
+#define CMMU_BATC2  (0x408)
+#define CMMU_BATC3  (0x40c)
+#define CMMU_BATC4  (0x410)
+#define CMMU_BATC5  (0x414)
+#define CMMU_BATC6  (0x418)
+#define CMMU_BATC7  (0x41c)
+
+#define CMMU_CDR0   (0x800)
+#define CMMU_CDR1   (0x804)
+#define CMMU_CDR2   (0x808)
+#define CMMU_CDR3   (0x80c)
+
+#define CMMU_CTR0   (0x840)
+#define CMMU_CTR1   (0x844)
+#define CMMU_CTR2   (0x848)
+#define CMMU_CTR3   (0x84c)
+
+#define CMMU_CLKVR  (0x880)
+
+extern void cmmu_set_bus_error();
+
+extern struct cmmu_registers *cmmu_table[];
+
+/*
+ * CMMU ID register
+ */
+struct cmmu_idr {
+        u_long      id:8,
+                  type:3,
+               version:5,
+              reserved:16;
+};
+
+/*
+ * CMMU Local Status Register
+ */
+struct cmmu_lsr {
+    u_long          reserved1:13,
+                    faultcode:3,
+                    reserved2:16;
+};
+
+/*
+ * CMMU System Status Register
+ */
+struct cmmu_ssr {
+    u_long          reserved1:16,
+                copybackerror:1,
+                     buserror:1,
+                    reserved2:4,
+                    writethru:1,
+               supervisoronly:1,
+                       global:1,
+                 cacheinhibit:1,
+                    reserved3:1,
+                     modified:1,
+                         used:1,
+                 writeprotect:1,
+                      batchit:1,
+                        valid:1;
+};
+
+/*
+ * CMMU System Control Register
+ */
+struct cmmu_sctr {
+    u_long          reserved1:16,
+                 parityenable:1,
+                  snoopenable:1,
+          priorityarbitration:1,
+                    reserved2:13;
+};
+
+/*
+ * CMMU Area descriptor
+ */
+struct area_descriptor {
+    u_long segment_table_base:20,
+                    reserved1:2,
+                    writethru:1,
+                    reserved2:1,
+                       global:1,
+                 cacheinhibit:1,
+                    reserved3:5,
+                        valid:1;
+};
+
+/*
+ * Segment descriptor
+ */
+struct segment_descriptor {
+    u_long page_table_base:20,
+                          :2,
+                 writethru:1,
+           supervisor_only:1,
+                    global:1,
+              cacheinhibit:1,
+                          :3,
+              writeprotect:1,
+                          :1,
+                     valid:1;
+};
+
+/*
+ * Page descriptor
+ */
+struct page_descriptor {
+    u_long page_frame_base:20,
+                          :2,
+                 writethru:1,
+           supervisor_only:1,
+                    global:1,
+              cacheinhibit:1,
+                          :1,
+                  modified:1,
+                      used:1,
+              writeprotect:1,
+                          :1,
+                     valid:1;
+};
+
+/*
+ * Block port register.
+ */
+struct cmmu_batc {
+    u_long   l_base_address:13,
+             p_base_address:13,
+                 supervisor:1,
+                  writethru:1,
+                     global:1,
+               cacheinhibit:1,
+               writeprotect:1,
+                      valid:1;
+};
+
+/*
+ * The simulator's representation of a CMMU's registers
+ * and caches.  The pad fields are to absorb double word
+ * accesses.  They are zero'd after every double word
+ * store just in case they were written to.
+ */
+struct cmmu_registers {
+    struct cmmu_idr idr;
+    u_long scmr;
+    struct cmmu_ssr ssr;
+    u_long sadr, pad0;
+
+    struct cmmu_sctr sctr;
+    struct cmmu_lsr lsr;
+    u_long ladr, pad1;
+
+    struct area_descriptor sapr, uapr;
+    u_long pad2;
+
+    struct cmmu_batc bwp[8];
+    u_long pad3;
+
+    u_long cdr[4], pad4;
+    u_long ctr[4], pad5;
+    u_long clkvr, pad6;
+
+    u_long cache_data0[1024];
+    u_long cache_data1[1024];
+    u_long cache_data2[1024];
+    u_long cache_data3[1024];
+
+    u_long cache_tag0[256];
+    u_long cache_tag1[256];
+    u_long cache_tag2[256];
+    u_long cache_tag3[256]; 
+
+    u_long cache_clkvr[256];
+
+    /*
+     * The following fields are here so that the pio command
+     * can display their contents and for the probe command.
+     */
+    struct segment_descriptor segment_descriptor;
+    u_long segment_descriptor_address;
+
+    struct page_descriptor page_descriptor;
+    u_long page_descriptor_address;
+
+    struct area_descriptor area_descriptor;
+    struct cmmu_batc batc;
+};
+
+extern int last_global;
+extern int last_writethru;
+extern int last_cacheinhibit;
+@
+
+
+1.9
+log
+@added execution trace facility
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.h,v 1.8 88/04/29 17:05:22 robertb Exp $
+d10 9
+a18 4
+#define CMMU_ID     (0)
+#define CMMU_CR     (4)
+#define CMMU_SR     (8)
+#define CMMU_AR     (0xc)
+d47 1
+a47 1
+ * CMMU ID register.
+d49 1
+a49 1
+struct cmmu_id_word {
+d53 1
+a53 1
+                      :16;
+d57 1
+a57 1
+ * CMMU control register.
+d59 4
+a62 7
+struct cmmu_control_register {
+    u_long                :16,
+             parity_enable:1,
+              snoop_enable:1,
+                  priority:1,
+                          :7,
+              command_code:6;
+d66 1
+a66 1
+ * CMMU status register.
+d68 5
+a72 4
+struct cmmu_sr {
+    u_long                   :16,
+             exception_status:4,
+                             :2,
+d74 1
+a74 1
+              supervisor_only:1,
+d77 1
+a77 1
+                             :1,
+d81 1
+a81 1
+                     batc_hit:1,
+d86 1
+a86 1
+ * Area descriptor
+d88 11
+d101 1
+a101 1
+                             :2,
+d103 1
+a103 1
+                             :1,
+d106 1
+a106 1
+                             :5,
+d147 1
+a147 1
+struct cmmu_batc_word {
+d165 15
+a179 3
+    u_long id, cr, sr, adr, pad1;
+    u_long sapr, uapr, pad2;
+    u_long bwp[8], pad3;
+d207 1
+a207 1
+    struct cmmu_batc_word batc_word;
+@
+
+
+1.8
+log
+@fixed bug in diagnostic ports that brents reported
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.h,v 1.7 88/04/28 10:35:42 robertb Exp $
+d45 4
+a48 4
+    u_long      id:8,
+              type:3,
+           version:5,
+                  :16;
+d70 1
+a70 1
+                write_through:1,
+d73 1
+a73 1
+                cache_inhibit:1,
+d77 1
+a77 1
+                write_protect:1,
+d88 1
+a88 1
+                write_through:1,
+d91 1
+a91 1
+                cache_inhibit:1,
+d102 1
+a102 1
+             write_through:1,
+d105 1
+a105 1
+             cache_inhibit:1,
+d107 1
+a107 1
+             write_protect:1,
+d118 1
+a118 1
+             write_through:1,
+d121 1
+a121 1
+             cache_inhibit:1,
+d125 1
+a125 1
+             write_protect:1,
+d137 1
+a137 1
+              write_through:1,
+d139 2
+a140 2
+              cache_inhibit:1,
+              write_protect:1,
+d184 3
+@
+
+
+1.7
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.h,v 1.6 88/02/12 16:54:11 robertb Exp $
+d163 4
+a166 4
+    u_long cache_tag0[1024];
+    u_long cache_tag1[1024];
+    u_long cache_tag2[1024];
+    u_long cache_tag3[1024]; 
+d168 1
+a168 1
+    u_long cache_clkvr[1024];
+@
+
+
+1.6
+log
+@deleted extra */ in header comment
+@
+text
+@d2 1
+a2 1
+ * For 78200 CMMU simulator.
+d7 1
+a7 1
+ * $Header: cmmu.h,v 1.5 88/02/12 16:13:06 robertb Exp $
+d10 14
+a23 14
+#define	CMMU_ID		(0)
+#define	CMMU_CR		(4)
+#define	CMMU_SR		(8)
+#define	CMMU_AR		(0xc)
+#define	CMMU_SAD	(0x200)
+#define	CMMU_UAD	(0x204)
+#define	CMMU_BATC0	(0x400)
+#define	CMMU_BATC1	(0x404)
+#define	CMMU_BATC2	(0x408)
+#define	CMMU_BATC3	(0x40c)
+#define	CMMU_BATC4	(0x410)
+#define	CMMU_BATC5	(0x414)
+#define	CMMU_BATC6	(0x418)
+#define	CMMU_BATC7	(0x41c)
+d25 4
+a28 4
+#define	CMMU_CDR0	(0x800)
+#define	CMMU_CDR1	(0x804)
+#define	CMMU_CDR2	(0x808)
+#define	CMMU_CDR3	(0x80c)
+d30 4
+a33 4
+#define	CMMU_CTR0	(0x840)
+#define	CMMU_CTR1	(0x844)
+#define	CMMU_CTR2	(0x848)
+#define	CMMU_CTR3	(0x84c)
+d35 1
+a35 1
+#define	CMMU_CLKVR	(0x880)
+d39 2
+d45 4
+a48 4
+	unsigned id:8,
+	         type:3,
+	         version:5,
+	         :16;
+d55 6
+a60 6
+	unsigned :16,
+	         parity_enable:1,
+	         snoop_enable:1,
+	         priority:1,
+	         :7,
+	         command_code:6;
+d67 13
+a79 13
+	unsigned :16,
+	         exception_status:4,
+	         :2,
+	         write_through:1,
+	         supervisor_only:1,
+	         global:1,
+	         cache_inhibit:1,
+	         :1,
+	         modified:1,
+	         used:1,
+	         write_protect:1,
+	         batc_hit:1,
+	         valid:1;
+d86 8
+a93 8
+	unsigned segment_table_base:20,
+	         :2,
+	         write_through:1,
+	         :1,
+	         global:1,
+	         cache_inhibit:1,
+	         :5,
+	         valid:1;
+d100 10
+a109 10
+	unsigned page_table_base:20,
+	         :2,
+	         write_through:1,
+	         supervisor_only:1,
+	         global:1,
+	         cache_inhibit:1,
+	         :3,
+	         write_protect:1,
+	         :1,
+	         valid:1;
+d116 12
+a127 12
+	unsigned page_frame_base:20,
+	         :2,
+	         write_through:1,
+	         supervisor_only:1,
+	         global:1,
+	         cache_inhibit:1,
+	         :1,
+	         modified:1,
+	         used:1,
+	         write_protect:1,
+	         :1,
+	         valid:1;
+d134 8
+a141 8
+	unsigned l_base_address:13,
+	         p_base_address:13,
+	         supervisor:1,
+	         write_through:1,
+	         global:1,
+	         cache_inhibit:1,
+	         write_protect:1,
+	         valid:1;
+d151 6
+a156 6
+	unsigned id, cr, sr, adr, pad1;
+	unsigned sapr, uapr, pad2;
+	unsigned bwp[8], pad3;
+	unsigned cdr[4], pad4;
+	unsigned ctr[4], pad5;
+	unsigned clkvr, pad6;
+d158 4
+a161 4
+	unsigned cache_data0[1024];
+	unsigned cache_data1[1024];
+	unsigned cache_data2[1024];
+	unsigned cache_data3[1024];
+d163 4
+a166 4
+	unsigned cache_tag0[1024];
+	unsigned cache_tag1[1024];
+	unsigned cache_tag2[1024];
+	unsigned cache_tag3[1024]; 
+d168 15
+a182 1
+	unsigned cache_clkvr[1024];};
+@
+
+
+1.5
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: cmmu.h,v 1.4 87/11/23 14:42:49 timd Exp $ */
+@
+
+
+1.4
+log
+@Added header field for colast
+@
+text
+@a0 2
+/* $Header$ */
+
+d3 5
+d9 1
+@
+
+
+1.3
+log
+@see changes_10_11.doc
+@
+text
+@d1 1
+@
+
+
+1.2
+log
+@see file changes_11_9 for description of changes
+@
+text
+@d32 1
+a32 4
+extern data_cmmu_0_init(), data_cmmu_0_operation();
+extern data_cmmu_1_init(), data_cmmu_1_operation();
+extern data_cmmu_2_init(), data_cmmu_2_operation();
+extern data_cmmu_3_init(), data_cmmu_3_operation();
+a33 5
+extern code_cmmu_0_init(), code_cmmu_0_operation();
+extern code_cmmu_1_init(), code_cmmu_1_operation();
+extern code_cmmu_2_init(), code_cmmu_2_operation();
+extern code_cmmu_3_init(), code_cmmu_3_operation();
+
+d38 4
+a41 4
+	int id:8;
+	int type:3;
+	int version:5;
+	:16;
+d48 6
+a53 6
+	:16;
+	int parity_enable:1;
+	int snoop_enable:1;
+	int priority:1;
+	:7;
+	int command_code:6;
+d60 13
+a72 13
+	:16;
+	int exception_status:4;
+	:2;
+	int write_through:1;
+	int supervisor_only:1;
+	int global:1;
+	int cache_inhibit:1;
+	:1;
+	int modified:1;
+	int used:1;
+	int write_protect:1;
+	int batc_hit:1;
+	int valid:1;
+d79 8
+a86 8
+	unsigned segment_table_base:20;
+	:2;
+	int write_through:1;
+	:1;
+	int global:1;
+	int cache_inhibit:1;
+	:5;
+	int valid:1;
+d93 10
+a102 10
+	unsigned page_table_base:20;
+	:2;
+	int write_through:1;
+	int supervisor_only:1;
+	int global:1;
+	int cache_inhibit:1;
+	:3;
+	int write_protect:1;
+	:1;
+	int valid:1;
+d109 12
+a120 12
+	unsigned page_frame_base:20;
+	:2;
+	int write_through:1;
+	int supervisor_only:1;
+	int global:1;
+	int cache_inhibit:1;
+	:1;
+	int modified:1;
+	int used:1;
+	int write_protect:1;
+	:1;
+	int valid:1;
+d127 8
+a134 8
+	int l_base_address:13;
+	int p_base_address:13;
+	int supervisor:1;
+	int write_through:1;
+	int global:1;
+	int cache_inhibit:1;
+	int write_protect:1;
+	int valid:1;
+d159 3
+a161 1
+	unsigned cache_tag3[1024]; };
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d6 13
+a18 13
+#define	CMMU_CR		(4 / 4)
+#define	CMMU_SR		(8 / 4)
+#define	CMMU_AR		(0xc / 4)
+#define	CMMU_SAD	(0x200 / 4)
+#define	CMMU_UAD	(0x204 / 4)
+#define	CMMU_BATC0	(0x400 / 4)
+#define	CMMU_BATC1	(0x404 / 4)
+#define	CMMU_BATC2	(0x408 / 4)
+#define	CMMU_BATC3	(0x40c / 4)
+#define	CMMU_BATC4	(0x410 / 4)
+#define	CMMU_BATC5	(0x414 / 4)
+#define	CMMU_BATC6	(0x418 / 4)
+#define	CMMU_BATC7	(0x41c / 4)
+d20 4
+a23 4
+#define	CMMU_CDR0	(0x800 / 4)
+#define	CMMU_CDR1	(0x804 / 4)
+#define	CMMU_CDR2	(0x808 / 4)
+#define	CMMU_CDR3	(0x80c / 4)
+d25 4
+a28 4
+#define	CMMU_CTR0	(0x840 / 4)
+#define	CMMU_CTR1	(0x844 / 4)
+#define	CMMU_CTR2	(0x848 / 4)
+#define	CMMU_CTR3	(0x84c / 4)
+d30 1
+a30 1
+#define	CMMU_CLRU	(0x880 / 4)
+d144 25
+@

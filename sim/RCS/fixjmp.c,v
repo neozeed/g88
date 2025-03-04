@@ -1,0 +1,115 @@
+head     1.4;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.4
+date     88.02.12.16.54.10;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     88.02.12.16.12.51;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.23.14.40.55;  author timd;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.35.02;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.4
+log
+@deleted extra */ in header comment
+@
+text
+@/*
+ * Program to filter assembly files generated from compiling
+ * sim.c.  We turn jbsr's into jmp's if the jbsr is preceeded
+ * by a movl.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: fixjmp.c,v 1.3 88/02/12 16:12:51 robertb Exp $
+ */
+
+#include <stdio.h>
+#include <strings.h>
+
+#define	MOVL	"	movl	"
+#define	JBSR	"	jbsr	a"
+
+main()
+{
+	char s[1000];
+	int movl = 0;
+	int	movl_len = strlen(MOVL);
+	int jbsr_len = strlen(JBSR);
+	int a_reg = -1;
+	int s_len;
+
+	while (gets(s)) {
+		s_len = strlen(s);
+		if (movl) {
+			if (strncmp(s, JBSR, jbsr_len) == 0 && s[7] == a_reg) {
+				s[2] = 'm';
+				s[3] = 'p';
+				s[4] = ' ';
+			}
+		}
+		movl = strncmp(s, MOVL, movl_len) == 0 &&
+			   s[s_len-3] == ',' && s[s_len-2] == 'a';
+		if (movl) {
+			a_reg = s[s_len - 1];
+		}
+		puts(s);
+	}
+}
+@
+
+
+1.3
+log
+@Added copyright message.
+@
+text
+@d9 1
+a9 1
+ * $Header: fixjmp.c,v 1.2 87/11/23 14:40:55 timd Exp $ */
+@
+
+
+1.2
+log
+@Added header field for colast
+@
+text
+@a0 3
+/* $Header$ */
+
+
+d5 5
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d1 1
+@

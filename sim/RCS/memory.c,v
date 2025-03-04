@@ -1,0 +1,1464 @@
+head     1.18;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.18
+date     90.04.29.19.25.19;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.06.07.17.42.54;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.04.29.17.06.54;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.04.28.10.35.23;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.04.16.14.22.41;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.04.15.14.17.29;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.03.25.16.00.33;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.03.19.10.25.47;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.02.22.11.57.17;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.02.20.21.19.25;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.02.12.16.26.59;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.02.12.16.12.58;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.12.04.17.04.13;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.23.14.41.31;  author timd;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.19.19.32.37;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.11.22.26.44;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.09.22.39.11;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.36.13;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.18
+log
+@Ported to System V.
+@
+text
+@
+/*
+ * Memory manipulation routines for the 88000 simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: memory.c,v 1.17 88/06/07 17:42:54 robertb Exp $
+ */
+
+#include "sim.h"
+
+extern sim_not_decoded();
+extern sim_end_of_page();
+
+/*
+ * This initializes the decoded part of a page.
+ */
+void
+clean_decoded_part(d_ptr)
+    struct decoded_part *d_ptr;
+{
+    register struct decoded_i *d, *lastd;
+
+    if (!d_ptr) {
+        return;
+    }
+
+    /*
+     * Set all of the entry addresses in the page to point to the
+     * not-decoded-yet entry point.  This entry point will decode
+     * the instruction and then execute it.
+     */
+    d = &(d_ptr->decoded_i[0]);
+    lastd = &(d_ptr->decoded_i[PAGESIZE/4]);
+    while (d < lastd) {
+        d->norm_e_addr = sim_not_decoded;
+        d++;
+    }
+
+    /*
+     * Install pointer to the end-of-page entry point so that when
+     * the ip crosses a page boundary by being incremented, we requalify
+     * the decoded instruction pointer.
+     */
+    lastd->norm_e_addr = sim_end_of_page;
+}
+
+/*
+ * This zeros the data part of a memory page.  If the page has
+ * a decoded part, it is re-initialized.
+ */
+void
+clean_page(page_ptr)
+    struct page *page_ptr;
+{
+    bzero(&page_ptr->values[0], PAGESIZE);
+    clean_decoded_part(page_ptr->decoded_part);
+}
+
+/*
+ * This allocates a page of simulated-88000 memory.
+ */
+struct page *
+allocate_page()
+{
+    struct page *p;
+
+    p = (struct page *)sbrk(sizeof(struct page) + 8);
+    if (p == (struct page *)0) {
+        sim_printf("allocate_page(): no memory left.\n");
+        exit(1);
+    }
+
+    /*
+     * Make the value part of a page be double-word aligned.
+     */
+    return (struct page *)(((u_long)p + 7) & ~7);
+}
+
+/*
+ * This allocates and initializes the second part of a memory page.
+ */
+struct decoded_part *
+allocate_decoded_part()
+{
+    struct decoded_part *d_ptr;
+
+    d_ptr = (struct decoded_part *)sbrk(sizeof(struct decoded_part));
+    if (!d_ptr) {
+        sim_printf("allocate_decoded_part: unable to get memory with sbrk\n");
+        exit(1);
+    }
+    clean_decoded_part(d_ptr);
+    return d_ptr;
+}
+
+/*
+ * Read a single byte of simulated memory.
+ */
+u_char
+read_sim_b(sim_addr)
+    u_long  sim_addr;
+{
+    if (sim_addr >= memory_size) {
+        u_long value;
+
+        if (io_operation(sim_addr, &value, BYTE, LD_U, 1) != E_NONE) {
+            sim_errno = 1;
+            return 0;
+        }
+        return value;
+    }
+    sim_errno = 0;
+    return read_sim_w(sim_addr) >> 24;
+}
+
+/*
+ * Read a halfword (16 bits) of simulated memory.
+ */
+u_short
+read_sim_h(sim_addr)
+    u_long  sim_addr;
+{
+    if (sim_addr & 1) {
+        sim_errno = 1;
+        return 0;
+    }
+
+    if (sim_addr >= memory_size) {
+        u_long value;
+
+        if (io_operation(sim_addr, &value, HALF, LD_U, 1) != E_NONE) {
+            sim_errno = 1;
+            return 0;
+        }
+        sim_errno = 0;
+        return value;
+    }
+
+    sim_errno = 0;
+    return read_sim_w(sim_addr) >> 16;
+}
+
+/*
+ * This returns the value of one location of simulated memory.  
+ * The parameter specifies the physical address of this location.
+ */
+u_long
+read_sim_w(sim_addr)
+    u_long  sim_addr;
+{
+    u_long  page;
+    u_long  page_offset;
+    struct page *page_ptr;
+    u_long  w1, w2;
+
+    sim_errno = 0;
+    if (sim_addr >= memory_size) {
+        u_long value;
+
+        if (io_operation(sim_addr, &value, WORD, LD_U, 1) != E_NONE) {
+            sim_errno = 1;
+            return 0;
+        }
+        return value;
+    }
+
+    page = sim_addr / PAGESIZE;
+    page_ptr = page_table[page];
+    if (page_ptr == (struct page *)0) {
+        page_ptr = allocate_page(sim_addr & ~PAGEMASK);
+        page_table[page] = page_ptr;
+    }
+    page_offset = poff(sim_addr);
+
+    w1 = page_ptr->values[page_offset / 4];
+
+    switch (sim_addr & 3) {
+        case 0:
+            return w1;
+
+        case 1:
+            w2 = read_sim_w((sim_addr & ~3) + 4);
+            return (w1 << 8) | (w2 >> 24);
+
+        case 2:
+            w2 = read_sim_w((sim_addr & ~3) + 4);
+            return (w1 << 16) | (w2 >> 16);
+
+        case 3:
+            w2 = read_sim_w((sim_addr & ~3) + 4);
+            return (w1 << 24) | (w2 >> 8);
+
+        default:
+            sim_printf("case error in read_sim_w(0x%x)\n", sim_addr);
+    }
+    sim_errno = 1;
+    return 0;
+}
+
+/*
+ * Write the passed value into a byte of simulated memory.
+ */
+int
+write_sim_b(sim_addr, value)
+    u_long  sim_addr;
+    u_long  value;
+{
+    u_long  page;
+    u_long  word_index;
+    struct page *page_ptr;
+    u_long  *word_ptr;
+    u_char *byte_ptr;
+    struct decoded_part *d_ptr;
+
+    /*
+     * First see if the address is outside the range of physcial
+     * memory addresses.  If so, let the IO system have a chance
+     * at it.
+     */
+    sim_errno = 0;
+    if (sim_addr >= memory_size) {
+        if (io_operation(sim_addr, &value, BYTE, ST, 1) != E_NONE) {
+            sim_errno = 1;
+        }
+        return 0;
+    }
+
+    /*
+     * Its a memory operation.  Find the physical page.  If its not
+     * allocated yet, then allocate it and put it in the page table.
+     */
+    page = sim_addr / PAGESIZE;
+    page_ptr = page_table[page];
+    if (page_ptr == (struct page *)0) {
+        page_ptr = allocate_page(sim_addr & ~PAGEMASK);
+        page_table[page] = page_ptr;
+    }
+    word_index = poff(sim_addr) / 4;
+
+    /*
+     * Caclculate the offset within the page of the byte to modify.
+     */
+    word_ptr = &page_ptr->values[word_index];
+    byte_ptr = (u_char *)word_ptr + (sim_addr & 3);
+    *byte_ptr = (u_char)value;
+
+    /*
+     * Invalidate the decoded instruction that corresponds to this
+     * location.
+     */
+    if (d_ptr = page_ptr->decoded_part) {
+        d_ptr->decoded_i[word_index].norm_e_addr = sim_not_decoded;
+    }
+    return 0;
+}
+
+/*
+ * Write the passed halfword (16 bits) into simulated memory.
+ */
+int
+write_sim_h(sim_addr, value)
+    u_long  sim_addr;
+    u_long  value;
+{
+    sim_errno = 0;
+    if (sim_addr >= memory_size) {
+        if (io_operation(sim_addr, &value, HALF, ST, 1) != E_NONE) {
+            sim_errno = 1;
+            return -1;
+        }
+        return 0;
+    }
+
+    if (write_sim_b(sim_addr    , (value >> 8) & 0xff) == -1 ||
+        write_sim_b(sim_addr + 1, (value     ) & 0xff) == -1) {
+        sim_errno = 1;
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+/*
+ * Write the passed word into simulator physical memory.
+ */
+int
+write_sim_w(sim_addr, value)
+    u_long  sim_addr;
+    u_long  value;
+{
+    u_long  page;
+    u_long  page_offset;
+    u_long  word_index;
+    struct page *page_ptr;
+    struct decoded_part *d_ptr;
+    u_long  a1;
+
+    sim_errno = 0;
+    if (sim_addr >= memory_size) {
+        if (io_operation(sim_addr, &value, WORD, ST, 1) != E_NONE) {
+            sim_errno = 1;
+            return -1;
+        }
+        return 0;
+    }
+
+    page = sim_addr / PAGESIZE;
+    page_ptr = page_table[page];
+    if (page_ptr == (struct page *)0) {
+        page_ptr = allocate_page(sim_addr & ~PAGEMASK);
+        page_table[page] = page_ptr;
+    }
+    page_offset = poff(sim_addr);
+
+    word_index = page_offset / 4;
+    if ((sim_addr & 3) == 0) {
+        page_ptr->values[word_index] = value;
+        /*
+         * Invalidate the decoded instruction that corresponds to the
+         * word we are changing.
+         */
+        if (d_ptr = page_ptr->decoded_part) {
+            d_ptr->decoded_i[word_index].norm_e_addr = sim_not_decoded;
+        }
+
+        return 0;
+    }
+
+    if (write_sim_b(sim_addr,     (value >> 24) & 0xff) == -1 ||
+        write_sim_b(sim_addr + 1, (value >> 16) & 0xff) == -1 ||
+        write_sim_b(sim_addr + 2, (value >>  8) & 0xff) == -1 ||
+        write_sim_b(sim_addr + 3, (value      ) & 0xff) == -1) {
+        sim_errno = 1;
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+/*
+ * This takes a 88k physical address and a length in bytes.  It
+ * returns a pointer to the simulation memory for the 88000 physical
+ * address.  If a buffer starting at this address and extending for
+ * for the length specified by the second parameter doesn't fit
+ * in continguous host memory a 0 is returned instead.
+ */
+u_char *sim_ptr(sim_addr, length)
+    u_long sim_addr;
+    u_long length;
+{
+    u_long  page;
+    u_long  page_offset;
+    struct page *page_ptr;
+
+    if (sim_addr >= memory_size) {
+        return 0;
+    }
+
+    page_offset = poff(sim_addr);
+    if (page_offset + length > PAGESIZE) {
+        return 0;
+    }
+
+    page = sim_addr / PAGESIZE;
+    page_ptr = page_table[page];
+    if (page_ptr == (struct page *)0) {
+        page_ptr = allocate_page(sim_addr & ~PAGEMASK);
+        page_table[page] = page_ptr;
+    }
+
+    return (u_char *)&page_ptr->values[0] + page_offset;
+}
+
+/*
+ * This reads part or all of the passed file into simulation memory.
+ * It returns the number of bytes actually read.
+ */
+int sim_readfile(fd, sim_addr, len)
+    int fd;
+    u_long sim_addr;
+    u_long len;
+{
+    u_long bytestoread, bytesread, actual = 0;
+    u_char *buf, *malloc();
+
+    while (len > 0) {
+        bytestoread = PAGESIZE - poff(sim_addr);
+        if (bytestoread > len) {
+            bytestoread = len;
+        }
+        buf = sim_ptr(sim_addr, bytestoread);
+
+        /*
+         * If we can't get a pointer to this piece of memory, then
+         * read the data into a buffer and stuff it into memory a 
+         * word at a time.  This allows us to download the
+         * ROM.
+         */
+        if (buf == 0) {
+            int i;
+
+            buf = malloc(bytestoread);
+            if (!buf) {
+                sim_printf("sim_readfile: unable to malloc buffer\n");
+                return actual;
+            }
+            bytesread = read(fd, buf, bytestoread);
+            for (i = 0 ; i < bytesread ; i += sizeof(u_long *)) {
+                write_sim_w(sim_addr + i, *(u_long *)&buf[i]);
+                if (sim_errno) {
+                    sim_printf("sim_readfile: unable to write address 0x%x\n", 
+                                                                  sim_addr);
+                    return actual;
+                }
+            }
+            free(buf);
+        } else {
+            bytesread = read(fd, buf, bytestoread);
+        }
+        actual += bytesread;
+        if (bytesread != bytestoread) {
+            break;
+        }
+        sim_addr += bytesread;
+        len -= bytesread;
+    }
+    return actual;
+}
+
+/*
+ * This writes part or all of the passed file into simulation memory.
+ * It returns the number of bytes actually written.
+ */
+int sim_writefile(fd, sim_addr, len)
+    int fd;
+    u_long sim_addr;
+    u_long len;
+{
+    u_long bytestowrite, byteswritten, actual = 0;
+    u_char *buf;
+
+    while (len > 0) {
+        bytestowrite = PAGESIZE - poff(sim_addr);
+        if (bytestowrite > len) {
+            bytestowrite = len;
+        }
+        buf = sim_ptr(sim_addr, bytestowrite);
+        if (buf == 0) {
+            break;
+        }
+        byteswritten = write(fd, buf, bytestowrite);
+        actual += byteswritten;
+        if (byteswritten != bytestowrite) {
+            break;
+        }
+        sim_addr += byteswritten;
+        len -= byteswritten;
+    }
+    return actual;
+}
+
+/*
+ * This zeros simulation memory.  It returns 0 if it was able to
+ * zero all of the memory it was told to zero.  It returns -1 otherwise.
+ */
+int sim_zeromem(sim_addr, len)
+    u_long sim_addr;
+    u_long len;
+{
+    u_long bytestozero;
+    u_char *buf;
+
+    while (len > 0) {
+        bytestozero = PAGESIZE - poff(sim_addr);
+        if (bytestozero > len) {
+            bytestozero = len;
+        }
+        buf = sim_ptr(sim_addr, bytestozero);
+        if (buf == 0) {
+            int i;
+
+            for (i = 0 ; i < bytestozero ; i += sizeof(u_long *)) {
+                write_sim_w(sim_addr + i, 0);
+                if (sim_errno) {
+                    sim_printf("sim_zeromem: unable to write address 0x%x\n", 
+                                                                  sim_addr);
+                    return -1;
+                }
+            }
+        } else {
+            bzero(buf, bytestozero);
+        }
+        sim_addr += bytestozero;
+        len -= bytestozero;
+    }
+    return 0;
+}
+@
+
+
+1.17
+log
+@fixed problem where sim_readfile and sim_zeromem could only deal
+with 88k addresses in physical memory.  Now can also deal with
+addresses in IO space.
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.16 88/04/29 17:06:54 robertb Exp $
+d196 1
+a196 1
+            sim_printf("case error in read_sim_w(%X)\n", sim_addr);
+d413 1
+a413 1
+                    sim_printf("sim_readfile: unable to write address 0x%X\n", 
+d487 1
+a487 1
+                    sim_printf("sim_zeromem: unable to write address 0x%X\n", 
+@
+
+
+1.16
+log
+@Removed dependency of this file on extern.h
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.15 88/04/28 10:35:23 robertb Exp $
+d386 1
+a386 1
+    u_char *buf;
+d394 7
+d402 19
+a420 1
+            break;
+a421 1
+        bytesread = read(fd, buf, bytestoread);
+d482 12
+a493 1
+            return -1;
+a494 1
+        bzero(buf, bytestozero);
+@
+
+
+1.15
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.14 88/04/16 14:22:41 robertb Exp $
+d13 2
+a14 9
+/*
+ * This macro turns the lines of extern.h into extern declarations.
+ */
+#define L(x)  extern sim_/**/x/**/(), sim_/**/x/**/_ss();
+#define BB0(x)
+#define BB1(x)
+#define BB0_N(x)
+#define BB1_N(x)
+#include "extern.h"
+@
+
+
+1.14
+log
+@Added 3 functions to read, write, and zero simulation memory.
+@
+text
+@d3 1
+a3 1
+ * Memory manipulation routines for the 78000 simulator.
+d8 1
+a8 1
+ * $Header: memory.c,v 1.13 88/04/15 14:17:29 robertb Exp $
+d17 4
+d30 1
+a30 1
+    int i;
+d41 5
+a45 2
+    for (i = 0 ; i < PAGE_SIZE / 4 ; i++) {
+        d_ptr->decoded_i[i].norm_e_addr = sim_not_decoded;
+d53 1
+a53 1
+    d_ptr->decoded_i[PAGE_SIZE / 4].norm_e_addr = sim_end_of_page;
+d64 1
+a64 1
+    bzero(&page_ptr->values[0], PAGE_SIZE);
+d69 1
+a69 1
+ * This allocates a page of simulated-78000 memory.
+d72 1
+a72 2
+allocate_page(physical_base_address)
+    u_long physical_base_address;
+d85 1
+a85 7
+    p = (struct page *)(((int)p + 7) & ~7);
+
+    p->physical_base_address = physical_base_address;
+    p->decoded_part = (struct decoded_part *)0;
+
+    clean_page(p);
+    return p;
+d98 1
+a98 1
+        sim_printf("allocate_decoded_part: unable to malloc\n");
+d176 1
+a176 1
+    page = sim_addr / PAGE_SIZE;
+d179 1
+a179 1
+        page_ptr = allocate_page(sim_addr & ~PAGE_MASK);
+d182 1
+a182 1
+    page_offset = sim_addr & PAGE_MASK;
+d241 1
+a241 1
+    page = sim_addr / PAGE_SIZE;
+d244 1
+a244 1
+        page_ptr = allocate_page(sim_addr & ~PAGE_MASK);
+d247 1
+a247 1
+    word_index = (sim_addr & PAGE_MASK) / 4;
+d316 1
+a316 1
+    page = sim_addr / PAGE_SIZE;
+d319 1
+a319 1
+        page_ptr = allocate_page(sim_addr & ~PAGE_MASK);
+d322 1
+a322 1
+    page_offset = sim_addr & PAGE_MASK;
+d368 2
+a369 2
+    page_offset = sim_addr & PAGE_MASK;
+    if (page_offset + length > PAGE_SIZE) {
+d373 1
+a373 1
+    page = sim_addr / PAGE_SIZE;
+d376 1
+a376 1
+        page_ptr = allocate_page(sim_addr & ~PAGE_MASK);
+d396 1
+a396 1
+        bytestoread = PAGE_SIZE - (sim_addr & PAGE_MASK);
+d428 1
+a428 1
+        bytestowrite = PAGE_SIZE - (sim_addr & PAGE_MASK);
+d459 1
+a459 1
+        bytestozero = PAGE_SIZE - (sim_addr & PAGE_MASK);
+@
+
+
+1.13
+log
+@Added the sim_ptr function.
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.12 88/03/25 16:00:33 robertb Exp $
+d381 91
+@
+
+
+1.12
+log
+@Fixed test for an address being with the simulated memory bounds.
+was "sim_addr > memory_size" now "sim_addr >= memory" size.
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.11 88/03/19 10:25:47 robertb Exp $
+d70 1
+a70 1
+    p = (struct page *)malloc(sizeof(struct page) + 8);
+d96 1
+a96 1
+    d_ptr = (struct decoded_part *)malloc(sizeof(struct decoded_part));
+d347 34
+@
+
+
+1.11
+log
+@Fiddled with exception codes, changed 78 to 88
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.10 88/02/22 11:57:17 robertb Exp $
+d275 1
+a275 1
+    if (sim_addr > memory_size) {
+d308 1
+a308 1
+    if (sim_addr > memory_size) {
+@
+
+
+1.10
+log
+@Changed to using u_long, u_short and u_char.
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.8 88/02/12 16:26:59 robertb Exp $
+d115 2
+a116 2
+        if (io_operation(sim_addr, &value, BYTE, LD_U, 1)) {
+            sim_errno = E_DACC;
+d121 1
+a121 1
+    sim_errno = E_NONE;
+d133 1
+a133 1
+        sim_errno = E_MA;
+d140 2
+a141 2
+        if (io_operation(sim_addr, &value, HALF, LD_U, 1)) {
+            sim_errno = E_DACC;
+d144 1
+a144 1
+        sim_errno = E_NONE;
+d148 1
+a148 1
+    sim_errno = E_NONE;
+d165 1
+a165 1
+    sim_errno = E_NONE;
+d169 2
+a170 2
+        if (io_operation(sim_addr, &value, WORD, LD_U, 1)) {
+            sim_errno = E_DACC;
+d205 1
+a205 1
+    sim_errno = E_DACC;
+d229 1
+a229 1
+    sim_errno = E_NONE;
+d231 2
+a232 2
+        if (io_operation(sim_addr, &value, BYTE, ST, 1)) {
+            sim_errno = E_DACC;
+d274 1
+a274 1
+    sim_errno = E_NONE;
+d276 2
+a277 2
+        if (io_operation(sim_addr, &value, HALF, ST, 1)) {
+            sim_errno = E_DACC;
+d285 1
+a285 1
+        sim_errno = E_DACC;
+d307 1
+a307 1
+    sim_errno = E_NONE;
+d309 2
+a310 2
+        if (io_operation(sim_addr, &value, WORD, ST, 1)) {
+            sim_errno = E_DACC;
+d342 1
+a342 1
+        sim_errno = E_DACC;
+@
+
+
+1.9
+log
+@Failed attempt at making more efficient use of host VM by
+using sbrk() instead of malloc().  Checking this in for posterity.
+@
+text
+@a18 1
+#define	MIN_POOL_SIZE	(1024*256)
+a19 33
+ * This allocates memory, just like malloc, except that it can't be
+ * freed.  We don't use malloc because it is so wasteful of memory. 
+ */
+char *
+alloc(size)
+    u_long size;
+{
+    static pool_size = 0;
+    static char *pool_base;
+    extern char *sbrk();
+           char *p;
+
+    /*
+     * Make sure that the pool_base pointer stays double-aligned.
+     */
+    size = (size + 7) & ~7;
+
+    if (size > pool_size) {
+        pool_size = MIN_POOL_SIZE + size;
+        pool_base = sbrk(pool_size);
+    }
+
+    pool_size -= size;
+    p = pool_base;
+    pool_base += size;
+
+    if ((u_long)p & 7) {
+        sim_printf("88000 simulator: alloc: pointer not double-aligned.\n");
+    }
+    return p;
+}
+
+/*
+d70 1
+a70 1
+    p = (struct page *)alloc(sizeof(struct page));
+d76 5
+d96 1
+a96 1
+    d_ptr = (struct decoded_part *)alloc(sizeof(struct decoded_part));
+d98 1
+a98 1
+        sim_printf("allocate_decoded_part: unable to alloc\n");
+d108 1
+a108 1
+u_long char
+d110 1
+a110 1
+    u_long    sim_addr;
+d128 1
+a128 1
+u_long short
+d130 1
+a130 1
+    u_long    sim_addr;
+d158 1
+a158 1
+    u_long    sim_addr;
+d160 2
+a161 2
+    u_long    page;
+    u_long    page_offset;
+d163 1
+a163 1
+    u_long    w1, w2;
+d214 2
+a215 2
+    u_long    sim_addr;
+    u_long    value;
+d217 2
+a218 2
+    u_long    page;
+    u_long    word_index;
+d220 2
+a221 2
+    u_long    *word_ptr;
+    u_long char *byte_ptr;
+d253 2
+a254 2
+    byte_ptr = (u_long char *)word_ptr + (sim_addr & 3);
+    *byte_ptr = (u_long char)value;
+d271 2
+a272 2
+    u_long    sim_addr;
+    u_long    value;
+d297 2
+a298 2
+    u_long sim_addr;
+    u_long value;
+d300 3
+a302 3
+    u_long page;
+    u_long page_offset;
+    u_long word_index;
+d305 1
+a305 1
+    u_long a1;
+@
+
+
+1.8
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.7 88/02/12 16:12:58 robertb Exp $
+d19 1
+d21 33
+d58 1
+a58 1
+	struct decoded_part *d_ptr;
+d60 1
+a60 1
+	int i;
+d62 3
+a64 3
+	if (!d_ptr) {
+		return;
+	}
+d66 8
+a73 8
+	/*
+	 * Set all of the entry addresses in the page to point to the
+	 * not-decoded-yet entry point.  This entry point will decode
+	 * the instruction and then execute it.
+	 */
+	for (i = 0 ; i < PAGE_SIZE / 4 ; i++) {
+		d_ptr->decoded_i[i].norm_e_addr = sim_not_decoded;
+	}
+d75 6
+a80 6
+	/*
+	 * Install pointer to the end-of-page entry point so that when
+	 * the ip crosses a page boundary by being incremented, we requalify
+	 * the decoded instruction pointer.
+	 */
+	d_ptr->decoded_i[PAGE_SIZE / 4].norm_e_addr = sim_end_of_page;
+d89 1
+a89 1
+	struct page *page_ptr;
+d91 2
+a92 2
+	bzero(&page_ptr->values[0], PAGE_SIZE);
+	clean_decoded_part(page_ptr->decoded_part);
+d100 1
+a100 1
+	unsigned physical_base_address;
+d102 1
+a102 1
+	struct page *p;
+d104 5
+a108 5
+	p = (struct page *)malloc(sizeof(struct page) + 8);
+	if (p == (struct page *)0) {
+		sim_printf("allocate_page(): no memory left.\n");
+		exit(1);
+	}
+d110 2
+a111 4
+	/*
+	 * Make the value part of a page be double-word aligned.
+	 */
+	p = (struct page *)(((int)p + 7) & ~7);
+d113 2
+a114 5
+	p->physical_base_address = physical_base_address;
+	p->decoded_part = (struct decoded_part *)0;
+
+	clean_page(p);
+	return p;
+d123 1
+a123 1
+	struct decoded_part *d_ptr;
+d125 7
+a131 7
+    d_ptr = (struct decoded_part *)malloc(sizeof(struct decoded_part));
+	if (!d_ptr) {
+		sim_printf("allocate_decoded_part: unable to malloc\n");
+		exit(1);
+	}
+	clean_decoded_part(d_ptr);
+	return d_ptr;
+d137 1
+a137 1
+unsigned char
+d139 1
+a139 1
+	unsigned	sim_addr;
+d141 2
+a142 2
+	if (sim_addr >= memory_size) {
+		unsigned value;
+d144 8
+a151 8
+		if (io_operation(sim_addr, &value, BYTE, LD_U, 1)) {
+			sim_errno = E_DACC;
+			return 0;
+		}
+		return value;
+	}
+	sim_errno = E_NONE;
+	return read_sim_w(sim_addr) >> 24;
+d157 1
+a157 1
+unsigned short
+d159 1
+a159 1
+	unsigned	sim_addr;
+d161 4
+a164 4
+	if (sim_addr & 1) {
+		sim_errno = E_MA;
+		return 0;
+	}
+d166 2
+a167 2
+	if (sim_addr >= memory_size) {
+		unsigned value;
+d169 7
+a175 7
+		if (io_operation(sim_addr, &value, HALF, LD_U, 1)) {
+			sim_errno = E_DACC;
+			return 0;
+		}
+		sim_errno = E_NONE;
+		return value;
+	}
+d177 2
+a178 2
+	sim_errno = E_NONE;
+	return read_sim_w(sim_addr) >> 16;
+d185 1
+a185 1
+unsigned
+d187 1
+a187 1
+	unsigned	sim_addr;
+d189 4
+a192 4
+	unsigned	page;
+	unsigned	page_offset;
+	struct page *page_ptr;
+	unsigned	w1, w2;
+d194 3
+a196 3
+	sim_errno = E_NONE;
+	if (sim_addr >= memory_size) {
+		unsigned value;
+d198 6
+a203 6
+		if (io_operation(sim_addr, &value, WORD, LD_U, 1)) {
+			sim_errno = E_DACC;
+			return 0;
+		}
+		return value;
+	}
+d205 7
+a211 7
+	page = sim_addr / PAGE_SIZE;
+	page_ptr = page_table[page];
+	if (page_ptr == (struct page *)0) {
+		page_ptr = allocate_page(sim_addr & ~PAGE_MASK);
+		page_table[page] = page_ptr;
+	}
+	page_offset = sim_addr & PAGE_MASK;
+d213 1
+a213 1
+	w1 = page_ptr->values[page_offset / 4];
+d215 3
+a217 3
+	switch (sim_addr & 3) {
+		case 0:
+			return w1;
+d219 3
+a221 3
+		case 1:
+			w2 = read_sim_w((sim_addr & ~3) + 4);
+			return (w1 << 8) | (w2 >> 24);
+d223 3
+a225 3
+		case 2:
+			w2 = read_sim_w((sim_addr & ~3) + 4);
+			return (w1 << 16) | (w2 >> 16);
+d227 3
+a229 3
+		case 3:
+			w2 = read_sim_w((sim_addr & ~3) + 4);
+			return (w1 << 24) | (w2 >> 8);
+d231 5
+a235 5
+		default:
+			sim_printf("case error in read_sim_w(%X)\n", sim_addr);
+	}
+	sim_errno = E_DACC;
+	return 0;
+d243 2
+a244 2
+	unsigned	sim_addr;
+	unsigned	value;
+d246 6
+a251 6
+	unsigned	page;
+	unsigned	word_index;
+	struct page *page_ptr;
+	unsigned	*word_ptr;
+	unsigned char *byte_ptr;
+	struct decoded_part *d_ptr;
+d253 12
+a264 12
+	/*
+	 * First see if the address is outside the range of physcial
+	 * memory addresses.  If so, let the IO system have a chance
+	 * at it.
+	 */
+	sim_errno = E_NONE;
+	if (sim_addr >= memory_size) {
+		if (io_operation(sim_addr, &value, BYTE, ST, 1)) {
+			sim_errno = E_DACC;
+		}
+		return 0;
+	}
+d266 11
+a276 11
+	/*
+	 * Its a memory operation.  Find the physical page.  If its not
+	 * allocated yet, then allocate it and put it in the page table.
+	 */
+	page = sim_addr / PAGE_SIZE;
+	page_ptr = page_table[page];
+	if (page_ptr == (struct page *)0) {
+		page_ptr = allocate_page(sim_addr & ~PAGE_MASK);
+		page_table[page] = page_ptr;
+	}
+	word_index = (sim_addr & PAGE_MASK) / 4;
+d278 6
+a283 6
+	/*
+	 * Caclculate the offset within the page of the byte to modify.
+	 */
+	word_ptr = &page_ptr->values[word_index];
+	byte_ptr = (unsigned char *)word_ptr + (sim_addr & 3);
+	*byte_ptr = (unsigned char)value;
+d285 8
+a292 8
+	/*
+	 * Invalidate the decoded instruction that corresponds to this
+	 * location.
+	 */
+	if (d_ptr = page_ptr->decoded_part) {
+		d_ptr->decoded_i[word_index].norm_e_addr = sim_not_decoded;
+	}
+	return 0;
+d300 2
+a301 2
+	unsigned	sim_addr;
+	unsigned	value;
+d303 8
+a310 8
+	sim_errno = E_NONE;
+	if (sim_addr > memory_size) {
+		if (io_operation(sim_addr, &value, HALF, ST, 1)) {
+			sim_errno = E_DACC;
+			return -1;
+		}
+		return 0;
+	}
+d312 7
+a318 7
+	if (write_sim_b(sim_addr    , (value >> 8) & 0xff) == -1 ||
+	    write_sim_b(sim_addr + 1, (value     ) & 0xff) == -1) {
+		sim_errno = E_DACC;
+		return -1;
+	} else {
+		return 0;
+	}
+d326 2
+a327 2
+	unsigned	sim_addr;
+	unsigned	value;
+d329 6
+a334 6
+	unsigned	page;
+	unsigned	page_offset;
+	unsigned	word_index;
+	struct page *page_ptr;
+	struct decoded_part *d_ptr;
+	unsigned	a1;
+d336 8
+a343 8
+	sim_errno = E_NONE;
+	if (sim_addr > memory_size) {
+		if (io_operation(sim_addr, &value, WORD, ST, 1)) {
+			sim_errno = E_DACC;
+			return -1;
+		}
+		return 0;
+	}
+d345 7
+a351 7
+	page = sim_addr / PAGE_SIZE;
+	page_ptr = page_table[page];
+	if (page_ptr == (struct page *)0) {
+		page_ptr = allocate_page(sim_addr & ~PAGE_MASK);
+		page_table[page] = page_ptr;
+	}
+	page_offset = sim_addr & PAGE_MASK;
+d353 10
+a362 10
+	word_index = page_offset / 4;
+	if ((sim_addr & 3) == 0) {
+		page_ptr->values[word_index] = value;
+		/*
+		 * Invalidate the decoded instruction that corresponds to the
+		 * word we are changing.
+		 */
+		if (d_ptr = page_ptr->decoded_part) {
+			d_ptr->decoded_i[word_index].norm_e_addr = sim_not_decoded;
+		}
+d364 2
+a365 2
+		return 0;
+	}
+d367 9
+a375 9
+	if (write_sim_b(sim_addr,     (value >> 24) & 0xff) == -1 ||
+	    write_sim_b(sim_addr + 1, (value >> 16) & 0xff) == -1 ||
+	    write_sim_b(sim_addr + 2, (value >>  8) & 0xff) == -1 ||
+	    write_sim_b(sim_addr + 3, (value      ) & 0xff) == -1) {
+		sim_errno = E_DACC;
+		return -1;
+	} else {
+		return 0;
+	}
+@
+
+
+1.7
+log
+@Added copyright message.
+@
+text
+@d8 1
+a8 1
+ * $Header: memory.c,v 1.6 87/12/04 17:04:13 robertb Exp $ */
+d10 1
+@
+
+
+1.6
+log
+@Fixes bug that Brent reported that was causing a buss error.
+@
+text
+@a0 1
+/* $Header: memory.c,v 1.5 87/11/23 14:41:31 timd Exp $ */
+d4 5
+@
+
+
+1.5
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d108 1
+a108 1
+		unsigned char value;
+d133 1
+a133 1
+		unsigned short value;
+@
+
+
+1.4
+log
+@Eliminated ss_e_addr field in decoded_i structure
+@
+text
+@d1 1
+@
+
+
+1.3
+log
+@see changes_10_11.doc
+@
+text
+@a32 1
+		d_ptr->decoded_i[i].ss_e_addr = sim_not_decoded_ss;
+a40 1
+	d_ptr->decoded_i[PAGE_SIZE / 4].ss_e_addr = sim_end_of_page_ss;
+a255 1
+		d_ptr->decoded_i[word_index].ss_e_addr = sim_not_decoded_ss;
+a326 1
+			d_ptr->decoded_i[word_index].ss_e_addr = sim_not_decoded_ss;
+@
+
+
+1.2
+log
+@see file changes_11_9 for description of changes
+@
+text
+@d112 1
+a112 1
+			sim_printf("read_sim_b(%X), address too big\n", sim_addr);
+d117 1
+d129 1
+a129 1
+		sim_printf("read_sim_h(%X) address not half aligned.\n");
+d137 1
+a137 1
+			sim_printf("read_sim_h(%X), address too big\n", sim_addr);
+d140 1
+d144 1
+d161 1
+d166 1
+a166 1
+			sim_printf("read_sim_w(%X), address too big\n", sim_addr);
+d201 1
+d225 1
+d228 1
+a228 2
+			sim_printf("write_sim_b(%X), address too big\n", sim_addr);
+			return -1;
+d271 1
+d274 1
+a274 1
+			sim_printf("write_sim_h(%X), address too big\n", sim_addr);
+d282 1
+d304 1
+d307 1
+a307 1
+			sim_printf("write_sim_w(%X), address too big\n", sim_addr);
+d340 1
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d111 1
+a111 1
+		if (io_operation(sim_addr, &value, BYTE, LD_U)) {
+d135 1
+a135 1
+		if (io_operation(sim_addr, &value, HALF, LD_U)) {
+d161 1
+a161 1
+		if (io_operation(sim_addr, &value, WORD, LD_U)) {
+d221 1
+a221 1
+		if (io_operation(sim_addr, &value, BYTE, ST)) {
+d267 1
+a267 1
+		if (io_operation(sim_addr, &value, HALF, ST)) {
+d298 1
+a298 1
+		if (io_operation(sim_addr, &value, WORD, ST)) {
+@

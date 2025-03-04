@@ -1,0 +1,2892 @@
+head     1.79;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.79
+date     90.05.08.15.03.46;  author jrb;  state exp;
+branches ;
+next     1.78;
+
+1.78
+date     90.05.08.14.09.35;  author jrb;  state exp;
+branches ;
+next     1.77;
+
+1.77
+date     90.05.08.12.23.33;  author jrb;  state exp;
+branches ;
+next     1.76;
+
+1.76
+date     90.05.02.15.03.23;  author jrb;  state exp;
+branches ;
+next     1.75;
+
+1.75
+date     90.04.23.16.11.31;  author jrb;  state exp;
+branches ;
+next     1.74;
+
+1.74
+date     90.04.23.11.31.58;  author jrb;  state exp;
+branches ;
+next     1.73;
+
+1.73
+date     90.04.05.11.16.29;  author jrb;  state exp;
+branches ;
+next     1.72;
+
+1.72
+date     90.03.30.09.48.03;  author jrb;  state exp;
+branches ;
+next     1.71;
+
+1.71
+date     90.03.29.10.35.44;  author jrb;  state exp;
+branches ;
+next     1.70;
+
+1.70
+date     90.03.28.17.10.48;  author jrb;  state exp;
+branches ;
+next     1.69;
+
+1.69
+date     90.03.27.11.01.12;  author jrb;  state exp;
+branches ;
+next     1.68;
+
+1.68
+date     90.03.26.09.44.00;  author jrb;  state exp;
+branches ;
+next     1.67;
+
+1.67
+date     90.03.19.09.29.01;  author jrb;  state exp;
+branches ;
+next     1.66;
+
+1.66
+date     90.03.12.10.49.58;  author jrb;  state exp;
+branches ;
+next     1.65;
+
+1.65
+date     90.03.09.11.42.04;  author jrb;  state exp;
+branches ;
+next     1.64;
+
+1.64
+date     90.03.09.10.47.00;  author jrb;  state exp;
+branches ;
+next     1.63;
+
+1.63
+date     90.02.26.15.34.42;  author root;  state exp;
+branches ;
+next     1.62;
+
+1.62
+date     90.02.23.15.22.16;  author root;  state exp;
+branches ;
+next     1.61;
+
+1.61
+date     90.02.23.14.41.36;  author root;  state exp;
+branches ;
+next     1.60;
+
+1.60
+date     90.02.09.15.49.51;  author root;  state exp;
+branches ;
+next     1.59;
+
+1.59
+date     90.02.09.15.21.03;  author jrb;  state exp;
+branches ;
+next     1.58;
+
+1.58
+date     90.02.09.14.54.49;  author davidl;  state exp;
+branches ;
+next     1.57;
+
+1.57
+date     90.02.09.14.09.57;  author jrb;  state exp;
+branches ;
+next     1.56;
+
+1.56
+date     90.01.26.11.22.04;  author jrb;  state exp;
+branches ;
+next     1.55;
+
+1.55
+date     90.01.12.15.22.05;  author jrb;  state exp;
+branches ;
+next     1.54;
+
+1.54
+date     90.01.10.16.40.38;  author davidl;  state exp;
+branches ;
+next     1.53;
+
+1.53
+date     90.01.10.16.01.35;  author davidl;  state exp;
+branches ;
+next     1.52;
+
+1.52
+date     90.01.10.15.32.32;  author davidl;  state exp;
+branches ;
+next     1.51;
+
+1.51
+date     90.01.05.15.10.16;  author davidl;  state exp;
+branches ;
+next     1.50;
+
+1.50
+date     89.12.22.16.28.24;  author root;  state exp;
+branches ;
+next     1.49;
+
+1.49
+date     89.12.22.16.10.42;  author root;  state exp;
+branches ;
+next     1.48;
+
+1.48
+date     89.12.22.15.58.06;  author root;  state exp;
+branches ;
+next     1.47;
+
+1.47
+date     89.12.12.13.15.29;  author davidl;  state exp;
+branches ;
+next     1.46;
+
+1.46
+date     89.12.12.13.01.33;  author davidl;  state exp;
+branches ;
+next     1.45;
+
+1.45
+date     89.12.01.12.45.57;  author bobm;  state exp;
+branches ;
+next     1.44;
+
+1.44
+date     89.11.30.11.25.42;  author root;  state exp;
+branches ;
+next     1.43;
+
+1.43
+date     89.11.27.16.05.20;  author davidl;  state exp;
+branches ;
+next     1.42;
+
+1.42
+date     89.11.21.14.41.47;  author davidl;  state exp;
+branches ;
+next     1.41;
+
+1.41
+date     89.11.20.15.04.58;  author marvinw;  state exp;
+branches ;
+next     1.40;
+
+1.40
+date     89.11.20.11.22.55;  author bobm;  state exp;
+branches ;
+next     1.39;
+
+1.39
+date     89.11.19.16.08.56;  author bobm;  state exp;
+branches ;
+next     1.38;
+
+1.38
+date     89.11.17.14.30.17;  author marvinw;  state exp;
+branches ;
+next     1.37;
+
+1.37
+date     89.11.16.17.46.18;  author davidl;  state exp;
+branches ;
+next     1.36;
+
+1.36
+date     89.11.16.17.33.17;  author davidl;  state exp;
+branches ;
+next     1.35;
+
+1.35
+date     89.11.15.14.10.37;  author davidl;  state exp;
+branches ;
+next     1.34;
+
+1.34
+date     89.11.14.12.19.22;  author davidl;  state exp;
+branches ;
+next     1.33;
+
+1.33
+date     89.11.07.17.06.38;  author davidl;  state exp;
+branches ;
+next     1.32;
+
+1.32
+date     89.10.23.19.17.13;  author davidl;  state exp;
+branches ;
+next     1.31;
+
+1.31
+date     89.10.19.09.39.31;  author davidl;  state exp;
+branches ;
+next     1.30;
+
+1.30
+date     89.10.18.14.56.15;  author davidl;  state exp;
+branches ;
+next     1.29;
+
+1.29
+date     89.10.09.17.22.24;  author davidl;  state exp;
+branches ;
+next     1.28;
+
+1.28
+date     89.10.04.08.46.44;  author davidl;  state exp;
+branches ;
+next     1.27;
+
+1.27
+date     89.09.29.13.09.08;  author davidl;  state exp;
+branches ;
+next     1.26;
+
+1.26
+date     89.09.28.17.09.38;  author davidl;  state exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.09.28.11.37.38;  author davidl;  state exp;
+branches ;
+next     1.24;
+
+1.24
+date     89.09.28.11.28.52;  author davidl;  state exp;
+branches ;
+next     1.23;
+
+1.23
+date     89.09.27.16.19.31;  author davidl;  state exp;
+branches ;
+next     1.22;
+
+1.22
+date     89.09.27.15.21.22;  author davidl;  state exp;
+branches ;
+next     1.21;
+
+1.21
+date     89.09.27.13.17.59;  author davidl;  state exp;
+branches ;
+next     1.20;
+
+1.20
+date     89.09.27.10.50.38;  author davidl;  state exp;
+branches ;
+next     1.19;
+
+1.19
+date     89.09.27.10.39.37;  author davidl;  state exp;
+branches ;
+next     1.18;
+
+1.18
+date     89.09.27.10.16.17;  author davidl;  state exp;
+branches ;
+next     1.17;
+
+1.17
+date     89.09.27.10.06.56;  author davidl;  state exp;
+branches ;
+next     1.16;
+
+1.16
+date     89.09.25.18.18.25;  author davidl;  state exp;
+branches ;
+next     1.15;
+
+1.15
+date     89.09.25.18.04.29;  author davidl;  state exp;
+branches ;
+next     1.14;
+
+1.14
+date     89.09.25.17.57.04;  author davidl;  state exp;
+branches ;
+next     1.13;
+
+1.13
+date     89.09.25.17.49.43;  author davidl;  state exp;
+branches ;
+next     1.12;
+
+1.12
+date     89.09.25.17.47.38;  author davidl;  state exp;
+branches ;
+next     1.11;
+
+1.11
+date     89.09.25.17.40.22;  author davidl;  state exp;
+branches ;
+next     1.10;
+
+1.10
+date     89.09.25.16.21.26;  author davidl;  state exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.09.25.12.11.59;  author davidl;  state exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.09.25.11.10.07;  author davidl;  state exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.09.25.10.55.05;  author davidl;  state exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.09.24.12.14.44;  author davidl;  state exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.09.24.11.17.43;  author paulg;  state exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.09.22.14.28.42;  author davidl;  state exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.09.22.10.49.36;  author davidl;  state exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.09.21.15.39.36;  author paulg;  state exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.09.21.15.39.11;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.79
+log
+@New build
+@
+text
+@char _Xrcsid[] = "$Header: Xrcsid.c,v 1.78 90/05/08 14:09:35 jrb exp $";
+char _sccs_Xrcsid[] = "@@(#) Xrcsid.c,v 1.79 90/05/08 15:03:46 jrb exp";
+/*
+ + Makefile:
+ *        Makefile,v 1.44 90/05/08 11:34:25 jrb Exp $Locker: jrb
+ + blockframe.c:
+ *        blockframe.c,v 1.7 89/11/17 08:05:59 davidl Exp $Locker: $
+ + breakpoint.c:
+ *        breakpoint.c,v 1.32 90/04/23 15:09:57 andrew Exp $Locker: $
+ + dbxread.c:
+ *        dbxread.c,v 1.12 90/03/08 14:38:18 andrew Exp $Locker: $
+ + coffread.c:
+ *        coffread.c,v 1.35 90/05/08 11:33:26 jrb Exp $Locker: $
+ + command.c:
+ *        command.c,v 1.12 89/12/09 17:17:07 paulg Exp $Locker: $
+ + core.c:
+ *        core.c,v 1.13 90/03/28 14:23:30 robertb Exp $Locker: $
+ + environ.c:
+ *        environ.c,v 1.3 89/11/17 08:06:41 davidl Exp $Locker: $
+ + eval.c:
+ *        eval.c,v 1.14 90/03/28 14:12:48 robertb Exp $Locker: $
+ + expprint.c:
+ *        expprint.c,v 1.6 89/11/17 09:06:24 valeries Exp $Locker: $
+ + findvar.c:
+ *        findvar.c,v 1.17 90/04/30 14:08:22 robertb Exp $Locker: $
+ + infcmd.c:
+ *        infcmd.c,v 1.35 90/04/29 20:00:24 robertb Exp $Locker: $
+ + inflow.c:
+ *        inflow.c,v 1.13 90/03/28 14:38:29 robertb Exp $Locker: $
+ + infrun.c:
+ *        infrun.c,v 1.44 90/05/08 03:23:08 robertb Exp $Locker: $
+ + kdb-start.c:
+ *        kdb-start.c,v 1.2 89/09/21 10:18:40 paulg Exp $Locker: $
+ + main.c:
+ *        main.c,v 1.63 90/03/22 10:58:51 jrb Exp $Locker: $
+ + printcmd.c:
+ *        printcmd.c,v 1.29 90/04/30 14:08:28 robertb Exp $Locker: $
+ + decode.c:
+ *        decode.c,v 1.2 90/04/29 19:59:04 robertb Exp
+ + motomode.c:
+ *        motomode.c,v 1.2 90/04/25 10:47:22 robertb Exp
+ + remote.c:
+ *        remote.c,v 1.24 90/04/29 19:43:41 robertb Exp $Locker: $
+ + remcmd.c:
+ *        remcmd.c,v 1.2 90/04/29 19:39:33 robertb Exp $Locker: $
+ + remmem.c:
+ *        remmem.c,v 1.2 90/04/29 19:43:32 robertb Exp $Locker: $
+ + remrun.c:
+ *        remrun.c,v 1.2 90/04/29 19:46:02 robertb Exp $Locker: $
+ + sim.c:
+ *        sim.c,v 1.2 90/04/29 23:28:18 robertb Exp $Locker: $
+ + source.c:
+ *        source.c,v 1.21 90/04/16 15:14:10 jrb Exp $Locker: $
+ + stack.c:
+ *        stack.c,v 1.18 90/04/30 14:08:47 robertb Exp $Locker: $
+ + standalone.c:
+ *        standalone.c,v 1.5 89/11/17 08:08:20 davidl Exp $Locker: $
+ + stuff.c:
+ *        stuff.c,v 1.4 89/11/17 08:08:24 davidl Exp $Locker: $
+ + symmisc.c:
+ *        symmisc.c,v 1.10 90/02/07 16:05:13 andrew Exp $Locker: $
+ + symtab.c:
+ *        symtab.c,v 1.24 90/02/26 15:04:52 andrew Exp $Locker: $
+ + utils.c:
+ *        utils.c,v 1.27 90/04/23 10:36:01 robertb Exp $Locker: $
+ + valarith.c:
+ *        valarith.c,v 1.8 90/03/15 10:02:34 marvinw Exp $Locker: $
+ + valops.c:
+ *        valops.c,v 1.22 90/04/23 10:37:08 robertb Exp $Locker: $
+ + valprint.c:
+ *        valprint.c,v 1.15 90/05/08 10:25:10 marvinw Exp $Locker: $
+ + values.c:
+ *        values.c,v 1.17 90/05/02 12:31:03 marvinw Exp $Locker: $
+ + version.c:
+ *        version.c,v 1.3 89/11/17 08:09:00 davidl Exp $Locker: $
+ + expread.y:
+ *        expread.y,v 1.10 90/03/15 09:00:50 andrew Exp $Locker: $
+ + xgdb.c:
+ *        xgdb.c,v 1.5 89/11/17 08:09:09 davidl Exp $Locker: $
+ + ui.c:
+ *        ui.c,v 1.8 89/11/17 08:09:13 davidl Exp $Locker: $
+ + programmer.c:
+ *        programmer.c,v 1.44 90/04/16 15:15:52 jrb Exp $Locker: $
+ + watchpoint.c:
+ *        watchpoint.c,v 1.32 90/03/15 09:32:11 andrew Exp $Locker: $
+ + m88k-dep.c:
+ *        m88k-dep.c,v 1.38 90/04/25 10:40:33 robertb Exp $Locker: $
+ + m88k-pinsn.c:
+ *        m88k-pinsn.c,v 1.14 90/04/23 13:22:21 andrew Exp $Locker: $
+ + command.h:
+ *        command.h,v 1.4 89/12/09 17:56:19 paulg Exp $Locker: $
+ + compress.h:
+ *        compress.h,v 1.1 89/08/24 15:29:14 robertb Exp
+ + defs.h:
+ *        defs.h,v 1.10 90/03/28 14:32:35 robertb Exp $Locker: $
+ + decode.h:
+ *        decode.h,v 1.2 90/04/29 19:59:59 robertb Exp
+ + environ.h:
+ *        environ.h,v 1.2 89/09/21 10:11:46 paulg Exp $Locker: $
+ + expression.h:
+ *        expression.h,v 1.2 89/09/21 10:18:07 paulg Exp $Locker: $
+ + fields88.h:
+ *        fields88.h,v 1.4 88/02/12 16:54:16 robertb Exp
+ + format.h:
+ *        format.h,v 1.5 88/02/12 16:28:00 robertb Exp
+ + frame.h:
+ *        frame.h,v 1.5 90/03/15 09:04:13 andrew Exp $Locker: $
+ + getpagesize.h:
+ *        getpagesize.h,v 1.4 90/03/15 09:04:52 andrew Exp
+ + inferior.h:
+ *        inferior.h,v 1.3 90/03/15 09:07:28 andrew Exp $Locker: $
+ + montraps.h:
+ *        montraps.h,v 1.1 89/08/24 15:28:25 robertb Exp $Locker: $
+ + remote.h:
+ *        remote.h,v 1.5 90/04/29 19:46:14 robertb Exp
+ + symseg.h:
+ *        symseg.h,v 1.7 90/03/08 14:39:28 andrew Exp $Locker: $
+ + symtab.h:
+ *        symtab.h,v 1.7 90/03/08 14:39:59 andrew Exp $Locker: $
+ + value.h:
+ *        value.h,v 1.6 90/03/15 09:29:44 andrew Exp $Locker: $
+ + wait.h:
+ *        wait.h,v 1.2 89/09/21 10:23:16 paulg Exp $Locker: $
+ + a.out.encap.h:
+ *        a.out.encap.h,v 1.2 89/09/21 10:10:29 paulg Exp $Locker: $
+ + a.out.gnu.h:
+ *        a.out.gnu.h,v 1.2 89/09/21 10:10:42 paulg Exp $Locker: $
+ + stab.gnu.h:
+ *        stab.gnu.h,v 1.2 89/09/21 10:21:08 paulg Exp $Locker: $
+ + ui.h:
+ *        ui.h,v 1.6 89/11/17 08:10:06 davidl Exp $Locker: $
+ + m88k-opcode.h:
+ *        m88k-opcode.h,v 1.4 89/12/08 14:58:03 andrew Exp $Locker: $
+ + m-m88k.h:
+ *        m-m88k.h,v 1.17 90/03/28 14:29:50 robertb Exp $Locker: $
+ + obstack.h:
+ *        obstack.h,v 1.2 89/09/21 10:20:35 paulg Exp $Locker: $
+ + obstack.c:
+ *        obstack.c,v 1.3 89/12/09 18:06:07 paulg Exp $Locker: $
+ + regex.c:
+ *        regex.c,v 1.6 89/11/17 08:09:29 davidl Exp $Locker: $
+ + regex.h:
+ *        regex.h,v 1.2 89/09/21 10:20:55 paulg Exp $Locker: $
+ + malloc.c:
+ *        malloc.c,v 1.9 89/12/09 17:51:17 paulg Exp $Locker: $
+ + alloca.c:
+ *        alloca.c,v 1.3 89/09/26 21:38:29 paulg Exp $Locker: $
+ + XOBJ/xrcsid.c:
+ *        xrcsid.c,v 1.70 90/05/08 14:54:25 jrb Exp $Locker: $
+ + /bin/cc:
+ +        cc.id.c,v 1.160 90/05/04 13:40:05 bobm rel
+ + /bin/make:
+ +        make.id.c,v 1.15 89/12/06 12:14:36 root rel3_2c
+ */
+@
+
+
+1.78
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.77 90/05/08 12:23:33 jrb exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.44 90/05/08 11:34:25 jrb Exp $Locker: $
+d149 1
+a149 1
+ *        xrcsid.c,v 1.69 90/05/08 14:02:17 jrb Exp $Locker: $
+@
+
+
+1.77
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.76 90/05/02 15:03:23 jrb exp $";
+d149 1
+a149 1
+ *        xrcsid.c,v 1.68 90/05/08 12:16:12 jrb Exp $Locker: $
+@
+
+
+1.76
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.75 90/04/23 16:11:31 jrb exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.42 90/04/29 23:28:46 robertb Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.32 90/05/02 12:24:48 marvinw Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.43 90/04/25 10:21:49 robertb Exp $Locker: $
+d71 1
+a71 1
+ *        valprint.c,v 1.14 90/03/28 14:44:20 robertb Exp $Locker: $
+d149 1
+a149 1
+ *        xrcsid.c,v 1.67 90/05/02 14:55:46 jrb Exp $Locker: $
+d151 1
+a151 1
+ +        cc.id.c,v 1.158 90/04/27 13:57:39 bobm rel
+@
+
+
+1.75
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.74 90/04/23 11:31:58 jrb exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.36 90/03/16 09:53:38 jrb Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.30 90/04/23 10:30:49 robertb Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.16 90/04/23 10:27:25 robertb Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.33 90/04/23 13:21:33 andrew Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.42 90/03/28 15:50:03 robertb Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.28 90/04/23 13:22:06 andrew Exp $Locker: $
+d39 3
+a41 1
+ *        decode.c,v 1.1 89/12/18 14:06:32 robertb Exp
+d43 9
+a51 1
+ *        remote.c,v 1.21 90/04/23 10:21:48 robertb Exp $Locker: $
+d55 1
+a55 1
+ *        stack.c,v 1.16 90/03/15 09:28:24 andrew Exp $Locker: $
+d73 1
+a73 1
+ *        values.c,v 1.16 90/03/28 14:43:04 robertb Exp $Locker: $
+d87 1
+a87 1
+ *        m88k-dep.c,v 1.37 90/04/23 10:24:04 robertb Exp $Locker: $
+d97 1
+a97 1
+ *        decode.h,v 1.1 89/12/18 14:06:54 robertb Exp
+d114 2
+d149 1
+a149 1
+ *        xrcsid.c,v 1.66 90/04/23 16:01:28 jrb Exp $Locker: $
+d151 1
+a151 1
+ +        cc.id.c,v 1.153 90/04/18 16:50:07 bobm rel
+@
+
+
+1.74
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.73 90/04/05 11:16:29 jrb exp $";
+d9 1
+a9 1
+ *        breakpoint.c,v 1.31 90/03/28 14:14:29 robertb Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.32 90/03/28 14:33:22 robertb Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.27 90/03/28 14:40:27 robertb Exp $Locker: $
+d79 1
+a79 1
+ *        m88k-pinsn.c,v 1.13 90/04/16 12:01:24 andrew Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.65 90/04/23 11:15:09 jrb Exp $Locker: $
+@
+
+
+1.73
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.72 90/03/30 09:48:03 jrb exp $";
+d13 1
+a13 1
+ *        coffread.c,v 1.29 90/03/28 14:36:20 robertb Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.15 90/04/05 09:28:44 marvinw Exp $Locker: $
+d41 1
+a41 1
+ *        remote.c,v 1.20 90/03/29 15:46:55 robertb Exp $Locker: $
+d43 1
+a43 1
+ *        source.c,v 1.20 90/01/08 11:24:55 jrb Exp $Locker: $
+d55 1
+a55 1
+ *        utils.c,v 1.26 90/02/23 14:45:38 andrew Exp $Locker: $
+d59 1
+a59 1
+ *        valops.c,v 1.21 90/03/28 14:47:04 robertb Exp $Locker: $
+d73 1
+a73 1
+ *        programmer.c,v 1.43 90/03/28 14:16:11 robertb Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.36 90/03/28 15:27:12 robertb Exp $Locker: $
+d79 1
+a79 1
+ *        m88k-pinsn.c,v 1.12 90/03/28 14:21:12 robertb Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.64 90/04/05 11:02:25 jrb Exp $Locker: $
+d139 1
+a139 1
+ +        cc.id.c,v 1.142 90/03/27 16:18:59 bobm rel
+@
+
+
+1.72
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.71 90/03/29 10:35:44 jrb exp $";
+d25 1
+a25 1
+ *        findvar.c,v 1.14 90/03/28 14:57:49 robertb Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.63 90/03/30 09:41:07 jrb Exp $Locker: $
+@
+
+
+1.71
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.70 90/03/28 17:10:48 jrb exp $";
+d41 1
+a41 1
+ *        remote.c,v 1.19 90/03/28 14:26:21 robertb Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.62 90/03/29 10:21:39 jrb Exp $Locker: $
+@
+
+
+1.70
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.69 90/03/27 11:01:12 jrb exp $";
+d137 1
+a137 1
+ *        xrcsid.c,v 1.60 90/03/28 16:55:56 jrb Exp $Locker: $
+@
+
+
+1.69
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.68 90/03/26 09:44:00 jrb exp $";
+d9 1
+a9 1
+ *        breakpoint.c,v 1.30 90/02/21 15:53:56 davidl Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.28 90/03/08 14:37:15 andrew Exp $Locker: $
+d17 1
+a17 1
+ *        core.c,v 1.12 90/03/15 08:56:03 andrew Exp $Locker: $
+d21 1
+a21 1
+ *        eval.c,v 1.13 90/03/15 10:01:48 marvinw Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.13 90/03/15 09:02:56 andrew Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.31 90/03/15 09:05:34 andrew Exp $Locker: $
+d29 1
+a29 1
+ *        inflow.c,v 1.12 90/03/15 09:08:03 andrew Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.41 90/03/15 09:08:30 andrew Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.26 90/03/16 11:24:37 andrew Exp $Locker: $
+d41 1
+a41 1
+ *        remote.c,v 1.18 90/03/15 09:26:57 andrew Exp $Locker: $
+d59 1
+a59 1
+ *        valops.c,v 1.20 90/03/15 09:29:07 andrew Exp $Locker: $
+d61 1
+a61 1
+ *        valprint.c,v 1.13 90/03/01 15:39:52 marvinw Exp $Locker: $
+d63 1
+a63 1
+ *        values.c,v 1.15 90/03/15 09:30:41 andrew Exp $Locker: $
+d73 1
+a73 1
+ *        programmer.c,v 1.42 90/02/20 11:41:16 andrew Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.35 90/03/23 14:44:27 jrb Exp $Locker: $
+d79 1
+a79 1
+ *        m88k-pinsn.c,v 1.11 90/02/22 14:33:46 andrew Exp $Locker: $
+d85 1
+a85 1
+ *        defs.h,v 1.9 89/11/17 08:09:53 davidl Exp $Locker: $
+d123 1
+a123 1
+ *        m-m88k.h,v 1.16 90/03/16 08:03:32 andrew Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.59 90/03/27 10:33:49 jrb Exp $Locker: $
+d139 1
+a139 1
+ +        cc.id.c,v 1.136 90/03/22 16:28:43 bobm rel
+@
+
+
+1.68
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.67 90/03/19 09:29:01 jrb exp $";
+d137 1
+a137 1
+ *        xrcsid.c,v 1.58 90/03/26 09:36:45 jrb Exp $Locker: $
+@
+
+
+1.67
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.66 90/03/12 10:49:58 jrb exp $";
+d35 1
+a35 1
+ *        main.c,v 1.62 90/02/23 15:32:19 andrew Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.34 90/03/16 08:05:27 andrew Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.57 90/03/19 09:20:23 jrb Exp $Locker: $
+d139 1
+a139 1
+ +        cc.id.c,v 1.135 90/03/13 09:48:52 bobm rel
+@
+
+
+1.66
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.65 90/03/09 11:42:04 jrb exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.35 90/02/09 14:29:05 jrb Exp $Locker: jrb
+d17 1
+a17 1
+ *        core.c,v 1.11 89/12/07 14:53:44 andrew Exp $Locker: $
+d21 1
+a21 1
+ *        eval.c,v 1.12 90/03/01 15:35:40 marvinw Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.12 90/03/08 14:38:33 andrew Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.30 90/02/21 10:16:32 andrew Exp $Locker: $
+d29 1
+a29 1
+ *        inflow.c,v 1.11 90/02/07 16:04:26 andrew Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.40 90/02/21 10:16:51 andrew Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.25 90/03/12 10:18:15 marvinw Exp $Locker: $
+d41 1
+a41 1
+ *        remote.c,v 1.17 90/02/07 16:05:00 andrew Exp $Locker: $
+d45 1
+a45 1
+ *        stack.c,v 1.15 90/02/16 16:14:33 andrew Exp $Locker: $
+d57 1
+a57 1
+ *        valarith.c,v 1.7 90/01/26 09:37:12 marvinw Exp $Locker: $
+d59 1
+a59 1
+ *        valops.c,v 1.19 90/02/02 15:29:07 marvinw Exp $Locker: $
+d63 1
+a63 1
+ *        values.c,v 1.14 90/03/08 14:38:54 andrew Exp $Locker: $
+d67 1
+a67 1
+ *        expread.y,v 1.9 89/11/17 08:09:03 davidl Exp $Locker: $
+d75 1
+a75 1
+ *        watchpoint.c,v 1.31 90/02/26 11:35:44 andrew Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.32 90/03/08 14:40:02 andrew Exp $Locker: $
+d97 1
+a97 1
+ *        frame.h,v 1.4 89/11/17 08:09:56 davidl Exp $Locker: $
+d99 1
+a99 1
+ *        getpagesize.h,v 1.3 89/09/21 10:18:17 paulg Exp $Locker: $
+d101 1
+a101 1
+ *        inferior.h,v 1.2 89/09/21 10:18:26 paulg Exp $Locker: $
+d109 1
+a109 1
+ *        value.h,v 1.5 89/11/17 08:10:03 davidl Exp $Locker: $
+d123 1
+a123 1
+ *        m-m88k.h,v 1.14 90/02/02 16:05:54 marvinw Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.56 90/03/12 10:41:46 jrb Exp $Locker: $
+d139 1
+a139 1
+ +        cc.id.c,v 1.134 90/02/12 15:15:31 bobm rel
+@
+
+
+1.65
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.64 90/03/09 10:47:00 jrb exp $";
+d37 1
+a37 1
+ *        printcmd.c,v 1.24 90/02/23 14:07:04 andrew Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.55 90/03/09 11:29:27 jrb Exp $Locker: $
+@
+
+
+1.64
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.63 90/02/26 15:34:42 root exp $";
+d137 1
+a137 1
+ *        xrcsid.c,v 1.54 90/03/09 10:32:41 jrb Exp $Locker: $
+@
+
+
+1.63
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.62 90/02/23 15:22:16 root exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.35 90/02/09 14:29:05 jrb Exp $Locker: $
+d11 1
+a11 1
+ *        dbxread.c,v 1.11 89/11/17 08:06:15 davidl Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.24 90/02/26 15:03:29 andrew Exp $Locker: $
+d21 1
+a21 1
+ *        eval.c,v 1.11 90/02/07 16:04:00 andrew Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.11 90/01/02 16:54:35 robertb Exp $Locker: $
+d61 1
+a61 1
+ *        valprint.c,v 1.12 89/12/07 15:33:58 andrew Exp $Locker: $
+d63 1
+a63 1
+ *        values.c,v 1.12 89/11/17 08:08:56 davidl Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.31 90/02/16 16:15:17 andrew Exp $Locker: $
+d105 1
+a105 1
+ *        symseg.h,v 1.6 89/12/12 17:19:40 andrew Exp $Locker: $
+d107 1
+a107 1
+ *        symtab.h,v 1.6 89/12/12 17:20:38 andrew Exp $Locker: $
+d137 2
+a138 2
+ *        xrcsid.c,v 1.53 90/02/26 15:26:11 root Exp $Locker: $
+ + //bin/cc:
+d140 1
+a140 1
+ + //bin/make:
+@
+
+
+1.62
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.61 90/02/23 14:41:36 root exp $";
+d13 1
+a13 1
+ *        coffread.c,v 1.23 90/02/22 12:17:41 andrew Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.61 90/02/23 09:37:14 andrew Exp $Locker: $
+d53 1
+a53 1
+ *        symtab.c,v 1.23 90/02/20 11:41:23 andrew Exp $Locker: $
+d75 1
+a75 1
+ *        watchpoint.c,v 1.30 90/02/21 15:53:23 davidl Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.52 90/02/23 15:11:39 root Exp $Locker: $
+@
+
+
+1.61
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.60 90/02/09 15:49:51 root exp $";
+d55 1
+a55 1
+ *        utils.c,v 1.25 90/02/21 10:17:07 andrew Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.51 90/02/23 14:33:24 root Exp $Locker: $
+@
+
+
+1.60
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.59 90/02/09 15:21:03 jrb exp $";
+d9 1
+a9 1
+ *        breakpoint.c,v 1.28 90/02/07 16:03:25 andrew Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.22 90/01/23 11:06:10 marvinw Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.29 90/02/07 16:04:10 andrew Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.38 90/02/09 13:03:56 davidl Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.58 90/02/07 17:03:34 davidl Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.22 90/01/02 18:09:56 robertb Exp $Locker: $
+d45 1
+a45 1
+ *        stack.c,v 1.14 90/02/09 12:50:25 andrew Exp $Locker: $
+d53 1
+a53 1
+ *        symtab.c,v 1.22 90/02/01 14:03:43 davidl Exp $Locker: $
+d55 1
+a55 1
+ *        utils.c,v 1.22 90/01/02 18:08:12 robertb Exp $Locker: $
+d73 1
+a73 1
+ *        programmer.c,v 1.41 90/02/07 16:05:45 andrew Exp $Locker: $
+d75 1
+a75 1
+ *        watchpoint.c,v 1.27 90/02/09 12:50:41 andrew Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.30 90/02/07 19:18:06 davidl Exp $Locker: $
+d79 1
+a79 1
+ *        m88k-pinsn.c,v 1.10 90/01/02 18:12:09 robertb Exp $Locker: $
+d137 4
+a140 4
+ *        xrcsid.c,v 1.50 90/02/09 15:42:25 root Exp $Locker: $
+ + /bin/cc:
+ +        cc.id.c,v 1.133 90/02/05 15:53:18 bobm rel
+ + /bin/make:
+@
+
+
+1.59
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.58 90/02/09 14:54:49 davidl exp $";
+d137 1
+a137 1
+ *        xrcsid.c,v 1.49 90/02/09 14:42:49 davidl Exp $Locker: $
+@
+
+
+1.58
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.57 90/02/09 14:09:57 jrb exp $";
+@
+
+
+1.57
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.56 90/01/26 11:22:04 jrb exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.34 90/01/29 11:20:45 jrb Exp $Locker: jrb
+d137 1
+a137 1
+ *        xrcsid.c,v 1.47 90/01/19 13:17:58 davidl Exp $Locker: $
+@
+
+
+1.56
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.55 90/01/12 15:22:05 jrb exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.33 90/01/10 16:43:12 davidl Exp $Locker: $
+d9 1
+a9 1
+ *        breakpoint.c,v 1.27 89/12/20 19:04:51 robertb Exp $Locker: $
+d21 1
+a21 1
+ *        eval.c,v 1.10 90/01/26 09:38:04 marvinw Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.28 90/01/02 18:13:33 robertb Exp $Locker: $
+d29 1
+a29 1
+ *        inflow.c,v 1.10 90/01/02 12:23:16 marvinw Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.35 90/01/02 18:04:59 robertb Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.56 90/01/05 13:01:19 jrb Exp $Locker: $
+d41 1
+a41 1
+ *        remote.c,v 1.16 90/01/02 18:01:28 robertb Exp $Locker: $
+d45 1
+a45 1
+ *        stack.c,v 1.13 89/11/17 08:08:16 davidl Exp $Locker: $
+d51 1
+a51 1
+ *        symmisc.c,v 1.9 89/12/01 09:50:45 davidl Exp $Locker: $
+d53 1
+a53 1
+ *        symtab.c,v 1.21 89/12/20 12:56:09 andrew Exp $Locker: $
+d59 1
+a59 1
+ *        valops.c,v 1.18 90/01/26 09:38:09 marvinw Exp $Locker: $
+d73 1
+a73 1
+ *        programmer.c,v 1.40 89/12/12 15:21:34 andrew Exp $Locker: $
+d75 1
+a75 1
+ *        watchpoint.c,v 1.25 90/01/18 13:29:13 jrb Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.28 90/01/02 18:45:42 robertb Exp $Locker: $
+d123 1
+a123 1
+ *        m-m88k.h,v 1.12 90/01/02 16:58:39 robertb Exp $Locker: $
+d139 1
+a139 1
+ +        cc.id.c,v 1.123 90/01/09 09:22:26 bobm rel
+@
+
+
+1.55
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.54 90/01/10 16:40:38 davidl exp $";
+d13 1
+a13 1
+ *        coffread.c,v 1.21 90/01/04 15:56:53 marvinw Exp $Locker: $
+d21 1
+a21 1
+ *        eval.c,v 1.9 89/12/07 12:25:49 valeries Exp $Locker: $
+d57 1
+a57 1
+ *        valarith.c,v 1.6 89/11/17 08:08:45 davidl Exp $Locker: $
+d59 1
+a59 1
+ *        valops.c,v 1.17 89/12/19 13:21:55 andrew Exp $Locker: $
+d75 1
+a75 1
+ *        watchpoint.c,v 1.24 90/01/10 15:02:00 jrb Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.45 90/01/10 16:40:27 davidl Exp $Locker: $
+@
+
+
+1.54
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.53 90/01/10 16:01:35 davidl exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.32 89/12/18 16:41:02 robertb Exp $Locker: davidl
+@
+
+
+1.53
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.52 90/01/10 15:32:32 davidl exp $";
+d137 1
+a137 1
+ *        xrcsid.c,v 1.44 90/01/10 15:52:59 davidl Exp $Locker: $
+@
+
+
+1.52
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.51 90/01/05 15:10:16 davidl exp $";
+d75 1
+a75 1
+ *        watchpoint.c,v 1.23 89/12/22 15:32:23 donhar Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.43 90/01/10 15:32:20 davidl Exp $Locker: $
+@
+
+
+1.51
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.50 89/12/22 16:28:24 root exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.32 89/12/18 16:41:02 robertb Exp $Locker: $
+d43 1
+a43 1
+ *        source.c,v 1.19 89/12/20 13:00:49 andrew Exp $Locker: $
+d137 1
+a137 1
+ *        xrcsid.c,v 1.6 90/01/05 14:40:34 davidl Exp $Locker: $
+d139 1
+a139 1
+ +        cc.id.c,v 1.122 90/01/04 14:55:45 bobm rel
+@
+
+
+1.50
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.49 89/12/22 16:10:42 root exp $";
+d13 1
+a13 1
+ *        coffread.c,v 1.20 89/12/20 15:56:50 andrew Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.10 89/12/18 15:46:00 robertb Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.27 89/12/22 15:31:51 donhar Exp $Locker: $
+d29 1
+a29 1
+ *        inflow.c,v 1.9 89/12/14 12:49:32 davidl Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.33 89/12/22 15:31:17 donhar Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.55 89/12/20 09:06:09 donhar Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.21 89/12/20 15:57:16 andrew Exp $Locker: $
+d41 1
+a41 1
+ *        remote.c,v 1.14 89/12/22 16:25:18 root Exp $Locker: $
+d55 1
+a55 1
+ *        utils.c,v 1.21 89/12/18 15:47:01 robertb Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-dep.c,v 1.24 89/12/20 19:07:39 robertb Exp $Locker: $
+d79 1
+a79 1
+ *        m88k-pinsn.c,v 1.9 89/12/22 15:38:44 marvinw Exp $Locker: $
+d123 1
+a123 1
+ *        m-m88k.h,v 1.11 89/12/18 17:19:56 andrew Exp $Locker: $
+d137 5
+a141 5
+ *        xrcsid.c,v 1.5 89/12/14 14:15:24 davidl Exp $Locker: $
+ + //bin/cc:
+ +        cc.id.c,v 1.117 89/11/18 14:24:19 root rel3_2c
+ + //bin/make:
+ +        make.id.c,v 1.12 89/11/18 20:38:11 root rel3_2c
+@
+
+
+1.49
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.48 89/12/22 15:58:06 root exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.28 89/11/30 14:47:52 andrew Exp $Locker: $
+d38 2
+d41 1
+a41 1
+ *        remote.c,v 1.13 89/12/22 16:08:17 root Exp $Locker: $
+d82 2
+d86 2
+d92 4
+d102 2
+@
+
+
+1.48
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.47 89/12/12 13:15:29 davidl exp $";
+d39 1
+a39 1
+ *        remote.c,v 1.11 89/12/20 19:05:43 robertb Exp $Locker: $
+@
+
+
+1.47
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.46 89/12/12 13:01:33 davidl exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.30 89/12/11 15:08:08 andrew Exp $Locker: $
+d9 1
+a9 1
+ *        breakpoint.c,v 1.25 89/12/11 14:23:06 marvinw Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.18 89/12/07 08:05:27 andrew Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.9 89/11/17 08:06:52 davidl Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.23 89/12/06 17:42:18 valeries Exp $Locker: $
+d29 1
+a29 1
+ *        inflow.c,v 1.8 89/11/17 08:07:01 davidl Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.29 89/12/06 15:20:38 donhar Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.52 89/12/07 14:54:00 andrew Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.20 89/12/11 14:26:40 andrew Exp $Locker: $
+d39 1
+a39 1
+ *        remote.c,v 1.7 89/11/17 08:07:29 davidl Exp $Locker: $
+d41 1
+a41 1
+ *        source.c,v 1.17 89/12/06 17:58:49 valeries Exp $Locker: $
+d51 1
+a51 1
+ *        symtab.c,v 1.19 89/12/07 08:06:22 andrew Exp $Locker: $
+d53 1
+a53 1
+ *        utils.c,v 1.19 89/11/17 08:52:29 davidl Exp $Locker: $
+d57 1
+a57 1
+ *        valops.c,v 1.15 89/12/01 10:03:00 marvinw Exp $Locker: $
+d71 1
+a71 1
+ *        programmer.c,v 1.39 89/12/12 12:42:14 paulg Exp $Locker: $
+d73 1
+a73 1
+ *        watchpoint.c,v 1.19 89/12/12 13:11:39 donhar Exp $Locker: $
+d75 1
+a75 1
+ *        m88k-dep.c,v 1.19 89/12/11 14:24:56 marvinw Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-pinsn.c,v 1.8 89/12/08 14:57:27 andrew Exp $Locker: $
+d93 1
+a93 1
+ *        symseg.h,v 1.5 89/11/17 08:09:59 davidl Exp $Locker: $
+d95 1
+a95 1
+ *        symtab.h,v 1.5 89/11/14 14:07:35 marvinw Exp $Locker: $
+d111 1
+a111 1
+ *        m-m88k.h,v 1.10 89/11/30 14:35:13 marvinw Exp $Locker: $
+d125 2
+a126 2
+ *        xrcsid.c,v 1.4 89/12/12 11:33:53 davidl Exp $Locker: $
+ + /bin/cc:
+d128 1
+a128 1
+ + /bin/make:
+@
+
+
+1.46
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.45 89/12/01 12:45:57 bobm exp $";
+d73 1
+a73 1
+ *        watchpoint.c,v 1.18 89/12/11 19:05:14 donhar Exp $Locker: $
+@
+
+
+1.45
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.44 89/11/30 11:25:42 root exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.28 89/11/30 14:47:52 andrew Exp $Locker: $
+d9 1
+a9 1
+ *        breakpoint.c,v 1.21 89/12/01 12:25:07 donhar Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.17 89/11/29 15:26:22 marvinw Exp $Locker: $
+d15 1
+a15 1
+ *        command.c,v 1.10 89/11/17 08:06:34 davidl Exp $Locker: $
+d17 1
+a17 1
+ *        core.c,v 1.10 89/11/17 08:06:38 davidl Exp $Locker: $
+d21 1
+a21 1
+ *        eval.c,v 1.8 89/11/17 09:07:52 valeries Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.22 89/12/01 11:29:33 marvinw Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.24 89/12/01 11:32:56 marvinw Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.49 89/11/27 12:33:44 davidl Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.16 89/11/17 14:59:05 davidl Exp $Locker: $
+d41 1
+a41 1
+ *        source.c,v 1.15 89/11/30 12:40:21 davidl Exp $Locker: $
+d51 1
+a51 1
+ *        symtab.c,v 1.17 89/11/17 08:08:33 davidl Exp $Locker: $
+d59 1
+a59 1
+ *        valprint.c,v 1.11 89/11/17 08:08:51 davidl Exp $Locker: $
+d71 1
+a71 1
+ *        programmer.c,v 1.35 89/12/01 08:59:49 davidl Exp $Locker: $
+d73 1
+a73 1
+ *        watchpoint.c,v 1.12 89/12/01 09:48:23 donhar Exp $Locker: $
+d75 1
+a75 1
+ *        m88k-dep.c,v 1.18 89/12/01 10:15:12 marvinw Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-pinsn.c,v 1.7 89/11/27 13:39:59 davidl Exp $Locker: $
+d79 1
+a79 1
+ *        command.h,v 1.3 89/10/07 10:23:00 paulg Exp $Locker: $
+d109 1
+a109 1
+ *        m88k-opcode.h,v 1.3 89/09/21 10:20:04 paulg Exp $Locker: $
+d115 1
+a115 1
+ *        obstack.c,v 1.2 89/09/21 10:20:32 paulg Exp $Locker: $
+d121 1
+a121 1
+ *        malloc.c,v 1.8 89/11/17 08:14:44 davidl Exp $Locker: $
+d125 1
+a125 1
+ *        xrcsid.c,v 1.2 89/11/30 12:17:37 davidl Exp $Locker: $
+@
+
+
+1.44
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.43 89/11/27 16:05:20 davidl exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.27 89/11/18 13:53:58 davidl Exp $Locker: $
+d9 1
+a9 1
+ *        breakpoint.c,v 1.20 89/11/17 08:06:04 davidl Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.20 89/11/26 16:44:12 donhar Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.22 89/11/29 10:04:38 donhar Exp $Locker: $
+d41 1
+a41 1
+ *        source.c,v 1.14 89/11/20 13:30:13 davidl Exp $Locker: $
+d49 1
+a49 1
+ *        symmisc.c,v 1.8 89/11/17 08:08:27 davidl Exp $Locker: $
+d57 1
+a57 1
+ *        valops.c,v 1.12 89/11/17 09:51:04 marvinw Exp $Locker: $
+d71 1
+a71 1
+ *        programmer.c,v 1.33 89/11/17 08:09:19 davidl Exp $Locker: $
+d73 1
+a73 1
+ *        watchpoint.c,v 1.10 89/11/29 17:00:02 donhar Exp $Locker: $
+d75 1
+a75 1
+ *        m88k-dep.c,v 1.15 89/11/26 16:40:54 donhar Exp $Locker: $
+d111 1
+a111 1
+ *        m-m88k.h,v 1.9 89/11/17 08:10:11 davidl Exp $Locker: $
+d125 2
+a126 1
+ + //bin/cc:
+d128 1
+a128 1
+ + //bin/make:
+@
+
+
+1.43
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.42 89/11/21 14:41:47 davidl exp $";
+d13 1
+a13 1
+ *        coffread.c,v 1.16 89/11/20 14:30:35 marvinw Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.21 89/11/17 08:07:06 davidl Exp $Locker: $
+d73 1
+a73 1
+ *        watchpoint.c,v 1.8 89/11/22 14:45:55 donhar Exp $Locker: $
+d75 1
+a75 1
+ *        m88k-dep.c,v 1.14 89/11/17 08:09:36 davidl Exp $Locker: $
+d125 1
+a125 1
+ + /bin/cc:
+d127 1
+a127 1
+ + /bin/make:
+@
+
+
+1.42
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.41 89/11/20 15:04:58 marvinw exp $";
+d27 1
+a27 1
+ *        infcmd.c,v 1.19 89/11/20 10:25:40 marvinw Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.47 89/11/18 16:49:43 davidl Exp $Locker: $
+d73 1
+a73 1
+ *        watchpoint.c,v 1.7 89/11/20 18:47:01 donhar Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-pinsn.c,v 1.6 89/11/17 08:09:46 davidl Exp $Locker: $
+a124 1
+ *        xrcsid.c,v 1.40 89/11/18 14:47:31 davidl Exp $Locker: $
+@
+
+
+1.41
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.40 89/11/20 11:22:55 bobm exp $";
+d73 1
+a73 1
+ *        watchpoint.c,v 1.6 89/11/17 09:23:43 davidl Exp $Locker: $
+d127 1
+a127 1
+ +        cc.id.c,v 1.121 89/11/16 13:12:03 bobm rel
+d129 1
+a129 1
+ +        make.id.c,v 1.10 89/06/21 11:07:32 root rel3_2
+@
+
+
+1.40
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.39 89/11/19 16:08:56 bobm exp $";
+d13 1
+a13 1
+ *        coffread.c,v 1.15 89/11/17 10:37:35 valeries Exp $Locker: $
+d41 1
+a41 1
+ *        source.c,v 1.13 89/11/17 10:39:39 valeries Exp $Locker: $
+@
+
+
+1.39
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.38 89/11/17 14:30:17 marvinw exp $";
+d27 1
+a27 1
+ *        infcmd.c,v 1.18 89/11/18 13:07:12 davidl Exp $Locker: $
+@
+
+
+1.38
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.37 89/11/16 17:46:18 davidl exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.25 89/11/16 15:35:53 donhar Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.17 89/11/17 10:38:17 valeries Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.46 89/11/17 10:38:56 valeries Exp $Locker: $
+d37 1
+a37 3
+ *        printcmd.c,v 1.15 89/11/17 08:07:23 davidl Exp $Locker: $
+ + watchpoint.c:
+ *        watchpoint.c,v 1.6 89/11/17 09:23:43 davidl Exp $Locker: $
+d72 2
+d125 1
+a125 1
+ *        xrcsid.c,v 1.39 89/11/14 14:15:52 davidl Exp $Locker: $
+@
+
+
+1.37
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.36 89/11/16 17:33:17 davidl exp $";
+d7 1
+a7 1
+ *        blockframe.c,v 1.6 89/09/21 10:10:49 paulg Exp $Locker: $
+d9 1
+a9 1
+ *        breakpoint.c,v 1.19 89/11/16 16:08:15 donhar Exp $Locker: $
+d11 1
+a11 1
+ *        dbxread.c,v 1.10 89/10/16 17:02:42 davidl Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.13 89/11/09 13:03:53 marvinw Exp $Locker: $
+d15 1
+a15 1
+ *        command.c,v 1.9 89/11/11 16:42:05 davidl Exp $Locker: $
+d17 1
+a17 1
+ *        core.c,v 1.9 89/09/23 14:04:16 paulg Exp $Locker: $
+d19 1
+a19 1
+ *        environ.c,v 1.2 89/09/21 10:11:43 paulg Exp $Locker: $
+d21 1
+a21 1
+ *        eval.c,v 1.6 89/10/18 12:28:00 marvinw Exp $Locker: $
+d23 1
+a23 1
+ *        expprint.c,v 1.4 89/09/21 10:11:55 paulg Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.8 89/11/14 14:26:55 marvinw Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.13 89/11/03 16:58:15 davidl Exp $Locker: $
+d29 1
+a29 1
+ *        inflow.c,v 1.7 89/11/05 14:02:24 donhar Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.17 89/11/16 17:05:29 donhar Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.41 89/11/14 08:35:28 davidl Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.14 89/11/14 14:13:45 marvinw Exp $Locker: $
+d39 1
+a39 1
+ *        watchpoint.c,v 1.2 89/11/16 16:52:13 donhar Exp $Locker: $
+d41 1
+a41 1
+ *        remote.c,v 1.6 89/10/16 16:56:28 davidl Exp $Locker: $
+d43 1
+a43 1
+ *        source.c,v 1.11 89/11/14 15:34:27 marvinw Exp $Locker: $
+d45 1
+a45 1
+ *        stack.c,v 1.12 89/11/07 15:02:55 davidl Exp $Locker: $
+d47 1
+a47 1
+ *        standalone.c,v 1.4 89/09/21 10:21:15 paulg Exp $Locker: $
+d49 1
+a49 1
+ *        stuff.c,v 1.3 89/09/21 10:21:19 paulg Exp $Locker: $
+d51 1
+a51 1
+ *        symmisc.c,v 1.7 89/10/16 16:55:04 davidl Exp $Locker: $
+d53 1
+a53 1
+ *        symtab.c,v 1.16 89/11/15 12:52:50 davidl Exp $Locker: $
+d55 1
+a55 1
+ *        utils.c,v 1.17 89/11/11 16:39:39 davidl Exp $Locker: $
+d57 1
+a57 1
+ *        valarith.c,v 1.5 89/10/18 12:28:04 marvinw Exp $Locker: $
+d59 1
+a59 1
+ *        valops.c,v 1.9 89/10/18 12:28:15 marvinw Exp $Locker: $
+d61 1
+a61 1
+ *        valprint.c,v 1.10 89/10/18 13:13:34 davidl Exp $Locker: $
+d63 1
+a63 1
+ *        values.c,v 1.11 89/11/09 13:26:58 marvinw Exp $Locker: $
+d65 1
+a65 1
+ *        version.c,v 1.2 89/09/21 10:23:13 paulg Exp $Locker: $
+d67 1
+a67 1
+ *        expread.y,v 1.8 89/11/09 13:52:27 marvinw Exp $Locker: $
+d69 1
+a69 1
+ *        xgdb.c,v 1.4 89/09/26 11:10:27 paulg Exp $Locker: $
+d71 1
+a71 1
+ *        ui.c,v 1.7 89/11/16 13:29:57 davidl Exp $Locker: $
+d73 1
+a73 1
+ *        programmer.c,v 1.31 89/11/15 14:08:41 davidl Exp $Locker: $
+d75 1
+a75 1
+ *        m88k-dep.c,v 1.13 89/11/16 13:30:18 davidl Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-pinsn.c,v 1.5 89/11/16 13:30:01 davidl Exp $Locker: $
+d81 1
+a81 1
+ *        defs.h,v 1.8 89/11/12 16:41:30 paulg Exp $Locker: $
+d87 1
+a87 1
+ *        frame.h,v 1.3 89/09/21 10:18:15 paulg Exp $Locker: $
+d93 1
+a93 1
+ *        symseg.h,v 1.4 89/11/09 12:23:59 marvinw Exp $Locker: $
+d97 1
+a97 1
+ *        value.h,v 1.4 89/10/18 12:27:57 marvinw Exp $Locker: $
+d107 1
+a107 1
+ *        ui.h,v 1.5 89/11/16 13:29:54 davidl Exp $Locker: $
+d111 1
+a111 1
+ *        m-m88k.h,v 1.8 89/11/16 13:28:17 davidl Exp $Locker: $
+d117 1
+a117 1
+ *        regex.c,v 1.5 89/11/16 13:30:11 davidl Exp $Locker: $
+d121 1
+a121 1
+ *        malloc.c,v 1.7 89/11/16 13:30:05 davidl Exp $Locker: $
+@
+
+
+1.36
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.35 89/11/15 14:10:37 davidl exp $";
+d75 1
+a75 1
+ *        m88k-dep.c,v 1.11 89/09/24 12:03:51 davidl Exp $Locker: $
+d77 1
+a77 1
+ *        m88k-pinsn.c,v 1.4 89/09/21 10:20:11 paulg Exp $Locker: $
+d111 1
+a111 1
+ *        m-m88k.h,v 1.6 89/09/21 10:18:43 paulg Exp $Locker: $
+@
+
+
+1.35
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.34 89/11/14 12:19:22 davidl exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.24 89/11/15 10:00:10 andrew Exp $Locker: $
+d9 1
+a9 1
+ *        breakpoint.c,v 1.17 89/11/02 15:38:09 paulg Exp $Locker: $
+d25 1
+a25 1
+ *        findvar.c,v 1.7 89/10/18 12:28:29 marvinw Exp $Locker: $
+d31 1
+a31 1
+ *        infrun.c,v 1.14 89/10/16 17:25:34 davidl Exp $Locker: $
+d37 3
+a39 1
+ *        printcmd.c,v 1.13 89/11/07 15:03:43 davidl Exp $Locker: $
+d43 1
+a43 1
+ *        source.c,v 1.10 89/11/08 09:50:36 davidl Exp $Locker: $
+d71 1
+a71 1
+ *        ui.c,v 1.6 89/10/19 13:30:26 davidl Exp $Locker: $
+d75 1
+a75 1
+ *        m88k-dep.c,v 1.12 89/11/15 10:00:19 andrew Exp $Locker: $
+d95 1
+a95 1
+ *        symtab.h,v 1.4 89/11/09 12:15:20 marvinw Exp $Locker: $
+d107 1
+a107 1
+ *        ui.h,v 1.4 89/10/19 13:30:30 davidl Exp $Locker: $
+d111 1
+a111 1
+ *        m-m88k.h,v 1.7 89/10/03 12:19:05 marvinw Exp $Locker: $
+d117 1
+a117 1
+ *        regex.c,v 1.4 89/09/21 10:20:47 paulg Exp $Locker: $
+d121 1
+a121 1
+ *        malloc.c,v 1.6 89/11/13 17:28:49 davidl Exp $Locker: $
+d127 1
+a127 1
+ +        cc.id.c,v 1.119 89/11/11 15:06:42 bobm rel
+@
+
+
+1.34
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.33 89/11/07 17:06:38 davidl exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.23 89/11/08 13:28:39 davidl Exp $Locker: $
+d51 1
+a51 1
+ *        symtab.c,v 1.15 89/11/11 16:37:02 davidl Exp $Locker: $
+d71 1
+a71 1
+ *        programmer.c,v 1.29 89/11/12 16:45:00 paulg Exp $Locker: $
+d73 1
+a73 1
+ *        m88k-dep.c,v 1.11 89/09/24 12:03:51 davidl Exp $Locker: $
+d123 1
+a123 1
+ *        xrcsid.c,v 1.36 89/11/14 12:16:56 davidl Exp $Locker: $
+@
+
+
+1.33
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.32 89/10/23 19:17:13 davidl exp $";
+d5 1
+a5 1
+ *        Makefile,v 1.22 89/11/06 15:53:06 marvinw Exp $Locker: $
+d13 1
+a13 1
+ *        coffread.c,v 1.12 89/10/18 12:28:34 marvinw Exp $Locker: $
+d15 1
+a15 1
+ *        command.c,v 1.7 89/09/26 11:02:14 paulg Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.34 89/11/06 19:15:18 davidl Exp $Locker: $
+d41 1
+a41 1
+ *        source.c,v 1.9 89/10/25 19:15:40 davidl Exp $Locker: $
+d51 1
+a51 1
+ *        symtab.c,v 1.13 89/10/17 09:33:00 davidl Exp $Locker: $
+d53 1
+a53 1
+ *        utils.c,v 1.16 89/10/31 17:09:42 davidl Exp $Locker: $
+d61 1
+a61 1
+ *        values.c,v 1.10 89/10/18 12:28:20 marvinw Exp $Locker: $
+d65 1
+a65 1
+ *        expread.y,v 1.7 89/09/28 13:06:13 marvinw Exp $Locker: $
+d71 1
+a71 1
+ *        programmer.c,v 1.25 89/11/06 19:17:14 davidl Exp $Locker: $
+d79 1
+a79 1
+ *        defs.h,v 1.7 89/09/26 11:02:21 paulg Exp $Locker: $
+d91 1
+a91 1
+ *        symseg.h,v 1.3 89/10/18 12:27:52 marvinw Exp $Locker: $
+d93 1
+a93 1
+ *        symtab.h,v 1.3 89/10/18 12:27:36 marvinw Exp $Locker: $
+d119 1
+a119 1
+ *        malloc.c,v 1.5 89/09/26 22:11:19 paulg Exp $Locker: $
+d123 1
+d125 1
+a125 1
+ +        cc.id.c,v 1.116 89/10/24 16:34:26 bobm rel
+@
+
+
+1.32
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.31 89/10/19 09:39:31 davidl exp $";
+d4 2
+d9 1
+a9 1
+ *        breakpoint.c,v 1.16 89/10/16 16:56:45 davidl Exp $Locker: $
+d27 1
+a27 1
+ *        infcmd.c,v 1.11 89/10/16 17:25:30 davidl Exp $Locker: $
+d29 1
+a29 1
+ *        inflow.c,v 1.6 89/10/16 17:25:08 davidl Exp $Locker: $
+d35 1
+a35 1
+ *        main.c,v 1.27 89/10/19 13:28:07 davidl Exp $Locker: $
+d37 1
+a37 1
+ *        printcmd.c,v 1.12 89/10/23 19:11:49 davidl Exp $Locker: $
+d41 1
+a41 1
+ *        source.c,v 1.8 89/09/21 10:21:01 paulg Exp $Locker: $
+d43 1
+a43 1
+ *        stack.c,v 1.8 89/10/16 16:56:07 davidl Exp $Locker: $
+d53 1
+a53 1
+ *        utils.c,v 1.15 89/10/16 16:56:16 davidl Exp $Locker: $
+d71 1
+a71 1
+ *        programmer.c,v 1.13 89/10/23 16:27:16 davidl Exp $Locker: $
+d124 1
+a124 1
+ +        cc.id.c,v 1.115 89/10/17 11:33:51 root exp
+@
+
+
+1.31
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.30 89/10/18 14:56:15 davidl exp $";
+d33 1
+a33 1
+ *        main.c,v 1.26 89/10/10 12:22:10 paulg Exp $Locker: $
+d35 1
+a35 1
+ *        printcmd.c,v 1.10 89/10/18 12:28:08 marvinw Exp $Locker: $
+d67 1
+a67 1
+ *        ui.c,v 1.5 89/09/15 10:40:43 davidl Exp $Locker: $
+d69 1
+a69 1
+ *        programmer.c,v 1.11 89/10/10 12:23:17 paulg Exp $Locker: $
+d103 1
+a103 1
+ *        ui.h,v 1.3 89/09/15 10:41:13 davidl Exp $Locker: $
+a120 1
+ *        xrcsid.c,v 1.33 89/10/18 14:55:00 davidl Exp $Locker: $
+d122 1
+a122 1
+ +        cc.id.c,v 1.108 89/10/09 13:30:16 bobm rel
+@
+
+
+1.30
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.29 89/10/09 17:22:24 davidl exp $";
+@
+
+
+1.29
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.28 89/10/04 08:46:44 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.15 89/10/07 10:25:02 paulg Exp $Locker: $
+d9 1
+a9 1
+ *        dbxread.c,v 1.9 89/09/23 14:04:20 paulg Exp $Locker: $
+d11 1
+a11 1
+ *        coffread.c,v 1.11 89/10/03 12:17:41 marvinw Exp $Locker: $
+d19 1
+a19 1
+ *        eval.c,v 1.5 89/09/21 10:11:48 paulg Exp $Locker: $
+d23 1
+a23 1
+ *        findvar.c,v 1.6 89/09/21 10:18:10 paulg Exp $Locker: $
+d25 1
+a25 1
+ *        infcmd.c,v 1.10 89/10/07 10:26:33 paulg Exp $Locker: $
+d27 1
+a27 1
+ *        inflow.c,v 1.5 89/09/21 10:18:29 paulg Exp $Locker: $
+d29 1
+a29 1
+ *        infrun.c,v 1.13 89/09/26 11:02:23 paulg Exp $Locker: $
+d33 1
+a33 1
+ *        main.c,v 1.25 89/10/07 10:26:36 paulg Exp $Locker: $
+d35 1
+a35 1
+ *        printcmd.c,v 1.8 89/10/07 10:26:41 paulg Exp $Locker: $
+d37 1
+a37 1
+ *        remote.c,v 1.5 89/09/22 15:59:43 paulg Exp $Locker: $
+d41 1
+a41 1
+ *        stack.c,v 1.7 89/10/07 10:26:49 paulg Exp $Locker: $
+d47 1
+a47 1
+ *        symmisc.c,v 1.6 89/09/21 10:21:22 paulg Exp $Locker: $
+d49 1
+a49 1
+ *        symtab.c,v 1.12 89/09/26 11:02:52 paulg Exp $Locker: $
+d51 1
+a51 1
+ *        utils.c,v 1.13 89/10/07 10:26:51 paulg Exp $Locker: $
+d53 1
+a53 1
+ *        valarith.c,v 1.4 89/09/21 10:22:42 paulg Exp $Locker: $
+d55 1
+a55 1
+ *        valops.c,v 1.8 89/09/23 14:05:22 paulg Exp $Locker: $
+d57 1
+a57 1
+ *        valprint.c,v 1.8 89/10/07 10:26:54 paulg Exp $Locker: $
+d59 1
+a59 1
+ *        values.c,v 1.9 89/09/23 14:05:36 paulg Exp $Locker: $
+d69 1
+a69 1
+ *        programmer.c,v 1.10 89/10/07 10:26:45 paulg Exp $Locker: $
+d89 1
+a89 1
+ *        symseg.h,v 1.2 89/09/21 10:21:26 paulg Exp $Locker: $
+d91 1
+a91 1
+ *        symtab.h,v 1.2 89/09/21 10:21:42 paulg Exp $Locker: $
+d93 1
+a93 1
+ *        value.h,v 1.3 89/09/21 10:23:03 paulg Exp $Locker: $
+d121 1
+a121 1
+ *        xrcsid.c,v 1.24 89/10/09 17:10:31 davidl Exp $Locker: $
+@
+
+
+1.28
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.27 89/09/29 13:09:08 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.13 89/09/28 09:48:35 davidl Exp $Locker: $
+d25 1
+a25 1
+ *        infcmd.c,v 1.9 89/09/23 10:37:23 paulg Exp $Locker: $
+d33 1
+a33 1
+ *        main.c,v 1.24 89/09/27 13:16:31 davidl Exp $Locker: $
+d35 1
+a35 1
+ *        printcmd.c,v 1.7 89/09/23 10:38:13 paulg Exp $Locker: $
+d41 1
+a41 1
+ *        stack.c,v 1.6 89/09/21 10:21:10 paulg Exp $Locker: $
+d51 1
+a51 1
+ *        utils.c,v 1.12 89/09/25 17:27:01 davidl Exp $Locker: $
+d57 1
+a57 1
+ *        valprint.c,v 1.7 89/09/23 14:05:30 paulg Exp $Locker: $
+d69 1
+a69 1
+ *        programmer.c,v 1.8 89/10/04 08:45:16 davidl Exp $Locker: $
+d75 1
+a75 1
+ *        command.h,v 1.2 89/09/21 10:11:15 paulg Exp $Locker: $
+d121 1
+a121 1
+ *        xrcsid.c,v 1.23 89/10/01 15:09:47 davidl Exp $Locker: $
+d123 1
+@
+
+
+1.27
+log
+@New build
+@
+text
+@d1 2
+a2 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.26 89/09/28 17:09:38 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.14 89/09/28 15:40:26 paulg Exp $Locker: $
+d11 1
+a11 1
+ *        coffread.c,v 1.10 89/09/28 13:05:32 marvinw Exp $Locker: $
+d69 5
+a73 3
+ *        programmer.c,v 1.6 89/09/28 15:07:08 paulg Exp $Locker: $
+ + tek4300-dep.c:
+ *        tek4300-dep.c,v 1.3 89/09/21 10:21:46 paulg Exp $Locker: $
+d104 4
+a107 4
+ + m68k-opcode.h:
+ *        m68k-opcode.h,v 1.2 89/09/21 10:18:57 paulg Exp $Locker: $
+ + m-tek4300.h:
+ *        m-tek4300.h,v 1.3 89/09/21 10:18:54 paulg Exp $Locker: $
+d121 1
+a121 1
+ *        xrcsid.c,v 1.5 89/09/22 10:32:37 davidl Exp $Locker: $
+a122 1
+ +        rcsid.c,v 1.220 88/12/02 09:39:29 jeffg Exp
+d124 1
+a124 1
+ +        4300rcsid.c,v 1.25 89/02/28 22:33:52 uteklib rel
+@
+
+
+1.26
+log
+@New build
+@
+text
+@d1 1
+a1 2
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.25 89/09/28 11:37:38 davidl exp $";
+char _sccs_Xrcsid[] = "@@(#) Xrcsid.c,v 1.26 89/09/28 17:09:38 davidl exp";
+d6 1
+a6 1
+ *        breakpoint.c,v 1.13 89/09/28 09:48:35 davidl Exp $Locker: $
+d68 3
+a70 3
+ *        programmer.c,v 1.5 89/09/27 13:15:01 davidl Exp $Locker: $
+ + m88k-dep.c:
+ *        m88k-dep.c,v 1.11 89/09/24 12:03:51 davidl Exp $Locker: $
+d101 4
+a104 4
+ + m88k-opcode.h:
+ *        m88k-opcode.h,v 1.3 89/09/21 10:20:04 paulg Exp $Locker: $
+ + m-m88k.h:
+ *        m-m88k.h,v 1.6 89/09/21 10:18:43 paulg Exp $Locker: $
+d118 1
+a118 1
+ *        xrcsid.c,v 1.17 89/09/28 11:36:48 davidl Exp $Locker: $
+d120 1
+d122 1
+a122 1
+ +        make.id.c,v 1.10 89/06/21 11:07:32 root rel3_2
+@
+
+
+1.25
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.24 89/09/28 11:28:52 davidl exp $";
+d11 1
+a11 1
+ *        coffread.c,v 1.9 89/09/25 17:26:17 davidl Exp $Locker: $
+d63 1
+a63 1
+ *        expread.y,v 1.6 89/09/26 10:36:51 paulg Exp $Locker: $
+a71 2
+ + m88k-pinsn.c:
+ *        m88k-pinsn.c,v 1.4 89/09/21 10:20:11 paulg Exp $Locker: $
+@
+
+
+1.24
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.23 89/09/27 16:19:31 davidl exp $";
+d121 1
+a121 1
+ *        xrcsid.c,v 1.15 89/09/28 11:26:32 davidl Exp $Locker: $
+@
+
+
+1.23
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.22 89/09/27 15:21:22 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.12 89/09/26 11:01:53 paulg Exp $Locker: $
+d121 1
+a121 1
+ *        xrcsid.c,v 1.9 89/09/27 16:18:29 davidl Exp $Locker: $
+@
+
+
+1.22
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.21 89/09/27 13:17:59 davidl exp $";
+d121 1
+a121 1
+ *        xrcsid.c,v 1.8 89/09/27 15:19:22 davidl Exp $Locker: $
+@
+
+
+1.21
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.20 89/09/27 10:50:38 davidl exp $";
+d121 1
+a121 1
+ *        xrcsid.c,v 1.4 89/09/22 10:16:17 davidl Exp $Locker: $
+@
+
+
+1.20
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.19 89/09/27 10:39:37 davidl exp $";
+d33 1
+a33 1
+ *        main.c,v 1.23 89/09/27 09:33:59 davidl Exp $Locker: davidl
+d69 1
+a69 1
+ *        programmer.c,v 1.4 89/09/26 21:54:43 paulg Exp $Locker: $
+@
+
+
+1.19
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.18 89/09/27 10:16:17 davidl exp $";
+d33 1
+a33 1
+ *        main.c,v 1.23 89/09/27 09:33:59 davidl Exp $Locker: $
+@
+
+
+1.18
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.17 89/09/27 10:06:56 davidl exp $";
+d69 1
+a69 1
+ *        programmer.c,v 1.4 89/09/26 21:54:43 paulg Exp $Locker: davidl
+@
+
+
+1.17
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.16 89/09/25 18:18:25 davidl exp $";
+d69 1
+a69 1
+ *        programmer.c,v 1.4 89/09/26 21:54:43 paulg Exp $Locker: $
+@
+
+
+1.16
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.15 89/09/25 18:04:29 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.11 89/09/23 14:03:52 paulg Exp $Locker: $
+d13 1
+a13 1
+ *        command.c,v 1.6 89/09/21 10:11:10 paulg Exp $Locker: $
+d29 1
+a29 1
+ *        infrun.c,v 1.12 89/09/23 14:05:57 paulg Exp $Locker: $
+d33 1
+a33 1
+ *        main.c,v 1.18 89/09/21 19:52:49 paulg Exp $Locker: $
+d49 1
+a49 1
+ *        symtab.c,v 1.10 89/09/23 14:05:10 paulg Exp $Locker: $
+d63 1
+a63 1
+ *        expread.y,v 1.5 89/09/21 10:17:53 paulg Exp $Locker: $
+d65 1
+a65 1
+ *        xgdb.c,v 1.3 89/09/21 10:25:50 paulg Exp $Locker: $
+d68 2
+d77 1
+a77 1
+ *        defs.h,v 1.6 89/09/21 10:11:40 paulg Exp $Locker: $
+d117 1
+a117 1
+ *        malloc.c,v 1.3 89/09/21 10:20:25 paulg Exp $Locker: $
+d119 1
+a119 1
+ *        alloca.c,v 1.2 89/09/21 10:10:46 paulg Exp $Locker: $
+@
+
+
+1.15
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.14 89/09/25 17:57:04 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.8 89/09/21 10:10:54 paulg Exp $Locker: $
+d33 1
+a33 1
+ *        main.c,v 1.17 89/09/21 16:10:24 davidl Exp $Locker: $
+d51 1
+a51 1
+ *        utils.c,v 1.11 89/09/21 11:55:17 paulg Exp $Locker: $
+@
+
+
+1.14
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.13 89/09/25 17:49:43 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.11 89/09/23 14:03:52 paulg Exp $Locker: $
+@
+
+
+1.13
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.12 89/09/25 17:47:38 davidl exp $";
+@
+
+
+1.12
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.11 89/09/25 17:40:22 davidl exp $";
+d51 1
+a51 1
+ *        utils.c,v 1.12 89/09/25 17:27:01 davidl Exp $Locker: $
+@
+
+
+1.11
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.10 89/09/25 16:21:26 davidl exp $";
+d33 1
+a33 1
+ *        main.c,v 1.18 89/09/21 19:52:49 paulg Exp $Locker: $
+@
+
+
+1.10
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.9 89/09/25 12:11:59 davidl exp $";
+d11 1
+a11 1
+ *        coffread.c,v 1.8 89/09/21 10:11:02 paulg Exp $Locker: $
+d51 1
+a51 1
+ *        utils.c,v 1.11 89/09/21 11:55:17 paulg Exp $Locker: $
+@
+
+
+1.9
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.8 89/09/25 11:10:07 davidl exp $";
+@
+
+
+1.8
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.7 89/09/25 10:55:05 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.10 89/09/23 11:21:14 davidl Exp $Locker: $
+d9 1
+a9 1
+ *        dbxread.c,v 1.8 89/09/21 10:11:23 paulg Exp $Locker: $
+d25 1
+a25 1
+ *        infcmd.c,v 1.8 89/09/21 10:18:21 paulg Exp $Locker: $
+d29 1
+a29 1
+ *        infrun.c,v 1.10 89/09/21 10:18:33 paulg Exp $Locker: $
+d35 1
+a35 1
+ *        printcmd.c,v 1.6 89/09/21 10:20:40 paulg Exp $Locker: $
+d37 1
+d49 1
+a49 1
+ *        symtab.c,v 1.9 89/09/21 10:21:31 paulg Exp $Locker: $
+d51 1
+a51 1
+ *        utils.c,v 1.10 89/09/21 10:22:36 paulg Exp $Locker: $
+d55 1
+a55 1
+ *        valops.c,v 1.7 89/09/21 10:22:47 paulg Exp $Locker: $
+d57 1
+a57 1
+ *        valprint.c,v 1.6 89/09/21 10:22:54 paulg Exp $Locker: $
+d59 1
+a59 1
+ *        values.c,v 1.8 89/09/21 10:23:07 paulg Exp $Locker: $
+@
+
+
+1.7
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.6 89/09/24 12:14:44 davidl exp $";
+@
+
+
+1.6
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.5 89/09/24 11:17:43 paulg exp $";
+d33 1
+a33 1
+ *        main.c,v 1.17 89/09/21 16:10:24 davidl Exp $Locker: $
+@
+
+
+1.5
+log
+@New build
+@
+text
+@d1 2
+a2 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.4 89/09/22 14:28:42 davidl exp $";
+d7 1
+a7 1
+ *        breakpoint.c,v 1.11 89/09/23 14:03:52 paulg Exp $Locker: $
+d9 1
+a9 1
+ *        dbxread.c,v 1.9 89/09/23 14:04:20 paulg Exp $Locker: $
+d25 1
+a25 1
+ *        infcmd.c,v 1.9 89/09/23 10:37:23 paulg Exp $Locker: $
+d29 1
+a29 1
+ *        infrun.c,v 1.12 89/09/23 14:05:57 paulg Exp $Locker: $
+d33 1
+a33 1
+ *        main.c,v 1.18 89/09/21 19:52:49 paulg Exp $Locker: paulg
+d35 1
+a35 1
+ *        printcmd.c,v 1.7 89/09/23 10:38:13 paulg Exp $Locker: $
+a36 1
+ *        remote.c,v 1.5 89/09/22 15:59:43 paulg Exp $Locker: $
+d48 1
+a48 1
+ *        symtab.c,v 1.10 89/09/23 14:05:10 paulg Exp $Locker: $
+d50 1
+a50 1
+ *        utils.c,v 1.11 89/09/21 11:55:17 paulg Exp $Locker: $
+d54 1
+a54 1
+ *        valops.c,v 1.8 89/09/23 14:05:22 paulg Exp $Locker: $
+d56 1
+a56 1
+ *        valprint.c,v 1.7 89/09/23 14:05:30 paulg Exp $Locker: $
+d58 1
+a58 1
+ *        values.c,v 1.9 89/09/23 14:05:36 paulg Exp $Locker: $
+d68 1
+a68 1
+ *        m88k-dep.c,v 1.10 89/09/21 10:19:14 paulg Exp $Locker: $
+a119 1
+ +        rcsid.c,v 1.220 88/12/02 09:39:29 jeffg Exp
+d121 1
+a121 1
+ +        4300rcsid.c,v 1.25 89/02/28 22:33:52 uteklib rel
+@
+
+
+1.4
+log
+@New build
+@
+text
+@d1 1
+a1 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.3 89/09/22 10:49:36 davidl exp $";
+d6 1
+a6 1
+ *        breakpoint.c,v 1.8 89/09/21 10:10:54 paulg Exp $Locker: $
+d8 1
+a8 1
+ *        dbxread.c,v 1.8 89/09/21 10:11:23 paulg Exp $Locker: $
+d14 1
+a14 1
+ *        core.c,v 1.8 89/09/21 10:11:19 paulg Exp $Locker: $
+d24 1
+a24 1
+ *        infcmd.c,v 1.8 89/09/21 10:18:21 paulg Exp $Locker: $
+d28 1
+a28 1
+ *        infrun.c,v 1.10 89/09/21 10:18:33 paulg Exp $Locker: $
+d32 1
+a32 1
+ *        main.c,v 1.18 89/09/21 19:52:49 paulg Exp $Locker: $
+d34 1
+a34 1
+ *        printcmd.c,v 1.6 89/09/21 10:20:40 paulg Exp $Locker: $
+d36 1
+d48 1
+a48 1
+ *        symtab.c,v 1.9 89/09/21 10:21:31 paulg Exp $Locker: $
+d54 1
+a54 1
+ *        valops.c,v 1.7 89/09/21 10:22:47 paulg Exp $Locker: $
+d56 1
+a56 1
+ *        valprint.c,v 1.6 89/09/21 10:22:54 paulg Exp $Locker: $
+d58 1
+a58 1
+ *        values.c,v 1.8 89/09/21 10:23:07 paulg Exp $Locker: $
+d65 2
+d99 2
+d118 1
+a118 1
+ *        xrcsid.c,v 1.5 89/09/22 10:32:37 davidl Exp $Locker: $
+@
+
+
+1.3
+log
+@New build
+@
+text
+@d1 1
+a1 2
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.2 89/09/21 15:39:36 paulg exp $";
+char _sccs_Xrcsid[] = "@@(#) Xrcsid.c,v 1.3 89/09/22 10:49:36 davidl exp";
+d113 1
+a113 1
+ *        xrcsid.c,v 1.4 89/09/22 10:16:17 davidl Exp $Locker: $
+d115 1
+d117 1
+a117 1
+ +        make.id.c,v 1.10 89/06/21 11:07:32 root rel3_2
+@
+
+
+1.2
+log
+@New build
+@
+text
+@d1 2
+a2 1
+char _Xrcsid[] = "$Header: Xrcsid.c,v 1.1 89/09/21 15:39:11 paulg Exp $";
+d33 1
+a33 1
+ *        main.c,v 1.16 89/09/21 11:30:56 davidl Exp $Locker: paulg
+a36 1
+ *        $      $Locker: $
+d114 1
+a114 1
+ *        xrcsid.c,v 1.3 89/09/21 09:27:32 davidl Exp $Locker: $
+a115 1
+ +        rcsid.c,v 1.220 88/12/02 09:39:29 jeffg Exp
+d117 1
+a117 1
+ +        4300rcsid.c,v 1.25 89/02/28 22:33:52 uteklib rel
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 119
+a119 1
+char _Xrcsid[] = "$Header$";
+@

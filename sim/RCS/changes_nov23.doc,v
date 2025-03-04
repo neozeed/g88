@@ -1,0 +1,79 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.05.14.15.41.48;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.30.14.07.27;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@added rcsid's and copyrights
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+Date: Mon, 23 Nov 87 16:59:12 PST
+From: robertb
+To: 78tools
+Fcc: outbox
+Subject: New man page for d78, new d78 and ad78 in //cupcake/Utek/tools/bin
+
+
+The changes are:
+
+  1. stopi now works if you use the "stopi at" form.  The generic dbx's
+     stopi and tracei commands are nonfunctional (i.e., totally hosed)
+     as far as I can tell.
+
+  2. The man page (on cupcake) for d78 now describes the tracei and stopi
+     commands and their limitations better.
+
+  3. The device simulator initialization messages are no longer displayed.
+     The ROM's initialization message can be seen with the pio command.
+
+  4. There is a new command, "remote", that puts d78 into remote mode.  It
+     opens the tty named by the environment variable "REMOTETTY" and
+     expects a 78000 system on the other end.  This is not finished.
+
+  5. There are several new debug flags, you can get a list by typing
+     "debug".
+
+  6. Floating point instructions will now generate a precise FP exception
+     if in executing the instruction the simulator got a SIGFPE.  This
+     isn't perfect, but its a lot better than what it used to do (I
+     won't say what it used to do).
+
+  7. The int, flt, and trnc instructions now work.  They used to always
+     return zero.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 7
+@

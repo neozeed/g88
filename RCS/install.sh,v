@@ -1,0 +1,100 @@
+head     1.4;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.4
+date     90.04.24.11.33.27;  author jrb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     90.02.26.15.13.52;  author root;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     90.02.09.15.02.40;  author davidl;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.01.26.11.40.44;  author jrb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@/usr/local/bin/ident Xgdb
+mv -f /usr/local/bin/gnu/gdb /usr/local/bin/gnu/ogdb
+mv Xgdb /usr/local/bin/gnu/gdb
+ln -s /usr/local/bin/gnu/gdb /usr/local/bin/gnu/xgdb
+ln -s /usr/local/bin/gnu/gdb /usr/local/bin/gnu/Xgdb
+ln -s /usr/local/bin/gnu/gdb /usr/local/bin/Xgdb
+ln -s /usr/local/bin/gnu/gdb /usr/local/bin/Xgdb
+ln -s /usr/local/bin/gnu/gdb /usr/local/bin/Xgdb
+ls -il /usr/local/bin/gnu/*gdb
+ls -il /usr/local/bin/*gdb
+echo "ident for previous gdb" 
+/usr/local/bin/ident /usr/local/bin/gnu/ogdb
+echo "ident for new gdb" 
+/usr/local/bin/ident /usr/local/bin/Xgdb
+/usr/local/bin/ident /usr/local/bin/xgdb
+/usr/local/bin/ident /usr/local/bin/gdb
+/usr/local/bin/ident /usr/local/bin/gnu/Xgdb
+/usr/local/bin/ident /usr/local/bin/gnu/xgdb
+/usr/local/bin/ident /usr/local/bin/gnu/gdb
+/usr/local/bin/co gdb-dbx_script
+cp /usr/local/bin/gnu/gdb-dbx_script /usr/local/bin/gnu/ogdb-dbx_script
+cp gdb-dbx_script /usr/local/bin/gnu/gdb-dbx_script
+cp /usr/lib/X11/app-defaults/Xgdb /usr/lib/X11/app-defaults/oXgdb
+/usr/local/bin/co Xresources
+mv Xresources /usr/lib/X11/app-defaults/Xgdb
+@
+
+
+1.3
+log
+@fixed bug in where X resources were being installed.
+@
+text
+@d20 1
+a20 1
+co gdb-dbx_script
+d24 1
+a24 1
+co Xresources
+@
+
+
+1.2
+log
+@Added gdb-dbx_script, Xresources files.
+@
+text
+@d20 6
+a25 4
+mv -f /usr/local/bin/gnu/gdb-dbx_script /usr/local/bin/gnu/ogdb-dbx_script
+mv gdb-dbx_script /usr/local/bin/gnu/gdb-dbx_script
+mv -f /usr/lib/X11/config/Xgdb/Xresources /usr/lib/X11/config/Xgdb/oXresources
+mv Xresources /usr/lib/X11/config/Xgdb/Xresources
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d20 4
+@

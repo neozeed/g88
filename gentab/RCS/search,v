@@ -1,0 +1,40 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     88.08.13.16.21.03;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#! /bin/sh 
+l=0
+while (test $l -lt 250)
+do
+  u=$l
+  while (test $u -lt 250)
+  do
+    words=$l
+    shorts=`expr $u - $l`
+    bytes=`expr 252 - $shorts - $words`
+    ./gentab $words $shorts $bytes vmunix 'out/'$words'_'$shorts'_'$bytes
+    u=`expr $u + 10`
+  done
+  l=`expr $l + 10`
+done
+@
+

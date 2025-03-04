@@ -1,0 +1,899 @@
+head     1.17;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.17
+date     90.04.29.19.24.59;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     89.07.14.09.01.38;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.09.08.09.35.02;  author andrew;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.05.18.09.59.02;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.04.27.09.15.21;  author brents;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.04.18.10.16.10;  author brents;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.12.16.26.57;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.02.12.16.13.24;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.12.18.14.21.24;  author brents;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.24.16.36.55;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.24.16.33.36;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.23.14.41.24;  author timd;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.23.14.22.27;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.11.22.26.42;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.10.17.43.49;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.09.22.39.09;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.28.14.31.46;  author brents;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.17
+log
+@Ported to System V.
+@
+text
+@/*
+ * LED simulator
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: led.c,v 1.16 89/07/14 09:01:38 robertb Exp $
+ */
+
+#include "sim.h"
+#include "led.h"
+
+unsigned char led_byte;
+unsigned char led_verbose;
+
+led_init()
+{
+	/*
+	 * Hardware resets to 0 (all segments on).
+	 */
+	led_byte = 0;
+
+	/*
+	 * If "$simled" is defined, show the LED on each change.
+	 */
+	led_verbose = varvalue("simled")!=0;
+}
+
+int
+led_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	u_long address_offset;
+	u_long *reg_ptr;
+	int	size;
+	int	mem_op_type;
+	int	override;
+{
+	if (size != BYTE) {
+		sim_printf("led_operation: non-byte size access to LED\n");
+	}
+
+	/*
+	 * Do the actual operation to the byte size register.
+	 */
+	do_mem_op(reg_ptr, &led_byte, size, mem_op_type);
+
+	/*
+	 * If the operator wants to see LEDs, show them.
+	 */
+	if (led_verbose) {
+		led_print();
+	}
+
+	return E_NONE;
+}
+
+led_print()
+{
+	char *s;
+	char buf[100];
+
+	/*
+	 * Display the LED code
+	 */
+	switch (led_byte) {
+		case D_0:	s = "0";	break;
+		case D_1:	s = "1";	break;
+		case D_2:	s = "2";	break;
+		case D_3:	s = "3";	break;
+		case D_4:	s = "4";	break;
+		case D_5:	s = "5";	break;
+		case D_6:	s = "6";	break;
+		case D_7:	s = "7";	break;
+		case D_8:	s = "8";	break;
+		case D_9:	s = "9";	break;
+		case D_a:	s = "a";	break;
+		case D_b:	s = "b";	break;
+		case D_c:	s = "c";	break;
+		case D_d:	s = "d";	break;
+		case D_e:	s = "e";	break;
+		case D_g:	s = "g";	break;
+		case D_h:	s = "h";	break;
+		case D_i:	s = "i";	break;
+		case D_o:	s = "o";	break;
+		case D_n:	s = "n";	break;
+		case D_r:	s = "r";	break;
+		case D_u:	s = "u";	break;
+		case D_P:	s = "P";	break;
+		case D_A:	s = "A";	break;
+		case D_11:	s = "11";	break;
+		case D_C:	s = "C";	break;
+		case D_E:	s = "E";	break;
+		case D_F:	s = "F";	break;
+		case D_G:	s = "G";	break;
+		case D_H:	s = "H";	break;
+		case D_J:	s = "J";	break;
+		case D_L:	s = "L";	break;
+		case D_U:	s = "U";	break;
+		case D_NULL:	s = "NULL";	break;
+		case D_CONS:	s = "CONS";	break;
+		case D_bars:	s = "BARS";	break;
+		case D_gds:	s = "GDS";	break;
+		case D_0dp:	s = ".0";	break;
+		case D_1dp:	s = ".1";	break;
+		case D_2dp:	s = ".2";	break;
+		case D_3dp:	s = ".3";	break;
+		case D_4dp:	s = ".4";	break;
+		case D_5dp:	s = ".5";	break;
+		case D_6dp:	s = ".6";	break;
+		case D_7dp:	s = ".7";	break;
+		case D_8dp:	s = ".8";	break;
+		case D_9dp:	s = ".9";	break;
+		case D_adp:	s = ".a";	break;
+		case D_bdp:	s = ".b";	break;
+		case D_cdp:	s = ".c";	break;
+		case D_ddp:	s = ".d";	break;
+		case D_edp:	s = ".e";	break;
+		case D_gdp:	s = ".g";	break;
+		case D_hdp:	s = ".h";	break;
+		case D_idp:	s = ".i";	break;
+		case D_odp:	s = ".o";	break;
+		case D_ndp:	s = ".n";	break;
+		case D_rdp:	s = ".r";	break;
+		case D_udp:	s = ".u";	break;
+		case D_Pdp:	s = ".P";	break;
+		case D_Adp:	s = ".A";	break;
+		case D_11dp:	s = ".11";	break;
+		case D_Cdp:	s = ".C";	break;
+		case D_Edp:	s = ".E";	break;
+		case D_Fdp:	s = ".F";	break;
+		case D_Gdp:	s = ".G";	break;
+		case D_Hdp:	s = ".H";	break;
+		case D_Jdp:	s = ".J";	break;
+		case D_Ldp:	s = ".L";	break;
+		case D_Udp:	s = ".U";	break;
+		case D_dp:	s = ".";	break;
+		case D_CONSdp:	s = "CONSdp";	break;
+		case D_barsdp:	s = "BARSdp";	break;
+		case D_gdsdp:	s = "GDSdp";	break;
+
+		default:
+			sprintf(buf, "0x%x", led_byte);
+			s = &buf[0];
+	}
+	sim_printf("LED = %s (0x%02x)\n", s, led_byte);
+}
+@
+
+
+1.16
+log
+@Fixed some type-matching problems shown by the new compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: led.c,v 1.15 88/09/08 09:35:02 andrew Exp $
+d24 1
+a24 1
+	 * If "SIMLED" is defined, show the LED on each change.
+d26 1
+a26 1
+	led_verbose = getenv("SIMLED")!=0;
+@
+
+
+1.15
+log
+@Make LED display-on-write only happen if SIMLED is set.
+Make "pio" command display current value.
+@
+text
+@d7 1
+a7 1
+ * $Header: led.c,v 1.14 88/05/18 09:59:02 robertb Exp $
+d58 2
+a59 2
+	u_char *s;
+	u_char buf[100];
+@
+
+
+1.14
+log
+@regrooved to be more compact and fixed a bug with displaying
+an 'L'.
+@
+text
+@d7 1
+a7 1
+ * $Header: led.c,v 1.13 88/04/27 09:15:21 brents Exp $
+d14 1
+d17 5
+a21 1
+{}
+d23 6
+d33 3
+a35 3
+	int    size;
+	int    mem_op_type;
+	int    override;
+d37 1
+a37 4
+    u_char *s;
+    u_char buf[100];
+
+    if (size != BYTE) {
+a39 3
+              
+/* Do the actual operation to the byte size register */
+    do_mem_op(reg_ptr, &led_byte, size, mem_op_type);
+d42 1
+a42 1
+	 * Display the LED code
+d44 1
+a44 75
+	switch (led_byte) {
+	    case D_0:    s = "0"; break;
+	    case D_1:    s = "1"; break;
+        case D_2:    s = "2"; break;
+	    case D_3:    s = "3"; break;
+	    case D_4:    s = "4"; break;
+	    case D_5:    s = "5"; break;
+	    case D_6:    s = "6"; break;
+	    case D_7:    s = "7"; break;
+	    case D_8:    s = "8"; break;
+	    case D_9:    s = "9"; break;
+	    case D_a:    s = "a"; break;
+	    case D_b:    s = "b"; break;
+	    case D_c:    s = "c"; break;
+	    case D_d:    s = "d"; break;
+	    case D_e:    s = "e"; break;
+	    case D_g:    s = "g"; break;
+	    case D_h:    s = "h"; break;
+	    case D_i:    s = "i"; break;
+	    case D_o:    s = "o"; break;
+	    case D_n:    s = "n"; break;
+	    case D_r:    s = "r"; break;
+	    case D_u:    s = "u"; break;
+	    case D_P:    s = "P"; break;
+	    case D_A:    s = "A"; break;
+	    case D_11:   s = "11"; break;
+	    case D_C:    s = "C"; break;
+	    case D_E:    s = "E"; break;
+	    case D_F:    s = "F"; break;
+	    case D_G:    s = "G"; break;
+	    case D_H:    s = "H"; break;
+	    case D_J:    s = "J"; break;
+	    case D_L:    s = "L"; break;
+	    case D_U:    s = "U"; break;
+	    case D_NULL: s = "NULL"; break;
+	    case D_CONS: s = "CONS"; break;
+	    case D_bars: s = "BARS"; break;
+	    case D_gds:  s = "GDS"; break;
+	    case D_0dp:  s = ".0"; break;
+	    case D_1dp:  s = ".1"; break;
+	    case D_2dp:  s = ".2"; break;
+	    case D_3dp:	 s = ".3"; break;
+	    case D_4dp:  s = ".4"; break;
+	    case D_5dp:  s = ".5"; break;
+	    case D_6dp:  s = ".6"; break;
+	    case D_7dp:  s = ".7"; break;
+	    case D_8dp:  s = ".8"; break;
+	    case D_9dp:  s = ".9"; break;
+	    case D_adp:  s = ".a"; break;
+	    case D_bdp:  s = ".b"; break;
+	    case D_cdp:  s = ".c"; break;
+	    case D_ddp:  s = ".d"; break;
+	    case D_edp:  s = ".e"; break;
+	    case D_gdp:  s = ".g"; break;
+	    case D_hdp:  s = ".h"; break;
+	    case D_idp:  s = ".i"; break;
+	    case D_odp:  s = ".o"; break;
+	    case D_ndp:  s = ".n"; break;
+	    case D_rdp:  s = ".r"; break;
+	    case D_udp:  s = ".u"; break;
+	    case D_Pdp:  s = ".P"; break;
+	    case D_Adp:  s = ".A"; break;
+	    case D_11dp: s = ".11"; break;
+	    case D_Cdp:  s = ".C"; break;
+	    case D_Edp:  s = ".E"; break;
+	    case D_Fdp:  s = ".F"; break;
+	    case D_Gdp:  s = ".G"; break;
+	    case D_Hdp:  s = ".H"; break;
+	    case D_Jdp:  s = ".J"; break;
+	    case D_Ldp:  s = ".L"; break;
+	    case D_Udp:  s = ".U"; break;
+	    case D_dp:   s = "."; break;
+	    case D_CONSdp: s = "CONSdp"; break;
+	    case D_barsdp: s = "BARSdp"; break;
+	    case D_gdsdp:  s = "GDSdp"; break;
+d46 7
+a52 6
+	    default:       
+            sprintf(buf, "0x%x", led_byte);
+            s = &buf[0];
+            break;
+    }
+    sim_printf("LED = %s\n", s);
+d58 87
+a144 1
+	printf("led\n");
+@
+
+
+1.13
+log
+@added storage for the led byte and operation for read/write of this storage
+@
+text
+@d7 1
+a7 1
+ * $Header: led.c,v 1.12 88/04/18 10:16:10 brents Exp $
+d18 1
+d20 5
+a24 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d26 2
+d29 1
+a29 10
+/*	BB LED hardware is read/write
+	if (mem_op_type == LD   || 
+		mem_op_type == LD_U ||
+        mem_op_type == XMEM ||
+		mem_op_type == XMEM_U) {
+		sim_printf("led_operation: attempt to load or xmem with LED.\n");
+		return E_DACC;
+	}
+*/
+        if (size != BYTE) {
+d34 1
+a34 1
+        do_mem_op(reg_ptr, &led_byte, size, mem_op_type);
+d39 75
+a113 103
+	switch(led_byte){
+	case D_0:
+		sim_printf("LED= 0\n");
+		break;
+	case D_1:
+		sim_printf("LED= 1\n");
+		break;
+    case D_2:
+		sim_printf("LED= 2\n");
+		break;
+	case D_3:
+		sim_printf("LED= 3\n");
+		break;
+	case D_4:
+		sim_printf("LED= 4\n");
+		break;
+	case D_5:
+		sim_printf("LED= 5\n");
+		break;
+	case D_6:
+		sim_printf("LED= 6\n");
+		break;
+	case D_7:
+		sim_printf("LED= 7\n");
+		break;
+	case D_8:
+		sim_printf("LED= 8\n");
+		break;
+	case D_9:
+		sim_printf("LED= 9\n");
+		break;
+	case D_a:
+		sim_printf("LED= a\n");
+		break;
+	case D_b:
+		sim_printf("LED= b\n");
+		break;
+	case D_c:
+		sim_printf("LED= c\n");
+		break;
+	case D_d:
+		sim_printf("LED= d\n");
+		break;
+	case D_e:
+		sim_printf("LED= e\n");
+		break;
+	case D_g:
+		sim_printf("LED= g\n");
+		break;
+	case D_h:
+		sim_printf("LED= h\n");
+		break;
+	case D_i:
+		sim_printf("LED= i\n");
+		break;
+	case D_o:
+		sim_printf("LED= o\n");
+		break;
+	case D_n:
+		sim_printf("LED= n\n");
+		break;
+	case D_r:
+		sim_printf("LED= r\n");
+		break;
+	case D_u:
+		sim_printf("LED= u\n");
+		break;
+	case D_P:
+		sim_printf("LED= P\n");
+		break;
+	case D_A:
+		sim_printf("LED= A\n");
+		break;
+	case D_11:
+		sim_printf("LED= 11\n");
+		break;
+	case D_C:
+		sim_printf("LED= C\n");
+		break;
+	case D_E:
+		sim_printf("LED= E\n");
+		break;
+	case D_F:
+		sim_printf("LED= F\n");
+		break;
+	case D_G:
+		sim_printf("LED= G\n");
+		break;
+	case D_H:
+		sim_printf("LED= H\n");
+		break;
+	case D_J:
+		sim_printf("LED= J\n");
+		break;
+	case D_L:
+		sim_printf("LED= 0\n");
+		break;
+	case D_U:
+		sim_printf("LED= U\n");
+		break;
+	case D_NULL:
+		sim_printf("LED= NULL\n");
+		break;
+d115 4
+a118 125
+	case D_CONS :
+		sim_printf("LED= CONS\n");
+		break;
+	case D_bars:
+		sim_printf("LED= BARS\n");
+		break;
+	case D_gds:
+		sim_printf("LED= GDS\n");
+		break;
+
+	case D_0dp:
+		sim_printf("LED= .0\n");
+		break;
+	case D_1dp:
+		sim_printf("LED= .1\n");
+		break;
+	case D_2dp:
+		sim_printf("LED= .2\n");
+		break;
+	case D_3dp:	
+		sim_printf("LED= .3\n");
+		break;
+	case D_4dp:
+		sim_printf("LED= .4\n");
+		break;
+	case D_5dp:
+		sim_printf("LED= .5\n");
+		break;
+	case D_6dp:
+		sim_printf("LED= .6\n");
+		break;
+	case D_7dp:
+		sim_printf("LED= .7\n");
+		break;
+	case D_8dp:
+		sim_printf("LED= .8\n");
+		break;
+	case D_9dp:
+		sim_printf("LED= .9\n");
+		break;
+	case D_adp:
+		sim_printf("LED= .a\n");
+		break;
+	case D_bdp:
+		sim_printf("LED= .b\n");
+		break;
+	case D_cdp:
+		sim_printf("LED= .c\n");
+		break;
+	case D_ddp:
+		sim_printf("LED= .d\n");
+		break;
+	case D_edp:
+		sim_printf("LED= .e\n");
+		break;
+	case D_gdp:
+		sim_printf("LED= .g\n");
+		break;
+	case D_hdp:
+		sim_printf("LED= .h\n");
+		break;
+	case D_idp:
+		sim_printf("LED= .i\n");
+		break;
+	case D_odp:
+		sim_printf("LED= .o\n");
+		break;
+	case D_ndp:
+		sim_printf("LED= .n\n");
+		break;
+	case D_rdp:
+		sim_printf("LED= .r\n");
+		break;
+	case D_udp:
+		sim_printf("LED= .u\n");
+		break;
+	case D_Pdp:
+		sim_printf("LED= .P\n");
+		break;
+	case D_Adp:
+		sim_printf("LED= .A\n");
+		break;
+	case D_11dp:
+		sim_printf("LED= .11\n");
+		break;
+	case D_Cdp:
+		sim_printf("LED= .C\n");
+		break;
+	case D_Edp:
+		sim_printf("LED= .E\n");
+		break;
+	case D_Fdp:
+		sim_printf("LED= .F\n");
+		break;
+	case D_Gdp:
+		sim_printf("LED= .G\n");
+		break;
+	case D_Hdp:
+		sim_printf("LED= .H\n");
+		break;
+	case D_Jdp:
+		sim_printf("LED= .J\n");
+		break;
+	case D_Ldp:
+		sim_printf("LED= .L\n");
+		break;
+	case D_Udp:
+		sim_printf("LED= .U\n");
+		break;
+	case D_dp:
+		sim_printf("LED= .\n");
+		break;
+
+	case D_CONSdp:
+		sim_printf("LED= CONSdp\n");
+		break;
+	case D_barsdp:
+		sim_printf("LED= BARSdp\n");
+		break;
+	case D_gdsdp:
+		sim_printf("LED= GDSdp\n");
+		break;
+	default:
+		sim_printf("LED= 0x%x\n",led_byte);
+		break;
+d120 1
+a120 1
+
+@
+
+
+1.12
+log
+@The blackbird LED hardware is an 8-bit read/write register.
+@
+text
+@d7 1
+a7 1
+ * $Header: led.c,v 1.11 88/02/12 16:26:57 robertb Exp $
+d13 2
+a24 1
+	unsigned char led_code;
+d35 6
+a41 1
+	led_code = *reg_ptr&0xff;	/* get the byte */
+d43 1
+a43 1
+	 * Do the actual operation
+d45 1
+a45 1
+	switch(led_code){
+d272 1
+a272 1
+		sim_printf("LED= 0x%x\n",led_code);
+@
+
+
+1.11
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: led.c,v 1.10 88/02/12 16:13:24 robertb Exp $
+d25 1
+d33 1
+@
+
+
+1.10
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: led.c,v 1.9 87/12/18 14:21:24 brents Exp $ */
+d9 1
+@
+
+
+1.9
+log
+@brents added default case for arbitrary write to LED.
+@
+text
+@a0 2
+/* $Header: led.c,v 1.8 87/11/24 16:36:55 robertb Exp $ */
+
+d3 5
+a8 1
+
+@
+
+
+1.8
+log
+@Moved LCSR simulator to its own file.
+@
+text
+@d1 1
+a1 1
+/* $Header: led.c,v 1.7 87/11/24 16:33:36 robertb Exp $ */
+d259 3
+@
+
+
+1.7
+log
+@Added LCSR simulator to this file.
+@
+text
+@d1 1
+a1 1
+/* $Header: led.c,v 1.6 87/11/23 14:41:24 timd Exp $ */
+d4 1
+a4 1
+ * LED and LCSR (local status register) simulator
+a9 5
+#define	LCSRSIM	"DIPSWITCH"
+
+static char *lcsr_string;
+static unsigned lcsr_reg;
+
+a267 43
+}
+
+lcsr_switch_init()
+{
+	int i;
+	extern char *getenv();
+
+	lcsr_string = getenv(LCSRSIM);
+	lcsr_reg = 0;
+	if (lcsr_string) {
+		for (i = 0 ; i < strlen(lcsr_string) ; i++) {
+			lcsr_reg = (lcsr_reg << 1) | lcsr_string[i] == '1';
+		}
+		lcsr_reg <<= 24;
+	}
+}
+
+lcsr_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+{
+	unsigned char lcsr_switch_code;
+
+	if (size > WORD) {
+		sim_printf("Double word operations not allowed with LCSR\n");
+		return E_DACC;
+	}
+	if (!override && size != BYTE) {
+		sim_printf("Only byte operations permitted with LCSR\n");
+		return E_DACC;
+	}
+	do_mem_op(reg_ptr, &lcsr_reg, size, mem_op_type);
+	lcsr_reg &= 0xff000000;
+	return E_NONE;
+}
+
+lcsr_switch_print()
+{
+	printf("%s environment variable = %s, lcsr_reg=0x%X\n",
+			LCSRSIM, lcsr_string, lcsr_reg >> 24);
+@
+
+
+1.6
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d4 1
+a4 1
+ * LED simulator- using sim_printf
+d10 1
+a10 3
+/*
+ * init by setting it to the led code `.8'
+ */
+d12 3
+d273 43
+@
+
+
+1.5
+log
+@No longer displays information at initialization.
+@
+text
+@d1 1
+@
+
+
+1.4
+log
+@see changes_10_11.doc
+@
+text
+@d14 1
+a14 3
+{
+        sim_printf("LED= .8\n");
+}
+@
+
+
+1.3
+log
+@added override parameter to led_operation.
+@
+text
+@a6 1
+#include "exception.h"
+a8 1
+
+d268 5
+@
+
+
+1.2
+log
+@see file changes_11_9 for description of changes
+@
+text
+@d20 1
+a20 1
+led_operation(address_offset, reg_ptr, size, mem_op_type)
+d25 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a6 1
+#include "cmmu.h"
+d20 2
+a21 2
+led_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d27 8
+@

@@ -1,0 +1,82 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     90.04.29.23.28.18;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.04.29.20.09.58;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Stub file to permit gdb to be built without the simulator.
+@
+
+
+1.2
+log
+@Added some routines to fix link errors in the non-simulator version of gdb.
+@
+text
+@
+/* Stubs for when we build gdb w/o the 88k simulator
+
+   Copyright (C) 1986, 1987, 1988, 1989 Free Software Foundation, Inc.
+
+   $Header: sim.c,v 1.1 90/04/29 20:09:58 robertb Exp $
+   $Locker: robertb $
+ */
+
+#include "remote.h"
+
+sim_copymem() {}
+sim_searchmem() {}
+check_sim() {}
+_initialize_simgdb() {}
+sim_v_to_p() {}
+int sim_errno, sim_exception, remote_debugging;
+sim_interrupt() {}
+sim_readfile() {}
+sim_zeromem() {}
+read_sim_b() {}
+read_sim_h() {}
+read_sim_w() {}
+write_sim_b() {}
+write_sim_h() {}
+write_sim_w() {}
+sim_init() 
+{
+  simulator = 0;
+  remote_debugging = 0;
+  error("This copy of gdb was not linked with the simulator");
+}
+do_sim_reset() {}
+reg_sim() {}
+setreg_sim() {}
+sim() {}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d6 1
+a6 1
+   $Header: remote.c,v 1.23 90/04/27 18:33:51 robertb Exp $
+d12 1
+a12 1
+sim_bcopymem() {}
+d15 2
+a16 1
+_simgdb_init() {}
+@

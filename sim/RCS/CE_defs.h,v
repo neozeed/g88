@@ -1,0 +1,857 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.1
+date     89.08.24.15.31.50;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@copy of what the roms use
+@
+
+
+
+1.1
+log
+@copy of what the roms use
+@
+text
+@/*------------------------------------------------------------------------
+ * CE_defs.h
+ *
+ * This header file describes the hardware personality of the Blackbird
+ * Compute Engine board.
+ *
+ * 
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: CE_defs.h,v 1.27 89/04/12 11:00:19 brents Exp $
+ * 
+ *------------------------------------------------------------------------
+ */
+
+#ifndef CEM_DEFS_DEFINED
+#define CEM_DEFS_DEFINED
+
+
+/*------------------------------------------------------------------------
+ * Compute Engine Memory Map
+ *
+ * (With respect to software executing on the M78000.)
+ *------------------------------------------------------------------------
+ */
+
+#define	CE_RAM_BASE		0x00000000
+#define CE_RAM_TOP		0x40000000	/* 1 GIG? */
+#define CE_LOW_RAM		0x10000		/* bottom 64K of CE DRAM */
+
+#define CE_LOCAL_AREA_MASK	0x000fffff	/* mask for local addr decode */
+#define CE_LOCAL_AREA_BASE	0xfa000000
+#define CE_UNALLOCATED_0	0xfa000000
+#define CE_LOCAL_AREA_1         0xfa100000
+#define CE_LOCAL_AREA_2		0xfa200000
+#define CE_LOCAL_AREA_3		0xfa300000
+#define CE_LOCAL_AREA_4		0xfa400000
+#define CE_LOCAL_AREA_5		0xfa500000
+#define CE_LOCAL_AREA_6		0xfa600000
+#define CE_LOCAL_AREA_7		0xfa700000
+#define CE_LOCAL_AREA_8		0xfa800000
+#define CE_LOCAL_AREA_9		0xfa900000
+#define CE_LOCAL_AREA_10	0xfaa00000
+#define CE_LOCAL_AREA_11	0xfab00000
+#define CE_LOCAL_AREA_12	0xfac00000
+#define CE_LOCAL_AREA_13	0xfad00000
+#define CE_LOCAL_AREA_14	0xfae00000
+#define CE_LOCAL_AREA_15 	0xfaf00000
+#define CE_LOCAL_AREA_16	0xfb000000
+#define CE_LOCAL_AREA_17	0xfb100000
+#define CE_LOCAL_AREA_18	0xfb200000
+#define CE_LOCAL_AREA_19	0xfb300000
+#define CE_LOCAL_AREA_20 	0xfb400000
+#define CE_LOCAL_AREA_21	0xfb500000
+#define CE_LOCAL_AREA_22	0xfb600000
+#define CE_LOCAL_AREA_23	0xfb700000
+#define CE_LOCAL_AREA_24	0xfb800000
+#define CE_LOCAL_AREA_25	0xfb900000
+#define CE_LOCAL_AREA_26	0xfba00000
+#define CE_LOCAL_AREA_27	0xfbb00000
+#define CE_LOCAL_AREA_28	0xfbc00000
+#define CE_LOCAL_AREA_29	0xfbd00000
+#define CE_LOCAL_AREA_30	0xfbe00000
+#define CE_UNALLOCATED_31	0xfbf00000
+
+#define CE_FBUS_CSR		0xfc000000
+#define LOCAL_FBUS_CSR_BASE	0xfdfff000
+
+#define CE_ROM_BASE		0xfe000000
+#define CE_ROM_TOP		0xfe03ffff
+
+#define CE_RESERVED_1		0xfe040000
+
+#define CE_LLBC_BASE		0xfe800000	/* left LBC space */
+#define CE_RLBC_BASE		0xff000000	/* right LBC space */
+#define CE_RLBC_IDPROM		(CE_RLBC_BASE+3)		/* 8bit */
+#define CE_RLBC_STAT		(CE_RLBC_BASE+0x100002)	/* 8bit */
+#define CE_RLBC_CTL		(CE_RLBC_BASE+0x100003)	/* 8bit */
+#define CE_RLBC_MAP_ENTRY       (CE_RLBC_BASE+0x200002)	/* 16bit */
+#define CE_LLBC_IDPROM		(CE_LLBC_BASE+3)		/* 8bit */
+#define CE_LLBC_STAT		(CE_LLBC_BASE+0x100002)	/* 8bit */
+#define CE_LLBC_CTL		(CE_LLBC_BASE+0x100003)	/* 8bit */
+#define CE_LLBC_MAP_ENTRY       (CE_LLBC_BASE+0x200002)	/* 16bit */
+
+#define CE_RESERVED_2		0xff800000
+
+#define CE_CMMU_DATA_0		0xfff00000
+#define CE_CMMU_DATA_1		0xfff01000
+#define CE_CMMU_DATA_2		0xfff02000
+#define CE_CMMU_DATA_3		0xfff03000
+#define CE_CMMU_CODE_0		0xfff04000
+#define CE_CMMU_CODE_1		0xfff05000
+#define CE_CMMU_CODE_2		0xfff06000
+#define CE_CMMU_CODE_3		0xfff07000
+
+#define CE_RESERVED_3		0xfff08000
+
+
+#define CE_LOCAL_CSR		0xfff10000
+#define CE_LCSR			CE_LOCAL_CSR
+#define CE_CTL			(CE_LOCAL_CSR + 0)	/* CTL byte */
+#define CE_LCA_STAT		(CE_LOCAL_CSR + 1)	/* LCA status byte */
+#define CE_CMMU_STAT		(CE_LOCAL_CSR + 2)	/* CMMU status byte */
+#define CE_MSR			(CE_LOCAL_CSR + 3)	/* Switch status byte */
+
+#define SWITCH			CE_MSR
+#define Switch			((unsigned char *)SWITCH)
+
+#define CE_MDR			(0xfff12000+3)	/* master display register */
+#define LED			CE_MDR
+#define Led			((unsigned char *)LED)
+
+#define CE_BIT_BUCKET_RW	0xfff1a000
+
+#define CE_BIT_BUCKET_WO	0xfff18000
+
+#define CE_SER_CTL		(0xfff16000+3)	/* lane Z */
+
+#define CE_RESERVED_4		0xfff1c000
+
+#define CE_RESERVED_5		0xfff1e000
+
+#define CE_RESERVED_6		0xfff20000
+
+/* address offsets */
+#define CE_MAP_ADDR_OFF		0x810	/* CE map addr reg */
+#define CE_MAP_ADDR_ALT_OFF	0x80c	/* CE map addr reg readback */
+#define CE_MAP_ACCESS_OFF	0x817	/* CE map access reg */
+#define CE_MEM_CSR_OFF		0x81b	/* CE mem csr reg */
+#define	CE_INTR_SR_OFF		0x822	/* CE intr status reg */
+#define	CE_INTR_MSK_OFF		0x826	/* CE intr mask reg */
+#define CE_LCA_PGM_PORT_OFF	0x82b	/* CE lca program port */
+#define	CE_INTR_RST_OFF		0x82a	/* CE intr reset reg */
+#define	CE_INTR_SET_OFF		0x82e	/* CE intr set reg */
+#define	CE_MSG_SR_OFF		0x833	/* CE message intr status reg */
+#define	CE_MSG_RST_OFF		0x83b	/* CE message intr reset reg */
+
+/* SPECIFIC to Compute Engine- relative to FBUS SPACE- use FBUS local access */
+#define	CE_MAP_ADDR	(LOCAL_FBUS_CSR_BASE + CE_MAP_ADDR_OFF)	
+#define CE_MAP_ADDR_ALT	(LOCAL_FBUS_CSR_BASE + CE_MAP_ADDR_ALT_OFF)	
+#define	CE_MAP_ACCESS	(LOCAL_FBUS_CSR_BASE + CE_MAP_ACCESS_OFF)
+#define	CE_MEM_CSR	(LOCAL_FBUS_CSR_BASE + CE_MEM_CSR_OFF)	
+
+#define	CE_INTR_SR	(LOCAL_FBUS_CSR_BASE + CE_INTR_SR_OFF)
+#define	CE_INTR_MSK	(LOCAL_FBUS_CSR_BASE + CE_INTR_MSK_OFF)	
+#define CE_LCA_PGM_PORT	(LOCAL_FBUS_CSR_BASE + CE_LCA_PGM_PORT_OFF)	
+#define	CE_INTR_RST	(LOCAL_FBUS_CSR_BASE + CE_INTR_RST_OFF)
+#define	CE_INTR_SET	(LOCAL_FBUS_CSR_BASE + CE_INTR_SET_OFF)	
+
+#define	CE_MSG_SR	(LOCAL_FBUS_CSR_BASE + CE_MSG_SR_OFF)
+#define	CE_MSG_RST	(LOCAL_FBUS_CSR_BASE + CE_MSG_RST_OFF)	
+
+/* membrd hardware-  some address offsets are the same as CE hardware */
+#define	MEMBRD_MAP_ADDR_OFF	CE_MAP_ADDR_OFF		/* mem map addr reg */
+#define MEMBRD_MAP_ADDR_ALT_OFF	CE_MAP_ADDR_ALT_OFF	/* mem map addr alt */
+#define	MEMBRD_MAP_ACCESS_OFF	CE_MAP_ACCESS_OFF	/* mem map access */
+#define	MEMBRD_MEM_CSR_OFF	0x81a			/* mem ctl/stat reg  */
+#define	MEMBRD_MAP_ADDR		MEMBRD_MAP_ADDR_OFF
+#define MEMBRD_MAP_ADDR_ALT	MEMBRD_MAP_ADDR_ALT_OFF
+#define	MEMBRD_MAP_ACCESS	MEMBRD_MAP_ACCESS_OFF
+#define MEMBRD_MEM_CSR		MEMBRD_MEM_CSR_OFF
+
+
+/*------------------------------------------------------------------------
+ * Compute Engine Local Control Status Register (LOCAL CSR)
+ *
+ * The local CSR provides local control/status functions for the compute
+ * engine board.
+ *
+ *
+ *  3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 
+ *  1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * | |=|=|=|=|=| | |=|=|=|=|=|=|=|=|
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ *  | | |       | |         | | | |
+ *  | | |       | |         | | | +---- LCAby
+ *  | | |       | |         | | +------ LCAdn
+ *  | | |       | |         | +-------- LCAin
+ *  | | |       | |         +---------- Qrtr
+ *  | | |       +-+-------------------- PBDC0/1
+ *  | | +------------------------------ LCA_PROG
+ *  | +-------------------------------- WRstEn
+ *  +---------------------------------- ENA_OFFBRD
+ *
+ *  1 1 1 1 1 1
+ *  5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ * | | | | | | | | | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ *  | | | | | | | | | | | | | | | |
+ *  | | | | | | | | | | | | | | | +---- Diagnostic Switch #0 (1 = open)
+ *  | | | | | | | | | | | | | | +------ Diagnostic Switch #1 (1 = open)
+ *  | | | | | | | | | | | | | +-------- Diagnostic Switch #2 (1 = open)
+ *  | | | | | | | | | | | | +---------- Diagnostic Switch #3 (1 = open)
+ *  | | | | | | | | | | | +------------ Diagnostic Switch #4 (1 = open)
+ *  | | | | | | | | | | +-------------- Diagnostic Switch #5 (1 = open)
+ *  | | | | | | | | | +---------------- Diagnostic Switch #6 (1 = open)
+ *  | | | | | | | | +------------------ Diagnostic Switch #7 (1 = open)
+ *  | | | | | | | +-------------------- Data CMMU #0 (1 = present)
+ *  | | | | | | +---------------------- Data CMMU #1 (1 = present)
+ *  | | | | | +------------------------ Data CMMU #2 (1 = present)
+ *  | | | | +-------------------------- Data CMMU #3 (1 = present)
+ *  | | | +---------------------------- Code CMMU #0 (1 = present)
+ *  | | +------------------------------ Code CMMU #1 (1 = present)
+ *  | +-------------------------------- Code CMMU #2 (1 = present)
+ *  +---------------------------------- Code CMMU #3 (1 = present)
+ *
+ * PBDC0/1:	Control the decoder on the data Pbus of the processor.
+ *		00 = Only the lowest numbered CMMU is active on each Pbus.
+ *		01 = All CMMUs active, no supervisor/user distinction.
+ *		10 = All CMMUs active, 1/2 for supervisor, 1/2 for user.
+ *		11 = Reserved.
+ *
+ * NOTE: The following defines *assume byte-wide accesses*!!!
+ *------------------------------------------------------------------------
+ */
+
+/* within byte-wide CE_CTL */
+#define CE_CTL_CMMU_MINIMAL		0x00
+#define CE_CTL_CMMU_ALL			0x01
+#define CE_CTL_CMMU_HALF_AND_HALF	0x02
+#define CE_CTL_CMMU_RESERVED	    	0x03
+#define CE_LED_OFF			0x10  /* hi=LED off, when no aux brd */
+#define CE_CTL_LCA_PROG			0x20
+#define CE_CTL_WRST_ENABLE		0x40
+#define CE_CTL_ENA_OFFBRD		0x80
+#define CE_CTL_ARB_INTR_ENA		0x8   /* enable fbus arbitration ints */
+#define CE_CTL_DEFAULT			0x0
+
+/* within byte-wide CE_LCA_STAT */
+#define CE_LCA_BUSY			0x1
+#define CE_LCA_DONE			0x2
+#define CE_LCA_INIT			0x4
+#define CE_QTR_STUFF			0x8
+#define CE_AUX_ST0			0x40	/* lo means AUX brd present */
+#define CE_AUX_ST1			0x80	/* pulled hi for now */
+#define CE_AUX_MASK			0xc0	/* mask for AUX stat bits */
+#define CE_NO_AUX			0xc0	/* No AUX brd attached */
+#define CE_MASTER_AUX			0x80	/* Master AUX brd attached */
+#define CE_SLAVE_AUX			0x00	/* Slave AUX brd attached */
+#define CE_ILLEGAL_AUX			0x40	/* illegal/reserved AUX stat */
+#define CE_MASTER_CE	CE_MASTER_AUX	    /* master has AUX brd attached */
+
+/* within byte-wide CE_CMMU_STAT */
+#define CE_CMMU_CODE_3_PRESENT		0x80
+#define CE_CMMU_CODE_2_PRESENT		0x40
+#define CE_CMMU_CODE_1_PRESENT		0x20
+#define CE_CMMU_CODE_0_PRESENT		0x10
+#define CE_CMMU_DATA_3_PRESENT		0x08
+#define CE_CMMU_DATA_2_PRESENT		0x04
+#define CE_CMMU_DATA_1_PRESENT		0x02
+#define CE_CMMU_DATA_0_PRESENT		0x01
+
+
+/* within byte-wide CE_MSR */
+#define	CE_SWITCH_7			0x80
+#define	CE_SWITCH_6			0x40
+#define	CE_SWITCH_5			0x20
+#define	CE_SWITCH_4			0x10
+#define	CE_SWITCH_3			0x08
+#define	CE_SWITCH_2			0x04
+#define	CE_SWITCH_1			0x02
+#define	CE_SWITCH_0			0x01
+
+
+/*------------------------------------------------------------------------
+ * Master Switch Register
+ *
+ * The master switch register is used to select the behavior of the diagnostics
+ * and the boot process; in particular the interactivity of the boot, and
+ * the determination of a console device.
+ *------------------------------------------------------------------------
+ */
+
+/* These defines are for the switch open (OFF) condition */
+
+#define CE_MSR_SWITCH_7		CE_SWITCH_7
+#define CE_MSR_SWITCH_6		CE_SWITCH_6
+#define CE_MSR_SWITCH_5		CE_SWITCH_5
+#define CE_MSR_SWITCH_4		CE_SWITCH_4
+#define CE_MSR_SWITCH_3		CE_SWITCH_3
+#define CE_MSR_SWITCH_2		CE_SWITCH_2
+#define CE_MSR_SWITCH_1		CE_SWITCH_1
+#define CE_MSR_SWITCH_0		CE_SWITCH_0
+
+#ifndef DINEX
+
+/* ROM code flags for which brd the test is running on
+ * used by common tests such as scc_tst
+ */
+
+#define ROMEND		0xfe040000
+#define ROM_SPACE_READ	(ROMEND-16)
+
+#endif
+
+
+/*------------------------------------------------------------------------
+ * CEBRD Memory Control and Status Registers
+ *
+ * The CE boards possess this register. It is an 8-bit full-read/
+ * paritial-write register containing the physical attributes of the memory
+ * card, the master DRAM enable bit, the cache line size, and the memory
+ * interleave factor.
+ *
+ * The attribute bits show if a particular memory card is installed,
+ * the size of the chips, and whether the card is full- or half-stuffed.
+ * These bits are not affected by writes.
+ *
+ * The RAM enable bit allows the DRAM to accept accesses when true, or
+ * disallows access when false. When false, the EPROMs are shadowed so that
+ * they respond to the bottom of the on-board address space, 0x00000000.
+ *
+ * The EODEN enable bit enables the generation of the EOD (end of data)
+ * signal by the DRAM controller when a block move request exceeds it's
+ * line-wrap capability.
+ *
+ * The line size must be set to the line size of the cache system. The
+ * interleave factor is set to 2-way for a 1/2-stuffed memory card, and 
+ * set to 4-way for a fully-stuffed memory card.
+ *
+ * The writable bits are set to zeros on a hardware reset.
+ *
+ *  7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+
+ * | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+
+ *  | | | | | | | |
+ *  | | | | | | +-+--- CLS{0,1}: Encoded cache line size	
+ *  | | | | | +------- 4/2I: 4- or 2-way interleave; 4-way = 1
+ *  | | | | +--------- RAME: 1 = RAM enabled
+ *  | | | +----------- F/H: 1 = Full card; 0 = 1/2 card
+ *  | | +------------- 1/4M: 1 = 1MB chips; 0 = 4MB chips
+ *  | +--------------- MPR0: 0 = Memory module 0 present (CE_BRD/MEM_BRD)
+ *  +----------------- EODEN: End of Data Enable (1 = enabled)
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define MEM_CACHE_LINE_16		0x00
+#define MEM_CACHE_LINE_32		0x01
+#define MEM_CACHE_LINE_64		0x02
+#define MEM_CACHE_LINE_128		0x03
+#define MEM_INTERLEAVE_4		0x04
+#define MEM_INTERLEAVE_2		0x00
+#define MEM_RAM_ENABLE			0x08
+#define MEM_STUFF_STAT			0x10
+#define MEM_FULL_STUFF			0x10
+#define MEM_HALF_STUFF			0x00
+#define MEM_CHIP_SIZE			0x20
+#define MEM_1MB				0x20
+#define MEM_4MB				0x00
+#define MEM_MOD0_PR_STAT		0x40
+#define MEM_MOD0_PR			0x00
+#define MEM_EODEN			0x80
+
+
+/*------------------------------------------------------------------------
+ * MEMBRD Memory Control and Status Register
+ *
+ * The MEMBRD boards possesses this register.  The register is 16-bit 
+ * full-read/partial-write.
+ * The status contains attribute bits describing the the physical attributes 
+ * of the memory card while the control bits control the EOD (end of data) 
+ * enable, LED control, master DRAM enable bit, the left and right port enables,
+ * the non-compelled handshake speed (a FBUS speed enhancement), the cache line
+ * size, and the memory interleave factor.
+ *
+ * The attribute bits show if a particular memory card is installed,
+ * the size of the chips, and whether the card is full- or half-stuffed.
+ * These bits are not affected by writes.
+ *
+ * The RAM enable bit allows the DRAM to accept accesses when true, or
+ * disallows access when false. 
+ * 
+ * The S_BP (short back-plane) bit should be set in a short back-plane
+ * system for access speed reasons
+ *
+ * The LPEN enable bit enables the left side bus connection (enables drivers/
+ * receivers) while the RPEN enable bit enables the right side bus connection.
+ * NOTE- These bits should not be enabled unless you are actually going to use
+ * the right or left bus connections for a particular card [this is to avoid
+ * bus contention with future cards which may use these local bus connections 
+ * for other purposes].
+ * 
+ * The non-compelled handshake bits should be set to 0 for now.
+ * The EODEN bit should be enabled once memory has been mapped in and enabled.
+ *
+ * The line size must be set to the line size of the cache system. The
+ * interleave factor is set to 2-way for a 1/2-stuffed memory card, and 
+ * set to 4-way for a fully-stuffed memory card.
+ *
+ * The writable bits are set to zeros on a hardware reset.
+ * 
+ * NOTE- register must only be written as a 16-bit quantity
+ *
+ *------------------------------------------------------------------------
+ */
+
+/* Control register bits- r/w */
+#define MEMBRD_CACHE_LINE_16		0x00
+#define MEMBRD_CACHE_LINE_32		0x01
+#define MEMBRD_CACHE_LINE_64		0x02
+#define MEMBRD_CACHE_LINE_128		0x03
+#define MEMBRD_INTERLEAVE_4		0x04
+#define MEMBRD_INTERLEAVE_2		0x00
+#define MEMBRD_RAM_ENABLE		0x08
+#define MEMBRD_RPEN			0x10
+#define MEMBRD_LPEN			0x20
+#define MEMBRD_SBP			0x40
+#define MEMBRD_EODEN			0x100
+#define MEMBRD_LED_OFF			0x200
+
+#define MEMBRD_RW_MASK			0x3ff	/* mask for r/w bits */
+
+/* Status register bits- read only */
+#define MEMBRD_MOD0_STUFF_STAT		0x400
+#define MEMBRD_MOD0_FULL		0x400
+#define MEMBRD_MOD0_HALF		0x000
+#define MEMBRD_MOD0_CHIP_SIZE		0x800
+#define MEMBRD_MOD0_1MB			0x800
+#define MEMBRD_MOD0_4MB			0x000
+#define MEMBRD_MOD0_PR_STAT		0x1000
+#define MEMBRD_MOD0_PR			0x0000
+
+#define MEMBRD_MOD1_STUFF_STAT		0x2000
+#define MEMBRD_MOD1_FULL		0x2000
+#define MEMBRD_MOD1_HALF		0x0000
+#define MEMBRD_MOD1_CHIP_SIZE		0x4000
+#define MEMBRD_MOD1_1MB			0x4000
+#define MEMBRD_MOD1_4MB			0x0000
+#define MEMBRD_MOD1_PR_STAT		0x8000
+#define MEMBRD_MOD1_PR			0x0000
+
+
+/*------------------------------------------------------------------------
+ * Map Access Register
+ *
+ * The Map Access Register is used to activate memory cards for an address
+ * range selected via the Map Address Register.
+ *
+ * This register should only be accessed as a byte.
+ *
+ *  
+ *  7             0
+ * +-+-+-+-+-+-+-+-+
+ * | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+
+ *  | | | | | | | |
+ *  | | | | | | | +--- FSLD: FBus "Solid" slave address decode; DRAM addresses
+ *  | | | | | | +----- FMBE: FBus "Maybe" slave address decode; non-DRAM addresses
+ *  | | | | | +------- MBZ: Reserved
+ *  | | | | +--------- MBZ: Reserved
+ *  | | | +----------- P/B: CE-Port/Bank select(8MEG banks,Port- right=1/left=0)
+ *  | | +------------- MODS: CE-no quadlet read/MEMBRD-module select
+ *  | +--------------- OFFBRD: CE-offbrd memory access/MEMBRD-reserved
+ *  +----------------- RSEL: DRAM select; main address decode
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define MAP_RSEL	0x80	/* CE/MEMBRD- normal memory access decode */
+#define MAP_OFFBRD	0x40	/* CE_BRD only- offbrd memory access */
+#define MAP_NRQUAD      0x20	/* CE_BRD only- No Quadlet Reads/VME access */
+#define MAP_MODS	0x20	/* MEMBRD only- module select */
+#define MAP_RBS		0x10	/* CE/MEMBRD- bank select when not offbrd */
+#define MAP_PORT	0x10	/* CE_BRD only- port bit when offbrd */
+#define MAP_RMEM	0x10	/* CE_BRD only- right memory access */
+#define MAP_LMEM	0x00	/* CE_BRD only- left memory access */
+#define MAP_FMBE	0x02	/* CE_BRD only- fbus maybe access */
+#define MAP_FSLD	0x01	/* CE/MEMBRD- fbus solid access- DRAM only */
+
+
+/*------------------------------------------------------------------------
+ * CE Interrupt Status Register
+ *
+ * This 16-bit read-only register provides the current state of the masked
+ * interrupt sources. The interrupt sources are sampled and latched at the
+ * start of the read process to prevent metastable conditions. The Sent
+ * Status Register is also clocked at this time.
+ *
+ *  1 1 1 1 1 1 
+ *  5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ * | | | | | | | | | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ *  | | | | | | | | | | | | | | | |
+ *  | | +-+-+-+-+-+-+-+-+-+-+-+-+-+---- IS<13..0> Interrupt Status; 1 = Present
+ *  +-+-------------------------------- 0
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define CE_ISR13		0x2000
+#define CE_ISR12		0x1000
+#define CE_ISR11		0x0800
+#define CE_ISR10		0x0400
+#define CE_ISR9			0x0200
+#define CE_ISR8			0x0100
+#define CE_ISR7			0x0080
+#define CE_ISR6			0x0040
+#define CE_ISR5			0x0020
+#define CE_ISR4			0x0010
+#define CE_ISR3			0x0008
+#define CE_ISR2			0x0004
+#define CE_ISR1			0x0002
+#define CE_ISR0			0x0001
+
+#define CE_DEBUG_ISR		CE_ISR13
+#define CE_HPEVENT_ISR		CE_DEBUG_ISR
+#define CE_PFAIL_ISR		CE_ISR12	/* src'ed from VME ACFAIL */
+#define CE_MSG_ISR		CE_ISR11
+#define CE_FBUS7_ISR		CE_ISR10
+#define CE_LOCAL_SCC_ISR	CE_ISR9
+#define CE_FBUS6_ISR		CE_ISR8
+#define CE_FBUS5_ISR		CE_ISR7
+#define CE_FBUS4_ISR		CE_ISR6
+#define CE_FBUS3_ISR		CE_ISR5
+#define CE_FBUS2_ISR		CE_ISR4
+#define CE_FBUS1_ISR		CE_ISR3
+#define CE_FBUS0_ISR		CE_ISR2
+#define CE_SW1_ISR		CE_ISR1
+#define CE_SW0_ISR		CE_ISR0
+
+#define CE_TIMER_ISR		CE_FBUS7_ISR	/* timer chip */
+#define CE_SCSI_ISR		CE_FBUS6_ISR	/* scsi chip */
+
+#define CE_IOB_SCC_ISR		CE_FBUS5_ISR	/* serial chip */
+#define CE_DMACB_ISR		CE_FBUS5_ISR	/* serial dma */
+
+#define CE_OPT_ISR		CE_FBUS4_ISR	/* option slot */
+#define CE_DMACA_ISR		CE_FBUS4_ISR	/* scsi dma */
+#define CE_HC_ISR		CE_FBUS4_ISR	/* hard copy */
+
+#define CE_LAN_ISR		CE_FBUS2_ISR	/* lan chip */
+
+#define CE_VME_ISR		CE_FBUS1_ISR	/* all VME intr's */
+
+
+
+/*------------------------------------------------------------------------
+ * CE Interrupt Mask Register
+ *
+ * This 16-bit read/write register stores the mask that is ANDed with the
+ * interrupt source signals.
+ *
+ *  1 1 1 1 1 1 
+ *  5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ * | | | | | | | | | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ *  | | | | | | | | | | | | | | | |
+ *  | | +-+-+-+-+-+-+-+-+-+-+-+-+-+---- IM<13..0> Interrupt Mask; 1 = Allow; 0 = Prevent
+ *  +-+-------------------------------- MBZ
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define CE_INTR_MSK13		0x2000
+#define CE_INTR_MSK12		0x1000
+#define CE_INTR_MSK11		0x0800
+#define CE_INTR_MSK10		0x0400
+#define CE_INTR_MSK9		0x0200
+#define CE_INTR_MSK8		0x0100
+#define CE_INTR_MSK7		0x0080
+#define CE_INTR_MSK6		0x0040
+#define CE_INTR_MSK5		0x0020
+#define CE_INTR_MSK4		0x0010
+#define CE_INTR_MSK3		0x0008
+#define CE_INTR_MSK2		0x0004
+#define CE_INTR_MSK1		0x0002
+#define CE_INTR_MSK0		0x0001
+
+#define CE_INTR_MASK_ALL	0x0
+#define CE_INTR_UNMASK_ALL	0x3fff
+
+#define CE_DEBUG_INTR_ENA	CE_INTR_MSK13
+#define CE_HPEVENT_INTR_ENA	CE_DEBUG_INTR_ENA
+#define CE_PFAIL_INTR_ENA	CE_INTR_MSK12	/* src'ed from VME ACFAIL */
+#define CE_MSG_INTR_ENA		CE_INTR_MSK11
+#define CE_FBUS7_INTR_ENA	CE_INTR_MSK10
+#define CE_LOCAL_SCC_INTR_ENA	CE_INTR_MSK9
+#define CE_FBUS6_INTR_ENA	CE_INTR_MSK8
+#define CE_FBUS5_INTR_ENA	CE_INTR_MSK7
+#define CE_FBUS4_INTR_ENA	CE_INTR_MSK6
+#define CE_FBUS3_INTR_ENA	CE_INTR_MSK5
+#define CE_FBUS2_INTR_ENA	CE_INTR_MSK4
+#define CE_FBUS1_INTR_ENA	CE_INTR_MSK3
+#define CE_FBUS0_INTR_ENA	CE_INTR_MSK2
+#define CE_SW1_INTR_ENA		CE_INTR_MSK1
+#define CE_SW0_INTR_ENA		CE_INTR_MSK0
+
+#define CE_TIMER_INTR_ENA	CE_FBUS7_INTR_ENA
+#define CE_SCSI_INTR_ENA	CE_FBUS6_INTR_ENA
+
+#define CE_IOB_SCC_INTR_ENA	CE_FBUS5_INTR_ENA
+#define CE_DMACB_INTR_ENA	CE_FBUS5_INTR_ENA
+
+#define CE_OPT_INTR_ENA		CE_FBUS4_INTR_ENA
+#define CE_DMACA_INTR_ENA	CE_FBUS4_INTR_ENA
+#define CE_HC_INTR_ENA		CE_FBUS4_INTR_ENA
+
+#define CE_LAN_INTR_ENA		CE_FBUS2_INTR_ENA
+#define CE_VME_INTR_ENA		CE_FBUS1_INTR_ENA
+
+
+
+/*------------------------------------------------------------------------
+ * CE Interrupt Reset Register
+ *
+ * This 16-bit write-only register provides a means to individually reset
+ * the edge-sensitive interrupt source register bits.
+ *
+ *  1 1 1 1 1 1 
+ *  5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ * | | | | | | | | | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ *  | | | | | | | | | | | | | | | |
+ *  | | +-+-+-+-+-+-+-+-+-+-+-+-+-+---- SR<13..0> Interrupt Status; 1 = Reset; 0 = No Change
+ *  +-+-------------------------------- MBZ
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define CE_INTR_RST13		0x2000
+#define CE_INTR_RST12		0x1000
+#define CE_INTR_RST10		0x0400
+#define CE_INTR_RST8		0x0100
+#define CE_INTR_RST7		0x0080
+#define CE_INTR_RST6		0x0040
+#define CE_INTR_RST5		0x0020
+#define CE_INTR_RST4		0x0010
+#define CE_INTR_RST3		0x0008
+#define CE_INTR_RST2		0x0004
+#define CE_INTR_RST1		0x0002
+#define CE_INTR_RST0		0x0001
+
+#define CE_DEBUG_INTR_RST	CE_INTR_RST13
+#define CE_HPEVENT_INTR_RST	CE_DEBUG_INTR_RST
+#define CE_PFAIL_INTR_RST	CE_INTR_RST12	/* src'ed from VME ACFAIL */
+#define CE_FBUS7_INTR_RST	CE_INTR_RST10
+#define CE_FBUS6_INTR_RST	CE_INTR_RST8
+#define CE_FBUS5_INTR_RST	CE_INTR_RST7
+#define CE_FBUS4_INTR_RST	CE_INTR_RST6
+#define CE_FBUS3_INTR_RST	CE_INTR_RST5
+#define CE_FBUS2_INTR_RST	CE_INTR_RST4
+#define CE_FBUS1_INTR_RST	CE_INTR_RST3
+#define CE_FBUS0_INTR_RST	CE_INTR_RST2
+#define CE_SW1_INTR_RST		CE_INTR_RST1
+#define CE_SW0_INTR_RST		CE_INTR_RST0
+
+#define CE_TIMER_INTR_RST	CE_FBUS7_INTR_RST
+#define CE_SCSI_INTR_RST	CE_FBUS6_INTR_RST
+
+#define CE_IOB_SCC_INTR_RST	CE_FBUS5_INTR_RST
+#define CE_DMACB_INTR_RST	CE_FBUS5_INTR_RST
+
+#define CE_OPT_INTR_RST		CE_FBUS4_INTR_RST
+#define CE_DMACA_INTR_RST	CE_FBUS4_INTR_RST
+#define CE_HC_INTR_RST		CE_FBUS4_INTR_RST
+
+#define CE_LAN_INTR_RST		CE_FBUS2_INTR_RST
+#define CE_VME_INTR_RST		CE_FBUS1_INTR_RST
+
+
+/*------------------------------------------------------------------------
+ * CE Interrupt Set Register
+ *
+ * This 16-bit write-only register provides a means to individually set
+ * the edge-sensitive interrupt source register bits.
+ *
+ *  1 1 1 1 1 1 
+ *  5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ * | | | | | | | | | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
+ *  | | | | | | | | | | | | | | | |
+ *  | | +-+-+-+-+-+-+-+-+-+-+-+-+-+---- SR<13..0> Interrupt Status; 1 = Set; 0 = No Change
+ *  +-+-------------------------------- MBZ
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define CE_INTR_SET15		0x8000
+#define CE_INTR_SET14		0x4000
+#define CE_INTR_SET13		0x2000
+#define CE_INTR_SET12		0x1000
+#define CE_INTR_SET10		0x0400
+#define CE_INTR_SET8		0x0100
+#define CE_INTR_SET7		0x0080
+#define CE_INTR_SET6		0x0040
+#define CE_INTR_SET5		0x0020
+#define CE_INTR_SET4		0x0010
+#define CE_INTR_SET3		0x0008
+#define CE_INTR_SET2		0x0004
+#define CE_INTR_SET1		0x0002
+#define CE_INTR_SET0		0x0001
+
+
+/*------------------------------------------------------------------------
+ * CE Message Status Register
+ *
+ * This 8-bit read-only register provides the current state of the masked
+ * message-based interrupt sources
+ *
+ *  7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+
+ * | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+
+ *  | | | | | | | |
+ *  +-+-+-+-+-+-+-+---- MST<0..7>  1 = Present;  0 = Absent
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	CE_MSG7_ISR	0x80
+#define	CE_MSG6_ISR	0x40
+#define	CE_MSG5_ISR	0x20
+#define	CE_MSG4_ISR	0x10
+#define	CE_MSG3_ISR	0x08
+#define	CE_MSG2_ISR	0x04
+#define	CE_MSG1_ISR	0x02
+#define	CE_MSG0_ISR	0x01
+
+
+
+/*------------------------------------------------------------------------
+ * CE Message Reset Register
+ *
+ * This 8-bit write-only register provides a means to individually reset
+ * the edge-sensitive message-based interrupt source register bits.
+ *
+ *  7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+
+ * | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+
+ *  | | | | | | | |
+ *  +-+-+-+-+-+-+-+---- MRS<0..7>  1 = Reset;  0 = No change
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	CE_MSG7_INTR_RST	0x80
+#define	CE_MSG6_INTR_RST	0x40
+#define	CE_MSG5_INTR_RST	0x20
+#define	CE_MSG4_INTR_RST	0x10
+#define	CE_MSG3_INTR_RST	0x08
+#define	CE_MSG2_INTR_RST	0x04
+#define	CE_MSG1_INTR_RST	0x02
+#define	CE_MSG0_INTR_RST	0x01
+
+#define CE_MSG_INTR_ALL_RST	0xf
+
+
+/*------------------------------------------------------------------------
+ * CE SCC Serial Control Register
+ *
+ * The CE has a 4 bit serial control register latch
+ * for driving the serial port control lines DSR and CTS
+ * Added to make consistent with IOB ports
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define CE_DSRA		0x1
+#define CE_CTSA 	0x2	/* unused at this time- 8530 pin used instead */
+#define CE_DSRB		0x4
+#define CE_CTSB		0x8	/* unused at this time- 8530 pin used instead */
+
+
+/* ======================================================================== */
+/*                                                                          */
+/*                        GENERAL PURPOSE DEFINES                           */
+/*                                                                          */
+/*                                                                          */
+/* These defines are not necessarily hardware-specific; they are just very  */
+/* convenient, and used throughout the diagnostics.                         */
+/* ======================================================================== */
+
+
+#define PAGE_SIZE 	4096	/* Bytes. H/W-specific */
+#define PAGE_SIZE_MASK 	PAGE_SIZE-1
+
+#ifndef NULL
+#define NULL	0
+#endif
+
+#ifndef TRUE
+#define TRUE	1
+#endif
+
+#ifndef FALSE
+#define FALSE	0
+#endif
+
+#ifndef PASS
+#define PASS	0
+#endif
+
+#ifndef FAIL
+#define FAIL	-1
+#endif
+
+
+#define MEG_1   0x100000
+#define MEG_2   0x200000
+#define MEG_3   0x300000
+#define MEG_4   0x400000
+#define MEG_5   0x500000
+#define MEG_6   0x600000
+#define MEG_7   0x700000
+#define MEG_8   0x800000
+#define MEG_9   0x900000
+#define MEG_10  0xA00000
+#define MEG_11  0xB00000
+#define MEG_12  0xC00000
+#define MEG_16  0x1000000
+#define MEG_24  0x1800000
+#define MEG_32  0x2000000
+#define MEG_48  0x3000000
+#define MEG_64  0x4000000
+#define MEG_128 0x8000000
+#define MEG_256 0x10000000
+#define MEG_512 0x20000000
+#define GIG_1   0x40000000
+#define GIG_2   0x80000000
+#define GIG_4   0x100000000
+
+
+#endif /* CEM_DEFS_DEFINED */
+@

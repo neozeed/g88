@@ -1,0 +1,577 @@
+head     1.15;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.15
+date     90.04.29.19.26.26;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.06.07.17.07.28;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.28.14.56.59;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.02.12.16.27.10;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.12.16.13.03;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.01.18.19.23.23;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.11.23.14.41.48;  author timd;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.23.14.22.50;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.16.16.25.59;  author brents;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.13.18.59.04;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.13.11.20.57;  author brents;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.11.22.26.50;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.09.22.39.17;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.10.28.14.34.40;  author brents;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.37.11;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.15
+log
+@Ported to System V.  Seems to work.
+@
+text
+@/*
+ * 78000 512K EPROM simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: rom.c,v 1.14 88/06/07 17:07:28 robertb Exp $
+ */
+
+#include <sys/fcntl.h>
+#include "sim.h"
+
+/*
+ * Read in the binary byte image of the ROM contents
+ */
+
+static char *rom_array = 0;
+static char *mess = "rom not initialized";
+
+#define ROM_SIZE    	(64*1024)		/* 512K bit EPROM */
+#define ROM_SPACE	(ROM_SIZE*4)		/* 4 EPROM's */
+
+char *rom0_file="rombyte0";
+char *rom1_file="rombyte1";
+char *rom2_file="rombyte2";
+char *rom3_file="rombyte3";
+
+rom_init()
+{
+    int f, i, j;
+	int *ptr, rom_word;
+	extern char *malloc();
+
+	unsigned char rom0_array[ROM_SIZE];
+	unsigned char rom1_array[ROM_SIZE];
+	unsigned char rom2_array[ROM_SIZE];
+	unsigned char rom3_array[ROM_SIZE];
+
+    f = open(rom0_file, O_RDONLY, 0);
+    if (f < 0) {
+	    rom_err("can't open %s", rom0_file);
+		return;
+    }
+    if (read(f, &rom0_array[0], ROM_SIZE) != ROM_SIZE) {
+		rom_err("error reading %s", rom0_file);
+		return;
+	}
+    close(f);
+
+    f = open(rom1_file, O_RDONLY, 0);
+    if (f < 0) {
+	    rom_err("can't open %s", rom1_file);
+		return;
+    }
+    if (read(f, &rom1_array[0], ROM_SIZE) != ROM_SIZE) {
+        rom_err("error reading %s", rom1_file);
+		return;
+	}
+    close(f);
+
+    f = open(rom2_file, O_RDONLY, 0);
+    if (f < 0) {
+	    rom_err("can't open %s", rom2_file);
+		return;
+    }
+    if (read(f, &rom2_array[0], ROM_SIZE) != ROM_SIZE) {
+        rom_err("error reading %s", rom2_file);
+		return;
+	}
+    close(f);
+
+    f = open(rom3_file, O_RDONLY, 0);
+    if (f < 0) {
+	    rom_err("can't open %s", rom3_file);
+		return;
+    }
+    if (read(f, &rom3_array[0], ROM_SIZE) != ROM_SIZE) {
+        rom_err("error reading %s", rom3_file);
+		return;
+	}
+    close(f);
+
+	if (!rom_array) {
+		rom_array = malloc(ROM_SPACE);
+	}
+
+	if (!rom_array) {
+		rom_err("rom_init: unable to malloc space for ROM.\n");
+		return;
+	}
+
+	j = 0;
+    for(i=0;i<ROM_SIZE;i++){
+	rom_array[j++] = rom0_array[i];
+    	rom_array[j++] = rom1_array[i];
+    	rom_array[j++] = rom2_array[i];
+	rom_array[j++] = rom3_array[i];
+    }
+	mess = "rom array was loaded without error";
+}
+
+rom_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+{
+	char *mem_ptr;
+	int	*ptr, rom_word;
+
+	if (!override && mem_op_type == ST) {
+		return E_NONE;
+	}
+
+	if (!override && (mem_op_type == XMEM || mem_op_type == XMEM_U)) {
+		sim_printf("rom_operation: program attempts xmem with ROM.\n");
+		if (mem_op_type == XMEM) {
+			mem_op_type = LD;
+		} else {
+			mem_op_type = LD_U;
+		}
+	}
+
+	if (!rom_array) {
+	    if (!rom_array) {
+		    rom_array = malloc(ROM_SPACE);
+	    }
+
+	    if (!rom_array) {
+		    sim_printf("rom_operation: unable to malloc space for ROM.\n");
+		    rom_err("rom_operation: unable to malloc space for ROM.\n");
+		    return E_DACC;
+	    } else {
+            rom_err("rom_operation: ROM has been initialized.\n");
+        }
+	}
+
+	if (address_offset > ROM_SPACE) {
+		sim_printf("rom_operation: address offset too large.\n");
+		return E_DACC;
+	}
+
+	mem_ptr = &rom_array[address_offset];
+	do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+	return E_NONE;
+}
+
+rom_print()
+{
+	sim_printf("%s\n", mess);
+}
+
+rom_err(fmt, a, b, c, d, e, f, g, h)
+	char *fmt;
+{
+	sprintf(mess, fmt, a, b, c, d, e, f, g, h);
+}
+@
+
+
+1.14
+log
+@Made the ROM work even without the rom_byte files being present.
+@
+text
+@d7 1
+a7 1
+ * $Header: rom.c,v 1.13 88/02/28 14:56:59 robertb Exp $
+d10 1
+a11 1
+#include <sys/file.h>
+@
+
+
+1.13
+log
+@deleted #include "exception.h"
+@
+text
+@d7 1
+a7 1
+ * $Header: rom.c,v 1.12 88/02/12 16:27:10 robertb Exp $
+d126 11
+a136 2
+		sim_printf("rom_operation: no ROM is present.\n");
+		return E_DACC;
+a144 5
+/*
+	ptr = (int *)mem_ptr;
+	rom_word = *ptr;
+	sim_printf("rom_word = %X\n",rom_word);
+*/
+@
+
+
+1.12
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: rom.c,v 1.11 88/02/12 16:13:03 robertb Exp $
+a10 1
+#include "exception.h"
+@
+
+
+1.11
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: rom.c,v 1.10 88/01/18 19:23:23 robertb Exp $ */
+@
+
+
+1.10
+log
+@Deleted message warning of a store into the ROM.
+@
+text
+@a0 1
+/* $Header: rom.c,v 1.9 87/11/23 14:41:48 timd Exp $ */
+d3 5
+a12 1
+
+@
+
+
+1.9
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+a110 1
+		sim_printf("rom_operation: program attempts to store into ROM.\n");
+@
+
+
+1.8
+log
+@No longer displays information at initialization.
+@
+text
+@d1 1
+@
+
+
+1.7
+log
+@brents corrected improper use of ROM_SPACE
+@
+text
+@d15 1
+d38 1
+a38 1
+	    sim_printf("can't open rom0_file\n");
+d42 1
+a42 1
+        sim_printf("error reading %s\n", rom0_file);
+d49 1
+a49 1
+	    sim_printf("can't open rom1_file\n");
+d53 1
+a53 1
+        sim_printf("error reading %s\n", rom1_file);
+d60 1
+a60 1
+	    sim_printf("can't open rom2_file\n");
+d64 1
+a64 1
+        sim_printf("error reading %s\n", rom2_file);
+d71 1
+a71 1
+	    sim_printf("can't open rom3_file\n");
+d75 1
+a75 1
+        sim_printf("error reading %s\n", rom3_file);
+d85 1
+a85 1
+		sim_printf("rom_init: unable to malloc space for ROM.\n");
+d96 1
+a96 9
+
+/*
+	ptr = &rom_array[0];
+	for(i=0;i<=0x10;i++){
+		rom_word = *ptr++;
+		sim_printf("rom_word[%d] = %X\n",i,rom_word);
+	}
+*/
+
+d143 10
+a152 1
+rom_print() {}
+@
+
+
+1.6
+log
+@See changes_nov_13.doc
+@
+text
+@d16 2
+a17 2
+#define ROM_SIZE    (64*1024)		/* 512K bit EPROM */
+#define ROM_SPACE	ROM_SIZE*4		/* 4 EPROM's */
+d89 2
+a90 2
+    for(i=0;i<ROM_SPACE;i++){
+		rom_array[j++] = rom0_array[i];
+d93 1
+a93 1
+		rom_array[j++] = rom3_array[i];
+@
+
+
+1.5
+log
+@brents made some minor changes to make it clearer
+@
+text
+@d149 2
+@
+
+
+1.4
+log
+@see changes_10_11.doc
+@
+text
+@d6 1
+d9 1
+d16 2
+a17 2
+#define ROM_SIZE            (256 * 1024)
+#define	QUARTER_OF_ROM_SIZE	(ROM_SIZE / 4)
+d30 4
+a33 4
+	unsigned char rom0_array[QUARTER_OF_ROM_SIZE];
+	unsigned char rom1_array[QUARTER_OF_ROM_SIZE];
+	unsigned char rom2_array[QUARTER_OF_ROM_SIZE];
+	unsigned char rom3_array[QUARTER_OF_ROM_SIZE];
+d40 1
+a40 1
+    if (read(f, &rom0_array[0], QUARTER_OF_ROM_SIZE) != QUARTER_OF_ROM_SIZE) {
+d51 1
+a51 1
+    if (read(f, &rom1_array[0], QUARTER_OF_ROM_SIZE) != QUARTER_OF_ROM_SIZE) {
+d62 1
+a62 1
+    if (read(f, &rom2_array[0], QUARTER_OF_ROM_SIZE) != QUARTER_OF_ROM_SIZE) {
+d73 1
+a73 1
+    if (read(f, &rom3_array[0], QUARTER_OF_ROM_SIZE) != QUARTER_OF_ROM_SIZE) {
+d80 1
+a80 1
+		rom_array = malloc(ROM_SIZE);
+d89 1
+a89 1
+    for(i=0;i<ROM_SIZE;i++){
+d135 1
+a135 1
+	if (address_offset > ROM_SIZE) {
+a147 5
+}
+
+rom_print()
+{
+	sim_printf("rom\n");
+@
+
+
+1.3
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a5 1
+#include "exception.h"
+a7 1
+
+d146 5
+@
+
+
+1.2
+log
+@brents initial
+@
+text
+@a5 1
+#include "cmmu.h"
+d14 1
+a14 1
+#define ROM_SIZE 64*1024	/* 64K */
+d16 2
+a17 1
+unsigned char rom_array[4*ROM_SIZE];
+d28 1
+d30 4
+a33 4
+	unsigned char rom0_array[ROM_SIZE];
+	unsigned char rom1_array[ROM_SIZE];
+	unsigned char rom2_array[ROM_SIZE];
+	unsigned char rom3_array[ROM_SIZE];
+d40 1
+a40 1
+    if (read(f, &rom0_array[0], ROM_SIZE) != ROM_SIZE) {
+d51 1
+a51 1
+    if (read(f, &rom1_array[0], ROM_SIZE) != ROM_SIZE) {
+d62 1
+a62 1
+    if (read(f, &rom2_array[0], ROM_SIZE) != ROM_SIZE) {
+d73 1
+a73 1
+    if (read(f, &rom3_array[0], ROM_SIZE) != ROM_SIZE) {
+d79 9
+d106 2
+a107 2
+rom_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d111 1
+d116 25
+a140 1
+	mem_ptr = &rom_array[physical_address & 0x3FFFF];
+a147 1
+
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@a0 1
+
+d8 1
+d12 1
+a12 2
+ * Here we read in the a.out-format file that has the ROM
+ * contents.
+d15 1
+a15 1
+#define ROM_SIZE 512*1024
+d17 1
+a17 2
+char rom_array[ROM_SIZE];
+char *rom_objname="boot.stand";
+d19 5
+d26 2
+a27 2
+    int f;
+    unsigned t_and_d_size;
+d29 6
+a34 1
+    f = open(rom_objname, 0);
+d36 1
+d39 2
+a40 2
+    if (read(f, &rom_array[0], ROM_SIZE) != ROM_SIZE) {
+        sim_printf("error reading %s\n", rom_objname);
+d44 50
+d103 1
+a103 1
+	static first_time = 0;
+d105 6
+a110 5
+	mem_ptr = &rom_array[physical_address & 0x7ffff];
+
+	/*
+	 * Do the actual operation between the CPU register and the CMMU register.
+	 */
+d113 1
+@

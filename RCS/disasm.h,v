@@ -1,0 +1,62 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     88.05.06.10.40.19;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.01.25.13.52.26;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@added a field to the instr struct.
+@
+text
+@/*
+ * Data structure for disassembly.
+ *
+ * $Header: disasm.h,v 1.1 88/01/25 13:52:26 robertb Exp $"
+ */
+struct instr {
+	unsigned opcode;		/* Opcode of instruction. 				*/
+	unsigned opmask;		/* Mask to use before comparing opcode. */
+    struct instr *link;     /* For speeding-up instruction lookup   */
+	char	 *mnemonic;		/* String programmers use.				*/
+	char	 format;		/* Type of instruction.					*/
+	char	 modifies_reg;	/* 1 ==> modifies the reg in dest field */
+};
+
+/*
+ * Valid values for the 'modifies_reg' field.
+ */
+#define	NOREG	0
+#define	ONEREG	1
+#define	TWOREG	2
+
+struct instr *instruction_lookup();
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 1
+a4 1
+ * $Header: disasm.h,v 1.2 87/12/09 12:28:27 robertb Exp $"
+d9 1
+@

@@ -1,0 +1,272 @@
+head     1.5;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.5
+date     90.03.15.09.04.13;  author andrew;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.11.17.08.09.56;  author davidl;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.09.21.10.18.15;  author paulg;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.09.08.16.07.20;  author paulg;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.30.23.09.31;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.5
+log
+@Register rework.
+@
+text
+@/* Definitions for dealing with stack frames, for GDB, the GNU debugger.
+   Copyright (C) 1986, 1989 Free Software Foundation, Inc.
+
+   $Header: frame.h,v 1.4 89/11/17 08:09:56 davidl Exp $
+   $Locker: andrew $
+
+This file is part of GDB.
+
+GDB is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+GDB is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GDB; see the file COPYING.  If not, write to
+the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+
+
+/* 
+ * Changes made by Tektronix are marked by TEK_HACK, TEK_PROG_HACK, 
+ * and GHSFORTRAN.
+ * Changes made by Data General are marked by DG_HACK.  Compiling without these
+ * #defines should be equivalent to compiling vanilla 3.2, more or less.
+ *
+ * The changes done by Tektronix fit into three catagories:
+ *	TEK_HACK -- these were done just to get GDB to work in our environment,
+ *		    including work done to support the Green Hills C compiler.
+ *	TEK_PROG_HACK -- These were done to extend GDB by adding programming
+ *			 support: things like if-elif-else-endif, while, and
+ *			 arguments to user defined commands.
+ *	GHSFORTRAN -- These changes make (will make) GDB work with the Green
+ *		      Hills Fortran compiler.
+ *
+ *
+ * In addition, I/O routines were renamed so that I/O could be directed
+ * to/from the X interface if used.  See the files ui.c and ui.h for
+ * more information.  Here are the routines renamed:
+ *    Old name:			Renamed to:
+ *	fprintf			ui_fprintf
+ *	printf			ui_fprintf(stdout
+ *	putchar			ui_putchar
+ *	putc			ui_putc
+ *	fputc			ui_putc
+ *	fputs			ui_fputs
+ *	puts			ui_puts
+ *	gets			ui_gets
+ *	fgets			ui_fgets
+ *	fflush			ui_fflush
+ *	system			ui_system
+ *	wait			ui_wait
+ *	error			ui_badnews(-1
+ *	fatal			ui_badnews(1
+ *	getc, fgetc		replaced with ui_gets, ui_fgets
+ * These changes are not demarcated by ifdef.   
+ *
+ *					November 16, 1989
+ */
+
+/* Note that frame.h requires param.h! */
+
+/*
+ * FRAME is the type of the identifier of a specific stack frame.  It
+ * is a pointer to the frame cache item corresponding to this frame.
+ * Please note that frame id's are *not* constant over calls to the
+ * inferior.  Use frame addresses, which are.
+ *
+ * FRAME_ADDR is the type of the address of a specific frame.  I
+ * cannot imagine a case in which this would not be CORE_ADDR, so
+ * maybe it's silly to give it it's own type.  Life's rough.
+ *
+ * FRAME_FP is a macro which converts from a frame identifier into a
+ * frame_address.
+ *
+ * FRAME_INFO_ID is a macro which "converts" from a frame info pointer
+ * to a frame id.  This is here in case I or someone else decides to
+ * change the FRAME type again.
+ *
+ * This file and blockframe.c are the only places which are allowed to
+ * use the equivalence between FRAME and struct frame_info *.  EXCEPTION:
+ * value.h uses CORE_ADDR instead of FRAME_ADDR because the compiler
+ * will accept that in the absense of this file.
+ */
+typedef struct frame_info *FRAME;
+typedef CORE_ADDR	FRAME_ADDR;
+#define FRAME_FP(fr)	((fr)->frame)
+#define FRAME_INFO_ID(f)	(f)
+
+/*
+ * Caching structure for stack frames.  This is also the structure
+ * used for extended info about stack frames.  May add more to this
+ * structure as it becomes necessary.
+ *
+ * Note that the first entry in the cache will always refer to the
+ * innermost executing frame.  This value should be set (is it?
+ * Check) in something like normal_stop.
+ */
+struct frame_info
+  {
+    /* Nominal address of the frame described.  */
+    FRAME_ADDR frame;
+    /* Address at which execution is occurring in this frame.
+       For the innermost frame, it's the current pc.
+       For other frames, it is a pc saved in the next frame.  */
+    CORE_ADDR pc;
+    /* The frame called by the frame we are describing, or 0.
+       This may be set even if there isn't a frame called by the one
+       we are describing (.->next == 0); in that case it is simply the
+       bottom of this frame */
+    FRAME_ADDR next_frame;
+    /* Anything extra for this structure that may have been defined
+       in the machine depedent files. */
+#ifdef EXTRA_FRAME_INFO
+    EXTRA_FRAME_INFO
+#endif
+    /* Pointers to the next and previous frame_info's in this stack.  */
+    FRAME next, prev;
+  };
+
+/* Describe the saved registers of a frame.  */
+
+struct frame_saved_regs
+  {
+    /* For each register, address of where it was saved on entry to the frame,
+       or NULL_CORE_ADDR if it was not saved on entry to this frame.  */
+#ifdef TEK_HACK
+    /* There is an assumption being made here: if a register isn't saved on
+       entry to a frame, then it isn't modified in that subroutine.  This is
+       is not true under the Green Hills compiler on the 88k.  To help deal
+       with this fact, we will store a INVALID_CORE_ADDR here if the register
+       is modified, but not saved.  It is also assumed that if a register is
+       saved, it is saved in memory.  On the 88k, under the Green Hills
+       compiler, registers can be "saved" in other regiters.  If this has
+       happend, then that other registers number is saved here.  To recap:
+       A value of INVALID_CORE_ADDR (-1) means the register was modified in
+       this subroutine, but not saved.  A value of NULL_CORE_ADDR (0) means
+       that the register was not modified and not saved.  A value between 1
+       and NUM_GENERAL_REGS means that the original register was saved in the
+       register whose number is stored here.  Note that in this scheme R0 can't
+       be used to "save" another register: this is OK on the 88k. */
+#endif
+    CORE_ADDR regs[NUM_GENERAL_REGS];
+  };
+
+/* The stack frame that the user has specified for commands to act on.
+   Note that one cannot assume this is the address of valid data.  */
+
+extern FRAME selected_frame;
+
+extern struct frame_info *get_frame_info ();
+extern struct frame_info *get_prev_frame_info ();
+
+extern FRAME create_new_frame ();
+
+extern void get_frame_saved_regs ();
+
+extern FRAME get_prev_frame ();
+extern FRAME get_current_frame ();
+extern FRAME get_next_frame ();
+
+extern struct block *get_frame_block ();
+extern struct block *get_current_block ();
+extern struct block *get_selected_block ();
+extern struct symbol *get_frame_function ();
+extern struct symbol *get_pc_function ();
+
+/* In stack.c */
+extern FRAME find_relative_frame ();
+
+@
+
+
+1.4
+log
+@Added Tek header information.
+@
+text
+@d4 2
+a5 2
+   $Header: frame.h,v 1.3 89/09/21 10:18:15 paulg Exp $
+   $Locker: davidl $
+d143 3
+a145 3
+       and NUM_REGS means that the original register was saved in the register
+       whos number is stored here.  Note that in this scheme R0 can't be used
+       to "save" another register: this is OK on the 88k. */
+d147 1
+a147 1
+    CORE_ADDR regs[NUM_REGS];
+@
+
+
+1.3
+log
+@add rcsid stuff
+@
+text
+@d4 2
+a5 2
+   $Header:  $
+   $Locker:  $
+d22 42
+@
+
+
+1.2
+log
+@Added some comments to explain how registers are (not) saved on the 88k under
+the Green Hills compiler.
+@
+text
+@d4 3
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d85 17
+a101 1
+       or zero if it was not saved on entry to this frame.  */
+@

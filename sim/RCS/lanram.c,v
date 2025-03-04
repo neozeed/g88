@@ -1,0 +1,315 @@
+head     1.4;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.4
+date     88.04.15.14.20.03;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     88.02.29.15.44.29;  author brents;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     88.01.18.19.22.18;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.12.07.15.09.21;  author timd;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Corrected for IOB spec change.
+@
+
+
+1.4
+log
+@Fixed malloc leak.
+@
+text
+@/*------------------------------------------------------------------------
+ * lanram.c
+ *
+ * This module simulates the operation of the 256K of LAN buffer memory
+ * located on the I/O Board.  Simulated for 2 IOB's 
+ *
+ *
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: lanram.c,v 1.3 88/02/29 15:44:29 brents Exp $
+ *------------------------------------------------------------------------
+ */
+#include "sim_interface.h"
+
+#define	LAN_RAM_SIZE	(256 * 1024)
+
+/*------------------------------------------------------------------------
+ * aucLanRam1[]
+ * aucLanRam2[]
+ *
+ * These arrays simulate the LAN buffer RAM 
+ *------------------------------------------------------------------------
+ */
+
+static unsigned char    *aucLanRam1 = 0;
+static unsigned char    *aucLanRam2 = 0;
+
+/*------------------------------------------------------------------------
+ * lanram1_init()
+ *
+ * This routine is called when the simulation comes up. All that is 
+ * really done is to ask the system for memory to simulate the
+ * LAN RAM array.
+ *------------------------------------------------------------------------
+ */
+
+int    lanram1_init()
+
+    {
+        char    *malloc();
+
+        if (aucLanRam1 == 0) {
+            aucLanRam1 = (unsigned char *) malloc(LAN_RAM_SIZE);
+        }
+
+        if (!aucLanRam1) {
+            sim_printf ("lanram for IOB1:    unable to allocate simulated memory!!!\n");
+        }
+    }
+
+/*------------------------------------------------------------------------
+ * lanram1_print()
+ *
+ * Called by dbx's "pio" monitor command.
+ *------------------------------------------------------------------------
+ */
+
+int    lanram1_print()
+
+    {
+        sim_printf ("\n");
+        sim_printf ("LAN BUFFER RAM for IOB1\n");
+        sim_printf ("--------------\n");
+        sim_printf ("    Simulated memory at address 0x%x\n", aucLanRam1);
+        sim_printf ("\n");
+    }
+
+/*------------------------------------------------------------------------
+ * lanram1_operation()
+ *
+ * This routine interfaces the simulator with the simulated LAN RAM.
+ *------------------------------------------------------------------------
+ */
+
+int    lanram1_operation (ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+    unsigned int	ulAddress_offset;
+    unsigned int        *pulReg;
+    int			cSize;
+    int			cMem_op_type;
+    int			fOverride;
+
+    {
+	if (ulAddress_offset > LAN_RAM_SIZE) {
+		sim_printf("lanram for IOB1: address out of range.\n");
+		return E_DACC;
+	}
+
+        do_mem_op (pulReg, &aucLanRam1[ulAddress_offset], cSize, cMem_op_type);
+	return E_NONE;
+    }
+
+/*------------------------------------------------------------------------
+ * lanram2_init()
+ *
+ * This routine is called when the simulation comes up. All that is 
+ * really done is to ask the system for memory to simulate the
+ * LAN RAM array.
+ *------------------------------------------------------------------------
+ */
+
+int    lanram2_init()
+
+    {
+        char    *malloc();
+
+        if (aucLanRam2 == 0) {
+            aucLanRam2 = (unsigned char *) malloc(LAN_RAM_SIZE);
+        }
+
+        if (!aucLanRam2) {
+            sim_printf ("lanram for IOB2:    unable to allocate simulated memory!!!\n");
+        }
+    }
+
+/*------------------------------------------------------------------------
+ * lanram2_print()
+ *
+ * Called by dbx's "pio" monitor command.
+ *------------------------------------------------------------------------
+ */
+
+int    lanram2_print()
+
+    {
+        sim_printf ("\n");
+        sim_printf ("LAN BUFFER RAM for IOB2\n");
+        sim_printf ("--------------\n");
+        sim_printf ("    Simulated memory at address 0x%x\n", aucLanRam2);
+        sim_printf ("\n");
+    }
+
+/*------------------------------------------------------------------------
+ * lanram2_operation()
+ *
+ * This routine interfaces the simulator with the simulated LAN RAM.
+ *------------------------------------------------------------------------
+ */
+
+int    lanram2_operation (ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+    unsigned int	ulAddress_offset;
+    unsigned int        *pulReg;
+    int			cSize;
+    int			cMem_op_type;
+    int			fOverride;
+
+    {
+	if (ulAddress_offset > LAN_RAM_SIZE) {
+		sim_printf("lanram for IOB2: address out of range.\n");
+		return E_DACC;
+	}
+
+        do_mem_op (pulReg, &aucLanRam2[ulAddress_offset], cSize, cMem_op_type);
+	return E_NONE;
+    }
+@
+
+
+1.3
+log
+@two iob support
+@
+text
+@d11 1
+a11 1
+ * $Header: lanram.c,v 1.2 88/01/18 19:22:18 robertb Exp $
+d26 2
+a27 2
+static unsigned char    *aucLanRam1;
+static unsigned char    *aucLanRam2;
+d43 3
+a45 1
+        aucLanRam1 = (unsigned char *) malloc(LAN_RAM_SIZE);
+d107 3
+a109 1
+        aucLanRam2 = (unsigned char *) malloc(LAN_RAM_SIZE);
+@
+
+
+1.2
+log
+@Fixed a bug that causes a bus error when doing any store to
+this simulator.  Added range checks to protect code.
+@
+text
+@d4 2
+a5 2
+ * This module simulates the operation of the 1MB of LAN buffer memory
+ * located on the I/O Board.
+d11 1
+a11 1
+ * $Header: lanram.c,v 1.1 87/12/07 15:09:21 timd Exp $
+d16 1
+a16 1
+#define	LAN_RAM_SIZE	(1024 * 1024)
+d19 2
+a20 1
+ * aucLanRam[]
+d22 1
+a22 1
+ * This array simulates the LAN buffer RAM.
+d26 2
+a27 1
+static unsigned char    *aucLanRam;
+d30 1
+a30 1
+ * lanram_init()
+d33 1
+a33 1
+ * really done is to ask the system for 1MB of memory to simulate the
+d38 1
+a38 1
+int    lanram_init()
+d43 1
+a43 1
+        aucLanRam = (unsigned char *) malloc(LAN_RAM_SIZE);
+d45 2
+a46 2
+        if (!aucLanRam) {
+            sim_printf ("lanram:    unable to allocate simulated memory!!!\n");
+d51 1
+a51 1
+ * lanram_print()
+d57 1
+a57 1
+int    lanram_print()
+d61 1
+a61 1
+        sim_printf ("LAN BUFFER RAM\n");
+d63 1
+a63 1
+        sim_printf ("    Simulated memory at address 0x%x\n", aucLanRam);
+d68 1
+a68 1
+ * lanram_operation()
+d74 1
+a74 1
+int    lanram_operation (ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+d83 1
+a83 1
+		sim_printf("lanram: address out of range.\n");
+d87 63
+a149 1
+        do_mem_op (pulReg, &aucLanRam[ulAddress_offset], cSize, cMem_op_type);
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d11 1
+a11 1
+ * $Header$
+d14 1
+a14 1
+
+d16 2
+a26 4
+
+
+
+
+d41 1
+a42 3
+
+        aucLanRam = (unsigned char *) malloc(1024 * 1024);
+
+d80 7
+a86 1
+        do_mem_op (pulReg, (unsigned int *)aucLanRam[ulAddress_offset], cSize, cMem_op_type);
+a87 3
+
+
+        
+@

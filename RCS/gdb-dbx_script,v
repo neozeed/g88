@@ -1,0 +1,1489 @@
+head     1.24;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.24
+date     90.02.21.10.17.25;  author davidl;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     90.02.01.14.51.57;  author davidl;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     89.12.06.16.07.12;  author davidl;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     89.12.05.14.02.00;  author davidl;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     89.12.01.11.45.57;  author davidl;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     89.11.28.14.51.10;  author davidl;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     89.11.20.13.44.47;  author davidl;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     89.11.18.15.13.41;  author davidl;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     89.11.18.13.58.53;  author davidl;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     89.11.17.08.01.16;  author davidl;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     89.11.15.17.47.40;  author davidl;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     89.11.13.18.18.12;  author davidl;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     89.11.13.17.22.20;  author davidl;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     89.11.13.16.49.49;  author davidl;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     89.11.11.16.38.41;  author davidl;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.11.09.13.11.12;  author davidl;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.11.09.10.32.38;  author davidl;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.11.08.10.30.55;  author davidl;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.11.03.16.54.28;  author davidl;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.11.02.18.08.54;  author davidl;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.10.31.17.13.25;  author davidl;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.10.25.19.13.38;  author davidl;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.10.25.18.45.41;  author davidl;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.10.24.16.49.49;  author davidl;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@File containing dbx lookalike commands for gdb.
+@
+
+
+1.24
+log
+@Replaced obsolete 'wcommands' command for commands associated with
+watchpoints with 'commands'.
+@
+text
+@# $Header: gdb-dbx_script,v 1.23 90/02/01 14:51:57 davidl Exp $
+#   Tektronix programming extensions to GDB, the GNU debugger.
+#   Copyright (C) 1989 Free Software Foundation, Inc.
+#
+#
+#This file is part of GDB.
+#
+#GDB is free software; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 1, or (at your option)
+#any later version.
+#
+#GDB is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with GDB; see the file COPYING.  If not, write to
+#the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  
+#
+#
+#
+# File containing dbx lookalike command definitions for gdb.
+echo Setting up the dbx emulation command set.\n
+set edit no
+set autorepeat off
+define assign , ,
+    set `*1
+end
+document assign
+Part of the dbx emulation command set.
+Assign the value of the expression to the variable.
+end 
+define ignore
+    handle `1 pass
+end
+document ignore
+Part of the dbx emulation command set.
+It redefines the standard gdb 'ignore' command.
+Stop trapping a signal before it is sent to the inferior program.
+A signal may be signified by a number or a name (e.g. SIGINT).
+end
+define catch
+    handle `1 nopass
+end
+document catch
+Part of the dbx emulation command set.
+Start trapping a signal before it is sent to the inferior program.
+A signal may be signified by a number or a name (e.g. SIGINT).
+end
+define stop if at in
+    if match "if" `1
+       echo Stop if not supported\n
+    elif match "at" `1
+       if match "\"\(.*\)\"\(.*\)" `*2
+	  break `m1`m2
+       else
+          break `*2
+       endif
+    elif match "in" `1
+       if match "\"\(.*\)\"\(.*\)" `*2
+	  break `m1`m2
+       else
+          break `*2
+       endif
+    else
+       if `c > 2
+	  watch `1 `*2
+       else
+	  watch `1
+       endif
+       commands
+	   echo `1 =
+           printf " "
+           output `1
+           echo \n
+       end
+    endif
+end
+document stop
+Part of the dbx emulation command set.
+Stop execution when the given line is reached, procedure or function
+is called, or variable is changed.
+end
+define use
+    if `c == 1
+       info directories
+    else
+       directory `*1
+       info directories
+    endif
+end
+document use
+Part of the dbx emulation command set.
+Set the list of directories searched when looking for source files.
+end
+define where
+    backtrace
+end
+document where
+Part of the dbx emulation command set.
+Print a list of the active procedures and functions.
+end
+define rerun
+    if `c == 1
+       r
+    else 
+       r `*1
+    endif
+end
+document rerun
+Part of the dbx emulation command set.
+Start executing the current exec-file, passing any arguments as command
+line arguments; < or > may be used to redirect input or output. If used
+with no arguments the previous argument list is passed to the program.
+end
+define run
+    if `c == 1
+       set args
+       r
+    else
+       r `*1
+    endif
+end
+document run
+Part of the dbx emulation command set.
+Start executing the current exec-file, passing any arguments as command
+line arguments; < or > may be used to redirect input or output. If used
+with no arguments the program is invoked with no command line arguments 
+(note this differs from the default actions of "run" in gdb).
+end
+define cont
+    if `c == 1
+	c
+    else
+	signal `1
+    endif
+end
+document cont
+Part of the dbx emulation command set.
+It redefines the standard gdb 'cont' command (but not the 'c' command).
+If invoked with no argument, simply continue execution from where stopped
+(like 'c').  If an argument N is present, the inferior program continues
+as though it were sent signal N.
+end
+define stopi at
+    if match "at" `1
+       if match "\"\(.*\)\"\(.*\)" `*2
+	  break *`m1`m2
+       else
+          break *`*2
+       endif
+    else
+       if match "\"\(.*\)\"\(.*\)" `*1
+	  break *`m1`m2
+       else
+          break *`*1
+       endif
+    endif
+end
+document stopi
+Part of the dbx emulation command set.
+Set a stop using a machine instruction address.
+end
+# Search up the stack first, then down.
+define trace in if at
+    if `c > 1
+	assign-typevar `1
+    endif
+    if `c == 1
+        echo Trace all lines not supported\n
+    elif `c == 2
+ 	if match "OTHER" `typevar
+            if match "\"\(.*\)\"\(.*\)" `1
+	      break `m1`m2
+            else
+              break `1
+            endif
+            commands
+		rfinish
+	    end
+        else
+            if match "\"\(.*\)\"\(.*\)" `1
+	      watch `m1`m2
+            else
+              watch `1
+            endif
+            commands
+		echo `1 =
+		printf " "
+		output `1
+		echo \n\n
+                cont
+	    end
+	endif
+    elif match "in" `1
+        echo Trace in not yet supported\n
+    elif match "if" `1
+	echo Conditional tracing of all lines not supported\n
+    elif match "at" `2
+        if match "\"\(.*\)\"\(.*\)" `*3
+	  break `m1`m2
+        else
+          break `*3
+        endif
+	commands
+            echo Value of `1 :\n\t
+	    output `1
+            echo \n
+	    cont
+	end
+    elif match "in" `2
+        if match "OTHER" `typevar
+	    b `1
+	    macro functotracein "`3"
+            if `c == 4
+	        macro ifcondit "0"
+            else
+	        match "if[ 	]+\(.*\)" `*4
+	        macro ifcondit "`m1"
+            endif
+	    commands 
+	        silent
+                set $done = 0
+	        while $done == 0
+	            if match "`functotracein" ``func
+		        set $done = 1
+		        set $dooutput = 1
+                    elif ``isouter == 1
+		        set $done = 1
+		        set $dooutput = 0
+	 	    else
+		        > /dev/null up
+		    endif
+	        end
+	        >/dev/null  frame 0
+	        if $dooutput == 1
+		    if match "0" ``ifcondit
+		        bt 2
+		        echo ``line\n\n
+		        rfinish
+	   	    elif ``ifcondit
+		        bt 2
+		        echo ``line\n\n
+		        rfinish
+		    else
+		        cont
+		    endif
+	        else
+	            cont
+	        endif
+            end
+	else
+	    watch `1
+	    macro functotracein "`3"
+            if `c == 4
+	        macro ifcondit "0"
+            else
+	        match "if[ 	]+\(.*\)" `*4
+	        macro ifcondit "`m1"
+            endif
+	    commands 
+                set $done = 0
+	        while $done == 0
+	            if match "`functotracein" ``func
+		        set $done = 1
+		        set $dooutput = 1
+                    elif ``isouter == 1
+		        set $done = 1
+		        set $dooutput = 0
+	 	    else
+		        > /dev/null up
+		    endif
+	        end
+	        >/dev/null  frame 0
+	        if $dooutput == 1
+		    if match "0" ``ifcondit
+        		if match "OTHER" `typevar
+		            bt 2
+		            echo ``line\n\n
+		            rfinish
+                        else
+			    echo ``line\n
+			    echo `1 =
+			    printf " "
+			    output`1
+			    echo \n\n
+			    cont
+                        endif
+	   	    elif ``ifcondit
+        		if match "OTHER" `typevar
+		            bt 2
+		            echo ``line\n\n
+		            rfinish
+                        else
+			    echo ``line\n
+			    echo `1 =
+			    printf " "
+			    output`1
+			    echo \n\n
+			    cont
+                        endif
+		    else
+		        cont
+		    endif
+	        else
+	            cont
+	        endif
+	    end
+	endif
+    else
+	if match "OTHER" `typevar
+            if match "\"\(.*\)\"\(.*\)" `*1
+	      break `m1`m2
+            else
+              break `*1
+            endif
+            commands
+                cont
+	    end
+	else
+            if match "\"\(.*\)\"\(.*\)" `*1
+	      watch `m1`m2
+            else
+              watch `*1
+            endif
+            commands
+		echo `1 =
+		printf " "
+		output`1
+		echo \n\n
+                cont
+	    end
+	endif
+    endif
+end
+document trace
+Part of the dbx emulation command set.
+Have tracing information printed when the program is executed.
+If the first argument is a source line, the line is printed prior to 
+being executed.  If it is a procedure or function name, every time it is
+called information is printed telling what routine called it, from what
+source line it was called, and what parameters were passed to it.  Also,
+its return is noted, and its return value is printed.  
+If the argument is an expression with an at clause the value of the 
+expression is printed whenever the identified source line is reached.
+If the argument is a variable then the name and value of the variable
+is printed whenever it changes.  Execution is substantially slower during
+this form of tracing.
+The clause 'in procedure/function' restricts tracing information to be
+printed only while executing inside the given procedure or function.
+end
+define func
+    if `c == 1
+	echo `func\n
+    else
+        macro newfunc "`1"
+	set $done = 0
+        set $oldlevel = `level
+        while $done == 0
+	    if match "`newfunc" `func
+		set $done = 1
+            elif `isouter == 1
+		set $done = 1
+	    else
+		> /dev/null up
+	    endif
+	end
+        if match "`newfunc" `func
+	    echo #`level\t`file:`func\n`line\n
+        else
+            set $done = 0
+            frame $oldlevel
+            while $done == 0
+		if match "`newfunc" `func
+		    set $done = 1
+		elif `level == 0
+		    set $done = 1
+                else
+		    > /dev/null down
+	        endif
+	    end
+            if match "`newfunc" `func
+	        echo #`level\t`file:`func\n`line\n
+	    else
+	        echo Function `1 not found on stack; current frame unchanged\n
+	        frame $oldlevel
+	    endif
+	endif
+    endif
+end
+document func
+Part of the dbx emulation command set.
+Change the current function; if none is specified print the current function.
+This changes the current source file to the one containing the function and
+changes the current scope used for name resolution.
+The function named must be currently active.
+end
+define file
+    if `c == 1
+	echo `file\n
+    else
+        if match "\"\(.*\)\"\(.*\)" `1
+	  macro newfile "`m1`m2"
+        else
+          macro newfile "`1"
+        endif
+	set $done = 0
+        set $oldlevel = `level
+        while $done == 0
+	    if match "`newfile" `file
+		set $done = 1
+            elif `isouter == 1
+                set $done = 1
+	    else
+		> /dev/null up
+	    endif
+	end
+        if match "`newfile" `file
+            echo #`level\t`file:`func\n`line\n
+        else
+            set $done = 0
+            frame $oldlevel
+            while $done == 0
+		if match "`newfile" `file
+		    set $done = 1
+		elif `level == 0
+		    set $done = 1
+                else
+		    > /dev/null down
+	        endif
+	    end
+            if match "`newfile" `file
+	        echo #`level\t`file:`func\n`line\n
+	    else
+	        echo Source file `1 not found on stack; current frame unchanged\n
+	        frame $oldlevel
+	    endif
+	endif
+    endif
+end
+document file
+Part of the dbx emulation command set.
+Change the current source file name to filename; if none is specified
+the current source file name is printed.
+The file named must contain a function which is currently active.
+end
+define return
+    if `c == 1
+	complete
+    else
+        set $oldlevel = `level
+        macro newfunc "`1"
+	set $done = 0
+        set $changelevel = 0
+        frame 0
+        while $done == 0
+            > /dev/null up
+            set $changelevel++
+	    if match "`newfunc" `func
+		set $done = 1
+            elif `isouter == 1
+		set $done = 1
+	    endif
+	end
+        if match "`newfunc" `func
+            frame 0
+	    while $changelevel > 0
+		>/dev/null complete
+		set $changelevel--
+            end
+	        echo #`level\t`file:`func\n`line\n
+        else
+            printf "`newfunc\tis not active\n"
+            frame $oldlevel
+        endif
+    endif
+end
+document return
+Part of the dbx emulation command set.
+If invoked with no arguments, continue execution until the current 
+function returns.  Otherwise continue until the program returns to
+the function given as an argument.
+end
+# In the form  'alias command(x,y,z) newcommand_using_x, y, and z
+#   we scoop up formal parameters separated by commas and assign them using
+#   the following delimiters:  <space> <tab>  - + * / : . ; ` ( ) [ ] , <eol>
+define alias ( 
+    if `c == 1
+	help user
+    elif `c == 3
+        if match "\(.+\))[      ]+\(\"\)[       ]*\(.*\)\(\"\)" `2
+	    macro formalparams "`m1"
+	    macro newcommand "`m3"
+	    set $paramcount = 1
+            macro paramstring "```{p$paramcount}"
+            while match "\([!-+--~]+\),\(.*\)" `formalparams
+               macro newparam "`m1"
+ 	       macro formalparams "`m2"
+	       macro cmdstring "`newcommand"
+	       while match "\(.*[][ \t:.;,``()+*/-]+\)`newparam\([][ \t:.;,``()+*/-]+.*\)" `newcommand
+		    macro leftside "`m1"
+		    macro rightside "`m2"
+		    macro newcommand "`leftside`paramstring`rightside"
+	       end
+               if match "\(.*[][ \t:.;,``()+*/-]+\)`newparam$" `newcommand
+		    macro leftside "`m1"
+		    macro newcommand "`leftside`paramstring"
+               endif
+ 	       set $paramcount++
+               macro paramstring "```{p$paramcount}"
+            end
+            macro cmdstring "`newcommand"
+            match "[ 	]*\(.*\)" `formalparams
+            macro newparam "`m1"
+            while match "\(.*[][ \t:.;,``()+*/-]+\)`newparam\([][ \t:.;,``()+*/-]+.*\)" `cmdstring
+	        macro leftside "`m1"
+	        macro rightside "`m2"
+                macro newcommand "`leftside`paramstring`rightside"
+	        macro cmdstring "`rightside"
+	    end
+            if match "\(.*[][ \t:.;,``()+*/-]+\)`newparam" `newcommand
+		 macro leftside "`m1"
+		 macro newcommand "`leftside`paramstring"
+            endif
+            define `1
+		match "\(`1\)[ 	]*(\(.*\))$" ``*0
+		if ``mc != 0
+                    macro realcommand "``m2"
+                    while match "\([!-~]+\)[ 	]+\([!-~]+\)" ``realcommand 
+                        macro realcommand "``m1,``m2"
+                    end
+		    `1 ``realcommand
+		else
+		    `newcommand
+	        endif 
+            end
+          endif
+        else 
+            if match "\([!-~]+\)[ 	]+[\"]*\([ -!#-~]+\)[\"]*" `1
+                define `m1
+	          `m2 ``*1
+                end
+            endif
+    endif
+end
+document alias
+Part of the dbx emulation command set.
+Create a new command whose name is the first argument and which is
+equivalent to the second argument.  If parameters are specified,
+they are substituted when the new command is executed.
+end
+define unalias
+    define `1
+    end
+end
+document unalias 
+Part of the dbx emulation command set.
+Remove the definition of the given command.
+end
+macro editor "vi"
+define edit
+  if `c == 1
+    macro newcommand " `file"
+    shell `editor `newcommand
+  else
+    if match "\"\(.*\)\"\(.*\)" `1
+      assign-funcname `m1`m2
+    else
+      assign-funcname `1
+    endif
+    if match "NOT_FOUND" `fileoffuncname
+	echo Cannot find file or function named "`1"\n
+    else
+        macro newcommand " `fileoffuncname"
+        shell `editor `newcommand
+    endif
+  endif
+end
+document edit
+Part of the dbx emulation command set.
+With no arguments, edit the current source file. 
+If the argument is a file name, edit that file. 
+If it is a function name, edit the file that contains it.
+The editor invoked is defined by the "editor" macro.  
+Type "echo `editor\n" to see its current definition.
+end
+define dump > .
+    if `c == 1
+	info local
+    else
+	if match "\." `1
+            if `c == 4
+                if match ">" `2
+	 	    > `3 dump .
+                endif
+            else
+	        echo \nGlobal variables:\n\n
+	        info global
+	        echo \nLocal variables:\n\n 
+		info local
+            endif
+	elif match ">" `1
+	    > `2 info local   
+        else
+            macro oldlevel "`level"
+	    >/dev/null func `1
+            if `c == 4
+		if match ">" `2
+	 	    > `3 info local
+                endif
+            else
+	        info local
+            endif
+            > /dev/null frame `oldlevel
+        endif
+    endif
+end
+document dump
+Part of the dbx emulation command set.
+Print the names and values of variables in the given procedure, or the current
+procedure if none is given.  If the procedure given is dot (.), all
+active variables are dumped.
+end
+define regs
+    info registers
+end
+document regs
+Print register contents.
+end
+define tracei if at
+    if `c == 1
+	echo Tracei of all lines not supported.\n
+    else
+        assign-typevar `1
+        if match "OTHER" `typevar
+	    break *`*1
+	    commands
+	        cont
+	    end
+        else
+	    if `c > 2
+	        if match "at" `2
+		    break *`*3
+		    commands
+			p `1
+			cont
+		    end
+		else
+		    echo Global tracing of a variable not supported.\n
+                endif
+   	    else
+	        echo Global tracing of a variable not supported.\n
+	    endif
+        endif
+    endif
+end
+document tracei
+Part of the dbx emulation command set.
+Turn on tracing using a machine instruction address.
+end
+define call , ,
+    set `*1
+end
+document call
+Part of the dbx emulation command set.
+Call the named procedure or function.
+end
+define stepi
+    if `c == 1
+        si
+        x/i $pc
+    else
+        si `1
+        x/i $pc
+    endif
+end
+define nexti
+    if `c == 1
+        ni
+        x/i $pc
+    else
+        ni `1
+        x/i $pc
+    endif
+end
+define zstatusz 
+    info break 
+    info watch
+end
+define status > >
+    if `c == 1
+       info break
+       info watch
+    else
+       > `*2 zstatusz
+    endif
+end
+document status
+Part of the dbx emulation command set.
+Print out the currently active break points and watch points.
+end
+define list
+  if `c == 2 
+     assign-funcname `1
+     if match "NOT_FOUND" `fileoffuncname
+       if match ".+:.+" `1
+	  l `1
+       else
+          l `1, `1
+       endif
+     else
+       l `1
+     endif
+  elif `c == 1
+     l
+  else
+     l `1, `2
+  endif
+end
+document list
+Part of the dbx emulation command set.
+List the lines in the current source file from the first line number to
+the second inclusive line number; if no lines are specified, the next 10
+lines are listed.  If the name of a procedure or function is given, lines
+are listed centering on the beginning of the procedure.
+end
+define listi
+  if `c == 2 
+     assign-funcname `1
+     if match "NOT_FOUND" `fileoffuncname
+       if match ".+:.+" `1
+	  li `1
+       else
+          li `1, `1
+       endif
+     else
+       li `1
+     endif
+  elif `c == 1
+     li
+  else
+     li `1, `2
+  endif
+end
+document listi
+Part of the dbx emulation command set.
+List the lines in the current source file from the first line number to
+the second inclusive line number, along with disassembled code for each
+line printed. If no lines are specified, the next 10 lines are listed.  
+If the name of a procedure or function is given, lines are listed centering 
+on the beginning of the procedure.
+end
+define a , ,
+  assign `*1
+end
+define c 
+  cont `*1
+end
+define d 
+  delete `*1
+end
+define e 
+  edit `*1
+end
+define h 
+  help `*1
+end
+define j 
+  status `*1
+end
+define l , ,
+  list `*1
+end
+define li , ,
+  listi `*1
+end
+define sa 
+  stop at `*1
+end
+define si
+  stepi `*1
+end
+define ni
+  nexti `*1
+end
+define st 
+  stop `*1
+end
+define t , ,
+  trace `*1
+end
+define w 
+  where 
+end
+@
+
+
+1.23
+log
+@Revamped 'call' and 'stopi'.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.22 89/12/06 16:07:12 davidl Exp $
+d73 1
+a73 1
+       wcommands
+d189 1
+a189 1
+            wcommands
+d192 1
+a192 1
+		output`1
+d263 1
+a263 1
+	    wcommands 
+d328 1
+a328 1
+            wcommands
+@
+
+
+1.22
+log
+@Added 'nexti' and default dbx aliases.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.21 89/12/05 14:02:00 davidl Exp $
+d150 1
+a150 1
+	  break `m1`m2
+d152 1
+a152 1
+          break `*2
+d156 1
+a156 1
+	  break `m1`m2
+d158 1
+a158 1
+          break `*1
+d663 1
+a663 1
+define call
+@
+
+
+1.21
+log
+@Added 'list' and 'listi'.  This addresses bug BLK1703.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.20 89/12/01 11:45:57 davidl Exp $
+d28 7
+d679 9
+d754 42
+@
+
+
+1.20
+log
+@More support for watchpoints, including revised syntax.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.19 89/11/28 14:51:10 davidl Exp $
+d687 51
+@
+
+
+1.19
+log
+@Fixed stepi.  Now it does x/i $pc each time.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.18 89/11/20 13:44:47 davidl Exp $
+d62 1
+a62 1
+	  watch &`1 `*2
+d64 1
+a64 1
+	  watch &`1
+d66 6
+a90 11
+define status > >
+    if `c == 1
+       info break
+    else
+       > `*2 info break
+    endif
+end
+document status
+Part of the dbx emulation command set.
+Print out the currently active break points.
+end
+d178 1
+a178 1
+	      watch &`m1`m2
+d180 1
+a180 1
+              watch &`1
+d183 4
+d248 1
+a248 1
+	    watch &`1
+a256 1
+	        silent
+d272 12
+a283 3
+		        bt 2
+		        echo ``line\n\n
+		        rfinish
+d285 12
+a296 3
+		        bt 2
+		        echo ``line\n\n
+		        rfinish
+d317 1
+a317 1
+	      watch &`m1`m2
+d319 1
+a319 1
+              watch &`*1
+d322 4
+d671 16
+@
+
+
+1.18
+log
+@Fixed bug BLK1537.  "run" now does what it should.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.17 89/11/18 15:13:41 davidl Exp $
+d642 9
+@
+
+
+1.17
+log
+@Added 'set autorepeat off'.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.16 89/11/18 13:58:53 davidl Exp $
+d105 1
+a105 1
+       run
+d107 1
+a107 1
+       run `*1
+d115 15
+@
+
+
+1.16
+log
+@Improved 'trace' and 'alias' commands.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.15 89/11/17 08:01:16 davidl Exp $
+d27 1
+@
+
+
+1.15
+log
+@Added GDB header and new commands (updated trace and stop to include
+watch points, new tracei).
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.14 89/11/15 17:47:40 davidl Exp $
+d74 1
+a74 1
+       directory
+d77 1
+d163 1
+a163 1
+                cont
+d220 1
+a220 1
+		        finish
+d224 1
+a224 1
+		        finish
+d260 1
+a260 1
+		        finish
+d264 1
+a264 1
+		        finish
+d500 1
+a500 1
+	          `m2
+@
+
+
+1.14
+log
+@Improved 'trace' support.
+@
+text
+@d1 23
+a23 1
+# $Header: gdb-dbx_script,v 1.13 89/11/13 18:18:12 davidl Exp $
+d60 5
+a64 1
+       echo Stop <variable> not supported\n
+d147 1
+d149 3
+d155 9
+a163 2
+        if match "\"\(.*\)\"\(.*\)" `1
+	  break `m1`m2
+d165 9
+a173 5
+          break `1
+        endif
+        commands
+            cont
+	end
+d191 79
+a269 21
+	b `1
+	macro functotracein "`3"
+        if `c == 4
+	    macro ifcondit "0"
+        else
+	    match "if[ 	]+\(.*\)" `*4
+	    macro ifcondit "`m1"
+        endif
+	commands 
+	    silent
+            set $done = 0
+	    while $done == 0
+	        if match "`functotracein" ``func
+		    set $done = 1
+		    set $dooutput = 1
+                elif ``isouter == 1
+		    set $done = 1
+		    set $dooutput = 0
+	 	else
+		    > /dev/null up
+		endif
+d271 1
+a271 17
+	    >/dev/null  frame 0
+	    if $dooutput == 1
+		if match "0" ``ifcondit
+		    bt 2
+		    echo ``line\n\n
+		    finish
+	   	elif ``ifcondit
+		    bt 2
+		    echo ``line\n\n
+		    finish
+		else
+		    cont
+		endif
+	    else
+	        cont
+	    endif
+	end
+d273 19
+a291 8
+        if match "\"\(.*\)\"\(.*\)" `*1
+	  break `m1`m2
+        else
+          break `*1
+        endif
+        commands
+            cont
+	end
+a309 1
+# Search up the stack first, then down.
+d587 38
+@
+
+
+1.13
+log
+@Added + - * / as separators for 'alias' command with parameters.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.12 89/11/13 17:22:20 davidl Exp $
+d148 40
+@
+
+
+1.12
+log
+@Added 'set edit no'.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.11 89/11/13 16:49:49 davidl Exp $
+d311 1
+a311 1
+#   the following delimiters:  <space> <tab> : . ; ` ( ) [ ] , <eol>
+d325 1
+a325 1
+	       while match "\(.*[][ \t:.;,``()]+\)`newparam\([][ \t:.;,``()]+.*\)" `newcommand
+d330 1
+a330 1
+               if match "\(.*[][ \t:.;,``()]+\)`newparam$" `newcommand
+d340 1
+a340 1
+            while match "\(.*[][ \t:.;,``()]+\)`newparam\([][ \t:.;,``()]+.*\)" `cmdstring
+d346 1
+a346 1
+            if match "\(.*[][ \t:.;,``()]+\)`newparam" `newcommand
+@
+
+
+1.11
+log
+@Added regs.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.10 89/11/11 16:38:41 davidl Exp $
+d4 1
+@
+
+
+1.10
+log
+@Added 'dump' command.  Print a message when first reading in script.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.9 89/11/09 13:11:12 davidl Exp $
+d447 6
+@
+
+
+1.9
+log
+@Added 'edit'.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.8 89/11/09 10:32:38 davidl Exp $
+d3 1
+d25 5
+a29 1
+       break `*2
+d31 5
+a35 1
+       break `*2
+d103 5
+a107 1
+	break *`*2
+d109 5
+a113 1
+	break *`*1
+d124 5
+a128 1
+        break `*1
+d137 5
+a141 1
+        break `*3
+d149 5
+a153 1
+        break `*1
+d226 5
+a230 1
+        macro newfile "`1"
+d390 5
+a394 1
+    assign-funcname `1
+d410 37
+@
+
+
+1.8
+log
+@Added documentation for all commands.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.7 89/11/08 10:30:55 davidl Exp $
+d350 23
+@
+
+
+1.7
+log
+@Added complete 'alias' command.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.6 89/11/03 16:54:28 davidl Exp $
+d6 6
+d15 5
+d31 5
+d43 4
+d54 4
+d61 4
+d72 6
+d85 7
+d99 4
+d130 16
+d186 7
+d232 6
+a237 2
+	
+	    
+d269 6
+d337 6
+d346 4
+@
+
+
+1.6
+log
+@Added 'return' command.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.5 89/11/02 18:08:54 davidl Exp $
+a84 41
+# if argc == 3, `m1 here is the list of formal parameters separated by commas,
+# and `m3 is the command to be executed using them.  So
+#    alias foo(x,y) "stop at x:y" 
+# yields
+#    `m1 = x,y
+#    `m3 = stop at x:y
+# That part is not yet done.
+# We want something like
+#	set $formalparams = "`m1"
+#	set $newcommand = "`m3"
+#	set $paramcount = 1
+#       while match "\([!-+\--~]+\),\(.*\)" $formalparams
+#          set $newparam = "`m1"
+#	   set $formalparams = "`m2"
+#	   ???? somehow substitute `$paramcount for each occurrence of
+#          ????   newparam in newcommand
+#	   set $paramcount++
+#       end
+#       ??? substitute `$paramcount for each occurrence of formalparam in
+#       ??? newcommand
+#          
+define alias ( 
+    if `c == 1
+	help user
+    elif `c == 3
+        echo argc is 3\n
+        if match "\(.+\))[ 	]+\(\"\)[ 	]*\(.*\)\(\"\)" `2
+	       echo m0 is `m0\nm1 is `m1\nm2 is `m2\nm3 is `m3\n
+        endif
+    else 
+        if match "\([!-~]+\)[ 	]+\(.+\)" `1
+                define `m1
+		    `m2
+                end
+        endif
+    endif
+end
+define unalias
+    define `1
+    end
+end
+d196 66
+@
+
+
+1.5
+log
+@Added 'file' and 'func' commands.
+@
+text
+@d1 1
+a1 1
+# $Header: gdb-dbx_script,v 1.4 89/10/31 17:13:25 davidl Exp $
+d207 31
+@
+
+
+1.4
+log
+@Added most of 'alias', all of 'unalias,' part of 'trace'.
+@
+text
+@d1 1
+a1 1
+# $Header: dbxscript,v 1.3 89/10/25 19:13:38 davidl Exp $
+d126 81
+@
+
+
+1.3
+log
+@Added stopi.
+@
+text
+@d1 1
+a1 1
+# $Header: dbxscript,v 1.2 89/10/25 18:45:41 davidl Exp $
+d57 68
+@
+
+
+1.2
+log
+@Added 'cont' support.
+@
+text
+@d1 1
+a1 1
+# $Header: dbxscript,v 1.1 89/10/24 16:49:49 davidl Exp $
+d49 7
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+# $Header: $
+d42 7
+@

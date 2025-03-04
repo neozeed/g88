@@ -1,0 +1,260 @@
+head     1.6;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.6
+date     88.06.28.16.47.14;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     88.04.27.14.58.08;  author brents;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     88.02.12.17.12.54;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     88.02.12.16.15.44;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     88.01.19.08.04.44;  author brents;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.01.15.14.53.24;  author brents;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@brents simulator for DRAM cmp/parity errors
+@
+
+
+1.6
+log
+@updated to match beta cmmu simulator.
+@
+text
+@/*
+ * DRAM parity/compare errors simulator
+ * 
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: dram_errs.c,v 1.5 88/04/27 14:58:08 brents Exp $
+ */
+
+#include "sim.h"
+#include "cmmu.h"
+
+dram_cmperr_init()
+{}
+
+dram_cmperr_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+{
+	int bad_data = 0xee;
+        int status;
+
+        if (size > WORD) {
+            sim_printf("dram_cmperr_operation: DWORD not allowed.\n");
+            return E_DACC;
+        }
+
+        /* 
+         * If parity is enabled- return DACC 
+         */
+	if (cmmu_table[0]->sctr.parityenable) {
+	    status = E_DACC;
+	} else {
+
+            /* 
+             * parity is disabled- finish operation with bad data 
+             */
+	    status = E_NONE;
+	}
+	do_mem_op(reg_ptr, &bad_data, size, mem_op_type);
+
+        return status;
+}
+
+dram_cmperr_print()
+{
+	printf("dram_cmperr\n");
+}
+
+
+dram_parerr_init()
+{}
+
+dram_parerr_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+{
+	int good_data = 0x55555555;
+        int status;
+
+        if (size > WORD) {
+            sim_printf("dram_cmperr_operation: DWORD not allowed.\n");
+            return E_DACC;
+        }
+
+        /* 
+         * Parity is enabled- return DACC 
+         */
+	if (cmmu_table[0]->sctr.parityenable) {
+	    status = E_DACC;
+	} else {
+
+            /* 
+             * parity is disabled- finish operation with bad data 
+             */
+	    status = E_NONE;
+	}
+	do_mem_op(reg_ptr, &good_data, size, mem_op_type);
+
+        return status;
+}
+
+dram_parerr_print()
+{
+	printf("dram_parerr\n");
+}
+@
+
+
+1.5
+log
+@Fixed it up.
+@
+text
+@d7 1
+a7 1
+ * $Header: dram_errs.c,v 1.4 88/02/12 17:12:54 robertb Exp $
+d31 4
+a34 1
+	if (cmmu_table[0]->sr&0x8000){	/* parity is enabled- return DACC */
+d36 5
+a40 1
+	}else{		/* parity is disabled- finish operation with bad data */
+d72 4
+a75 1
+	if (cmmu_table[0]->sr&0x8000){	/* parity is enabled- return DACC */
+d77 5
+a81 1
+	}else{		/* parity is disabled- finish operation with bad data */
+@
+
+
+1.4
+log
+@Deleted extra */ in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: dram_errs.c,v 1.3 88/02/12 16:15:44 robertb Exp $
+d11 1
+d23 2
+a24 2
+	int data_cmmu_ctl_val;
+	int bad_data;
+d26 7
+a32 8
+	if(mem_op_type == ST){
+	    bad_data = 0xee;	/* return bad data value */
+	    do_mem_op(reg_ptr, &bad_data, size, mem_op_type);
+	    return E_NONE;	/* no errors on write */
+	}
+	io_operation(0xfff00004, &data_cmmu_ctl_val, WORD, LD, 0);
+	if (data_cmmu_ctl_val&0x8000){	/* parity is enabled- return DACC */
+	    return E_DACC;
+d34 1
+a34 3
+	    bad_data = 0xee;
+	    do_mem_op(reg_ptr, &bad_data, size, mem_op_type);
+	    return E_NONE;
+d36 1
+d38 1
+d57 2
+a58 2
+	int data_cmmu_ctl_val;
+	unsigned int good_data;
+d60 9
+a68 4
+	if(mem_op_type == ST){
+	    good_data = 0x55555555;	/* write the expected data value */
+	    do_mem_op(reg_ptr, &good_data, size, mem_op_type);
+	    return E_NONE;	/* no errors on write */
+d70 1
+a70 8
+	io_operation(0xfff00004, &data_cmmu_ctl_val, WORD, LD, 0);
+	if (data_cmmu_ctl_val&0x8000){	/* parity is enabled- return DACC */
+	    return E_DACC;
+	}else{		/* parity disabled- finish operation with good data */
+	    good_data = 0x55555555;	/* return the expected data value */
+	    do_mem_op(reg_ptr, &good_data, size, mem_op_type);
+	    return E_NONE;
+	}
+d72 1
+@
+
+
+1.3
+log
+@Added copyright notice.
+@
+text
+@d7 1
+a7 1
+ * $Header: dram_errs.c,v 1.2 88/01/19 08:04:44 brents Exp $ */
+@
+
+
+1.2
+log
+@brents parity error simulator
+@
+text
+@a0 2
+/* $Header: dram_errs.c,v 1.1 88/01/15 14:53:24 brents Exp $ */
+
+d3 5
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+/* $Header: dram_errs.c,v 1.2 88/01/15 11:09:56 brents Exp $ */
+d22 5
+d55 1
+a55 1
+	int good_data;
+d57 5
+d65 1
+a65 1
+	}else{		/* parity is disabled- finish operation with bad data */
+@

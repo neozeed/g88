@@ -1,0 +1,2393 @@
+head     1.55;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.55
+date     91.01.14.01.20.20;  author robertb;  state Exp;
+branches ;
+next     1.54;
+
+1.54
+date     91.01.13.23.49.07;  author robertb;  state Exp;
+branches ;
+next     1.53;
+
+1.53
+date     90.11.01.00.19.11;  author robertb;  state Exp;
+branches ;
+next     1.52;
+
+1.52
+date     90.08.19.21.43.30;  author robertb;  state Exp;
+branches ;
+next     1.51;
+
+1.51
+date     90.08.07.12.30.15;  author robertb;  state Exp;
+branches ;
+next     1.50;
+
+1.50
+date     90.08.07.12.28.51;  author robertb;  state Exp;
+branches ;
+next     1.49;
+
+1.49
+date     90.08.07.12.19.40;  author robertb;  state Exp;
+branches ;
+next     1.48;
+
+1.48
+date     90.08.07.10.20.52;  author robertb;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     90.08.06.09.49.18;  author robertb;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     90.06.30.19.07.38;  author robertb;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     90.05.09.16.50.32;  author jrb;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     90.05.08.11.34.25;  author jrb;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     90.05.08.03.21.20;  author robertb;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     90.04.29.23.28.46;  author robertb;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     90.04.29.20.01.36;  author robertb;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     90.04.27.18.36.45;  author robertb;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     90.04.25.11.19.53;  author robertb;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     90.04.25.10.18.29;  author robertb;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     90.03.28.14.31.46;  author robertb;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     90.03.16.09.53.38;  author jrb;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     90.02.09.14.29.05;  author jrb;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     90.01.29.11.20.45;  author jrb;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     90.01.10.16.43.12;  author davidl;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     89.12.18.16.41.02;  author robertb;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     89.12.18.15.43.16;  author robertb;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     89.12.11.15.08.08;  author andrew;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     89.12.09.17.54.57;  author paulg;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     89.11.30.14.47.52;  author andrew;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     89.11.18.13.53.58;  author davidl;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     89.11.18.10.09.55;  author davidl;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.11.16.15.35.53;  author donhar;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     89.11.15.10.00.10;  author andrew;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     89.11.08.13.28.39;  author davidl;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     89.11.06.15.53.06;  author marvinw;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     89.10.27.13.16.17;  author donhar;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     89.10.19.16.01.18;  author paulg;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     89.10.10.14.20.21;  author donhar;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     89.10.09.15.43.55;  author davidl;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     89.10.05.15.27.51;  author paulg;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     89.09.29.13.11.24;  author davidl;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     89.09.28.15.48.02;  author paulg;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     89.09.28.15.46.28;  author paulg;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     89.09.26.15.24.32;  author paulg;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     89.09.26.11.21.35;  author paulg;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     89.09.23.13.59.55;  author paulg;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     89.09.22.19.07.27;  author paulg;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.09.22.17.59.35;  author paulg;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.09.22.11.23.08;  author davidl;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.09.22.10.01.43;  author paulg;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.09.13.16.09.10;  author paulg;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.09.13.15.16.05;  author paulg;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.09.06.13.13.50;  author paulg;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.09.02.09.46.48;  author paulg;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.08.18.16.04.52;  author root;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.31.00.09.12;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.55
+log
+@switched from COFF to a.out before releasing
+@
+text
+@#TEK
+#TEK NOTE:  changes made at Tektronix are marked: TEK
+#TEK
+#TEK $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/tar/g88/RCS/Makefile,v 1.54 91/01/13 23:49:07 robertb Exp Locker: robertb $
+#TEK $Locker: robertb $
+
+# /bin/cc has been known to fail on readline.c on Vaxen running 4.3.
+# If this occurs, use gcc (but see below for compiling with gcc).
+
+# On USG (System V) machines, you must make sure to setup REGEX &
+# REGEX1 to point at regex.o and use the USG version of CLIBS.  
+# If your system has a broken alloca(), define ALLOCA & ALLOCA1 below.
+# Uncomment the SYSV_DEFINE below for USG machines.
+# Also, if you compile gdb with a compiler which uses the coff
+# encapsulation feature (this is a function of the compiler used, NOT
+# of the m-?.h file selected by config.gdb), you must make sure that
+# the GNU nm is the one that is used by munch.
+
+# On Sunos 4.0 machines, make sure to compile *without* shared
+# libraries if you want to run gdb on itself.  Make sure to compile
+# any program on which you want to run gdb without shared libraries.
+
+# On ISI machines, make sure to compile gdb with -DBSD43_ISI40D if you 
+# run 4.3BSD.
+
+# If you are compiling with GCC, make sure that either 1) You use the
+# -traditional flag, or 2) You have the fixed include files where GCC
+# can reach them.  Otherwise the ioctl calls in inflow.c and readline.c 
+# will be incorrectly compiled.  The "fixincludes" script in the gcc
+# distribution will fix your include files up.
+
+# It is also possible that you will need to add -I/usr/include/sys to the
+# CFLAGS section if your system doesn't have fcntl.h in /usr/include (which 
+# is where it should be according to Posix).
+
+#CC=gcc -O
+CC=cc
+#CC=gcc -traditional
+#CC=/bin/cc
+#YACC=bison -y -v
+YACC=yacc
+SHELL=/bin/sh
+
+# Set this up with gcc if you have gnu ld and the loader will print out
+# line numbers for undefinded refs.  
+#CC-LD=cc -Bstatic
+CC-LD=cc
+
+# -I. for "#include <obstack.h>".  Possibly regex.h also. 
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -Dm88k -DNON_NATIVE 
+
+# -DUSEDGCOFF  use this only if you build you executables on an Aviion.
+
+CFLAGS = -g -I. -c ${HACKFLAGS}
+#CFLAGS = -I. -g -pg
+#CFLAGS = -O -g -I.
+LDFLAGS =
+#LDFLAGS = -g
+
+# define this to be "obstack.o" if you don't have the obstack library installed
+# you must at the same time define OBSTACK1 as "obstack.o" 
+# so that the dependencies work right.  Similarly with REGEX and "regex.o".
+# You must define REGEX and REGEX1 on USG machines.
+# If your sysyem is missing alloca(), or, more likely, it's there but
+# it doesn't work, define ALLOCA & ALLOCA1
+OBSTACK = obstack.o
+OBSTACK1 = obstack.o
+
+REGEX = regex.o
+REGEX1 = regex.o
+# REGEX = 
+# REGEX1 =
+
+# rcb ALLOCA = alloca.o
+# rcb ALLOCA1 = alloca.o
+ALLOCA = 
+ALLOCA1 =
+
+#
+# define this to be "malloc.o" if you want to use the gnu malloc routine
+# (useful for debugging memory allocation problems in gdb).  Otherwise, leave
+# it blank.
+#GNU_MALLOC = malloc.o
+GNU_MALLOC =
+
+# Flags to be used in compiling malloc.o
+# Specify range checking for storage allocation.
+#MALLOC_FLAGS = ${CFLAGS} -Dbotch
+#MALLOC_FLAGS = ${CFLAGS} -Drcheck -Dbotch -DMSTATS
+MALLOC_FLAGS = ${CFLAGS} -Drcheck -Dbotch
+
+#
+# define this to be SYSV if compiling on a system V or HP machine.
+#SYSV_DEFINE = -DSYSV
+SYSV_DEFINE = 
+
+#
+# Define this null if compiling on HP machines.
+#MUNCH_DEFINE =
+MUNCH_DEFINE =
+
+# Flags that describe where you can find the termcap library.
+# You may need to make other arrangements for USG.
+TERMCAP = -ltermcap
+
+#tek define this is you are using a fast malloc other than GNU malloc
+#MALLOC_LIB = -lmalloc
+MALLOC_LIB = 
+
+ADD_FILES = ${OBSTACK} ${REGEX} ${ALLOCA} ${GNU_MALLOC}
+ADD_DEPS = ${OBSTACK1} ${REGEX1} ${ALLOCA1} ${GNU_MALLOC}
+
+# for BSD
+CLIBS = ${ADD_FILES} ${TERMCAP}
+# for USG
+#CLIBS= ${$ADD_FILES} ${TERMCAP} -lPW
+
+CFILES = blockframe.c breakpoint.c coffread.c dbxread.c command.c core.c \
+	 environ.c eval.c expprint.c findvar.c infcmd.c inflow.c infrun.c \
+	 main.c printcmd.c programmer.c decode.c\
+         motomode.c remote.c remcmd.c remmem.c remrun.c sim.c\
+         source.c stack.c symmisc.c symtab.c \
+	 utils.c valarith.c valops.c valprint.c values.c version.c \
+	 ui.c watchstub.c
+
+SFILES = $(CFILES) expread.y 
+
+DEPFILES88 = m88k-dep.c
+DEPFILES = $(DEPFILES88)
+
+PINSNS88 = m88k-pinsn.c
+PINSNS = $(PINSNS88)
+
+HFILES = command.h compress.h defs.h decode.h disasm.h environ.h \
+	 expression.h fields88.h format.h frame.h \
+	 getpagesize.h \
+	 inferior.h montraps.h remote.h symseg.h symtab.h value.h wait.h \
+	 a.out.encap.h a.out.gnu.h stab.gnu.h ui.h
+
+OPCODES88 = m88k-opcode.h
+OPCODES =
+
+MFILES88 = m-m88k.h
+MFILES =
+
+ALLFILES88 = $(DEPFILES88) $(PINSNS88) $(OPCODES88) $(MFILES88)
+READLINE = readline
+
+
+POSSLIBS = obstack.h obstack.c regex.c regex.h malloc.c alloca.c
+
+TESTS = testbpt.c testfun.c testrec.c testreg.c testregs.c
+
+OTHERS = Makefile createtags munch config.gdb ChangeLog README TAGS \
+	 gdb.texinfo .gdbinit COPYING expread.tab.c stab.def \
+	 XGDB-README copying.c Projects copying.awk 
+
+TAGFILES = ${SFILES} ${DEPFILES} ${PINSNS} ${HFILES} ${OPCODES} ${MFILES} \
+	   ${POSSLIBS} 
+TARFILES = ${TAGFILES} ${OTHERS} ${READLINE}
+
+OBS = main.o blockframe.o breakpoint.o findvar.o stack.o source.o\
+    values.o eval.o valops.o valarith.o valprint.o printcmd.o decode.o\
+    symtab.o symmisc.o coffread.o dbxread.o infcmd.o infrun.o programmer.o\
+    motomode.o remote.o remcmd.o remmem.o remrun.o sim.o\
+    command.o utils.o expread.o expprint.o pinsn.o environ.o \
+    version.o watchstub.o ${READLINEOBS} ui.o
+
+TSOBS = core.o inflow.o dep.o
+
+NTSOBS = standalone.o
+
+NTSSTART = kdb-start.o
+
+RL_LIB = ${READLINE}/libreadline.a
+
+# Avoid funny things that suns make throughs in for us.
+.c.o:
+	${CC} -c ${CFLAGS} $<
+
+#
+# build gdb, no X interface, for testing.
+#
+g88:  $(OBS) $(TSOBS) $(ADD_FILES) $(TSOBS) init.o norcsid.o ${RL_LIB}
+	${CC-LD} $(LDFLAGS) -o g88 norcsid.o $(OBS) $(TSOBS) init.o ${RL_LIB}\
+	  $(CLIBS) ${MALLOC_LIB}
+
+run-cscope: FRC
+	cscope ${TAGFILES} ${ALLFILES88}
+
+FRC:
+
+#
+# init.c is built automatically by "munch". It consists
+# of init calls to add commands to gdb at gdb startup.
+#
+init.c:
+	./munch ${MUNCH_DEFINE} $(TSOBS) $(OBS) > init.c
+
+
+norcsid.o: norcsid.c
+	${CC} -c norcsid.c
+
+norcsid.c: FRC
+	echo "char _rcsid[] = \"\$$XXX: $$user$$LOGNAME: `date`$$\";" \
+		| sed s/XXX/Header/ > norcsid.c
+
+ui.o: ui.c
+	${CC} -c ${CFLAGS} -DNOXWINDOWS ui.c
+
+rcsid.c: ${TAGFILES}
+	mklog -sexp rcsid.c Makefile ${TAGFILES}
+	chmod +w rcsid.c
+	(echo /rcsid\\.c,v/s//gdb-Tek/ ; echo wq ) | ex - rcsid.c
+	chmod -w rcsid.c
+
+Xrcsid.c: ${TAGFILES} XOBJ/xrcsid.c
+	mklog -sexp Xrcsid.c Makefile ${TAGFILES} XOBJ/xrcsid.c
+	chmod +w Xrcsid.c
+	(echo /_Xrcsid/s//_rcsid/;echo /Xrcsid\\.c,v/s//Xgdb-Tek/;echo wq)\
+	  | ex - Xrcsid.c
+	chmod -w Xrcsid.c
+
+#TEK
+#TEK check out everything from RCS
+#TEK
+
+co-all: FRC
+	colast ${ALLFILES88}
+	colast ${SFILES} ${DEPFILES} ${PINSNS} ${HFILES} ${OPCODES} ${MFILES} \
+	${POSSLIBS} COPYING copying.awk config.gdb munch
+	cd readline; colast Makefile ; make co-all
+	cd sim; colast Makefile; make co-all
+
+Xco-all: co-all
+	cd XOBJ; colast Makefile ; make co-all
+
+# If it can figure out the appropriate order, createtags will make sure
+# that the proper m-*, *-dep, *-pinsn, and *-opcode files come first
+# in the tags list.  It will attempt to do the same for dbxread.c and 
+# coffread.c.  This makes using M-. on machine dependent routines much 
+# easier.
+#
+#TAGS: ${TAGFILES}
+#	createtags ${TAGFILES}
+#tags: TAGS
+
+# Build the tags file so that we can do "vi -t funcname" and
+# esc-[ on a function name in vi and have vi find the the source
+# file with the specified function and place the cursor on it.
+# If there is a simulator directory, go into it and tell its makefile
+# to append to ours so that we have all the simulator functions as well
+
+# This will only work for the 88k, if we wanted to do it right, we'd
+# test for the gdb that we are building and do a recursive call to make
+# defining all the variables that vary from target to target.
+
+tags: ${TAGFILES} $(ALLFILES88)
+	ctags -w ${TAGFILES}
+	@@if [ -d sim ] ;\
+    	then \
+		cd sim ; make gdbtags;\
+	fi ;
+
+lint: $(CFILES) $(DEPFILES88) $(PINSNS88) init.c
+	lint $(HACKFLAGS) -I. $(CFILES) $(DEPFILES) $(PINSNS88)  init.c >lint
+
+gdb.tar: ${TARFILES}
+	rm -f gdb.tar
+	mkdir dist-gdb
+	cd dist-gdb ; for i in ${TARFILES} ; do ln -s ../$$i . ; done
+	tar chf gdb.tar dist-gdb
+	rm -rf dist-gdb
+
+gdb.tar.Z: gdb.tar
+	compress gdb.tar
+
+clean:
+	rm -f ${OBS} ${TSOBS} ${NTSOBS} ${OBSTACK} ${REGEX} ${GNU_MALLOC}
+	rm -f init.c  init.o norcsid.o
+	rm -f g88 core gdb.tar gdb.tar.Z make.log
+	rm -f gdb[0-9]
+	cd ${READLINE} ; make clean
+	if [ -d sim ] ;\
+	then cd sim ; make clean ;\
+	fi
+
+exterminate: clean realclean 
+	rm -f ${TAGFILES} munch copying.awk COPYING Makefile
+	rm -f config.gdb config.status $(MFILES88) $(OPCODES88) $(HFILES)
+	rm -f norcsid.c
+	cd ${READLINE} ; make exterminate
+	if [ -d sim ] ;\
+	then cd sim ; make exterminate ;\
+	fi
+
+#
+# do tek Xgdb build
+#
+autobuild:
+	make Xexterminate
+	make Xco-all
+	make Xrelease
+
+install:
+	@@echo "run install.sh"
+	
+#
+# remove X objects
+#
+Xclean: clean
+	cd XOBJ; make clean
+
+#
+# remove X objects/src in preparation for build
+#
+Xexterminate: exterminate
+	cd XOBJ; make exterminate
+
+distclean: clean expread.tab.c TAGS
+	rm -f dep.c opcode.h param.h pinsn.c config.status
+	rm -f y.output yacc.acts yacc.tmp
+	rm -f ${TESTS}
+
+realclean: clean
+	rm -f expread.tab.c TAGS
+	rm -f dep.c opcode.h param.h pinsn.c config.status
+
+#
+# run lint on gdb source
+#
+lint_msgs: ${SFILES} ${DEPFILES} ${PINSNS} init.c
+	rm -f lint_msgs
+	lint ${CFLAGS} ${SFILES} ${DEPFILES} ${PINSNS} > lint_msgs
+
+xgdb.o : defs.h param.h symtab.h frame.h
+
+# Make copying.c from COPYING
+copying.c : COPYING copying.awk
+	awk -f copying.awk < COPYING > copying.c
+
+expread.tab.c : expread.y
+	@@echo 'Expect 4 shift/reduce conflict.'
+	${YACC} expread.y
+	mv y.tab.c expread.tab.c
+
+expread.o : expread.tab.c defs.h param.h symtab.h frame.h expression.h
+	$(CC) -c ${CFLAGS} expread.tab.c
+	mv expread.tab.o expread.o
+
+# readline.o: readline.c readline.h history.h keymaps.c funmap.c
+#	${CC} -c ${CFLAGS} ${SYSV_DEFINE} readline.c
+
+# history.o: history.c history.h general.h 
+#	${CC} -c ${CFLAGS} ${SYSV_DEFINE} history.c
+
+readline/libreadline.a : force_update
+	cd readline ;\
+	  make ${MFLAGS} "SYSV_DEFINE=${SYSV_DEFINE}" "HACKFLAGS=${HACKFLAGS}" libreadline.a
+
+# sim.o contains either a stub of a simulator or the real thing.  If
+# there is a directory "sim" we cd into it and make whatever is there.
+# We make a symbolic link to sim.o in sim.
+# Otherwise, if a directory "sim" doesn't exist, we compile the sub file
+# "sim.c".
+
+sim.o: FRC
+	@@if [ -d sim ] ;\
+    	then \
+		rm -f sim.o;\
+		ln -s sim/sim.o;\
+		cd sim ; make sim.o;\
+	else \
+		cc -c sim.c;\
+	fi ;
+
+force_update :
+
+# Just here for dependencies; RH's are included in LH's
+keymaps.c: emacs_keymap.c vi_keymap.c
+funmap.c: readline.h
+
+# Only useful if you are using the gnu malloc routines.
+#
+malloc.o : malloc.c
+	${CC} -c ${MALLOC_FLAGS} malloc.c
+
+# dep.o depends on config.status in case someone reconfigures gdb out
+# from under an already compiled gdb.
+dep.o : dep.c config.status defs.h param.h frame.h inferior.h obstack.h \
+	a.out.encap.h a.out.gnu.h
+
+# dep.o depends on config.status in case someone reconfigures gdb out
+# from under an already compiled gdb.
+pinsn.o : pinsn.c config.status defs.h param.h symtab.h obstack.h symseg.h \
+	  frame.h
+
+#
+# The rest of this is a standard dependencies list (hand edited output of
+# cpp -M).  It does not include dependencies of .o files on .c files.
+#
+blockframe.o : defs.h param.h symtab.h obstack.h symseg.h frame.h 
+breakpoint.o : defs.h param.h symtab.h obstack.h symseg.h frame.h
+coffread.o : defs.h param.h symtab.h
+command.o : command.h defs.h
+core.o : defs.h  param.h a.out.encap.h a.out.gnu.h
+dbxread.o : param.h defs.h symtab.h obstack.h symseg.h a.out.encap.h \
+	    stab.gnu.h a.out.gnu.h
+decode.o: decode.h format.h
+environ.o : environ.h 
+eval.o : defs.h  param.h symtab.h obstack.h symseg.h value.h expression.h 
+expprint.o : defs.h symtab.h obstack.h symseg.h param.h expression.h
+findvar.o : defs.h inferior.h param.h symtab.h obstack.h symseg.h frame.h \
+	    value.h 
+infcmd.o : defs.h  param.h symtab.h obstack.h symseg.h frame.h inferior.h \
+	   environ.h value.h
+inflow.o : defs.h  param.h frame.h inferior.h
+infrun.o : defs.h  param.h symtab.h obstack.h symseg.h frame.h inferior.h \
+	   wait.h
+kdb-start.o : defs.h param.h 
+main.o : defs.h  command.h param.h
+malloc.o :  getpagesize.h
+obstack.o : obstack.h 
+printcmd.o :  defs.h param.h frame.h symtab.h obstack.h symseg.h value.h \
+	      expression.h 
+regex.o : regex.h 
+remote.o : defs.h  param.h frame.h inferior.h wait.h remote.h hmon/mon.h
+remcmd.o : defs.h  param.h remote.h 
+remmem.o : defs.h  param.h remote.h
+remrun.o : defs.h  param.h remote.h
+motomode.o : defs.h  param.h frame.h inferior.h wait.h remote.h
+source.o : defs.h  symtab.h obstack.h symseg.h param.h
+stack.o :  defs.h param.h symtab.h obstack.h symseg.h frame.h 
+standalone.o : defs.h param.h symtab.h obstack.h symseg.h frame.h \
+	       inferior.h wait.h 
+symmisc.o : defs.h symtab.h obstack.h symseg.h obstack.h 
+symtab.o : defs.h  symtab.h obstack.h symseg.h param.h  obstack.h
+utils.o : defs.h  param.h 
+valarith.o : defs.h param.h symtab.h obstack.h symseg.h value.h expression.h 
+valops.o :  defs.h param.h symtab.h obstack.h symseg.h value.h frame.h \
+	    inferior.h
+valprint.o :  defs.h param.h symtab.h obstack.h symseg.h value.h 
+values.o :  defs.h param.h symtab.h obstack.h symseg.h value.h 
+
+robotussin.h : getpagesize.h   
+symtab.h : obstack.h symseg.h 
+a.out.encap.h : a.out.gnu.h
+
+@
+
+
+1.54
+log
+@Added a lint target, other tweaks.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/Makefile,v 1.53 90/11/01 00:19:11 robertb Exp Locker: robertb $
+d50 4
+a53 1
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -Dm88k -DNON_NATIVE -DUSEDGCOFF
+d118 1
+a118 1
+CFILES = blockframe.c breakpoint.c coffread.c command.c core.c \
+d164 1
+a164 1
+    symtab.o symmisc.o coffread.o infcmd.o infrun.o programmer.o\
+@
+
+
+1.53
+log
+@Switched back to COFF
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /home/bigbird/Usr.U6/robertb/g88/RCS/Makefile,v 1.52 90/08/19 21:43:30 robertb Exp Locker: robertb $
+d115 1
+a115 1
+SFILES = blockframe.c breakpoint.c coffread.c command.c core.c \
+d119 2
+a120 2
+         source.c stack.c standalone.c stuff.c symmisc.c symtab.c \
+	 utils.c valarith.c valops.c valprint.c values.c version.c expread.y \
+d123 2
+d262 3
+d329 1
+a329 1
+lint_msgs: ${SFILES} ${DEPFILES} ${PINSNS}
+d424 2
+a425 2
+remote.o : defs.h  param.h frame.h inferior.h wait.h remote.h
+remcmd.o : defs.h  param.h remote.h
+@
+
+
+1.52
+log
+@Switched to a.out from COFF,
+added NON_NATIVE to list of defines.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /home/vlsi/u2/cs568/g88/RCS/Makefile,v 1.51 90/08/07 12:30:15 robertb Exp Locker: robertb $
+d49 2
+a50 2
+# -I. for "#include <obstack.h>".  Possibly regex.h also.
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -Dm88k -DNON_NATIVE
+d115 1
+a115 1
+SFILES = blockframe.c breakpoint.c dbxread.c command.c core.c \
+d159 1
+a159 1
+    symtab.o symmisc.o dbxread.o infcmd.o infrun.o programmer.o\
+@
+
+
+1.51
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /home/vlsi/u2/cs568/g88/RCS/Makefile,v 1.50 90/08/07 12:28:51 robertb Exp Locker: robertb $
+d50 1
+a50 1
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -DUSEDGCOFF
+d115 1
+a115 1
+SFILES = blockframe.c breakpoint.c coffread.c command.c core.c \
+d159 1
+a159 1
+    symtab.o symmisc.o coffread.o infcmd.o infrun.o programmer.o\
+d383 1
+a383 1
+	a.out.encap.h
+d398 1
+a398 1
+core.o : defs.h  param.h a.out.encap.h
+d400 1
+a400 1
+	    stab.gnu.h
+@
+
+
+1.50
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /home/vlsi/u2/cs568/g88/RCS/Makefile,v 1.49 90/08/07 12:19:40 robertb Exp Locker: robertb $
+d282 2
+a283 1
+	rm -f config.gdb config.status $(MFILES) $(OPCODES) $(HFILES)
+@
+
+
+1.49
+log
+@Fixed problem where readline lib wasn't built.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /home/vlsi/u2/cs568/g88/RCS/Makefile,v 1.48 90/08/07 10:20:52 robertb Exp Locker: robertb $
+d272 2
+a273 2
+	rm -f init.c 
+	rm -f gdb core gdb.tar gdb.tar.Z make.log
+d282 1
+a282 1
+	rm -f config.gdb config.status
+@
+
+
+1.48
+log
+@Deleted stuff for HP and 68k machines.  Now co-all will check
+out simulator files.  Other tweaks.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /home/vlsi/u2/cs568/g88/RCS/Makefile,v 1.47 90/08/06 09:49:18 robertb Exp Locker: robertb $
+d179 1
+a179 1
+g88:  $(OBS) $(TSOBS) $(ADD_FILES) $(TSOBS) init.o norcsid.o
+d281 2
+a282 1
+	rm -f ${TAGFILES}
+d284 3
+@
+
+
+1.47
+log
+@make clean now deletes simulator objects if sim exists.
+Fixed bug with building from scratch where init.c would be
+built before requisite objects exits.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/Makefile,v 1.46 90/06/30 19:07:38 robertb Exp $
+#TEK $Locker:  $
+a9 12
+# On HPUX, you need to add the hp-include directory to the list of
+# directories searched for include files.  Just add the -Ihp-include
+# to CFLAGS.  The headers in the directory hp-include override system
+# headers and tell GDB to use BSD executable file format.
+# You must also define SYSV_DEFINE as below.
+# You must also define MUNCH_DEFINE to be null (ie. use berkeley nm line).
+# You must also define REGEX & REGEX1 below and add alloca.o (from 
+# the emacs distribution) to the CLIBS.
+# If you compile GDB with GCC on HPUX, you must make sure that the "nm" used
+# in "munch" is GNU's nm.  This is because gcc uses a different .o
+# file format than the native HPUX compiler.
+
+d117 1
+a117 1
+	 kdb-start.c main.c printcmd.c programmer.c decode.c\
+a123 1
+DEPFILES68 = tek4300-dep.c
+a126 1
+PINSNS68 = m68k-pinsn.c
+d129 1
+a129 1
+HFILES = command.h compress.h defs.h decode.h environ.h \
+a135 1
+OPCODES68 = m68k-opcode.h
+a138 1
+MFILES68 = m-tek4300.h
+a141 1
+ALLFILES68 = $(DEPFILES68) $(PINSNS68) $(OPCODES68) $(MFILES68)
+a143 1
+REMOTE_EXAMPLES = remote-sa.m68k.shar remote-multi.shar
+d151 1
+a151 1
+	 XGDB-README copying.c Projects Convex.notes copying.awk hp-include
+d155 1
+a155 1
+TARFILES = ${TAGFILES} ${OTHERS} ${REMOTE_EXAMPLES} ${READLINE}
+d224 1
+a224 6
+	@@machine=`uname -m` ;\
+	notXD=`echo $$machine | sed 's/^XD//'` ;\
+	if [ $$notXD != $$machine ] ;\
+	then  echo "Checking out ${ALLFILES88}\n" ; colast ${ALLFILES88} ;\
+	else echo "Checking out ${ALLFILES68}\n" ; colast ${ALLFILES68} ;\
+	fi;
+d228 1
+@
+
+
+1.46
+log
+@Deleted lots of crude having to do with building Tektronix gdb's.
+Changed -D's to make it work on the SUN-4., etc.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/Makefile,v 1.45 90/05/09 16:50:32 jrb Exp $
+d62 1
+a62 1
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DUSEDGCOFF -DBSD
+d180 1
+a180 1
+    version.o watchstub.o ${READLINEOBS} ui.o init.o
+d197 2
+a198 2
+gdb:  $(OBS) $(TSOBS) $(ADD_FILES) $(TSOBS)
+	${CC-LD} $(LDFLAGS) -o gdb norcsid.o $(OBS) $(TSOBS) ${RL_LIB}\
+d211 1
+a211 1
+	./munch ${MUNCH_DEFINE} $(OBS) $(TSOBS) > init.c
+d298 3
+d413 1
+a413 1
+Coffread.o : defs.h param.h symtab.h
+@
+
+
+1.45
+log
+@change to force rebuild of init.c by munch just before
+final link on xgdb on full build. This will prevent any
+mistakes due to premature build of init.c.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.44 90/05/08 11:34:25 jrb Exp $
+#TEK $Locker: jrb $
+d62 1
+a62 2
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DATTACH_DETACH -DGHSFORTRAN \
+	-DBYTES_BIG_ENDIAN -DGHS185 -DOLDCOFF
+d77 1
+d80 2
+a81 2
+ALLOCA = alloca.o
+ALLOCA1 = alloca.o
+d83 5
+d92 2
+a93 2
+GNU_MALLOC = malloc.o
+#GNU_MALLOC =
+d103 2
+a104 2
+SYSV_DEFINE = -DSYSV
+# SYSV_DEFINE = 
+d119 3
+d127 1
+a127 4
+ADD_FILES = ${OBSTACK} ${REGEX} ${ALLOCA} ${GNU_MALLOC}
+ADD_DEPS = ${OBSTACK1} ${REGEX1} ${ALLOCA1} ${GNU_MALLOC}
+
+SFILES = blockframe.c breakpoint.c dbxread.c coffread.c command.c core.c \
+d129 1
+a129 1
+	 kdb-start.c main.c printcmd.c decode.c\
+d133 1
+a133 1
+	 xgdb.c ui.c programmer.c watchpoint.c
+d137 1
+a137 1
+DEPFILES =
+d141 1
+a141 1
+PINSNS =
+d177 1
+a177 1
+    symtab.o symmisc.o coffread.o dbxread.o infcmd.o infrun.o\
+d180 1
+a180 1
+    version.o ${READLINEOBS} programmer.o watchpoint.o init.o
+a193 9
+default-target : gdb
+
+run-cscope: FRC
+	cscope ${TAGFILES} ${ALLFILES88}
+
+gdb-most : $(OBS) $(TSOBS) ${ADD_DEPS} ${RL_LIB} FRC
+
+FRC :
+
+d197 1
+a197 237
+gdb:  FRC
+	@@machine=`uname -m` ;\
+	notXD=`echo $$machine | sed 's/^XD//'` ;\
+	if [ $$notXD != $$machine ] ;\
+	then  \
+		echo "*** Building gdb for a Tektronix XD88 workstation with X interface disabled" ;\
+		echo "*** Not creating a new rcsid file or init.c" ;\
+	        echo "*** Executable created will be called gdb" ;\
+		if [ ! -f config.status ] ;\
+			then config.gdb XD88 ;\
+		else  \
+			statmach=`awk '{print $$NF}' config.status` ;\
+			if [ $$statmach != "XD88." ] ;\
+		    	then  \
+				rm -f config.status ;\
+				config.gdb XD88 ;\
+			fi ;\
+		fi ;\
+	        make ${MFLAGS} \
+		   "CFLAGS= ${CFLAGS} -DSYSV" \
+		   "SYSV_DEFINE=-DSYSV" \
+		   "DEPFILES=${DEPFILES88}" \
+		   "PINSNS=${PINSNS88}" \
+		   "OPCODES=${OPCODES88}" \
+		   "MFILES=${MFILES88}" \
+		   "MACHINE=88" \
+		   gdbnoXnoRCS ;\
+	else \
+		notTK=`echo $$machine | sed 's/^Tek43//'` ;\
+		if [ $$notTK != $$machine ] ;\
+		then echo "*** Building gdb for a Tektronix 4300 workstation with X interface disabled" ;\
+		     echo "*** Not creating a new rcsid file or init.c" ;\
+	             echo "*** Executable created will be called gdb" ;\
+		     if [ ! -f config.status ] ;\
+			     then config.gdb tek4300 ;\
+		     else  \
+			     statmach=`awk '{print $$NF}' config.status` ;\
+			     if [ $$statmach != "tek4300." ] ;\
+		    	     then  \
+				     rm -f config.status ;\
+				     config.gdb tek4300 ;\
+			     fi ;\
+		     fi ;\
+	             make ${MFLAGS} \
+		       "SYSV_DEFINE= " \
+		       "DEPFILES=${DEPFILES68}" \
+		       "PINSN=${PINSN68}" \
+		       "OPCODES=${OPCODES68}" \
+		       "MFILES=${MFILES68}" \
+		       "MACHINE=68" \
+		       "GNU_MALLOC= " \
+		       gdbnoXnoRCS ;\
+		else echo "Unknown machine type $$machine" ;\
+		fi ;\
+	fi;
+	
+#
+# build gdb with X interface
+#
+Xgdb:  FRC
+	@@machine=`uname -m` ;\
+	notXD=`echo $$machine | sed 's/^XD//'` ;\
+	if [ $$notXD != $$machine ] ;\
+  	then  \
+		echo "*** Building gdb for a Tektronix XD88 workstation with X interface enabled" ;\
+		echo "*** Not creating a new rcsid file or init.c" ;\
+		echo "*** Executable created will be called Xgdb" ;\
+		if [ ! -f config.status ] ;\
+			then config.gdb XD88 ;\
+		else  \
+			statmach=`awk '{print $$NF}' config.status` ;\
+			if [ $$statmach != "XD88." ] ;\
+		    	then  \
+				rm -f config.status ;\
+				config.gdb XD88 ;\
+			fi ;\
+		fi ;\
+	        make ${MFLAGS} \
+		   "CFLAGS= ${CFLAGS} -DSYSV" \
+		   "SYSV_DEFINE=-DSYSV" \
+		   "DEPFILES=${DEPFILES88}" \
+		   "PINSNS=${PINSNS88}" \
+		   "OPCODES=${OPCODES88}" \
+		   "MFILES=${MFILES88}" \
+		   "MACHINE=88" \
+		   XgdbnoRCS ;\
+	else \
+		notTK=`echo $$machine | sed 's/^Tek43//'` ;\
+		if [ $$notTK != $$machine ] ;\
+		then echo "*** Building gdb for a Tektronix 4300 workstation with X interface enabled" ;\
+		     echo "*** Not creating a new rcsid file or init.c" ;\
+	             echo "*** Executable created will be called Xgdb" ;\
+		     if [ ! -f config.status ] ;\
+			     then config.gdb tek4300 ;\
+		     else  \
+			     statmach=`awk '{print $$NF}' config.status` ;\
+			     if [ $$statmach != "tek4300." ] ;\
+		    	     then  \
+				     rm -f config.status ;\
+				     config.gdb tek4300 ;\
+			     fi ;\
+		     fi ;\
+	             make ${MFLAGS} \
+		       "SYSV_DEFINE= " \
+		       "DEPFILES=${DEPFILES68}" \
+		       "PINSN=${PINSN68}" \
+		       "OPCODES=${OPCODES68}" \
+		       "MFILES=${MFILES68}" \
+		       "MACHINE=68" \
+	               "GNU_MALLOC=" \
+		       XgdbnoRCS ;\
+		else echo "Unknown machine type $$machine; cannot continue" ;\
+		fi ;\
+	fi;
+	
+#
+# build release version with no X interface. Not used.
+#
+release:  FRC
+	colast gdb-dbx_script
+	@@machine=`uname -m` ;\
+	notXD=`echo $$machine | sed 's/^XD//'` ;\
+	if [ $$notXD != $$machine ] ;\
+  	then  \
+		echo "*** Building gdb for a Tektronix XD88 workstation with X interface disabled" ;\
+	        echo "*** Creating a new init.c and rcsid file if necessary" ;\
+	        echo "*** Executable created will be called gdb" ;\
+		rm -f init.o init.c; \
+		if [ ! -f config.status ] ;\
+			then config.gdb XD88 ;\
+		else  \
+			statmach=`awk '{print $$NF}' config.status` ;\
+			if [ $$statmach != "XD88." ] ;\
+		    	then  \
+				rm -f config.status ;\
+				config.gdb XD88 ;\
+			fi ;\
+		fi ;\
+	        make ${MFLAGS} \
+		   "CFLAGS= ${CFLAGS} -DSYSV" \
+		   "SYSV_DEFINE=-DSYSV" \
+		   "DEPFILES=${DEPFILES88}" \
+		   "PINSNS=${PINSNS88}" \
+		   "OPCODES=${OPCODES88}" \
+		   "MFILES=${MFILES88}" \
+		   "MACHINE=88" \
+		   gdbnoXRCS ;\
+	else \
+		notTK=`echo $$machine | sed 's/^Tek43//'` ;\
+		if [ $$notTK != $$machine ] ;\
+		then echo "*** Building gdb for a Tektronix 4300 workstation with X interface disabled" ;\
+		     echo "*** Creating a new rcsid file and init.c if necessary" ;\
+	             echo "*** Executable created will be called gdb" ;\
+		     if [ ! -f config.status ] ;\
+			     then config.gdb tek4300 ;\
+		     else  \
+			     statmach=`awk '{print $$NF}' config.status` ;\
+			     if [ $$statmach != "tek4300." ] ;\
+		    	     then  \
+				     rm -f config.status ;\
+				     config.gdb tek4300 ;\
+			     fi ;\
+		     fi ;\
+	             make ${MFLAGS} \
+		       "SYSV_DEFINE= " \
+		       "DEPFILES=${DEPFILES68}" \
+		       "PINSN=${PINSN68}" \
+		       "OPCODES=${OPCODES68}" \
+		       "MFILES=${MFILES68}" \
+		       "MACHINE=68" \
+	               "GNU_MALLOC=" \
+		       gdbnoXRCS ;\
+		else echo "Unknown machine type $$machine; cannot continue" ;\
+		fi ;\
+	fi;
+	
+#
+# build release with X interface. Normal release. 
+#
+Xrelease:  FRC
+	colast Xresources gdb-dbx_script
+	@@machine=`uname -m` ;\
+	notXD=`echo $$machine | sed 's/^XD//'` ;\
+	if [ $$notXD != $$machine ] ;\
+  	then  \
+		echo "*** Building gdb for a Tektronix XD88 workstation with X interface enabled" ;\
+		echo "*** Creating a new rcsid file and init.c if necessary" ;\
+	        echo "*** Executable created will be called Xgdb" ;\
+		if [ ! -f config.status ] ;\
+			then config.gdb XD88 ;\
+		else  \
+			statmach=`awk '{print $$NF}' config.status` ;\
+			if [ $$statmach != "XD88." ] ;\
+		    	then  \
+				rm -f config.status ;\
+				config.gdb XD88 ;\
+			fi ;\
+		fi ;\
+	        make ${MFLAGS} \
+		   "CFLAGS= ${CFLAGS} -DSYSV" \
+		   "SYSV_DEFINE=-DSYSV" \
+		   "DEPFILES=${DEPFILES88}" \
+		   "PINSNS=${PINSNS88}" \
+		   "OPCODES=${OPCODES88}" \
+		   "MFILES=${MFILES88}" \
+		   "MACHINE=88" \
+		   XgdbRCS ;\
+	else \
+		notTK=`echo $$machine | sed 's/^Tek43//'` ;\
+		if [ $$notTK != $$machine ] ;\
+		then echo "*** Building gdb for a Tektronix 4300 workstation with X interface enabled" ;\
+		     echo "*** Creating a new rcsid file and init.c if necessary" ;\
+	             echo "*** Executable created will be called Xgdb" ;\
+		     if [ ! -f config.status ] ;\
+			     then config.gdb tek4300 ;\
+		     else  \
+			     statmach=`awk '{print $$NF}' config.status` ;\
+			     if [ $$statmach != "tek4300." ] ;\
+		    	     then  \
+				     rm -f config.status ;\
+				     config.gdb tek4300 ;\
+			     fi ;\
+		     fi ;\
+	             make ${MFLAGS} \
+		       "SYSV_DEFINE= " \
+		       "DEPFILES=${DEPFILES68}" \
+		       "PINSN=${PINSN68}" \
+		       "OPCODES=${OPCODES68}" \
+		       "MFILES=${MFILES68}" \
+		       "MACHINE=68" \
+	               "GNU_MALLOC=" \
+		       XgdbRCS ;\
+		else echo "Unknown machine type $$machine; cannot continue" ;\
+		fi ;\
+	fi;
+
+gdbnoXnoRCS : gdb-most norcsid.o Xno_ui.o
+d199 1
+a199 1
+	  Xno_ui.o $(CLIBS) ${MALLOC_LIB}
+d201 2
+a202 3
+gdbnoXRCS : gdb-most rcsid.o Xno_ui.o
+	${CC-LD} $(LDFLAGS) -o gdb rcsid.o $(OBS) $(TSOBS) ${RL_LIB}\
+	  Xno_ui.o $(CLIBS) ${MALLOC_LIB}
+d204 1
+a205 1
+
+a212 6
+XgdbnoRCS : gdb-most XobjnoRCS norcsid.o Xyes_ui.o
+	if [ ! -f init.c ] ; \
+	then make init.c ; \
+	fi;
+	${CC-LD} $(LDFLAGS) -o Xgdb init.c  $(OBS) $(TSOBS) ${RL_LIB}\
+	  XOBJ/gdb${MACHINE}xui.o Xyes_ui.o norcsid.o $(CLIBS) ${MALLOC_LIB} -lPW
+a213 12
+XgdbRCS : gdb-most XobjRCS Xrcsid.o Xyes_ui.o
+	rm -f init.c
+	make init.c
+	${CC-LD} $(LDFLAGS) -o Xgdb init.c  $(OBS) $(TSOBS) ${RL_LIB}\
+	  XOBJ/gdb${MACHINE}xui.o Xyes_ui.o Xrcsid.o $(CLIBS) ${MALLOC_LIB} -lPW
+
+XobjnoRCS:
+	cd XOBJ; make gdbnorcs
+
+XobjRCS:
+	cd XOBJ; make gdblib
+
+d221 1
+a221 1
+Xno_ui.o: ui.c
+a222 1
+	mv ui.o Xno_ui.o
+a223 14
+Xyes_ui.o: ui.c
+	${CC} -c ${CFLAGS} ui.c
+	mv ui.o Xyes_ui.o
+
+xgdb : $(OBS) $(TSOBS) xgdb.o ${ADD_DEPS} ${RL_LIB}
+	rm -f init.c
+	./munch ${MUNCH_DEFINE} $(OBS) $(TSOBS) xgdb.o > init.c
+	$(CC-LD) $(LDFLAGS) -o xgdb init.c $(OBS) $(TSOBS) xgdb.o \
+	-lXaw -lXmu -lXt -lX11 ${RL_LIB} $(CLIBS)
+
+# Old (pre R3) xgdb comp.
+#	$(CC-LD) $(LDFLAGS) -o xgdb init.c $(OBS) $(TSOBS) xgdb.o \
+#	-lXaw -lXt -lX11 $(CLIBS)
+
+a407 1
+watchpoint.o: defs.h param.h symtab.h obstack.h symseg.h frame.h
+d410 1
+a410 1
+coffread.o : defs.h param.h symtab.h
+@
+
+
+1.44
+log
+@added -DOLDCOFF to turn on OLDCOFF change in coffread.c. Added
+to -D "HACKFLAGS" set of preprocessor commands.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.43 90/05/08 03:21:20 robertb Exp $
+d461 3
+a463 1
+XgdbRCS : gdb-most XobjRCS init.c Xrcsid.o Xyes_ui.o
+@
+
+
+1.43
+log
+@Fixed tag-file-building.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.42 90/04/29 23:28:46 robertb Exp $
+#TEK $Locker: robertb $
+d63 1
+a63 1
+	-DBYTES_BIG_ENDIAN -DGHS185
+@
+
+
+1.42
+log
+@Moved init.o to end of list of objects so that is is built last, because
+it is make from init.c, and init.c is made from all the other objects.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.41 90/04/29 20:01:36 robertb Exp $
+d533 20
+a552 3
+TAGS: ${TAGFILES}
+	createtags ${TAGFILES}
+tags: TAGS
+@
+
+
+1.41
+log
+@Added support for the 88000 simulator.
+Made it so init.c doesn't get recompiled every time.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.40 90/04/27 18:36:45 robertb Exp $
+d170 1
+a170 1
+OBS = init.o main.o blockframe.o breakpoint.o findvar.o stack.o source.o\
+d175 1
+a175 1
+    version.o ${READLINEOBS} programmer.o watchpoint.o
+@
+
+
+1.40
+log
+@Split remote.c up into several files.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.39 90/04/25 11:19:53 robertb Exp $
+d125 1
+a125 1
+         motomode.c remote.c remcmd.c remmem.c remrun.c\
+d170 1
+a170 1
+OBS = main.o blockframe.o breakpoint.o findvar.o stack.o source.o \
+d173 1
+a173 1
+    motomode.o remote.o remcmd.o remmem.o remrun.o\
+a180 1
+
+d326 1
+a326 1
+	        echo "*** Creating a new rcsid file and init.c if necessary" ;\
+d328 1
+d436 1
+a436 1
+	
+d438 1
+a438 4
+	if [ ! -f init.c ] ; \
+	then make init.c ; \
+	fi;
+	${CC-LD} $(LDFLAGS) -o gdb init.c norcsid.o $(OBS) $(TSOBS) ${RL_LIB}\
+d441 2
+a442 2
+gdbnoXRCS : gdb-most rcsid.o init.c Xno_ui.o
+	${CC-LD} $(LDFLAGS) -o gdb init.c rcsid.o $(OBS) $(TSOBS) ${RL_LIB}\
+d445 2
+d451 1
+a451 2
+init.c : $(OBS) $(TSOBS)
+	rm -f init.c
+a453 1
+
+a495 6
+kdb : $(NTSSTART) $(OBS) $(NTSOBS) ${ADD_DEPS} ${RL_LIB}
+	rm -f init.c
+	./munch ${MUNCH_DEFINE} $(OBS) $(NTSOBS) > init.c
+	$(CC) $(LDFLAGS) -c init.c $(CLIBS) 
+	ld -o kdb $(NTSSTART) $(OBS) $(NTSOBS) init.o ${RL_LIB} -lc $(CLIBS)
+
+d549 1
+a549 1
+	rm -f init.c init.o
+d621 16
+@
+
+
+1.39
+log
+@Added remote.h to list of header files.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.38 90/04/25 10:18:29 robertb Exp $
+d124 3
+a126 2
+	 kdb-start.c main.c printcmd.c decode.c motomode.c\
+	 remote.c source.c stack.c standalone.c stuff.c symmisc.c symtab.c \
+d172 3
+a174 2
+    symtab.o symmisc.o coffread.o dbxread.o infcmd.o infrun.o motomode.o\
+    remote.o command.o utils.o expread.o expprint.o pinsn.o environ.o \
+d683 3
+@
+
+
+1.38
+log
+@Added the source file 'motomode.c' and the header file 'remote.h'
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.37 90/03/28 14:31:46 robertb Exp $
+d140 1
+a140 1
+	 inferior.h montraps.h symseg.h symtab.h value.h wait.h \
+@
+
+
+1.37
+log
+@Added  cscope target.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.36 90/03/16 09:53:38 jrb Exp $
+d124 1
+a124 1
+	 kdb-start.c main.c printcmd.c decode.c \
+d171 3
+a173 3
+    symtab.o symmisc.o coffread.o dbxread.o infcmd.o infrun.o remote.o \
+    command.o utils.o expread.o expprint.o pinsn.o environ.o version.o \
+    ${READLINEOBS} programmer.o watchpoint.o
+d680 2
+a681 1
+remote.o : defs.h  param.h frame.h inferior.h wait.h
+@
+
+
+1.36
+log
+@added GHS185 to turn on any code that takes care of Greenhills 1.8.5
+compilers.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.35 90/02/09 14:29:05 jrb Exp $
+#TEK $Locker: jrb $
+d189 3
+@
+
+
+1.35
+log
+@removed unnecessary steps in new autobuild entry... autobuild
+rebuilds gdb for X (full) release.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.34 90/01/29 11:20:45 jrb Exp $
+d63 1
+a63 1
+	-DBYTES_BIG_ENDIAN
+@
+
+
+1.34
+log
+@added a few comments for important targets 
+and added a few targets for aid in building.
+@
+text
+@d4 1
+a4 1
+#TEK $Header: Makefile,v 1.33 90/01/10 16:43:12 davidl Exp $
+a565 2
+	make exterminate
+	make co-all
+@
+
+
+1.33
+log
+@Many changes:
+	1. New targets:
+		exterminate - removes source and header files as well as 
+			objects
+		Xco-all - does 'make co-all' in X source tree
+		Xclean - does 'make clean' in X source tree
+		Xexterminate - does 'make exterminate' in X source tree
+	2. The 'Xrelease' and 'Xgdb' targets now go to the XOBJ directory
+	and run make there.  This means you'll always get an up-to-date
+	X interface.
+	3. If no init.c file exists, one is automatically made before a
+	link is attempted.  This means you should never have to call
+	'make init.c' explicitly.
+	4. If no config.status file exists or if the links set up by config.gdb
+	are not correct for the current architecture, config.gdb is rerun 
+	(this is working now only for XD88 and tek4300).  Thus you should
+	never have to run config.gdb manually.
+
+Other make targets should be unaffected by these changes.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.32 89/12/18 16:41:02 robertb Exp $
+#TEK $Locker: davidl $
+d194 3
+d253 3
+d312 3
+d372 3
+d443 4
+d562 16
+d581 3
+d596 3
+@
+
+
+1.32
+log
+@Added header files needed for cross-debugging support.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.31 89/12/18 15:43:16 robertb Exp $
+#TEK $Locker: robertb $
+d98 2
+a99 2
+# SYSV_DEFINE = -DSYSV
+SYSV_DEFINE = 
+d138 2
+a139 2
+         expression.h fields88.h format.h frame.h \
+         getpagesize.h \
+d202 10
+d227 10
+d258 10
+d283 10
+d315 10
+d340 10
+d372 10
+d397 10
+d421 3
+d436 4
+a439 1
+XgdbnoRCS : gdb-most XOBJ/gdb${MACHINE}xui.o  norcsid.o Xyes_ui.o
+d443 1
+a443 1
+XgdbRCS : gdb-most XOBJ/gdb${MACHINE}xui.o  init.c Xrcsid.o Xyes_ui.o
+d447 6
+d510 1
+a510 1
+	cd readline; colast Makefile RCS/*.[ch],v
+d512 3
+d542 10
+d628 1
+a628 1
+            value.h 
+@
+
+
+1.31
+log
+@Added a dependency for findvar.c, due to a change there for
+cross-debugging.  Added decode.[ch] for cross-debugging.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.30 89/12/11 15:08:08 andrew Exp $
+#TEK $Locker:  $
+d137 4
+a140 2
+HFILES = command.h defs.h environ.h expression.h frame.h getpagesize.h \
+	 inferior.h symseg.h symtab.h value.h wait.h \
+@
+
+
+1.30
+log
+@Delete unnecessary touch of readline/keymaps.c on "make co-all".
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.29 89/12/09 17:54:57 paulg Exp $
+#TEK $Locker: andrew $
+d124 1
+a124 1
+	 kdb-start.c main.c printcmd.c \
+d168 1
+a168 1
+    values.o eval.o valops.o valarith.o valprint.o printcmd.o \
+d516 1
+d520 2
+a521 1
+findvar.o : defs.h param.h symtab.h obstack.h symseg.h frame.h value.h 
+@
+
+
+1.29
+log
+@turned range checking on in malloc.c.  Also arrange errors in malloc.c to be
+channeled to ui_badnews.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.28 89/11/30 14:47:52 andrew Exp $
+#TEK $Locker: paulg $
+d416 1
+a416 2
+	cd readline; colast Makefile RCS/*.[ch],v; chmod +w keymaps.c; \
+        touch keymaps.c;chmod -w keymaps.c
+@
+
+
+1.28
+log
+@Use "colast" instead of co to check out files, so files that haven't
+changed aren't checked out (and so unnecessary recompilations are
+avoided).
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.27 89/11/18 13:53:58 davidl Exp $
+#TEK $Locker: andrew $
+d92 3
+a94 2
+MALLOC_FLAGS = ${CFLAGS} "-Dbotchi(x)=ui_badnews(1,x)"
+#MALLOC_FLAGS = ${CFLAGS} -Drcheck -Dbotch=fatal -DMSTATS
+@
+
+
+1.27
+log
+@Added co of gdb-dbx_script, Xresources files.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.26 89/11/18 10:09:55 davidl Exp $
+#TEK $Locker: davidl $
+d264 1
+a264 1
+	co -q gdb-dbx_script
+d301 1
+a301 1
+	co -q Xresources gdb-dbx_script
+d410 2
+a411 2
+	then  echo "Checking out ${ALLFILES88}\n" ; co -q ${ALLFILES88} ;\
+	else echo "Checking out ${ALLFILES68}\n" ; co -q ${ALLFILES68} ;\
+d413 1
+a413 1
+	co -q ${SFILES} ${DEPFILES} ${PINSNS} ${HFILES} ${OPCODES} ${MFILES} \
+d415 1
+a415 1
+	cd readline; co -q Makefile RCS/*.[ch],v; chmod +w keymaps.c; \
+@
+
+
+1.26
+log
+@'make co-all' now also checks out the four platform-specific files, at
+least for XD88 and Tek4300.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.24 89/11/15 10:00:10 andrew Exp $
+#TEK $Locker:  $
+d264 1
+d301 1
+@
+
+
+1.25
+log
+@to add refs. to watchpoint.[co]
+@
+text
+@d5 1
+a5 1
+#TEK $Locker: donhar $
+d123 1
+a123 1
+	 kdb-start.c main.c printcmd.c watchpoint.c \
+d126 1
+a126 1
+	 xgdb.c ui.c programmer.c
+d148 2
+d167 1
+a167 1
+    values.o eval.o valops.o valarith.o valprint.o printcmd.o watchpoint.o \
+d170 1
+a170 1
+    ${READLINEOBS} programmer.o
+d405 6
+d506 1
+a507 1
+watchpoint.o : defs.h param.h symtab.h obstack.h symseg.h frame.h
+@
+
+
+1.24
+log
+@Define ATTACH_DETACH.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.23 89/11/08 13:28:39 davidl Exp $
+#TEK $Locker: andrew $
+d123 1
+a123 1
+	 kdb-start.c main.c printcmd.c \
+d165 1
+a165 1
+    values.o eval.o valops.o valarith.o valprint.o printcmd.o \
+d499 1
+@
+
+
+1.23
+log
+@Removed copying.o from list of object files to link in.  We now get
+what we need for 'info copying' and 'info warranty' from reading the
+file /usr/local/bin/gnu/COPYING at runtime.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.22 89/11/06 15:53:06 marvinw Exp $
+#TEK $Locker: davidl $
+d62 2
+a63 1
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DBYTES_BIG_ENDIAN
+@
+
+
+1.22
+log
+@Fixed blk1327, we now define BYTES_BIG_ENDIAN.  The p/c command now works.
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.21 89/10/27 13:16:17 donhar Exp $
+#TEK $Locker: marvinw $
+d167 1
+a167 1
+    copying.o ${READLINEOBS} programmer.o
+@
+
+
+1.21
+log
+@updated some .h dependencies
+@
+text
+@d4 2
+a5 2
+#TEK $Header: Makefile,v 1.20 89/10/19 16:01:18 paulg Exp $
+#TEK $Locker: donhar $
+d62 1
+a62 1
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN
+@
+
+
+1.20
+log
+@fixup norcsid.c
+@
+text
+@d4 2
+a5 2
+#TEK $Header: $
+#TEK $Locker: $
+d499 1
+a499 1
+coffread.o : defs.h param.h 
+@
+
+
+1.19
+log
+@revised co-all to remove Berkeley dependency
+@
+text
+@d4 2
+d357 2
+a358 1
+	echo "char _rcsid[] = \"$$USER: `date`\";" > norcsid.c
+d385 1
+a385 1
+	mklog -sexp rcsid.c ${TAGFILES}
+d391 1
+a391 1
+	mklog -sexp Xrcsid.c ${TAGFILES} XOBJ/xrcsid.c
+@
+
+
+1.18
+log
+@Moved all flags for invocation of make for libreadline.a to one line so they'd
+all be passed correctly.
+@
+text
+@d401 2
+a402 1
+	cd readline; co -q Makefile RCS/*.[ch],v; touch -f keymaps.c
+@
+
+
+1.17
+log
+@norcsid.c is now built every time with the user id and date.
+@
+text
+@d466 1
+a466 2
+	  make ${MFLAGS} "SYSV_DEFINE=${SYSV_DEFINE}" \
+		"HACKFLAGS=${HACKFLAGS}" libreadline.a
+@
+
+
+1.16
+log
+@New scheme to enable us to Do The Right Thing regardless of platform.
+Main targets and their effect:
+	make gdb		no X interface, no RCS info
+        make			same
+	make Xgdb		X interface, no RCS info
+	make release		no X interface, RCS id# is bumped and linked in
+	make Xrelease		X interface, RCS id# is bumped and linked in
+
+init.c is only remade if the RCS id# is bumped (and then only if the files
+it depends on have changed).  malloc.o is linked in only if we're building
+on the 88k platform, as it appears to break gdb on the 68k.
+
+In both cases we use CC=/bin/cc.
+
+The correct header files and system dependent files are included in the
+arguments to mklog now.
+
+Need to add rcs info from the readline directory.
+
+@
+text
+@d354 2
+a355 2
+norcsid.c: 
+	echo "char _rcsid[] = \"\$$Header: No meaningful rcs info here! $$\";" | cat >> norcsid.c
+@
+
+
+1.15
+log
+@oops: don't want to compile malloc.c with range checking
+@
+text
+@d60 2
+a61 3
+#TEK CFLAGS = -g -I.
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK
+CFLAGS = -g -I. -c -DSYSV ${HACKFLAGS}
+a63 1
+#TEK LDFLAGS = -g
+a76 2
+#TEK ALLOCA = 
+#TEK ALLOCA1 = 
+d95 1
+a95 2
+#TEK SYSV_DEFINE =
+SYSV_DEFINE = -DSYSV
+a99 1
+#TEK MUNCH_DEFINE = ${SYSV_DEFINE}
+d108 1
+a108 1
+MALLOC_LIB =
+d125 3
+a127 4
+#TEK DEPFILES = umax-dep.c gould-dep.c default-dep.c sun3-dep.c \
+#TEK 	   sparc-dep.c hp9k320-dep.c hp300bsd-dep.c news-dep.c i386-dep.c \
+#TEK 	   symmetry-dep.c convex-dep.c
+DEPFILES = m88k-dep.c tek4300-dep.c
+d129 3
+a131 3
+#TEK PINSNS = gld-pinsn.c i386-pinsn.c sparc-pinsn.c vax-pinsn.c m68k-pinsn.c \
+#TEK 	 ns32k-pinsn.c convex-pinsn.c
+PINSNS = m88k-pinsn.c m68k-pinsn.c
+d137 3
+a139 3
+#TEK OPCODES = m68k-opcode.h pn-opcode.h sparc-opcode.h npl-opcode.h vax-opcode.h \
+#TEK 	  ns32k-opcode.h convex-opcode.h
+OPCODES = m88k-opcode.h m68k-opcode.h
+d141 3
+a143 4
+#TEK MFILES = m-hp9k320.h m-hp300bsd.h m-i386.h m-i386gas.h m-isi.h m-merlin.h \
+#TEK 	 m-news.h m-npl.h m-pn.h m-sparc.h m-sun2.h m-sun3.h m-sun2os4.h \
+#TEK 	 m-sun3os4.h m-sun4os4.h m-umax.h m-vax.h m-symmetry.h m-convex.h
+MFILES = m-m88k.h m-tek4300.h
+a170 2
+#TEK supplied by the linker
+#TEK TSSTART = /lib/crt0.o
+d186 149
+a334 3
+gdb : gdb-most rcsid.o Xno_ui.o
+	rm -f init.c
+	./munch ${MUNCH_DEFINE} $(OBS) $(TSOBS) > init.c
+d338 1
+a338 2
+
+Xgdb : gdb-most XOBJ/gdb88xui.o Xrcsid.o Xyes_ui.o
+a340 2
+	${CC-LD} $(LDFLAGS) -o Xgdb init.c Xrcsid.o $(OBS) $(TSOBS) ${RL_LIB}\
+	  XOBJ/gdb88xui.o Xyes_ui.o $(CLIBS) ${MALLOC_LIB} -lPW
+a341 5
+gdb68-most :
+	make ${MFLAGS}\
+	  "CFLAGS= -g -I. -c ${HACKFLAGS}"\
+	  "SYSV_DEFINE="\
+	  gdb-most
+d343 3
+a345 6
+gdb68 :
+	make ${MFLAGS} \
+          "CFLAGS= -g -I. -c ${HACKFLAGS}"\
+	  "SYSV_DEFINE="\
+	  "MALLOC_LIB="\
+	  gdb
+d347 3
+a349 5
+Xgdb68 : gdb68-most XOBJ/gdb68xui.o Xrcsid.o Xyes_ui.o
+	rm -f init.c
+	./munch ${MUNCH_DEFINE} $(OBS) $(TSOBS) > init.c
+	${CC-LD} $(LDFLAGS) -o Xgdb init.c Xrcsid.o $(OBS) $(TSOBS) ${RL_LIB}\
+	  XOBJ/gdb68xui.o Xyes_ui.o $(CLIBS) -lPW
+d351 6
+a379 3
+#TEK
+#TEK  build rcsid files for non-window and window versions.
+#TEK
+d390 1
+a390 1
+	(echo /_Xrcsid/s//rcsid/;echo /Xrcsid\\.c,v/s//Xgdb-Tek/;echo wq)\
+d467 1
+a467 1
+	  "HACKFLAGS=${HACKFLAGS}" libreadline.a
+@
+
+
+1.14
+log
+@minor changes to co-all
+@
+text
+@d93 1
+a93 1
+MALLOC_FLAGS = ${CFLAGS} "-Dbotchi(x)=ui_badnews(1,x)" -Drcheck
+@
+
+
+1.13
+log
+@1) always use "cc"   2) on 88k, use -lmalloc   3) be smart about ui.o
+@
+text
+@d88 2
+a89 2
+#GNU_MALLOC = malloc.o
+GNU_MALLOC =
+d113 2
+a114 1
+MALLOC_LIB = -lmalloc
+d134 1
+a134 1
+DEPFILES = m88k-dep.c
+d138 1
+a138 1
+PINSNS = m88k-pinsn.c
+d146 1
+a146 1
+OPCODES = m88k-opcode.h
+d151 1
+a151 1
+MFILES = m-m88k.h
+d274 2
+a275 2
+	${POSSLIBS} COPYING copying.awk
+	cd readline; co -q Makefile RCS/*.[ch],v
+d340 2
+a341 2
+	  make ${MFLAGS} "SYSV_DEFINE=${SYSV_DEFINE}" "HACKFLAGS=${HACKFLAGS} \
+	    "libreadline.a
+@
+
+
+1.12
+log
+@fixed up the rcsid stuff so that the name of the string is _rcsid in both
+versions and so ident will report "gdb" instead of "rcsid.c,v"
+@
+text
+@d47 2
+a48 2
+#CC=cc
+CC=gcc -traditional
+d61 1
+a61 1
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_DEF_HACK
+a68 2
+TEKXWIN= -DNOXWINDOWS
+
+d88 1
+a89 1
+#TEK GNU_MALLOC = malloc.o
+d93 2
+a94 3
+#MALLOC_FLAGS = ${CFLAGS}
+#TEK MALLOC_FLAGS = ${CFLAGS} -Drcheck -Dbotch=fatal -DMSTATS
+MALLOC_FLAGS = 
+d112 3
+d172 1
+a172 1
+    copying.o ${READLINEOBS} programmer.o ui.o
+d187 1
+a187 1
+	${CC} -c ${CFLAGS} ${TEKXWIN} $<
+d195 1
+a195 1
+gdb : gdb-most rcsid.o
+d198 2
+a199 1
+	${CC-LD} $(LDFLAGS) -o gdb init.c rcsid.o $(OBS) $(TSOBS) ${RL_LIB} $(CLIBS)
+d202 1
+a202 1
+Xgdb : gdb-most XOBJ/gdb88xui.o Xrcsid.o
+a204 2
+	rm -f ui.o
+	make ${MFLAGS} "TEKXWIN=" ui.o
+d206 1
+a206 1
+	  XOBJ/gdb88xui.o $(CLIBS) -lPW
+a210 1
+	  "CC=cc"\
+a214 1
+	rm -f ui.o
+a216 1
+	  "CC=cc"\
+d218 1
+d221 1
+a221 1
+Xgdb68 : gdb68-most XOBJ/gdb68xui.o Xrcsid.o
+a223 3
+	rm -f ui.o
+	make ${MFLAGS} "TEKXWIN="\
+	  "CC=cc" "CFLAGS= -g -I. -c ${HACKFLAGS}" ui.o
+d225 9
+a233 1
+	  XOBJ/gdb68xui.o $(CLIBS) -lPW
+@
+
+
+1.11
+log
+@put rcsid.o in a couple of places that got left out.
+@
+text
+@d128 1
+a128 1
+	 xgdb.c ui.c
+d172 1
+a172 1
+    copying.o ${READLINEOBS} ui.o
+d178 1
+a179 1
+TSSTART = /lib/crt0.o /lib/default.ld
+a213 1
+	  "TSSTART=/lib/crt0.o"\
+d217 2
+a218 1
+	make ${MFLAGS}\
+a221 1
+	  "TSSTART=/lib/crt0.o"\
+d229 1
+a229 1
+	  "CFLAGS= -g -I. -c ${HACKFLAGS}" ui.o
+d254 3
+d260 4
+d266 1
+a266 1
+#TEK check everything from RCS
+@
+
+
+1.10
+log
+@fix typo.
+@
+text
+@d198 1
+a198 1
+	${CC-LD} $(LDFLAGS) -o gdb init.c $(OBS) $(TSOBS) ${RL_LIB} $(CLIBS)
+d231 1
+a231 1
+	${CC-LD} $(LDFLAGS) -o Xgdb init.c $(OBS) $(TSOBS) ${RL_LIB}\
+@
+
+
+1.9
+log
+@changed hacks to own macro and added target to co everything
+@
+text
+@d331 1
+a331 1
+	  make ${MFLAGS} "SYSV_DEFINE=${SYSV_DEFINE}" "HACKFLAGS=${HACKFLAGS}\
+@
+
+
+1.8
+log
+@Added Xrcsid.o to files to be linked for Xgdb target.
+@
+text
+@d61 2
+a62 1
+CFLAGS = -g -I. -c -DSYSV -DDG_HACK -DTEK_HACK -DTEK_DEF_HACK
+d103 1
+a103 1
+SYSV_DEFNE = -DSYSV
+d128 1
+a128 1
+	 xgdb.c
+d141 1
+a141 1
+	 a.out.encap.h a.out.gnu.h stab.gnu.h 
+d211 1
+a211 1
+	  "CFLAGS= -g -I. -c -DDG_HACK -DTEK_HACK -DTEK_DEF_HACK"\
+d219 1
+a219 1
+          "CFLAGS= -g -I. -c -DDG_HACK -DTEK_HACK -DTEK_DEF_HACK"\
+d230 1
+a230 1
+	  "CFLAGS= -g -I. -c -DDG_HACK -DTEK_HACK -DTEK_DEF_HACK" ui.o
+d259 9
+d331 2
+a332 1
+	  make ${MFLAGS} "SYSV_DEFINE=${SYSV_DEFINE}" libreadline.a
+@
+
+
+1.7
+log
+@revamp to makefile to build both 88k and 68k versions, with and
+without the X interface.
+@
+text
+@d205 1
+a205 1
+	${CC-LD} $(LDFLAGS) -o Xgdb init.c $(OBS) $(TSOBS) ${RL_LIB}\
+@
+
+
+1.6
+log
+@added TEK_DEF_HACK to stuff passed to make readline
+@
+text
+@d61 1
+a61 1
+CFLAGS = -g -I. -c -DSYSV -DDG_HACK -DTEK_HACK -DTEK_DEF_HACK -DNOXWINDOWS
+d68 2
+d102 1
+a102 1
+SYSV_DEFINE = -DSYSV -DDG_HACK -DTEK_HACK -DTEK_DEF_HACK
+d186 1
+a186 1
+	${CC} -c ${CFLAGS} $<
+d188 7
+a194 1
+gdb : $(OBS) $(TSOBS) ${ADD_DEPS} ${RL_LIB}
+d199 34
+d248 3
+d252 6
+d320 2
+a321 1
+	cd readline ; ${MAKE} "SYSV_DEFINE=${SYSV_DEFINE}" libreadline.a
+@
+
+
+1.5
+log
+@changed TEK_COND_HACK to TEK_DEF_HACK
+@
+text
+@d100 1
+a100 1
+SYSV_DEFINE = -DSYSV -DDG_HACK -DTEK_HACK
+@
+
+
+1.4
+log
+@add TEK_COND_HACK to list of defines
+@
+text
+@d61 1
+a61 1
+CFLAGS = -g -I. -c -DSYSV -DDG_HACK -DTEK_HACK -DTEK_COND_HACK -DNOXWINDOWS
+@
+
+
+1.3
+log
+@1) now compiles with gcc.  2) added target to run lint (lint_msgs)
+@
+text
+@d61 1
+a61 1
+CFLAGS = -g -I. -c -DSYSV -DDG_HACK -DTEK_HACK -DNOXWINDOWS
+@
+
+
+1.2
+log
+@clean compile
+@
+text
+@d47 2
+a48 1
+CC=cc
+d130 1
+a130 1
+DEPFILES = default-dep.c m88k-dep.c
+d242 4
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 4
+d56 1
+a56 1
+CC-LD=${CC}
+d59 2
+a60 1
+CFLAGS = -g -I.
+d63 2
+a64 1
+LDFLAGS = -g
+d75 6
+a80 4
+REGEX = 
+REGEX1 = 
+ALLOCA = 
+ALLOCA1 = 
+d86 2
+a87 2
+#GNU_MALLOC =
+GNU_MALLOC = malloc.o
+d92 2
+a93 1
+MALLOC_FLAGS = ${CFLAGS} -Drcheck -Dbotch=fatal -DMSTATS
+d98 2
+a99 1
+SYSV_DEFINE =
+d104 2
+a105 1
+MUNCH_DEFINE = ${SYSV_DEFINE}
+d114 1
+a114 1
+#CLIBS= {$ADD_FILES} ${TERMCAP} -lPW
+d126 4
+a129 3
+DEPFILES = umax-dep.c gould-dep.c default-dep.c sun3-dep.c \
+	   sparc-dep.c hp9k320-dep.c hp300bsd-dep.c news-dep.c i386-dep.c \
+	   symmetry-dep.c convex-dep.c
+d131 3
+a133 2
+PINSNS = gld-pinsn.c i386-pinsn.c sparc-pinsn.c vax-pinsn.c m68k-pinsn.c \
+	 ns32k-pinsn.c convex-pinsn.c
+d139 3
+a141 2
+OPCODES = m68k-opcode.h pn-opcode.h sparc-opcode.h npl-opcode.h vax-opcode.h \
+	  ns32k-opcode.h convex-opcode.h
+d143 4
+a146 3
+MFILES = m-hp9k320.h m-hp300bsd.h m-i386.h m-i386gas.h m-isi.h m-merlin.h \
+	 m-news.h m-npl.h m-pn.h m-sparc.h m-sun2.h m-sun3.h m-sun2os4.h \
+	 m-sun3os4.h m-sun4os4.h m-umax.h m-vax.h m-symmetry.h m-convex.h
+d168 1
+a168 1
+    copying.o ${READLINEOBS}
+d174 2
+a175 1
+TSSTART = /lib/crt0.o
+@

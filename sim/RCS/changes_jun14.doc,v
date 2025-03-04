@@ -1,0 +1,135 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.06.24.18.05.02;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.06.14.21.41.18;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@bug fixes and outstanding bugs as of June 14, 1988
+@
+
+
+1.2
+log
+@added rcsid's
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+To: 88tools
+Fcc: outbox
+Subject: New //cucpake/UTek/tools/bin/d88 and //cupcake/usr/local/dbx
+-------
+
+Fixed:
+
+ 1. Function calling from the dbx command line now works in both versions.
+    So you can say "call printf("hi there %d %d %f", 4, 5, 1.2)" and
+    dbx will construct a parameter list and call printf.  You can do this
+    at any point, so long as the stack pointer is valid and there is
+    sufficient stack space.  This is a powerful feature and I hope
+    that you will try it out.
+
+ 2. A number of bugs having to do with display of floating point numbers
+    are fixed.  Thanks to Andrew for reporting these.
+
+ 3. The 68k version of dbx (//cupcake/usr/local/dbx) now correctly prevents
+    the subprocess being debugged from exiting.  This allows you to
+    look at process state when it would have otherwise gone away.
+    D88 doesn't have a subprocess and it has always allowed access
+    to program state after program termination.
+
+ 4. A bug is fixed that caused d88 to become erratic after printing out
+    258 function trace messages of a function which is called by
+    code that doesn't look like a normal function (i.e., assembly code)
+    to d88.  This now-correct problem could have caused any number of 
+    other bugs.
+
+ 5. The bug where "trace clock" where clock is a function in a module
+    of the same name is fixed.  Also, now if you say "stop clock"
+    instead of "stop in clock" you will be warned about not being
+    able to set data breakpoints on modules of functions.
+
+There may be other bugs that I didn't know about that were fixed
+in the course of fixing the bugs listed above.  Some of the problems
+were in low level routines used by many parts of dbx/d88.
+
+I may be gone for good this Friday (except for a week in mid-July when 
+I will be back).  I would appreciate it if you would send in those
+dbx/d88 bugs that you've been treasuring up.
+
+There are paper copies of the man pages for d88 and asm78 on a shelf
+in my office.  You are welcome to them.
+
+Remaining bugs:
+
+  1. Assignment to bitfields doesn't work and dbx/d88 often doesn't
+     indicate that anything is amiss.  This is also a problem with the 
+     original VAX 4.3 dbx.
+
+  2. Global variables are considered by dbx/d88 to belong to the first
+     module, in link order, that declares it.  This is true even for
+     extern declarations.  This means that if you have a header file
+     with 100 extern's and you include this header in 30 of your
+     40 source files, all 100 variables will appear to be in the
+     first of these 30 files seen by the linker.  This is really
+     a problem when you have a variable whose name is not unique
+     and you try to qualify it with a module name to force dbx
+     to get the variable that you are interested in.  This
+     is also a problem with the original VAX 4.3 dbx.
+
+  3. Static functions sometimes are not dealt with properly.
+     One way this manifests itself is that the variables of
+     a static never appear to dbx/d88 to be "active".
+
+  4. Hitting control-C when the subprocess is running and the
+     subprocess has a signal handler for SIGINT will not work
+     as you might expect.  The subprocess will get the SIGINT
+     when you continue.  This is not a problem with d88, but
+     it is with the original VAX 4.3 dbx.  Paul Gilliam is 
+     working on this ("We have top men working it sir, ... top mem").
+
+  5. Stepping into functions called with a bsr.w doesn't work.
+     Static functions are called with this instructions by the
+     GH 68k compiler.  This is not a problem for d88.
+
+  6. Heap space allocated by dbx on the fly isn't always reclaimed.
+     So dbx/d88 "leaks".  This would result in dbx/d88 running
+     out of virtual memory if left tracing functions, lines, or
+     instruction addresses for a very long time.  I've plugged
+     some of the leaks, but this isn't a high priority item to fix.
+     The size of "chunk" that is left unclaimed is on the order
+     of 48 bytes per trace message.  Dbx probably has leaks in other
+     places also.
+
+	Rob
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d5 1
+a5 1
+ * "$Header: "
+@

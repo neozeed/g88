@@ -1,0 +1,470 @@
+head     1.13;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.13
+date     90.04.29.19.24.17;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     89.07.14.09.01.24;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.07.13.21.51.02;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.04.15.14.17.01;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.03.10.12.20.45;  author brents;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.02.23.13.57.54;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.02.12.17.10.56;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.02.12.16.14.48;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.30.16.59.57;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.30.14.52.36;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.24.17.19.58;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.24.16.54.15;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.24.16.35.54;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Local status/control register simulator.
+@
+
+
+1.13
+log
+@Ported to System V.  Now read gdb convenience variable for dip
+switch detting, instead of environment variable.
+@
+text
+@/*
+ * LCSR (local status register) simulator
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: lcsr.c,v 1.12 89/07/14 09:01:24 robertb Exp $
+ */
+
+#include "sim.h"
+#include "io.h"
+
+#define LCSRSIM "dipswitch"
+
+static u_char lcsr_reg[4];
+
+void
+lcsr_init()
+{
+    int i;
+
+    lcsr_reg[3] = varvalue(LCSRSIM);
+    lcsr_reg[1] = 0x80;	/* init for AUX brd present */
+}
+
+int
+lcsr_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    u_long char lcsr_switch_code;
+    u_long char *mem_ptr;
+
+    if (address_offset + size > sizeof(lcsr_reg)) {
+        sim_printf("error: addressing LCSR at an offset of 0x%x\n", 
+                        address_offset);
+        return E_DACC;
+    }
+
+    lcsr_reg[2] = cmmus;
+    mem_ptr = lcsr_reg + (address_offset & 3);
+    do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+    return E_NONE;
+}
+
+void
+lcsr_print()
+{
+    int i;
+
+    lcsr_reg[2] = cmmus;
+
+    for (i = 0 ; i < sizeof(lcsr_reg) ; i++) {
+        sim_printf("lcsr_reg[%d]=0x%x\n", i, lcsr_reg[i]);
+    }
+}
+@
+
+
+1.12
+log
+@Fixed some type-matching problems shown by the new compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: lcsr.c,v 1.11 88/07/13 21:51:02 robertb Exp $
+d13 1
+a13 1
+#define LCSRSIM "DIPSWITCH"
+a14 1
+static char *lcsr_string;
+a20 1
+    extern char *getenv();
+d22 1
+a22 10
+    lcsr_string = sim_strdup(getenv(LCSRSIM));
+    for (i = 0 ; i < sizeof(lcsr_reg) ; i++) {
+        lcsr_reg[i] = 0;
+    }
+    if (lcsr_string) {
+        for (i = 0 ; i < strlen(lcsr_string) ; i++) {
+            lcsr_reg[3] = (lcsr_reg[3] << 1) | lcsr_string[i] == '1';
+        }
+    }
+
+d38 1
+a38 1
+        sim_printf("error: addressing LCSR at an offset of 0x%X\n", 
+a55 6
+    if (lcsr_string) {
+        sim_printf("The %s environment variable = %s\n", LCSRSIM, lcsr_string);
+    } else {
+        sim_printf("The %s environment variable was not set\n", LCSRSIM);
+        sim_printf("the last time that the simulator was initialized.\n");
+    }
+@
+
+
+1.11
+log
+@updated to reflect new meaning of the 'cmmus' variable
+@
+text
+@d7 1
+a7 1
+ * $Header: lcsr.c,v 1.10 88/04/15 14:17:01 robertb Exp $
+d15 1
+a15 1
+static u_char *lcsr_string;
+@
+
+
+1.10
+log
+@now call sim_strdup to get environment string into the heap.
+@
+text
+@d7 1
+a7 1
+ * $Header: lcsr.c,v 1.9 88/03/10 12:20:45 brents Exp $
+d54 1
+a54 9
+    switch (cmmus) {
+        case 1: lcsr_reg[2] = 0x11; break;
+        case 2: lcsr_reg[2] = 0x33; break;
+        case 4: lcsr_reg[2] = 0xff; break;
+        default:
+            sim_printf("lcsr: case error on cmmus: %d\n", cmmus);
+            return E_DACC;
+    }
+              
+d65 1
+a65 8
+    switch (cmmus) {
+        case 1: lcsr_reg[2] = 0x11; break;
+        case 2: lcsr_reg[2] = 0x33; break;
+        case 4: lcsr_reg[2] = 0xff; break;
+        default:
+            sim_printf("lcsr: case error on cmmus: %d\n", cmmus);
+            return;
+    }
+@
+
+
+1.9
+log
+@added initialization of AUX brd present status in lcsr reg 
+@
+text
+@d7 1
+a7 1
+ * $Header: lcsr.c,v 1.8 88/02/23 13:57:54 robertb Exp $
+d24 1
+a24 1
+    lcsr_string = getenv(LCSRSIM);
+@
+
+
+1.8
+log
+@made the cmmu byte in the lcsr reflect the number of
+CMMU's being simulated.
+@
+text
+@d7 1
+a7 1
+ * $Header: lcsr.c,v 1.7 88/02/12 17:10:56 robertb Exp $
+d33 2
+@
+
+
+1.7
+log
+@deleted extra */ in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: lcsr.c,v 1.6 88/02/12 16:14:48 robertb Exp $
+d11 1
+d13 1
+a13 1
+#define	LCSRSIM	"DIPSWITCH"
+d15 2
+a16 2
+static char *lcsr_string;
+static char lcsr_reg[4];
+d18 1
+d21 2
+a22 2
+	int i;
+	extern char *getenv();
+d24 9
+a32 10
+	lcsr_string = getenv(LCSRSIM);
+	for (i = 0 ; i < sizeof(lcsr_reg) ; i++) {
+		lcsr_reg[i] = 0;
+	}
+	if (lcsr_string) {
+		for (i = 0 ; i < strlen(lcsr_string) ; i++) {
+			lcsr_reg[3] = (lcsr_reg[3] << 1) | lcsr_string[i] == '1';
+		}
+	}
+	lcsr_reg[2] = 0xff;
+d35 1
+d37 5
+a41 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d43 2
+a44 2
+	unsigned char lcsr_switch_code;
+	unsigned char *mem_ptr;
+d46 18
+a63 8
+	if (address_offset + size > sizeof(lcsr_reg)) {
+		sim_printf("error: addressing LCSR at an offset of 0x%X\n", 
+						address_offset);
+		return E_DACC;
+	}
+	mem_ptr = lcsr_reg + (address_offset & 3);
+	do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+	return E_NONE;
+d66 1
+d69 1
+a69 1
+	int i;
+d71 18
+a88 9
+	if (lcsr_string) {
+		sim_printf("The %s environment variable = %s\n", LCSRSIM, lcsr_string);
+	} else {
+		sim_printf("The %s environment variable was not set\n", LCSRSIM);
+		sim_printf("the last time that the simulator was initialized.\n");
+	}
+	for (i = 0 ; i < sizeof(lcsr_reg) ; i++) {
+		sim_printf("lcsr_reg[%d]=0x%X\n", i, lcsr_reg[i] & 0xff);
+	}
+@
+
+
+1.6
+log
+@Added copyright notice.
+@
+text
+@d7 1
+a7 1
+ * $Header: lcsr.c,v 1.5 87/11/30 16:59:57 robertb Exp $ */
+@
+
+
+1.5
+log
+@Fixed some bugs.
+@
+text
+@a0 2
+/* $Header: lcsr.c,v 1.4 87/11/30 14:52:36 robertb Exp $ */
+
+d3 5
+@
+
+
+1.4
+log
+@Fixed some bugs.
+@
+text
+@d1 1
+a1 1
+/* $Header: lcsr.c,v 1.3 87/11/24 17:19:58 robertb Exp $ */
+d12 1
+a12 1
+static unsigned lcsr_reg;
+d20 3
+a22 1
+	lcsr_reg = 0;
+d25 1
+a25 1
+			lcsr_reg = (lcsr_reg << 1) | lcsr_string[i] == '1';
+d28 1
+a28 3
+	lcsr_reg &= 0xff;
+
+	lcsr_reg |= 0xff00;	/* All CMMU's are present. */
+d41 1
+a41 1
+	if (address_offset + size > 4) {
+d46 1
+a46 1
+	mem_ptr = (unsigned char *)&lcsr_reg + (address_offset & 3);
+d53 2
+d61 3
+a63 1
+	sim_printf("lcsr_reg=0x%X\n", lcsr_reg);
+@
+
+
+1.3
+log
+@Minor fixes.
+@
+text
+@d1 1
+a1 1
+/* $Header: lcsr.c,v 1.2 87/11/24 16:54:15 robertb Exp $ */
+d26 1
+a26 1
+	lcsr_reg &= ~0xff;
+d39 1
+d41 2
+a42 2
+	if (address_offset > 0) {
+		sim_printf("warning: addressing LCSR at an offset of 0x%X\n", 
+a43 3
+	}
+	if (size > WORD) {
+		sim_printf("Double word operations not allowed with LCSR\n");
+d46 2
+a47 6
+	if (!override && size != BYTE) {
+		sim_printf("Only byte operations permitted with LCSR\n");
+		return E_DACC;
+	}
+	do_mem_op(reg_ptr, &lcsr_reg, size, mem_op_type);
+	lcsr_reg &= 0xc30fffff;		/* Zero the must-be-zero bits */
+@
+
+
+1.2
+log
+@Fixed minor bugs.
+@
+text
+@d1 1
+a1 1
+/* $Header: lcsr.c,v 1.1 87/11/24 16:35:54 robertb Exp $ */
+a24 1
+		lcsr_reg <<= 24;
+d26 3
+d40 4
+d53 1
+a53 1
+	lcsr_reg &= 0xff000000;
+d60 1
+a60 2
+		sim_printf("%s environment variable = %s, lcsr_reg=0x%X\n",
+				LCSRSIM, lcsr_string, lcsr_reg >> 24);
+d62 2
+a63 5
+		sim_printf(
+            "The %s environment variable was not set the last time the\n",
+                LCSRSIM);
+
+		sim_printf("simulator was initialized.  lcsr_reg=0x%X\n", lcsr_reg);
+d65 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+/* $Header: led.c,v 1.7 87/11/24 16:33:36 robertb Exp $ */
+d14 1
+a14 1
+lcsr_switch_init()
+d51 1
+a51 1
+lcsr_switch_print()
+d53 10
+a62 2
+	printf("%s environment variable = %s, lcsr_reg=0x%X\n",
+			LCSRSIM, lcsr_string, lcsr_reg >> 24);
+@

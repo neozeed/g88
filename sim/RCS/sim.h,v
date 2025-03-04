@@ -1,0 +1,1101 @@
+head     1.28;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.28
+date     90.06.30.19.13.44;  author robertb;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     90.05.11.11.54.22;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     90.04.29.19.18.50;  author robertb;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.03.09.12.54.45;  author andrew;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.08.03.13.22.33;  author andrew;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.07.13.21.51.33;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.04.30.22.59.58;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.04.28.10.35.29;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.04.15.14.10.47;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.04.11.19.14.17;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.03.25.17.33.43;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.03.10.10.30.42;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.02.22.11.57.00;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.02.12.16.44.45;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.02.12.16.15.55;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.08.16.36.12;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.01.25.11.19.31;  author timd;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.01.02.11.08.31;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     87.12.10.20.29.39;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.11.23.14.43.50;  author timd;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.23.14.27.45;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.19.19.32.49;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.13.18.59.06;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.11.22.26.55;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.09.22.39.19;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.03.16.02.58;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.10.28.20.37.30;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.38.59;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.28
+log
+@Added a global variable forward declaration in support of multiprocessor
+simulation.
+@
+text
+@/*
+ * Header file for the UTek 88000 simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/sim.h,v 1.27 90/05/11 11:54:22 robertb Exp Locker: robertb $
+ */
+
+#include "sim_interface.h"
+
+/*
+ * A mask that when and'd with a physical or logical 88000 address
+ * gives the byte offset within the physical or logical page.
+ */
+#define PAGEMASK   (PAGESIZE - 1)
+
+/*
+ * Size of memory operations.  The parameter 'size' in several
+ * functions has one of these values.
+ */
+#define	QWORD	(16)
+#define DWORD   (8)
+#define WORD    (4)
+#define HALF    (2)
+#define BYTE    (1)
+
+/*
+ * Type of memory operation.  The parameter 'mem_op_type' in several
+ * functions has one of these values.
+ */
+#define LD      1
+#define ST      2
+#define XMEM    3
+#define LD_U    4
+#define XMEM_U  5
+#define FETCH   6       /* Only used by execution trace code */
+
+/*
+ * This structure holds the decoded form of 88000 instructions.
+ * They are filled in by the function in decode.c and read by
+ * the execution functions in execute.c
+ *
+ * the norm_e_addr field points to the entry point, created with
+ * a asm insert, in the main execution function for the instruction.
+ *
+ * dest is a 32-bit host pointer that usually points to the destination
+ * register.
+ *
+ * s1 is a 32-bit host pointer that usually points to the source 1
+ * register.
+ *
+ * s2 is a 32-bit host pointer that usually points to the source 2
+ * register or the literal field.
+ *
+ * literal holds literal values that the s2 field points to in 
+ * instructions that have literal operands.
+ *
+ * In the case of the control register manipulation instructions, the
+ * literal field is a boolean that is set if the operation is not
+ * permitted in user mode.
+ */
+struct decoded_i {
+    int         (*norm_e_addr)();
+    u_long    *dest;
+    u_long    *s1;
+    u_long    *s2;
+};
+
+/*
+ * This is the data part of a memory page.  The fist element is
+ * the data on the page (4096 bytes).  The second is a pointer to the
+ * array of decoded instructions that corresponds to the 88000
+ * instructions in the 'values' array.  If this pointer is zero
+ * it means that the decoded part doesn't exist for this page yet.
+ * The decoded part is allocated the first time an instruction 
+ * is executed on the page.
+ */
+struct page {
+    u_long values[PAGESIZE / 4];
+    struct decoded_part *decoded_part;
+};
+
+/*
+ * Has 1025 elements.  The last one is for the sim_not_decoded entry
+ * that is at the end of every decoded instruction page.
+ */
+struct decoded_part {
+    struct decoded_i decoded_i[PAGESIZE / 4 + 1];
+};
+
+/*
+ * There are 2 tlb's for user space and 2 for supervisor space.
+ * Of each set of 2, one is for loads and one is for stores.
+ */
+extern u_char **u_load_tlb[];
+extern u_char **s_load_tlb[];
+
+extern u_char **u_store_tlb[];
+extern u_char **s_store_tlb[];
+
+extern u_char *defaultpagetlb[];
+
+/*
+ * Number of entries in a 1st level tlb page (i.e., # of entries on a
+ * segment page).
+ */
+#define SEGTLB (1024)
+
+/*
+ * Number of entries in a 2nd level tlb page.
+ */
+#define PAGETLB (1024)
+
+/*
+ * This is used by execute.c for implementing delayed branches.  
+ * It is a global copy of the local variable 'r_delayed_p'
+ */
+extern struct decoded_i *delayed_p;
+extern u_long delayed_ip;
+
+/*
+ * This does the actual transfer of a byte, half, word, or double
+ * word in a slow memory operation.
+ */
+extern int l_mem_op();
+
+/*
+ * The next three functions translate addresses between different
+ * spaces:
+ *
+ * L : logical 88000 address space
+ * P : physical 88000 address space
+ * D : decoded instruction pointer space
+ */
+
+extern int               l_to_p();      /* L ==> P          */
+
+extern struct decoded_i *p_to_d();      /* P ==> D          */
+
+/*
+ * This use the code-space CMMU's mapping.
+ */
+extern struct decoded_i *l_to_d();      /* L ==> P ==> D    */
+
+/*
+ * Allocate the first part of a simulated 4K page.
+ */
+extern struct page *allocate_page();
+
+/*
+ * Allocate the decoded part of a memory page.
+ */
+extern struct decoded_part *allocate_decoded_part();
+
+/*
+ * Size of simulated 88000 physical memory in bytes.
+ */
+extern u_long memory_size;
+
+/*
+ * Number of *physical* 4K pages being simulated.  Not to be confused
+ * with the logical pages.
+ */
+extern u_long page_table_size;
+
+/*
+ * Array of pointers to simulated physical 4K pages.
+ */
+extern struct page **page_table;
+
+/*
+ * Macros for referring to the Integer Unit's control and status registers.
+ */
+#define PID         (sfu0_regs[0])
+#define PSR         (sfu0_regs[1])
+#define TPSR        (sfu0_regs[2])
+#define SSBR        (sfu0_regs[3])
+#define SXIP        (sfu0_regs[4])
+#define SNIP        (sfu0_regs[5])
+#define SFIP        (sfu0_regs[6])
+#define VBR         (sfu0_regs[7])
+#define DMT0        (sfu0_regs[8])
+#define DMD0        (sfu0_regs[9])
+#define DMA0        (sfu0_regs[10])
+#define DMT1        (sfu0_regs[11])
+#define DMD1        (sfu0_regs[12])
+#define DMA1        (sfu0_regs[13])
+#define DMT2        (sfu0_regs[14])
+#define DMD2        (sfu0_regs[15])
+#define DMA2        (sfu0_regs[16])
+#define STACKBASE   (sfu0_regs[21])
+#define RAMSIZE     (sfu0_regs[22])
+
+#define	SBR         (sfu0_regs[63])
+
+/*
+ * True if the simulated 88000 is currently executing in user mode.
+ */
+#define PSR_US_MODE     (PSR >> 31)
+
+/*
+ * True if the misaligned-access check is on.
+ */
+#define PSR_MA_CHECK_ON ((PSR & 4) == 0)
+
+/*
+ * True if the floating point unit is enabled.
+ */
+#define PSR_FP_UNIT_ON ((PSR & 8) == 0)
+
+/*
+ * The endian bit in the PSR (true if little endian).
+ */
+#define PSR_ENDIAN  (((PSR >> 30) & 1))
+
+/*
+ * True if interrupts are enabled.
+ */
+#define	PSR_INT_ENABLED (!(PSR & 2))
+
+extern u_long cmmu_number_table[];
+/*
+ * Number of the cmmu to use for data references.
+ */
+#define DATA_CMMU(la)   cmmu_number_table[(0 + ((la >> 12) & 3))]
+
+/*
+ * Number of the cmmu to use for code references.
+ */
+#define CODE_CMMU(la)   cmmu_number_table[(4 + ((la >> 12) & 3))]
+
+/*
+ * Called after a store into the control registers to make
+ * sure they still have valid values.
+ */
+extern void fixup_control_regs();
+
+/*
+ * Decodes 88000 instructions.
+ */
+extern int decode();
+
+extern void clean_page();
+
+/*
+ * For keeping track of decoded instruction pages for IO space.
+ */
+struct io_list {
+    struct io_list      *next_p;
+    u_long              page_number;
+    struct decoded_part *decoded_part;
+};
+
+extern struct io_list *io_list;
+
+/*
+ * This dumps all of the decoded instruction pages allocated for
+ * the IO space.
+ */
+extern void flush_io_decoded_list();
+
+/*
+ * This takes the physical address of the page to be invalidated.
+ */
+extern void flush_io_decoded_list_entry();
+
+/*
+ * This flushes the decoded instruction cache.
+ */
+extern void flush_deccache();
+
+#define READ    1
+#define WRITE   2
+
+extern void err();
+
+#define check_pointer(p) if (!p) { err("nil pointer", __LINE__, __FILE__); }
+#define assert(bexp)    if (!(bexp)) { err("assertion failed", __LINE__, __FILE__); }
+
+/*
+ * Translates the entry point of a normal instruction handler to
+ * that of the single-step entry point.
+ */
+extern int (*normal_to_ss())();
+
+/*
+ * Set to 1 when a floating point exception occurs.
+ */
+extern int fp_exception;
+
+/*
+ * Returns the string that describes the passed exception.
+ */
+extern char *ex_name();
+
+/*
+ * Duplicates a string, returning a pointer to the new string.  
+ * Returns 0 if passed a 0.
+ */
+extern char *sim_strdup();
+
+/*
+ * This cache's decoded instruction pointers to speed the translation
+ * of logical code addresses to decoded instruction pointers.
+ * The first index of this array of structures is indexed by
+ * the mode (M_USER == 0, M_SUPERVISOR == 1).
+ */
+#define DECMAX 30
+
+struct decitem {
+    u_long pagela;
+    struct decoded_i *pagep; } deccache[2][DECMAX];
+
+/*
+ * This has pointers into the deccache table, one for user mode
+ * and one for supervisor.  They point to the next slot to use
+ * in the deccache table.
+ */
+extern struct decitem *nextdecp[];
+
+/*
+ * Converts a logical address to its segment.  Used to figure out
+ * which tlb segment an address is in.
+ */
+#define	btos(addr)	((u_long)(addr) >> 22)
+
+/*
+ * The page-within-segment of an address.
+ */
+#define btop(addr)	(((u_long)(addr) >> 12) & 0x3ff)
+
+/*
+ * The byte-within-page of an address.
+ */
+#define poff(addr)	((addr) & PAGEMASK)
+
+/*
+ * See its storage decl in decode.c
+ */
+extern double dummy_r0;
+
+/*
+ * True if we are tracing the exection.
+ */
+extern int tracing;
+
+/*
+ * Sends the passed parameters to a instruction execution trace
+ * file.
+ */
+extern void emit_trace_record();
+
+/* True when we are using the SIGVTALRM to switch between simulated
+   processors. */
+extern int waiting_for_mpswitch_interrupt;
+@
+
+
+1.27
+log
+@Deleted some gdb decls and moved them to sim_interface.h
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.26 90/04/29 19:18:50 robertb Exp $
+d354 3
+@
+
+
+1.26
+log
+@Ported to System V.  Added definitions to allow access to some
+GDB variables and functions w/o having to include any gdb header
+files.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.25 89/03/09 12:54:45 andrew Exp $
+a352 11
+
+/*
+ * Gdb-front end routine to get value of a convenience variable.
+ */
+extern int varvalue();
+
+/* From defs.h, we don't want to include that whole file here.  If 
+   the user types a control-C, he wants the command to stop. */
+
+#define QUIT	{ if (quit_flag) request_quit(); }
+extern quit_flag;
+@
+
+
+1.25
+log
+@Add register cr22, RAMSIZE, which contains the number of bytes of RAM.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.24 88/08/03 13:22:33 andrew Exp $
+d353 11
+@
+
+
+1.24
+log
+@Add STACKBASE register definition.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.23 88/07/13 21:51:33 robertb Exp $
+d193 1
+@
+
+
+1.23
+log
+@changed DATA_CMMU and CODE_CMMU macros to match changes in
+cmmu.c
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.22 88/04/30 22:59:58 robertb Exp $
+d192 1
+@
+
+
+1.22
+log
+@Added the instruction tracing facility.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.21 88/04/28 10:35:29 robertb Exp $
+d220 1
+d224 1
+a224 1
+#define DATA_CMMU(la)   (0 + ((la >> 12) & 3))
+d229 1
+a229 1
+#define CODE_CMMU(la)   (4 + ((la >> 12) & 3))
+@
+
+
+1.21
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.20 88/04/15 14:10:47 robertb Exp $
+d37 1
+d339 12
+@
+
+
+1.20
+log
+@added sim_strdup
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.19 88/04/11 19:14:17 robertb Exp $
+d16 1
+a16 1
+#define PAGE_MASK   (PAGE_SIZE - 1)
+a18 11
+ * The size of the software tlb's.  This value should be set based
+ * on the expected location in logical space of frequently accessed
+ * pages.
+ */
+#define TLB_SIZE    (17 * 256)
+#define TLB_HIGH_BASE   (0x100000 - TLB_SIZE)
+
+#define LOW_TLB_RANGE   (TLB_SIZE * PAGE_SIZE)
+#define HIGH_TLB_RANGE  (TLB_HIGH_BASE * PAGE_SIZE)
+
+/*
+a66 1
+    int         literal;
+d71 1
+a71 2
+ * the data on the page (4096 bytes).  The second is the 88000
+ * physical address of the page.  The third is a pointer to the
+d79 1
+a79 2
+    u_long values[PAGE_SIZE / 4];
+    u_long physical_base_address;
+d84 2
+d88 1
+a88 1
+    struct decoded_i decoded_i[PAGE_SIZE / 4 + 1];
+d92 2
+a93 4
+ * There are 4 tlb's for user space and four for supervisor space.
+ * Of each set of 4, two are for loads and two are for stores.
+ * Of these, one if for the low addresses and one is for the high 
+ * addresses.
+d95 2
+a96 4
+extern char *u_load_tlb_low[];
+extern char *u_load_tlb_high[];
+extern char *s_load_tlb_low[];
+extern char *s_load_tlb_high[];
+d98 2
+a99 4
+extern char *u_store_tlb_low[];
+extern char *u_store_tlb_high[];
+extern char *s_store_tlb_low[];
+extern char *s_store_tlb_high[];
+d101 2
+d104 11
+a198 3
+#define M_USER      (0)
+#define M_SUPERVISOR (1)
+
+a219 9
+ * Status codes from l_to_p
+ */
+#define NO_TRAN     1
+#define RD_ONLY     2
+#define RDWR        3
+
+#define VERBOSE     (*sim_verbose_ptr)  /* the 'v' adb variable */
+
+/*
+d264 5
+d298 40
+@
+
+
+1.19
+log
+@78k ==> 88k
+increased tlb size.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.18 88/03/25 17:33:43 robertb Exp $
+d304 6
+@
+
+
+1.18
+log
+@minor changes to support changes to init.c and misc.c
+@
+text
+@d2 1
+a2 1
+ * Header file for the UTek 78000 simulator.
+d7 1
+a7 1
+ * $Header: sim.h,v 1.17 88/03/10 10:30:42 robertb Exp $
+d13 1
+a13 1
+ * A mask that when and'd with a physical or logical 78000 address
+d23 1
+a23 1
+#define TLB_SIZE    (512)
+d50 1
+a50 1
+ * This structure holds the decoded form of 78000 instructions.
+d83 1
+a83 1
+ * the data on the page (4096 bytes).  The second is the 78000
+d85 1
+a85 1
+ * array of decoded instructions that corresponds to the 78000
+d136 2
+a137 2
+ * L : logical 78000 address space
+ * P : physical 78000 address space
+d161 1
+a161 1
+ * Size of simulated 78000 physical memory in bytes.
+d200 1
+a200 1
+ * True if the simulated 78000 is currently executing in user mode.
+d253 1
+a253 1
+ * Decodes 78000 instructions.
+@
+
+
+1.17
+log
+@prepended PSR_ to macros that look at psr bits.
+added PSE_INT_ENABLED macro.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.16 88/02/22 11:57:00 robertb Exp $
+d174 1
+a174 1
+extern struct page *page_table[];
+d218 1
+a218 1
+ * True if we should be executing in big-endian mode.
+d220 1
+a220 1
+#define PSR_BIG_ENDIAN  (!((PSR >> 30) & 1))
+@
+
+
+1.16
+log
+@Changed to using u_long, u_short and u_char.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.15 88/02/12 16:44:45 robertb Exp $
+d202 1
+a202 1
+#define US_MODE     (PSR >> 31)
+d210 1
+a210 1
+#define MA_CHECK_ON ((PSR & 4) == 0)
+d215 1
+a215 1
+#define FP_UNIT_ON ((PSR & 8) == 0)
+d220 6
+a225 1
+#define BIG_ENDIAN  (!((PSR >> 30) & 1))
+@
+
+
+1.15
+log
+@Deleted extra */ in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.14 88/02/12 16:15:55 robertb Exp $
+d9 1
+d75 3
+a77 3
+    unsigned    *dest;
+    unsigned    *s1;
+    unsigned    *s2;
+d92 2
+a93 2
+    unsigned values[PAGE_SIZE / 4];
+    unsigned physical_base_address;
+d124 1
+a124 1
+extern unsigned delayed_ip;
+d163 1
+a163 1
+extern unsigned memory_size;
+d169 1
+a169 1
+extern unsigned page_table_size;
+d259 1
+a259 1
+    unsigned            page_number;
+@
+
+
+1.14
+log
+@Added copyright notice.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim.h,v 1.13 88/02/08 16:36:12 robertb Exp $ */
+@
+
+
+1.13
+log
+@We now check the shadow scoreboard register before doing an RTE,
+to make sure that it is zero.  We return to the front end if it
+is not zero.  We set the scoreboard register when we get a DMU fault
+now.
+@
+text
+@a0 1
+/* $Header: sim.h,v 1.12 88/01/25 11:19:31 timd Exp $ */
+d3 5
+a8 1
+
+@
+
+
+1.12
+log
+@Added definition for QWORD (quad-word). DMAC simulator needs it.
+@
+text
+@d1 1
+a1 1
+/* $Header: sim.h,v 1.11 88/01/02 11:08:31 robertb Exp $ */
+d192 2
+@
+
+
+1.11
+log
+@Now we model the DMT/DMA/DMD register's behavour.
+@
+text
+@d1 1
+a1 1
+/* $Header: sim.h,v 1.10 87/12/10 20:29:39 robertb Exp $ */
+d29 1
+@
+
+
+1.10
+log
+@Added declaration for ex_name().
+@
+text
+@d1 1
+a1 1
+/* $Header: sim.h,v 1.9 87/11/23 14:43:50 timd Exp $ */
+d12 1
+a12 1
+#define	PAGE_MASK	(PAGE_SIZE - 1)
+d19 2
+a20 2
+#define	TLB_SIZE	(512)
+#define	TLB_HIGH_BASE	(0x100000 - TLB_SIZE)
+d22 2
+a23 2
+#define	LOW_TLB_RANGE	(TLB_SIZE * PAGE_SIZE)
+#define	HIGH_TLB_RANGE	(TLB_HIGH_BASE * PAGE_SIZE)
+d29 4
+a32 4
+#define	DWORD	(8)
+#define	WORD	(4)
+#define	HALF	(2)
+#define	BYTE	(1)
+d38 5
+a42 5
+#define	LD		1
+#define	ST		2
+#define	XMEM	3
+#define	LD_U	4
+#define	XMEM_U	5
+d69 5
+a73 5
+	int			(*norm_e_addr)();
+	unsigned	*dest;
+	unsigned	*s1;
+	unsigned	*s2;
+	int			literal;
+d87 3
+a89 3
+	unsigned values[PAGE_SIZE / 4];
+	unsigned physical_base_address;
+	struct decoded_part *decoded_part;
+d95 1
+a95 1
+	struct decoded_i decoded_i[PAGE_SIZE / 4 + 1];
+d136 1
+a136 1
+extern int 				 l_to_p();		/* L ==> P			*/
+d138 1
+a138 1
+extern struct decoded_i *p_to_d();		/* P ==> D			*/
+d143 1
+a143 1
+extern struct decoded_i *l_to_d();		/* L ==> P ==> D	*/
+d158 1
+a158 1
+extern unsigned	memory_size;
+d174 17
+a190 11
+#define	PID			(sfu0_regs[0])
+#define	PSR			(sfu0_regs[1])
+#define	TPSR		(sfu0_regs[2])
+#define	SSBR		(sfu0_regs[3])
+#define	SXIP		(sfu0_regs[4])
+#define	SNIP		(sfu0_regs[5])
+#define	SFIP		(sfu0_regs[6])
+#define	VBR			(sfu0_regs[7])
+#define	DMT1		(sfu0_regs[8])
+#define	DMT2		(sfu0_regs[11])
+#define	DMT3		(sfu0_regs[14])
+d195 1
+a195 1
+#define	US_MODE		(PSR >> 31)
+d197 2
+a198 2
+#define	M_USER		(0)
+#define	M_SUPERVISOR (1)
+d203 1
+a203 1
+#define	MA_CHECK_ON	((PSR & 4) == 0)
+d213 1
+a213 1
+#define	BIG_ENDIAN  (!((PSR >> 30) & 1))
+d218 3
+a220 3
+#define	NO_TRAN		1
+#define	RD_ONLY		2
+#define	RDWR		3
+d222 1
+a222 1
+#define	VERBOSE		(*sim_verbose_ptr)	/* the 'v' adb variable */
+d227 1
+a227 1
+#define	DATA_CMMU(la)	(0 + ((la >> 12) & 3))
+d232 1
+a232 1
+#define	CODE_CMMU(la)	(4 + ((la >> 12) & 3))
+d251 3
+a253 3
+	struct io_list      *next_p;
+	unsigned            page_number;
+	struct decoded_part *decoded_part;
+d269 2
+a270 2
+#define	READ	1
+#define	WRITE	2
+d274 2
+a275 2
+#define	check_pointer(p) if (!p) { err("nil pointer", __LINE__, __FILE__); }
+#define	assert(bexp)    if (!(bexp)) { err("assertion failed", __LINE__, __FILE__); }
+@
+
+
+1.9
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d281 5
+@
+
+
+1.8
+log
+@Misc changes.
+@
+text
+@d1 1
+@
+
+
+1.7
+log
+@Eliminated ss_e_addr field in decoded_i structure
+@
+text
+@a214 1
+extern int *sim_verbose_ptr;
+d274 6
+a279 1
+extern int (*(normal_to_ss()) ());
+@
+
+
+1.6
+log
+@See changes_nov_13.doc
+@
+text
+@a50 4
+ * The ss_e_addr filed points to the entry point, created with
+ * an asm insert, in the single-step execution function for the
+ * instruction.
+ *
+a68 1
+	int			(*ss_e_addr)();
+d270 6
+@
+
+
+1.5
+log
+@see changes_10_11.doc
+@
+text
+@d270 5
+@
+
+
+1.4
+log
+@see file changes_11_9 for description of changes
+@
+text
+@d257 13
+a269 1
+extern flush_io_decoded_list();
+@
+
+
+1.3
+log
+@Added decl for flush_io_decoded_list().
+@
+text
+@d226 1
+a226 1
+#define	DATA_CMMU	0
+d231 1
+a231 1
+#define	CODE_CMMU	4
+@
+
+
+1.2
+log
+@Added macro for testing to see if the floating point unit
+is enabled.
+@
+text
+@d256 2
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d201 6
+a206 1
+#define	MA_CHECK_ON	(PSR & 4)
+@

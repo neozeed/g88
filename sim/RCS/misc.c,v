@@ -1,0 +1,2915 @@
+head     1.37;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.37
+date     91.01.13.23.59.01;  author robertb;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     90.10.30.23.54.29;  author robertb;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     90.08.07.09.29.08;  author robertb;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     90.05.11.11.51.34;  author robertb;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     90.04.29.19.25.45;  author robertb;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     89.07.14.09.01.45;  author robertb;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     88.09.19.21.01.08;  author robertb;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     88.07.20.15.25.49;  author robertb;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     88.06.30.15.48.00;  author robertb;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     88.06.28.16.46.17;  author robertb;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     88.06.07.17.08.13;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     88.05.26.18.45.11;  author robertb;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     88.04.30.22.58.06;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.04.29.17.02.37;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.04.28.10.35.19;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.04.15.14.19.25;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.04.08.21.32.46;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.03.25.17.00.15;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.03.19.10.25.49;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.03.10.10.33.38;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.02.22.11.57.14;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.02.19.22.32.00;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.02.19.21.59.39;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.02.12.16.27.02;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.12.16.13.00;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.02.08.16.37.32;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.01.15.21.26.18;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.01.15.11.50.29;  author brents;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.01.15.11.05.29;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.01.02.11.07.59;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.12.10.20.29.06;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.23.14.41.39;  author timd;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.13.18.59.01;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.12.19.23.20;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.11.22.26.47;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.09.22.39.14;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.36.50;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.37
+log
+@Made simsignal handler more robust.
+@
+text
+@/*
+ * This requalifies the decoded-instruction pointer.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/sim/RCS/misc.c,v 1.36 90/10/30 23:54:29 robertb Exp Locker: robertb $
+ */
+
+#include "sim.h"
+#include "cmmu.h"
+#include "decode.h"
+#include "format.h"
+#include "fields88.h"
+#include <strings.h>
+#include <signal.h>
+
+int dummy = 0;
+
+/*
+ * This makes the shadow registers have the correct values.  We
+ * only need to do something if shadowing is enabled.  This is 
+ * called before ldcr's and xcr's are executed.
+ */
+void
+load_shadow_regs(ip, delayed_ip)
+    u_long ip;
+    u_long delayed_ip;
+{
+    if ((PSR & 1) == 0) {
+        SXIP = ip | 2;
+        if (delayed_p) {
+            SNIP = delayed_ip | 2;
+        } else {
+            SNIP = SXIP + 4;
+        }
+        SFIP = SNIP + 4;
+        DMT0 = DMT1 = DMT2 = 0;
+        DMD0 = DMD1 = DMD2 = 0;
+        DMA0 = DMA1 = DMA2 = 0;
+    }
+}
+
+/*
+ * This is called after a value is stored into a control register.
+ * We make sure that the contents of the registers are still valid
+ * and that we can continue execution correctly.
+ */
+void
+fixup_control_regs()
+{
+    int endian_test = 1;
+    int host_endian;
+    int m88k_endian;
+    static warned = 0;
+
+    host_endian = *((u_char *)&endian_test + sizeof(int) - 1);
+    m88k_endian = !PSR_ENDIAN;
+
+    if (host_endian != m88k_endian && !warned) {
+        warned = 1;
+        sim_printf("warning: endian-ness of simulated 88k must match host.\n");
+        sim_printf(" host is %s-endian and 88k is in %s-endian mode.\n",
+                    host_endian ? "big" : "little",
+                    m88k_endian ? "big" : "little");
+ 
+    }
+    VBR &= ~PAGEMASK;  /* zero lower 12 bits of vector base register. */
+
+    TPSR = (TPSR | 0x3f0) & 0xf800e3ff;
+    PSR = (PSR | 0x3f0) & 0xf800e3ff;
+}
+
+/*
+ * This is called when a DACC happens.  We set the DMT registers here.
+ */
+set_dmt_regs(l_addr, reg_ptr, size, mem_op_type, read_or_write, usmode)
+    u_long l_addr;
+    u_long *reg_ptr;
+    u_long size;
+    int mem_op_type;
+    int read_or_write;
+    int usmode;
+{
+    u_long regnum;
+    u_long w;
+
+    /*
+     * Put the register number and a valid bit in
+     * the Data Memory Transaction register.
+     */
+    if (reg_ptr == (u_long *)&dummy_r0) {
+        regnum = 0;
+    } else {
+        regnum = (int)(reg_ptr - &regs[0]);
+    }
+    if (regnum > 31) {
+        err("set_dmt_regs: register number > 31", __LINE__, __FILE__);
+    }
+
+    /*
+     * Set scoreboard bits if the operation was any kind of load
+     * (this includes XMEM's.
+     */
+    if (mem_op_type != ST) {
+        SBR |= 1 << regnum;
+
+        if (size == DWORD) {
+            SBR |= 1 << (regnum + 1);
+        }
+    }
+
+    /*
+     * If shadowing is turned off, don't load any of the DMT registers.
+     */
+    if (PSR & 1) {
+        return;
+    }
+    DMT0 = (regnum << 7) | 1 | (usmode << 14) | (PSR_ENDIAN << 15);
+    /*
+     * Set the data memory address register to the logical address
+     * of the word that we faulted on.
+     */
+    DMA0 = l_addr & ~3;
+
+    /*
+     * Set the READBAR bit in dmt0 if this transaction was a write.
+     */
+    if (read_or_write == WRITE) {
+        DMT0 |= 2;
+    }
+
+    /*
+     * If the operation was an exchange, set the "lock bus"
+     * bit in the Data Memory Transaction register (bit 12).
+     */
+    if (mem_op_type == XMEM || mem_op_type == XMEM_U) {
+        DMT0 |= 0x1000;
+    }
+
+    /*
+     * If the operation was signed, set the signed bit
+     * in the Data Memory Trasaction register (bit 6).
+     */
+    if (mem_op_type == LD || mem_op_type == XMEM) {
+        DMT0 |= 0x40;
+    }
+
+    /*
+     * Here we set the data memory transaction and data memory
+     * data registers according the the size of operation
+     * (byte/short/word/double) and the address.  Something
+     * that is not in the 88k user's manual is that the
+     * data memory data register is pre-shifted to align
+     * the data with the memory system.  I deduced this
+     * from the system V kernel from Moto. -rcb
+     *
+     * Ah, and Moto does it again!  They changed the chip, the kernel,
+     * but didn't tell us.  Ha ha ha.  Very funny.  We just wasted
+     * about 8 hours of engineering time.
+     *
+     * Arrrg! The data *is* smeared, but it is also replicated.
+     */
+    switch (size) {
+        case BYTE:
+            w = *reg_ptr & 0xff;
+            DMD0 = (w << 24) | (w << 16) | (w << 8) | w;
+            switch (l_addr & 3) {
+                case 0:
+                    DMT0 |= 0x20;
+                    break;
+
+                case 1:
+                    DMT0 |= 0x10;
+                    break;
+
+                case 2:
+                    DMT0 |= 0x8;
+                    break;
+
+                case 3:
+                    DMT0 |= 0x4;
+                    break;
+            }
+            break;
+
+        case HALF:
+            w = *reg_ptr & 0xffff;
+            DMD0 = (w << 16) | w;
+            if (l_addr & 2) {
+                DMT0 |= 0xc;
+            } else {
+                DMT0 |= 0x30;
+            }
+            break;
+
+        case WORD:
+            DMT0 |= 0x3c;
+            DMD0 = *reg_ptr;
+            break;
+
+        case DWORD:
+            DMT0 |= 0x3c;
+            DMD0 = *reg_ptr;
+
+            /*
+             * If this is a double word operation,
+             * set the second (of three) Data Memory
+             * register set.
+             */
+            DMA1 = DMA0 + 4;
+            if (read_or_write == WRITE) {
+                DMD1 = *(reg_ptr + 1);
+            }
+            /*
+             * Copy the data memory transaction register that we just
+             * set up (dmt0) to dmt1, but make dmt1's register number
+             * be 1 more than dmt0's register number.
+             */
+            DMT1 = DMT0 + 0x80;
+
+            /*
+             * Set the DOUB1 bit in dmt0 to signify a double word
+             * transaction.
+             */
+            DMT0 |= 0x2000;
+            DMD1 = *(reg_ptr + 1);
+            break;
+    }
+}
+
+/*
+ * This is called when the CALC_ADDR macro in execute.c finds a zero
+ * in a tlb slot or when the logical address it out of range of the
+ * software tlb's.  We return a exception code if an exception 
+ * should be generated, E_NONE otherwise.
+ */
+int
+l_mem_op(l_addr, reg_ptr, size, mem_op_type, usmode)
+    u_long l_addr;
+    u_long *reg_ptr;          /* Points to register to load or store. */
+    u_long size;              /* 1, 2, 4, or 8                        */
+    u_long mem_op_type;       /* LD, ST, XMEM, LD_U, or XMEM_U        */
+    int    usmode;            /* 0: user 1: supervisor                */
+{
+    u_long  l_page, l_seg;
+    struct  page *page_ptr;
+    u_long  physical_address;
+    u_long  physical_page;
+    int     exception;
+    u_char    *page_base_address;
+    u_long  *mem_ptr;
+    int     read_or_write;
+    u_char  ***tlb1;
+    u_char  **tlb2;
+
+    /*
+     * Translate the logical address to a 88000 physical address.  If
+     * we get a translation error, return to the executer with an exception
+     * indication.
+     */
+    if (mem_op_type == ST || mem_op_type == XMEM || 
+        mem_op_type == XMEM_U) {
+        read_or_write = WRITE;
+    } else {
+        read_or_write = READ;
+    }
+
+    exception = l_to_p(usmode, 
+                       l_addr, 
+                       &physical_address, 
+                       DATA_CMMU(l_addr),
+                       read_or_write);
+
+    /*
+     * Hack for Andrew.
+     */
+    if (exception == E_DACC && 
+        usmode == M_SUPERVISOR &&
+        sim_catch_exception[1024]) {
+        sim_catch_exception[E_DACC] = 1;
+    }
+
+    if (exception != E_NONE && (PSR & 1) == 0) {
+        set_dmt_regs(l_addr, reg_ptr, size, mem_op_type, read_or_write, usmode);
+    }
+    if (exception != E_NONE) {
+        return exception;
+    }
+
+    /*
+     * force the alignment, if it was misaligned and alignment checking
+     * was on we wouldn't be here.
+     */
+    physical_address &= ~(size - 1);
+
+    /*
+     * If the physical address is greater than the memory size, see
+     * if the memory operation hits an IO register.
+     */
+    if (physical_address >= memory_size) {
+
+        exception = io_operation(physical_address, 
+                                 reg_ptr, 
+                                 size, 
+                                 mem_op_type, 
+                                 0);
+
+        if (exception != E_NONE) {
+            set_dmt_regs(l_addr, 
+                         reg_ptr, 
+                         size, 
+                         mem_op_type, 
+                         read_or_write, 
+                         usmode);
+
+            cmmu_set_bus_error(physical_address);
+        }
+        /*
+         * Hack for Andrew.
+         */
+        if (exception == E_DACC && 
+            usmode == M_SUPERVISOR &&
+            sim_catch_exception[1024]) {
+            sim_catch_exception[E_DACC] = 1;
+        }
+        if (tracing) {
+            emit_trace_record(physical_address, 
+                              *reg_ptr, 
+                              size, 
+                              usmode, 
+                              mem_op_type);
+        }
+        return exception;
+    }
+
+    /*
+     * Compute a pointer to the base address of the data part of
+     * the addressed page.
+     */
+    physical_page = physical_address >> 12;
+    page_ptr = page_table[physical_page];
+    if (page_ptr == (struct page *)0) {
+        page_ptr = allocate_page(poff(physical_address));
+        page_table[physical_page] = page_ptr;
+    }
+    page_base_address = (u_char *)&(page_ptr->values[0]);
+
+    /*
+     * Here we do that actual load, store, or xmem.
+     */
+    mem_ptr = (u_long *)(page_base_address + poff(l_addr));
+    do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+
+    /*
+     * If we are tracing the execution, we don't want to load
+     * the tlb's because we want every memory operation to
+     * cause this function (l_mem_op) to be called.  So
+     * we return before the code to load the tlb's is executed.
+     */
+    if (tracing) {
+        emit_trace_record(physical_address, 
+                          *reg_ptr, 
+                          size, 
+                          usmode, 
+                          mem_op_type);
+        return E_NONE;
+    }
+
+    /*
+     * Put a pointer to the page in the tlb so that the next time
+     * the program references this page it won't have to go to the
+     * expense of calling this function.
+     *
+     * Whether this is a read or write, we load the "load" tlb.
+     */
+    l_seg = btos(l_addr);
+    l_page = btop(l_addr);
+
+    tlb1 = (usmode == M_USER) ? &u_load_tlb[0] : &s_load_tlb[0];
+    tlb2 = tlb1[l_seg];
+    if (tlb2 == &defaultpagetlb[0]) {
+        tlb2 = (u_char **)sbrk(PAGETLB * sizeof(char *));
+        if (!tlb2) {
+           err("l_mem_op: sbrk err for 2nd lev tlb\n", __LINE__, __FILE__);
+        }
+        tlb1[l_seg] = tlb2;
+    }
+    tlb2[l_page] = page_base_address;
+
+    /*
+     * If this is the kind of instruction (ST, XMEM) that uses the
+     * "store" tlb, then load the right part of the "store" tlb
+     * with a pointer to the data part of the page.
+     */
+    if (read_or_write == WRITE) {
+        tlb1 = (usmode == M_USER) ? &u_store_tlb[0] : &s_store_tlb[0];
+        tlb2 = tlb1[l_seg];
+        if (tlb2 == &defaultpagetlb[0]) {
+            tlb2 = (u_char **)sbrk(PAGETLB * sizeof(char *));
+            if (!tlb2) {
+               err("l_mem_op: sbrk err for 2nd levl tlb\n", __LINE__, __FILE__);
+            }
+            tlb1[l_seg] = tlb2;
+        } 
+        if (tlb2[l_page]) {
+            err("l_mem_op: faulted page is in TLB!\n", __LINE__, __FILE__);
+        }
+        tlb2[l_page] = page_base_address;
+    }
+
+    return E_NONE;
+}
+
+/*
+ * This does the actual moving of data in a slow load, store, or xmem
+ * The first two parameters are host pointers.  The first points
+ * to the register to load, store, or exchange with.  The second points
+ * into a simulated page (i.e., into the 'values' part).
+ */
+do_mem_op(reg_ptr, mem_ptr, size, mem_op_type)
+    u_long *reg_ptr;
+    u_long *mem_ptr;
+    u_long size;
+    u_long mem_op_type;
+{
+    switch (mem_op_type) {
+        case LD:
+            switch (size) {
+                case BYTE:
+                    *reg_ptr = *(char *)mem_ptr;
+                    break;
+
+                case HALF:
+                    *reg_ptr = *(short *)mem_ptr;
+                    break;
+
+                case WORD:
+                    *reg_ptr = *mem_ptr;
+                    break;
+
+                case DWORD:
+                    *reg_ptr = *mem_ptr;
+                    *(reg_ptr + 1) = *(mem_ptr + 1);
+                    break;
+
+                default:
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+                                    reg_ptr, mem_ptr, size, mem_op_type);
+            }
+            break;
+
+        case ST:
+            switch (size) {
+                case BYTE:
+                    *(u_char *)mem_ptr = *reg_ptr;
+                    break;
+
+                case HALF:
+                    *(u_short *)mem_ptr = *reg_ptr;
+                    break;
+
+                case WORD:
+                    *mem_ptr = *reg_ptr;
+                    break;
+
+                case DWORD:
+                    *mem_ptr = *reg_ptr;
+                    *(mem_ptr + 1) = *(reg_ptr + 1);
+                    break;
+
+                default:
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+                                    reg_ptr, mem_ptr, size, mem_op_type);
+            }
+            break;
+
+        case XMEM:
+            switch (size) {
+                int t;
+
+                case BYTE:
+                    t = *(char *)mem_ptr;
+                    *(char *)mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+                    break;
+
+                case HALF:
+                    t = *(short *)mem_ptr;
+                    *(short *)mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+                    break;
+
+                case WORD:
+                    t = *mem_ptr;
+                    *mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+                    break;
+
+                case DWORD:
+                    t = *mem_ptr;
+                    *mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+
+                    t = *(mem_ptr + 1);
+                    *(mem_ptr + 1) = *(reg_ptr + 1);
+                    *(reg_ptr + 1) = t;
+                    break;
+
+                default:
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+                                    reg_ptr, mem_ptr, size, mem_op_type);
+            }
+            break;
+
+        case LD_U:
+            switch (size) {
+                case BYTE:
+                    *reg_ptr = *(u_char *)mem_ptr;
+                    break;
+
+                case HALF:
+                    *reg_ptr = *(u_short *)mem_ptr;
+                    break;
+
+                case WORD:
+                    *reg_ptr = *mem_ptr;
+                    break;
+
+                case DWORD:
+                    *reg_ptr = *mem_ptr;
+                    *(reg_ptr + 1) = *(mem_ptr + 1);
+                    break;
+
+                default:
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+                                    reg_ptr, mem_ptr, size, mem_op_type);
+            }
+            break;
+
+        case XMEM_U:
+            switch (size) {
+                u_long t;
+
+                case BYTE:
+                    t = *(u_char *)mem_ptr;
+                    *(u_char *)mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+                    break;
+
+                case HALF:
+                    t = *(u_short *)mem_ptr;
+                    *(u_short *)mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+                    break;
+
+                case WORD:
+                    t = *mem_ptr;
+                    *mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+                    break;
+
+                case DWORD:
+                    t = *mem_ptr;
+                    *mem_ptr = *reg_ptr;
+                    *reg_ptr = t;
+
+                    t = *(mem_ptr + 1);
+                    *(mem_ptr + 1) = *(reg_ptr + 1);
+                    *(reg_ptr + 1) = t;
+                    break;
+
+                default:
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+                                    reg_ptr, mem_ptr, size, mem_op_type);
+            }
+            break;
+
+        default:
+            sim_printf("do_mem_op: case error on mem_op_type.\n");
+            break;
+    }
+    /*
+     * In case the operation that we just performed modified r0 or
+     * the word just after r31, zero them.
+     */
+    regs[0] = 0;
+    regs[32] = 0;
+}
+
+/*
+ * This keeps a list of decoded pages for the IO space.
+ * We are passed the physical address and we return a
+ * decoded pointer.
+ */
+struct decoded_i *
+io_decoded_ptr(physical_address, pagepptr)
+    u_long physical_address;
+    struct decoded_i **pagepptr;
+{
+    struct io_list *p;
+    u_long page_number;
+    u_long page_offset;
+    int hit;
+
+    page_number = physical_address >> 12;
+
+    /*
+     * See if a decoded part for this address has already been made.
+     */
+    hit = 0;
+    for (p = io_list ; p ; p = p->next_p) {
+        if (p->page_number == page_number) {
+            hit = 1;
+            break;
+        }
+    }
+
+    /*
+     * If we couldn't find the decoded part for this physical address,
+     * make a new structure and put it on the list.
+     */
+    if (!hit) {
+        p = (struct io_list *)malloc(sizeof(struct io_list));
+        if (!p) {
+            sim_printf("io_decoded_ptr: unable to malloc.\n");
+            exit(1);
+        }
+        p->page_number = page_number;
+        p->decoded_part = allocate_decoded_part();
+        p->next_p = io_list;
+        io_list = p;
+    }
+
+    page_offset = poff(physical_address);
+    if (pagepptr) {
+        *pagepptr = &(p->decoded_part->decoded_i[0]);
+    }
+    return &(p->decoded_part->decoded_i[page_offset / 4]);
+}
+
+/*
+ * This translates a logical 88000 address to a decoded pointer.
+ *
+ * This function has the side effect of allocating the decoded part
+ * of the page if it hasn't been allocated yet.  
+ */
+struct decoded_i *
+l_to_d(logical_address, usmode, pagepptr)
+    u_long logical_address;
+    int      usmode;
+    struct decoded_i **pagepptr;
+{
+    u_long physical_address;
+    int      status;
+    u_long page, pagela;
+    u_long page_offset;
+    struct page *page_ptr;
+    struct decitem *decp;
+    struct decitem *lastdecp = &deccache[usmode][DECMAX];
+
+    pagela = logical_address & ~PAGEMASK;
+    for (decp = &deccache[usmode][0] ; decp < lastdecp ; decp++) {
+        if (pagela == decp->pagela && decp->pagep) {
+            if (pagepptr) {
+                *pagepptr = decp->pagep;
+            }
+            return decp->pagep + poff(logical_address) / 4;
+        }
+    }
+
+    status = l_to_p(usmode, logical_address, &physical_address, 
+                    CODE_CMMU(logical_address), READ);
+
+    if (status != E_NONE) {
+        return (struct decoded_i *)0;
+    }
+
+    if (physical_address >= memory_size) {
+        return io_decoded_ptr(physical_address, pagepptr);
+    }
+
+    page = physical_address >> 12;
+    page_ptr = page_table[page];
+
+    /*
+     * If the page is not yet allocated, allocate it.
+     */
+    if (page_ptr == (struct page *)0) {
+        page_ptr = allocate_page(ip & ~PAGEMASK);
+        page_table[page] = page_ptr;
+    }
+
+    /*
+     * If there isn't a decoded part for the page yet, make one.
+     * We have to return its address and you can't take the
+     * address of something that doesn't exist.
+     */
+    if (!page_ptr->decoded_part) {
+        page_ptr->decoded_part = allocate_decoded_part();
+    }
+
+    /*
+     * If we were called with a non-zero 'pagepptr' then we've been
+     * called to look up the decoded pointer of an active code location.
+     * In this case, put this translated page address into our little cache.
+     */
+    if (pagepptr) {
+        decp = nextdecp[usmode];
+        decp->pagep = *pagepptr = &(page_ptr->decoded_part->decoded_i[0]);
+        decp->pagela = pagela;
+
+        /*
+         * Increment our next-slot-to-load pointer.  If it hits the
+         * end of the table, set it to the first element.  This is
+         * makes it a FIFO cache.
+         */
+        nextdecp[usmode]++;
+        if (nextdecp[usmode] == lastdecp) {
+            nextdecp[usmode] = &deccache[usmode][0];
+        }
+    }
+
+    page_offset = poff(physical_address);
+
+    return  &(page_ptr->decoded_part->decoded_i[page_offset / 4]);
+}
+
+/*
+ * Called when an assertion failure happens.
+ */
+void
+err(reason_string, line_number, file_string)
+    char *reason_string;
+    int  line_number;
+    char *file_string;
+{
+    sim_printf("fatal error in simulator: %s at line %d in file %s\n",
+            reason_string, line_number, file_string);
+    exit(1);
+}
+
+/*
+ * Print a map of the use of the simulator's physical memory.
+ * We print a '.', 'I', or 'D' for every 4k page in memory.
+ *
+ * '.' means the page has never been touched.
+ *
+ * 'D' means that the page has been touched, but no instructions
+ *     on the page have been executed.
+ *
+ * 'I' means that instructions have been executed on the page.
+ */
+void
+sim_printmap()
+{
+    int i;
+    struct page *p;
+
+    for (i = 0 ; i < page_table_size ; i++) {
+        p = page_table[i];
+        if (i % 64 == 0) {
+            if (i > 0) {
+                sim_printf("\n");
+            }
+            sim_printf("0%08X: ", i * PAGESIZE);
+        }
+
+        if (!p) {
+            sim_printf(".");
+        } else {
+            if (p->decoded_part) {
+                sim_printf("I");
+            } else {
+                sim_printf("D");
+            }
+        }
+    }
+    sim_printf("\n");
+}
+
+/*
+ * Returns a copy of the passed string.
+ */
+char *
+sim_strdup(s)
+    char *s;
+{
+    return s == 0 ? 0 : strcpy(malloc(strlen(s)+1), s);
+}
+
+/*
+ * Insert a single step breakpoint at the instruction after
+ * the one pointed to by the passed pointer.
+ */
+void
+insert_ss_breakpoint(ip, usmode)
+    u_long ip;
+{
+    struct decoded_i *p;
+
+    extern sim_ss_breakpoint(), sim_not_decoded();
+
+    /*
+     * Set a single-step breakpoint on the next instruction.
+     * This is superfluous if the current instruction is
+     * an unconditional branch or an rte.  But it doesn't hurt
+     * to have an extra single-step branch lying around and its
+     * easier not to do the test.
+     */
+    p = l_to_d(ip+4, usmode, 0);
+    if (p) {
+        p->norm_e_addr = sim_ss_breakpoint;
+    }
+
+    if (tracing) {
+        int    exception;
+        u_long instr, physical_address;
+        /*
+         * Find the instruction so that we can include it in the trace
+         * record.
+         */
+        exception = l_to_p(usmode, ip, &physical_address, CODE_CMMU(ip), READ);
+        if (exception != E_NONE) {
+            instr = 0;
+        } else {
+            instr = read_sim_w(physical_address);
+        }
+
+        emit_trace_record(physical_address, instr, WORD, usmode, FETCH);
+    }
+
+    /*
+     * Set the interrupt flag so that the simulator will stop after
+     * branches.
+     */
+    sim_interrupt_flag |= INT_SINGLESTEP;
+
+    /*
+     * Clear any single-step breakpoint set on the current
+     * instruction.  We do this last in case the current
+     * instruction is a spin-loop branch (a branch to itself).
+     */
+    p = l_to_d(ip, usmode, 0);
+    if (p) {
+        p->norm_e_addr = sim_not_decoded;
+    }
+}
+
+/*
+ * To help fool the optimizer.
+ */
+int sim_zero()
+{
+    return 0;
+}
+
+#include <stdio.h>
+
+FILE *etrace_fd;
+
+/*
+ * Opens the trace data file.
+ */
+void
+open_trace_file(fname)
+    char *fname;
+{
+    if ((etrace_fd = fopen(fname, "a")) ==  0) {
+        sim_printf("unable to open %s for append\n", fname);
+        tracing = 0;
+    }
+}
+
+/*
+ * Emits trace data to a file.
+ */
+void
+emit_trace_record(physical_address, data, size, usmode, mem_op_type)
+    u_long physical_address;
+    u_long data;
+    int    size;
+    int    usmode;
+    int    mem_op_type;
+{
+    struct etrace et;
+
+    et.physical_address = physical_address;
+    et.lowdata = data & 0x3f;
+    switch (mem_op_type) {
+        case LD:   case LD_U:    et.write = 0; et.lock = 0; et.fetch = 0; break;
+        case ST:                 et.write = 1; et.lock = 0; et.fetch = 0; break;
+        case XMEM: case XMEM_U:  et.write = 1; et.lock = 1; et.fetch = 0; break;
+        case FETCH:              et.write = 0; et.lock = 0; et.fetch = 1; break;
+    }
+    if (size > DWORD) {
+        sim_printf("emit_trace_record: unexpected size.\n");
+    }
+
+    et.size = size;
+    et.usmode = usmode;
+    et.global = last_global;
+    et.cacheinhibit = last_cacheinhibit;
+    et.writethru = last_writethru;
+    
+
+    /*
+     * If this is a double word operation, turn it into two
+     * word operations at adjacent word addresses.
+     */
+    if (size == DWORD) {
+        et.size = WORD;
+        fwrite(&et, sizeof(struct etrace), 1, etrace_fd);
+        physical_address += 4;
+    }
+
+    fwrite(&et, sizeof(struct etrace), 1, etrace_fd);
+}
+
+/*
+ * Closes the trace file.
+ */
+void
+close_trace_file()
+{
+    if (fclose(etrace_fd) != 0) {
+       sim_printf("close_trace_file: error in closing file.\n");
+    }
+    tracing = 0;
+}
+
+struct sig {
+    int  (*func)();
+    int  cnt;
+} sigtab[NSIG];
+
+/*
+ * This is the signal handler for all signals.  We just record the
+ * occurance of the signal and return.  Later, when the instruction
+ * executer checks sim_interrupt_flag, the handlers will actually be
+ * called.
+ */
+void
+simsighandler(sig, code, scp)
+    int sig, code;
+    struct sigcontext *scp;
+{
+    if (sig >= NSIG) {
+        sim_printf("simsighandler: signal number %d is out of range\n", signal);
+        return;
+    }
+    if (sim_in_execution) {
+        if (sigtab[sig].cnt++ > 1000) {
+            sim_printf("simsighandler: overrun on signal %d\n", sig);
+        }
+        sim_interrupt_flag |= INT_SIGNAL;
+    } else {
+	if (sigtab[sig].func) {
+            (*sigtab[sig].func)();
+        } else {
+            sim_printf("simsighandler: stray signal %d\n", sig);
+        }
+    }
+}
+
+/*
+ * This implements the simulator's own signal handling scheme.  Its
+ * like the UNIX mechanism on which it is based.  Signal handlers
+ * in this scheme will only be called between 88k instructions.
+ */
+void
+simsignal(sig, func)
+    int (*func)();
+    u_long sig;
+{
+    if (sig >= NSIG) {
+        sim_printf("sethandler: signal number %d is out of range\n", signal);
+        return;
+    }
+    sigtab[sig].func = func;
+    sigtab[sig].cnt = 0;
+    signal(sig, simsighandler);
+}
+
+/*
+ * This is called by the front end when it finds that sim_interrupt_flag
+ * has INT_SIGNAL or'd into it.  We call any signal handlers as many
+ * times as needed.
+ */
+void
+callhandlers()
+{
+    int i;
+
+    for (i = 0 ; i < NSIG ; i++) {
+        while (sigtab[i].cnt > 0) {
+            sigtab[i].cnt--;
+            (*sigtab[i].func)();
+        }
+    }
+}
+@
+
+
+1.36
+log
+@Increased over run limit from 10 to 1000
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/vlsi/u2/cs568/g88/sim/RCS/misc.c,v 1.35 90/08/07 09:29:08 robertb Exp $
+d958 5
+a962 1
+        (*sigtab[sig].func)();
+@
+
+
+1.35
+log
+@Going back to berkeley version.
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/vlsi/u2/cs568/g88/sim/RCS/misc.c,v 1.32 89/07/14 09:01:45 robertb Exp $
+d953 1
+a953 1
+        if (sigtab[sig].cnt++ > 10) {
+@
+
+
+1.34
+log
+@Now use POSIX signal handling, this fixed problem w/ using
+virtual interval timer.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.33 90/04/29 19:25:45 robertb Exp $
+d15 1
+a15 1
+#include <string.h>
+d448 1
+a448 1
+                    sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+d473 1
+a473 1
+                    sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+d511 1
+a511 1
+                    sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+d536 1
+a536 1
+                    sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+d574 1
+a574 1
+                    sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+d740 1
+a740 1
+    return_to_top_level();
+d766 1
+a766 1
+            sim_printf("0%08x: ", i * PAGESIZE);
+d945 2
+a946 2
+  int sig, code;
+  struct sigcontext *scp;
+d948 3
+a950 7
+  if (sig >= NSIG) {
+    sim_printf("simsighandler: signal number %d is out of range\n", signal);
+    return;
+  }
+  if (sim_in_execution) {
+    if (sigtab[sig].cnt++ > 10) {
+      sim_printf("simsighandler: overrun on signal %d\n", sig);
+d952 8
+a959 4
+    sim_interrupt_flag |= INT_SIGNAL;
+  } else {
+    (*sigtab[sig].func)();
+  }
+d969 2
+a970 2
+  int (*func)();
+  u_long sig;
+d972 7
+a978 15
+  struct sigaction sigact;
+
+  if (sig >= NSIG) {
+    sim_printf("sethandler: signal number %d is out of range\n", signal);
+    return;
+  }
+  sigtab[sig].func = func;
+  sigtab[sig].cnt = 0;
+  sigact.sa_handler = func;
+  sigact.sa_mask.s[0] = 0;
+  sigact.sa_mask.s[1] = 0;
+  sigact.sa_flags = 0;
+  if (sigaction(sig, &sigact, (struct sigaction *)0) != 0) {
+    sim_printf("simsignal: sigaction signals error on signal %d\n", sig);
+  }
+@
+
+
+1.33
+log
+@Ported to System V.  Seems to work.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.32 89/07/14 09:01:45 robertb Exp $
+d945 2
+a946 2
+    int sig, code;
+    struct sigcontext *scp;
+d948 7
+a954 3
+    if (sig >= NSIG) {
+        sim_printf("simsighandler: signal number %d is out of range\n", signal);
+        return;
+d956 4
+a959 8
+    if (sim_in_execution) {
+        if (sigtab[sig].cnt++ > 10) {
+            sim_printf("simsighandler: overrun on signal %d\n", sig);
+        }
+        sim_interrupt_flag |= INT_SIGNAL;
+    } else {
+        (*sigtab[sig].func)();
+    }
+d969 2
+a970 2
+    int (*func)();
+    u_long sig;
+d972 15
+a986 7
+    if (sig >= NSIG) {
+        sim_printf("sethandler: signal number %d is out of range\n", signal);
+        return;
+    }
+    sigtab[sig].func = func;
+    sigtab[sig].cnt = 0;
+    signal(sig, simsighandler);
+@
+
+
+1.32
+log
+@Fixed some type-matching problems shown by the new compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.31 88/09/19 21:01:08 robertb Exp $
+d15 1
+a15 1
+#include <strings.h>
+d448 1
+a448 1
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d473 1
+a473 1
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d511 1
+a511 1
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d536 1
+a536 1
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d574 1
+a574 1
+                    sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d740 1
+a740 1
+    exit(1);
+d766 1
+a766 1
+            sim_printf("0%08X: ", i * PAGESIZE);
+@
+
+
+1.31
+log
+@Now we single step jumps with the sim_interrupt flag instead
+of setting a single-step breakpoint at the jump target.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.30 88/07/20 15:25:49 robertb Exp $
+d92 1
+a92 1
+    if (reg_ptr == &dummy_r0) {
+d347 1
+a347 1
+    page_base_address = (char *)&(page_ptr->values[0]);
+@
+
+
+1.30
+log
+@tweaks
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.29 88/06/30 15:48:00 robertb Exp $
+a800 5
+    u_long target_addr;
+    struct instr_info *instr_info;
+    int    exception;
+    u_long instr;
+    u_long physical_address;
+a804 9
+     * Clear any single-step breakpoint set on the current
+     * instruction.
+     */
+    p = l_to_d(ip, usmode, 0);
+    if (p) {
+        p->norm_e_addr = sim_not_decoded;
+    }
+
+    /*
+d807 3
+a809 2
+     * an unconditional branch or an rte.  It doesn't hurt
+     * to have an extra single-step branch lying around though.
+d816 13
+a828 9
+    /*
+     * Find the instruction so that we can decide whether it
+     * is a branching instruction.
+     */
+    exception = l_to_p(usmode, ip, &physical_address, CODE_CMMU(ip), READ);
+    if (exception != E_NONE) {
+        return;
+    }
+    instr = read_sim_w(physical_address);
+a829 1
+    if (tracing) {
+d833 5
+a837 3
+    if (sim_errno) {
+        return;
+    }
+a838 6
+    instr_info = sim_instruction_lookup(instr);
+
+    if (instr_info == 0) {
+        return;
+    }
+
+d840 3
+a842 2
+     * If the current instruction is a transfer of control, set a 
+     * single-step breakpoint at the target.
+d844 3
+a846 12
+    target_addr = -1;
+    switch (instr_info->format) {
+        case CBRANCH: 
+        case BITBRANCH: target_addr = (int)ip + REL16(instr); break;
+        case IPREL:     target_addr = (int)ip + REL26(instr); break;
+        case JMP:       target_addr = regs[S2(instr)];        break;
+    }
+    if (target_addr != -1) {
+        p = (u_long *)l_to_d(target_addr, usmode, 0);
+        if (p) {
+            p->norm_e_addr = sim_ss_breakpoint;
+        }
+@
+
+
+1.29
+log
+@tweaks to DMT-setting routine to more closely match hardware.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.28 88/06/28 16:46:17 robertb Exp $
+d21 24
+d86 1
+d157 6
+d166 2
+a170 1
+                    DMD0 = *reg_ptr << 24;
+a174 1
+                    DMD0 = (*reg_ptr & 0xff) << 16;
+a178 1
+                    DMD0 = (*reg_ptr & 0xff) << 8;
+a182 1
+                    DMD0 = *reg_ptr & 0xff;
+d188 2
+a191 1
+                DMD0 = *reg_ptr & 0xffff;
+a193 1
+                DMD0 = *reg_ptr << 16;
+@
+
+
+1.28
+log
+@removed alignment check, it now happens in execute.c
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.27 88/06/07 17:08:13 robertb Exp $
+a45 6
+    DMT0 &= 0xffff;
+    DMT1 &= 0xffff;
+    DMT2 &= 0xffff;
+    DMA0 &= ~3;
+    DMA1 &= ~3;
+    DMA2 &= ~3;
+a63 6
+     * Set the data memory address register to the logical address
+     * of the word that we faulted on.
+     */
+    DMA0 = l_addr & ~3;
+
+    /*
+d75 19
+d95 5
+a99 1
+    SBR |= 1 << regnum;
+a198 1
+            SBR |= 1 << (regnum + 1);
+@
+
+
+1.27
+log
+@Made the signal handlers be called immediately when we are not
+in simulation.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.26 88/05/26 18:45:11 robertb Exp $
+d253 2
+a254 2
+     * See if the access is misaligned.  Either generate an exception
+     * or force the alignment, depending on the bit in the PSR.
+d256 1
+a256 7
+    if (physical_address & (size - 1)) {
+        if (PSR_MA_CHECK_ON) {
+            return E_MA;
+        } else {
+            physical_address &= ~(size - 1);
+        }
+    }
+@
+
+
+1.26
+log
+@Added a new signal handling mechanism to avoid race
+conditions inside the simulator.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.25 88/04/30 22:58:06 robertb Exp $
+d937 3
+a939 2
+    if (sigtab[sig].cnt++ > 10) {
+        sim_printf("simsighandler: overrun on signal %d\n", sig);
+d941 8
+a948 1
+    sim_interrupt_flag |= INT_SIGNAL;
+@
+
+
+1.25
+log
+@added execution trace facility
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.24 88/04/29 17:02:37 robertb Exp $
+d16 1
+d919 59
+@
+
+
+1.24
+log
+@removed sim_ss(), switched to new scheme for single stepping
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.23 88/04/28 10:35:19 robertb Exp $
+d11 1
+d293 7
+d316 21
+a377 2
+    mem_ptr = (u_long *)(page_base_address + poff(l_addr));
+    do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+d804 5
+d844 74
+@
+
+
+1.23
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.22 88/04/15 14:19:25 robertb Exp $
+d12 2
+d729 83
+@
+
+
+1.22
+log
+@added sim_strdup.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.21 88/04/08 21:32:46 robertb Exp $
+a14 1
+int *sim_verbose_ptr = &dummy;
+d40 1
+a40 1
+    VBR &= ~PAGE_MASK;  /* zero lower 12 bits of vector base register. */
+d53 1
+a53 1
+ * This is called when a DACC happens.  We set the DMT registers.
+d63 1
+a63 1
+    int regnum;
+d65 4
+d75 8
+a82 1
+    regnum = (int)(reg_ptr - &regs[0]);
+d86 3
+d167 1
+a167 1
+            DMA1 = l_addr + 4;
+d171 12
+a182 1
+            DMT1 = (DMT0 | 0x2000) + 0x80;
+d201 1
+a201 1
+    int      usmode;         /* 0: user 1: supervisor                */
+d203 7
+a209 9
+    u_long l_page;
+    struct   page *page_ptr;
+    u_long physical_address;
+    u_long physical_page;
+    int      exception;
+    char     *page_base_address;
+    u_long *mem_ptr;
+    int      hit_low;
+    int      hit_high;
+d211 2
+d215 1
+a215 1
+     * Translate the logical address to a 78000 physical address.  If
+d232 9
+d265 7
+a271 2
+        exception =
+                  io_operation(physical_address, reg_ptr, size, mem_op_type, 0);
+d273 7
+a279 1
+            set_dmt_regs(l_addr, reg_ptr, size, mem_op_type, read_or_write, usmode);
+d282 8
+d293 4
+d300 1
+a300 1
+        page_ptr = allocate_page(physical_address & PAGE_MASK);
+a302 1
+
+d308 3
+a310 3
+     * expense of calling this function.  If the logical page is
+     * out of range of both the low and high tlb's then we just do
+     * the load or store slowly every time it is executed.
+d312 2
+a313 3
+    l_page = l_addr >> 12;
+    hit_low = l_page < TLB_SIZE;
+    hit_high = l_page >= TLB_HIGH_BASE;
+d315 6
+a320 17
+    if (hit_low || hit_high) {
+        /*
+         * If we are doing a store or a load we want to cache the
+         * the address in the load tlb.
+         */
+        if (usmode == M_USER) {
+            if (hit_low) {
+                u_load_tlb_low[l_page] = page_base_address;
+            } else {
+                u_load_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+            }
+        } else {
+            if (hit_low) {
+                s_load_tlb_low[l_page] = page_base_address;
+            } else {
+                s_load_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+            }
+d322 3
+d326 12
+a337 18
+        /*
+         * Only if we are doing a store do we want to cache the
+         * address in the store tlb.  We depend on tlb misses to set
+         * the M bits in the page descriptors.
+         */
+        if (mem_op_type == ST || mem_op_type == XMEM || mem_op_type == XMEM_U) {
+            if (usmode == M_USER) {
+                if (hit_low) {
+                    u_store_tlb_low[l_page] = page_base_address;
+                } else {
+                    u_store_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+                }
+            } else {
+                if (hit_low) {
+                    s_store_tlb_low[l_page] = page_base_address;
+                } else {
+                    s_store_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+                }
+d339 4
+d344 1
+d346 2
+a347 1
+    mem_ptr = (u_long *)(page_base_address + (l_addr & PAGE_MASK));
+d520 6
+d534 1
+a534 1
+io_decoded_ptr(physical_address)
+d536 1
+d572 4
+a575 2
+    page_offset = physical_address & PAGE_MASK;
+
+d580 4
+a583 3
+ * This translates a physical 78000 address to a decoded pointer.  If
+ * the page does not yet exist, it allocates it.  If the decoded
+ * part does not exist it allocates that also.
+d586 5
+a590 1
+p_to_d(physical_address)
+d592 2
+a593 2
+{
+    u_long page;
+d596 2
+d599 17
+d617 1
+a617 1
+        return io_decoded_ptr(physical_address);
+a620 1
+
+d623 3
+d627 1
+a627 1
+        page_ptr = allocate_page(ip & ~PAGE_MASK);
+d631 5
+d640 9
+a648 1
+    page_offset = physical_address & PAGE_MASK;
+d650 10
+a659 2
+    return  &(page_ptr->decoded_part->decoded_i[page_offset / 4]);
+}
+d661 1
+a661 13
+/*
+ * This translates a logical 78000 address to a decoded pointer.
+ *
+ * This function has the side effect of allocating the decoded part
+ * of the page if it hasn't been allocated yet.  
+ */
+struct decoded_i *
+l_to_d(logical_address, usmode)
+    u_long logical_address;
+    int      usmode;
+{
+    u_long physical_address;
+    int      status;
+d663 1
+a663 7
+    status = l_to_p(usmode, logical_address, &physical_address, 
+                    CODE_CMMU(logical_address), READ);
+    if (status == NO_TRAN) {
+        return (struct decoded_i *)0;
+    }
+
+    return p_to_d(physical_address);
+a680 20
+ * Returns a string describing the passed exception.
+ */
+char* ex_name(ex)
+    u_long ex;
+{
+    static char str[100];
+    static char *ex_names [] = { "reset", "interrupt", "code access",
+    "data access", "misaligned access", "unimplemented opcode",
+    "privilege violation", "array bounds", "integer divide error",
+    "integer overflow", "error" };
+
+    if (ex < sizeof(ex_names) / sizeof(char *)) {
+        return ex_names[ex];
+    }
+
+    sprintf(str, "0x%X", ex);
+    return str;
+}
+
+/*
+d703 1
+a703 1
+            sim_printf("0%08X: ", i * PAGE_SIZE);
+@
+
+
+1.21
+log
+@Fixed bugs with the setting of the DMT/DMD registers
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.20 88/03/25 17:00:15 robertb Exp $
+d12 1
+d56 1
+a56 1
+set_dmt_regs(l_addr, reg_ptr, size, mem_op_type, read_or_write)
+d62 1
+d73 1
+a73 1
+    DMT0 = (regnum << 7) | 1;
+d172 1
+a172 1
+l_mem_op(l_addr, reg_ptr, size, mem_op_type, us_mode)
+d177 1
+a177 1
+    int      us_mode;         /* 0: user 1: supervisor                */
+d202 1
+a202 1
+    exception = l_to_p(us_mode, 
+d209 1
+a209 1
+        set_dmt_regs(l_addr, reg_ptr, size, mem_op_type, read_or_write);
+d235 1
+a235 1
+            set_dmt_regs(l_addr, reg_ptr, size, mem_op_type, read_or_write);
+d266 1
+a266 1
+        if (us_mode == M_USER) {
+d286 1
+a286 1
+            if (us_mode == M_USER) {
+d566 1
+a566 1
+l_to_d(logical_address, us_mode)
+d568 1
+a568 1
+    int      us_mode;
+d573 1
+a573 1
+    status = l_to_p(us_mode, logical_address, &physical_address, 
+d653 10
+@
+
+
+1.20
+log
+@Now we allow little endian mode on little endian hosts
+and bui
+and big endian mode on big endian hosts.
+Also fixed bug with checking a physical address to see
+if it in simulated physical memory.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.19 88/03/19 10:25:49 robertb Exp $
+d48 2
+d64 1
+a64 4
+        DMA0 = l_addr;
+        if (read_or_write == WRITE) {
+            DMD0 = *reg_ptr;
+        }
+d66 7
+a72 7
+        /*
+         * Put the register number and a valid bit in
+         * the Data Memory Transaction register.
+         */
+        regnum = (int)(reg_ptr - &regs[0]);
+        DMT0 = (regnum << 7) | 1;
+        SBR |= 1 << regnum;
+d74 3
+a76 3
+        if (read_or_write == WRITE) {
+            DMT0 |= 2;
+        }
+d78 7
+a84 7
+        /*
+         * If the operation was an exchange, set the "lock bus"
+         * bit in the Data Memory Transaction register (bit 12).
+         */
+        if (mem_op_type == XMEM || mem_op_type == XMEM_U) {
+            DMT0 |= 0x1000;
+        }
+d86 7
+a92 7
+        /*
+         * If the operation was signed, set the signed bit
+         * in the Data Memory Trasaction register (bit 6).
+         */
+        if (mem_op_type == LD || mem_op_type == XMEM) {
+            DMT0 |= 0x40;
+        }
+d94 16
+a109 4
+        switch (size) {
+            case BYTE:
+                DMT0 |= 1 << (2 + (l_addr & 3));
+                break;
+d111 4
+a114 3
+            case HALF:
+                DMT0 |= 3 << (2 + (l_addr & 2));
+                break;
+d116 4
+a119 3
+            case WORD:
+                DMT0 |= 0x3c;
+                break;
+d121 6
+a126 2
+            case DWORD:
+                DMT0 |= 0x3c;
+d128 34
+a161 14
+                /*
+                 * If this is a double word operation,
+                 * set the second (of three) Data Memory
+                 * register set.
+                 */
+                DMA1 = l_addr + 4;
+                if (read_or_write == WRITE) {
+                    DMD1 = *(reg_ptr + 1);
+                }
+                DMT1 = (DMT0 | 0x2000) + 0x80;
+                SBR |= 1 << (regnum + 1);
+                break;
+        }
+}
+d173 3
+a175 3
+    u_long size;                  /* 1, 2, 4, or 8                        */
+    u_long mem_op_type;           /* LD, ST, XMEM, LD_U, or XMEM_U        */
+    int      us_mode;           /* 0: user 1: supervisor                    */
+d234 1
+a234 1
+        cmmu_set_bus_error(physical_address);
+@
+
+
+1.19
+log
+@Fiddled with exception codes, changed 78 to 88
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.18 88/03/10 10:33:38 robertb Exp $
+d24 15
+a38 2
+    if (!PSR_BIG_ENDIAN) {
+        sim_printf("Error, no support for little endian.\n");
+d192 1
+a192 1
+    if (physical_address > memory_size) {
+@
+
+
+1.18
+log
+@changed names of macros that look at psr bits to match new
+names in sim.h
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.17 88/02/22 11:57:14 robertb Exp $
+d59 2
+a60 2
+    DMT0 = (regnum << 7) | 1;
+    SBR |= 1 << regnum;
+d62 3
+a64 3
+    if (read_or_write == WRITE) {
+        DMT0 |= 2;
+    }
+d108 1
+a108 1
+        SBR |= 1 << (regnum + 1);
+d116 2
+a117 2
+ * software tlb's.  We return a non-zero exception code if an exception 
+ * should be generated.
+d156 1
+a156 1
+    if (exception && (PSR & 1) == 0) {
+d159 1
+a159 1
+    if (exception) {
+d182 1
+a182 1
+        if (exception) {
+d186 1
+a186 1
+    return exception;
+d251 1
+a251 1
+    return 0;
+@
+
+
+1.17
+log
+@Changed to using u_long, u_short and u_char.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.16 88/02/19 22:32:00 robertb Exp $
+d24 1
+a24 1
+    if (!BIG_ENDIAN) {
+d168 1
+a168 1
+        if (MA_CHECK_ON) {
+@
+
+
+1.16
+log
+@Fixed decl of sim_printmap().
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.15 88/02/19 21:59:39 robertb Exp $
+d41 5
+a45 5
+	unsigned l_addr;
+	unsigned *reg_ptr;
+	unsigned size;
+	int mem_op_type;
+	int read_or_write;
+d47 1
+a47 1
+	int regnum;
+d59 2
+a60 2
+	DMT0 = (regnum << 7) | 1;
+	SBR |= 1 << regnum;
+d62 3
+a64 3
+	if (read_or_write == WRITE) {
+		DMT0 |= 2;
+	}
+d108 1
+a108 1
+		SBR |= 1 << (regnum + 1);
+d121 4
+a124 4
+    unsigned l_addr;
+    unsigned *reg_ptr;          /* Points to register to load or store. */
+    unsigned size;                  /* 1, 2, 4, or 8                        */
+    unsigned mem_op_type;           /* LD, ST, XMEM, LD_U, or XMEM_U        */
+d127 1
+a127 1
+    unsigned l_page;
+d129 2
+a130 2
+    unsigned physical_address;
+    unsigned physical_page;
+d133 1
+a133 1
+    unsigned *mem_ptr;
+d183 2
+a184 2
+        	set_dmt_regs(l_addr, reg_ptr, size, mem_op_type, read_or_write);
+		cmmu_set_bus_error(physical_address);
+d186 1
+a186 1
+	return exception;
+d249 1
+a249 1
+    mem_ptr = (unsigned *)(page_base_address + (l_addr & PAGE_MASK));
+d261 4
+a264 4
+    unsigned *reg_ptr;
+    unsigned *mem_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d295 1
+a295 1
+                    *(unsigned char *)mem_ptr = *reg_ptr;
+d299 1
+a299 1
+                    *(unsigned short *)mem_ptr = *reg_ptr;
+d358 1
+a358 1
+                    *reg_ptr = *(unsigned char *)mem_ptr;
+d362 1
+a362 1
+                    *reg_ptr = *(unsigned short *)mem_ptr;
+d382 1
+a382 1
+                unsigned t;
+d385 2
+a386 2
+                    t = *(unsigned char *)mem_ptr;
+                    *(unsigned char *)mem_ptr = *reg_ptr;
+d391 2
+a392 2
+                    t = *(unsigned short *)mem_ptr;
+                    *(unsigned short *)mem_ptr = *reg_ptr;
+d431 1
+a431 1
+    unsigned physical_address;
+d434 2
+a435 2
+    unsigned page_number;
+    unsigned page_offset;
+d479 1
+a479 1
+    unsigned physical_address;
+d481 2
+a482 2
+    unsigned page;
+    unsigned page_offset;
+d515 1
+a515 1
+    unsigned logical_address;
+d518 1
+a518 1
+    unsigned physical_address;
+d548 1
+a548 1
+    unsigned ex;
+@
+
+
+1.15
+log
+@Added the sim_printmap() function, called to print the map of
+how simulated physical memory is used.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.14 88/02/12 16:27:02 robertb Exp $
+d575 1
+@
+
+
+1.14
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.13 88/02/12 16:13:00 robertb Exp $
+d564 37
+@
+
+
+1.13
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: misc.c,v 1.12 88/02/08 16:37:32 robertb Exp $ */
+d9 1
+@
+
+
+1.12
+log
+@We now check the shadow scoreboard register before doing an RTE,
+to make sure that it is zero.  We return to the front end if it
+is not zero.  We set the scoreboard register when we get a DMU fault
+now.
+@
+text
+@a0 1
+/* $Header: misc.c,v 1.11 88/01/15 21:26:18 robertb Exp $ */
+d3 5
+@
+
+
+1.11
+log
+@Fix for CMMU status register not being set on an out-of-range
+memory operation.
+@
+text
+@d1 1
+a1 1
+/* $Header: misc.c,v 1.10 88/01/15 11:50:29 brents Exp $ */
+d42 2
+d53 3
+a55 1
+        DMT0 = ((int)(reg_ptr - &regs[0]) << 7) | 1;
+d103 1
+@
+
+
+1.10
+log
+@Fixed bug with DMT0 register, READBAR bit was set incorrectly
+on word and double word loads.
+@
+text
+@d1 1
+a1 1
+/* $Header: misc.c,v 1.9 88/01/15 11:05:29 robertb Exp $ */
+d174 1
+@
+
+
+1.9
+log
+@Fixed the setting of the DMT/DMD/DMA registers.
+@
+text
+@d1 1
+a1 1
+/* $Header: misc.c,v 1.8 88/01/02 11:07:59 robertb Exp $ */
+d83 1
+a83 1
+                DMT0 |= 0x3f;
+d87 1
+a87 1
+                DMT0 |= 0x3f;
+@
+
+
+1.8
+log
+@Now we model the DMT/DMA/DMD register's behavour.
+@
+text
+@d1 1
+a1 1
+/* $Header: misc.c,v 1.7 87/12/10 20:29:06 robertb Exp $ */
+d33 1
+a33 4
+ * This is called when the CALC_ADDR macro in execute.c finds a zero
+ * in a tlb slot or when the logical address it out of range of the
+ * software tlb's.  We return a non-zero exception code if an exception 
+ * should be generated.
+d35 6
+a40 7
+int
+l_mem_op(l_addr, reg_ptr, size, mem_op_type, us_mode)
+    unsigned l_addr;
+    unsigned *reg_ptr;          /* Points to register to load or store. */
+    unsigned size;                  /* 1, 2, 4, or 8                        */
+    unsigned mem_op_type;           /* LD, ST, XMEM, LD_U, or XMEM_U        */
+    int      us_mode;           /* 0: user 1: supervisor                    */
+a41 30
+    unsigned l_page;
+    struct   page *page_ptr;
+    unsigned physical_address;
+    unsigned physical_page;
+    int      exception;
+    char     *page_base_address;
+    unsigned *mem_ptr;
+    int      hit_low;
+    int      hit_high;
+    int     read_or_write;
+
+    /*
+     * Translate the logical address to a 78000 physical address.  If
+     * we get a translation error, return to the executer with an exception
+     * indication.
+     */
+    if (mem_op_type == ST || mem_op_type == XMEM || 
+        mem_op_type == XMEM_U) {
+        read_or_write = WRITE;
+    } else {
+        read_or_write = READ;
+    }
+
+    exception = l_to_p(us_mode, 
+                       l_addr, 
+                       &physical_address, 
+                       DATA_CMMU(l_addr),
+                       read_or_write);
+
+    if (exception && (PSR & 1) == 0) {
+d53 4
+d101 37
+d139 10
+d170 6
+a175 1
+        return io_operation(physical_address, reg_ptr, size, mem_op_type, 0);
+@
+
+
+1.7
+log
+@Added a function to return a string to describe an exception.
+Used by new verbose-mode code in execute.c
+@
+text
+@d1 1
+a1 1
+/* $Header: misc.c,v 1.6 87/11/23 14:41:39 timd Exp $ */
+d19 4
+a22 4
+	if (!BIG_ENDIAN) {
+		sim_printf("Error, no support for little endian.\n");
+	}
+	VBR &= ~PAGE_MASK;	/* zero lower 12 bits of vector base register. */
+d24 6
+a29 3
+	DMT1 &= 0xffff;
+	DMT2 &= 0xffff;
+	DMT3 &= 0xffff;
+d40 5
+a44 5
+	unsigned l_addr;
+	unsigned *reg_ptr;			/* Points to register to load or store. */
+	unsigned size;					/* 1, 2, 4, or 8						*/
+	unsigned mem_op_type;			/* LD, ST, XMEM, LD_U, or XMEM_U		*/
+	int		 us_mode;			/* 0: user 1: supervisor					*/
+d46 10
+a55 10
+	unsigned l_page;
+	struct   page *page_ptr;
+	unsigned physical_address;
+	unsigned physical_page;
+	int		 exception;
+	char     *page_base_address;
+	unsigned *mem_ptr;
+	int		 hit_low;
+	int		 hit_high;
+	int		read_or_write;
+d57 11
+a67 11
+	/*
+	 * Translate the logical address to a 78000 physical address.  If
+	 * we get a translation error, return to the executer with an exception
+	 * indication.
+	 */
+	if (mem_op_type == ST || mem_op_type == XMEM || 
+		mem_op_type == XMEM_U) {
+		read_or_write = WRITE;
+	} else {
+		read_or_write = READ;
+	}
+d69 1
+a69 1
+	exception = l_to_p(us_mode, 
+d75 5
+a79 3
+	if (exception) {
+		return exception;
+	}
+d81 5
+a85 11
+	/*
+	 * See if the access is misaligned.  Either generate an exception
+	 * or force the alignment, depending on the bit in the PSR.
+	 */
+	if (physical_address & (size - 1)) {
+		if (MA_CHECK_ON) {
+			return E_MA;
+		} else {
+			physical_address &= ~(size - 1);
+		}
+	}
+d87 7
+a93 7
+	/*
+	 * If the physical address is greater than the memory size, see
+	 * if the memory operation hits an IO register.
+	 */
+	if (physical_address > memory_size) {
+		return io_operation(physical_address, reg_ptr, size, mem_op_type, 0);
+	}
+d95 7
+a101 6
+	physical_page = physical_address >> 12;
+	page_ptr = page_table[physical_page];
+	if (page_ptr == (struct page *)0) {
+		page_ptr = allocate_page(physical_address & PAGE_MASK);
+		page_table[physical_page] = page_ptr;
+	}
+d103 4
+a106 1
+	page_base_address = (char *)&(page_ptr->values[0]);
+d108 3
+a110 10
+	/*
+	 * Put a pointer to the page in the tlb so that the next time
+	 * the program references this page it won't have to go to the
+	 * expense of calling this function.  If the logical page is
+	 * out of range of both the low and high tlb's then we just do
+	 * the load or store slowly every time it is executed.
+	 */
+	l_page = l_addr >> 12;
+	hit_low = l_page < TLB_SIZE;
+	hit_high = l_page >= TLB_HIGH_BASE;
+d112 3
+a114 18
+	if (hit_low || hit_high) {
+		/*
+		 * If we are doing a store or a load we want to cache the
+		 * the address in the load tlb.
+		 */
+		if (us_mode == M_USER) {
+			if (hit_low) {
+				u_load_tlb_low[l_page] = page_base_address;
+			} else {
+				u_load_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+			}
+		} else {
+			if (hit_low) {
+				s_load_tlb_low[l_page] = page_base_address;
+			} else {
+				s_load_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+			}
+		}
+d116 19
+a134 25
+		/*
+		 * Only if we are doing a store do we want to cache the
+		 * address in the store tlb.  We depend on tlb misses to set
+		 * the M bits in the page descriptors.
+		 */
+		if (mem_op_type == ST || mem_op_type == XMEM || mem_op_type == XMEM_U) {
+			if (us_mode == M_USER) {
+				if (hit_low) {
+					u_store_tlb_low[l_page] = page_base_address;
+				} else {
+					u_store_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+				}
+			} else {
+				if (hit_low) {
+					s_store_tlb_low[l_page] = page_base_address;
+				} else {
+					s_store_tlb_high[l_page-TLB_HIGH_BASE] = page_base_address;
+				}
+			}
+		}
+	}
+	mem_ptr = (unsigned *)(page_base_address + (l_addr & PAGE_MASK));
+	do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+	return 0;
+}
+d136 85
+d228 4
+a231 4
+	unsigned *reg_ptr;
+	unsigned *mem_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+d233 6
+a238 6
+	switch (mem_op_type) {
+		case LD:
+			switch (size) {
+				case BYTE:
+					*reg_ptr = *(char *)mem_ptr;
+					break;
+d240 3
+a242 3
+				case HALF:
+					*reg_ptr = *(short *)mem_ptr;
+					break;
+d244 3
+a246 3
+				case WORD:
+					*reg_ptr = *mem_ptr;
+					break;
+d248 4
+a251 4
+				case DWORD:
+					*reg_ptr = *mem_ptr;
+					*(reg_ptr + 1) = *(mem_ptr + 1);
+					break;
+d253 5
+a257 5
+				default:
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+d259 5
+a263 5
+		case ST:
+			switch (size) {
+				case BYTE:
+					*(unsigned char *)mem_ptr = *reg_ptr;
+					break;
+d265 3
+a267 3
+				case HALF:
+					*(unsigned short *)mem_ptr = *reg_ptr;
+					break;
+d269 3
+a271 3
+				case WORD:
+					*mem_ptr = *reg_ptr;
+					break;
+d273 4
+a276 4
+				case DWORD:
+					*mem_ptr = *reg_ptr;
+					*(mem_ptr + 1) = *(reg_ptr + 1);
+					break;
+d278 5
+a282 5
+				default:
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+d284 3
+a286 3
+		case XMEM:
+			switch (size) {
+				int t;
+d288 5
+a292 5
+				case BYTE:
+					t = *(char *)mem_ptr;
+					*(char *)mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+					break;
+d294 5
+a298 5
+				case HALF:
+					t = *(short *)mem_ptr;
+					*(short *)mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+					break;
+d300 5
+a304 5
+				case WORD:
+					t = *mem_ptr;
+					*mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+					break;
+d306 4
+a309 4
+				case DWORD:
+					t = *mem_ptr;
+					*mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+d311 4
+a314 4
+					t = *(mem_ptr + 1);
+					*(mem_ptr + 1) = *(reg_ptr + 1);
+					*(reg_ptr + 1) = t;
+					break;
+d316 5
+a320 5
+				default:
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+d322 5
+a326 5
+		case LD_U:
+			switch (size) {
+				case BYTE:
+					*reg_ptr = *(unsigned char *)mem_ptr;
+					break;
+d328 3
+a330 3
+				case HALF:
+					*reg_ptr = *(unsigned short *)mem_ptr;
+					break;
+d332 3
+a334 3
+				case WORD:
+					*reg_ptr = *mem_ptr;
+					break;
+d336 4
+a339 4
+				case DWORD:
+					*reg_ptr = *mem_ptr;
+					*(reg_ptr + 1) = *(mem_ptr + 1);
+					break;
+d341 5
+a345 5
+				default:
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+d347 3
+a349 3
+		case XMEM_U:
+			switch (size) {
+				unsigned t;
+d351 5
+a355 5
+				case BYTE:
+					t = *(unsigned char *)mem_ptr;
+					*(unsigned char *)mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+					break;
+d357 5
+a361 5
+				case HALF:
+					t = *(unsigned short *)mem_ptr;
+					*(unsigned short *)mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+					break;
+d363 5
+a367 5
+				case WORD:
+					t = *mem_ptr;
+					*mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+					break;
+d369 4
+a372 4
+				case DWORD:
+					t = *mem_ptr;
+					*mem_ptr = *reg_ptr;
+					*reg_ptr = t;
+d374 4
+a377 4
+					t = *(mem_ptr + 1);
+					*(mem_ptr + 1) = *(reg_ptr + 1);
+					*(reg_ptr + 1) = t;
+					break;
+d379 5
+a383 5
+				default:
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+d385 4
+a388 4
+		default:
+			sim_printf("do_mem_op: case error on mem_op_type.\n");
+			break;
+	}
+d398 1
+a398 1
+	unsigned physical_address;
+d400 4
+a403 4
+	struct io_list *p;
+	unsigned page_number;
+	unsigned page_offset;
+	int hit;
+d405 1
+a405 1
+	page_number = physical_address >> 12;
+d407 10
+a416 10
+	/*
+	 * See if a decoded part for this address has already been made.
+	 */
+	hit = 0;
+	for (p = io_list ; p ; p = p->next_p) {
+		if (p->page_number == page_number) {
+			hit = 1;
+			break;
+		}
+	}
+d418 15
+a432 15
+	/*
+	 * If we couldn't find the decoded part for this physical address,
+	 * make a new structure and put it on the list.
+	 */
+	if (!hit) {
+		p = (struct io_list *)malloc(sizeof(struct io_list));
+		if (!p) {
+			sim_printf("io_decoded_ptr: unable to malloc.\n");
+			exit(1);
+		}
+		p->page_number = page_number;
+		p->decoded_part = allocate_decoded_part();
+		p->next_p = io_list;
+		io_list = p;
+	}
+d434 1
+a434 1
+	page_offset = physical_address & PAGE_MASK;
+d436 1
+a436 1
+	return &(p->decoded_part->decoded_i[page_offset / 4]);
+d446 1
+a446 1
+	unsigned physical_address;
+d448 3
+a450 3
+	unsigned page;
+	unsigned page_offset;
+	struct page *page_ptr;
+d452 3
+a454 3
+	if (physical_address >= memory_size) {
+		return io_decoded_ptr(physical_address);
+	}
+d456 1
+a456 1
+	page = physical_address >> 12;
+d458 1
+a458 1
+	page_ptr = page_table[page];
+d460 4
+a463 4
+	if (page_ptr == (struct page *)0) {
+		page_ptr = allocate_page(ip & ~PAGE_MASK);
+		page_table[page] = page_ptr;
+	}
+d465 3
+a467 3
+	if (!page_ptr->decoded_part) {
+		page_ptr->decoded_part = allocate_decoded_part();
+	}
+d469 1
+a469 1
+	page_offset = physical_address & PAGE_MASK;
+d471 1
+a471 1
+	return  &(page_ptr->decoded_part->decoded_i[page_offset / 4]);
+d482 2
+a483 2
+	unsigned logical_address;
+	int		 us_mode;
+d485 2
+a486 2
+	unsigned physical_address;
+	int      status;
+d488 1
+a488 1
+	status = l_to_p(us_mode, logical_address, &physical_address, 
+d490 3
+a492 3
+	if (status == NO_TRAN) {
+		return (struct decoded_i *)0;
+	}
+d494 1
+a494 1
+	return p_to_d(physical_address);
+d502 3
+a504 3
+	char *reason_string;
+	int  line_number;
+	char *file_string;
+d506 3
+a508 3
+	sim_printf("fatal error in simulator: %s at line %d in file %s\n",
+			reason_string, line_number, file_string);
+	exit(1);
+d515 1
+a515 1
+	unsigned ex;
+d517 2
+a518 2
+	static char str[100];
+	static char *ex_names [] = { "reset", "interrupt", "code access",
+d520 2
+a521 2
+ 	"privilege violation", "array bounds", "integer divide error",
+	"integer overflow", "error" };
+d523 3
+a525 3
+	if (ex < sizeof(ex_names) / sizeof(char *)) {
+		return ex_names[ex];
+	}
+d527 2
+a528 2
+	sprintf(str, "0x%X", ex);
+	return str;
+@
+
+
+1.6
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d450 21
+@
+
+
+1.5
+log
+@See changes_nov_13.doc
+@
+text
+@d1 1
+@
+
+
+1.4
+log
+@added ability to have devices generate interrupt exceptions.
+@
+text
+@d436 13
+@
+
+
+1.3
+log
+@see changes_10_11.doc
+@
+text
+@a19 1
+		mkfault = 1;
+@
+
+
+1.2
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a5 1
+#include "exception.h"
+d47 1
+a47 1
+	int		 status;
+d52 1
+d59 6
+a64 5
+	status = l_to_p(us_mode, l_addr, &physical_address, DATA_CMMU(l_addr));
+	set_u_and_m_bits(mem_op_type);
+	switch (status) {
+		case NO_TRAN:
+			return E_DACC;
+d66 5
+a70 5
+		case RD_ONLY:
+			if (mem_op_type == ST || mem_op_type == XMEM || 
+				mem_op_type == XMEM_U) {
+				return E_DACC;
+			}
+d72 2
+a73 2
+		default:
+			break;
+d429 1
+a429 2
+                    CODE_CMMU(logical_address));
+	set_u_and_m_bits(LD);
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d59 1
+a59 1
+	status = l_to_p(us_mode, l_addr, &physical_address, DATA_CMMU);
+d79 1
+a79 1
+	if (l_addr & (size - 1)) {
+d83 1
+a83 1
+			l_addr &= ~(size - 1);
+d92 1
+a92 1
+		return io_operation(physical_address, reg_ptr, size, mem_op_type);
+d427 2
+a428 1
+	status = l_to_p(us_mode, logical_address, &physical_address, CODE_CMMU);
+@

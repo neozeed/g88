@@ -1,0 +1,2584 @@
+head     1.55;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.55
+date     90.10.30.23.52.51;  author robertb;  state Exp;
+branches ;
+next     1.54;
+
+1.54
+date     90.09.29.21.12.34;  author robertb;  state Exp;
+branches ;
+next     1.53;
+
+1.53
+date     90.07.01.12.29.37;  author robertb;  state Exp;
+branches ;
+next     1.52;
+
+1.52
+date     90.06.30.19.17.02;  author robertb;  state Exp;
+branches ;
+next     1.51;
+
+1.51
+date     90.04.29.19.14.48;  author robertb;  state Exp;
+branches ;
+next     1.50;
+
+1.50
+date     89.08.25.14.04.40;  author robertb;  state Exp;
+branches ;
+next     1.49;
+
+1.49
+date     89.07.26.14.53.52;  author robertb;  state Exp;
+branches ;
+next     1.48;
+
+1.48
+date     88.05.26.18.45.54;  author robertb;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     88.05.20.20.54.06;  author robertb;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     88.05.20.16.58.28;  author robertb;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     88.04.30.22.58.28;  author robertb;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     88.04.29.17.05.39;  author robertb;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     88.04.28.10.35.44;  author robertb;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     88.04.15.14.12.34;  author robertb;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     88.04.11.17.10.12;  author robertb;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     88.04.08.21.32.13;  author robertb;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     88.03.19.10.25.44;  author robertb;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     88.03.01.13.04.40;  author brents;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     88.02.29.16.20.18;  author brents;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     88.02.29.15.43.57;  author brents;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     88.02.26.12.41.05;  author brents;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     88.02.25.14.55.51;  author brents;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     88.02.25.14.37.51;  author robertb;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     88.02.24.14.47.41;  author robertb;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     88.02.23.13.53.23;  author robertb;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     88.02.19.21.57.04;  author robertb;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     88.02.17.11.57.06;  author robertb;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     88.02.12.16.26.52;  author robertb;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     88.02.12.16.12.55;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     88.02.12.11.56.22;  author brents;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     88.01.15.14.53.45;  author brents;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.01.15.11.04.35;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     87.12.22.18.09.01;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     87.12.18.16.52.29;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     87.12.10.14.46.06;  author timd;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     87.12.08.11.26.05;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     87.12.07.14.14.48;  author timd;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     87.12.03.20.06.35;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     87.11.25.11.53.24;  author timd;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     87.11.24.17.19.26;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     87.11.24.16.31.32;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     87.11.23.14.41.14;  author timd;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     87.11.19.19.00.46;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     87.11.19.15.41.53;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     87.11.19.15.43.06;  author timd;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     87.11.15.15.50.20;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.11.13.18.58.56;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.12.19.23.15;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.11.22.26.37;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.09.22.39.07;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.03.16.01.26;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.03.14.19.38;  author brents;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.10.28.20.36.54;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.10.28.14.32.24;  author brents;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.35.53;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.55
+log
+@tweaked timer code to work with new CIO simulator.
+@
+text
+@/*
+ * Simulated 88000 IO devices.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: /tmp_mnt/u2/cs568/g88/sim/RCS/io.c,v 1.54 90/09/29 21:12:34 robertb Exp $
+ */
+
+#include "sim.h"
+#include "io.h"
+
+#define SIMTRACE    "simtrace"
+#define	SIMETRACE	"simetrace"
+
+static struct io_trace *io_trace;
+static struct io_trace *io_first_trace;
+static struct io_trace *io_last_trace;
+static u_long io_trace_vals;
+static u_long io_trace_buf_size;
+
+#define IO_TRACE_BUF_DEFAULT_SIZE   (20000)
+
+/* 
+ * You need to change code if you change this.
+ */
+#define IO_CACHE_SIZE       (256)
+
+struct io_trace *io_trace_buf;
+
+#define ROUTINES(name)  0,                     \
+                        "name",                \
+                         name/**/_init,        \
+                         name/**/_operation,   \
+                         name/**/_print
+
+struct io_dev io_dev_tab[] = {
+0xfff6f000, PAGESIZE,           0, ROUTINES(data_cmmu_0),
+0xfff5f000, PAGESIZE,           0, ROUTINES(data_cmmu_1),
+0xfff3f000, PAGESIZE,           0, ROUTINES(data_cmmu_2),
+0xfff7f000, PAGESIZE,           0, ROUTINES(data_cmmu_3),
+
+0xfff7e000, PAGESIZE,           0, ROUTINES(code_cmmu_0),
+0xfff7d000, PAGESIZE,           0, ROUTINES(code_cmmu_1),
+0xfff7b000, PAGESIZE,           0, ROUTINES(code_cmmu_2),
+0xfff77000, PAGESIZE,           0, ROUTINES(code_cmmu_3),
+
+0xfff82000, 0x40,		0, ROUTINES(duart),
+0xfff83000, 16,			0, ROUTINES(cio),
+0xfff84004, 4,			0, ROUTINES(ien0),
+0xfff84008, 4,			0, ROUTINES(ien1),
+0xfff84010, 4,			0, ROUTINES(ien2),
+0xfff84020, 4,			0, ROUTINES(ien3),
+0xfff8403c, 4,			0, ROUTINES(ien),
+
+0xfff84040, 4,			0, ROUTINES(ist),
+0xfff84080, 4,			0, ROUTINES(setswi),
+0xfff84084, 4,			0, ROUTINES(clrswi),
+0xfff84088, 4,			0, ROUTINES(istate),
+0xfff8408c, 4,			0, ROUTINES(clrint),
+0xfff88018, 4,			0, ROUTINES(whoami),
+
+0xffff0000, 1,                  0, ROUTINES(console),
+0xffff0004, 4,			0, ROUTINES(trivial_timer),
+0xffff000c, 0x14,               0, ROUTINES(special),
+0xffff0020, 0x10,               1, ROUTINES(disk1),
+0xffff0030, 0x10,               1, ROUTINES(disk2),
+0xffff0040, 0x10,               1, ROUTINES(disk3),
+0xffff0050, 0x10,               1, ROUTINES(disk4),
+0xffff0060, 0x10,               0, ROUTINES(gettime)
+};
+#undef ROUTINES
+
+#define IO_DEV_TAB_SIZE (sizeof(io_dev_tab) / sizeof(struct io_dev))
+#define IO_HASH(addr)   (((addr) >> 12) & 0xff)
+
+static struct io_dev *last = &io_dev_tab[IO_DEV_TAB_SIZE];
+
+static struct io_dev *io_cache[IO_CACHE_SIZE];
+
+/* Start of trivial timer device, as requested by Rueven */
+
+/* stubs for timer routines. */
+
+#include <sys/time.h>
+#include <signal.h>
+int timer_on;
+int ticks, timer_count;
+
+/* This is the signal handler for SIGVTALRM.  This is called by the
+   kernel every $simtick microseconds.  It does double duty: it may
+   do the trivial timer's interrupt (a simulated device), and it
+   may call the multiprocessor switch routine. */
+
+static void Oscillator()
+{
+  if (timer_on) {
+    ticks++;
+    timer_count--;
+    if (timer_count == 0) {
+      timer_count = timer_on;
+      set_cio_interrupt();
+      /* sim_interrupt_flag |= INT_DEVICE; */
+    }
+  }
+  if (waiting_for_mpswitch_interrupt) {
+    multiprocessor_switch();
+  }
+}
+
+/* Turn off the SIGVTALRM, regardless of the setting of timer_on. */
+void HoldOscillator()
+{
+  struct itimerval    new_timer_value, old_timer_value;
+      
+  new_timer_value.it_interval.tv_sec = 0;
+  new_timer_value.it_interval.tv_usec = 0;
+  new_timer_value.it_value.tv_sec = 0;
+  new_timer_value.it_value.tv_usec = 0;
+  if (setitimer (ITIMER_VIRTUAL, &new_timer_value, &old_timer_value) != 0) {
+    sim_printf("g88: setitimer(ITIMER_VIRTUAL,..) in HoldOscillator() returns error\n");
+  }
+}
+
+/* Turn on SIGVTALRM only if the trivial timer is on or if we are
+   waiting for a multiprocessor switch interrupt. */
+void ReleaseOscillator()
+{
+  struct itimerval new_timer_value, old_timer_value;
+  u_long usec;
+
+  if (timer_on > 0 || waiting_for_mpswitch_interrupt) {
+    /* start the UTek clock */
+    (void) simsignal(SIGVTALRM, Oscillator);
+    usec = varvalue("simtick");
+    if (usec < 10000) {
+      sim_printf("Warning: $simtick is less than 10000 microseconds, but\n\
+SUN-OS will not interrupt any faster, so $simtick is effectively 10000\n");
+      sim_printf("Setting simtick to 10000\n");
+      setvar("simtick", usec = 10000);
+    }
+    new_timer_value.it_interval.tv_sec = usec / 1000000;
+    new_timer_value.it_interval.tv_usec = usec % 1000000;
+    new_timer_value.it_value = new_timer_value.it_interval;
+    if (setitimer (ITIMER_VIRTUAL, &new_timer_value, &old_timer_value) != 0) {
+      sim_printf("g88: setitimer() in ReleaseOscillator() returns error.\n");
+    }
+  }
+}
+
+/* The trivial timer pulls the interrupt line of the currently 
+   selected 88100 periodically.  The period is the product of the
+   value in the program-accessable register (modeled by 'timer_on')
+   and the convenience variable "$simtick".  If this product is
+   zero, no interrupts are generated. This IO model was requested
+   by Rueven Koblick.  -rcb 6/90 */
+void trivial_timer_init() 
+{
+  timer_on = 0;
+  ticks = 0;
+}
+
+int trivial_timer_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("trivial timer does not support double operations\n");
+    return E_DACC;
+  }
+  do_mem_op(reg_ptr, &timer_on, size, mem_op_type);
+  timer_count = timer_on;
+  if (!override) {
+    HoldOscillator();
+    ReleaseOscillator();
+  }
+  return E_NONE;
+}
+
+void trivial_timer_print()
+{
+  sim_printf("timer is %s, %d ticks since last init\n",
+		 timer_on ? "on" : "off", ticks);
+}
+
+/*
+ * This builds the cache of IO addresses that we use to speed
+ * the look-up of IO devices by address.
+ */
+io_buildcache()
+{
+    struct io_dev *io_p;
+    int i;
+
+    /*
+     * Build the IO address cache.
+     */
+    for (i = 0 ; i < IO_CACHE_SIZE ; i++) {
+        io_cache[i] = &io_dev_tab[0];
+        for (io_p = &io_dev_tab[0] ; io_p != last ; io_p++) {
+            if (io_p->size > 0 && i == ((io_p->l_addr >> 12) & 0xff)) {
+                io_cache[i] = io_p;
+                break;
+            }
+        }
+    }
+}
+
+/*
+ * This is called by sim_init to initialize the IO device simulators.
+ * We call the initialization function for each entry in the IO table.
+ */
+void
+io_init()
+{
+    struct io_dev *io_p;
+    int tracelen;
+
+    if (!io_trace_buf) {
+        io_trace_buf_size = varvalue(SIMTRACE);
+        if (io_trace_buf_size != 0) {
+            if (io_trace_buf_size < 1 || io_trace_buf_size > 10000000) {
+    
+                sim_printf("$%s = %d, but should be in 1..10000000\n", 
+                            SIMTRACE, io_trace_buf_size);
+    
+                sim_printf("using %d instead.\n", IO_TRACE_BUF_DEFAULT_SIZE);
+                io_trace_buf_size = IO_TRACE_BUF_DEFAULT_SIZE;
+                setvar(SIMTRACE, io_trace_buf_size);
+            }
+        } else {
+            io_trace_buf_size = IO_TRACE_BUF_DEFAULT_SIZE;
+            setvar(SIMTRACE, io_trace_buf_size);
+        }
+        io_trace_buf = (struct io_trace *)
+                              sbrk(io_trace_buf_size * sizeof(struct io_trace));
+    }
+    io_trace = io_trace_buf;
+    io_first_trace = io_trace;
+    io_last_trace = &io_trace_buf[io_trace_buf_size - 1];
+    io_trace_vals = 0;
+
+    for (io_p = &io_dev_tab[0] ; io_p != last ; io_p++) {
+        io_p->cnt = 0;
+        (*io_p->init)(0);
+    }
+
+    io_buildcache();
+}
+
+
+/*
+ * This is called to restore the state of the IO simulators after
+ * reading a checkpoin file.
+ */
+void
+sim_io_restore()
+{
+    struct io_dev *io_p;
+
+    for (io_p = &io_dev_tab[0] ; io_p != last ; io_p++) {
+        if (io_p->restore) {
+            (*io_p->init)(1);
+        }
+    }
+
+}
+
+/*
+ * This function changes the address and length of an IO device
+ * to be changed while the simulator is running.
+ * The simulator is named by its operation function, a point to
+ * this function is passed as the first parameter.
+ *
+ * A 0 is returned if the device was found, a -1 is returned 
+ * otherwise.
+ */
+int
+io_change_addr(operation_function, new_address, new_length)
+    int (*operation_function)();
+    u_long new_address;
+    u_long new_length;
+{
+    struct io_dev *io_p;
+
+    for (io_p = &io_dev_tab[0] ; io_p != last ; io_p++) {
+        if (io_p->operation == operation_function) {
+            io_p->l_addr = new_address;
+            io_p->size = new_length;
+            if (new_length > 0) {
+                io_buildcache();
+            }
+            return 0;
+        }
+    }
+    return -1;
+}
+
+/*
+ * This prints the names and addresses of all the simulated devices
+ * in the device table.
+ */
+void
+sim_io_print_devices(dev)
+{
+    struct io_dev *io_p;
+    int index = 1;
+
+    for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++, index++) {
+        if (dev == index || (io_p->size > 0 && dev == 0)) {
+            QUIT;
+            if (io_p->size > 0 && io_p->l_addr > 0) {
+                sim_printf("[%2d] [%6d] from 0x%08x to 0x%08x is the %s\n", 
+                        index, io_p->cnt, io_p->l_addr, 
+                        io_p->l_addr + io_p->size - 1, io_p->name);
+            } else {
+                sim_printf("[%2d] [%6d] [disabled] is the %s\n", 
+                        index, io_p->cnt,  io_p->name);
+            }
+        }
+    }
+}
+
+/*
+ * Called when there is a load, store, or xmem to/from a physical address
+ * for which there is no simulated memory.  We return 0 if the operation
+ * was successful and the exception code for a data access fault otherwise.
+ */
+int
+io_operation(physical_address, value_ptr, size, mem_op_type, override)
+    u_long physical_address;
+    u_long *value_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    u_long address_offset;
+    struct io_dev *io_p;
+    int exception_code;
+    int count;
+    struct io_trace *local_trace_ptr;
+
+    io_p = io_cache[IO_HASH(physical_address)];
+    for (count = 0 ; count < IO_DEV_TAB_SIZE ; count++) {
+        if (io_p->l_addr <= physical_address &&
+            physical_address < io_p->l_addr + io_p->size) {
+
+            if (mem_op_type == ST   || 
+                mem_op_type == XMEM || 
+                mem_op_type == XMEM_U) {
+                    flush_io_decoded_list_entry(physical_address);
+            }
+
+            address_offset = physical_address - io_p->l_addr;
+
+            local_trace_ptr = io_trace;
+            io_trace++;
+            if (io_trace > io_last_trace) {
+                io_trace = io_first_trace;
+            }
+            if (io_trace_vals < io_trace_buf_size) {
+                io_trace_vals++;
+            }
+            local_trace_ptr->addr = physical_address;
+            local_trace_ptr->io_ptr = io_p;
+            local_trace_ptr->ip = ip;
+            local_trace_ptr->mem_op_type = mem_op_type;
+            local_trace_ptr->size = size;
+            if (mem_op_type == ST) {
+                local_trace_ptr->value = *value_ptr;
+            }
+
+            io_p->cnt++;
+            local_trace_ptr->cnt = io_p->cnt;
+            exception_code = (*io_p->operation)
+                    (address_offset, value_ptr, size, mem_op_type, override);
+
+            if (mem_op_type != ST) {
+                local_trace_ptr->value = *value_ptr;
+            }
+
+            return exception_code;
+        }
+        io_p++;
+        if (io_p == last) {
+            io_p = &io_dev_tab[0];
+        }
+    }
+    cmmu_set_bus_error(physical_address);
+    return E_DACC;
+}
+
+/*
+ * Called when there user wishes to see the IO device's state in
+ * a convenient form.  The parameter can either be a small integer
+ * that indexes the IO table or the physical address of the device.
+ */
+void
+sim_io_print(physical_address)
+    u_long physical_address;
+{
+    struct io_dev *io_p;
+
+    if (physical_address <= IO_DEV_TAB_SIZE) {
+        io_p = &io_dev_tab[physical_address - 1];
+        if (io_p->size == 0) {
+            sim_printf("%s is not active\n", io_p->name);
+            return;
+        }
+        physical_address = io_p->l_addr;
+    }
+
+    for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++) {
+        QUIT;
+        if (io_p->l_addr <= physical_address &&
+            physical_address < io_p->l_addr + io_p->size) {
+
+            (*io_p->print)();
+            return;
+        }
+    }
+    sim_printf("no device responds to 0x%08x.\n", physical_address);
+}
+
+/*
+ * Called when the user wants to see a IO transaction history.
+ */
+void
+sim_io_trace(physical_address, number_to_show)
+    u_long physical_address;
+    u_long number_to_show;
+{
+    struct io_trace *t;
+    struct io_dev *dev_to_display;
+    u_long i;
+
+    static char size_names[] = { '0', 'b', 'h', '3',
+                            ' ', '5', '6', '7', 'd' };
+
+    static char *op_names[] = { "inv ", "ld", "st", 
+                                "xmem", "ld", 
+                                "xmem" };
+
+    static int size_widths[] = { 8, 2, 4, 8, 8, 8, 8, 8 };
+
+    if (number_to_show <= 0) {
+        return;
+    }
+
+    if (physical_address <= IO_DEV_TAB_SIZE) {
+        dev_to_display = &io_dev_tab[physical_address-1];
+    } else {
+        dev_to_display = 0;
+    }
+
+    t = io_trace - 1;
+
+    for (i = 0 ; i < io_trace_vals ; i++) {
+        QUIT;
+        if (t < io_first_trace) {
+            t = io_last_trace;
+        }
+
+        check_pointer(t);
+        check_pointer(t->io_ptr);
+        assert(io_first_trace <= t && t <= io_last_trace);
+
+        /*
+         * We display the trace record if we are displaying all the
+         * records for a given device and this record is from that
+         * device.  If we are displaying by addressed IO location
+         * and the address in the record matches that passed we
+         * we display the record.  And if we are displaying every
+         * thing we display the record.
+         */
+        if (physical_address == 0 ||
+            t->io_ptr == dev_to_display ||
+            t->addr == physical_address) {
+            int op = t->mem_op_type;
+
+            sim_printf(
+        "%6d: ip=0x%08x  %s%c%c%c  data=0x%08x addr=0x%08x  %s+0x%x\n",
+                    t->cnt,
+                    t->ip, 
+                    op_names[op], 
+                    t->size == WORD ? ' ' : '.',
+                    size_names[t->size],
+                    (op == LD_U || op == XMEM_U) && t->size < WORD ? 'u' : ' ',
+                    t->value,
+                    t->addr,
+                    t->io_ptr->name,
+                    t->addr - t->io_ptr->l_addr);
+
+            if (--number_to_show == 0) {
+                return;
+            }
+        }
+        t--;
+    }
+}
+
+/*
+ * true if we are in trace-execution mode (very slow).
+ */
+int tracing;
+
+/*
+ * Points to the string to use as the filename of the execution trace
+ * file.
+ */
+static char *simetrace;
+
+/*
+ * This is a psuedo-device, when stored to in its first location
+ * (offset 0) it causes the simulator to return to the front 
+ * end after the next branch instruction.
+ *
+ * The location at offset 4 controls execution tracing.
+ */
+void special_init(restore) 
+{
+    if (restore) {
+        if (tracing) {
+            open_trace_file(simetrace);
+        }
+    } else {
+        tracing = 0;
+    }
+}
+
+
+/*
+ * This implements both the return-to-front-end device and the
+ * execution-trace control flag device.
+ */
+int
+special_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+    if (mem_op_type != ST) {
+        sim_printf("special_operation: only stores are supported.\n");
+        return E_DACC;
+    } 
+
+    if (size != WORD) {
+        sim_printf("special_operation: only word size is supported.\n");
+        return E_DACC;
+    }
+
+    switch (address_offset) {
+        case 0:
+            sim_interrupt_flag |= INT_INTERNAL;
+            break;
+
+        case 4:
+            tracing = *reg_ptr;
+            if (tracing) {
+                simetrace = SIMETRACE;
+                if (!simetrace) {
+                    sim_printf(
+                   "special_operation: tracing turned on, but %s is not set.\n",
+                                                              SIMETRACE);
+                    tracing = 0;
+                } else {
+                    open_trace_file(simetrace);
+                }
+            } else {
+                close_trace_file();
+            }
+            break;
+    }
+
+    return E_NONE;
+}
+
+void special_print() 
+{
+    sim_printf("tracing is %s\n", tracing ? "on" : "off");
+}
+@
+
+
+1.54
+log
+@Added CIO simulator
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/vlsi/u2/cs568/g88/sim/RCS/io.c,v 1.53 90/07/01 12:29:37 robertb Exp Locker: robertb $
+d87 2
+a88 2
+static int timer_on;
+static int ticks, timer_count;
+d90 1
+a90 1
+/* This is the signal handler for SIGVTALRM.  This is called by ther
+d94 1
+d102 2
+a103 1
+      sim_interrupt_flag |= INT_DEVICE;
+d120 3
+a122 1
+  setitimer (ITIMER_VIRTUAL, &new_timer_value, &old_timer_value);
+d139 2
+d145 3
+a147 1
+    (void) setitimer (ITIMER_VIRTUAL, &new_timer_value, &old_timer_value);
+@
+
+
+1.53
+log
+@Added the duart and whoami devices to the device table
+Added a warning message when $simtick is too low.
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/io.c,v 1.52 90/06/30 19:17:02 robertb Exp Locker: robertb $
+d49 1
+@
+
+
+1.52
+log
+@Removed Tektronix IO simulator references in io table.
+Added new simulator for trivial timer and some support for
+SIGVTALRM that is shared w/ the MP code.
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/io.c,v 1.51 90/04/29 19:14:48 robertb Exp Locker: robertb $
+d48 1
+d60 1
+d131 4
+@
+
+
+1.51
+log
+@Ported to system V.  Changed format effectors in printf's.
+Replaced use of environment variables with use of gdb convenience
+variables.  Check gdb's interrupt flag in  commands that generate
+more than a few lines of output.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.50 89/08/25 14:04:40 robertb Exp $
+d38 4
+a41 1
+0x00000000, 0,                  1, ROUTINES(timer),
+d43 4
+a46 7
+0x00000000, 0,                  0, ROUTINES(iob1_ftvmap),
+0x00000000, 0,                  0, ROUTINES(iob1_stat),
+0x00000000, 0,                  0, ROUTINES(iob1_ctl),
+0x00000000, 0,                  0, ROUTINES(dmaca),
+0x00000000, 0,                  0, ROUTINES(dmacb),
+0x00000000, 0,                  0, ROUTINES(lanram1),
+0x00000000, 0,                  0, ROUTINES(iob1_dramc),
+d48 5
+a52 5
+0x00000000, 0,                  0, ROUTINES(iob2_ftvmap),
+0x00000000, 0,                  0, ROUTINES(iob2_stat),
+0x00000000, 0,                  0, ROUTINES(iob2_ctl),
+0x00000000, 0,                  0, ROUTINES(lanram2),
+0x00000000, 0,                  0, ROUTINES(iob2_dramc),
+d54 5
+a58 5
+0xfdfe1000, 4096,               0, ROUTINES(iob1),    /* fbus_slot 1 */
+0xfdfe4000, 4096,               0, ROUTINES(iob2),    /* fbus_slot 4 */ 
+0xfdfe3000, 4096,               0, ROUTINES(CEfbus),  /* fbus_slot 3 */
+0xfdfff000, 4096,               0, ROUTINES(CEfbus),  /* CE local fbus access */
+0xfe000000, 4*64*1024,          0, ROUTINES(rom),
+a59 20
+0xfff00000, PAGESIZE,           0, ROUTINES(data_cmmu_0),
+0xfff01000, PAGESIZE,           0, ROUTINES(data_cmmu_1),
+0xfff02000, PAGESIZE,           0, ROUTINES(data_cmmu_2),
+0xfff03000, PAGESIZE,           0, ROUTINES(data_cmmu_3),
+
+0xfff04000, PAGESIZE,           0, ROUTINES(code_cmmu_0),
+0xfff05000, PAGESIZE,           0, ROUTINES(code_cmmu_1),
+0xfff06000, PAGESIZE,           0, ROUTINES(code_cmmu_2),
+0xfff07000, PAGESIZE,           0, ROUTINES(code_cmmu_3),
+
+0xfff10000, 0x2000,             0, ROUTINES(lcsr),
+0xfff12003, 1,                  0, ROUTINES(led),
+0xfff14000, 8,                  1, ROUTINES(scc_b),
+0xfff14008, 8,                  1, ROUTINES(scc_a),
+0xfff16000, PAGESIZE,           0, ROUTINES(ce_serctl),
+0xfff18000, 4,                  0, ROUTINES(ce_wo_bitbucket),
+0xfff1a000, 4,                  0, ROUTINES(ce_rw_bitbucket),
+0xfff40000, 4,                  0, ROUTINES(CEberr_loc),
+0xfff20100, 4,                  0, ROUTINES(dram_cmperr),
+0xfff20200, 4,                  0, ROUTINES(dram_parerr),
+d61 1
+a61 1
+/* 0xffff0001, 1,                  1, ROUTINES(newcons), */
+d64 3
+a66 3
+0xffff0030, 0x10,               1, ROUTINES(disk2)
+0xffff0040, 0x10,               1, ROUTINES(disk3)
+0xffff0050, 0x10,               1, ROUTINES(disk4)
+d77 96
+@
+
+
+1.50
+log
+@Fixed some type problems.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.49 89/07/26 14:53:52 robertb Exp $
+d13 2
+a14 2
+#define SIMTRACE    "SIMTRACE"
+#define	SIMETRACE	"SIMETRACE"
+a15 2
+extern char *getenv();
+
+d81 1
+a81 1
+0xffff0001, 1,                  1, ROUTINES(newcons),
+d129 1
+a129 1
+    char *env;
+d132 2
+a133 3
+        env = getenv(SIMTRACE);
+        if (env) {
+            io_trace_buf_size = atoi(env);
+d136 2
+a137 2
+                sim_printf("%s = %s, but should be in 1..10000000\n", 
+                            SIMTRACE, env);
+d141 1
+d145 1
+d223 1
+d225 1
+a225 1
+                sim_printf("[%2d] [%6d] from 0x%08X to 0x%08X is the %s\n", 
+d326 1
+d334 1
+a334 1
+    sim_printf("no device responds to 0x%08X.\n", physical_address);
+d371 1
+d394 1
+a394 1
+        "%6d: ip=0x%08X  %s%c%c%c  data=0x%08X addr=0x%08X  %s+0x%X\n",
+a455 2
+    char *getenv();
+
+d474 1
+a474 1
+                simetrace = getenv(SIMETRACE);
+@
+
+
+1.49
+log
+@Fixed type problem discovered by new compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.48 88/05/26 18:45:54 robertb Exp $
+d362 1
+a362 1
+        dev_to_display = &io_dev_tab[physical_address-1].l_addr;
+d421 1
+a421 1
+static u_char *simetrace;
+d454 2
+@
+
+
+1.48
+log
+@spiffed up the io command.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.47 88/05/20 20:54:06 robertb Exp $
+d16 2
+d131 1
+a131 1
+    char *env, *getenv();
+@
+
+
+1.47
+log
+@re-ordered the IO table to be in order of address
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.46 88/05/20 16:58:28 robertb Exp $
+d22 1
+a22 1
+#define IO_TRACE_BUF_DEFAULT_SIZE   (10000)
+d284 1
+d346 2
+a347 2
+    static char *size_names[] = { "0", "byte", "half word", "3",
+                            "word", "5", "6", "7", "double word" };
+d349 3
+a351 2
+    static char *prepositions[] = { "invalid", "from ", "into", 
+                                "with ", "from", "with" };
+d353 1
+a353 3
+    static char *op_names[] = { "invalid", "load ", "store", 
+                                "xmem ", "load unsigned", 
+                                "xmem unsigned" };
+d387 1
+d389 12
+a400 5
+            sim_printf("ip=%08X  %s %s (%08X) %s %s at %08X\n",
+                    t->ip, op_names[t->mem_op_type], 
+                    size_names[t->size], t->value,
+                    prepositions[t->mem_op_type], 
+                    t->io_ptr->name, t->addr);
+@
+
+
+1.46
+log
+@Made timer, dmaca, and lanram on IOB1 not mapped initially,
+to match hardware.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.45 88/04/30 22:58:28 robertb Exp $
+d38 16
+a53 13
+0x00000000, 32,                 1, ROUTINES(timer),
+0x00000000, 2048,               0, ROUTINES(dmaca),
+0x00000000, 2048,               0, ROUTINES(dmacb),
+0x00000000, (256*1024),         0, ROUTINES(lanram1),
+0x00000000, (256*1024),         0, ROUTINES(lanram2),
+0x00000000, 1,                  0, ROUTINES(iob1_stat),
+0x00000000, 1,                  0, ROUTINES(iob1_ctl),
+0x00000000, 4,                  0, ROUTINES(iob1_dramc),
+0x00000000, 64,                 0, ROUTINES(iob1_ftvmap),
+0x00000000, 1,                  0, ROUTINES(iob2_stat),
+0x00000000, 1,                  0, ROUTINES(iob2_ctl),
+0x00000000, 4,                  0, ROUTINES(iob2_dramc),
+0x00000000, 64,                 0, ROUTINES(iob2_ftvmap),
+d59 1
+d64 1
+d69 1
+@
+
+
+1.45
+log
+@added execution trace facility
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.44 88/04/29 17:05:39 robertb Exp $
+d38 2
+a39 2
+0xc0001000, 32,                 1, ROUTINES(timer),
+0xc0010000, 2048,               0, ROUTINES(dmaca),
+d41 1
+a41 1
+0xc0100000, (256*1024),         0, ROUTINES(lanram1),
+d216 1
+a216 1
+            if (io_p->size > 0) {
+@
+
+
+1.44
+log
+@Made scc ports be double word aligned as per Andrew's request.
+Made sim_io_print_devices able to print individual device table
+entries.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.43 88/04/28 10:35:44 robertb Exp $
+d13 3
+d40 1
+a40 1
+0x00000000, 2048,		0, ROUTINES(dmacb),
+d44 3
+a46 3
+0x00000000, 1,			0, ROUTINES(iob1_ctl),
+0x00000000, 4,			0, ROUTINES(iob1_dramc),
+0x00000000, 64,			0, ROUTINES(iob1_ftvmap),
+d48 3
+a50 3
+0x00000000, 1,			0, ROUTINES(iob2_ctl),
+0x00000000, 4,			0, ROUTINES(iob2_dramc),
+0x00000000, 64,			0, ROUTINES(iob2_ftvmap),
+d52 3
+a54 3
+0xfdfe4000, 4096,		0, ROUTINES(iob2),    /* fbus_slot 4 */	
+0xfdfe3000, 4096,		0, ROUTINES(CEfbus),  /* fbus_slot 3 */
+0xfdfff000, 4096,		0, ROUTINES(CEfbus),  /* CE local fbus access */
+d69 3
+a71 3
+0xfff18000, 4,			0, ROUTINES(ce_wo_bitbucket),
+0xfff1a000, 4,			0, ROUTINES(ce_rw_bitbucket),
+0xfff40000, 4,			0, ROUTINES(CEberr_loc),
+d76 1
+a76 1
+0xffff000c, 4,                  0, ROUTINES(return_to_front_end),
+a114 1
+#define	SIMTRACE	"SIMTRACE"
+d397 1
+a397 2
+ * This is a psuedo-device, when stored to it causes the simulator
+ * to return to the front end after the next branch instruction.
+d399 16
+a414 2
+void
+return_to_front_end_init()
+d416 7
+a422 1
+    sim_interrupt_flag &= ~INT_INTERNAL;
+d425 5
+d431 6
+a436 1
+return_to_front_end_operation()
+d438 33
+a470 1
+    sim_interrupt_flag |= INT_INTERNAL;
+d474 1
+a474 2
+void
+return_to_front_end_print()
+d476 1
+a476 3
+    sim_printf("sim_interrupt_flag=%d\n", sim_interrupt_flag);
+    sim_printf("when you touch this port, the simulator will return\n");
+    sim_printf("to the front end after the next branch that is taken.\n");
+@
+
+
+1.43
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.42 88/04/15 14:12:34 robertb Exp $
+d63 3
+a65 3
+0xfff14003, 8,                  1, ROUTINES(scc_b),
+0xfff1400b, 8,                  1, ROUTINES(scc_a),
+0xfff16003, 1,                  0, ROUTINES(ce_serctl),
+d207 1
+a207 1
+sim_io_print_devices()
+d213 3
+a215 2
+        if (io_p->size > 0) {
+            sim_printf("[%d] [%8d] from 0x%08X to 0x%08X is the %s\n", 
+d218 4
+@
+
+
+1.42
+log
+@Added stuff to support checkpointing.
+@
+text
+@d2 1
+a2 1
+ * Simulated 78000 IO devices.
+d7 1
+a7 1
+ * $Header: io.c,v 1.41 88/04/11 17:10:12 robertb Exp $
+d13 5
+a17 4
+struct io_trace *io_trace;
+struct io_trace *io_first_trace;
+struct io_trace *io_last_trace;
+u_long io_trace_vals;
+d19 1
+a19 2
+#define IO_TRACE_BUF_SIZE   10000
+#define IO_CACHE_SIZE       256     /* Need to change code if you change this*/
+d21 4
+a24 1
+struct io_trace io_trace_buf[IO_TRACE_BUF_SIZE];
+d26 4
+a29 1
+#define ROUTINES(name)  "name",                \
+d37 1
+a37 1
+0x0,	    2048,		0, ROUTINES(dmacb),
+d39 1
+a39 1
+0x0,        (256*1024),         0, ROUTINES(lanram2),
+d48 3
+a50 3
+0xfdfe1000, 4096,               0, ROUTINES(iob1),	   /* fbus_slot 1 */
+0xfdfe4000, 4096,		0, ROUTINES(iob2),         /* fbus_slot 4 */	
+0xfdfe3000, 4096,		0, ROUTINES(CEfbus),       /* fbus_slot 3 */
+d53 8
+a60 8
+0xfff00000, PAGE_SIZE,          0, ROUTINES(data_cmmu_0),
+0xfff01000, PAGE_SIZE,          0, ROUTINES(data_cmmu_1),
+0xfff02000, PAGE_SIZE,          0, ROUTINES(data_cmmu_2),
+0xfff03000, PAGE_SIZE,          0, ROUTINES(data_cmmu_3),
+0xfff04000, PAGE_SIZE,          0, ROUTINES(code_cmmu_0),
+0xfff05000, PAGE_SIZE,          0, ROUTINES(code_cmmu_1),
+0xfff06000, PAGE_SIZE,          0, ROUTINES(code_cmmu_2),
+0xfff07000, PAGE_SIZE,          0, ROUTINES(code_cmmu_3),
+a73 1
+0xffff0010, 4,                  0, ROUTINES(interrupt),
+d76 3
+a78 1
+0xffff0040, 0x10,               0, ROUTINES(gettime)
+d80 1
+d85 1
+a85 2
+static struct io_dev
+    *last = &io_dev_tab[IO_DEV_TAB_SIZE];
+d112 1
+d121 1
+d123 19
+a141 1
+    io_trace = &io_trace_buf[0];
+d143 1
+a143 1
+    io_last_trace = &io_trace_buf[IO_TRACE_BUF_SIZE - 1];
+d147 1
+d193 3
+a195 1
+            io_buildcache();
+d214 3
+a216 2
+            sim_printf("[%d] from 0x%08X to 0x%08X is the %s\n", 
+            index, io_p->l_addr, io_p->l_addr + io_p->size - 1, io_p->name);
+d258 1
+a258 1
+            if (io_trace_vals < IO_TRACE_BUF_SIZE) {
+d270 1
+a411 25
+}
+
+/*
+ * This device exist soley as an example of how to cause a 88000
+ * within a device simulation.
+ */
+void
+interrupt_init()
+{
+    sim_interrupt_flag &= ~INT_DEVICE;
+}
+
+int
+interrupt_operation()
+{
+    sim_interrupt_flag |= INT_DEVICE;
+    return E_NONE;
+}
+
+void
+interrupt_print()
+{
+    sim_printf("sim_interrupt_flag=%d\n", sim_interrupt_flag);
+    sim_printf("when you touch this port, an interrupt exception\n");
+    sim_printf("is raised after the next branch that is taken.\n");
+@
+
+
+1.41
+log
+@added newcons and gettime
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.40 88/04/08 21:32:13 robertb Exp $
+d29 43
+a71 43
+0xc0001000, 32,                 ROUTINES(timer),
+0xc0010000, 2048,               ROUTINES(dmaca),
+0x0,	    2048,		ROUTINES(dmacb),
+0xc0100000, (256*1024),         ROUTINES(lanram1),
+0x0,        (256*1024),         ROUTINES(lanram2),
+0x00000000, 1,                  ROUTINES(iob1_stat),
+0x00000000, 1,			ROUTINES(iob1_ctl),
+0x00000000, 4,			ROUTINES(iob1_dramc),
+0x00000000, 64,			ROUTINES(iob1_ftvmap),
+0x00000000, 1,                  ROUTINES(iob2_stat),
+0x00000000, 1,			ROUTINES(iob2_ctl),
+0x00000000, 4,			ROUTINES(iob2_dramc),
+0x00000000, 64,			ROUTINES(iob2_ftvmap),
+0xfdfe1000, 4096,               ROUTINES(iob1),	   /* fbus_slot 1 */
+0xfdfe4000, 4096,		ROUTINES(iob2),    /* fbus_slot 4 */	
+0xfdfe3000, 4096,		ROUTINES(CEfbus),  /* fbus_slot 3 */
+0xfdfff000, 4096,		ROUTINES(CEfbus),  /* CE local fbus access */
+0xfe000000, 4*64*1024,          ROUTINES(rom),
+0xfff00000, PAGE_SIZE,          ROUTINES(data_cmmu_0),
+0xfff01000, PAGE_SIZE,          ROUTINES(data_cmmu_1),
+0xfff02000, PAGE_SIZE,          ROUTINES(data_cmmu_2),
+0xfff03000, PAGE_SIZE,          ROUTINES(data_cmmu_3),
+0xfff04000, PAGE_SIZE,          ROUTINES(code_cmmu_0),
+0xfff05000, PAGE_SIZE,          ROUTINES(code_cmmu_1),
+0xfff06000, PAGE_SIZE,          ROUTINES(code_cmmu_2),
+0xfff07000, PAGE_SIZE,          ROUTINES(code_cmmu_3),
+0xfff10000, 0x2000,             ROUTINES(lcsr),
+0xfff12003, 1,                  ROUTINES(led),
+0xfff14003, 8,                  ROUTINES(scc_b),
+0xfff1400b, 8,                  ROUTINES(scc_a),
+0xfff16003, 1,                  ROUTINES(ce_serctl),
+0xfff18000, 4,			ROUTINES(ce_wo_bitbucket),
+0xfff1a000, 4,			ROUTINES(ce_rw_bitbucket),
+0xfff40000, 4,			ROUTINES(CEberr_loc),
+0xfff20100, 4,                  ROUTINES(dram_cmperr),
+0xfff20200, 4,                  ROUTINES(dram_parerr),
+0xffff0000, 1,                  ROUTINES(console),
+0xffff0001, 1,                  ROUTINES(newcons),
+0xffff000c, 4,                  ROUTINES(return_to_front_end),
+0xffff0010, 4,                  ROUTINES(interrupt),
+0xffff0020, 0x10,               ROUTINES(disk1),
+0xffff0030, 0x10,               ROUTINES(disk2)
+0xffff0040, 0x10,               ROUTINES(gettime)
+d120 1
+a120 1
+        (*io_p->init)();
+d124 18
+@
+
+
+1.40
+log
+@Added commas to table to make SUN compiler happy
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.39 88/03/19 10:25:44 robertb Exp $
+d65 2
+a66 1
+0xffff0000, 4,                  ROUTINES(console),
+d71 1
+@
+
+
+1.39
+log
+@Fiddled with exception codes, changed 78 to 88
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.38 88/03/01 13:04:40 brents Exp $
+d26 1
+a26 1
+                         name/**/_print,
+d55 1
+a55 1
+0xfff10000, 0x2000,             ROUTINES(lcsr)
+d69 1
+a69 1
+0xffff0030, 0x10,               ROUTINES(disk2),
+@
+
+
+1.38
+log
+@added ce serctl and bitbucket simulators
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.37 88/02/29 16:20:18 brents Exp $
+d344 1
+a344 1
+    sim_interrupt_flag &= ~INTERNAL_INTERRUPT;
+d350 1
+a350 1
+    sim_interrupt_flag |= INTERNAL_INTERRUPT;
+d369 1
+a369 1
+    sim_interrupt_flag &= ~DEVICE_INTERRUPT;
+d375 1
+a375 1
+    sim_interrupt_flag |= DEVICE_INTERRUPT;
+@
+
+
+1.37
+log
+@added iob_dramc
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.36 88/02/29 15:43:57 brents Exp $
+d59 4
+a62 1
+0xfff1a004, 4,			ROUTINES(CEberr_loc),
+@
+
+
+1.36
+log
+@two iob support
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.35 88/02/26 12:41:05 brents Exp $
+d36 1
+d40 1
+@
+
+
+1.35
+log
+@brents added CEberr_loc simulator
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.34 88/02/25 14:55:51 brents Exp $
+d31 13
+a43 7
+0xc0100000, (256*1024),         ROUTINES(lanram),
+0xc0100000, (256*1024),         ROUTINES(lanram),
+0x00000000, 1,                  ROUTINES(iobstat),
+0x00000000, 1,			ROUTINES(iobctl),
+0x00000000, 64,			ROUTINES(ftvmap),
+0xfdfe1000, 4096,               ROUTINES(iob),
+0xfdfff000, 4096,		ROUTINES(CEfbus),
+@
+
+
+1.34
+log
+@brents changed/added iob/ce FBUS simulators
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.33 88/02/25 14:37:51 robertb Exp $
+d33 2
+a34 2
+0x00000000, 0,                  ROUTINES(iobstat),
+0x00000000, 0,			ROUTINES(iobctl),
+d51 1
+@
+
+
+1.33
+log
+@Fixed the io trace record printing to match the front end.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.32 88/02/24 14:47:41 robertb Exp $
+d32 1
+d34 2
+d37 1
+a37 3
+0xfdfff818, 1,                  ROUTINES(map_csr_reg),
+0xfdfff810, 4,                  ROUTINES(mapaddr_reg),
+0xfdfff814, 512,                ROUTINES(map_access),
+@
+
+
+1.32
+log
+@Added Brents iostat register simulator to iob.c
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.31 88/02/23 13:53:23 robertb Exp $
+d147 1
+a147 1
+    int index = 0;
+d235 2
+a236 2
+    if (physical_address < IO_DEV_TAB_SIZE) {
+        io_p = &io_dev_tab[physical_address];
+d259 1
+a259 2
+sim_io_trace(trace_code, physical_address, number_to_show)
+    u_long trace_code;
+d281 2
+a282 2
+    if (physical_address < IO_DEV_TAB_SIZE) {
+        dev_to_display = &io_dev_tab[physical_address].l_addr;
+d306 3
+a308 3
+        if (t->io_ptr == dev_to_display ||
+            t->addr == physical_address || 
+            trace_code == SHOW_IO_TRACE_ALL) {
+@
+
+
+1.31
+log
+@Added the io_change_addr() function, allows moving IO device addresses
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.30 88/02/19 21:57:04 robertb Exp $
+d32 1
+@
+
+
+1.30
+log
+@Fixed the entries for the simulated disks.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.29 88/02/17 11:57:06 robertb Exp $
+d16 1
+a16 1
+unsigned io_trace_vals;
+d23 4
+a26 1
+#define DECL(name)  extern name/**/_init(), name/**/_operation(), name/**/_print()
+a27 32
+DECL(data_cmmu_0);
+DECL(data_cmmu_1);
+DECL(data_cmmu_2);
+DECL(data_cmmu_3);
+
+DECL(code_cmmu_0);
+DECL(code_cmmu_1);
+DECL(code_cmmu_2);
+DECL(code_cmmu_3);
+
+DECL(rom);
+DECL(led);
+DECL(dram_cmperr);
+DECL(dram_parerr);
+DECL(map_csr_reg);
+DECL(mapaddr_reg);
+DECL(map_access);
+DECL(console);
+DECL(disk1);
+DECL(disk2);
+DECL(return_to_front_end);
+DECL(interrupt);
+DECL(timer);
+DECL(scc_a);
+DECL(scc_b);
+DECL(lcsr);
+DECL(iob);
+DECL(lanram);
+DECL(dmaca);
+
+#define ROUTINES(name)  "name", name/**/_init, name/**/_operation, name/**/_print,
+
+d31 1
+a31 1
+0xc0100000, (1024*1024),        ROUTINES(lanram),
+d67 23
+a96 1
+    int i;
+d107 26
+a132 10
+    /*
+     * Build the IO address cache.
+     */
+    for (i = 0 ; i < IO_CACHE_SIZE ; i++) {
+        io_cache[i] = &io_dev_tab[0];
+        for (io_p = &io_dev_tab[0] ; io_p != last ; io_p++) {
+            if (i == ((io_p->l_addr >> 12) & 0xff)) {
+                io_cache[i] = io_p;
+                break;
+            }
+d135 1
+d148 5
+a152 3
+    for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++) {
+        sim_printf("[%d] from 0x%08X to 0x%08X is the %s\n", 
+        index++, io_p->l_addr, io_p->l_addr + io_p->size - 1, io_p->name);
+d163 4
+a166 4
+    unsigned physical_address;
+    unsigned *value_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d169 1
+a169 1
+    unsigned address_offset;
+d230 1
+a230 1
+    unsigned physical_address;
+d235 6
+a240 1
+        physical_address = io_dev_tab[physical_address].l_addr;
+d259 3
+a261 3
+    int trace_code;
+    unsigned physical_address;
+    int number_to_show;
+d265 1
+a265 1
+    int i;
+d324 5
+d334 1
+d341 1
+d349 5
+d359 1
+d366 1
+@
+
+
+1.29
+log
+@Added second simulated disk.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.28 88/02/12 16:26:52 robertb Exp $
+d59 1
+a59 1
+0xc0010000, 2048,           ROUTINES(dmaca),
+d61 1
+a61 1
+0xfdfe1000, 4096,           ROUTINES(iob),
+d63 22
+a84 22
+0xfdfff810, 4,          ROUTINES(mapaddr_reg),
+0xfdfff814, 512,            ROUTINES(map_access),
+0xfe000000, 4*64*1024,      ROUTINES(rom),
+0xfff00000, PAGE_SIZE,      ROUTINES(data_cmmu_0),
+0xfff01000, PAGE_SIZE,      ROUTINES(data_cmmu_1),
+0xfff02000, PAGE_SIZE,      ROUTINES(data_cmmu_2),
+0xfff03000, PAGE_SIZE,      ROUTINES(data_cmmu_3),
+0xfff04000, PAGE_SIZE,      ROUTINES(code_cmmu_0),
+0xfff05000, PAGE_SIZE,      ROUTINES(code_cmmu_1),
+0xfff06000, PAGE_SIZE,      ROUTINES(code_cmmu_2),
+0xfff07000, PAGE_SIZE,      ROUTINES(code_cmmu_3),
+0xfff10000, 0x2000,         ROUTINES(lcsr)
+0xfff12003, 1,          ROUTINES(led),
+0xfff14003, 8,          ROUTINES(scc_b),
+0xfff1400b,     8,      ROUTINES(scc_a),
+0xfff20100, 4,		ROUTINES(dram_cmperr),
+0xfff20200, 4,		ROUTINES(dram_parerr),
+0xffff0000, 4,          ROUTINES(console),
+0xffff0020, 0xc,          ROUTINES(disk1),
+0xffff0030, 0xc,          ROUTINES(disk2),
+0xffff000c,     4,                  ROUTINES(return_to_front_end),
+0xffff0010,     4,                  ROUTINES(interrupt),
+@
+
+
+1.28
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.27 88/02/12 16:12:55 robertb Exp $
+d43 2
+a44 1
+DECL(disk);
+d81 2
+a82 1
+0xffff0004, 8,          ROUTINES(disk),
+@
+
+
+1.27
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.c,v 1.26 88/02/12 11:56:22 brents Exp $ */
+d9 1
+@
+
+
+1.26
+log
+@*** empty log message ***
+@
+text
+@a0 1
+/* $Header: io.c,v 1.25 88/01/15 14:53:45 brents Exp $ */
+d3 5
+@
+
+
+1.25
+log
+@added simulator
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.24 88/01/15 11:04:35 robertb Exp $ */
+d69 3
+a71 3
+0xfff12000, 1,          ROUTINES(led),
+0xfff14000, 8,          ROUTINES(scc_b),
+0xfff14008,     8,      ROUTINES(scc_a),
+@
+
+
+1.24
+log
+@Alloc recursive invocation of io_operation
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.23 87/12/22 18:09:01 robertb Exp $ */
+d32 2
+d71 3
+a73 1
+0xfff14008,     8,          ROUTINES(scc_a),
+@
+
+
+1.23
+log
+@Fixed comments, expanded tabs.
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.22 87/12/18 16:52:29 robertb Exp $ */
+d18 1
+a18 1
+#define DECL(name)  name/**/_init(), name/**/_operation(), name/**/_print()
+d20 4
+a23 4
+extern DECL(data_cmmu_0);
+extern DECL(data_cmmu_1);
+extern DECL(data_cmmu_2);
+extern DECL(data_cmmu_3);
+d25 4
+a28 4
+extern DECL(code_cmmu_0);
+extern DECL(code_cmmu_1);
+extern DECL(code_cmmu_2);
+extern DECL(code_cmmu_3);
+d30 16
+a45 16
+extern DECL(rom);
+extern DECL(led);
+extern DECL(map_csr_reg);
+extern DECL(mapaddr_reg);
+extern DECL(map_access);
+extern DECL(console);
+extern DECL(disk);
+extern DECL(return_to_front_end);
+extern DECL(interrupt);
+extern DECL(timer);
+extern DECL(scc_a);
+extern DECL(scc_b);
+extern DECL(lcsr);
+extern DECL(iob);
+extern DECL(lanram);
+extern DECL(dmaca);
+d150 1
+d165 13
+a177 5
+            io_trace->addr = physical_address;
+            io_trace->io_ptr = io_p;
+            io_trace->ip = ip;
+            io_trace->mem_op_type = mem_op_type;
+            io_trace->size = size;
+d179 1
+a179 1
+                io_trace->value = *value_ptr;
+d186 1
+a186 8
+                io_trace->value = *value_ptr;
+            }
+            io_trace++;
+            if (io_trace > io_last_trace) {
+                io_trace = io_first_trace;
+            }
+            if (io_trace_vals < IO_TRACE_BUF_SIZE) {
+                io_trace_vals++;
+@
+
+
+1.22
+log
+@Fixed bug in IO address cache that Brent found today when
+trying to access the ROM.
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.21 87/12/10 14:46:06 timd Exp $ */
+d13 2
+a14 2
+#define	IO_TRACE_BUF_SIZE	10000
+#define	IO_CACHE_SIZE		256		/* Need to change code if you change this*/
+d18 1
+a18 1
+#define	DECL(name)	name/**/_init(), name/**/_operation(), name/**/_print()
+d47 1
+a47 1
+#define	ROUTINES(name)	"name", name/**/_init, name/**/_operation, name/**/_print,
+d50 24
+a73 24
+0xc0001000,	32,             	ROUTINES(timer),
+0xc0010000,	2048,			ROUTINES(dmaca),
+0xc0100000,	(1024*1024),		ROUTINES(lanram),
+0xfdfe1000,	4096,			ROUTINES(iob),
+0xfdfff818,	1,              	ROUTINES(map_csr_reg),
+0xfdfff810,	4,			ROUTINES(mapaddr_reg),
+0xfdfff814,	512,			ROUTINES(map_access),
+0xfe000000,	4*64*1024,		ROUTINES(rom),
+0xfff00000,	PAGE_SIZE,		ROUTINES(data_cmmu_0),
+0xfff01000,	PAGE_SIZE,		ROUTINES(data_cmmu_1),
+0xfff02000,	PAGE_SIZE,		ROUTINES(data_cmmu_2),
+0xfff03000,	PAGE_SIZE,		ROUTINES(data_cmmu_3),
+0xfff04000,	PAGE_SIZE,		ROUTINES(code_cmmu_0),
+0xfff05000,	PAGE_SIZE,		ROUTINES(code_cmmu_1),
+0xfff06000,	PAGE_SIZE,		ROUTINES(code_cmmu_2),
+0xfff07000,	PAGE_SIZE,		ROUTINES(code_cmmu_3),
+0xfff10000,	0x2000,			ROUTINES(lcsr)
+0xfff12000,	1,			ROUTINES(led),
+0xfff14000,	8,			ROUTINES(scc_b),
+0xfff14008, 	8,			ROUTINES(scc_a),
+0xffff0000,	4,			ROUTINES(console),
+0xffff0004,	8,			ROUTINES(disk),
+0xffff000c, 	4,    	          	ROUTINES(return_to_front_end),
+0xffff0010, 	4,          	  	ROUTINES(interrupt),
+d76 2
+a77 2
+#define	IO_DEV_TAB_SIZE	(sizeof(io_dev_tab) / sizeof(struct io_dev))
+#define	IO_HASH(addr)	(((addr) >> 12) & 0xff)
+d80 1
+a80 1
+	*last = &io_dev_tab[IO_DEV_TAB_SIZE];
+d91 2
+a92 2
+	struct io_dev *io_p;
+	int i;
+d94 4
+a97 4
+	io_trace = &io_trace_buf[0];
+	io_first_trace = io_trace;
+	io_last_trace = &io_trace_buf[IO_TRACE_BUF_SIZE - 1];
+	io_trace_vals = 0;
+d99 3
+a101 3
+	for (io_p = &io_dev_tab[0] ; io_p != last ; io_p++) {
+		(*io_p->init)();
+	}
+d103 12
+a114 12
+	/*
+	 * Build the IO address cache.
+	 */
+	for (i = 0 ; i < IO_CACHE_SIZE ; i++) {
+		io_cache[i] = &io_dev_tab[0];
+		for (io_p = &io_dev_tab[0] ; io_p != last ; io_p++) {
+			if (i == ((io_p->l_addr >> 12) & 0xff)) {
+				io_cache[i] = io_p;
+				break;
+			}
+		}
+	}
+d124 2
+a125 2
+	struct io_dev *io_p;
+	int index = 0;
+d127 4
+a130 4
+	for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++) {
+		sim_printf("[%d] from 0x%08X to 0x%08X is the %s\n", 
+		index++, io_p->l_addr, io_p->l_addr + io_p->size - 1, io_p->name);
+	}
+d140 5
+a144 5
+	unsigned physical_address;
+	unsigned *value_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d146 4
+a149 4
+	unsigned address_offset;
+	struct io_dev *io_p;
+	int exception_code;
+	int count;
+d151 3
+a153 3
+	io_p = io_cache[IO_HASH(physical_address)];
+	for (count = 0 ; count < IO_DEV_TAB_SIZE ; count++) {
+		if (io_p->l_addr <= physical_address &&
+d156 1
+a156 1
+			if (mem_op_type == ST   || 
+d158 3
+a160 3
+			    mem_op_type == XMEM_U) {
+					flush_io_decoded_list_entry(physical_address);
+			}
+d162 1
+a162 1
+			address_offset = physical_address - io_p->l_addr;
+d164 8
+a171 8
+			io_trace->addr = physical_address;
+			io_trace->io_ptr = io_p;
+			io_trace->ip = ip;
+			io_trace->mem_op_type = mem_op_type;
+			io_trace->size = size;
+			if (mem_op_type == ST) {
+				io_trace->value = *value_ptr;
+			}
+d173 1
+a173 1
+			exception_code = (*io_p->operation)
+d176 10
+a185 10
+			if (mem_op_type != ST) {
+				io_trace->value = *value_ptr;
+			}
+			io_trace++;
+			if (io_trace > io_last_trace) {
+				io_trace = io_first_trace;
+			}
+			if (io_trace_vals < IO_TRACE_BUF_SIZE) {
+				io_trace_vals++;
+			}
+d187 9
+a195 9
+			return exception_code;
+		}
+		io_p++;
+		if (io_p == last) {
+			io_p = &io_dev_tab[0];
+		}
+	}
+	cmmu_set_bus_error(physical_address);
+	return E_DACC;
+d205 1
+a205 1
+	unsigned physical_address;
+d207 1
+a207 1
+	struct io_dev *io_p;
+d209 3
+a211 3
+	if (physical_address < IO_DEV_TAB_SIZE) {
+		physical_address = io_dev_tab[physical_address].l_addr;
+	}
+d213 2
+a214 2
+	for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++) {
+		if (io_p->l_addr <= physical_address &&
+d217 5
+a221 5
+			(*io_p->print)();
+			return;
+		}
+	}
+	sim_printf("no device responds to 0x%08X.\n", physical_address);
+d229 3
+a231 3
+	int trace_code;
+	unsigned physical_address;
+	int number_to_show;
+d233 3
+a235 3
+	struct io_trace *t;
+	struct io_dev *dev_to_display;
+	int i;
+d237 1
+a237 1
+	static char *size_names[] = { "0", "byte", "half word", "3",
+d240 1
+a240 1
+	static char *prepositions[] = { "invalid", "from ", "into", 
+d243 1
+a243 1
+	static char *op_names[] = { "invalid", "load ", "store", 
+d247 3
+a249 3
+	if (number_to_show <= 0) {
+		return;
+	}
+d251 5
+a255 5
+	if (physical_address < IO_DEV_TAB_SIZE) {
+		dev_to_display = &io_dev_tab[physical_address].l_addr;
+	} else {
+		dev_to_display = 0;
+	}
+d257 1
+a257 1
+	t = io_trace - 1;
+d259 4
+a262 4
+	for (i = 0 ; i < io_trace_vals ; i++) {
+		if (t < io_first_trace) {
+			t = io_last_trace;
+		}
+d264 3
+a266 3
+		check_pointer(t);
+		check_pointer(t->io_ptr);
+		assert(io_first_trace <= t && t <= io_last_trace);
+d268 9
+a276 9
+		/*
+		 * We display the trace record if we are displaying all the
+		 * records for a given device and this record is from that
+		 * device.  If we are displaying by addressed IO location
+		 * and the address in the record matches that passed we
+		 * we display the record.  And if we are displaying every
+		 * thing we display the record.
+		 */
+		if (t->io_ptr == dev_to_display ||
+d280 2
+a281 2
+			sim_printf("ip=%08X  %s %s (%08X) %s %s at %08X\n",
+					t->ip, op_names[t->mem_op_type], 
+d286 6
+a291 6
+			if (--number_to_show == 0) {
+				return;
+			}
+		}
+		t--;
+	}
+d296 1
+a296 1
+	sim_interrupt_flag &= ~INTERNAL_INTERRUPT;
+d301 2
+a302 2
+	sim_interrupt_flag |= INTERNAL_INTERRUPT;
+	return E_NONE;
+d307 3
+a309 3
+	sim_printf("sim_interrupt_flag=%d\n", sim_interrupt_flag);
+	sim_printf("when you touch this port, the simulator will return\n");
+	sim_printf("to the front end after the next branch that is taken.\n");
+d314 1
+a314 1
+	sim_interrupt_flag &= ~DEVICE_INTERRUPT;
+d319 2
+a320 2
+	sim_interrupt_flag |= DEVICE_INTERRUPT;
+	return E_NONE;
+d325 3
+a327 3
+	sim_printf("sim_interrupt_flag=%d\n", sim_interrupt_flag);
+	sim_printf("when you touch this port, an interrupt exception\n");
+	sim_printf("is raised after the next branch that is taken.\n");
+@
+
+
+1.21
+log
+@Added dmaca
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.20 87/12/08 11:26:05 robertb Exp $ */
+d99 1
+a99 1
+	for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++) {
+d107 2
+a108 1
+		for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++) {
+@
+
+
+1.20
+log
+@Made the IO trace mechanism trace all IO operations.  Before, it
+didn't trace operations that the front end did.
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.19 87/12/07 14:14:48 timd Exp $ */
+d45 1
+d51 1
+@
+
+
+1.19
+log
+@Add lan RAM
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.18 87/12/03 20:06:35 robertb Exp $ */
+d161 7
+a167 9
+			if (!override) {
+				io_trace->addr = physical_address;
+				io_trace->io_ptr = io_p;
+				io_trace->ip = ip;
+				io_trace->mem_op_type = mem_op_type;
+				io_trace->size = size;
+				if (mem_op_type == ST) {
+					io_trace->value = *value_ptr;
+				}
+d173 9
+a181 11
+			if (!override) {
+				if (mem_op_type != ST) {
+					io_trace->value = *value_ptr;
+				}
+				io_trace++;
+				if (io_trace > io_last_trace) {
+					io_trace = io_first_trace;
+				}
+				if (io_trace_vals < IO_TRACE_BUF_SIZE) {
+					io_trace_vals++;
+				}
+@
+
+
+1.18
+log
+@Made a 256 IO address cache.  This doubled the speed of io_operation.
+
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.17 87/11/25 11:53:24 timd Exp $ */
+d44 1
+d50 1
+@
+
+
+1.17
+log
+@Added I/O board simulator, and reordered I/O table in acsending
+address order.
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.16 87/11/24 17:19:26 robertb Exp $ */
+d14 1
+d73 1
+d78 2
+d88 1
+d98 12
+d144 1
+d146 2
+a147 1
+	for (io_p = &io_dev_tab[0] ; io_p < last ; io_p++) {
+d187 4
+@
+
+
+1.16
+log
+@Changed the mapping for map_csr_reg back the way Brent had it.
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.15 87/11/24 16:31:32 robertb Exp $ */
+d42 1
+d47 6
+a56 1
+
+d61 9
+a69 14
+0xfff14000, 8,              ROUTINES(scc_b),
+0xfff14008, 8,              ROUTINES(scc_a),
+0xfff12000,	1,				ROUTINES(led),
+0xfdfff818,	1,              ROUTINES(map_csr_reg),
+0xfdfff810,	4,				ROUTINES(mapaddr_reg),
+0xfdfff814,	512,			ROUTINES(map_access),
+0xfe000000,	4*64*1024,		ROUTINES(rom),
+0xffff0000,	4,				ROUTINES(console),
+0xffff0004,	8,				ROUTINES(disk),
+0xffff000c, 4,              ROUTINES(return_to_front_end),
+0xffff0010, 4,              ROUTINES(interrupt),
+0xc0001000,	32,             ROUTINES(timer),
+0xfff10000, 0x2000,			ROUTINES(lcsr)
+ };
+@
+
+
+1.15
+log
+@Added LCSR and changed map_csr_reg so that it doesn't decode
+all of the address bits.
+@
+text
+@d1 1
+a1 1
+/* $Header: io.c,v 1.14 87/11/23 14:41:14 timd Exp $ */
+d58 1
+a58 1
+0xfc000000,	0x1ffffff,		ROUTINES(map_csr_reg),
+d67 1
+a67 1
+0xfff10000, 0x1fff,			ROUTINES(lcsr)
+@
+
+
+1.14
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d41 1
+d58 1
+a58 1
+0xfdfff818,	1,				ROUTINES(map_csr_reg),
+d66 2
+a67 1
+0xc0001000,	32,			ROUTINES(timer),
+@
+
+
+1.13
+log
+@Added scc_a and scc_b to IO table.
+@
+text
+@d1 1
+@
+
+
+1.12
+log
+@Added scc
+@
+text
+@d38 1
+d54 1
+@
+
+
+1.11
+log
+@Added Timer (DP8571 TCP) simulator entry.
+@
+text
+@d38 1
+d52 1
+@
+
+
+1.10
+log
+@fixed up sim_io_trace to use sim_printf
+@
+text
+@d37 1
+d60 1
+@
+
+
+1.9
+log
+@See changes_nov_13.doc
+@
+text
+@d246 4
+a249 3
+			printf("ip=0x%08X  data=0x%08X  %s %s %s %s at 0x%08X\n",
+					t->ip, t->value, op_names[t->mem_op_type], 
+                    size_names[t->size], prepositions[t->mem_op_type], 
+@
+
+
+1.8
+log
+@added ability to have devices generate interrupt exceptions.
+@
+text
+@d7 9
+d75 5
+d116 1
+d129 13
+a141 1
+			return (*io_p->operation)
+d143 15
+d188 69
+@
+
+
+1.7
+log
+@see changes_10_11.doc
+@
+text
+@d26 1
+d48 3
+a50 1
+0xffff000c, 4,              ROUTINES(interrupt) };
+d148 18
+d167 3
+a169 1
+{}
+d173 2
+a174 1
+	mkfault = 1;
+d179 3
+a181 1
+	sim_printf("interrupt device.\n");
+@
+
+
+1.6
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a5 1
+#include "exception.h"
+d7 1
+a7 4
+extern data_cmmu_0_init(), data_cmmu_0_operation();
+extern data_cmmu_1_init(), data_cmmu_1_operation();
+extern data_cmmu_2_init(), data_cmmu_2_operation();
+extern data_cmmu_3_init(), data_cmmu_3_operation();
+d9 4
+a12 4
+extern code_cmmu_0_init(), code_cmmu_0_operation();
+extern code_cmmu_1_init(), code_cmmu_1_operation();
+extern code_cmmu_2_init(), code_cmmu_2_operation();
+extern code_cmmu_3_init(), code_cmmu_3_operation();
+d14 4
+a17 8
+extern rom_init(), rom_operation();
+extern led_init(), led_operation();
+extern map_csr_reg_init(), map_csr_reg_operation();
+extern mapaddr_reg_init(), mapaddr_reg_operation();
+extern map_access_init(), map_access_operation();
+extern console_init(), console_operation();
+extern disk_init(), disk_operation();
+extern interrupt_init(), interrupt_operation();
+d19 11
+d31 4
+a34 4
+0xfff00000,	PAGE_SIZE,		data_cmmu_0_init,	data_cmmu_0_operation,
+0xfff01000,	PAGE_SIZE,		data_cmmu_1_init,	data_cmmu_1_operation,
+0xfff02000,	PAGE_SIZE,		data_cmmu_2_init,	data_cmmu_2_operation,
+0xfff03000,	PAGE_SIZE,		data_cmmu_3_init,	data_cmmu_3_operation,
+d36 12
+a47 12
+0xfff04000,	PAGE_SIZE,		code_cmmu_0_init,	code_cmmu_0_operation,
+0xfff05000,	PAGE_SIZE,		code_cmmu_1_init,	code_cmmu_1_operation,
+0xfff06000,	PAGE_SIZE,		code_cmmu_2_init,	code_cmmu_2_operation,
+0xfff07000,	PAGE_SIZE,		code_cmmu_3_init,	code_cmmu_3_operation,
+0xfff12000,	1,				led_init,			led_operation,
+0xfdfff818,	1,				map_csr_reg_init,	map_csr_reg_operation,
+0xfdfff810,	4,				mapaddr_reg_init,	mapaddr_reg_operation,
+0xfdfff814,	512,			map_access_init,	map_access_operation,
+0xfe000000,	4*64*1024,		rom_init,			rom_operation,
+0xffff0000,	4,				console_init,		console_operation,
+0xffff0004,	8,				disk_init,			disk_operation,
+0xffff000c, 4,              interrupt_init,     interrupt_operation };
+d49 5
+d58 1
+d61 1
+a61 1
+	int i;
+d63 2
+a64 2
+	for (i = 0 ; i < sizeof(io_dev_tab) / sizeof(struct io_dev) ; i++) {
+		(*io_dev_tab[i].init)();
+d69 16
+d98 1
+a98 1
+	struct io_dev *io_p, *last;
+a99 2
+	last = &io_dev_tab[sizeof(io_dev_tab) / sizeof(struct io_dev)];
+
+d107 1
+a107 1
+					flush_io_decoded_list();
+d115 1
+d119 26
+d151 5
+@
+
+
+1.5
+log
+@Added code to flush the IO decoded page list on a store or
+exchange memory operation.
+@
+text
+@d65 1
+a65 1
+io_operation(physical_address, value_ptr, size, mem_op_type)
+d70 1
+d72 2
+a73 1
+	int i;
+d75 1
+a75 3
+	for (i = 0 ; i < sizeof(io_dev_tab) / sizeof(struct io_dev) ; i++) {
+		if (io_dev_tab[i].l_addr <= physical_address &&
+            physical_address < io_dev_tab[i].l_addr + io_dev_tab[i].size) {
+d77 4
+d87 3
+a89 2
+			return (*io_dev_tab[i].operation)
+                    (physical_address, value_ptr, size, mem_op_type);
+@
+
+
+1.4
+log
+@brents version
+@
+text
+@d76 7
+@
+
+
+1.3
+log
+@Added interrupt simulated device.  When you do anything
+to it, it causes the simulator to return to the front end.
+@
+text
+@d20 3
+d37 4
+a40 1
+0xfff12000,			1,		led_init,			led_operation,
+@
+
+
+1.2
+log
+@brents added led/rom simulators
+@
+text
+@d22 1
+d37 2
+a38 1
+0xffff0004,	8,				disk_init,			disk_operation };
+d75 8
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d19 1
+d33 2
+a34 1
+0xfe000000,	512*1024,		rom_init,			rom_operation,
+@

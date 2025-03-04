@@ -1,0 +1,445 @@
+head     1.11;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.11
+date     90.04.29.19.23.53;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.05.17.09.45.17;  author brents;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.05.17.09.40.50;  author brents;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.02.12.16.44.01;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.02.12.16.14.04;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.24.16.32.34;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.23.14.40.44;  author timd;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.11.22.26.28;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.09.22.39.04;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.05.08.02.57;  author brents;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.29.14.46.35;  author brents;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.11
+log
+@Ported to System V.
+@
+text
+@/*
+ * 78000 512 byte DRAM Mapper Simulator
+ * 
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: dram_mapper.c,v 1.10 88/05/17 09:45:17 brents Exp $
+ */
+
+#include "sim.h"
+
+#define STATIC_RAMSIZE 512
+
+unsigned int map_addr_port;
+unsigned char map_array[STATIC_RAMSIZE];
+unsigned char map_csr_reg;
+
+/*
+ * only csr reg initialization required
+ */
+
+map_csr_reg_init()
+{
+	map_csr_reg = 0x30; 	/* init for MPR0/1MEG/FULL */
+}
+
+map_csr_reg_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+{
+	unsigned char *mem_ptr;
+
+	if(size == DWORD){
+		sim_printf("map_csr_reg doesn't support double word access\n");
+		return E_DACC;
+	}
+
+	mem_ptr = &map_csr_reg;
+
+	switch (mem_op_type) {
+		case LD:
+			switch (size) {
+				case BYTE:
+					*reg_ptr = *(char *)mem_ptr;
+					break;
+
+				case HALF:
+					*reg_ptr = *(short *)mem_ptr;
+					break;
+
+				case WORD:
+					*reg_ptr = *(int *)mem_ptr;
+					break;
+
+				default:
+					sim_printf("mem_csrLD(%x, %x, %x, %x), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+
+		case ST:
+			switch (size) {
+				case BYTE:
+					*(unsigned char *)mem_ptr = ((*reg_ptr&0x8F)|(*mem_ptr&0x70));
+					break;
+
+				case HALF:
+				case WORD:
+					*(unsigned char *)mem_ptr = ((*reg_ptr>>16)&0xFF);
+					break;
+
+				default:
+					sim_printf("mem_csr_ST(%x, %x, %x, %x), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+
+		case XMEM:
+			switch (size) {
+				int t;
+
+				case BYTE:
+					t = *(char *)mem_ptr;
+					*(char *)mem_ptr = ((*reg_ptr&0x8F)|(*mem_ptr&0x70));
+					*reg_ptr = t;
+					break;
+
+				default:
+					sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+
+		case LD_U:
+			switch (size) {
+				case BYTE:
+					*reg_ptr = *(unsigned char *)mem_ptr;
+					break;
+
+				case HALF:
+					*reg_ptr = *(short *)mem_ptr;
+					break;
+
+				case WORD:
+					*reg_ptr = *(int *)mem_ptr;
+					break;
+
+				default:
+					sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+
+		case XMEM_U:
+			switch (size) {
+				unsigned t;
+
+				case BYTE:
+					t = *(unsigned char *)mem_ptr;
+					*(unsigned char *)mem_ptr = ((*reg_ptr&0x8F)|(*mem_ptr&0x70));
+					*reg_ptr = t;
+					break;
+
+				default:
+					sim_printf("do_mem_op(%x, %x, %x, %x), case error.\n",
+									reg_ptr, mem_ptr, size, mem_op_type);
+			}
+			break;
+
+		default:
+			sim_printf("mem_csr: case error on mem_op_type.\n");
+			break;
+	}
+
+	return E_NONE;
+
+}
+
+map_csr_reg_print()
+{
+	sim_printf("mapcsr\n");
+}
+
+mapaddr_reg_init()
+{
+}
+
+mapaddr_reg_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+{
+	unsigned int *mem_ptr;
+
+	if(size == DWORD){
+		sim_printf("mapaddr_reg doesn't support double word access\n");
+		return E_DACC;
+	}
+	mem_ptr = &map_addr_port;
+	do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+	return E_NONE;
+
+}
+
+mapaddr_reg_print()
+{
+	sim_printf("mapaddr_reg\n");
+}
+
+map_access_init()
+{
+}
+
+map_access_operation(address_offset, reg_ptr, size, mem_op_type, override)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+{
+	unsigned char *mem_ptr;
+	unsigned int map_index;
+
+	map_index = ((map_addr_port>>23)&0x1FF);
+/*
+	sim_printf("map_index= %x\n",map_index);
+*/
+	mem_ptr = &map_array[map_index];
+	do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+	return E_NONE;
+
+}
+
+map_access_print()
+{
+	sim_printf("map_access\n");
+}
+@
+
+
+1.10
+log
+@needed to add operation modifications for new hardware also
+@
+text
+@d7 1
+a7 1
+ * $Header: dram_mapper.c,v 1.9 88/05/17 09:40:50 brents Exp $
+d59 1
+a59 1
+					sim_printf("mem_csrLD(%X, %X, %X, %X), case error.\n",
+d76 1
+a76 1
+					sim_printf("mem_csr_ST(%X, %X, %X, %X), case error.\n",
+d92 1
+a92 1
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d112 1
+a112 1
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d128 1
+a128 1
+					sim_printf("do_mem_op(%X, %X, %X, %X), case error.\n",
+d158 1
+a158 1
+	int *mem_ptr;
+d191 1
+a191 1
+	sim_printf("map_index= %X\n",map_index);
+@
+
+
+1.9
+log
+@changed initialization of csr register to reflect new hardware
+@
+text
+@d7 1
+a7 1
+ * $Header: dram_mapper.c,v 1.8 88/02/12 16:44:01 robertb Exp $
+d19 1
+a19 1
+ * no initialization really required
+d67 1
+a67 1
+					*(unsigned char *)mem_ptr = ((*reg_ptr&0xF)|(*mem_ptr&0xF0));
+d87 1
+a87 1
+					*(char *)mem_ptr = ((*reg_ptr&0xF)|(*mem_ptr&0xF0));
+d123 1
+a123 1
+					*(unsigned char *)mem_ptr = ((*reg_ptr&0xF)|(*mem_ptr&0xF0));
+@
+
+
+1.8
+log
+@Deleted extra */ in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: dram_mapper.c,v 1.7 88/02/12 16:14:04 robertb Exp $
+d24 1
+a24 1
+	map_csr_reg = 0xb0; 	/* init for MPR0/1MEG/FULL */
+@
+
+
+1.7
+log
+@Added copyright notice.
+@
+text
+@d7 1
+a7 1
+ * $Header: dram_mapper.c,v 1.6 87/11/24 16:32:34 robertb Exp $ */
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@a0 1
+/* $Header: dram_mapper.c,v 1.5 87/11/23 14:40:44 timd Exp $ */
+d3 5
+@
+
+
+1.5
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+a19 1
+
+@
+
+
+1.4
+log
+@see changes_10_11.doc
+@
+text
+@d1 1
+@
+
+
+1.3
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a5 1
+#include "exception.h"
+d138 5
+d166 5
+d193 5
+@
+
+
+1.2
+log
+@brents version for debugging dram_mapping algorithms
+@
+text
+@d24 2
+a25 2
+map_csr_reg_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d29 1
+d143 2
+a144 2
+mapaddr_reg_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d148 1
+d166 2
+a167 2
+map_access_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d171 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d12 1
+a12 1
+unsigned int map_csr_reg;
+d20 2
+d36 1
+d38 96
+a133 1
+	do_mem_op(reg_ptr, mem_ptr, size, mem_op_type);
+d174 1
+d176 2
+a177 1
+	mem_ptr = &map_array[map_addr_port];
+@

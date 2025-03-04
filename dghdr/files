@@ -1,0 +1,19 @@
+
+If you want to compile g88 with the -DUSEDGCOFF option so that you
+can have it read DG generated COFF files, copy the following .h
+files into this directory.  But be careful not to distribute them
+as they have DG copyrights.
+
+dghdr
+dghdr/a.out.h
+dghdr/filehdr.h
+dghdr/nlist.h
+dghdr/scnhdr.h
+dghdr/syms.h
+dghdr/aouthdr.h
+dghdr/linenum.h
+dghdr/reloc.h
+dghdr/storclass.h
+dghdr/sys
+dghdr/sys/_int_features.h
+dghdr/coffsyn.h

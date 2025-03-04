@@ -1,0 +1,935 @@
+head     1.30;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.30
+date     90.08.07.10.20.15;  author robertb;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     90.06.30.19.14.24;  author robertb;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     90.05.11.11.53.32;  author robertb;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     90.04.29.19.26.39;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     89.08.30.16.21.17;  author robertb;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.08.25.14.06.13;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     89.07.26.14.52.59;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.09.19.21.02.56;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.06.28.16.46.55;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.05.26.18.43.30;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.04.30.22.58.24;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.04.28.10.35.32;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.04.16.14.24.58;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.03.30.18.55.18;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.03.25.17.33.24;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.03.19.10.25.52;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.02.28.14.40.56;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.25.14.38.27;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.02.22.11.56.16;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.19.22.02.35;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.02.12.16.44.59;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.02.12.16.13.39;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.01.13.22.31.44;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.23.14.43.58;  author timd;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.23.14.27.57;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.13.18.59.08;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.12.19.23.28;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.11.22.26.57;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.03.16.03.27;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.39.24;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.30
+log
+@Made it compile on a Sparc
+@
+text
+@/*
+ * Header file for the UTek 88000 simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: /home/vlsi/u2/cs568/g88/sim/RCS/sim_interface.h,v 1.29 90/06/30 19:14:24 robertb Exp Locker: robertb $
+ */
+
+#ifndef _TYPE_H
+#ifndef _TYPES_
+#ifndef __sys_types_h
+typedef unsigned long u_long;
+typedef unsigned short u_short;
+typedef unsigned char u_char;
+#endif
+#endif
+#endif
+
+/*
+ * Number of bytes per 88000 page.
+ */
+#define PAGESIZE   (4096)
+
+/*
+ * The general purpose registers of the 88000.  regs[0] is r0,
+ * regs[1] is r1, etc.
+ */
+extern u_long regs[];
+
+/*
+ * The Integer Unit's control and status registers.  sfu0_regs[0] is
+ * the pid, etc.  Storage is allocated for 64 registers to make life
+ * easier for the execution and decoding logic even though
+ * there are only 13 such registers in the 88000.
+ */
+extern u_long sfu0_regs[];
+
+/*
+ * The Floating Point Unit's control and status registers.
+ */
+extern u_long sfu1_regs[];
+
+/*
+ * The simulated 88000 instruction pointer.
+ */
+extern u_long ip;
+
+/*
+ * Executes 88000 instructions starting at ip 
+ * until a breakpoint is encountered.  Return code
+ * indicates reason for returning.
+ */
+extern int sim();
+
+/*
+ * sim() return codes.
+ */
+
+#define NONE        0    /* shouldn't happen,there is no reason for return*/
+#define BREAKPOINT  1    /* tb0 0,r0,131 was executed.            */
+#define INTERRUPT   2    /* User hit control-C or program wanted to stop. */
+#define HOSED       3    /* Too many ERR exceptions, bailing out.         */
+#define CAUGHT_EXCEPTION 4   /* An exception was caught.                      */
+#define	MPSWITCH	5 /* Time to switch to next processor */
+
+/*
+ * This array controls the behavior of the simulator when an exception
+ * occurs.  If exception i happens, sim_catch_exception[i] is tested.  If
+ * it is non-zero, the simulator returns control to the front end with
+ * the code "CAUGHT_EXCEPTION".
+ */
+extern char sim_catch_exception[];
+
+/*
+ * The last exception that happened.
+ */
+extern int sim_exception;
+
+/*
+ * Initializes all of simulated memory and the registers.
+ */
+extern void sim_init();
+
+/*
+ * These are the memory access routines.  They read or write a byte,
+ * a half word (16 bits), or a word.
+ *
+ * The write routines return -1 if not successful, 0 otherwise.
+ * The first parameter of each routine is the 88000 physical address
+ * to be read or written.  The write routines take the value to
+ * be written in the second parameter.
+ */
+extern u_char read_sim_b();
+extern u_short read_sim_h();
+extern u_long read_sim_w();
+
+extern int write_sim_b();
+extern int write_sim_h();
+extern int write_sim_w();
+
+/*
+ * This takes a 88k physical address and a length in bytes.  It
+ * returns a pointer to the simulation memory for the physical
+ * address.  If a buffer starting at this address and extending for
+ * for the length specified by the second parameter doesn't fit
+ * in continguous host memory a 0 is returned.
+ */
+extern u_char *sim_ptr();
+
+/*
+ * These read and write files directly with simulation memory.
+ */
+extern int sim_readfile();
+extern int sim_writefile();
+
+/*
+ * This is like 'bzero', except that it takes a physical 88000
+ * address and zero's simulation memory.
+ */
+extern int sim_zeromem();
+
+/*
+ * This is set to one if there was an error in the last call to
+ * one of the routines above, zero otherwise.
+ */
+extern int sim_errno;
+
+extern void sim_io_print();
+
+extern void sim_io_print_devices();
+
+/*
+ * When this is set to a non-zero value the simulator
+ * will stop after the next branch instruction where the 
+ * branch is taken.
+ */
+extern int sim_interrupt_flag;
+
+#define INT_FRONT_END    1
+#define INT_DEVICE       2
+#define INT_INTERNAL     4
+#define INT_RESET        8
+#define INT_SIGNAL       16
+#define INT_SINGLESTEP   32
+#define	INT_MPSWITCH	 64
+
+/*
+ * These must be provided by the simulator front-end.
+ */
+extern sim_printf();
+
+extern sim_putchar();
+
+extern sim_getchar();
+
+/*
+ * This will print a trace of IO operations.
+ */
+extern void sim_io_trace();
+
+extern int *sim_verbose_ptr;
+
+/*
+ * Translates kernel logical addresses to physical addresses.
+ */
+extern int sim_v_to_p();
+
+/*
+ * Prints a map of simulated physical memory use.
+ */
+extern void sim_printmap();
+
+/*
+ * This is true (non-zero) when the simulator is running in
+ * continuous mode (not single-stepping), false when it is not.
+ */
+extern int sim_in_execution;
+
+/*
+ * 88000 exception codes.
+ */
+#define E_NONE      (-1)
+#define E_RST       (0)
+#define E_INT       (1)
+#define E_CACC      (2)
+#define E_DACC      (3)
+#define E_MA        (4)
+#define E_OPC       (5)
+#define E_PRV       (6)
+#define E_BND       (7)
+#define E_IDE       (8)
+#define E_IOV       (9)
+#define E_ERR       (10)
+
+#define E_FP        (114)
+#define E_FPIM      (115)
+
+#ifndef M_USER
+#define M_USER       (0)
+#endif
+
+#ifndef M_SUPERVISOR
+#define M_SUPERVISOR (1)
+#endif
+
+#ifndef M_CURMODE
+#define M_CURMODE    (2)
+#endif
+
+/*
+ * This is the record that is written to the execution trace file.
+ *
+ * The 'lowdata' field is the low 6 bits of the instruction, if
+ * the record is of an instruction fetch.  Its the low 6 bits
+ * of the register contents before a store if a store is being 
+ * traced.  If a load is being traced it is the low 6 bits of
+ * the register contents after the load is executed.
+ *
+ * The global, cacheinhibit, and writethru bits are the or of
+ * bits in the area, segment, and page descriptors.
+ */
+struct etrace {
+    u_long physical_address;
+    u_short      size : 3,   /* 1 - byte, 2 - half, 4 - word                 */
+                fetch : 1,   /* True if this is an instruction fetch.        */
+               usmode : 1,   /* True if a supervisor space access, 0 for user*/
+                 lock : 1,   /* True if this is an xmem, 0 otherwise         */
+                write : 1,   /* True if this is a st or xmem, 0 otherwise    */
+               global : 1,   /* or of global bits in area, segment, page desc*/
+         cacheinhibit : 1,   /* or of cacheinhibit bits                      */
+            writethru : 1,   /* or of writethru bits                         */
+              lowdata : 6;   /* Bottom 6 bits of data in transaction         */
+
+};
+
+/*
+ * Gdb-front end routine to get value of a convenience variable.
+ */
+extern int varvalue();
+
+/* From defs.h, we don't want to include that whole file here.  If 
+   the user types a control-C, he wants the command to stop. */
+
+#define QUIT	{ if (quit_flag) request_quit(); }
+extern quit_flag;
+
+/* The number of the currently selected processor */
+int selected_processor;
+
+/* Changes the selected processor */
+extern void select_processor();
+@
+
+
+1.29
+log
+@Added stuff for MP simulation, fixed kludge for avoiding errors
+when defining u_... types to make it work on the SUN-4.
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/sim_interface.h,v 1.28 90/05/11 11:53:32 robertb Exp Locker: robertb $
+d12 1
+d16 1
+@
+
+
+1.28
+log
+@Added decls for some gdb things that the simulator needs.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.27 90/04/29 19:26:39 robertb Exp $
+d11 1
+d16 1
+d63 1
+d144 1
+d246 5
+@
+
+
+1.27
+log
+@Ported to System V.  Seems to work.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.26 89/08/30 16:21:17 robertb Exp $
+d230 12
+@
+
+
+1.26
+log
+@tweak
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.25 89/08/25 14:06:13 robertb Exp $
+d10 1
+a10 1
+#ifndef _MACH_IND_SYS_TYPES
+@
+
+
+1.25
+log
+@changed name of routine.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.24 89/07/26 14:52:59 robertb Exp $
+d195 3
+d199 3
+@
+
+
+1.24
+log
+@Removed obsolete forward declaration.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.23 88/09/19 21:02:56 robertb Exp $
+d161 1
+a161 1
+extern int sim_l_to_p();
+@
+
+
+1.23
+log
+@added a #define
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.22 88/06/28 16:46:55 robertb Exp $
+a73 5
+
+/*
+ * Executes the 88000 instruction pointed to by ip and returns.
+ */
+extern int sim_ss();
+@
+
+
+1.22
+log
+@Added an exception code and fixed a comment
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.21 88/05/26 18:43:30 robertb Exp $
+d145 1
+@
+
+
+1.21
+log
+@Added INT_SIGNAL
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.20 88/04/30 22:58:24 robertb Exp $
+d179 1
+a179 3
+ * 88000 exceptions.  The values given to the exceptions are one
+ * greater than the 88k exception number.  I did this so that no
+ * exception code was zero, for the benefit of the dbx front-end.
+d195 1
+a227 1
+
+@
+
+
+1.20
+log
+@added execution trace facility
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.19 88/04/28 10:35:32 robertb Exp $
+d144 1
+@
+
+
+1.19
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.18 88/04/16 14:24:58 robertb Exp $
+d197 1
+d201 27
+@
+
+
+1.18
+log
+@Added 3 extern declarations for functions in memory.c.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.17 88/03/30 18:55:18 robertb Exp $
+d19 1
+a19 1
+#define PAGE_SIZE   (4096)
+d196 4
+@
+
+
+1.17
+log
+@changed exception codes back to match what the user sees.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.16 88/03/25 17:33:24 robertb Exp $
+d101 21
+@
+
+
+1.16
+log
+@Removed MEM_SIZE.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.15 88/03/19 10:25:52 robertb Exp $
+d161 12
+a172 12
+#define E_NONE      (0)
+#define E_RST       (1)
+#define E_INT       (2)
+#define E_CACC      (3)
+#define E_DACC      (4)
+#define E_MA        (5)
+#define E_OPC       (6)
+#define E_PRV       (7)
+#define E_BND       (8)
+#define E_IDE       (9)
+#define E_IOV       (10)
+#define E_ERR       (11)
+d174 1
+a174 1
+#define E_FP        (115)
+@
+
+
+1.15
+log
+@Fiddled with exception codes, changed 78 to 88
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.14 88/02/28 14:40:56 robertb Exp $
+a19 5
+
+/*
+ * The size in bytes of the simulated physical 88000 memory.
+ */
+#define MEM_SIZE    (8 * 1024 * 1024)
+@
+
+
+1.14
+log
+@Added sim_in_execution, expanded tabs.
+@
+text
+@d2 1
+a2 1
+ * Header file for the UTek 78000 simulator.
+d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.13 88/02/25 14:38:27 robertb Exp $
+d17 1
+a17 1
+ * Number of bytes per 78000 page.
+d22 1
+a22 1
+ * The size in bytes of the simulated physical 78000 memory.
+d27 1
+a27 1
+ * The general purpose registers of the 78000.  regs[0] is r0,
+d36 1
+a36 1
+ * there are only 13 such registers in the 78000.
+d46 1
+a46 1
+ * The simulated 78000 instruction pointer.
+d51 1
+a51 1
+ * Executes 78000 instructions starting at ip 
+d73 1
+a73 1
+extern char sim_catch_exception[1024];
+d81 1
+a81 1
+ * Executes the 78000 instruction pointed to by ip and returns.
+d95 1
+a95 1
+ * The first parameter of each routine is the 78000 physical address
+d108 2
+a109 2
+ * This is set to one of the exception codes (E_NONE if no error,
+ * E_DACC if the memory doesn't exist) by the six routines above.
+d124 4
+a127 3
+#define FRONT_END_INTERRUPT     1
+#define DEVICE_INTERRUPT        2
+#define INTERNAL_INTERRUPT      4
+d162 3
+a164 1
+ * 78000 exceptions
+d167 11
+a177 11
+#define E_RST       (0)
+#define E_INT       (1)
+#define E_CACC      (2)
+#define E_DACC      (3)
+#define E_MA        (4)
+#define E_OPC       (5)
+#define E_PRV       (6)
+#define E_BND       (7)
+#define E_IDE       (8)
+#define E_IOV       (9)
+#define E_ERR       (10)
+d179 1
+a179 1
+#define E_FP        (114)
+@
+
+
+1.13
+log
+@Deleted now-unneeded io trace constants.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.12 88/02/22 11:56:16 robertb Exp $
+d19 1
+a19 1
+#define	PAGE_SIZE	(4096)
+d24 1
+a24 1
+#define	MEM_SIZE	(8 * 1024 * 1024)
+d61 5
+a65 5
+#define	NONE		0    /* shouldn't happen,there is no reason for return*/
+#define	BREAKPOINT	1    /* tb0 0,r0,131 was executed.		      */
+#define	INTERRUPT	2    /* User hit control-C or program wanted to stop. */
+#define	HOSED		3    /* Too many ERR exceptions, bailing out.         */
+#define	CAUGHT_EXCEPTION 4   /* An exception was caught.                      */
+d124 3
+a126 3
+#define	FRONT_END_INTERRUPT		1
+#define	DEVICE_INTERRUPT		2
+#define	INTERNAL_INTERRUPT		4
+d155 6
+d163 12
+a174 12
+#define	E_NONE		(0)
+#define	E_RST		(0)
+#define	E_INT		(1)
+#define	E_CACC		(2)
+#define	E_DACC		(3)
+#define	E_MA		(4)
+#define	E_OPC		(5)
+#define	E_PRV		(6)
+#define	E_BND		(7)
+#define	E_IDE		(8)
+#define	E_IOV		(9)
+#define	E_ERR		(10)
+d176 1
+a176 1
+#define	E_FP		(114)
+@
+
+
+1.12
+log
+@Changed to using u_long, u_short and u_char.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.11 88/02/19 22:02:35 robertb Exp $
+a142 3
+
+#define	SHOW_IO_TRACE_ALL		1
+#define	SHOW_IO_TRACE_DEVICE	2
+@
+
+
+1.11
+log
+@Added external decl's for sim_l_to_p() and sim_printmap().
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.10 88/02/12 16:44:59 robertb Exp $
+d10 6
+d30 1
+a30 1
+extern unsigned regs[];
+d38 1
+a38 1
+extern unsigned sfu0_regs[];
+d43 1
+a43 1
+extern unsigned sfu1_regs[];
+d48 1
+a48 1
+extern unsigned ip;
+d99 3
+a101 3
+extern unsigned char read_sim_b();
+extern unsigned short read_sim_h();
+extern unsigned read_sim_w();
+@
+
+
+1.10
+log
+@Deleted extra */ in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.9 88/02/12 16:13:39 robertb Exp $
+d140 10
+@
+
+
+1.9
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: sim_interface.h,v 1.8 88/01/13 22:31:44 robertb Exp $ */
+@
+
+
+1.8
+log
+@Added some decls for the exception-catching facility.
+@
+text
+@a0 2
+/* $Header: sim_interface.h,v 1.7 87/11/23 14:43:58 timd Exp $ */
+
+d3 5
+@
+
+
+1.7
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d52 18
+a69 4
+#define	NONE		0	/* shouldn't happen, there is no reason for return.	*/
+#define	BREAKPOINT	1	/* tb0 0,r0,131 was executed.						*/
+#define	INTERRUPT	2	/* User hit control-C or program wanted to stop.	*/
+#define	HOSED		3	/* Too many ERR exceptions, bailing out. 			*/
+@
+
+
+1.6
+log
+@Misc changes.
+@
+text
+@d1 1
+@
+
+
+1.5
+log
+@See changes_nov_13.doc
+@
+text
+@d118 2
+@
+
+
+1.4
+log
+@added ability to have devices generate interrupt exceptions.
+@
+text
+@d114 8
+@
+
+
+1.3
+log
+@see changes_10_11.doc
+@
+text
+@d94 3
+a96 2
+ * When this is set to one by a signal handler, the simulator
+ * will stop on the branch instruction.
+d98 5
+a102 1
+extern short mkfault;
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d14 1
+a14 1
+#define	MEM_SIZE	(8192*PAGE_SIZE)
+d84 10
+d107 19
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d42 2
+a43 1
+ * until a breakpoint is encountered.
+d45 1
+a45 1
+extern void sim();
+d48 9
+d59 1
+a59 1
+extern void sim_ss();
+@

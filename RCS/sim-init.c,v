@@ -1,0 +1,1166 @@
+head     1.27;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.27
+date     89.04.25.08.50.29;  author andrew;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     89.03.09.12.53.46;  author andrew;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     88.09.19.21.09.25;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.07.13.21.50.08;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.04.28.10.35.27;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.04.16.14.22.22;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.04.15.14.15.52;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.04.08.21.31.34;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.03.25.17.32.51;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.03.19.10.25.42;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.02.28.14.39.49;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.02.23.13.54.33;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.02.22.13.46.30;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.02.12.16.26.55;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.12.16.12.53;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.01.13.22.31.26;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     87.12.09.16.01.55;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     87.12.01.22.24.16;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.11.25.15.32.59;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.23.14.41.03;  author timd;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.23.14.27.13;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.19.19.32.35;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.12.19.23.11;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.11.22.26.34;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.03.15.56.41;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.10.28.17.14.19;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.35.36;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.27
+log
+@Fix a flaw in the instruction TLB flush routine.
+@
+text
+@/*
+ * This contains the 88000 simulator initialization
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: init.c,v 1.26 89/03/09 12:53:46 andrew Exp $
+ */
+
+#include "sim.h"
+#include <signal.h>
+
+/*
+ * Largest physical memory allowed, 256 MB.
+ */
+#define MAX_MEM_SIZE     (256 * 1024 * 1024)
+
+/*
+ * Default physical memory.
+ */
+#define DEF_MEM_SIZE	(8 * 1024 * 1024)
+
+u_long memory_size;
+u_long page_table_size;
+
+u_long regs[33];     /* 33 instead of 32 for double loads of r31 */
+u_long sfu0_regs[64];
+u_long sfu1_regs[64];
+
+char sim_catch_exception[2 * 512 + 1];
+int sim_exception;
+
+u_long ip;
+u_long delayed_ip;
+
+int sim_errno;
+int sim_interrupt_flag;
+int sim_in_execution;
+
+int fp_exception;
+
+struct decoded_i *delayed_p;
+
+/*
+ * These are *software* tlb's.  Two for user mode and two for supervisor.
+ *
+ * They are indexed with logical segment numbers.  The values are pointers
+ * to our tlb's page tables (not to be confused with 88k page tables).
+ */
+u_char **u_load_tlb[SEGTLB];
+u_char **s_load_tlb[SEGTLB];
+
+u_char **u_store_tlb[SEGTLB];
+u_char **s_store_tlb[SEGTLB];
+
+u_char *defaultpagetlb[PAGETLB] ;
+
+struct page **page_table = 0;
+
+struct io_list *io_list = 0;
+
+struct decitem *nextdecp[2];
+
+/*
+ * This flushes all user's tlb entries for a given page.
+ */
+void
+flush_user_tlb_page(page)
+    u_long page;
+{
+    u_long seg = page >> 10;
+
+    if (seg >= SEGTLB) {
+        err("flush_user_tlb_page: segment out of range\n", __LINE__, __FILE__);
+    }
+
+    if (u_load_tlb[seg] != &defaultpagetlb[0]) {
+        u_load_tlb[seg][page & 0x3ff] = 0;
+    }
+    if (u_store_tlb[seg] != &defaultpagetlb[0]) {
+        u_store_tlb[seg][page & 0x3ff] = 0;
+    }
+}
+
+/*
+ * This flushes all user's tlb entries for a given segment.
+ */
+void
+flush_user_tlb_segment(segment)
+    u_long segment;
+{
+    if (segment >= SEGTLB) {
+        err("flush_user_tlb_segment: out of range\n", __LINE__, __FILE__);
+    }
+    if (u_load_tlb[segment] != &defaultpagetlb[0]) {
+        bzero(u_load_tlb[segment], PAGETLB * sizeof(char *));
+    }
+    if (u_store_tlb[segment] != &defaultpagetlb[0]) {
+        bzero(u_store_tlb[segment], PAGETLB * sizeof(char *));
+    }
+}
+
+/*
+ * This flushes all user tlb entries.
+ */
+void
+flush_user_tlb_all()
+{
+    int i;
+
+    for (i = 0 ; i < SEGTLB ; i++) {
+        flush_user_tlb_segment(i);
+    }
+}
+
+/*
+ * This flushes all supervisor tlb entries for a given page.
+ */
+void
+flush_supervisor_tlb_page(page)
+    u_long page;
+{
+    u_long seg = page >> 10;
+
+    if (seg >= SEGTLB) {
+        err("flush_supervisor_tlb_page: seg out of range\n", __LINE__,__FILE__);
+    }
+
+    if (s_load_tlb[seg] != &defaultpagetlb[0]) {
+        s_load_tlb[seg][page & 0x3ff] = 0;
+    }
+    if (s_store_tlb[seg] != &defaultpagetlb[0]) {
+        s_store_tlb[seg][page & 0x3ff] = 0;
+    }
+}
+
+/*
+ * This flushes all supervisor tlb entries for a given segment.
+ */
+void
+flush_supervisor_tlb_segment(segment)
+    u_long segment;
+{
+    if (segment >= SEGTLB) {
+        err("flush_supervisor_tlb_segment: out of range\n", __LINE__,__FILE__);
+    }
+    if (s_load_tlb[segment] != &defaultpagetlb[0]) {
+        bzero(s_load_tlb[segment], PAGETLB * sizeof(char *));
+    }
+    if (s_store_tlb[segment] != &defaultpagetlb[0]) {
+        bzero(s_store_tlb[segment], PAGETLB * sizeof(char *));
+    }
+}
+
+/*
+ * This flushes all supervisor tlb entries.
+ */
+void
+flush_supervisor_tlb_all()
+{
+    int i;
+
+    for (i = 0 ; i < SEGTLB ; i++) {
+        flush_supervisor_tlb_segment(i);
+    }
+}
+
+/*
+ * This flushes tlb entries for the passed logical address and
+ * extending for 'length' bytes.
+ */
+void
+flush_tlb_range(logical_address, length, usmode)
+    u_long logical_address;
+    u_long length;
+    int    usmode;
+{
+    u_long i, seg, page, npages;
+
+    npages = (length + 4095) >> 12;
+
+    if (usmode == M_USER) {
+        for (i = 0 ; i < npages ; i++, logical_address += PAGESIZE) {
+            seg = btos(logical_address);
+            page = btop(logical_address);
+            if (u_load_tlb[seg] != &defaultpagetlb[0]) {
+                u_load_tlb[seg][page] = (u_char *)0;
+            }
+            if (u_store_tlb[seg] != &defaultpagetlb[0]) {
+                u_store_tlb[seg][page] = (u_char *)0;
+            }
+         }
+    } else {
+        for (i = 0 ; i < npages ; i++, logical_address += PAGESIZE) {
+            seg = btos(logical_address);
+            page = btop(logical_address);
+            if (s_load_tlb[seg] != &defaultpagetlb[0]) {
+                s_load_tlb[seg][page] = (u_char *)0;
+            }
+            if (s_store_tlb[seg] != &defaultpagetlb[0]) {
+                s_store_tlb[seg][page] = (u_char *)0;
+            }
+         }
+    }
+}
+
+void
+flush_io_decoded_list()
+{
+    struct io_list *p;
+
+    while (io_list) {
+        p = io_list->next_p;
+        free(io_list);
+        io_list = p;
+    }
+}
+
+void
+flush_io_decoded_list_entry(physical_address)
+    u_long physical_address;
+{
+    struct io_list *p;
+    u_long page_number;
+
+    page_number = physical_address >> 12;
+
+    p = io_list;
+    while (p) {
+        if (p->page_number == page_number) {
+            clean_decoded_part(p->decoded_part);
+            break;
+        }
+        p = p->next_p;
+    }
+}
+
+void
+flush_deccache(usmode)
+    int usmode;
+{
+    bzero(&deccache[usmode][0], sizeof(struct decitem) * DECMAX);
+    nextdecp[usmode] = &deccache[usmode][0];
+}
+
+void
+fpeint()
+{
+    fp_exception = 1;
+}
+
+/*
+ * This is called when the user types "init".
+ * We keep the contents of memory intact, but drop every last bit
+ * of translation caching that we have.
+ */
+sim_flush_all_translations()
+{
+    int i;
+    struct page *p;
+
+    /*
+     * Clean all the decoded parts of pages allocated.
+     */
+    for (i = 0 ; i < page_table_size ; i++) {
+        if (p = page_table[i]) {
+            clean_decoded_part(p->decoded_part);
+        }
+    }
+
+    flush_io_decoded_list();
+
+    if (u_load_tlb[0] == (u_char **)0) {
+        for (i = 0 ; i < SEGTLB ; i++) {
+            u_load_tlb[i] = &defaultpagetlb[0];
+            u_store_tlb[i] = &defaultpagetlb[0];
+            s_load_tlb[i] = &defaultpagetlb[0];
+            s_store_tlb[i] = &defaultpagetlb[0];
+        }
+    }
+
+    flush_user_tlb_all();
+    flush_supervisor_tlb_all();
+
+    flush_deccache(M_SUPERVISOR);
+    flush_deccache(M_USER);
+    free_literals();
+}
+
+/*
+ * This initializes the 88000 simulator.
+ */
+void
+sim_init()
+{
+    u_long i;
+    struct page *p;
+    char *sim_mem, *getenv();
+
+    sim_in_execution = 0;
+    sim_exception = E_NONE;
+
+    sim_errno = 0;
+    sim_interrupt_flag = 0;
+    fp_exception = 0;
+
+    if (page_table == 0) {
+        sim_mem = getenv("SIMMEM");
+        if (sim_mem) {
+            memory_size = PAGESIZE * atoi(sim_mem);
+            if (memory_size == 0 || memory_size > MAX_MEM_SIZE) {
+                sim_printf("warning: SIMMEM set to invalid value=%s\n", 
+                                                                     sim_mem);
+                sim_printf(" SIMMEM is the number of 4k pages of physical\n");
+                sim_printf(" simulated memory, valid values are in 1..%d\n",
+                                                      MAX_MEM_SIZE/PAGESIZE);
+                memory_size = DEF_MEM_SIZE;
+            }
+        } else {
+            memory_size = DEF_MEM_SIZE;
+        }
+        page_table_size = memory_size/PAGESIZE;
+        page_table = (struct page **)
+                      calloc(page_table_size, sizeof(struct page *));
+    }
+
+    /*
+     * Clean all the pages allocated.
+     */
+    for (i = 0 ; i < page_table_size ; i++) {
+        if (p = page_table[i]) {
+            clean_page(p);
+        }
+    }
+
+    flush_io_decoded_list();
+    for (i = 0 ; i < 32 ; i++) {
+        regs[i] = 0;
+    }
+
+    for (i = 0 ; i < 64 ; i++) {
+        sfu0_regs[i] = 0;
+        sfu1_regs[i] = 0;
+    }
+    PID = 0x000000fe;
+    PSR = 0x800003ff;
+    RAMSIZE = memory_size;
+    ip = 0;
+
+    delayed_p = (struct decoded_i *)0;
+    delayed_ip = 0;
+
+    if (u_load_tlb[0] == (u_char **)0) {
+        for (i = 0 ; i < SEGTLB ; i++) {
+            u_load_tlb[i] = &defaultpagetlb[0];
+            u_store_tlb[i] = &defaultpagetlb[0];
+            s_load_tlb[i] = &defaultpagetlb[0];
+            s_store_tlb[i] = &defaultpagetlb[0];
+        }
+    }
+
+    flush_user_tlb_all();
+    flush_supervisor_tlb_all();
+
+    builddecodetable();
+    io_init();
+    signal(SIGFPE, fpeint);
+    flush_deccache(M_SUPERVISOR);
+    flush_deccache(M_USER);
+    free_literals();
+}
+@
+
+
+1.26
+log
+@Add register cr22, RAMSIZE, which contains the number of bytes of RAM.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.25 88/09/19 21:09:25 robertb Exp $
+d243 1
+a243 2
+    nextdecp[M_USER] = &deccache[M_USER][0];
+    nextdecp[M_SUPERVISOR] = &deccache[M_SUPERVISOR][0];
+@
+
+
+1.25
+log
+@Added sim_flush_all_transactions().
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.24 88/07/13 21:50:08 robertb Exp $
+d348 1
+@
+
+
+1.24
+log
+@fixed the PID register, had been setting a always-zero bit
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.23 88/04/28 10:35:27 robertb Exp $
+d251 38
+@
+
+
+1.23
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.22 88/04/16 14:22:22 robertb Exp $
+d308 1
+a308 1
+    PID = 0x000001fe;
+@
+
+
+1.22
+log
+@Added call to builddecodecache().
+@
+text
+@d2 1
+a2 1
+ * This contains the 78000 simulator initialization
+d7 1
+a7 1
+ * $Header: init.c,v 1.21 88/04/15 14:15:52 robertb Exp $
+d30 1
+a30 1
+char sim_catch_exception[2*512];
+a45 2
+ * One translates logical 78000 addresses from 0 to PAGE_SIZE * TLB_SIZE
+ * and the other translates address at the top of memory.
+d47 2
+a48 2
+ * They are indexed with logical page numbers.  The values are pointers
+ * to the simulated pages.
+d50 2
+a51 4
+char *u_load_tlb_low[TLB_SIZE];
+char *u_load_tlb_high[TLB_SIZE];
+char *s_load_tlb_low[TLB_SIZE];
+char *s_load_tlb_high[TLB_SIZE];
+d53 2
+a54 4
+char *u_store_tlb_low[TLB_SIZE];
+char *u_store_tlb_high[TLB_SIZE];
+char *s_store_tlb_low[TLB_SIZE];
+char *s_store_tlb_high[TLB_SIZE];
+d56 2
+d62 2
+d65 1
+a65 2
+ * This invalidates all of the user-space translation look-aside
+ * buffer entries.
+d67 3
+a69 1
+flush_user_tlb()
+d71 12
+a82 4
+    bzero(u_load_tlb_low, TLB_SIZE * sizeof(char *));
+    bzero(u_store_tlb_low, TLB_SIZE * sizeof(char *));
+    bzero(u_load_tlb_high, TLB_SIZE * sizeof(char *));
+    bzero(u_store_tlb_high, TLB_SIZE * sizeof(char *));
+d86 1
+a86 2
+ * This invalidates all of the supervisor-space translation look-aside
+ * buffer entries.
+d88 3
+a90 1
+flush_supervisor_tlb()
+d92 9
+a100 4
+    bzero(s_load_tlb_low, TLB_SIZE * sizeof(char *));
+    bzero(s_store_tlb_low, TLB_SIZE * sizeof(char *));
+    bzero(s_load_tlb_high, TLB_SIZE * sizeof(char *));
+    bzero(s_store_tlb_high, TLB_SIZE * sizeof(char *));
+d104 65
+d172 2
+a173 1
+flush_tlb_range(logical_address, length)
+d176 1
+d178 1
+a178 1
+    u_long i, page, npages;
+d182 6
+a187 16
+    for (i = 0 ; i < npages ; i++, logical_address += PAGE_SIZE) {
+        page = logical_address >> 12;
+
+        if (logical_address < LOW_TLB_RANGE) {
+            s_load_tlb_low[page] = 0;
+            s_store_tlb_low[page] = 0;
+            u_load_tlb_low[page] = 0;
+            u_store_tlb_low[page] = 0;
+        } else {
+            if (logical_address >= HIGH_TLB_RANGE) {
+                s_load_tlb_high[page] = 0;
+                s_store_tlb_high[page] = 0;
+                u_load_tlb_high[page] = 0;
+                u_store_tlb_high[page] = 0;
+            } else {
+                break;
+d189 15
+a203 1
+        }
+d238 10
+d254 1
+a254 1
+ * This initializes the 78000 simulator.
+d273 1
+a273 1
+            memory_size = PAGE_SIZE * atoi(sim_mem);
+d279 1
+a279 1
+                                                      MAX_MEM_SIZE/PAGE_SIZE);
+d285 1
+a285 1
+        page_table_size = memory_size/PAGE_SIZE;
+d315 8
+a322 2
+    flush_user_tlb();
+    flush_supervisor_tlb();
+d324 3
+d330 3
+a333 7
+
+/*
+ * Called by sim, just to keep the GH compiler from reusing
+ * some registers.
+ */
+fool_the_gh_compiler()
+{}
+@
+
+
+1.21
+log
+@fixed problem with not reusing simulation memory.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.20 88/04/08 21:31:34 robertb Exp $
+d224 1
+@
+
+
+1.20
+log
+@Now initialize PID to special value.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.19 88/03/25 17:32:51 robertb Exp $
+d30 1
+a30 1
+char sim_catch_exception[1025];
+d62 1
+a62 1
+struct page **page_table;
+d176 13
+a188 8
+    sim_mem = getenv("SIMMEM");
+    if (sim_mem) {
+        memory_size = PAGE_SIZE * atoi(sim_mem);
+        if (memory_size == 0 || memory_size > MAX_MEM_SIZE) {
+            sim_printf("warning: SIMMEM set to invalid value=%s\n", sim_mem);
+            sim_printf(" SIMMEM is the number of 4k pages of physical\n");
+            sim_printf(" simulated memory, valid values are in 1..%d\n",
+                                                    MAX_MEM_SIZE/PAGE_SIZE);
+d191 3
+a193 2
+    } else {
+        memory_size = DEF_MEM_SIZE;
+a194 2
+    page_table_size = memory_size/PAGE_SIZE;
+    page_table = (struct page **)calloc(page_table_size, sizeof(struct page *));
+@
+
+
+1.19
+log
+@Now look at the SIMMEM environment variable to get the
+size of simulated physical memory.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.18 88/03/19 10:25:42 robertb Exp $
+d210 1
+@
+
+
+1.18
+log
+@Fiddled with exception codes, changed 78 to 88
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.17 88/02/28 14:39:49 robertb Exp $
+d13 10
+d62 1
+a62 1
+struct page *page_table[MEM_SIZE/PAGE_SIZE];
+a65 2
+int wrong_andc;
+
+d167 1
+a168 1
+    wrong_andc = getenv("SIMKLANDC");
+d176 13
+a188 1
+    memory_size = MEM_SIZE;
+d190 1
+@
+
+
+1.17
+log
+@Added sim_in_execution.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.16 88/02/23 13:54:33 robertb Exp $
+d20 1
+a20 1
+char sim_catch_exception[1024];
+d162 1
+a162 1
+    sim_exception = 0;
+d164 1
+a164 1
+    sim_errno = E_NONE;
+@
+
+
+1.16
+log
+@Added SIMKLANDC environment variable to control the and.c kludge.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.15 88/02/22 13:46:30 robertb Exp $
+d28 1
+d64 4
+a67 4
+	bzero(u_load_tlb_low, TLB_SIZE * sizeof(char *));
+	bzero(u_store_tlb_low, TLB_SIZE * sizeof(char *));
+	bzero(u_load_tlb_high, TLB_SIZE * sizeof(char *));
+	bzero(u_store_tlb_high, TLB_SIZE * sizeof(char *));
+d76 4
+a79 4
+	bzero(s_load_tlb_low, TLB_SIZE * sizeof(char *));
+	bzero(s_store_tlb_low, TLB_SIZE * sizeof(char *));
+	bzero(s_load_tlb_high, TLB_SIZE * sizeof(char *));
+	bzero(s_store_tlb_high, TLB_SIZE * sizeof(char *));
+d87 2
+a88 2
+	u_long logical_address;
+	u_long length;
+d90 1
+a90 1
+	u_long i, page, npages;
+d92 1
+a92 1
+	npages = (length + 4095) >> 12;
+d94 2
+a95 2
+	for (i = 0 ; i < npages ; i++, logical_address += PAGE_SIZE) {
+		page = logical_address >> 12;
+d97 16
+a112 16
+		if (logical_address < LOW_TLB_RANGE) {
+			s_load_tlb_low[page] = 0;
+			s_store_tlb_low[page] = 0;
+			u_load_tlb_low[page] = 0;
+			u_store_tlb_low[page] = 0;
+		} else {
+			if (logical_address >= HIGH_TLB_RANGE) {
+				s_load_tlb_high[page] = 0;
+				s_store_tlb_high[page] = 0;
+				u_load_tlb_high[page] = 0;
+				u_store_tlb_high[page] = 0;
+			} else {
+				break;
+			}
+		}
+	}
+d118 1
+a118 1
+	struct io_list *p;
+d120 5
+a124 5
+	while (io_list) {
+		p = io_list->next_p;
+		free(io_list);
+		io_list = p;
+	}
+d129 1
+a129 1
+	u_long physical_address;
+d131 2
+a132 2
+	struct io_list *p;
+	u_long page_number;
+d134 1
+a134 1
+	page_number = physical_address >> 12;
+d136 8
+a143 8
+	p = io_list;
+	while (p) {
+		if (p->page_number == page_number) {
+			clean_decoded_part(p->decoded_part);
+			break;
+		}
+		p = p->next_p;
+	}
+d148 1
+a148 1
+	fp_exception = 1;
+d157 2
+a158 2
+	u_long i;
+	struct page *p;
+d160 3
+a162 2
+        wrong_andc = getenv("SIMKLANDC");
+	sim_exception = 0;
+d164 3
+a166 3
+	sim_errno = E_NONE;
+	sim_interrupt_flag = 0;
+	fp_exception = 0;
+d168 2
+a169 2
+	memory_size = MEM_SIZE;
+	page_table_size = memory_size/PAGE_SIZE;
+d171 8
+a178 8
+	/*
+	 * Clean all the pages allocated.
+	 */
+	for (i = 0 ; i < page_table_size ; i++) {
+		if (p = page_table[i]) {
+			clean_page(p);
+		}
+	}
+d180 4
+a183 4
+	flush_io_decoded_list();
+	for (i = 0 ; i < 32 ; i++) {
+		regs[i] = 0;
+	}
+d185 6
+a190 6
+	for (i = 0 ; i < 64 ; i++) {
+		sfu0_regs[i] = 0;
+		sfu1_regs[i] = 0;
+	}
+	PSR = 0x800003ff;
+	ip = 0;
+d192 2
+a193 2
+ 	delayed_p = (struct decoded_i *)0;
+	delayed_ip = 0;
+d195 2
+a196 2
+	flush_user_tlb();
+	flush_supervisor_tlb();
+d198 2
+a199 2
+	io_init();
+	signal(SIGFPE, fpeint);
+@
+
+
+1.15
+log
+@Switched to u_long, u_short, and u_char.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.14 88/02/12 16:26:55 robertb Exp $
+d55 2
+d159 1
+@
+
+
+1.14
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.13 88/02/12 16:12:53 robertb Exp $
+d13 2
+a14 2
+unsigned memory_size;
+unsigned page_table_size;
+d16 3
+a18 3
+unsigned regs[33];     /* 33 instead of 32 for double loads of r31 */
+unsigned sfu0_regs[64];
+unsigned sfu1_regs[64];
+d23 2
+a24 2
+unsigned ip;
+unsigned delayed_ip;
+d84 2
+a85 2
+	unsigned logical_address;
+	unsigned length;
+d87 1
+a87 1
+	unsigned i, page, npages;
+d126 1
+a126 1
+	unsigned physical_address;
+d129 1
+a129 1
+	unsigned page_number;
+d154 1
+a154 1
+	unsigned i;
+@
+
+
+1.13
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: init.c,v 1.12 88/01/13 22:31:26 robertb Exp $ */
+@
+
+
+1.12
+log
+@Added the facility for catching exceptions selectively.
+@
+text
+@a0 2
+/* $Header: init.c,v 1.11 87/12/09 16:01:55 robertb Exp $ */
+
+d3 5
+@
+
+
+1.11
+log
+@Fixed a comment.
+@
+text
+@d1 1
+a1 1
+/* $Header: init.c,v 1.10 87/12/01 22:24:16 robertb Exp $ */
+d17 3
+d153 2
+@
+
+
+1.10
+log
+@Added the "flush_tlb_range" function.  It is called by the CMMU
+simulator.
+@
+text
+@d1 1
+a1 1
+/* $Header: init.c,v 1.9 87/11/25 15:32:59 robertb Exp $ */
+d159 1
+a159 1
+	 * Free all the pages allocated.
+@
+
+
+1.9
+log
+@Fixed two bugs in flush_io_decoded_list_entry.
+@
+text
+@d1 1
+a1 1
+/* $Header: init.c,v 1.8 87/11/23 14:41:03 timd Exp $ */
+d71 33
+@
+
+
+1.8
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d96 1
+a96 1
+		if (p->page_number = page_number) {
+d100 1
+a100 1
+		p = io_list->next_p;
+a101 1
+	fp_exception = 0;
+d120 1
+@
+
+
+1.7
+log
+@Added code to catch SIGFPE.
+@
+text
+@d1 1
+@
+
+
+1.6
+log
+@Eliminated ss_e_addr field in decoded_i structure
+@
+text
+@d7 1
+d22 2
+d101 1
+d104 5
+d152 1
+@
+
+
+1.5
+log
+@added ability to have devices generate interrupt exceptions.
+@
+text
+@a6 1
+#include "decode.h"
+@
+
+
+1.4
+log
+@see changes_10_11.doc
+@
+text
+@d20 1
+d111 1
+@
+
+
+1.3
+log
+@Made flushing the io space decoded page list be a separate
+function so that io_operation can flush this table.
+@
+text
+@d19 2
+d69 1
+d81 19
+d108 2
+@
+
+
+1.2
+log
+@Now initializes psr according to new 78000 manual.
+@
+text
+@d67 11
+d85 1
+a85 1
+	struct io_list *p;
+d99 1
+a99 6
+	while (io_list) {
+		p = io_list->next_p;
+		free(io_list);
+		io_list = p;
+	}
+
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d102 1
+a102 1
+	PSR = 0x800001f6;
+@

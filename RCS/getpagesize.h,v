@@ -1,0 +1,108 @@
+head     1.4;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.4
+date     90.03.15.09.04.52;  author andrew;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.09.21.10.18.17;  author paulg;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.08.19.12.33.15;  author paulg;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.30.23.09.33;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.4
+log
+@Complete rewrite, to get pages in the manner prescribed by the BCS.
+@
+text
+@/*
+ * getpagesize for UTek system V /88k only
+ * $Header: getpagesize.h,v 1.3 89/09/21 10:18:17 paulg Exp $
+ */ 
+
+#ifndef _SC_MEMCTL_UNIT
+#include <sys/unistd.h>
+#endif
+
+#define getpagesize() sysconf(_SC_MEMCTL_UNIT)
+@
+
+
+1.3
+log
+@add rcsid stuff
+@
+text
+@d2 2
+a3 2
+   $Header:  $
+   $Locker:  $
+d5 3
+a7 3
+#if defined(BSD) || defined(DGUX)
+#ifndef BSD4_1
+#define HAVE_GETPAGESIZE
+a8 1
+#endif
+d10 1
+a10 19
+#ifndef HAVE_GETPAGESIZE
+
+#include <sys/param.h>
+
+#ifdef EXEC_PAGESIZE
+#define getpagesize() EXEC_PAGESIZE
+#else
+#ifdef NBPG
+#define getpagesize() NBPG * CLSIZE
+#ifndef CLSIZE
+#define CLSIZE 1
+#endif /* no CLSIZE */
+#else /* no NBPG */
+#define getpagesize() NBPC
+#endif /* no NBPG */
+#endif /* no EXEC_PAGESIZE */
+
+#endif /* not HAVE_GETPAGESIZE */
+
+@
+
+
+1.2
+log
+@merge in Data General stuff: get clean compile.
+@
+text
+@d1 4
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+#ifdef BSD
+@

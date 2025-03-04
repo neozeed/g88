@@ -1,0 +1,88 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.05.14.15.41.49;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.30.14.07.29;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@added rcsid's and copyrights
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+To: 78tools
+Cc: paulg
+Fcc: outbox
+Subject: New d78 in //cupcake/UTek/tools/bin
+-------
+
+The SCC simulator is much improved.
+
+The LCSR simulator is correct now. However, all of its bits are read/write.
+In the real hardware some bits are read-only.
+
+A nasty bug with single-stepping is fixed.
+
+For any one interested in the details of this bug read on:
+
+----------------------------------------------------
+
+In finding this bug I ran into some rather grody code in dbx.  It was
+doing something like:
+
+struct line {
+  unsigned addr, line; } *linep, *lp, *linetab;
+
+   linetab = (struct line *)malloc(x);
+   linep = linetab;
+  
+   ...
+
+
+   lp = linep - 1;	/* What?  linep-1 is the malloc header the 1st time! */
+   if (lp->addr != addr) ...
+
+and depending on the malloc header to be different than 'addr'.
+I find this sort of thing disturbing.  My change did not fix this, 
+however.  It removed the assumption that the code was making that
+the globals will not be found before the first source line stab.
+When the globals are found the previous line record is copied to
+the current line record with a zero 'addr' field.  If the first
+file has globals that come before the first source line, the
+malloc header was being copied into the first source line
+record.  This confuses 'linelookup', which rejects any lookup
+as being out of range if the address is less than linetab[0].addr.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 7
+@

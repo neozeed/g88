@@ -1,0 +1,1099 @@
+head     1.19;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.19
+date     91.01.13.23.58.26;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     90.10.30.16.32.34;  author limey;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     90.10.30.14.53.23;  author limey;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     90.04.29.19.22.03;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.04.29.17.04.11;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.04.28.10.35.48;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.04.16.14.23.47;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.04.15.14.11.15;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.04.14.17.15.42;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.04.08.21.31.07;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.02.22.13.46.03;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.02.19.21.59.15;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.02.17.11.56.34;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.02.12.16.26.46;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     88.02.12.16.12.49;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.23.14.40.33;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.11.22.26.26;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.09.22.39.02;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.34.09;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.19
+log
+@Now close simulated disk files before reopening them to conserve
+process file descriptors.
+@
+text
+@/*
+ * 88000 disk simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * 
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/sim/RCS/disk.c,v 1.18 90/10/30 16:32:34 limey Exp Locker: robertb $
+ */
+
+#include <sys/types.h>
+#include <sys/fcntl.h>
+#include "sim.h"
+
+#define DISKS	4
+
+char *filenames[4] = { "simdisk1", "simdisk2", "simdisk3", "simdisk4" };
+
+static 
+struct disk_regs {
+    u_long physical_address;
+    u_long block;
+    u_long count;
+    u_long command;
+    char *filename;
+    int fd;
+} disk_regs[DISKS];
+
+#define	DC_READ		(1)
+#define	DC_WRITE	(2)
+
+#define	SD_BLKSIZE	(512)
+
+#define SIMDISK1   (0)
+#define SIMDISK2   (1)
+#define SIMDISK3   (2)
+#define SIMDISK4   (2)
+
+disk1_init(restore) { disk_init(SIMDISK1, restore); }
+disk2_init(restore) { disk_init(SIMDISK2, restore); }
+disk3_init(restore) { disk_init(SIMDISK3, restore); }
+disk4_init(restore) { disk_init(SIMDISK4, restore); }
+
+disk_init(diskno, restore)
+    u_long diskno;
+{
+    struct disk_regs *p = &disk_regs[diskno];
+
+    if (!restore) {
+        p->physical_address = 0;
+        p->block = 0;
+        p->count = 0;
+        p->command = 0;
+	if (p->fd > 0) {
+            if (close(p->fd) != 0) {
+                sim_printf("unabled to close %d\n", p->filename);
+            }
+        }
+        p->fd = 0;
+
+        p->filename = filenames[diskno];
+
+        if (!p->filename) {
+            p->filename = "(none)";
+            p->fd = -1;
+        }
+    }
+    if (p->fd != -1) {
+        p->fd = open(p->filename, O_RDWR, 0);
+    }
+}
+
+int
+disk1_operation(address_offset, reg_ptr, size, mem_op_type)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+{
+    return disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK1);
+}
+
+int
+disk2_operation(address_offset, reg_ptr, size, mem_op_type)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+{
+    return disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK2);
+}
+
+int
+disk3_operation(address_offset, reg_ptr, size, mem_op_type)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+{
+    return disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK3);
+}
+
+int
+disk4_operation(address_offset, reg_ptr, size, mem_op_type)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+{
+    return disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK4);
+}
+
+static
+int
+do_disk_command(p)
+    struct disk_regs *p;
+{
+    u_long offset = p->block * SD_BLKSIZE;
+    u_long cnt = p->count * SD_BLKSIZE;
+
+    if (lseek(p->fd, offset, 0) != offset) {
+        sim_printf("simdisk: Error seeking to byte offset 0x%x in %s\n",
+                                                 offset, p->filename);
+        return E_DACC;
+    }
+    switch (p->command) {
+        case DC_READ:
+            if (sim_readfile(p->fd, p->physical_address, cnt) != cnt) {
+                sim_printf("simdisk: error reading %d bytes\n", cnt);
+                return E_DACC;
+            }
+            break;
+
+        case DC_WRITE:
+            if (sim_writefile(p->fd, p->physical_address, cnt) != cnt) {
+                sim_printf("simdisk: error reading %d bytes\n", cnt);
+                return E_DACC;
+            }
+            break;
+
+        default:
+            sim_printf("simdisk: unknown command: %d\n", p->command);
+            return E_DACC;
+            break;
+    }
+    return E_NONE;
+}
+
+disk_operation(address_offset, reg_ptr, size, mem_op_type, diskno)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    u_long diskno;
+{
+    struct disk_regs *p = &disk_regs[diskno];
+
+    if (p->fd < 0) {
+        sim_printf("simdisk: unable to open %s.\n", p->filename);
+        return E_DACC;
+    }
+
+    if (size != WORD) {
+        sim_printf("simdisk: must use word operations.\n");
+        return E_DACC;
+    }
+
+    if (mem_op_type != ST) {
+        sim_printf("simdisk: registers are write-only.\n");
+        return E_DACC;
+    }
+
+    switch (address_offset) {
+        case 0:
+            /*
+             * Physical address of buffer. 
+             */
+            p->physical_address = *reg_ptr;       
+            break;
+
+        case 4:
+            /*
+             * Disk block number.  If the block number is zero,
+             * close and reopen the file.
+             */
+            p->block = *reg_ptr;       
+            if (p->block == 0 && p->fd != -1) {
+                close(p->fd);
+                p->fd = open(p->filename, O_RDWR, 0);
+            }
+                
+            break;
+
+        case 8:
+            /*
+             * Number of blocks to read or write.
+             */
+            p->count = *reg_ptr;       
+            break;
+
+        case 12:
+            /*
+             * Command to read or write.
+             */
+            p->command = *reg_ptr;       
+            return do_disk_command(p);
+            break;
+
+        default:
+            sim_printf("simdisk: address offset not 0, 4, 8, or 12\n");
+            return E_DACC;
+    }
+    return E_NONE;
+}
+
+static
+char *
+d_comname(command)
+    u_long command;
+{
+    switch (command) {
+        case DC_READ: return "read";
+        case DC_WRITE: return "write";
+        default: return "undefined";
+    }
+}
+
+void
+disk_print(diskno)
+    u_long diskno;
+{
+    struct disk_regs *p = &disk_regs[diskno];
+
+    sim_printf("disk %d: \n", diskno);
+    sim_printf("              uses: %s\n", p->filename);
+    sim_printf("  physical address: 0x%x\n", p->physical_address);
+    sim_printf("        disk block: 0x%x\n", p->block);
+    sim_printf("             count: 0x%x\n", p->count);
+    sim_printf("           command: %s\n", d_comname(p->command));
+}
+
+void disk1_print() { disk_print(SIMDISK1); }
+void disk2_print() { disk_print(SIMDISK2); }
+void disk3_print() { disk_print(SIMDISK3); }
+void disk4_print() { disk_print(SIMDISK4); }
+@
+
+
+1.18
+log
+@changed blocksize back to 512
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/bigbird/Usr.U3/parunix/src/g88/sim/RCS/disk.c,v 1.17 90/10/30 14:53:23 limey Exp $
+d53 5
+@
+
+
+1.17
+log
+@added return statement to disk_operation
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/bigbird/Usr.U3/parunix/src/g88/sim/RCS/disk.c,v 1.16 90/04/29 19:22:03 robertb Exp Locker: robertb $
+d31 1
+a31 1
+#define	SD_BLKSIZE	(8192)
+@
+
+
+1.16
+log
+@Ported to System V.  Got rid of use of environment variables for
+disk names.  Now use fixed file names for simulated disks.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.15 88/04/29 17:04:11 robertb Exp $
+d31 1
+a31 1
+#define	SD_BLKSIZE	(512)
+d74 1
+a74 1
+    disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK1);
+d84 1
+a84 1
+    disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK2);
+d94 1
+a94 1
+    disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK3);
+d104 1
+a104 1
+    disk_operation(address_offset, reg_ptr, size, mem_op_type, SIMDISK4);
+@
+
+
+1.15
+log
+@Made the disk simulator close and reopen files when a 0 is
+stored to the block number register.
+@
+text
+@d2 1
+a2 1
+ * 78000 disk simulator.
+d7 1
+a7 1
+ * $Header: disk.c,v 1.14 88/04/28 10:35:48 robertb Exp $
+d10 2
+a12 1
+#include <sys/file.h>
+d16 1
+a16 1
+char *envnames[4] = { "SIMDISK1", "SIMDISK2", "SIMDISK3", "SIMDISK4" };
+a46 1
+    extern char *getenv();
+d55 1
+a55 2
+        p->filename = 
+           sim_strdup(getenv(envnames[diskno]));
+d116 1
+a116 1
+        sim_printf("simdisk: Error seeking to byte offset 0x%X in %s\n",
+d230 3
+a232 3
+    sim_printf("  physical address: 0x%X\n", p->physical_address);
+    sim_printf("        disk block: 0x%X\n", p->block);
+    sim_printf("             count: 0x%X\n", p->count);
+@
+
+
+1.14
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.13 88/04/16 14:23:47 robertb Exp $
+d178 2
+a179 1
+             * Disk block number.
+d182 5
+@
+
+
+1.13
+log
+@Changed the disk simulator to use the new routines in
+memory.c to read and write simulation memory quickly.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.12 88/04/15 14:11:15 robertb Exp $
+d13 5
+d25 1
+a25 1
+} disk_regs[2];
+d34 2
+d37 4
+a40 4
+disk1_init(restore)
+{
+    disk_init(SIMDISK1, restore);
+}
+d42 2
+a43 1
+disk2_init(restore)
+d45 1
+a45 7
+    disk_init(SIMDISK2, restore);
+}
+
+disk_init(d1_or_d2, restore)
+    u_long d1_or_d2;
+{
+    struct disk_regs *p = &disk_regs[d1_or_d2];
+d53 1
+d56 1
+a56 1
+           sim_strdup(getenv(d1_or_d2 == SIMDISK1 ? "SIMDISK1" : "SIMDISK2"));
+d63 1
+a63 1
+    if (p->filename) {
+d68 1
+d78 1
+d88 20
+d144 1
+a144 1
+disk_operation(address_offset, reg_ptr, size, mem_op_type, d1_or_d2)
+d149 1
+a149 1
+    u_long d1_or_d2;
+d151 1
+a151 1
+    struct disk_regs *p = &disk_regs[d1_or_d2];
+d218 2
+a219 2
+disk_print(d1_or_d2)
+    u_long d1_or_d2;
+d221 1
+a221 1
+    struct disk_regs *p = &disk_regs[d1_or_d2];
+d223 1
+a223 1
+    sim_printf("disk %d: \n", d1_or_d2);
+d231 4
+a234 11
+void
+disk1_print()
+{
+    disk_print(SIMDISK1);
+}
+
+void
+disk2_print()
+{
+    disk_print(SIMDISK2);
+}
+@
+
+
+1.12
+log
+@now call sim_strdup to make environment variable be in heap.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.11 88/04/14 17:15:42 robertb Exp $
+d88 2
+a89 7
+    u_long pa = p->physical_address;
+    u_long blk = p->block;
+    u_long cnt = p->count;
+    int read_or_write;
+    u_long buf[SD_BLKSIZE / sizeof(u_long)];
+    int bytes, i, ex, offset;
+    u_char *buf_ptr;
+d91 5
+d98 4
+a101 1
+            read_or_write = READ;
+d105 4
+a108 1
+            read_or_write = WRITE;
+a114 82
+    }
+    offset = p->block * SD_BLKSIZE;
+    if (lseek(p->fd, offset, 0) != offset) {
+        sim_printf("simdisk: Error seeking to byte offset 0x%X in %s\n",
+                                                 offset, p->filename);
+        return E_DACC;
+    }
+
+    while (cnt > 0) {
+        switch (p->command) {
+            u_char *bufptr;
+
+            case DC_READ:
+                /*
+                 * Get a pointer to simulation memory.  If 'bufptr' comes
+                 * back nil, it means that the data we want to read    
+                 * spans a buffer.
+                 */
+                bufptr = sim_ptr(pa, SD_BLKSIZE);
+                if (bufptr) {
+                    bytes = read(p->fd, bufptr, SD_BLKSIZE);
+                    if (bytes != SD_BLKSIZE) {
+                        sim_printf("simdisk: Error in reading, read %d bytes\n",
+                                    bytes);
+                        return E_DACC;
+                    }
+                    pa += SD_BLKSIZE;
+                } else {
+                    bytes = read(p->fd, buf, SD_BLKSIZE);
+                    if (bytes != SD_BLKSIZE) {
+                        sim_printf("simdisk: Error in reading, read %d bytes\n",
+                                    bytes);
+                        return E_DACC;
+                    }
+                    for (i = 0 ; i < SD_BLKSIZE / sizeof(u_long) ; i++) {
+                        write_sim_w(pa, buf[i]);
+                        if (sim_errno != 0) {
+                            sim_printf("sim_disk: error writing memory\n");
+                        }
+                        pa += sizeof(u_long);
+                    }
+                }
+                break;
+
+            case DC_WRITE:
+                /*
+                 * Get a pointer to simulation memory.  If 'bufptr' comes
+                 * back nil, it means that the data we want to write    
+                 * spans a buffer.
+                 */
+                bufptr = sim_ptr(pa, SD_BLKSIZE);
+                if (bufptr) {
+                    bytes = write(p->fd, bufptr, SD_BLKSIZE);
+                    if (bytes != SD_BLKSIZE) {
+                        sim_printf("simdisk: Error in writing, bytes=%d\n",
+                                    bytes);
+                        return E_DACC;
+                    }
+                    pa += SD_BLKSIZE;
+                } else {
+                    for (i = 0 ; i < SD_BLKSIZE / sizeof(u_long) ; i++) {
+                        buf[i] = read_sim_w(pa);
+                        if (sim_errno != 0) {
+                            sim_printf("sim_disk: error reading memory\n");
+                            return E_DACC;
+                        }
+                        pa += sizeof(u_long);
+                    }
+                    bytes = write(p->fd, buf, SD_BLKSIZE);
+                    if (bytes != SD_BLKSIZE) {
+                        sim_printf("simdisk: Error in writing, bytes=%d\n",
+                                    bytes);
+                        return E_DACC;
+                    }
+                }
+                break;
+
+            default:
+                sim_printf("simdisk: Unknown command: %d\n", p->command);
+                break;
+        }
+        cnt--;
+@
+
+
+1.11
+log
+@Made it deal in physical addresses instead of logical
+addresses.  Sped it up by calling sim_ptr to see if blocks
+can be read directly in.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.10 88/04/08 21:31:07 robertb Exp $
+d52 2
+a53 1
+        p->filename = getenv(d1_or_d2 == SIMDISK1 ? "SIMDISK1" : "SIMDISK2");
+@
+
+
+1.10
+log
+@Fixed bug with writing to simulated disk
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.9 88/02/22 13:46:03 robertb Exp $
+d14 1
+a14 1
+    u_long logical_address;
+d30 1
+a30 1
+disk1_init()
+d32 1
+a32 1
+    disk_init(SIMDISK1);
+d35 1
+a35 1
+disk2_init()
+d37 1
+a37 1
+    disk_init(SIMDISK2);
+d40 1
+a40 1
+disk_init(d1_or_d2)
+d46 5
+a50 4
+    p->logical_address = 0;
+    p->block = 0;
+    p->count = 0;
+    p->command = 0;
+d52 1
+a52 1
+    p->filename = getenv(d1_or_d2 == SIMDISK1 ? "SIMDISK1" : "SIMDISK2");
+d54 6
+a59 4
+    if (!p->filename) {
+        p->filename = "(none)";
+        p->fd = -1;
+    } else {
+d87 1
+a87 1
+    u_long la = p->logical_address;
+a89 1
+    u_long *pa;
+d93 1
+a116 4
+        ex = l_to_p(M_SUPERVISOR, la, &pa, DATA_CMMU(la), read_or_write);
+        if (ex != E_NONE) {
+            sim_printf("simdisk: fault on logical kernel address 0x%X\n", la);
+        }
+d118 2
+d121 12
+a132 10
+                bytes = read(p->fd, buf, SD_BLKSIZE);
+                if (bytes != SD_BLKSIZE) {
+                    sim_printf("simdisk: Error in reading, read %d bytes\n",
+                                bytes);
+                    return E_DACC;
+                }
+                for (i = 0 ; i < SD_BLKSIZE / sizeof(u_long) ; i++, pa++) {
+                    write_sim_w(pa, buf[i]);
+                    if (sim_errno != 0) {
+                        sim_printf("sim_disk: error writing memory\n");
+d134 15
+d153 11
+a163 4
+                for (i = 0 ; i < SD_BLKSIZE / sizeof(u_long) ; i++, pa++) {
+                    buf[i] = read_sim_w(pa);
+                    if (sim_errno != 0) {
+                        sim_printf("sim_disk: error reading memory\n");
+d166 16
+a182 6
+                bytes = write(p->fd, buf, SD_BLKSIZE);
+                if (bytes != SD_BLKSIZE) {
+                    sim_printf("simdisk: Error in writing, bytes=%d\n",
+                                bytes);
+                    return E_DACC;
+                }
+a188 1
+        la += SD_BLKSIZE;
+d221 1
+a221 1
+             * Logical kernel address of buffer. 
+d223 1
+a223 1
+            p->logical_address = *reg_ptr;       
+d275 1
+a275 1
+    sim_printf("   logical address: 0x%X\n", p->logical_address);
+@
+
+
+1.9
+log
+@Fixed the indexing of the disk_regs array.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.8 88/02/19 21:59:15 robertb Exp $
+a97 4
+            sim_printf("Writing %s, block %d, count %d, la 0x%X\n",
+                                p->filename, p->block, p->count, 
+                                p->logical_address);
+
+d135 1
+a135 1
+                for (i = 0 ; i < SD_BLKSIZE / sizeof(long) ; i++) {
+a136 1
+                    pa += sizeof(u_long);
+@
+
+
+1.8
+log
+@Fixed bugs in the simulated disk and generally cleaned it up.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.7 88/02/17 11:56:34 robertb Exp $
+d14 4
+a17 4
+    unsigned logical_address;
+    unsigned block;
+    unsigned count;
+    unsigned command;
+d27 2
+a28 2
+#define SIMDISK1   (1)
+#define SIMDISK2   (2)
+d41 1
+a41 1
+    unsigned d1_or_d2;
+d62 4
+a65 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d71 4
+a74 4
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+d84 4
+a87 4
+    unsigned la = p->logical_address;
+    unsigned blk = p->block;
+    unsigned cnt = p->count;
+    unsigned *pa;
+d89 1
+a89 1
+    char buf[SD_BLKSIZE];
+d98 4
+d106 1
+a106 1
+            sim_printf("Unknown disk command: %d\n", p->command);
+d112 1
+a112 1
+        sim_printf("Error seeking to byte offset 0x%X in %s\n",
+d120 1
+a120 1
+            sim_printf("fault in simulated disk on address 0x%X\n", la);
+d126 1
+a126 1
+                    sim_printf("Error in reading simulated disk, bytes=%d\n",
+d130 1
+a130 1
+                for (i = 0 ; i < SD_BLKSIZE / sizeof(long) ; i++, pa++) {
+d133 1
+a133 1
+                        sim_printf("sim_disk, error writing memory\n");
+d140 2
+a141 1
+                    buf[i] = read_sim_w(pa++, buf[i]);
+d143 1
+a143 1
+                        sim_printf("sim_disk, error reading memory\n");
+d149 1
+a149 1
+                    sim_printf("Error in writing simulated disk, bytes=%d\n",
+d156 1
+a156 1
+                sim_printf("Unknown disk command: %d\n", p->command);
+d166 5
+a170 5
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+    unsigned d1_or_d2;
+d175 1
+a175 1
+        sim_printf("unable to open %s as simulated disk.\n", p->filename);
+d180 1
+a180 1
+        sim_printf("disk IO must use word operations.\n");
+d185 1
+a185 1
+        sim_printf("disk registers are write-only.\n");
+d220 1
+a220 1
+            sim_printf("disk simulator: address offset not 0, 4, 8, or 12\n");
+d229 1
+a229 1
+    unsigned command;
+d240 1
+a240 1
+    unsigned d1_or_d2;
+@
+
+
+1.7
+log
+@Partially changed to support two simulated disks.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.6 88/02/12 16:26:46 robertb Exp $
+d18 2
+a19 2
+    char filename[100];
+    int disk_fd;
+d25 1
+a25 2
+#define DISK1   (1)
+#define DISK2   (2)
+d27 3
+d32 1
+a32 1
+    disk_init(DISK1);
+d37 1
+a37 1
+    disk_init(DISK2);
+d44 1
+a44 1
+    strcpy(p->filename, getenv(d1_or_d2 == DISK1 ? "DISK1" : "DISK2"));
+d46 13
+a58 1
+    p->disk_fd = open(p->filename, O_RDWR, 0);
+d67 1
+a67 1
+    disk_operation(address_offset, reg_ptr, size, mem_op_type, DISK1);
+d76 1
+a76 1
+    disk_operation(address_offset, reg_ptr, size, mem_op_type, DISK2);
+d79 81
+d169 1
+a169 1
+    if (p->disk_fd < 0) {
+d211 1
+d220 1
+a220 1
+        
+d240 1
+a240 1
+    sim_printf("   uses %s \n", p->filename);
+d242 3
+a244 3
+    sim_printf("   disk block: 0x%X\n", p->block);
+    sim_printf("   count: 0x%X\n", p->count);
+    sim_printf("   command: %s\n", d_comname(p->command));
+d250 1
+a250 1
+    disk_print(DISK1);
+d256 1
+a256 1
+    disk_print(DISK2);
+a257 1
+
+@
+
+
+1.6
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.5 88/02/12 16:12:49 robertb Exp $
+d13 8
+a20 1
+char *sim_disk = "sim_disk";
+d22 2
+a23 1
+static int f;
+d25 4
+a28 1
+disk_init()
+d30 1
+a30 1
+	f = open(sim_disk, O_RDWR, 0);
+d33 1
+a33 5
+disk_operation(address_offset, reg_ptr, size, mem_op_type)
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+d35 2
+a36 4
+	if (f < 0) {
+		sim_printf("unable to open %s as simulated disk.\n", sim_disk);
+		return E_DACC;
+	}
+d38 5
+a42 4
+	if (size != WORD) {
+		sim_printf("console IO must use word operations.\n");
+		return E_DACC;
+	}
+d44 2
+a45 12
+	/*
+	 * Check to see if the program is writing to the address registers.
+	 * If so, seek to that position in the simulated-disk file.
+	 */
+	if (address_offset == 4) {
+		if (lseek(f, *reg_ptr, 0) < 0) {
+			sim_printf("error in lseeking to %d in %s.\n", *reg_ptr, sim_disk);
+			return E_DACC;
+		} else {
+			return E_NONE;
+		}
+	}
+d47 8
+a54 7
+	switch (mem_op_type) {
+		case LD: case LD_U:
+			if (read(f, reg_ptr, 4) != 4) {
+				sim_printf("error in reading from simulated disk.\n");
+				return E_DACC;
+			}
+			break;
+d56 8
+a63 6
+		case ST:
+			if (write(f, reg_ptr, 4) != 4) {
+				sim_printf("error in writing to simulated disk.\n");
+				return E_DACC;
+			}
+			break;
+d65 8
+a72 4
+		case XMEM: case XMEM_U:
+			sim_printf("XMEM not allowed with simulated disk.\n");
+			return E_DACC;
+			break;
+d74 49
+a122 6
+		default:
+			sim_printf("case error in disk_operation\n");
+			return E_DACC;
+			break;
+	}
+	return E_NONE;
+d124 12
+d137 3
+a139 1
+disk_print()
+d141 8
+a148 1
+	sim_printf("disk\n");
+d150 13
+@
+
+
+1.5
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: disk.c,v 1.4 87/11/23 14:40:33 timd Exp $ */
+@
+
+
+1.4
+log
+@Added header field for colast
+@
+text
+@a0 4
+/* $Header$ */
+
+
+
+d3 5
+@
+
+
+1.3
+log
+@see changes_10_11.doc
+@
+text
+@d1 1
+@
+
+
+1.2
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a9 1
+#include "exception.h"
+d75 5
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d21 2
+a22 2
+disk_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d41 1
+a41 1
+	if ((physical_address & 7) == 4) {
+@

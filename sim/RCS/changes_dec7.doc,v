@@ -1,0 +1,86 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.05.14.15.41.40;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.30.14.07.19;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@added rcsid's and copyrights
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+To: 78tools, paulg
+Fcc: outbox
+Subject: Users speak out!
+-------
+
+Some of the recent changes to d78 were unpopular and have been
+undone.
+
+	"A <RET> on a blank line repeats the last command."
+
+Now, if you have $repeat_step defined, and the last command was a
+step, stepi, next, or nexti, a <RET> will repeat it.
+
+	"Numbers inside of character constants are interpreted as hex
+	instead of octal.  So '\41' == 'A'."
+
+They are interpreted as octal again.
+
+
+Some more changes:
+
+  1. There are 4 new operators for doing bit-wise logical operations.
+     They are &, |, ^, and ~.  I needed & in order to write the rb 
+     and rh macros for reading unsigned bytes and halfwords.
+
+  2. The file //cupcake/usr/robertb/.d78init is changed, you may want
+     to look at it if you want to use the memory peek/poke macros.
+
+  3. Another bug having to do with assignment commands that have
+     "*( addr \ & type)" as their lhs is fixed.  
+
+  4. The RCS directory for d78 is now in //cupcake/UTek/src/dbx/d78.
+     People rebuilding d78 should use this instead of the d78
+     in my account.
+
+  5. d78 used to give a message "subscript out of range" and
+     abort the command if you did something like 
+     "print buff[20]" where buff only has 10 elements.  It still 
+     gives the message, but as a warning, it does the out-of-range
+     operation.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 7
+@

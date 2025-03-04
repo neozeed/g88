@@ -1,0 +1,63 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     88.08.13.15.45.25;  author kernel;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@ignore all
+catch err
+catch uerr
+catch cacc
+catch ucacc
+catch 114
+catch 624
+
+set $audibleprompt=10
+set $unsafecalls
+set $unsafeassigns
+set $hexints
+set $hexwhenleadingzero
+set $hexchars
+set $hexstrings
+set $repeat_step
+set $repeat_examine
+set $clobber
+set $mapaddrs
+set $listwindow=15
+
+use . ../blackbird ../utek/ ../sys ../edsys ../blackbirdio ../../os ../../fs/s5 ../../io ../../sys
+
+alias b "stopi in"
+alias rb(addr) "print (*((addr)\\ &char)) & 0ff"
+alias rh(addr) "print (*((addr)\\ &short)) & 0ffff"
+alias rw(addr) "print *((addr)\\ &int)"
+alias wb(addr,value) "assign *((addr) \\ &char) = (value)"
+alias wh(addr,value) "assign *((addr) \\ &short) = (value)"
+alias ww(addr,value) "assign *((addr) \\ &int) = (value)"
+alias dm "print \"dmt0 = \", $dmt0, \"  dmd0 = \", $dmd0, \"  dma0 = \", $dma0; print \"dmt1 = \", $dmt1, \"  dmd1 = \", $dmd1, \"  dma1 = \", $dma1"
+
+alias sx "print \"sxip = \", $sxip, \"  snip = \", $snip, \"  sfip = \", $sfip"
+
+alias devs_button_pressed "devs"
+alias io_button_pressed "io 0"
+
+button 1 devs
+button 2 io
+@

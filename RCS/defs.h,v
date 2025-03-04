@@ -1,0 +1,404 @@
+head     1.11;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.11
+date     90.06.30.17.29.20;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     90.03.28.14.32.35;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.11.17.08.09.53;  author davidl;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.11.12.16.41.30;  author paulg;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.09.26.11.02.21;  author paulg;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.09.21.10.11.40;  author paulg;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.09.19.12.05.17;  author paulg;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.09.18.07.52.48;  author paulg;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.09.07.06.49.10;  author paulg;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.09.07.06.47.52;  author paulg;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.30.23.09.25;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.11
+log
+@Made it use the systems alloca() when compiling on the SUN-4.
+forward-declared some  string routines.  Moved some #defines
+out of #ifdef TEK_PROG_HACK
+@
+text
+@/* Basic definitions for GDB, the GNU debugger.
+   Copyright (C) 1986, 1989 Free Software Foundation, Inc.
+
+   $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/defs.h,v 1.10 90/03/28 14:32:35 robertb Exp $
+   $Locker:  $
+
+This file is part of GDB.
+
+GDB is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+GDB is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GDB; see the file COPYING.  If not, write to
+the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+
+
+/* 
+ * Changes made by Tektronix are marked by TEK_HACK, TEK_PROG_HACK, 
+ * and GHSFORTRAN.
+ * Changes made by Data General are marked by DG_HACK.  Compiling without these
+ * #defines should be equivalent to compiling vanilla 3.2, more or less.
+ *
+ * The changes done by Tektronix fit into three catagories:
+ *	TEK_HACK -- these were done just to get GDB to work in our environment,
+ *		    including work done to support the Green Hills C compiler.
+ *	TEK_PROG_HACK -- These were done to extend GDB by adding programming
+ *			 support: things like if-elif-else-endif, while, and
+ *			 arguments to user defined commands.
+ *	GHSFORTRAN -- These changes make (will make) GDB work with the Green
+ *		      Hills Fortran compiler.
+ *
+ *
+ * In addition, I/O routines were renamed so that I/O could be directed
+ * to/from the X interface if used.  See the files ui.c and ui.h for
+ * more information.  Here are the routines renamed:
+ *    Old name:			Renamed to:
+ *	fprintf			ui_fprintf
+ *	printf			ui_fprintf(stdout
+ *	putchar			ui_putchar
+ *	putc			ui_putc
+ *	fputc			ui_putc
+ *	fputs			ui_fputs
+ *	puts			ui_puts
+ *	gets			ui_gets
+ *	fgets			ui_fgets
+ *	fflush			ui_fflush
+ *	system			ui_system
+ *	wait			ui_wait
+ *	error			ui_badnews(-1
+ *	fatal			ui_badnews(1
+ *	getc, fgetc		replaced with ui_gets, ui_fgets
+ * These changes are not demarcated by ifdef.   
+ *
+ *					November 16, 1989
+ */
+
+#define CORE_ADDR unsigned int
+#ifdef TEK_HACK
+#define NULL_CORE_ADDR ((CORE_ADDR)0)
+#define INVALID_CORE_ADDR ((CORE_ADDR)~0)
+#endif /* TEK_HACK */
+
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
+extern char *savestring ();
+extern char *concat ();
+extern char *xmalloc (), *xrealloc ();
+extern char *alloca ();
+extern int parse_escape ();
+extern char *reg_names[];
+
+extern int quit_flag;
+
+extern int immediate_quit;
+
+#define QUIT { if (quit_flag) quit (); }
+
+#ifdef TEK_HACK
+/* What to say if you can't find a registers value. */
+#define THE_UNKNOWN "???"
+#endif /* TEK_HACK */
+
+/* Notes on classes: class_alias is for alias commands which are not
+   abbreviations of the original command.  */
+
+enum command_class
+{
+  no_class = -1, class_run = 0, class_vars, class_stack,
+  class_files, class_support, class_info, class_breakpoint,
+  class_alias, class_obscure, class_user,
+#ifdef TEK_PROG_HACK
+  class_conditional, class_nested,
+#endif /* TEK_PROG_HACK */
+};
+
+/* the cleanup list records things that have to be undone
+   if an error happens (descriptors to be closed, memory to be freed, etc.)
+   Each link in the chain records a function to call and an
+   argument to give it.
+
+   Use make_cleanup to add an element to the cleanup chain.
+   Use do_cleanups to do all cleanup actions back to a given
+   point in the chain.  Use discard_cleanups to remove cleanups
+   from the chain back to a given point, not doing them.  */
+
+struct cleanup
+{
+  struct cleanup *next;
+  void (*function) ();
+  int arg;
+};
+
+extern void do_cleanups ();
+extern void discard_cleanups ();
+extern struct cleanup *make_cleanup ();
+extern struct cleanup *save_cleanups ();
+extern void restore_cleanups ();
+extern void free_current_contents ();
+extern void reinitialize_more_filter ();
+extern void fputs_filtered ();
+extern void fprintf_filtered ();
+extern void printf_filtered ();
+extern void print_spaces_filtered ();
+
+/* Structure for saved commands lines
+   (for breakpoints, defined commands, etc).  */
+
+struct command_line
+{
+  struct command_line *next;
+#ifdef TEK_PROG_HACK
+  struct cmd_list_element *cmd;
+#endif /* TEK_PROG_HACK */
+  char *line;
+};
+#ifdef TEK_PROG_HACK
+/* Normaly, "cmd" will point the cmd_list_element for the command associated
+   with this command line and "line" will point to the text of the rest of
+   the line.  If the cmd_list_element pointed to is of type "nested", then
+   "line" points to another "command_line" list.  This new list is the body
+   of the nested command.  If the nested command takes a "condition" or a
+   "match", then "line" of the first "command_line" in the new list will be
+   the "condition" or "match".
+
+   If "cmd" is zero, then no look-up has been done for this command line and
+   "line" points to the complete text.
+
+   The first "command_line" in a list may have a "cmd" with the value -1.
+   This means that the rest of the "command_line" list is the body of a user
+   defined command with delimiters spedified by the string list pointed to by
+   "line".  */
+#endif /* TEK_PROG_HACK */
+
+struct command_line *read_command_lines ();
+#ifdef TEK_PROG_HACK
+void print_command_lines ();
+#endif /* TEK_PROG_HACK */
+
+#ifdef TEK_HACK
+/* I added these to support the examine-user-space command for the
+   cross-debugging mode of gdb  -rcb 3/90 */
+  
+#define	M_NORMAL	1
+#define	M_USERMODE	0
+#endif
+
+/* String containing the current directory (what getwd would return).  */
+
+char *current_directory;
+
+#ifdef sun-4 /* -rcb 6/90 */
+#include <alloca.h>
+#endif
+
+extern char *index(); /* -rcb 6/90 */
+extern char *rindex(); /* -rcb 6/90 */
+@
+
+
+1.10
+log
+@Added some #defines to support cross debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: defs.h,v 1.9 89/11/17 08:09:53 davidl Exp $
+   $Locker: robertb $
+d166 1
+d168 1
+d174 1
+a175 2
+#endif /* TEK_PROG_HACK */
+
+d180 1
+a180 1
+#ifdef sparc
+d184 2
+@
+
+
+1.9
+log
+@Added Tek header information.
+@
+text
+@d4 2
+a5 2
+   $Header: defs.h,v 1.8 89/11/12 16:41:30 paulg Exp $
+   $Locker: davidl $
+d166 7
+@
+
+
+1.8
+log
+@added a comment explaining how command_line's are used.
+@
+text
+@d4 2
+a5 2
+   $Header: defs.h,v 1.7 89/09/26 11:02:21 paulg Exp $
+   $Locker: paulg $
+d22 42
+@
+
+
+1.7
+log
+@change TEK_DEF_HACK to TEK_PROG_HACK
+@
+text
+@d4 1
+a4 1
+   $Header: defs.h,v 1.6 89/09/21 10:11:40 paulg Exp $
+d98 1
+d100 1
+d103 17
+@
+
+
+1.6
+log
+@add rcsid stuff.
+@
+text
+@d4 2
+a5 2
+   $Header:  $
+   $Locker:  $
+d58 1
+a58 1
+#ifdef TEK_DEF_HACK
+d60 1
+a60 1
+#endif /* TEK_DEF_HACK */
+d103 1
+a103 1
+#ifdef TEK_DEF_HACK
+d105 1
+a105 1
+#endif /* TEK_DEF_HACK */
+@
+
+
+1.5
+log
+@add a define for THE_UNKNOWN.  This was in m-m88k.h, but it is realy
+machine independent.
+@
+text
+@d4 3
+@
+
+
+1.4
+log
+@Allow commands that collect lines (usualy other commands) to nes  Add
+new commandclass: class_nested.  Add new element to comman_line to
+point to a command element.  This was done because when things can nest,
+we can no longer just blindly collect lines until the first "end".  So as
+long as we have to look up commands anyway, save the pointer we find.  This
+should also speed up execution of user commands (a little).
+@
+text
+@d42 5
+@
+
+
+1.3
+log
+@added support for conditional commands.  ifdef'd under TEK_COND_HACK
+@
+text
+@d50 3
+a52 3
+#ifdef TEK_COND_HACK
+  class_conditional,
+#endif /* TEK_COND_HACK */
+d90 1
+d95 3
+@
+
+
+1.2
+log
+@added defines for NULL_CORE_ADDR and INVALID_CORE_ADDR
+@
+text
+@d50 3
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d21 4
+@

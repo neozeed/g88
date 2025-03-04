@@ -1,0 +1,46 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     89.07.30.23.51.40;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@Sat Jul  8 17:57:24 1989  Randy Smith  (randy at hobbes.ai.mit.edu)
+
+	* Makefile: Changed *-inc.texinfo to inc-*.texinfo.
+
+	* Makefile: Changed cle to readline throughout.
+
+Fri Jul  7 16:45:42 1989  & Smith  (randy at hobbes.ai.mit.edu)
+
+	* Makefile: Added a "clean" target.
+
+	* Makefile: Converted Makefile to use old style .c.o syntax.
+
+	* Makefile: Many changes to *) put everything into one library,
+	and *) remove dependencies on the user editing the makefile.
+
+	* readline.c: Changed ifndef SONY to ifndef sony.
+
+Wed Jun 28 20:20:51 1989  Brian Fox  (bfox at aurel)
+
+	* Made readline and history into independent libraries.
+
+
+@

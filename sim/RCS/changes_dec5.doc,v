@@ -1,0 +1,85 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.05.14.15.41.39;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.30.14.07.11;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@added rcsid's and copyrights
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+Date: Sat,  5 Dec 87 20:58:21 PST
+From: robertb
+To: 78tools, paulg
+Fcc: outbox
+Subject: New d78, several new commands.
+
+
+The bug is fixed that Brent ran into on Friday that caused d78 to die
+with a bus error when reading a byte from an IO device.
+
+The step, next, stepi, and nexti commands now take an optional
+integer argument.  It is the number of lines or instructions to
+single step.
+
+A <RET> on a blank line repeats the last command.
+
+The bug where "assign *(addr\&char)=char" wrote adjacent bytes
+is fixed.
+
+Numbers inside of character constants are interpreted as
+hex instead of octal.  So '\41' == 'A'.
+
+I suggest that everyone doing low-level debugging add the
+dbx macros (i.e. aliases) rb, rh, rw, wb, wh, ww to their
+$HOME/.d78init files.  These can be found in 
+//cupcake/usr/robertb/.d78init.  They read and write bytes,
+halfs, and words without affecting surrounding data.
+
+The b format character now means "print a byte in hex" instead
+of "print a byte in octal".
+
+Now whenever instructions are disassembled, both the hex address
+and the symbolic address are displayed on the left.  The symbolic
+address is in the form "routine_name+offset".  Also, the instruction
+is displayed in hex and in disassembled form.
+
+The cross-debugging support is closer to being complete.
+
+There is a new d78 man page on cupcake.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 7
+@

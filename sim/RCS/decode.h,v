@@ -1,0 +1,243 @@
+head     1.9;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.9
+date     89.07.14.08.58.44;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.04.29.17.02.36;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.04.16.14.24.29;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.02.12.16.35.01;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     88.02.12.16.13.08;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.23.14.42.56;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.19.19.32.29;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.04.20.04.53;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.37.37;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.9
+log
+@Fixed some type-matching problems shown by the new compiler.
+@
+text
+@/*
+ * Macros for getting various fields of 88000 instructions.
+ * 
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: decode.h,v 1.8 88/04/29 17:02:36 robertb Exp $
+ */
+
+struct instr_info {
+    u_long   opcode;             /* Opcode of instruction.               */
+    u_long   opmask;             /* Mask to use before comparing opcode. */
+    char     *mnemonic;          /* String programmers use. (comment only)*/
+    u_char   format;             /* Type of instruction.                 */
+    struct instr_info *link;     /* Points to next instr w/ same top bits*/
+    int      (*norm_e_addr)();   /* Entry point in sim() for this instr. */
+    int      (*fixup)();         /* Routine to do any extra decoding.    */
+};
+
+extern struct instr_info *sim_instruction_lookup();
+extern u_long *mkliteral();
+@
+
+
+1.8
+log
+@removed sim_ss(), switched to new scheme for single stepping
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.h,v 1.7 88/04/16 14:24:29 robertb Exp $
+d13 1
+a13 1
+    u_char   *mnemonic;          /* String programmers use. (comment only)*/
+d21 1
+a21 1
+extern unsigned *mkliteral();
+@
+
+
+1.7
+log
+@Added a field to the instr_info structure.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.h,v 1.6 88/02/12 16:35:01 robertb Exp $
+d16 1
+a16 2
+    int      (*norm_e_addr)();   /* Normal entry point.                  */
+    int      (*ss_e_addr)();     /* Single step entry point.             */
+@
+
+
+1.6
+log
+@Deleted */ from comment.
+@
+text
+@d2 1
+a2 1
+ * Macros for getting various fields of 78000 instructions.
+d7 1
+a7 1
+ * $Header: decode.h,v 1.5 88/02/12 16:13:08 robertb Exp $
+a9 18
+#define OPCODE(i) (((i) >> 27) & 0x1f)
+#define OFFSET(i) ((i) & 0xffff)
+#define B5(i)     (((i) >> 21) & 0x1f)
+#define	W5(i)	  (((i) >> 5) & 0x1f)
+#define	O5(i)     ((i) & 0x1f)
+#define S1(i)     (((i) >> 16) & 0x1f)
+#define S2(i)     ((i) & 0x1f)
+#define D(i)      (((i) >> 21) & 0x1f)
+#define LIT16(i)  ((i) & 0xffff)
+#define I(i)      (((i) >> 9) & 1)
+#define CONDITION(i) (((i) >> 21) & 0x1f)
+#define	REL16(i)  (((((int)i) & 0xffff) << 16) >> 14)
+#define	REL26(i)  (((((int)i) & 0x3ffffff) << 6) >> 4)
+#define	FCRS(i)	  (((i) >> 5) & 0x3f)
+#define	CRS(i)	  (((i) >> 5) & 0x3f)
+#define	VEC(i)	  ((i) & 0x1ff)
+#define	SFU(i)	  (((i) >> 11) & 7)
+
+d11 8
+a18 7
+	unsigned opcode;		/* Opcode of instruction. 				*/
+	unsigned opmask;		/* Mask to use before comparing opcode. */
+	char	 *mnemonic;		/* String programmers use. (comment only)*/
+	char	 format;		/* Type of instruction.					*/
+	int      (*norm_e_addr)();/* Normal entry point.                  */
+	int		 (*ss_e_addr)();/* Single step entry point.				*/
+	int      (*fixup)();	/* Routine to do any extra decoding.    */
+@
+
+
+1.5
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.h,v 1.4 87/11/23 14:42:56 timd Exp $ */
+@
+
+
+1.4
+log
+@Added header field for colast
+@
+text
+@a0 1
+/* $Header$ */
+d3 5
+@
+
+
+1.3
+log
+@Eliminated ss_e_addr field in decoded_i structure
+@
+text
+@d1 1
+@
+
+
+1.2
+log
+@Removed the #defines for the format field of instr_info.  Moved
+them to format.h
+@
+text
+@d28 2
+a29 2
+	int      (*entry)();	/* Normal entry point.                  */
+	int		 (*entry_ss)();	/* Single step entry point.				*/
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@a34 31
+
+/*
+ * These are the valid values for the member 'format'.
+ */
+#define	INTRL		1
+#define	INTRR		2
+#define	CBRANCH		3
+#define	IPREL		4
+#define	BITBRANCH	5
+#define	BITFIELD	6
+#define	INTRR2OP	7
+#define	FLDCR		8
+#define	FSTCR		9
+#define	FXCR		10
+#define	JMP			11
+#define	LDLIT		12
+#define	LDRO		13
+#define	LDRI		14
+#define	LDCR		15
+#define ROT			16
+#define	NOOP		17
+#define	TRAP		18
+#define	TBND		19
+#define	TCND		20
+#define	XCR			21
+#define	STCR		22
+#define	INTRR_S1_S2	23
+
+#define	STLIT		24
+#define	STRO		25
+#define	STRI		26
+@

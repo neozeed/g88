@@ -1,0 +1,113 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     90.05.16.10.23.02;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.04.10.11.36.31;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Utility program used for reading the monitor boot code COFF file
+and producing ascii that can be fed to 188BUG mm command.
+@
+
+
+1.2
+log
+@Changed Tek copyright
+@
+text
+@
+/*
+ * This converts the debug monitor into a form that can be
+ * fed to 188BUG.  -rcb 3/90
+
+	Copyright (c) 1990 by Tektronix, Inc.
+
+    It may freely be redistributed and modified so long as the copyright
+    notices and credit attributions remain intact.
+ */
+
+#include <fcntl.h>
+#include <stdio.h>
+#include <a.out.h>
+
+struct filehdr filehdr;
+struct scnhdr scnhdr;
+
+main(argc, argv)
+  int argc;
+  char *argv[];
+{
+ int fd;
+ long w;
+ int i, not_at_text_yet;
+
+ if (argc != 2) {
+   fprintf(stderr, "usage: conv <fname>\n");
+   exit(1);
+ }
+ fd = open(argv[1], O_RDONLY);
+ if (fd > 0) {
+   if(read(fd, &filehdr, sizeof filehdr) != sizeof filehdr) {
+     fprintf(stderr, "Unable to read %s\n", argv[1]);
+     exit(1);
+   }
+   if (filehdr.f_magic != MC88MAGIC) {
+     fprintf(stderr, "%s is not an 88000 coff file\n", argv[1]);
+     exit(1);
+   }
+   if (!(filehdr.f_flags & F_EXEC)) {
+     fprintf(stderr, "%s is not executable, check for unresolved symbols\n",
+                      argv[1]);
+     exit(1);
+   }
+   lseek(fd, filehdr.f_opthdr, 1); /* Skip the optional header */
+   not_at_text_yet = 1;
+   while (not_at_text_yet) {
+     if (read(fd, &scnhdr, sizeof scnhdr) != sizeof scnhdr) {
+       fprintf(stderr, "Error reading section header\n");
+       exit(1);
+     }
+     if (!(scnhdr.s_flags & STYP_TEXT)) {
+       fprintf(stderr, "%s, skipping section '%s'\n", argv[1], scnhdr.s_name);
+     } else {
+       not_at_text_yet = 0;
+     }
+   }
+   lseek(fd, scnhdr.s_scnptr, 0); /* Seek to start of raw section */
+   for (i = 0 ; i < scnhdr.s_size ; i += sizeof w) {
+     if (read(fd, &w, 4) != 4) {
+       fprintf(stderr, "Error reading 4 bytes for section '%s' of %s\n",
+                                    scnhdr.s_name, argv[1]);
+       exit(1);
+     }
+     fprintf(stdout, "%x\r", w);
+   }
+ } else {
+   fprintf(stderr, "Counldn't open %s for reading\n", argv[1]);
+   exit(1);
+ }
+ exit(0);
+}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d5 5
+d11 1
+@

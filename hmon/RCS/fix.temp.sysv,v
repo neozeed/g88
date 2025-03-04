@@ -1,0 +1,90 @@
+head     1.1;
+branch   ;
+access   ;
+symbols  ;
+locks    robertb:1.1; strict;
+comment  @@;
+
+
+1.1
+date     90.04.10.11.46.31;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@ex script for making an assembly file digestible by the Motorola
+assemblerb.
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@g/$Header: fix.temp.sysv,v 1.5 89/09/21 09:44:45 leonard Exp $/p
+g/^[ 	]*$/d
+g/^#/d
+g/^;/d
+g/noexpand/d
+g/warnings/d
+g/nowarnings/d
+g.//.s..`.g
+g/lcomm/s//bss/g
+g/%pid/s//cr0/g
+g/%psr/s//cr1/g
+g/%epsr/s//cr2/g
+g/%ssbr/s//cr3/g
+g/%sxip/s//cr4/g
+g/%snip/s//cr5/g
+g/%sfip/s//cr6/g
+g/%vbr/s//cr7/g
+g/%dmt0/s//cr8/g
+g/%dmd0/s//cr9/g
+g/%dma0/s//cr10/g
+g/%dmt1/s//cr11/g
+g/%dmd1/s//cr12/g
+g/%dma1/s//cr13/g
+g/%dmt2/s//cr14/g
+g/%dmd2/s//cr15/g
+g/%dma2/s//cr16/g
+g/%sr0/s//cr17/g
+g/%sr1/s//cr18/g
+g/%sr2/s//cr19/g
+g/%sr3/s//cr20/g
+g/%fpecr/s//fcr0/g
+g/%fphs1/s//fcr1/g
+g/%fpls1/s//fcr2/g
+g/%fphs2/s//fcr3/g
+g/%fpls2/s//fcr4/g
+g/%fppt/s//fcr5/g
+g/%fprh/s//fcr6/g
+g/%fprl/s//fcr7/g
+g/%fpit/s//fcr8/g
+g/%fpsr/s//fcr62/g
+g/%fpcr/s//fcr63/g
+g/<<10/s//* 0x400/g
+g/<<11/s//* 0x800/g
+g/<<12/s//* 0x1000/g
+g/<<13/s//* 0x2000/g
+g/<<14/s//* 0x4000/g
+g/<<15/s//* 0x8000/g
+g/<<16/s//* 0x10000/g
+g/<<17/s//* 0x20000/g
+g.>>12.s../ 0x1000.g
+g/<<0/s///g
+g/<<1/s//* 0x2/g
+g/<<2/s//* 0x4/g
+g/<<3/s//* 0x8/g
+g/<<4/s//* 0x10/g
+g/<<5/s//* 0x20/g
+g/<<6/s//* 0x40/g
+g/<<7/s//* 0x80/g
+g/<<8/s//* 0x100/g
+g/<<9/s//* 0x200/g
+g/fcr/s//cr/
+:w
+:q
+@

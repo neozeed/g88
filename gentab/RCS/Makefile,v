@@ -1,0 +1,40 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     88.08.13.16.21.00;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@
+# Makefile for the utility 'gentab' that generates the
+# data compression table for xdebug.
+
+CFLAGS= -O
+
+SRCS= gentab.c
+
+OBJS= gentab.o
+
+ctoa: $(OBJS)
+	$(CC) $(CFLAGS) -o gentab $(OBJS)
+
+clean:
+	rm -f gentab *.o
+@
+

@@ -1,0 +1,113 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     88.01.25.15.44.43;  author dougs;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.08.28.10.11.18;  author dougs;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Macro definitions for entry points.
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@/*
+ * DEFS.h
+ *
+ * $Header: DEFS.h,v 1.15 87/05/21 10:34:29 julia Exp $
+ * $Locker:  $
+ *
+ * Copyright (c) 1986, Tektronix Inc.
+ * All Rights Reserved
+ *
+ */
+
+
+#ifdef PROF
+#define	ENTRY(x,y,m)	.globl _/**/x; .quad;  _/**/x: link a6,#-y; \
+			movem.l #m,-y(a6); lea _p_/**/x,a0; \
+			jsr mcount; .data; _p_/**/x: .long 0; .text
+
+#define	Q_ENTRY(x)	.globl _/**/x; .quad; _/**/x: link a6,#0;\
+   			lea _p_/**/x,a0; jsr mcount;\
+			.data; _p_/**/x: .long 0; .text
+
+/* profiling for longjmp, similar to sys	*/
+#define	L_ENTRY(x)	.globl _/**/x; .quad; _/**/x: \
+			.data; _p_/**/x: .long 0; \
+			.text; link a6,#0; lea _p_/**/x,a0; \
+			 jsr mcount; unlk a6 
+
+
+.globl mcount
+
+#define	ARG0	8(a6)		/* access first parameter		*/
+#define	ARG1	16(a6)		/* access 2nd parameter, 1st is double	*/
+#define	ARG1I	12(a6)		/* access 2nd parameter, 1st is int	*/
+
+#define EXITM	done:   unlk    a6; \
+			rts
+
+#else
+#define	ENTRY(x,y,m)	.globl _/**/x; .quad; _/**/x: \
+			link a6,#-y; movem.l #m,-y(a6)
+
+#define	Q_ENTRY(x)	.globl _/**/x; .quad; _/**/x: link a6,#0
+
+#define	L_ENTRY(x)	.globl _/**/x; .quad; _/**/x: 
+
+
+#define	ARG0	8(a6)		/* access first parameter		*/
+#define	ARG1	16(a6)		/* access 2nd parameter, 1st is double	*/
+#define	ARG1I	12(a6)		/* access 2nd parameter, 1st is int	*/
+
+#define EXITM	done: 	unlk    a6; \
+			rts
+
+#endif
+
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 1
+a4 1
+ * $Header: DEFS.h,v 1.7 86/09/03 16:44:00 julia Exp $
+d15 2
+a16 2
+			movem.l #m,-y(a6); move.l #x/**/_cnt,a0; \
+			jsr mcount; .data; x/**/_cnt: .long 0; .text
+d19 2
+a20 2
+   			move.l #x/**/_cnt,a0; jsr mcount;\
+			.data; x/**/_cnt: .long 0; .text
+d22 1
+d24 3
+a26 2
+   			move.l #x/**/_cnt,a0; jsr mcount;\
+			.data; x/**/_cnt: .long 0; .text
+d28 1
+d31 7
+d46 8
+a54 1
+
+@

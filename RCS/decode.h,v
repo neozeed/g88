@@ -1,0 +1,61 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     90.04.29.19.59.59;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.12.18.14.06.54;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@88000 instruction decoder used by the cross-debugging support in gdb.
+@
+
+
+1.2
+log
+@Changed "instruction_lookup" to "remote_instruction_lookup" to
+resolve a name conflict with the function in sim/decode.c
+@
+text
+@/*
+ * Macros for getting various fields of 88000 instructions.
+ * 
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: decode.h,v 1.1 89/12/18 14:06:54 robertb Exp $
+ */
+
+struct instr_info {
+    u_long   opcode;             /* Opcode of instruction.               */
+    u_long   opmask;             /* Mask to use before comparing opcode. */
+    char     *mnemonic;          /* String programmers use. (comment only)*/
+    u_char   format;             /* Type of instruction.                 */
+};
+
+extern struct instr_info *remote_instruction_lookup();
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.h,v 1.9 89/07/14 08:58:44 robertb Exp $
+d17 1
+a17 1
+extern struct instr_info *instruction_lookup();
+@

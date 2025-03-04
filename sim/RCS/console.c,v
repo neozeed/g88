@@ -1,0 +1,298 @@
+head     1.9;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.9
+date     88.06.28.16.44.41;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.04.08.21.28.49;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.02.12.16.26.26;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.02.12.16.12.37;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.23.14.40.06;  author timd;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.11.22.26.19;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.09.22.38.56;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.10.29.16.00.08;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.33.06;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.9
+log
+@clean up.
+@
+text
+@/*
+ * 88000 console simulator.
+ * 
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: console.c,v 1.8 88/04/08 21:28:49 robertb Exp $
+ */
+
+#include "sim.h"
+
+console_init()
+{}
+
+console_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+    int      override;
+{
+    if (size != BYTE) {
+        sim_printf("console IO must use byte operations.\n");
+        return E_DACC;
+    }
+
+    switch (mem_op_type) {
+        case LD:
+            *reg_ptr = (sim_consgetchar() << 24) >> 24;
+            break;
+
+        case LD_U:
+            *reg_ptr = sim_consgetchar() & 0xff;
+            break;
+
+        case ST:
+            sim_consputchar(*reg_ptr & 0xff);
+            break;
+
+        case XMEM:
+        case XMEM_U:
+            sim_printf("console_operation: no support for XMEM\n");
+            break;
+
+        default:
+            sim_printf("case error in console_operation\n");
+            break;
+    }
+    return E_NONE;
+}
+
+console_print()
+{
+    sim_printf("console\n");
+}
+@
+
+
+1.8
+log
+@now call sim_consgetchar and sim_consputchar
+@
+text
+@d2 1
+a2 1
+ * 78000 512K console simulator.
+d7 1
+a7 1
+ * $Header: console.c,v 1.7 88/02/12 16:26:26 robertb Exp $
+d16 5
+a20 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d22 4
+a25 4
+	if (size != BYTE) {
+		sim_printf("console IO must use byte operations.\n");
+		return E_DACC;
+	}
+d27 4
+a30 4
+	switch (mem_op_type) {
+		case LD:
+			*reg_ptr = (sim_consgetchar() << 24) >> 24;
+			break;
+d32 3
+a34 3
+		case LD_U:
+			*reg_ptr = sim_consgetchar() & 0xff;
+			break;
+d36 3
+a38 3
+		case ST:
+			sim_consputchar(*reg_ptr & 0xff);
+			break;
+d40 4
+a43 4
+		case XMEM:
+			sim_consputchar(*reg_ptr & 0xff);
+			*reg_ptr = (sim_consgetchar() << 24) >> 24;
+			break;
+d45 5
+a49 10
+		case XMEM_U:
+			sim_putchar(*reg_ptr);
+			*reg_ptr = sim_consgetchar() & 0xff;
+			break;
+
+		default:
+			sim_printf("case error in console_operation\n");
+			break;
+	}
+	return E_NONE;
+d54 1
+a54 1
+	sim_printf("console\n");
+@
+
+
+1.7
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: console.c,v 1.6 88/02/12 16:12:37 robertb Exp $
+d29 1
+a29 1
+			*reg_ptr = (sim_getchar() << 24) >> 24;
+d33 1
+a33 1
+			*reg_ptr = sim_getchar() & 0xff;
+d37 1
+a37 1
+			sim_putchar(*reg_ptr & 0xff);
+d41 2
+a42 2
+			sim_putchar(*reg_ptr & 0xff);
+			*reg_ptr = (sim_getchar() << 24) >> 24;
+d47 1
+a47 1
+			*reg_ptr = sim_getchar() & 0xff;
+@
+
+
+1.6
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: console.c,v 1.5 87/11/23 14:40:06 timd Exp $ */
+@
+
+
+1.5
+log
+@Added header field for colast
+@
+text
+@a0 3
+/* $Header$ */
+
+
+d3 5
+@
+
+
+1.4
+log
+@see changes_10_11.doc
+@
+text
+@d1 1
+@
+
+
+1.3
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a7 1
+#include "exception.h"
+a8 1
+
+d52 5
+@
+
+
+1.2
+log
+@made it use sim_putchar and sim_getchar to fix bug with
+IO not coming out correctly.
+@
+text
+@d14 2
+a15 2
+console_operation(physical_address, reg_ptr, size, mem_op_type)
+	unsigned physical_address;
+d19 1
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@a19 2
+	int getchar();
+
+d27 1
+a27 1
+			*reg_ptr = (getchar() << 24) >> 24;
+d31 1
+a31 1
+			*reg_ptr = getchar() & 0xff;
+d35 1
+a35 1
+			putchar(*reg_ptr & 0xff);
+d39 2
+a40 2
+			putchar(*reg_ptr & 0xff);
+			*reg_ptr = (getchar() << 24) >> 24;
+d44 2
+a45 2
+			putchar(*reg_ptr);
+			*reg_ptr = getchar() & 0xff;
+@

@@ -1,0 +1,97 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.02.12.16.14.39;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.13.18.47.07;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Decscribes the "io" command that I added today.
+@
+
+
+1.2
+log
+@Added copyright notice and rcs header.
+@
+text
+@
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * $Header: $
+
+To: 78tools
+Fcc: outbox
+Subject: New command in d78 displays IO transactions.
+-------
+
+The IO section of the simulator now keeps track of the last 10000
+IO operations.  The command "io" in d78 displays part or all of the
+trace buffer.  
+
+  "io"                 displays the whole buffer
+
+  "io <address>"       displays all the transactions with the IO device
+                       at <address>
+
+  "io <index>"         displays all the transactions with the IO device
+                       whose device index is <index>
+
+  "io <address> <count>" 
+
+and 
+
+  "io <index> <count>" are like the previous two forms, except that only 
+                       the last <count> transactions are shown.
+
+The fields displayed are the ip of the instruction causing the
+IO operation, the data loaded or stored, the size (byte, half, ..),
+the operation (load, store, xmem, etc.), the name of the device,
+and the physical address of the IO location touched by the operation.
+If and xmem is done to cause the IO, the displayed data is that
+which was loaded from the device.  The data sent to the device
+in an xmem IO operation is not recorded.
+
+Note that "io <address>" will only display transactions that have
+<address> as their address, whereas "io <index>" will display all
+transactions for the device specified by <index>.  An example
+of "io 0":
+
+ip=0x000012e8  data=0x00010001  store word into data_cmmu_0 at 0xfff00200
+ip=0x000012e8  data=0x00080079  store word into data_cmmu_0 at 0xfff00404
+ip=0x000012e8  data=0x00000039  store word into data_cmmu_0 at 0xfff00400
+ip=0x000012e8  data=0x00000000  store word into data_cmmu_0 at 0xfff00008
+ip=0x000012e8  data=0x00000000  store word into data_cmmu_0 at 0xfff0000c
+
+and of "io 0fff00400":
+
+ip=0x000012e8  data=0x00000039  store word into data_cmmu_0 at 0xfff00400
+
+
+
+IO operations that are done explicitly by the user are not traced.
+
+This command's output can be redirected to a file.  
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 5
+@

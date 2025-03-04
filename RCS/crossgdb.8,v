@@ -1,0 +1,1540 @@
+head     1.10;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.10
+date     91.01.14.00.03.25;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     90.10.31.23.27.00;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     90.08.06.10.22.23;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     90.05.25.13.52.04;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     90.05.16.10.37.06;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     90.04.30.15.49.48;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     90.04.27.00.46.11;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     90.04.23.01.38.43;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     90.04.22.18.12.14;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.04.22.01.15.47;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Man page for cross-debugging features of gdb.
+@
+
+
+1.10
+log
+@Lots of tweaks to reflect recent changes.
+@
+text
+@.TH Cross-GDB 8 "January 13, 1991"
+.UC 5
+.ds dB g88
+.ds DB G88
+.SH NAME
+\fI\*(DB\fP \- 88000 Cross-debugger and Multiprocessor Simulator 
+.SH DESCRIPTION
+This is a supplement to the Tektronix gdb manual.  If you can not
+obtain this manual, use the standard gdb manual.  This version
+of \*(DB is based on gdb 3.2.  The cross-debugging support and
+simulator were added by Tektronix and both are in active use
+at Horizon Research.
+.PP
+The \fBkill\fP,
+\fBserialize\fP, \fBwatch\fP, \fBhandle\fP, and \fBsignal\fP commands
+are not available when using \*(dB in cross-debugging or simulation mode.
+.sp 2
+.SH \*(DB CROSS DEBUGGING COMMANDS
+.sp
+.TP
+\fBdl\fP
+The text and data are written to remote memory.
+.TP
+\fBcheckdl\fP
+Compares the text segment of the target and the object file.  Reports
+words that are different.  Useful when connecting to running systems
+to make sure the the object file corresponds to the code running on
+the target.
+.TP
+\fBinit\fP
+The target is given a hardware reset and \*(dB
+waits for the target to send some bytes up the debug-communications
+line indicating that the target is healthy and waiting for commands.  
+.TP
+\fBlastr\fP
+.TP
+\fBlastt\fP
+.TP
+\fBlasta\fP \fIcount\fP
+These commands aid in diagnosing problems with the interaction between
+the debug monitor on the target, and \*(dB on the host.  Normally used
+by the \*(dB maintainer.  
+\fBLasta\fP displays the most recent \fIcount\fP trace records with the most
+recent record displayed first.  \fBlastr\fP and \fBlastt\fP display the
+most recent bytes sent to the target and received from the target respectively.
+At the start of the attach process
+and every time the \fBinit\fP command is given a circular buffer
+of trace records, and two circular buffers of bytes, are created, each  with $buffersize slots.  They are used by the \fBlasta\fP and \fBlastr\fP and
+\fBlastt\fP commands respectively.
+.TP
+\fBpenable\fP [\fIprocessor-number\fP]
+\fBpenable\fP [\fIprocessor-number\fP]
+.ns
+.TP
+\fBpdisable\fP [\fIprocessor-number\fP]
+Enables and disables processors.  If no argument is given, the
+enabled or disabled processors are listed.  On the simulator, only
+enabled processors are allowed to execute.  In the cross-debugging
+environment, only enabled processors are allowed to leave the
+target debug monitor.  If the argument \fIall\fP is given, all of
+the processors are enabled or disabled.
+.TP
+\fBpselect\fP [\fIprocessor-number\fP]
+Selects the processor, or, if no argument is given, the selected
+processor number is displayed.
+.TP
+\fBregs\fP 
+Print out the values of many of the 88000 registers.
+.TP 
+\fBrb\fP \fIaddress\fP
+.ns
+.TP 
+\fBrh\fP \fIaddress\fP
+.ns
+.TP 
+\fBrw\fP \fIaddress\fP
+Print the byte, halfword, or word at \fIaddress\fP.  Bypass the host
+cache of target memory.
+.TP
+\fBwb\fP \fIaddress\fP \fIdata\fP
+.ns
+.TP
+\fBwh\fP \fIaddress\fP \fIdata\fP
+.ns
+.TP
+\fBww\fP \fIaddress\fP \fIdata\fP
+Write \fIdata\fP as a byte, halfword, or word to \fIaddress\fP.
+.TP
+\fBsw\fP \fIaddr\fP \fIlen\fP \fIpattern\fP
+Search \fIlen\fP bytes of memory starting at \fIaddr\fP for a word
+matching \fIpattern\fP.  Before each word fetched from target memory
+is compared it is anded with the value of the $mask convenience variable.
+If this variable is not set, this command will set it to 0xffffffff.
+After each word is compared the new address to fetch is the previous
+address plus the stride.  The stride used is the value of the $stride
+convenience variable.  If this variable is not set, this command will
+set it to 4.  The address does not have to be word or halfword aligned.
+If a match is found, its address and the contents of this address are
+displayed.  If the command is repeated without arguments, it will
+search for the same pattern starting at the address 'stride' bytes
+above the address of the last match.  If the last \fBsw\fP command
+did not find a match, the repeated command will start at the address
+\fIstride\fP bytes above the last address tested by the previous \fBsw\fP
+command.
+.TP
+\fBflush\fP
+Flush \fI\*(dB\fP's internal cache of target memory and the operating
+system's buffer of characters received from the target.
+.TP
+\fBbcopy\fP \fIsrc-address\fP \fIdst-address\fP \fIlength\fP
+Copy a block of memory \fIlength\fP bytes starting at \fIsrc-address\fP
+to memory starting at \fIdst-address\fP.
+.TP
+\fBbzero\fP \fIaddress\fP \fIlength\fP
+Zero a block of memory \fIlength\fP bytes starting at \fIaddress\fP.
+.TP
+\fBprobe\fP \fIaddress\fP
+Report the physical address to which one of the data CMMUs maps this
+kernel virtual address.
+.TP
+\fBuprobe\fP \fIaddress\fP
+Report the physical address to which one of the data CMMUs maps this
+user virtual address.  
+.PP
+Here is my .gdbinit file, which can be found in the same place that
+the \*(dB binary can be found.
+.sp
+.SH CROSS-DEBUGGING CONVENIENCE VARIABLES
+.sp 2
+.ti -5n
+$baudrate
+.br
+If $motomode is not set, the target tty line data rate will be set to
+the value of this variable for all operations.  Its usual value in
+this case is 38400.  If $motomode is set, the target tty line data rate
+will vary during the attach process.  After the Tektronix/Horizon debug monitor
+(hereinafter referred to as "the debug monitor") is loaded and 
+just after its execution is started, the target tty line
+baud is changed to $baudrate.  During the attach process when $motomode
+is set \*(dB forces the target to communicate at 38400 baud, so if $baudrate is set
+to a different value the host and target will not be able to communicate.
+The default value is 38400, this variable need only be set if you need
+to make \*(dB communicate with the target at a different speed.
+.sp 1
+.ti -5n
+$buffersize
+.br
+Number of slots for the cross-gdb debug commands \fBlasta\fP, \fBlastr\fP,
+and \fBlastt\fP commands.  The default value is 100.  This variable is
+read when the attach and init commands are issued.
+.sp 1
+.ti -5n
+$exitaftercontinue
+.br
+If this is set to 1, the next continue command will start the target
+running and cause \*(dB to exit.  This allows one to leave a system
+running that was started with \*(dB.  The default value is 0.
+.sp 1
+.ti -5n
+$kludgebaud
+.br
+Only used if $motomode is no set.  This is the baud that \*(dB will set the target
+tty line to just before sending the reset and nmi bytes.  When received
+by the kludge card, which is connected to the target tty line, the
+reset and nmi bytes cause the target to be reset or interrupted.  The default
+value is 38400, you need only set this variable if your kludge card
+is set to a different speed.
+.sp 1
+.ti -5n
+$mask
+.br
+Words tested by the \fBsw\fP command are first anded with this before
+being compared with the pattern.  See the description of the \fBsw\fP
+command.
+.sp 1
+.ti -5n
+$motomode
+.br
+In the current implementation, this is set automatically and can not be
+unset with good results.  
+.\"Here is its old description:
+.\"Set this to 1 before doing an attach of a Motorola 188 target.  In this
+.\"mode, \*(dB will assume that the target has the 188BUG monitor.  \*(DB will
+.\"download and run the debug monitor using 188BUG commands.  To
+.\"see how \*(dB interacts with the 188BUG monitor, set $traceremote to 1
+.\"before using the attach command.  The default value is 0, you only need
+.\"to set this variable if you are using a Motorola 188 target.
+.sp 1
+.\".ti -5n
+.\"$noparityinit
+.\".br
+.\"The target debug monitor often is asked to read memory locations by
+.\"\*(dB.  If the monitor reads a location that has not been written since
+.\"power was applied to the target, there is an even chance that the
+.\"monitor will get a data access exception induced by a parity error.  To
+.\"avoid such errors, the monitor is capable of initializing the parity
+.\"bits of words it intends to read before reading them.  This slows down
+.\"the process of reading words in the target and sending them to \*(dB.
+.\"This slowdown is evident on downloads because \*(dB first asks for the
+.\"checksum of each 4k block of memory into which the text and data is to
+.\"be downloaded.  It also causes several extra accesses to each word read
+.\"and thus makes examination with a logic analyzer more complicated.
+.\"When $noparityinit is set, \*(dB will not ask the debug monitor to
+.\"initialize parity bits.  When it is not set, \*(dB will ask the debug
+.\"monitor to initialize parity bits.  In any case, the debug monitor will
+.\"not do this parity initialization to words at addresses greater than
+.\"0x3fffffff.  $noparityinit is set automatically by \*(dB after a
+.\"successful download if the date of the debug ROMs is after 6/89.  This
+.\"flag is automatically set to 0 after an init command.  This handles the
+.\"case where a system is turned off, then on, and the init command is
+.\"issued.  The user does not normally have to concern him or her self
+.\"with this flag.  The monitor for the Motorola 188 computer does not
+.\"do parity initialization.  $noparityinit has no effect when using
+.\"cross-gdb with this machine.
+.\".sp 1
+.ti -5n
+$resetbaud
+.br
+Only used if $motomode > 0.  This is the baud that \*(dB will set the
+tty line to after sending it a reset byte.  The default value is 9600,
+you need only set this variable if for some reason your 188 target
+communicates at a different speed after it is reset.
+.sp 1
+.ti -5n
+$resetonattach
+.br
+Set this to 1 if you want \*(dB to reset the target as the first thing that
+it does when trying to attach to the target.  If this is 0, \*(dB will try
+get the target's attention by sending it a debug interrupt.  The default
+value is 0.
+.sp 1
+.ti -5n
+$resettimeout
+.br
+Number of seconds to wait for the debug monitor to respond after
+sending a reset signal to the kludge board.  If $resettimeout seconds
+elapse and a reset exception packet is not received from the target,
+the message "Unable to reset remote." is displayed and the attach
+is aborted.  The default value is 60 seconds.
+.sp 1
+.ti -5n
+$stride
+.br
+Used by the \fBsw\fP command as the address increment.  See description
+of the \fBsw\fP command.
+.sp 1
+.ti -5n
+$tracedownload
+.br
+If this is set to 1, \*(dB will display information about the downloading
+of the target.  The default value is 0.
+.sp 1
+.ti -5n
+$tracereceive
+.br
+If this is set to 1, \*(dB will display every byte received from the
+target.  Bytes with special meaning may be displayed symbolically,
+e.g., "C_DATASTART".  Otherwise they are displayed in hexadecimal.
+The default value is 0.
+.sp 1
+.ti -5n
+$traceremote
+.br
+If this is set to 1, \*(dB will display information about its interaction
+with the target.  This is a higher-level view of what is going on with
+the target than that given by setting $tracereceive and $tracetransmit.
+The default value is 0.
+.sp 1
+.ti -5n
+$tracetransmit
+.br
+If this is set to 1, \*(dB will dispay every byte sent to the target.
+Bytes with special meaning may be display symbolically, e.g., "C_ACK".
+Otherwise they are displayed in hexadecimal.  The default value is 0.
+.sp 1
+.sp 1
+.SH MOTOMODE
+.sp
+.PP
+If \*(dB is in motomode (i.e., the convenience variable $motomode is set),
+two additional commands are available: pass and bug.  Both of these
+commands put \*(dB into what is called pass-through-mode.  In this
+mode, characters typed at the terminal are sent to the target
+and characters received from the target are sent to the terminal.
+This mode is for communicating directly with the 188BUG monitor that
+is in the EPROMs on the 188 board.
+.PP
+There are a number of commands available in pass-through-mode that are
+executed by \*(dB and not by 188BUG.  These are entered by typing an
+asterisk after a newline followed by a command letter.  There are commands
+for changing the target tty line data rate, exiting pass-through-mode,
+getting a list of available commands, and others.  To get a list
+of available commands, type '*h<RET>'.  This will also display current
+settings of several variables that control communication with 188BUG.
+.PP
+The bug command assumes that the debug monitor is running.
+It sends a message to this monitor telling it to transfer control to
+188BUG after restoring the exception table entry points for data access
+and interrupt exceptions to have the values that 188BUG originally
+installed.  The debug monitor over-writes these exception
+entry points and exception 253 and 254, which it uses for
+single-stepping and breakpoints when it is first started.  Before
+control is passed to 188BUG, the general registers are loaded with the
+program-being-debugged's registers.  The only exception to this is
+r9, which is loaded with 0x63, the code that tells 188BUG that we
+want to return control to 188BUG's command interpreter.
+.PP
+The pass command assumes that 188BUG is running.
+.sp 1
+.SH PASSTHROUGH-MODE COMMANDS
+.sp 1
+.PP
+The "*b" command changes the current target tty line data rate.  For
+example "*b 19200" sets the baud to 19200 bits/second.
+.PP
+.The "*B" command sends a .25 second break to the target.
+.PP
+The "*c" will cold-start the debug monitor.  First the COFF
+file "tek188mon" is searched for in the current directory, then
+in /UTek/tools/lib.  The text segment's checksum is compared with
+the checksum that 188BUG reports for the chunk of memory that the
+monitor lives in.  If the checksum's do not match, a short monitor
+boot program is poked into memory by \*(dB with the 188BUG modify-memory
+command.  This monitor boot is then executed and it loads the contents
+of the debug monitor sent to it by \*(dB.  If the checksums do match,
+\*(dB sends 188BUG a "go" command to start the execution of the debug
+monitor.
+.PP
+The "*e" command turns on wait-for-echo mode.  In this mode, \*(dB will
+wait for each character send to the target to be echoed by the target
+before proceeding.
+.PP
+The "*h" command prints a list of commands available in pass-through-mode.
+.PP
+The "*i" command sends the NMI byte and a zero byte to the target at
+baud $kludgebaud.  This should cause the kludge card to interrupt the
+target.  The target tty line baud is the same after this command as it
+was before it.
+.PP
+The "*p" command causes \*(dB to pause for one second, echoing any
+characters received from the target.  This may be useful in scripts
+that tell the target to do something and then must wait before sending
+more characters to the target.
+.PP
+The "*r" command sends the reset byte and a zero byte to the target at
+baud $kludgebaud.  This should cause the kludge card to reset the target.
+The tty line baud is then changed to $resetbaud.
+.PP
+The "*s" command in pass-through-mode switches the input stream from
+the terminal to a file.  So "*s myscript" sends the contents of the
+file "myscript" to the pass-through interpreter.  Lines that do not
+start with "*" are sent to the target.  Lines that do are commands
+that are interpreted.  Scripts can not be nested, i.e., "*s" commands
+in a script file will cause the named file to be opened and input
+will come from this new file.  But when the end of that file is
+reached, the input stream will switch back the the terminal, not the
+line following the "*s" line in the script.
+.PP
+A control-C typed while \*(dB is in pass-through mode and while a file is
+being redirected will cancel the redirection.  A control-C typed while
+the attach command is executing cancels the command and the message
+"Unable to reset target." is displayed.  A control-C typed while in
+pass-through mode but not duing the redirection of a file has the
+same effect as the "*w" command to warm start the debug
+monitor.
+.PP
+The "*t" turns off show-target-output mode.  The effect of this command
+is to tell \*(dB to not show any characters on the \*(dB terminal that are
+send up the target tty line by the 188BUG.  This is useful in scripts
+to make interaction with the target faster and to reduce screen clutter.
+.PP
+The "*W" command causes \*(dB to wait for a specified string to be emitted
+by the target.  For example "*W188-Bug>" makes \*(dB wait for 188BUG to
+give a prompt.
+.PP
+The "*z" command turns off wait-for-echo mode (see "*e" command description).
+.sp 1
+.SH TEKTRONIX/HORIZON DEBUG MONITOR
+.PP
+The debug monitor has two entry points that allow bytes
+to be passed between the target and the debugging console (on the host).
+The following program is an example of their use with the Motorola 188.
+On XD-88's these entry points are pointed to by the words in EPROM at 
+addresses 0xfe001000 (db_write) and 0xfe001004 (db_read).
+.sp
+.nf
+.sp
+/* This is an example of using the db_write and db_read facility
+   with \*(dB for the Motorola 188.  This echoes each line typed
+   at the debugging terminal.
+.sp
+  To make an executable out of this:
+.sp
+    cc -c dbtest.c
+    ld -o dbtest -e _main dblink dbtest.o
+.sp
+  where dblink is:
+SECTIONS
+{
+	.text 0x10000: {}
+	.data 0x10800: {}
+}
+.sp
+  */
+.sp
+main()
+{
+  void (*db_write)();	/* Pointer to entry point in tek188mon */
+  int (*db_read)();	/* Pointer to entry point in tek188mon */
+  int len;
+  char buf[100];
+.sp
+  db_write = (int (*()))0xffe1800c;
+  db_read = (int (*()))0xffe18008;
+.sp
+  for (;;) {
+    len = db_read(buf, sizeof buf);
+    db_write(buf, len);
+  }
+}
+.fi
+.sp
+.PP
+The value 0xbed1ceec is put in cr17, SR0, when the monitor is started
+so that programs can determine whether they were started by the \*(dB (Motorola
+version only).
+.PP
+The stack pointer, r31, is initialized to a value in the static ram.  The
+vector base registers is set to zero.  The program counter, $pc, is set
+to point to the first instruction of the last program downloaded.
+.PP
+The debug monitor is loaded into static ram at 0xffe18000 by \*(dB (Motorola
+version only).
+.SH 88000 SIMULATOR
+.sp 1
+.PP
+\*(DB may optionally be built with an 88000 simulator.  You can see if a
+given copy of \*(dB has this simulator by attempting the command "attach sim".
+If it works, the version of \*(dB you have contains the simulator.  For
+information on the simulator's construction, see "Some Efficient Architecture
+Simulation Techniques" by Robert Bedichek, published in the Winter 1990
+USENIX Technical Conference Proceedings."
+.PP
+The simulator models a 88000 with up to 256MB of contiguous physical
+memory starting at location 0.  
+.\"A number of 88200 CMMU configurations
+.\"are modeled, the number and arrangement is determined by the $simcmmu
+.\"convenience variable.  
+Most commands that are available in cross mode
+are also available in simulator mode, however the \fBflush\fP command
+is not.  A number of IO devices are modeled.  The following are the
+machine registers understood by \*(dB:
+.in +8n
+.sp
+.ti -5n
+$r0 through $r31 are the general registers.
+.sp
+.ti -5n
+$cr0 through $cr20 are the integer unit control registers.
+Under the simulator, the contents of $cr0 (the processor ID register)
+are 0xFE, a value that no chip implementation will ever take.  A
+program can compare the value of $cr0 with 0xFE to see if it is running
+under the simulator.
+.sp
+.ti -5n
+$fcr0 through $fcr8, $fcr62, and $fcr63 are the floating point unit
+control registers.
+.sp
+.ti -5n
+$fp is an alias for $r30.  (However, the compilers at present do not
+use this registers as a frame pointer).
+.sp
+.ti -5n
+$sp is an alias for $r31.
+.sp
+.ti -5n
+$pc is \*(dB's notion of the (virtual) instruction pointer.  This value
+is derived from the shadow instruction pointers when the program stops.
+.sp
+.ti -5n
+$pid, $psr, $tpsr, $ssbr, $sxip, $snip, $sfip, $vbr, $dmt2, $dmd2,
+$dma2, $dmt1, $dmd1, $dma1, $dmt0, $dmd0, $dma0, $sr0, $sr1, $sr2, and
+$sr3 are aliases for the integer unit control registers.
+.sp
+.ti -5n
+$fpecr, $fphs1, $fpls1, $fphs2, $fpls2, $fppt, $fprh, $fprl,
+$fpit, $fpsr, and $fpcr are aliases for the floating point unit control
+registers.
+.sp 1
+.ti -5n
+$ceimr corresponds to the CE interrupt mask register.  \*(dB
+must set the actual register to its own value when the program is
+suspended, so user references of and stores to the register are done
+through this variable.
+.sp 1
+.ti -5n
+$comefrom works in simulated \*(dB only.  It is the location of the most
+recent JMP, JMP.N, JSR, or JSR.N instruction.  It is useful for
+determining which instruction caused a program to go "off in the weeds."
+.sp 1
+.ti -5n
+$membrk works in simulated \*(dB only.  If nonzero, it is a physical (not
+virtual) memory address, and any program store to that address causes
+the program to stop as though it had hit a breakpoint.
+.sp 1
+.ti -5n
+$stackbase works in simulated \*(dB only.  If nonzero, it is a "stack
+pointer limit" value; if the contents of $r31 become less than this
+value, then the program stops as though it had hit a breakpoint.  Only
+those specific instructions which the system V kernel uses to modify
+$r31 are checked.
+.br
+The $stackbase register can be set by a program by writing to control
+register cr21.  This control register exists only in the simulator, not
+in the actual hardware.
+.in -8n
+.ne 8v
+.PP
+.SH SIMULATOR-ONLY COMMANDS
+.sp 1
+.TP
+\fBecatch\fP [\fIexception\fP]
+.ns
+.TP
+\fBeignore\fP [\fIexception\fP]
+Allows control over which exceptions will cause the simulator to stop.
+If no argument is given, the exceptions being caught or ignore are printed.
+If the argument is \fIall\fP all exceptions in supervisor mode will be
+caught or ignored.  If it is \fIuall\fP the command applied to exceptions
+that occur in user mode.  Individual exceptions are referred to be number
+and some may also be referred to by name.  The exceptions that can be
+referred to by name are: "reset", "int", "cacc", "dacc", "ma", "opc", "prv", 
+"bnd", "idiv", "ovf", and "err".  To refer to one of these exceptions
+in supervisor mode, use its name, in user mode use its name catenated
+on a "u".  So to specify that the simulator should stop when a code
+access fault happens in user mode, say "ecatch ucacc".
+.TP
+\fBdevs\fP [\fIdevice-index\fP]
+Print the list of IO devices supported by the 88000 simulator.
+Each device is given a small integer value which can be used
+with the \fBdevs\fP, \fBpio\fP and \fBio\fP commands.  In addition to this
+index the device's starting and ending physical address, and name
+are shown.  If \fIdevice-index\fP is given just the information for
+the specified device is displayed.
+.TP
+\fBio\fP \fIdev-index\fP/\fIaddress\fP [\fIcount\fP]
+IO operations performed by the simulator are are recorded in a
+buffer of trace records.  This command displays selected trace records.
+If \fIdev-index\fP is 0, all trace records are shown.  If it non-zero
+only operations with the named IO device are shown.  IO devices can be
+named with either their device index (shown with the \fIdevs\fP
+command) or their physical address.  \fICount\fP is optional and if
+present gives the number of operations to show.  The display of records
+always starts with the most recent.  The default for \fIcount\fP is the
+last value given, or 30 if none has yet been given.  If an
+\fIaddress\fP is given instead of an index only operations with the
+given address are shown.  This is the most selective form of the
+\fBio\fP command.
+.TP
+\fBpio\fP \fIdev-index\fP/\fIaddress\fP
+Print information about the named device.  This command invokes a
+print function that is packaged with the device simulator.  It is up to
+the author of the device simulator to write this function.
+.TP
+\fBpmap\fP
+Print a map of the simulated physical memory.  Each 4k page is represented
+by a '.', a 'D', or an 'I'.  A '.' means the page has not been touched.
+A 'D' means that at least one byte on the page has been read or written.
+An 'I' means that an instruction has been executed on the page.
+.TP
+.SH MULTIPROCESSOR SIMULATION
+.PP
+Four 88100 CPU's are simulated.  They are numbered 0 through 3.  The
+concurrent operation of the processors is simulated by running each
+processor for a short time and then switching to another processor.
+The switching of the simulator's focus from one simulated processor to
+another is called "processor switching." Each processor can be
+individually enabled and disabled (see the \fBpenable\fP and the
+\fBpdisable\fP commands).  A disabled processor can not execute
+instructions but it can be selected.  At any point in time, one of the
+four processors is the "selected" processor.  The number of the
+selected processor is displayed in square brackets in the prompt.  The
+\fBpselect\fP command allows the user to explicitly change the selected
+processor (i.e., to do "processor switching.").  All commands in \*(dB
+that deal with a processor's state operate on the selected processor's
+state (e.g., the \fBregs\fP command).  Processors may only be enabled
+and disabled by the issuance of commands, however the selected
+processor changes both by the \fBpselect\fP command and by the
+execution of instructions during the \fBcontinue\fP command.
+.PP
+When the \fBcontinue\fP command is given, the simulator will execute
+instructions on each of the enabled processors in a round-robin fashion
+until a breakpoint is reached by any of the processors, a control-C is
+typed on the console, or an exception-to-by-caught is raised in any of
+the processors.  When this happens the execution on all processors stop
+and the user can issue commands.  The first processor to execute after
+a \fBcontinue\fP command is the currently selected processor.  The next
+processor to be selected, and thus to execute, is the next
+higher-numbered enabled processor.  If there is no higher-numbered
+enabled processor the lowest-numbered enabled processor is selected.
+.PP
+The convenience variable \fI$simtick\fP controls the rate at which
+the UNIX virtual timer that the simulator uses will interrupt the
+simulator.  Each of these interrupts is called a tick.  If \fI$simtick\fP
+is zero, the UNIX timer is turned off and no ticks will occur.  These 
+ticks have two purposes: to generate CIO simulator interrupts and 
+to cause the next enabled processor to be selected.  The value of
+\fI$simtick\fP is the number of microseconds between ticks.  If
+the CIO simulator is started and \fI$simtick\fP is not set, it
+will be set to a default value.
+.PP
+The convenience variable \fI$simticksperint\fP is use by the CIO
+simulator to time the intervalue between CIO timer interrupts.
+If the CIO's timer is enabled, a CIO interrupt is requested
+every \fI$simticksperint\fP ticks.
+.PP
+.PP
+(Note that the trivial timer code is sill in the simulator, but
+it no longer requests 88100 interrupts.  However, its "pio" 
+function is still useful; it shows the number of ticks that
+have occurred.  -rcb 10/31/90)
+The trivial timer is a simple 1-word device at address 0xffff0004.
+If it is zero, no trivial timer interrupts are requested.  If it
+is non-zero and \fI$simtick\fP is non-zero, an 88100 interrupt 
+is requested periodically.  The period is the product of these
+two values.  For example, if \fI$simtick\fP is 100 and the value
+in the register at 0xffff0004 is 5, the simulator will receive
+a SIGVTALRM every 100 microseconds and the simulated 88100 will
+have an interrupt requested every 500 microseconds.  This interrupt
+request will cause an interrupt exception if the IND bit in the PSR is zero.
+.PP
+If more than one processor is enabled and both \fPI$simtick\fP and
+\fI$simslice\fP are non-zero, processor switching will occur
+periodically.  The period is the product, in microseconds, of these two
+variables.  For example, if \fI$simtick\fP is 600 and \fI$simslice\fP
+is 3, each simulated processor will run for 1.8 milliseconds.  If more
+than one processor is enabled and either of \fI$simtick\fP and
+\fI$simslice\fP are zero, processor switching will occur after the
+execution of each instruction.  This mode of operation is most like the
+real hardware but very slow.
+.PP
+Processor switching does not occur when single stepping.  This is
+a feature to make tracing a single instruction stream easier.  Processor
+switching will also no occur after a \fBcontinue\fP command if 
+only one processor is enabled.  This is because in this case there
+are no other processors to switch to.
+.PP
+If execution is attempted when the currently selected processor
+is disabled a message will be emitted saying that the processor
+is disabled.  No execution will occur.  Due to a bug in \*(dB, however,
+in this case the currently location of the PC will be displayed
+as though the machine had just stopped execution.
+.PP
+The \fBinit\fP command enables processor 0 and disables processors 
+1, 2, and 3. 
+.PP
+.SH SIMULATOR CONVENIENCE VARIABLES
+.sp 2
+.PP
+The following convenience variables allow the user to adjust the
+simulator to fit his or her needs.
+.PP
+.sp 2
+.ti -5n
+$simrte if set, will suppress an error message when an RTE instruction
+is executed with the shadow bit in the TPSR is off.
+.sp 1
+.ti -5n
+$simmem specifies the number of 4k pages of physical memory.  Only
+read during the simulator attach operation.
+.sp 1
+.ti -5n
+$simslice specifies the number of ticks between multiprocessor switches.
+.Va $simslow   "Simulated timer slowdown factor (default 1)."
+.sp 1
+.ti -5n
+$simtick specifies the number of microseconds per tick.  Used for 
+CIO (timer chip) simulator and for multiprocessor switching.
+.sp 1
+.ti -5n
+$simtrace determines the size of the simulated IO transaction buffer 
+(default 20000).  Only read during the simulator attach operation.
+.sp 1
+.ti -5n
+$showinput affects the behavior of the cross debugger when the target
+asks for console input.  The default and the action when \fI$showinput\fP
+is zero g88 waits for a line of input from the controlling terminal of g88.
+When \fI$showinput\fP is 1, the message "g88_input(nnn)> " where nnn
+is the number of character that the target requested.  When \fI$showinput\fP
+is 2, the terminal is put into raw mode.
+.sp 1
+.ti -5n
+$showswitch when set, the simulator emits a message each time it
+switches processors.  The message is of the form  "MP:x" where
+'x' is the number of the processor switched to.
+.PP
+.SH ENVIRONMENT VARIABLES
+.sp 2
+.ti -5n
+G88_CONTROL_PORT  The path of the tty line connected to the HRI reset/abort hardware
+.sp 2
+.SH FILES THAT THE SIMULATOR OPENS
+.sp 2
+.ti -5n 
+simdisk1  The file name that the disk simulator uses for disk 1.
+.sp 1
+.ti -5n 
+simdisk2  The file name that the disk simulator uses for disk 2.
+.sp 1
+.ti -5n 
+simdisk3  The file name that the disk simulator uses for disk 3.
+.sp 1
+.ti -5n 
+simdisk4  The file name that the disk simulator uses for disk 4.
+.sp 1
+.ti -5n 
+simtrace" "The file name into which to store execution trace information."
+.sp 2
+.SH CAVEATS
+.sp 2
+The simulation of FP instructions uses the host's floating point.
+There may be differences between the results obtained by this simulator
+and the real hardware.
+.PP
+The simulator is effectively always in serial execution mode, so the
+SER bit in the PSR has no effect.
+.PP
+The time to execute an instruction with the simulator is not related to
+the time to execute an instruction on the real hardware.  There is no
+instruction timing facility in \fI\*(dB\fP.
+.PP
+The exact contents of the CMMU's cache and the PATC contents are not
+modeled.
+.PP
+The shadow scoreboard register contents may different after an
+exception has been taken on the simulator.
+.PP
+The segment and page tables are examined at different times on the
+simulator than they are on the real hardware.  The cache-inhibit,
+global, and write-through bits in pte's have no effect on the
+simulator.  The simulator behaves as if the write-through bits are
+always set.
+.sp
+.SH TEKTRONIX XD-88 CONFIGURATION AND PORTING
+.sp 2
+The rs-232 cable connects
+the host with a "kludge board".  For XD88-10's the proper jumpers
+must be set on the main CPU board to allow the remote resetting and
+interrupting of the processor.  For all other XD88's, a 5 conductor
+wire goes from the the kludge board to the CPU board.  If you connect
+this cable backwards, you will short the power supply and melt the
+cable (the connector is unkeyed).  The kludge board must be properly
+wired up, the best way to do this is to copy a working kludge board
+exactly ("kludge is my name, kludge is my game ...").
+.PP
+The kludge board has a short rs-232 cable the comes out of it and
+goes to "Port 0" on XD88-10's, and tty00 on other XD88's.
+This cable must have all modem control wires connected, and for
+XD88-10's must have two other wires connected as well.  I highly
+recommend just using a full 25-wire cable.  Both this and the cable
+connecting the host to the kludge board are "straight-through", i.e.
+they do not swap any signals.
+.PP
+The dip switch on the target XD88 must be set to all "off".  When the
+target is reset, after less than a minute, you should get the 
+lightning bolt pattern on the LED on the CPU board.  You should be
+able to reset the box by pressing the reset button on the kludge
+board.
+.PP
+.SH CONFIGURATION IN GENERAL
+.PP
+On the host side you need to make the tty line that you have read-write
+permission.  The sure-fire way to do this is do "chmod a+rw /dev/tty??"
+as root, where "??" is the tty line postfix.  Make sure that getty's
+are not spawned for it by turning the line off in /etc/inittab.  After
+editing this file, say "init q" (on system V systems) or "kill -1 1"
+(on BSD systems) to get init to reread it (/etc/initab on System V,
+/etc/ttys on BSD systems) and see your change.
+.PP
+This paragraph applies if you do not already have hardware to reset and
+interrupt the target.  You need some hardware that can reset and
+interrupt your target under control of the host that will run
+cross-gdb.  If your target is the Motorola MVME188 here is roughly what
+you have to do:  Make something that can turn on two opto-isolator
+under g88-host control.  The transistor end of these will be connected
+to the reset and abort buttons on the 188.  Specifically, between the
+N.O.  pins and ground.  These buttons are spdt w/ center connected to
+ground.  The other pins go to SR debounce FFs.  You can do the reset
+and abort w/o messing w/ the N.C. pin.  So you have to solder three
+wires to your 188 board.  But you don't have to cut any traces.
+Tektronix did it to several systems and Horizon Research has done it.  It works
+well.  You can control the whole machine without being near it.  How
+you decide to control these opto-isolators is up to you.  Horizon uses
+the modem control lines on a spare serial port and does ioctl's to turn
+them on and off.  Once your hardware is working, take the code that can
+effectively push the reset and abort (interrupt) buttons and replace
+the routines send_interrupt_signal() and send_reset_signal() (at the
+end of remote.c).
+.sp
+.SH BUGS
+.sp 1
+.PP
+Calling functions that were not compiled with the -g flag does not
+work.  It takes the first instruction of the function-to-be-called
+as the function's address and trys to jsr to it.
+.sp 1
+.SH FILES
+.sp 1
+.ti -1inch
+\*(dB
+.ti -1inch
+.gdbinit
+.ti -1inch
+tek188mon
+@
+
+
+1.9
+log
+@added stuff on CIO simulator.
+@
+text
+@d1 1
+a1 1
+.TH Cross-GDB 8 "October 31, 1990"
+d3 2
+a4 2
+.ds dB gdb
+.ds DB gdb
+d8 5
+a12 3
+The standard \*(DB from Tektronix now has cross-debugging support.
+Some versions also also contains an 88000 simulator.
+However, these are not externally supported features.
+d16 2
+a17 68
+are not available when using gdb in cross-debugging or simulation mode.
+.PP
+To use \*(DB a cross-debugger, you must have two XD88's, a host and a
+target.  The two are connected with an RS-232 cable that HAS MODEM
+CONTROL WIRES CONNECTED.  IF YOU REPORT BUGS AND YOU DON'T HAVE ALL THE
+MODEM CONTROL WIRES PROPERLY CONNECTED, I WILL NOT LOOK INTO IT.
+(Actually, I am now not convinced that on XD-88 hosts that this flow
+control is working when cross-debugging using \*(DB.  But I know that
+if these wires are not connected properly when using d88 on a
+4300-series host that obscure problems will occur.) The rs-232 cable
+goes from the host to a "kludge board".  For XD88-10's the proper
+jumpers must be set on the main CPU board to allow the remote resetting
+and interrupting of the processor.  For all other XD88's, a 5 conductor
+wire goes from the the kludge board to the CPU board.  If you connect
+this cable backwards, you will short the power supply and melt the
+cable (the connector is unkeyed).  The kludge board must be properly
+wired up, the best way to do this is to copy a working kludge board
+exactly ("kludge is my name, kludge is my game ...").
+.PP
+The kludge board has a short rs-232 cable the comes out of it and
+goes to "Port 0" on XD88-10's, and tty00 on other XD88's.
+This cable must have all modem control wires connected, and for
+XD88-10's must have two other wires connected as well.  I highly
+recommend just using a full 25-wire cable.  Both this and the cable
+connecting the host to the kludge board are "straight-through", i.e.
+they do not swap any signals.
+.PP
+The dip switch on the target XD88 must be set to all "off".  When the
+target is reset, after less than a minute, you should get the 
+lightning bolt pattern on the LED on the CPU board.  You should be
+able to reset the box by pressing the reset button on the kludge
+board.
+.PP
+On the host side you need to make the tty line that you have read-write
+permission.  The sure-fire way to do this is do "chmod a+rw /dev/tty??"
+as root, where "??" is the tty line postfix.
+Make sure that getty's are not spawned for
+it by turning the line off in /etc/inittab.  After editing this
+file, say "init q" to get init to reread it and see your
+change.
+.PP
+The cross-debugging support has had little testing.
+.sp
+.SH EXAMPLE SESSION
+.sp
+.PP
+The start of the debug session will look something like this:
+.sp
+.nf
+unix % gdb -q unix
+Reading symbol data from /usr2/robertb/baker/cf/m88k/redwing/unix...done.
+Breakpoint 1 at 0x1137c                        <<< if you used my .gdbinit
+Breakpoint 2 at 0x65088: file sig.c, line 690. <<< if you used my .gdbinit
+Type "help" for a list of commands.
+.sp
+(gdb) attach /dev/tty-0                   <<< this takes about 20 seconds
+.sp
+Firmware version 1.4 .....
+(gdb) dl                                  <<< to download text and data
+***********************************************************************
+***********************************************************************
+***********************************************************************
+*******************************
+(gdb) q
+unix %
+.sp
+.fi
+.sp
+d31 1
+a31 1
+The target is given a hardware reset and gdb
+d41 2
+a42 2
+the debug monitor on the target, and gdb on the host.  Normally used
+by the gdb maintainer.  
+d50 17
+a66 1
+These commands 
+d126 1
+a126 1
+the gdb binary can be found.
+a127 45
+.SH SAMPLE .gdbinit 
+.sp
+.nf
+.sp
+macro u "((struct user)u)"
+#
+# Directories that contain UTek V kernel source files
+#
+directory /usr2/robertb/baker/bitmapdisplay
+directory /usr2/robertb/baker/cf/m88k
+directory /usr2/robertb/baker/fs/du
+directory /usr2/robertb/baker/fs/ffs
+directory /usr2/robertb/baker/fs/nfs
+directory /usr2/robertb/baker/fs/s5
+directory /usr2/robertb/baker/io 
+directory /usr2/robertb/baker/ml/m88k
+directory /usr2/robertb/baker/os 
+directory /usr2/robertb/baker/stub/m88k
+directory /usr2/robertb/baker/sys
+directory /usr2/robertb/baker/sys/space
+.sp
+define rat
+set $resetonattach=1
+attach /dev/tty-0
+end
+.sp
+document rat
+Attaches to target connected to tty line /dev/tty-0
+Resets target.
+end
+.sp
+define at
+set $resetonattach=0
+attach /dev/tty-0
+end
+.sp
+document at
+Attaches to target connected to tty line /dev/tty-0
+Does not reset target, tries to interrupt it.
+end
+.sp
+break trap23
+break core
+.fi
+.sp 1
+d136 3
+a138 2
+will vary during the attach process.  After the Tektronix debug monitor
+is loaded and just after its execution is started, the target tty line
+d140 1
+a140 1
+is set gdb forces the target to communicate at 38400 baud, so if $baudrate is set
+d143 1
+a143 1
+to make gdb communicate with the target at a different speed.
+d156 2
+a157 2
+running and cause gdb to exit.  This allows one to leave a system
+running that was started with gdb.  The default value is 0.
+d162 1
+a162 1
+Only used if $motomode is set.  This is the baud that gdb will set the target
+d179 9
+a187 6
+Set this to 1 before doing an attach of a Motorola 188 target.  In this
+mode, gdb will assume that the target has the 188BUG monitor.  Gdb will
+download and run the Tektronix debug monitor using 188BUG commands.  To
+see how gdb interacts with the 188BUG monitor, set $traceremote to 1
+before using the attach command.  The default value is 0, you only need
+to set this variable if you are using a Motorola 188 target.
+d189 27
+a216 27
+$noparityinit
+.br
+The target debug monitor often is asked to read memory locations by
+gdb.  If the monitor reads a location that has not been written since
+power was applied to the target, there is an even chance that the
+monitor will get a data access exception induced by a parity error.  To
+avoid such errors, the monitor is capable of initializing the parity
+bits of words it intends to read before reading them.  This slows down
+the process of reading words in the target and sending them to gdb.
+This slowdown is evident on downloads because gdb first asks for the
+checksum of each 4k block of memory into which the text and data is to
+be downloaded.  It also causes several extra accesses to each word read
+and thus makes examination with a logic analyzer more complicated.
+When $noparityinit is set, gdb will not ask the debug monitor to
+initialize parity bits.  When it is not set, gdb will ask the debug
+monitor to initialize parity bits.  In any case, the debug monitor will
+not do this parity initialization to words at addresses greater than
+0x3fffffff.  $noparityinit is set automatically by gdb after a
+successful download if the date of the debug ROMs is after 6/89.  This
+flag is automatically set to 0 after an init command.  This handles the
+case where a system is turned off, then on, and the init command is
+issued.  The user does not normally have to concern him or her self
+with this flag.  The monitor for the Motorola 188 computer does not
+do parity initialization.  $noparityinit has no effect when using
+cross-gdb with this machine.
+.sp 1
+.ti -5n
+d219 1
+a219 1
+Only used if $motomode > 0.  This is the baud that gdb will set the
+d227 2
+a228 2
+Set this to 1 if you want gdb to reset the target as the first thing that
+it does when trying to attach to the target.  If this is 0, gdb will try
+d250 1
+a250 1
+If this is set to 1, gdb will display information about the downloading
+d256 1
+a256 1
+If this is set to 1, gdb will display every byte received from the
+d264 1
+a264 1
+If this is set to 1, gdb will display information about its interaction
+d272 2
+a273 2
+If this is set to 1, gdb will dispay every byte sent to the target.
+Bytes with special meaning may be display symbolically, e.g., "C_RESET".
+d280 1
+a280 1
+If gdb is in motomode (i.e., the convenience variable $motomode is set),
+d282 1
+a282 1
+commands put gdb into what is called pass-through-mode.  In this
+d289 1
+a289 1
+executed by gdb and not by 188BUG.  These are entered by typing an
+d296 1
+a296 1
+The bug command assumes that the Tektronix debug monitor is running.
+d300 1
+a300 1
+installed.  The Tektronix debug monitor over-writes these exception
+d318 1
+a318 1
+The "*c" will cold-start the Tektronix monitor.  First the COFF
+d323 1
+a323 1
+boot program is poked into memory by gdb with the 188BUG modify-memory
+d325 2
+a326 2
+of the Tektronix monitor sent to it by gdb.  If the checksums do match,
+gdb sends 188BUG a "go" command to start the execution of the Tektronix
+d329 1
+a329 1
+The "*e" command turns on wait-for-echo mode.  In this mode, gdb will
+d340 1
+a340 1
+The "*p" command causes gdb to pause for one second, echoing any
+d359 1
+a359 1
+A control-C typed while gdb is in pass-through mode and while a file is
+d364 1
+a364 1
+same effect as the "*w" command to warm start the Tektronix debug
+d368 1
+a368 1
+is to tell gdb to not show any characters on the gdb terminal that are
+d372 2
+a373 2
+The "*W" command causes gdb to wait for a specified string to be emitted
+by the target.  For example "*W188-Bug>" makes gdb wait for 188BUG to
+d378 1
+a378 1
+.SH TEKTRONIX DEBUG MONITOR
+d380 1
+a380 1
+The Tektronix debug monitor has two entry points that allow bytes
+d389 1
+a389 1
+   with gdb for the Motorola 188.  This echoes each line typed
+d425 1
+a425 1
+so that programs can determine whether they were started by the gdb (Motorola
+d432 1
+a432 1
+The debug monitor is loaded into static ram at 0xffe18000 by gdb (Motorola
+a433 1
+.sp 1
+d437 3
+a439 3
+Gdb may optionally be built with an 88000 simulator.  You can see if a
+given copy of gdb has this simulator by attempting the command "attach sim".
+If it works, the version of gdb you have contains the simulator.  For
+d444 9
+a452 9
+The simulator models a 88000 with up to
+256MB of contiguous physical memory starting at location 0.  
+A number of 88200 CMMU configurations
+are modeled, the number and arrangement is determined by the $simcmmu 
+convenience variable.  Most commands that are available in cross mode
+are also available in simulator mode, however the \fBflush\fP
+command is not.
+A number of IO devices are modeled.
+The following are the machine registers understood by \*(dB:
+d477 1
+a477 1
+$pc is gdb's notion of the (virtual) instruction pointer.  This value
+d497 1
+a497 1
+$comefrom works in simulated gdb only.  It is the location of the most
+d502 1
+a502 1
+$membrk works in simulated gdb only.  If nonzero, it is a physical (not
+d507 1
+a507 1
+$stackbase works in simulated gdb only.  If nonzero, it is a "stack
+a570 11
+\fBpenable\fP [\fIprocessor-number\fP]
+.ns
+.TP
+\fBpdisable\fP [\fIprocessor-number\fP]
+Enables and disables simulated processors.  If no argument is given, the
+enabled or disabled processors are listed.  
+.TP
+\fBpselect\fP [\fIprocessor-number\fP]
+Selects the processor, or, if no argument is given, the selected
+processor number is displayed.
+.TP
+d584 1
+a584 1
+processor (i.e., to do "processor switching.").  All commands in gdb
+d649 2
+a650 2
+is disabled a message will be emited saying that the processor
+is disabled.  No execution will occur.  Due to a bug in gdb, however,
+d658 1
+d683 13
+d697 5
+a702 5
+.Va "simdisk1"  "The file name that the disk simulator uses for disk 1."
+.Va "simdisk2"  "The file name that the disk simulator uses for disk 2."
+.Va "simdisk3"  "The file name that the disk simulator uses for disk 3."
+.Va "simdisk4"  "The file name that the disk simulator uses for disk 4."
+.Va "simtrace" "The file name into which to store execution trace information."
+d704 15
+d720 1
+d744 56
+a805 5
+.PP
+If you get the error message "Can not pop empty dummy stack" it is
+because the stack pointer is below the pc and gdb thinks that it
+was in the middle of doing a debugger-generated procedure call.  I
+don't expect that this will be a common problem.
+d810 1
+a810 1
+gdb
+@
+
+
+1.8
+log
+@lots of fixes
+@
+text
+@d1 1
+a1 1
+.TH Cross-GDB 8 "June 30, 1990"
+d706 2
+a707 2
+is zero, the timer is turned off and no ticks will occur.  These 
+ticks have two purposes: to generate trivial timer interrupts and 
+d709 3
+a711 1
+\fI$simtick\fP is the number of microseconds between ticks.
+d713 10
+d778 1
+a778 1
+trivial timer and for multiprocessor switching.
+a816 4
+.PP
+Absolute symbols confuse gdb.  The user struct variable "u"
+is an absolute.  A work-around is to use the `u macro as in
+"macro `u ((struct user *)u)".
+@
+
+
+1.7
+log
+@deleted extra .TP macro.
+@
+text
+@d1 1
+a1 1
+.TH Cross-GDB 8 "May 16, 1990"
+d6 1
+a6 1
+\fI\*(DB\fP \- 88000 Cross-debugger and Simulator 
+d107 1
+a107 1
+\fBLasta\fP displayes the most recent \fIcount\fP trace records with the most
+a191 12
+directory /usr2/robertb/baker/net
+directory /usr2/robertb/baker/netinet
+directory /usr2/robertb/baker/nse/protocol/tpi
+directory /usr2/robertb/baker/nse/protocol/tpi/if
+directory /usr2/robertb/baker/nse/protocol/tpi/inet
+directory /usr2/robertb/baker/nse/protocol/tpi/inet/icmp
+directory /usr2/robertb/baker/nse/protocol/tpi/inet/ip
+directory /usr2/robertb/baker/nse/protocol/tpi/inet/tcp
+directory /usr2/robertb/baker/nse/protocol/tpi/inet/udp
+directory /usr2/robertb/baker/nse/protocol/tpi/ml/m88k
+directory /usr2/robertb/baker/nse/protocol/tpi/un
+directory /usr2/robertb/baker/nudnix
+d265 1
+a265 1
+being compared with the pattern.  See the description of the \FBsw\fP
+d620 3
+a622 3
+that occur in user mode.  Individual exceptions are refered to be number
+and some may also be refered to by name.  The exceptions that can be
+refered to by name are: "reset", "int", "cacc", "dacc", "ma", "opc", "prv", 
+d661 85
+d748 14
+a761 11
+Most of the convenience variables listed below are examined during the
+attach of the simulator, i.e, during the "attach sim" command, and during
+the \fBinit\fP command.  Exceptions are "$simdbg", "$simrte", and "$simtrans".
+.sp
+.Va $simdipswitch "The value that is in the simulated switch register.  Valid values are in 0..255."
+.Va $simdbg      "Turns on debugging information in the SCC simulator."
+.Va $simcmmu   "If defined, sets the CMMU configuration.  This variable is a number in 0..255 where a '1' in bit position i means 'configure CMMU i'.  The lower four bits determine the data CMMU's and the upper four determine the code CMMU's."
+.Va $simrte  "Simulator only: if set, an RTE when TPSR has shadows off will not cause an error."
+
+.Va $simled    "Simulator only: if set, each write to the LED port causes a message to the console."
+.Va $simmem    "The number of 4k pages of physical memory."
+d763 8
+a770 2
+.Va $simtrace  "Determines the size of the simulated IO transaction buffer (default 20000)."
+.Va $simtrans  "Controls debug information from the timer and DMA simulators."
+a776 1
+.Va "simnewconds" "The device file name that the (obsolete) new console simulator uses."
+a777 2
+.Va "simttya"   "The device file name that the SCC simulator uses for port A."
+.Va "simttyb"   "The device file name that the SCC simulator uses for port B."
+a802 7
+.SH DETAILS
+.sp
+.PP
+I recommend putting
+eniac:/UTek/tools/bin/.gdbinit in your working directory if you plan
+to use gdb as a cross-debugger.  You will need to modify it 
+for your convenience.
+d807 2
+a808 2
+is an absolute.  A work-around is to use the `u macro in
+eniac:/UTek/tools/bin/.gdbinit.
+d822 1
+a822 1
+eniac:/UTek/tools/bin/gdb
+d824 1
+a824 1
+eniac:/UTek/tools/bin/.gdbinit
+d826 1
+a826 1
+eniac:/UTek/tools/lib/tek188mon
+@
+
+
+1.6
+log
+@Deleted my telephone number!
+@
+text
+@a136 1
+.TP
+@
+
+
+1.5
+log
+@Added section on the simulator.  Tweaked other parts to make it
+consistent.
+@
+text
+@d1 1
+a1 1
+.TH Cross-GDB 8 "April 29, 1990"
+d6 1
+a6 1
+\fI\*(DB\fP \- 88000 Cross-debugger and Simulator Tektronix Internal Information
+d10 1
+a10 5
+However, these are not externally supported features.  If you want to
+use these features I recommend you get a copy made by me
+(Robert Bedichek).  The current home for it is
+cupcake:/UTek/tools/bin88.  If you have problems, send email to me at
+robertb@@cs.washington.edu or call me at 1-206-522-2645.
+@
+
+
+1.4
+log
+@Added lasta, lastr, and lastt commands. Made sw command description
+match gdb is supposed to do.  Added description of some new
+convenience variables.
+@
+text
+@d1 1
+a1 1
+.TH Cross-GDB 8 "April 26, 1990"
+d6 1
+a6 1
+\fI\*(DB\fP \- 88000 cross-debugger  Tektronix Internal Information
+d9 3
+a11 2
+However, it is not yet an externally supported feature.  If you want to
+use \*(DB as a cross-debugger I recommend you get a copy made by me
+d16 4
+d29 1
+a29 1
+jumpers must be set on the main CPU board to allow the remote reseting
+d172 1
+a172 1
+kernel virtual address.  
+d238 1
+a238 1
+.SH CONVENIENCE VARIABLES
+d541 188
+d735 1
+a735 1
+for your environment.
+@
+
+
+1.3
+log
+@Added description of '*B'
+Fixed stuff about mon_dbwrite(),mon_dbread() on XD-88's.
+@
+text
+@d1 1
+a1 1
+.TH Cross-GDB 8 "April 22, 1990"
+d94 1
+a94 1
+In remote mode, the target is given a hardware reset and gdb
+d98 16
+a135 8
+\fBsearch\fP [\fIaddr\fP [,\fIlen\fP [,\fIpat1\fP [,\fIpat2\fP [,\fImask1\fP [,\fImask2\fP [,\fIstride\fP]]]]]]]
+Search \fIlen\fP bytes of memory starting at \fIaddr\fP for a pair of
+words which when masked with \fImask1\fP and \fImask2\fP is equal to
+\fIpat1\fP and \fIpat2\fP.  Step by \fIstride\fP bytes on each
+iteration of the search loop.  The default value of an unspecified
+parameter is its previous value, except for \fIaddr\fP.  The default
+value for \fIaddr\fP is the address of the last match plus
+\fIstride\fP.  (Not yet implemented in gdb).
+d137 1
+a137 1
+\fBsw\fP [\fIaddr\fP [,\fIlen\fP [,\fIpattern\fP]]]
+d139 14
+a152 1
+matching \fIpattern\fP.
+d240 1
+a240 1
+this case is 38400.  If $motomode is > 0, the target tty line data rate
+d243 3
+a245 1
+data is changed to $baudrate.
+d250 7
+d266 1
+a266 1
+Only used if $motomode > 0.  This is the baud that gdb will set the target
+d274 7
+d341 6
+@
+
+
+1.2
+log
+@Added section on mon_dbwrite(), mon_dbread(), and other details
+of the debug monitor.
+Lots of small changes to convenience variable descriptions to 
+reflect defaults.
+Other tweaks.
+@
+text
+@d374 2
+d441 2
+a442 2
+These entry points are at 0x1000 (mon_dbwrite) and 0x1004 (mon_dbread) on 
+XD88's.
+d518 1
+a518 1
+.ti -5n
+d520 1
+a520 1
+.ti -5n
+d522 1
+a522 1
+.ti -5n
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a157 8
+set $timeout=100
+set $tracetransmit=0
+set $tracereceive=0
+set $tracedownload=0
+set $resetonattach=0
+set $baudrate=38400
+set $exitaftercontinue=0
+set $noparityinit=0
+d222 3
+a224 1
+data is changed to $baudrate.  The usual value is for $baudrate is 38400.
+d231 1
+a231 1
+running that was started with gdb.
+d239 3
+a241 2
+reset and nmi bytes cause the target to be reset or interrupted.
+Set this to the data rate that the kludge card is set to.
+d250 2
+a251 1
+before using the attach command.
+d284 3
+a286 2
+tty line to after sending it a reset byte.  For 188 boards, this
+value is normally 9600.
+d293 2
+a294 1
+get the target's attention by sending it a debug interrupt.
+d303 1
+a303 1
+is aborted.  
+d309 1
+a309 1
+of the target.
+d317 1
+d325 1
+d332 1
+a332 1
+Otherwise they are displayed in hexadecimal.
+a333 6
+.ti -5n
+$userealfp
+.br
+Set this to 1 if you want the stack tracing code to try to use the real
+frame pointer.  This is the way that gdb always worked before 4/90.  If
+it is 0, gdb will always synthesize the frame pointer.
+d434 57
+d501 1
+a501 1
+1. Absolute symbols confuse gdb.  The user struct variable "u"
+d504 9
+@

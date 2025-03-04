@@ -1,0 +1,108 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.1
+date     88.06.16.23.34.36;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@changes that I made today
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@
+/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+To: 88tools
+Fcc: outbox
+Subject: //cupcake/UTek/tools/bin/d88 and //cupcake/usr/local/dbx
+-------
+
+The man page on cupcake is up to date.
+
+Fixed:
+
+  1. The problem with static functions mentioned in my last email to
+     88tools was caused by a larger problem with reading symbols
+     that is now fixed.  I believe that this will solve the problems
+     arising out of item 2. from my last email to 88tools:
+
+         "Global variables are considered by dbx/d88 to belong to the first
+          module, in link order, that declares it.  This is true even for
+          extern declarations.  This means that if you have a header file
+          with 100 extern's and you include this header in 30 of your
+          40 source files, all 100 variables will appear to be in the
+          first of these 30 files seen by the linker.  This is really
+          a problem when you have a variable whose name is not unique
+          and you try to qualify it with a module name to force dbx
+          to get the variable that you are interested in.  This
+          is also a problem with the original VAX 4.3 dbx."
+
+     Note that a variable will still be considered to be in the block
+     of the first module, in link order, with a reference to it.  But
+     it should no longer cause a problem unless you want to qualify
+     it, as in "print mymodule.myvariable", in which case "mymodule"
+     had better be that first module to declare "myvariable".  The
+     thing that I believe is fixed is that it is no longer necessary
+     to do this qualification for global variables because
+     simply "print myvariable" should work.
+
+  2. dbx/d88 was unable to do unqualified data breakpoints on entities
+     in registers.  It is now traces the register when you ask to
+     trace a register variable.  This isn't perfect as d88 doesn't
+     stop tracing when the variable is inactive and some other variable
+     is in the register.  It does warn you that this is what it is
+     going do though, when you set the trace.  Thanks to Jeff Glover
+     for reporting this bug.
+     
+  3. dbx/d88 used to discard most symbols that didn't begin with
+     an underscore (these can be in hand-coded assembly files).  Now
+     it doesn't.  If one of these symbols conflicts with an
+     underscored symbol (e.g., "mysym" with "_mysym") the former
+     will be entered in the symbol table with a leading dollar sign.
+     So "_mysym" in the object file's symbol table will entered
+     in dbx/d88's symbol table as "mysym".  And "mysym" in the
+     object file will show up in dbx/d88 as "$mysym".  Thanks to
+     Brent for giving me a hard time until I did this.  Its made
+     debugging the ROM's *much* easier in the last day or so
+     because the examine command now associates these "hand assembler"
+     symbols with the code they label.
+
+  4. dbx didn't used to prevent the process for exiting as it should
+     have (and as the VAX version does).  This was due to some
+     amazingly VAX-C-Library dependent code.  Naturally it didn't 
+     have a comment to that effect and the code "looked" rather
+     general.
+
+For cross debugging:
+
+  1. The remote command now resets the target before trying to talk
+     to it, unless "$noreset" is set.
+
+  2. There is now a d88 variable "$noreset".  Normally the remote
+     command resets the target.  When this variable is set this
+     step is skipped, the target is assumed to be up and waiting.
+
+  3. There is now a d88 variable "$timeout", which takes a positive
+     integer value.  It is the number of seconds that dbx should
+     wait for the target before becoming impatient.
+
+  4. The error recovery is better.
+
+@

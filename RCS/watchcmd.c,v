@@ -1,0 +1,208 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.2
+date     89.12.06.15.28.13;  author donhar;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.11.03.14.24.55;  author donhar;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Contains the support for setting, removing, and displaying watchpoints
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@/* Everything about watchpoints, for GDB.
+   Copyright (C) 1989 Tektronix, Inc.
+
+   $Header: watchcmd.c,v 1.1 89/11/03 14:24:55 donhar Exp $
+   $Locker:  $
+
+This file is part of GDB.
+
+GDB is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+GDB is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GDB; see the file COPYING.  If not, write to
+the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+#include "defs.h"
+#include "param.h"
+#include "symtab.h"
+#include "frame.h"
+#include "ui.h"
+#ifdef TEK_PROG_HACK
+#include "command.h"
+#include <ctype.h>
+#endif /* TEK_PROG_HACK */
+
+#include <stdio.h>
+
+
+enum enable { disabled, enabled, temporary, delete};
+
+/* Not that the ->silent field is not currently used by any commands
+   (though the code is in there if it was to be and set_raw_watchpoint
+   does set it to 0).  I implemented it because I thought it would be
+   useful for a hack I had to put in; I'm going to leave it in because
+   I can see how there might be times when it would indeed be useful */
+
+struct watchpoint
+{
+  struct watchpoint *next;
+  /* Number assigned to distinguish watchpoints.  */
+  int number;
+  /* Address to watch at.  */
+  CORE_ADDR address;
+  /* Line number of this address.  Redundant.  */
+  int line_number;
+  /* Symtab of file of this address.  Redundant.  */
+  struct symtab *symtab;
+  /* Zero means disabled; remember the info but don't watch here.  */
+  enum enable enable;
+  /* Non-zero means a silent watchpoint (don't print frame info
+     if we stop here). */
+  unsigned char silent;
+  /* Number of stops at this watchpoint that should
+     be continued automatically before really stopping.  */
+  int ignore_count;
+  /* Nonzero if this watchpoint is now inserted.  */
+  char inserted;
+  /* Nonzero if this is not the first watchpoint in the list
+     for the given address.  */
+  char duplicate;
+  /* Chain of command lines to execute when this watchpoint is hit.  */
+  struct command_line *commands;
+  /* Stack depth (address of frame).  If nonzero, watch only if fp
+     equals this.  */
+  FRAME_ADDR frame;
+  /* Conditional.  Break only if this expression's value is nonzero.  */
+  struct expression *cond;
+};
+
+#define ALL_WATCHPOINTS(b)  for (b = watchpoint_chain; b; b = b->next)
+
+/* Chain of all watchpoints defined.  */
+
+struct watchpoint *watchpoint_chain;
+
+/* Number of last watchpoint made.  */
+
+static int watchpoint_count;
+
+/* Default address, symtab and line to put a watchpoint at
+   for "watch" command with no arg.
+   if default_watchpoint_valid is zero, the other three are
+   not valid, and "watch" with no arg is an error.
+
+   This set by print_stack_frame, which calls set_default_watchpoint.  */
+
+int default_watchpoint_valid;
+CORE_ADDR default_watchpoint_address;
+struct symtab *default_watchpoint_symtab;
+int default_watchpoint_line;
+
+/* Remaining commands (not yet executed)
+   of last watchpoint hit.  */
+
+struct command_line *watchpoint_commands;
+/*
+static void delete_watchpoint ();
+void clear_momentary_watchpoints ();
+void watchpoint_auto_delete ();
+*/
+#ifdef TEK_PROG_HACK
+extern void free ();
+#endif /* TEK_PROG_HACK */
+
+/* Flag indicating extra verbosity for xgdb.  */
+extern int xgdb_verbose;
+
+/* condition N EXP -- set watch condition of watchpoint N to EXP.  */
+
+
+/* insert_watchpoints is used when starting or continuing the program.
+   remove_watchpoints is used when the program stops.
+   Both return zero if successful,
+   or an `errno' value if could not write the inferior.  */
+
+int
+insert_watchpoints ()
+{
+  register struct watchpoint *b;
+  int val;
+
+  ui_fprintf(stdout, "got to insert_watchpoints\n");
+  /* ptrace(256);  */
+  return 0;
+}
+
+int
+remove_watchpoints ()
+{
+  register struct watchpoint *b;
+  int val;
+  ui_fprintf(stdout, "got to remove_watchpoints\n");
+  /* ptrace(257); */
+  return 0;
+}
+
+
+int
+watch_command ()
+{
+  register struct watchpoint *b;
+  int val;
+
+  ui_fprintf(stdout, "got to watch_command\n");
+  return 0;
+}
+
+
+void
+_initialize_watchcmd ()
+{
+  add_com ("watch", class_vars, watch_command, 
+        concat ("Set a watchpoint on variable EXP.\n\
+Watched variables will cause the running task to break if an \n\
+attempt is made to write to the variable location.  The \n\
+abbreviation is \"w\"."));
+
+
+  add_com_alias ("w", "watch", class_vars, 1);
+}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 2
+a5 2
+   $Header:$
+   $Locker:$
+@

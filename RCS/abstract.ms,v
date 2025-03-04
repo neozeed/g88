@@ -1,0 +1,230 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @\" @;
+
+
+1.1
+date     89.08.24.15.08.21;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Extended abstract about simulator.
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@.TL
+Efficient Architecture Simulation For UNIX\*{\(rg\*} Kernel Debugging
+.FS
+UNIX is a registered trademark of AT&T.
+.FE
+.CD
+.LG
+\fBAbstract\fP
+.NL
+.SP
+Robert Bedichek
+Department of Computer Science, FR-35
+University of Washington
+Seattle, Washington 98195
+robertb@@cs.washington.edu
+
+Until 9/1/89:
+(503) 685-2942 (work office)
+(503) 645-2546 (home)
+
+After 9/1/89:
+(206) 522-2645 (home)
+(206) 543-7798 (school office)
+.DE
+
+.SH
+INTRODUCTION
+.PP
+We present techniques for building a high speed architecture simulator
+for the Motorola 88000 CPU and CMMU (Cache and Memory Management Unit).
+We describe our experience using a simulator built with these
+techniques to debug a UNIX kernel.  These methods can be used for
+simulation of other architectures, including CISCs.
+.PP
+The concepts described below are implemented in an 88000 simulator
+that runs on Tektronix workstations.  On a 2.5 MIP workstation (a 20
+MHz 68020 machine) the simulator executes roughly 130,000 88000
+instructions per second.  The simulator models the 88100 CPU, 88200
+CMMUs, and a number of I/O devices.  The front end is derived from dbx,
+giving system programmers symbolic debugger facilities.
+.PP
+The simulator was used to bring up pieces of diagnostic code, boot
+ROMs, a System V UNIX kernel, and other software.
+.SH
+MOTIVATION
+.PP
+Simulation of CPU's at the ISA level have traditionally been several
+orders of magnitude slower than execution of instructions by the host.
+We present a simulation method whereby a RISC may be simulated at a
+rate of roughly 20 host instructions per simulated machine instruction.
+.PP
+When CPU architects design a new machine, they typically write an
+instruction-level simulator to test their ideas.  Later, when they are
+confident of the stability of their design, software engineers are
+often told to make operating system, diagnostic software, and other
+system support software work using the architect's simulator.  When the
+real hardware arrives and is debugged, the software engineers usually
+switch to using real hardware to test their programs.
+.PP
+The simulators that CPU architects write typically execute thousands of
+host instructions for every simulated instruction.  These simulators
+are written to test concepts and tradeoffs, flexibility is important
+and speed is not.  Also, they often gather instruction execution time
+statistics.  The software engineers, however, would like a simulator
+that is as fast as possible and is complete enough to run their
+programs.  With a little more work, a simulator can be had that is
+more complex but is orders of magnitude faster.
+.PP
+We wanted to bring a product to market quickly.  By building and then
+using our 88000 simulator we were able to start debugging software six
+months earlier than we otherwise would have.  The simulator has useful
+debugging features not available in the actual machine and so is still
+in use.  Some operations, such as downloading text and data are faster
+on the simulator.
+.SH
+APPROACH TO SIMULATION
+.PP
+The goals of this design were:
+.BU
+Execute the common instructions as quickly as possible.
+.BU
+Make the execution as close to that of the hardware
+as programmers need it to be.
+.BU
+Provide a clean interface to front ends.  This allowed us to
+switch from and adb-based front end to dbx easily.
+.BU
+Efficiently simulate large memories.
+.BU
+Have a low start-up time.
+.BU
+Allow I/O device simulators to be written with little knowledge
+of the rest of the simulator.
+.PP
+The things we didn't intend to model:
+.BU
+FP accuracy with respect to the 88000 hardware.
+.BU
+88000 instruction timing.
+.BU
+Little endian mode.
+.BU
+The contents of the shadow scoreboard register.  The shadow
+scoreboard register is a copy of the scoreboard register, which
+keeps track of instructions that are issued but not completed.
+.BU
+Exact CMMU and PATC (Page Address Translation Cache) contents.
+.PP
+Several techniques were used to achieve high simulation speed and low
+start-up time.
+.PP
+The simulator does not interpret 88000 instructions directly.  Before
+it it executes an instruction for the first time, it decodes the
+instruction into a form that can be executed quickly.  88000
+instructions are all 4 bytes long, and our decoded instructions take 16
+bytes apiece.  This form of instructions are hidden from the user of
+the simulator and are kept in decoded instruction pages that are 16
+kilobytes.  After the first execution of an instruction at a particular
+memory location and until the code cache is flushed, the decoded form
+of the instruction is executed.  Only instructions that are encountered
+in the execution of a program are decoded so there is no start-up
+penalty for this technique.
+.PP
+A large physical memory can be simulated with low start up time because
+host memory is not allocated for simulated physical memory until some
+simulated instruction touches it.  The limit on active simulated
+physical memory (i.e., simulated memory that is touched) is just the
+host's limit on process virtual memory.
+.PP
+Like the allocation of memory for simulated physical memory, the
+allocation of space for decoded instruction pages is lazy.  The decoded
+instruction page corresponding to a simulated physical memory page is
+allocated only when the program being simulated attempts to execute an
+instruction on that page.
+.PP
+To make memory reference instructions execute quickly, the simulator
+has a translation look-aside buffer that corresponds in concept to, but
+is quite different in form from, the hardware TLB.  The software TLB is
+large, direct mapped, and has different sections for user loads, kernel
+loads, user stores, and kernel stores.  Separating translation buffers
+into these sections reduces the amount of testing and branching that
+memory reference instruction simulators must do.
+.PP
+We have written I/O simulators for a timer chip, a serial
+communications controller, interrupt controllers, Futurebus registers,
+a DMA controller, diagnostic registers, and an idealized disk
+controller.  Most of the I/O simulators model real chips closely enough
+that diagnostic and operating system software cannot tell that they are
+running on a simulator.  We did not try to model the disk hardware, but
+we did write a simple disk simulator that works with a correspondingly
+simple driver in our UNIX kernel.  This simulated disk driver is the
+only significant piece of our kernel that is special for the simulator,
+and the kernel switches to it automatically when running on the
+simulator.  It does this by looking at the 88100 mask revision
+register, which for the simulator has a value that we expect no real
+88100 to have.  The I/O section has a powerful trace facility that
+captures I/O transactions much as a logic analyzer does.
+.PP
+There are some conditions that 88100 kernel code should not allow, but
+can arise by a coding error.  If this happens in a kernel that is
+running on a real machine, the system will stop completely with no
+indication of error.  A logic analyzer is required to find the
+problem.  The simulator is much more forgiving, it prints an
+explanation and stops on the instruction that triggered the detection
+of an illegal condition.
+.PP
+When engineers debug kernels and diagnostic programs on the hardware
+they use a cross-debugger that runs on a 68020-based workstation.  The
+workstation communicates with the hardware via a serial link.  The
+cross-debugger, simulator, and dbx front end are all part of a single
+program.  The cross-debugger and the simulator share the dbx-based user
+interface, allowing engineers to easily switch back in forth between
+real hardware and the simulator.  Some features are unavailable when
+cross-debugging, such as commands to examine write-only registers in
+I/O devices.
+.PP
+In response to a request from hardware engineers contemplating future
+cache designs, we added a memory reference trace facility.  When
+enabled, this feature causes the simulator to generate a trace record
+for every memory reference that a program makes.  This facility,
+combined with the simulator's ability to execute user programs running
+on top of the UNIX kernel, gives us trace data that previously could
+only be gathered with hardware monitors or special microcode.
+.SH
+CONCLUSION
+.PP
+There is an acute need for efficient execution vehicles for the
+debugging, testing, and measurement of operating system software.  The
+availability of hardware in sufficient quantity and reliability usually
+lags behind the availability of the specifications for the
+architecture.  In our experience, a high speed simulator provided
+kernel and diagnostic software engineers with a reliable and
+inexpensive means of debugging their code six months before the
+hardware prototypes became available.
+.PP
+Kernel engineers extended the simulator to do extra checking to find
+specific bugs that had been very difficult to find when running on the
+hardware.  Diagnostic engineers wrote a number of device simulators
+without knowing much about the rest of the simulator.
+.PP
+Because the cross-debugger and the simulator use the same dbx-based
+interface, engineers easily switch back and forth between the simulator
+and the real hardware.  The simulator is still in use a year after the
+hardware became available because it offers features not present in the
+hardware.
+@

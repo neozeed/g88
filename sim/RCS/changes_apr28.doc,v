@@ -1,0 +1,73 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.05.14.15.41.38;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.28.12.01.36;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@changes I checked in today.
+@
+
+
+1.2
+log
+@added rcsid's and copyrights
+@
+text
+@/*
+ * (c) 1987, 1988 Tektronix
+ *
+ * "$Header: runtime.c,v 1.15 88/05/06 10:42:32 robertb Exp $";
+ */
+
+I checked in a number of changes to the 88000 simulator today.
+
+They are:
+
+  1. fixed a bug that caused the dmt0 and dmt1 registers to
+     have incorrect values in some cases.
+
+  2. added a cache in l_to_d to cache decoded instruction pointers.
+     this sped up the simulator by about 10%
+
+  3. changed the caching of logical 88k addresses.  Instead of having
+     a one level tlb scheme now have a two level scheme.  The old 1 level
+     scheme only cache logical addresses in the bottom and top
+     of the address space.  The new scheme covers the whole space.
+
+  4. added two more disk simulators to disk.c.
+
+  5. made the size of the IO transaction history buffer be settable,
+     by the environment variable SIMTRACE, instead of being fixed at
+     10,000.
+
+  6. added a count field to the io device structure.  It is displayed
+     by the io command and is incremented every time an operation
+     is done with the device.
+
+  7. made numerous small corrections, cleanups, and stylistic 
+     improvements.
+
+  
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 5
+@

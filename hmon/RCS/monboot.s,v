@@ -1,0 +1,54 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     90.04.10.11.37.33;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Monitor bootstrap loader.  Loads the Tektronix debug monitor into
+the Motorola 188 board.  This bootstrap loader is poked into memory
+using the 188BUG mm command by gdb.
+@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@; This sends the Tektronix debug monitor to the Motorola 188 board
+	def	status_port,0xfff82007
+	def	data_port,0xfff8200f
+	def	monitor_start_address,0xffe00000
+	def	end_code,0x80
+	def	escape_code,0x83	; Next char is in 0x0..0x3 and repre-
+                                        ; sents a char in 0x80..0x83
+_start:	or.u	r2,r0,hi16(status_port)
+	or.u	r5,r0,hi16(monitor_start_address)
+_wait_for_character1:
+	ld.bu	r3,r2,lo16(status_port)
+	bb0	0,r3,_wait_for_character1
+	ld.bu	r4,r2,lo16(data_port)
+	subu	r6,r4,end_code		; Is this the end
+;	bcnd	eq0,r6,monitor_start_address
+	word	0xe846effa		; Jump back to debug monitor
+	subu	r6,r4,escape_code	 	; Is this escaped?
+	bcnd	ne0,r6,not_escaped
+_wait_for_character2:
+	ld.bu	r3,r2,lo16(status_port)
+	bb0	0,r3,_wait_for_character2
+	ld.bu	r4,r2,lo16(data_port)
+	addu	r4,r4,0x80
+not_escaped:
+	st.b	r4,r5,0
+	addu	r5,r5,1
+	br	_wait_for_character1
+@

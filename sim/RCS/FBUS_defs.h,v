@@ -1,0 +1,264 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.1
+date     89.08.24.15.31.45;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@copy of what the roms use
+@
+
+
+
+1.1
+log
+@copy of what the roms use
+@
+text
+@/*------------------------------------------------------------------------
+ * FBUS_defs.h
+ *
+ * This header file describes the hardware personality of the Blackbird
+ * FBUS CSR space
+ *
+ * 
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: FBUS_defs.h,v 1.17 89/03/28 13:45:20 brents Exp $
+ *------------------------------------------------------------------------
+ */
+
+/*------------------------------------------------------------------------
+ * FutureBus CSR Register Map
+ *
+ * The following offsets are relative to the start of a board's FutureBus
+ * CSR space.
+ *------------------------------------------------------------------------
+ */
+
+#define	FBUS_ID_PROM		0x003	/* Start of ID PROM in lane Z */
+#define	FBUS_ID_BYTE_1		0x003	/* 1st byte of Manfufacturer's code */
+#define	FBUS_ID_BYTE_2		0x007	/* 2nd byte of Manfufacturer's code */
+#define	FBUS_ID_BYTE_3		0x00b	/* 3rd byte of Manfufacturer's code */
+#define	FBUS_ID_BYTE_4		0x00f	/* 4th byte of Manfufacturer's code */
+#define FBUS_ID_BRDNUM_OFFSET   0x013   /* start of brdnum digits */
+
+#define	FBUS_ICR		0x803	/* FBus Interface Command Register */
+#define	FBUS_SR			0x807	/* FBus Status Register */
+#define FBUS_PSPT		0x806	/* FBus Parity Suspect Status */
+#define	FBUS_ESR		0x80b	/* FBus Error Status Register */
+#define	FBUS_EVENT_SPACE	0xf00	/* Start of Event Space */
+#define	FBUS_FUNCTION_SPACE	0xf80	/* Start of Function Space */
+
+
+/*------------------------------------------------------------------------
+ * FutureBus CSR Functions
+ *
+ * The CSR functions are a set of hardware function that are identical on
+ * every board with an FBus interface for which the function has a purpose.
+ *
+ * Functions are accomplished by accessing the specified address with the
+ * intent-to-modify bit set. Any data associated with the access is ignored.
+ * Functions without an opposite companion are transient events.
+ *
+ * The following addresses are relative to the start fo the board's FBUS
+ * 4KB CSR space. The addresses in the range 0xf80-0xfff that are not
+ * shown should *never* be accessed.
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	FBUS_FUNC_PRIOR_EVENT	0xfc0	/* treat as NMI for debug purposes */
+#define	FBUS_FUNC_IRST_ON	0xfd8	/* assert brd internal reset signal */
+#define	FBUS_FUNC_IRST_OFF	0xfdc	/* release brd internal reset signal */
+#define	FBUS_FUNC_MSPC_ATTACH	0xfe0	/* enable non-CSR FBus accesses */
+#define	FBUS_FUNC_MSPC_DETACH	0xfe4	/* disable non-CSR FBus accesses */
+#define	FBUS_FUNC_PAR_ENABLE	0xff0	/* enable parity checking on the FBus */
+#define	FBUS_FUNC_PAR_DISABLE	0xff4	/* disable par checking on the FBus */
+
+
+/*------------------------------------------------------------------------
+ * FutureBus Error Status Register
+ *
+ * This read-only register records the improper FBus status while being
+ * bus master. This is a 1-for-1 copy of the FBus status bits. It also 
+ * records the state of the bus time-out logic. Any anomolous FBus status
+ * condition will cause the register to be set. Once set, the contents are
+ * frozen until reset by the SRTS bit in the FBus Interface Command Register,
+ * which resets all bits to zero.
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define FBUS_ESR_URF    0x100	/* UBUS reflection */
+#define FBUS_ESR_LOCK   0x80	/* FBUS lock asserted */
+#define FBUS_ESR_OFFBRD 0x40	/* error on right/left offbrd access */
+#define	FBUS_ESR_BTO	0x20	/* should never happen */
+#define	FBUS_ESR_AD	0x10	/* hi for address phase, lo for data phase */
+#define	FBUS_ESR_ST3	0x08	/* cache status */
+#define	FBUS_ESR_ST2	0x04	/* selected status */
+#define	FBUS_ESR_ST1	0x02	/* error status */
+#define	FBUS_ESR_ST0	0x01	/* bsy/eod status */
+
+#define FBUS_ESR_CS	FBUS_ESR_ST3
+#define FBUS_ESR_SEL	FBUS_ESR_ST2
+#define FBUS_ESR_ERR	FBUS_ESR_ST1
+#define FBUS_ESR_EOD	FBUS_ESR_ST0
+#define FBUS_ESR_BSY	FBUS_ESR_ST0
+
+
+/*------------------------------------------------------------------------
+ * FBus Interface Command Register
+ *
+ * This 8-bit r/w register contains the FBus interface control bits, and 
+ * the Error Status Register re-trigger. The control bits are ORed with the
+ * control bits present on the UBus when a UBus master accesses the FBus.
+ * Setting any of these bits to a 1 will cause the like-named signal to be
+ * asserted on the FBus during the address phase.
+ *
+ *  7 6 5 4 3 2 1 0
+ * +-+-+-+-+-+-+-+-+
+ * | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+
+ *  | | | | | | | |
+ *  | | | | | | | +--- EC: Extended Command
+ *  | | | | | | +----- BC: Broadcast Enable
+ *  | | | | | +------- BT: Block Transfer
+ *  | | | | +--------- LK: Lock Enable
+ *  | | | +----------- IM: Intent to Modify
+ *  | | +------------- CC: Cache Command
+ *  | +--------------- SBP: Short back-plane
+ *  +----------------- SRST: Status Reset; cycle 0 to 1 to 0 to reset
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	FBUS_ICR_EC	0x01
+#define	FBUS_ICR_BC	0x02
+#define	FBUS_ICR_BT	0x04
+#define	FBUS_ICR_LK	0x08
+#define	FBUS_ICR_IM	0x10
+#define	FBUS_ICR_CC	0x20
+#define FBUS_ICR_SBP	0x40	/* set for 2 CEM boxes or smaller */
+#define	FBUS_ICR_SRST	0x80
+
+#define FBUS_ICR_DEFAULT    FBUS_ICR_BT
+
+
+/*------------------------------------------------------------------------
+ * FBus Status Register 
+ *
+ * This register returns the state of the 3 supported function that have
+ * state, and the geographical address of the board.
+ *
+ *  7 6 5 4 3 2 1 4
+ * +-+-+-+-+-+-+-+-+
+ * | | | | | | | | |
+ * +-+-+-+-+-+-+-+-+
+ *  | | | | | | | |
+ *  | | | +-+-+-+-+--- FBus Geographical Address 
+ *  | | +------------- PON: Parity Check; 1 = enabled
+ *  | +--------------- MSPC: Memory Space; Attached = 1
+ *  +----------------- IRST: Internal Reset; On = 1
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	FBUS_SR_IRST		0x80
+#define	FBUS_SR_MSPC		0x40
+#define	FBUS_SR_PON		0x20
+#define	FBUS_SR_GA4		0x10
+#define	FBUS_SR_GA3		0x08
+#define	FBUS_SR_GA2		0x04
+#define	FBUS_SR_GA1		0x02
+#define	FBUS_SR_GA0		0x01
+
+#define FBUS_SR_GEO_ADDR_MASK	0x1f
+
+
+/*------------------------------------------------------------------------
+ * FBus Parity Suspect Status 
+ *
+ * This register returns the state of the parity suspect status for the
+ * board after a parity error has been detected.
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define FBUS_PAR_SUSPECT	0x1
+
+
+/*------------------------------------------------------------------------
+ * FBus Geographical Addresses
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define FBUS_SLOTSIZE   0x1000		/* 4K address space per slot */
+
+#define FBUS_CSR_BASE 	0xfdfe0000	/* BB FBUS_CSR base address */
+
+#define FBUS_SLOT0	(FBUS_CSR_BASE  +  (0 * FBUS_SLOTSIZE))  
+#define FBUS_SLOT1   	(FBUS_CSR_BASE  +  (1 * FBUS_SLOTSIZE))
+#define FBUS_SLOT2   	(FBUS_CSR_BASE  +  (2 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT3   	(FBUS_CSR_BASE  +  (3 * FBUS_SLOTSIZE))
+#define FBUS_SLOT4   	(FBUS_CSR_BASE  +  (4 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT5   	(FBUS_CSR_BASE  +  (5 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT6   	(FBUS_CSR_BASE  +  (6 * FBUS_SLOTSIZE))
+#define FBUS_SLOT7   	(FBUS_CSR_BASE  +  (7 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT8   	(FBUS_CSR_BASE  +  (8 * FBUS_SLOTSIZE))
+#define FBUS_SLOT9   	(FBUS_CSR_BASE  +  (9 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT10  	(FBUS_CSR_BASE  +  (10 * FBUS_SLOTSIZE))
+#define FBUS_SLOT11 	(FBUS_CSR_BASE  +  (11 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT12 	(FBUS_CSR_BASE  +  (12 * FBUS_SLOTSIZE))
+#define FBUS_SLOT13 	(FBUS_CSR_BASE  +  (13 * FBUS_SLOTSIZE))
+#define FBUS_SLOT14 	(FBUS_CSR_BASE  +  (14 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT15 	(FBUS_CSR_BASE  +  (15 * FBUS_SLOTSIZE))
+#define FBUS_SLOT16	(FBUS_CSR_BASE  +  (16 * FBUS_SLOTSIZE))
+#define FBUS_SLOT17  	(FBUS_CSR_BASE  +  (17 * FBUS_SLOTSIZE))
+#define FBUS_SLOT18 	(FBUS_CSR_BASE  +  (18 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT19 	(FBUS_CSR_BASE  +  (19 * FBUS_SLOTSIZE))
+#define FBUS_SLOT20 	(FBUS_CSR_BASE  +  (20 * FBUS_SLOTSIZE))
+#define FBUS_SLOT21 	(FBUS_CSR_BASE  +  (21 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT22 	(FBUS_CSR_BASE  +  (22 * FBUS_SLOTSIZE))
+#define FBUS_SLOT23	(FBUS_CSR_BASE  +  (23 * FBUS_SLOTSIZE))
+#define FBUS_SLOT24 	(FBUS_CSR_BASE  +  (24 * FBUS_SLOTSIZE))
+#define FBUS_SLOT25 	(FBUS_CSR_BASE  +  (25 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT26 	(FBUS_CSR_BASE  +  (26 * FBUS_SLOTSIZE))
+#define FBUS_SLOT27	(FBUS_CSR_BASE  +  (27 * FBUS_SLOTSIZE))
+#define FBUS_SLOT28 	(FBUS_CSR_BASE  +  (28 * FBUS_SLOTSIZE))	
+#define FBUS_SLOT29 	(FBUS_CSR_BASE  +  (29 * FBUS_SLOTSIZE))
+#define FBUS_SLOT30	(FBUS_CSR_BASE  +  (30 * FBUS_SLOTSIZE))
+#define FBUS_SLOT31	(FBUS_CSR_BASE  +  (31 * FBUS_SLOTSIZE))
+
+/* 
+ * NOTE- FBUS_SLOT31 is the same as the LOCAL_FBUS_CSR_BASE
+ * and hence cannot really be used for an addressable
+ * option card.  In other words there will never be any
+ * FBUS option cards at slot 31.
+ *
+ * NOTE- FBUS_SLOT0 is the broadcast slot 
+ */
+
+#define FBUS_BROADCAST_SLOT	FBUS_SLOT0
+#define FBUS_PHY_SLOT1   	FBUS_SLOT1
+#define FBUS_PHY_SLOT2   	FBUS_SLOT2
+#define FBUS_PHY_SLOT3   	FBUS_SLOT3
+#define FBUS_PHY_SLOT4   	FBUS_SLOT4
+#define FBUS_PHY_SLOT5   	FBUS_SLOT9
+#define FBUS_PHY_SLOT6   	FBUS_SLOT10
+#define FBUS_PHY_SLOT7   	FBUS_SLOT11	
+#define FBUS_PHY_SLOT8		FBUS_SLOT12	
+#define FBUS_PHY_SLOT9 		FBUS_SLOT25
+#define FBUS_PHY_SLOT10 	FBUS_SLOT26
+#define FBUS_PHY_SLOT11		FBUS_SLOT27
+#define FBUS_PHY_SLOT12  	FBUS_SLOT28
+@

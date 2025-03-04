@@ -1,0 +1,2083 @@
+head     1.19;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.19
+date     90.04.29.19.22.55;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.08.25.16.49.40;  author andrew;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.05.11.17.05.28;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.04.27.18.14.06;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.04.18.10.42.31;  author brents;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.03.10.10.32.27;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.03.01.14.55.19;  author brents;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.02.17.09.10.23;  author timd;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.01.14.48.09;  author timd;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.01.26.14.52.40;  author timd;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.01.25.12.13.53;  author timd;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.01.20.15.32.06;  author timd;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.01.20.15.26.23;  author timd;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.01.20.11.25.33;  author timd;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.12.10.14.45.23;  author timd;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.12.10.14.11.06;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.12.08.16.27.31;  author timd;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.12.04.17.14.20;  author timd;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.25.16.12.16;  author timd;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@DMAC Simulator
+@
+
+
+1.19
+log
+@Ported to System V.  Changed use of environment variable to use
+of convenience variable.
+@
+text
+@/*------------------------------------------------------------------------
+ * dmac.c
+ *
+ * This module simulates the operation of the DMA Controllers (DMACs) on 
+ * the I/O Board.
+ *
+ * I/O devices which are accessible only via a DMAC are handled here too;
+ * Accesses to the I/O devices through a DMAC's peripheral bus access space
+ * will be intercepted and passed to the proper simulator. This means that
+ * the SCSI, Centronics IOB Serial Ports, and Serial Control Register
+ * simulators/devices will not appear in the simulator device table.
+ *
+ *
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: dmac.c,v 1.18 88/08/25 16:49:40 andrew Exp $
+ *------------------------------------------------------------------------
+ */
+
+
+#include "sim.h"
+#include "dma.h"
+#define DMAC_C_STRUCTURES
+#include "we32104.h"
+
+#define DMAC_TRANSACTIONS
+
+#define A	0	/* channel */
+#define B	1	/* channel */
+#define BOTH	2
+
+
+#define RO	0	/* read-only */
+#define WO	1	/* write-only */
+#define RW	2	/* read-write */
+
+
+#define PRVINULL ((struct RegisterValidationInfo *)0)
+
+
+static struct {
+    int				cBytesFilled[4];
+    struct Dma_Controller	Model;
+} Dma[2];
+
+
+
+static char    sDmacName[2][6] = { "dmaca", "dmacb" };
+
+static char    sSizeName[17][6] = { "?", "BYTE", "HALF", "?", "WORD", "?", "?", "?", "DWORD",
+                                   "?", "?", "?", "?", "?", "?", "?", "QWORD" };
+
+static char    sOpName[6][7]   = { "?", "LD", "ST", "XMEM", "LD_U", "XMEM_U" };
+
+static  int    acSizes[8] = { QWORD, QWORD, QWORD, QWORD, WORD, DWORD, HALF, BYTE };
+
+static  int    acWidth[8] = { 16,    16,    16,    16,    4,    8,     2,    1 };
+
+#define DMAC(cWhichDmac)	(cWhichDmac + 1)
+
+
+struct RegisterValidationInfo {
+    int			cWhichDmac;
+    unsigned int	ulAddress;
+    int			cSize;
+    int			cAccess;
+    char		sName[40];
+};
+
+
+struct RegisterValidationInfo	rviTable[] = {
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_MSB+3,	BYTE,	RW,	"SCSI Xfer counter (Hi)",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_LSB+3,	BYTE,	RW,	"SCSI Xfer counter (Lo)",
+    DMAC(A),	DMA_PBA_SCSI_FIFO_PIO+3,	BYTE,	RW,	"SCSI FIFO (programmed I/O",
+    DMAC(A),	DMA_PBA_SCSI_FIFO_DMA+3,	BYTE,	RW,	"SCSI FIFO (DMA)",
+    DMAC(A),	DMA_PBA_SCSI_CMD_REG+3,		BYTE,	RW,	"SCSI Command register",
+    DMAC(A),	DMA_PBA_SCSI_STATUS+3,		BYTE,	RO,	"SCSI Status register",
+    DMAC(A),	DMA_PBA_SCSI_BUS_ID+3,		BYTE,	WO,	"SCSI Select/reconnect Bus ID",
+    DMAC(A),	DMA_PBA_SCSI_INTR_STATUS+3,	BYTE,	RO,	"SCSI Interrupt status register",
+    DMAC(A),	DMA_PBA_SCSI_TIMEOUT+3,		BYTE,	WO,	"SCSI Select/Reconnect timeout",
+    DMAC(A),	DMA_PBA_SCSI_SEQUENCE_STEP+3,	BYTE,	RO,	"SCSI Sequence step",
+    DMAC(A),	DMA_PBA_SCSI_SYNC_PERIOD+3,	BYTE,	WO,	"SCSI Sync period",
+    DMAC(A),	DMA_PBA_SCSI_FIFO_FLAGS+3,	BYTE,	RO,	"SCSI FIFO flags",
+    DMAC(A),	DMA_PBA_SCSI_SYNC_OFFSET+3,	BYTE,	WO,	"SCSI Sync offset",
+    DMAC(A),	DMA_PBA_SCSI_CONFIGURATION+3,	BYTE,	RW,	"SCSI Configuration",
+    DMAC(A),	DMA_PBA_SCSI_CLOCK_CONVERSION+3,BYTE,	WO,	"SCSI Clock conversion factor",
+
+    DMAC(A),	DMA_PBA_CEN_SINGLE+3,		BYTE,	RW,	"Centronics Single(write) / Status(read)",
+    DMAC(A),	DMA_PBA_CEN_STREAM+3,		BYTE,	WO,	"Centronics Stream",
+    DMAC(A),	DMA_PBA_CEN_INPRIME+3,		BYTE,	WO,	"Centronics Inprime",
+    DMAC(A),	DMA_PBA_CEN_REQDMA+3,		BYTE,	WO,	"Centronics REQDMA latch",
+    DMAC(B),	DMA_PBA_SCC_B_CTRL+3,		BYTE,	RW,	"SCC Chan B Ctrl reg",
+    DMAC(B),	DMA_PBA_SCC_B_DATA+3,		BYTE,	RW,	"SCC Chan B Data reg",
+    DMAC(B),	DMA_PBA_SCC_A_CTRL+3,		BYTE,	RW,	"SCC Chan A Ctrl reg",
+    DMAC(B),	DMA_PBA_SCC_A_DATA+3,		BYTE,	RW,	"SCC Chan A Data reg",
+    DMAC(B),	DMA_PBA_SCR+3,			BYTE,	RW,	"Serial Ctrl reg",
+    DMAC(BOTH),	WE32104_SOURCE_ADDR_REG,	WORD,	RW,	"Source Addr reg",
+    DMAC(BOTH),	WE32104_DEST_ADDR_REG,		WORD,	RW,	"Dest Addr reg",    
+    DMAC(BOTH),	WE32104_BASE_ADDR_REG,		WORD,	RW,	"Base Addr reg",
+    DMAC(BOTH),	WE32104_XFER_COUNT_REG,		WORD,	RW,	"Xfer Count reg",
+    DMAC(BOTH),	WE32104_INTR_VECTOR_REG,	WORD,	RW,	"Intr Vector reg",
+    DMAC(BOTH),	WE32104_STATUS_REG,		WORD,	RW,	"Status/Ctrl reg",
+    DMAC(BOTH),	WE32104_CTRL_REG,		WORD,	RW,	"Status/Ctrl reg",
+    DMAC(BOTH),	WE32104_MODE_REG,		WORD,	RW,	"Mode reg",
+    DMAC(BOTH),	WE32104_DEVICE_CTRL_REG,	WORD,	RW,	"Device Ctrl reg",
+    0x3fffffff,	0x3fffffff, 0x3fffffff, 0x3fffffff, ""
+};
+
+/*------------------------------------------------------------------------
+ * I_MonitorTransactions()
+ *
+ * This routine checks to see if the environment variable "SIMTRANS" is 
+ * set. If this variable is set, TRUE is returned. This routine is called
+ * by monitoring code. This lets users selectively turn off I/O simulator
+ * monitoring (which can be quite verbose).
+ *------------------------------------------------------------------------
+ */
+
+static int    I_MonitorTransactions()
+    {
+        return ( varvalue("simtrans") );
+    }
+
+
+
+
+
+/*------------------------------------------------------------------------
+ * TransactionError()
+ *
+ * This routine provides a general-purpose fault reporting mechanism for
+ * the simulator.
+ *------------------------------------------------------------------------
+ */
+
+static void    TransactionError (cWhichDmac, sErrorMessage)
+    int		cWhichDmac;
+    char	sErrorMessage[];
+
+    {
+        sim_printf ("%s: %s\n", sDmacName[cWhichDmac], sErrorMessage);
+    }
+
+
+/*------------------------------------------------------------------------
+ * ValidateTransaction()
+ *
+ * Validate the transaction by seeing if the size and type of access
+ * is legal for the particular register involved.
+ *
+ * Registers are no longer assumed to be uniquely identifiable by their
+ * bottom 7 bits.
+ *
+ * If a transaction is blatently hazardous, then bail out with a data fault
+ * error; otherwise, if just unwise, print a warning message and continue
+ * on at the caller's own risk.
+ *------------------------------------------------------------------------
+ */
+
+static void    ValidateTransaction (cWhichDmac,
+                                    ulAddress_offset, pulReg, cSize, cMem_op_type)
+    int    		cWhichDmac;
+    unsigned int	ulAddress_offset;
+    unsigned int        *pulReg;
+    int			cSize;
+    int			cMem_op_type;
+
+    {
+        int	i, fRegisterFound, cSection, cChannel;
+
+
+        /* determine section and channel */
+        if (I_MonitorTransactions()) {
+            cSection = (ulAddress_offset & 0x600) >> 9;
+            cChannel = (ulAddress_offset & 0x180) >> 7;
+            sim_printf ("DMAC Transaction\n");
+            sim_printf ("----------------\n");
+            sim_printf ("   Offset address:   0x%x\n", ulAddress_offset);
+            sim_printf ("   CPU reg contents: 0x%x\n", *pulReg);
+            sim_printf ("   Access size:      %s\n", sSizeName[cSize]);
+            sim_printf ("   Operation:        %s\n", sOpName[cMem_op_type]);
+            sim_printf ("   Section:          %d\n", cSection);
+            sim_printf ("   Channel:          %d\n", cChannel);
+        }
+
+
+        if (ulAddress_offset < WE32104_PERIPH_BUS_ACCESS_3) {
+        
+#ifdef NOLONGER
+	    /***
+	     *** This doesn't make sense; many of the ulAddress entries in
+	     *** rviTable are greater than 0x7F.   /AJK 25.Aug.88
+	     ***/
+            /* keep the 7 lsbs */
+            ulAddress_offset &= 0x7f;
+#endif
+
+            /* find the register's validation info */
+            i = 0;
+            fRegisterFound = 0;
+            while ( (!fRegisterFound) && (rviTable[i].cWhichDmac != 0x3fffffff) ) {
+                if ( (rviTable[i].cWhichDmac & DMAC(cWhichDmac)) 
+                     && (rviTable[i].ulAddress == ulAddress_offset) ) {
+                        fRegisterFound = 1;
+                }
+                else {
+                    ++i;
+                }
+            }
+
+
+            /* warn about register access misses */
+            if (!fRegisterFound) {
+                TransactionError (cWhichDmac, "access misses registers");
+            }
+
+
+            /* print transaction information */
+            if (I_MonitorTransactions()) {
+                sim_printf ("   Dmac Register:    ");
+                if (fRegisterFound) {
+                    sim_printf ("%s\n", rviTable[i].sName);
+                }
+                else {
+                    sim_printf ("No register at address 0x%x\n", ulAddress_offset);
+                }
+            }
+
+
+            /* check for proper size */
+            if (cSize != rviTable[i].cSize) {
+                TransactionError (cWhichDmac, "improper size access");
+            }
+
+            
+            /* check for proper operation access */
+            if ( (rviTable[i].cAccess == RO)
+                && ( (cMem_op_type == ST) || (cMem_op_type == XMEM) || (cMem_op_type == XMEM_U) ) ) {
+                    TransactionError (cWhichDmac, "register is read-only");
+            }
+            else if ( (rviTable[i].cAccess == WO)
+                     && ( (cMem_op_type == LD) || (cMem_op_type == LD_U) || (cMem_op_type == XMEM) || (cMem_op_type == XMEM_U) ) ) {
+                        TransactionError (cWhichDmac, "register is write-only");
+            }
+        }
+
+        if (I_MonitorTransactions()) {
+            sim_printf ("\n");
+        }
+    }
+
+/*------------------------------------------------------------------------
+ * ExecuteOperandXfer()
+ *
+ * This routine is responsible for simulating a *single* DMA cycle, and
+ * for adjusting address registers accordingly.
+ *------------------------------------------------------------------------
+ */
+
+static void    ExecuteOperandXfer (cDmac, cChannel)
+    int		cDmac;
+    int		cChannel;
+
+    {
+        unsigned int	cSize, cXferType, cChipSelectCode;
+        unsigned int	ulSourceAddr, ulDestAddr;
+
+
+
+        /* -------- */
+        /* Validate */
+        /* -------- */
+
+        cSize = (Dma[cDmac].Model.Regs[cChannel].Mr & 0xe0) >> 5;
+        cXferType = (Dma[cDmac].Model.Regs[cChannel].Mr & 0x6000) >> 13;
+        /*
+        if ( (acSizes[cSize] != BYTE) && (acSizes[cSize] != HALF) && (acSizes[cSize] != WORD) ) {
+            sim_printf ("%s:    only 8-, 16-, and 32-bit DMA transfers are simulated.\n", sDmacName[cDmac]);
+            sim_errno = 1;
+        }
+        */
+
+
+
+        /* Load addresses into temporaries, so things run faster */
+        ulSourceAddr = Dma[cDmac].Model.Regs[cChannel].Sar;
+        ulDestAddr   = Dma[cDmac].Model.Regs[cChannel].Dar;
+
+
+
+        switch (cXferType) {
+            
+            /* ---------------- */
+            /* Memory-to-memory */
+            /* ---------------- */
+
+            case 0:
+                switch (acSizes[cSize]) {
+                    case BYTE:
+                        write_sim_b (ulDestAddr, read_sim_b(ulSourceAddr));
+                        break;
+                    case HALF:
+                        write_sim_h (ulDestAddr, read_sim_h(ulSourceAddr));
+                        break;
+                    case WORD:
+                        write_sim_w (ulDestAddr, read_sim_w(ulSourceAddr));
+                        break;
+                    case DWORD:
+                        write_sim_w (ulDestAddr + 0x00, read_sim_w(ulSourceAddr + 0x00));
+                        write_sim_w (ulDestAddr + 0x04, read_sim_w(ulSourceAddr + 0x04));
+                        break;
+                    case QWORD:
+                        write_sim_w (ulDestAddr + 0x00, read_sim_w(ulSourceAddr + 0x00));
+                        write_sim_w (ulDestAddr + 0x04, read_sim_w(ulSourceAddr + 0x04));
+                        write_sim_w (ulDestAddr + 0x08, read_sim_w(ulSourceAddr + 0x08));
+                        write_sim_w (ulDestAddr + 0x0c, read_sim_w(ulSourceAddr + 0x0c));
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+
+
+            /* -------------------- */
+            /* Peripheral-to-memory */
+            /* -------------------- */
+
+            case 1:
+                if (acSizes[cSize] == BYTE) {
+                    cChipSelectCode = (Dma[cDmac].Model.Regs[cChannel].Dcr & 0xc000) >> 14;
+                    if (cDmac == A) {
+                        switch (cChipSelectCode) {
+                            case 1: /* SCSI */
+                                if (cChannel == 1) {
+                                    sim_printf ("%s:    SCSI i/f not simulated\n", sDmacName[cDmac]);
+                                    sim_errno = 1;
+                                }
+                                else {
+                                    sim_printf ("%s:    SCSI on channel 1, only\n");
+                                    sim_errno = 1;
+                                }
+                                break;
+                            case 3: /* Centronics */
+                                if (cChannel == 3) {
+                                    sim_printf ("%s:    Centronics i/f not simulated\n", sDmacName[cDmac]);
+                                    sim_errno = 1;
+                                }
+                                else {
+                                    sim_printf ("%s:    Centronics on channel 3, only\n");
+                                    sim_errno = 1;
+                                }
+                            default:
+                                sim_printf ("%s:    p-to-m operation on m-to-m channel!\n", sDmacName[cDmac]);
+                                sim_errno = 1;
+                                break;
+                        }
+                    }
+                    else if (cChannel == B) {
+                        sim_printf ("%s:    SCC i/f not simulated\n", sDmacName[cDmac]);
+                        sim_errno = 1;
+                    }
+                }
+                else {
+                    sim_printf ("%s:    Byte-wide peripheral DMA accesses only\n", sDmacName[cDmac]);
+                    sim_errno = 1;
+                }
+                break;
+
+
+
+
+            /* -------------------- */
+            /* Memory-to-peripheral */
+            /* -------------------- */
+
+            case 2:
+                if (acSizes[cSize] == BYTE) {
+                    cChipSelectCode = (Dma[cDmac].Model.Regs[cChannel].Dcr & 0xc000) >> 14;
+                    if (cDmac == A) {
+                        switch (cChipSelectCode) {
+                            case 1: /* SCSI */
+                                if (cChannel == 1) {
+                                    sim_printf ("%s:    SCSI i/f not simulated\n", sDmacName[cDmac]);
+                                    sim_errno = 1;
+                                }
+                                else {
+                                    sim_printf ("%s:    SCSI on channel 1, only\n");
+                                    sim_errno = 1;
+                                }
+                                break;
+                            case 3: /* Centronics */
+                                if (cChannel == 3) {
+                                    sim_printf ("%s:    Centronics i/f not simulated\n", sDmacName[cDmac]);
+                                    sim_errno = 1;
+                                }
+                                else {
+                                    sim_printf ("%s:    Centronics on channel 3, only\n");
+                                    sim_errno = 1;
+                                }
+                            default:
+                                sim_printf ("%s:    p-to-m operation on m-to-m channel!\n", sDmacName[cDmac]);
+                                sim_errno = 1;
+                                break;
+                        }
+                    }
+                    else if (cChannel == B) {
+                        sim_printf ("%s:    SCC i/f not simulated\n", sDmacName[cDmac]);
+                        sim_errno = 1;
+                    }
+                }
+                else {
+                    sim_printf ("%s:    Byte-wide peripheral DMA accesses only\n", sDmacName[cDmac]);
+                    sim_errno = 1;
+                }
+                break;
+
+
+
+
+            /* ----------- */
+            /* Memory-fill */
+            /* ----------- */
+            
+            case 3:
+                /* if ( (cDmac == A)  &&  ((cChannel == 0) || (cChannel == 2)) ) { */
+                    switch (acSizes[cSize]) {
+                        case BYTE:
+                            write_sim_b (ulDestAddr,
+                                         Dma[cDmac].Model.Idb[cChannel].Bytes[ Dma[cDmac].cBytesFilled[cChannel] % 4] );
+                            break;
+                        case HALF:
+                            write_sim_h (ulDestAddr,
+                                         Dma[cDmac].Model.Idb[cChannel].Shorts[ (Dma[cDmac].cBytesFilled[cChannel] % 4) / 2] );
+                            break;
+                        case WORD:
+                            write_sim_w (ulDestAddr,
+                                         Dma[cDmac].Model.Idb[cChannel].Longs[0] );
+                            break;
+                        case DWORD:
+                            write_sim_w (ulDestAddr + 0x00,
+                                         Dma[cDmac].Model.Idb[cChannel].Longs[0] );
+                            write_sim_w (ulDestAddr + 0x04,
+                                         Dma[cDmac].Model.Idb[cChannel].Longs[0] );
+                            break;        
+                        case QWORD:
+                            write_sim_w (ulDestAddr + 0x00,
+                                         Dma[cDmac].Model.Idb[cChannel].Longs[0] );
+                            write_sim_w (ulDestAddr + 0x04,
+                                         Dma[cDmac].Model.Idb[cChannel].Longs[0] );
+                            write_sim_w (ulDestAddr + 0x08,
+                                         Dma[cDmac].Model.Idb[cChannel].Longs[0] );
+                            write_sim_w (ulDestAddr + 0x0c,
+                                         Dma[cDmac].Model.Idb[cChannel].Longs[0] );
+                            break;        
+                        default:
+                            break;
+                    }
+                    Dma[cDmac].cBytesFilled[cChannel] += acWidth[cSize];
+                /* }
+                else {
+                    sim_printf ("%s:    memory-fill on DMAC A, channels 0 and 2, only\n", sDmacName[cDmac]);
+                } */
+                break;
+
+            default:
+                break;
+        }
+    
+        /* fault bail-out */
+        if (sim_errno) {
+            return;
+        }
+
+        
+
+        /* ------------ */
+        /* Housekeeping */
+        /* ------------ */
+
+        /* destination address */
+        if (!(Dma[cDmac].Model.Regs[cChannel].Mr & WE32104_MR_DAC_CONSTANT)) {
+            Dma[cDmac].Model.Regs[cChannel].Dar += acWidth[cSize];
+        }
+
+        /* source address */
+        if (!(Dma[cDmac].Model.Regs[cChannel].Mr & WE32104_MR_SAC_CONSTANT)) {
+            Dma[cDmac].Model.Regs[cChannel].Sar += acWidth[cSize];
+        }
+
+        /* transfer count */
+        if (Dma[cDmac].Model.Regs[cChannel].Tcr < acWidth[cSize]) {
+            Dma[cDmac].Model.Regs[cChannel].Tcr = 0;
+        }
+        else {
+            Dma[cDmac].Model.Regs[cChannel].Tcr -= acWidth[cSize];
+        }
+
+    }
+        
+/*------------------------------------------------------------------------
+ * DisplayDmacState()
+ *
+ * Display the current operational state of DMAC "cDmac"
+ *------------------------------------------------------------------------
+ */
+
+static void    DisplayDmacState (cDmac, cChannel)
+    int		cDmac;
+    int		cChannel;
+
+    {
+        if (I_MonitorTransactions()) {
+            sim_printf ("%s: DMA Operation Start\n", sDmacName[cDmac]);
+            sim_printf ("----------------------------\n");
+            sim_printf ("    Start Addr Reg:  0x%08x\n", Dma[cDmac].Model.Regs[cChannel].Sar);
+            sim_printf ("    Dest  Addr Reg:  0x%08x\n", Dma[cDmac].Model.Regs[cChannel].Dar);
+            sim_printf ("    Base  Addr Reg:  0x%08x\n", Dma[cDmac].Model.Regs[cChannel].Bar);
+            sim_printf ("    Xfer Count Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Tcr);
+            sim_printf ("    Intr Vect  Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Ivr);
+            sim_printf ("    Stat/Ctrl  Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Ivr);
+            sim_printf ("    Mode       Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Mr);
+            sim_printf ("    Dev Ctrl   Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Dcr);
+            sim_printf ("    Size/Width:      %s\n", sSizeName[ acSizes[ ((Dma[cDmac].Model.Regs[cChannel].Mr & 0xe0) >> 5) ] ]);
+            sim_printf ("    Type:            ");
+            switch ((Dma[cDmac].Model.Regs[cChannel].Mr & 0x6000) >> 13) {
+                case 0:
+                    sim_printf ("mem-to-mem\n");
+                    break;
+                case 1:
+                    sim_printf ("periph-to-mem\n");
+                    break;
+                case 2:
+                    sim_printf ("mem-to-periph\n");
+                    break;
+                case 3:
+                    sim_printf ("memory fill\n");
+                    break;
+                default:
+                    sim_printf ("???\n");
+                    break;
+            }
+            sim_printf ("\n");
+        }
+    }
+        
+/*------------------------------------------------------------------------
+ * ExecuteDmaTransfers()
+ *
+ * Execute the DMA transfer that is programmed into channel "cChannel"
+ * of DMAC "cDmac".
+ *------------------------------------------------------------------------
+ */
+
+static void    ExecuteDmaXfer (cDmac, cChannel)
+    int    cDmac;
+    int    cChannel;
+
+    {
+        while (Dma[cDmac].Model.Regs[cChannel].Tcr) {
+
+            /* execute an operand transfer */
+            ExecuteOperandXfer (cDmac, cChannel);
+
+            /* check for error */
+            if (sim_errno) {
+                break;    /* abort the operation */
+            }
+        }
+    }
+
+/*------------------------------------------------------------------------
+ * ChannelStart()
+ *
+ * Start a DMA operation on DMAC "cDmac"'s channel "cChannel".
+ *------------------------------------------------------------------------
+ */
+
+static void    ChannelStart (cDmac, cChannel)
+    int    cDmac;
+    int    cChannel;
+
+    {
+
+
+        /* ------------- */
+        /* Status Update */
+        /* ------------- */
+
+        Dma[cDmac].Model.Regs[cChannel].Scr &= ~WE32104_SCR_CHANNEL_START;
+        Dma[cDmac].Model.Regs[cChannel].Scr |=  WE32104_SCR_CHANNEL_ACTIVE;
+        Dma[cDmac].cBytesFilled[cChannel] = 0;
+
+
+
+        
+        /* ------- */
+        /* Chained */
+        /* ------- */
+
+        if (Dma[cDmac].Model.Regs[cChannel].Scr & WE32104_SCR_CHAINED_REQUESTS) {
+            
+            while (Dma[cDmac].Model.Regs[cChannel].Bar) {
+
+                /* load DMAC registers from request block */
+                Dma[cDmac].Model.Regs[cChannel].Sar = read_sim_w (Dma[cDmac].Model.Regs[cChannel].Bar + 0x00);
+                Dma[cDmac].Model.Regs[cChannel].Dar = read_sim_w (Dma[cDmac].Model.Regs[cChannel].Bar + 0x04);
+                Dma[cDmac].Model.Regs[cChannel].Tcr = read_sim_w (Dma[cDmac].Model.Regs[cChannel].Bar + 0x08);
+                Dma[cDmac].Model.Regs[cChannel].Bar = read_sim_w (Dma[cDmac].Model.Regs[cChannel].Bar + 0x0c);
+
+                DisplayDmacState (cDmac, cChannel);
+
+                ExecuteDmaXfer (cDmac, cChannel);
+
+            }    /* while chaining */
+        }
+
+        
+
+        /* ----------- */
+        /* Non-chained */
+        /* ----------- */
+        
+        else {
+            DisplayDmacState (cDmac, cChannel);
+            ExecuteDmaXfer (cDmac, cChannel);
+        }
+
+
+        /* --------- */
+        /* Terminate */
+        /* --------- */
+
+        /* set termination status */
+        Dma[cDmac].Model.Regs[cChannel].Scr &= WE32104_SCR_CHAINED_REQUESTS;
+        if (sim_errno == 0) {
+            Dma[cDmac].Model.Regs[cChannel].Scr |= WE32104_SCR_NORMAL_TERMINATION;
+        }
+        else {
+            Dma[cDmac].Model.Regs[cChannel].Scr |= WE32104_SCR_SYS_BUS_ERR_FAULT;
+        }
+
+        /* cause interrupt, if necessary */
+        if (Dma[cDmac].Model.Regs[cChannel].Mr & WE32104_MR_IE) {
+            sim_printf ("*** DMAC%s Interrupt ***\n", sDmacName[cDmac]);
+            set_iob_interrupt(cDmac == A ? 3 : 4, 0);
+        }
+
+    }
+
+/*------------------------------------------------------------------------
+ * ChannelHalt()
+ *
+ * Temporarily halt the DMA operation in-progress.
+ *------------------------------------------------------------------------
+ */
+
+static void    ChannelHalt (cDmac, cChannel)
+    int    cDmac;
+    int    cChannel;
+
+    {
+        sim_printf ("%s:    channel halting not simulated\n", sDmacName[cDmac]);
+
+        /* provide common interface, but keep lint happy */
+        cDmac = cDmac;
+        cChannel = cChannel;
+    }
+
+
+
+
+
+/*------------------------------------------------------------------------
+ * SoftwareAbort()
+ *
+ * Software abort the DMA operation in-progress.
+ *------------------------------------------------------------------------
+ */
+
+static void    SoftwareAbort (cDmac, cChannel)
+    int    cDmac;
+    int    cChannel;
+
+    {
+        sim_printf ("%s:    software aborting not simulated\n", sDmacName[cDmac]);
+    
+        /* provide common interface, but keep lint happy */
+        cDmac = cDmac;
+        cChannel = cChannel;
+    }
+
+
+
+
+/*------------------------------------------------------------------------
+ * InternalRegisters()
+ *
+ * Simulate the internal registers.
+ *------------------------------------------------------------------------
+ */
+
+static void    InternalRegisters (cDmac,
+                                  ulAddress_offset, pulReg, cSize, cMem_op_type)
+    int    		cDmac;
+    unsigned int	ulAddress_offset;
+    unsigned int        *pulReg;
+    int			cSize;
+    int			cMem_op_type;
+
+    {
+        int		cChannel;
+        unsigned int	ulReg_offset;
+
+
+        /* determine which channel */
+        cChannel = (ulAddress_offset & 0x180) >> 7;
+
+        /* determine which register within the channel */
+        ulReg_offset = (ulAddress_offset - WE32104_INTERNAL_REGISTERS_0);
+        ulReg_offset -= (cChannel * 0x80);
+        if (I_MonitorTransactions()) {
+            sim_printf ("%s:   accessing channel %d, register offset 0x%x\n", sDmacName[cDmac], cChannel, ulReg_offset);
+        }
+
+        
+        /* process the operation */
+        switch (ulReg_offset) {
+            case WE32104_SOURCE_ADDR_REG:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Sar, cSize, cMem_op_type);
+                break;
+            case WE32104_DEST_ADDR_REG:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Dar, cSize, cMem_op_type);
+                break;
+            case WE32104_BASE_ADDR_REG:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Bar, cSize, cMem_op_type);
+                break;
+            case WE32104_XFER_COUNT_REG:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Tcr, cSize, cMem_op_type);
+                break;
+            case WE32104_INTR_VECTOR_REG:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Ivr, cSize, cMem_op_type);
+                break;
+            case WE32104_STATUS_REG /* and WE32104_CTRL_REG */:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Scr, cSize, cMem_op_type);
+                /* react to a control register write */
+                if ( (cMem_op_type == ST) || (cMem_op_type == XMEM) || (cMem_op_type == XMEM_U) ) {
+                    if (Dma[cDmac].Model.Regs[cChannel].Scr & WE32104_SCR_CAUSE_SW_ABORT) {
+                        SoftwareAbort (cDmac, cChannel);
+                    }
+                    else if (Dma[cDmac].Model.Regs[cChannel].Scr & WE32104_SCR_CHANNEL_HALT) {
+                        ChannelHalt (cDmac, cChannel);
+                    }
+                    else if (Dma[cDmac].Model.Regs[cChannel].Scr & WE32104_SCR_CHANNEL_START) {
+                        ChannelStart (cDmac, cChannel);
+                    }
+                }
+                break;
+            case WE32104_MODE_REG:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Mr, cSize, cMem_op_type);
+                break;
+            case WE32104_DEVICE_CTRL_REG:
+                do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Regs[cChannel].Dcr, cSize, cMem_op_type);
+                break;
+            default:
+                sim_printf ("%s: access misses internal channel registers\n", sDmacName[cDmac]);
+                break;
+         }
+    }
+
+/*------------------------------------------------------------------------
+ * PrintDmacStatus()
+ *
+ * Print an informative status dump of a DMAC.
+ *------------------------------------------------------------------------
+ */
+
+static void    PrintDmacStatus (cDmac)
+    int    cDmac;
+
+    {
+        int    i;
+
+
+        sim_printf ("\nDMAC-");
+        if (cDmac == A) {
+            sim_printf("A");
+        }
+        else {
+            sim_printf ("B");
+        }
+        sim_printf ("   WE 32104 DMA Controller\n");
+        sim_printf ("--------------------------------\n");
+        sim_printf ("\n");
+        sim_printf ("Channel Registers:\n");
+        sim_printf ("\n");
+        sim_printf ("Register      Chan 0        Chan 1        Chan 2        Chan 3\n");
+        sim_printf ("--------    ----------    ----------    ----------    ----------\n");
+        sim_printf ("Sar     ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("    0x%08x", Dma[cDmac].Model.Regs[i].Sar);
+        }
+        sim_printf ("\n");
+        sim_printf ("Dar     ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("    0x%08x", Dma[cDmac].Model.Regs[i].Dar);
+        }
+        sim_printf ("\n");
+        sim_printf ("Bar     ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("    0x%08x", Dma[cDmac].Model.Regs[i].Bar);
+        }
+        sim_printf ("\n");
+        sim_printf ("Tcr     ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("        0x%04x", Dma[cDmac].Model.Regs[i].Tcr);
+        }
+        sim_printf ("\n");
+        sim_printf ("Ivr     ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("        0x%04x", Dma[cDmac].Model.Regs[i].Ivr);
+        }
+        sim_printf ("\n");
+        sim_printf ("Scr     ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("        0x%04x", Dma[cDmac].Model.Regs[i].Scr);
+        }
+        sim_printf ("\n");
+        sim_printf ("Mr      ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("        0x%04x", Dma[cDmac].Model.Regs[i].Mr);
+        }
+        sim_printf ("\n");
+        sim_printf ("Dcr     ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("        0x%04x", Dma[cDmac].Model.Regs[i].Dcr);
+        }
+        sim_printf ("\n");
+        sim_printf ("Mfdr    ");
+        for (i = 0;    i < 4;    i++) {
+            sim_printf ("    0x%08x", Dma[cDmac].Model.Idb[i].Mfdr);
+        }
+        sim_printf ("\n\n\n");
+
+        sim_printf ("Global Registers:\n");
+        sim_printf ("\n");
+        sim_printf ("Maskr: 0x%02x\n", Dma[cDmac].Model.Maskr);
+        sim_printf ("\n\n");
+    }
+
+/*------------------------------------------------------------------------
+ * InitDmacSimulation()
+ *
+ * Initialize a DMAC simulator.
+ *------------------------------------------------------------------------
+ */
+
+static void    InitDmacSimulation (cDmac)
+    int    cDmac;
+
+    {
+        int    cChannel, cLong;
+
+
+        /* clear internal registers */
+        for (cChannel = 0;    cChannel <= 3;    cChannel++) {
+            Dma[cDmac].Model.Regs[cChannel].Sar = 0x0;
+            Dma[cDmac].Model.Regs[cChannel].Dar = 0x0;
+            Dma[cDmac].Model.Regs[cChannel].Bar = 0x0;
+            Dma[cDmac].Model.Regs[cChannel].Tcr = 0x0;
+            Dma[cDmac].Model.Regs[cChannel].Ivr = 0x0;
+            Dma[cDmac].Model.Regs[cChannel].Scr = 0x0;
+            Dma[cDmac].Model.Regs[cChannel].Mr  = 0x0;
+            Dma[cDmac].Model.Regs[cChannel].Dcr = 0x0;
+        }
+
+        /* clear global registers */
+        Dma[cDmac].Model.Maskr = 0x0;
+
+        /* clear internal buffers */
+        for (cChannel = 0;    cChannel <= 3;    cChannel++) {
+            for (cLong = 0;    cLong < 8;    cLong++) {
+                Dma[cDmac].Model.Idb[cChannel].Longs[cLong] = 0x0;
+            }
+        }
+    }
+
+int    dmaca_print()
+
+    {
+        PrintDmacStatus (A);
+    }
+
+
+
+
+int    dmacb_print()
+    
+    {
+        PrintDmacStatus (B);
+    }
+
+
+
+
+int    dmaca_init()
+
+    {
+        InitDmacSimulation(A);
+    }
+
+
+
+
+int    dmacb_init()
+
+    {
+        InitDmacSimulation(B);
+    }
+
+/*------------------------------------------------------------------------
+ * dmaca_operation()
+ *
+ * This routine is the interface to the "A" DMAC simulator.
+ *------------------------------------------------------------------------
+ */
+
+int    dmaca_operation (ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+    unsigned int	ulAddress_offset;
+    unsigned int        *pulReg;
+    int			cSize;
+    int			cMem_op_type;
+    int			fOverride;
+
+    {
+        unsigned int    ulPbaAddress;
+        int		cChannel;
+        int		cDmac = A;
+        unsigned int    ulMissedAddress = 0xffffffff;
+
+	sim_errno = 0;
+
+        ValidateTransaction (A, ulAddress_offset, pulReg, cSize, cMem_op_type);
+
+
+        cChannel = (ulAddress_offset & 0x180) >> 7;
+
+
+        /* ----------------------- */
+        /* Peripheral Bus Accesses */
+        /* ----------------------- */
+
+        if (ulAddress_offset < WE32104_INTERNAL_REGISTERS_0) {
+
+            /* validate channel activation */
+            if (Dma[cDmac].Model.Maskr & (cChannel << 1)) {
+                if (!(Dma[cDmac].Model.Regs[cChannel].Scr & WE32104_SCR_CHANNEL_START)) {
+                    if (I_MonitorTransactions()) {
+                        sim_printf ("%s: channel is inactive via MASKR\n", sDmacName[cDmac]);
+                    }
+                    return (E_NONE);
+                }
+            }
+
+            /* validate sizes */
+            if (cSize != BYTE) {
+                sim_printf ("dmaca: making peripheral bus access wider than byte!\n");
+            }
+
+            /* only consider the bits the h/w really does */
+            ulPbaAddress = (ulAddress_offset & 0x7fc);
+
+            /* call appropriate device simulator */
+            switch (ulPbaAddress) {
+
+                /* scsi controller */
+		case DMA_PBA_SCSI_XFER_COUNT_MSB:
+		case DMA_PBA_SCSI_XFER_COUNT_LSB:
+		case DMA_PBA_SCSI_FIFO_PIO:
+		case DMA_PBA_SCSI_FIFO_DMA:
+		case DMA_PBA_SCSI_CMD_REG:
+		case DMA_PBA_SCSI_STATUS: /* case DMA_PBA_SCSI_BUS_ID: */
+		case DMA_PBA_SCSI_INTR_STATUS: /* case DMA_PBA_SCSI_TIMEOUT: */
+		case DMA_PBA_SCSI_SEQUENCE_STEP: /* case DMA_PBA_SCSI_SYNC_PERIOD: */
+		case DMA_PBA_SCSI_FIFO_FLAGS: /* case DMA_PBA_SCSI_SYNC_OFFSET: */
+		case DMA_PBA_SCSI_CONFIGURATION:
+		case DMA_PBA_SCSI_CLOCK_CONVERSION:
+                    /*
+                    return (scsi_operation (ulPbaAddress, pulReg, cSize, cMem_op_type, fOverride));
+                    */
+                    break;
+
+                /* centronics */
+                case DMA_PBA_CEN_SINGLE:
+                case DMA_PBA_CEN_STREAM:
+                case DMA_PBA_CEN_INPRIME:
+                case DMA_PBA_CEN_REQDMA:
+                /* case DMA_PBA_CEN_STATUS: same as DMA_PBA_CEN_SINGLE */
+                    /*
+                    return (centronics_operation (ulPbaAddress, pulReg, cSize, cMem_op_type, fOverride));
+                    */
+                    break;
+
+                default:
+                    sim_printf ("%s: access misses legitimate peripheral bus addresses\n, sDmacName[cDmac]");
+                    ulMissedAddress = 0xffffffff;
+                    do_mem_op (pulReg, &ulMissedAddress, cSize, cMem_op_type);
+                    break;
+            }
+        }
+
+
+                    
+
+        /* -------------------------- */
+        /* Internal Channel Registers */
+        /* -------------------------- */
+
+        else if ((ulAddress_offset >= WE32104_INTERNAL_REGISTERS_0)  &&  (ulAddress_offset < WE32104_GLOBAL_REGISTERS)) {
+            InternalRegisters (cDmac, ulAddress_offset, pulReg, cSize, cMem_op_type);
+        }
+
+
+
+
+        /* ------------------------ */
+        /* Internal Global Register */
+        /* ------------------------ */
+
+        else if ((ulAddress_offset & 0x600) == WE32104_GLOBAL_REGISTERS) {
+            do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Maskr, cSize, cMem_op_type);
+        }
+
+
+
+
+        /* --------------------- */
+        /* Internal Data Buffers */
+        /* --------------------- */
+
+        else if ( ((ulAddress_offset & 0x780) >= WE32104_INTERNAL_DATA_BUFFERS_0)
+                 && ((ulAddress_offset & 0x780) <= WE32104_INTERNAL_DATA_BUFFERS_3) ) {
+
+            do_mem_op (pulReg, 
+                       (unsigned int *)&Dma[cDmac].Model.Idb[cChannel].Bytes[ulAddress_offset & 0x1f],
+                       cSize,
+                       cMem_op_type);
+        }
+
+
+        else {
+            sim_printf ("%s: access to unknown address 0x%x\n", sDmacName[cDmac], ulAddress_offset);
+            do_mem_op (pulReg, &ulMissedAddress, cSize, cMem_op_type);
+        }
+
+
+        /* keep lint happy */
+        fOverride = fOverride;
+
+	if(sim_errno){
+	    return (E_DACC);
+	}
+        return (E_NONE);
+    }
+
+/*------------------------------------------------------------------------
+ * dmacb_operation()
+ *
+ * This routine is the interface to the "B" DMAC simulator.
+ *------------------------------------------------------------------------
+ */
+
+int    dmacb_operation (ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+    unsigned int	ulAddress_offset;
+    unsigned int        *pulReg;
+    int			cSize;
+    int			cMem_op_type;
+    int			fOverride;
+
+    {
+        unsigned int    ulPbaAddress;
+        int		cChannel;
+        int		cDmac = B;
+        unsigned int    ulMissedAddress = 0xffffffff;
+
+
+
+        ValidateTransaction (B, ulAddress_offset, pulReg, cSize, cMem_op_type);
+
+
+        cChannel = (ulAddress_offset & 0x180) >> 7;
+
+
+        /* ----------------------- */
+        /* Peripheral Bus Accesses */
+        /* ----------------------- */
+
+        if (ulAddress_offset < WE32104_INTERNAL_REGISTERS_0) {
+
+            /* validate channel activation */
+            if (Dma[cDmac].Model.Maskr & (cChannel << 1)) {
+                if (!(Dma[cDmac].Model.Regs[cChannel].Scr & WE32104_SCR_CHANNEL_START)) {
+                    if (I_MonitorTransactions()) {
+                        sim_printf ("%s: channel is inactive via MASKR\n", sDmacName[cDmac]);
+                    }
+                    return (E_NONE);
+                }
+            }
+
+            /* validate sizes */
+            if (cSize != BYTE) {
+                sim_printf ("dmacb: making peripheral bus access wider than byte!\n");
+            }
+
+            /* only consider the bits the h/w really does */
+            ulPbaAddress = (ulAddress_offset & 0x7fc);
+
+            /* call appropriate device simulator */
+            switch (ulPbaAddress) {
+
+                /* scc controller */
+		case DMA_PBA_SCC_B_CTRL:
+		case DMA_PBA_SCC_B_DATA:
+		case DMA_PBA_SCC_A_CTRL:
+		case DMA_PBA_SCC_A_DATA:
+		    /*
+		    return (scc_operation (ulPbaAddress, pulReg, cSize,  cMem_op_type, fOverride);
+                    */
+		    break;
+
+                /* serial control register */
+		case DMA_PBA_SCR:
+		    /*
+		    return (scr_operation (ulPbaAddress, pulReg, cSize,  cMem_op_type, fOverride);
+                    */
+		    break;
+
+                default:
+                    sim_printf ("%s: access misses legitimate peripheral bus addresses\n, sDmacName[cDmac]");
+                    ulMissedAddress = 0xffffffff;
+                    do_mem_op (pulReg, &ulMissedAddress, cSize, cMem_op_type);
+                    break;
+            }
+        }
+
+
+                    
+
+        /* -------------------------- */
+        /* Internal Channel Registers */
+        /* -------------------------- */
+
+        else if ((ulAddress_offset >= WE32104_INTERNAL_REGISTERS_0)  &&  (ulAddress_offset < WE32104_GLOBAL_REGISTERS)) {
+            InternalRegisters (cDmac, ulAddress_offset, pulReg, cSize, cMem_op_type);
+        }
+
+
+
+
+        /* ------------------------ */
+        /* Internal Global Register */
+        /* ------------------------ */
+
+        else if ((ulAddress_offset & 0x600) == WE32104_GLOBAL_REGISTERS) {
+            do_mem_op (pulReg, (unsigned int *)&Dma[cDmac].Model.Maskr, cSize, cMem_op_type);
+        }
+
+
+
+
+        /* --------------------- */
+        /* Internal Data Buffers */
+        /* --------------------- */
+
+        else if ( ((ulAddress_offset & 0x780) >= WE32104_INTERNAL_DATA_BUFFERS_0)
+                 && ((ulAddress_offset & 0x780) <= WE32104_INTERNAL_DATA_BUFFERS_3) ) {
+
+            do_mem_op (pulReg, 
+                       (unsigned int *)&Dma[cDmac].Model.Idb[cChannel].Bytes[ulAddress_offset & 0x1f],
+                       cSize,
+                       cMem_op_type);
+        }
+
+
+        else {
+            sim_printf ("%s: access to unknown address 0x%x\n", sDmacName[cDmac], ulAddress_offset);
+            do_mem_op (pulReg, &ulMissedAddress, cSize, cMem_op_type);
+        }
+
+
+        /* keep lint happy */
+        fOverride = fOverride;
+
+
+	if(sim_errno){
+	    return (E_DACC);
+	}
+        return (E_NONE);
+    }
+
+    
+
+
+
+        
+@
+
+
+1.18
+log
+@Make byte addresses in rviTable be +3.
+In ValidateTransaction, eliminate ANDing of address offset to
+low seven bits.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.17 88/05/11 17:05:28 robertb Exp $
+d122 1
+a122 3
+        char    *getenv();
+
+        return ( (int) getenv("SIMTRANS") );
+@
+
+
+1.17
+log
+@Made it use new IOB simulator.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.16 88/04/27 18:14:06 robertb Exp $
+d73 15
+a87 15
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_MSB,	BYTE,	RW,	"SCSI Xfer counter (Hi)",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_LSB,	BYTE,	RW,	"SCSI Xfer counter (Lo)",
+    DMAC(A),	DMA_PBA_SCSI_FIFO_PIO,		BYTE,	RW,	"SCSI FIFO (programmed I/O",
+    DMAC(A),	DMA_PBA_SCSI_FIFO_DMA,		BYTE,	RW,	"SCSI FIFO (DMA)",
+    DMAC(A),	DMA_PBA_SCSI_CMD_REG,		BYTE,	RW,	"SCSI Command register",
+    DMAC(A),	DMA_PBA_SCSI_STATUS,		BYTE,	RO,	"SCSI Status register",
+    DMAC(A),	DMA_PBA_SCSI_BUS_ID,		BYTE,	WO,	"SCSI Select/reconnect Bus ID",
+    DMAC(A),	DMA_PBA_SCSI_INTR_STATUS,	BYTE,	RO,	"SCSI Interrupt status register",
+    DMAC(A),	DMA_PBA_SCSI_TIMEOUT,		BYTE,	WO,	"SCSI Select/Reconnect timeout",
+    DMAC(A),	DMA_PBA_SCSI_SEQUENCE_STEP,	BYTE,	RO,	"SCSI Sequence step",
+    DMAC(A),	DMA_PBA_SCSI_SYNC_PERIOD,	BYTE,	WO,	"SCSI Sync period",
+    DMAC(A),	DMA_PBA_SCSI_FIFO_FLAGS,	BYTE,	RO,	"SCSI FIFO flags",
+    DMAC(A),	DMA_PBA_SCSI_SYNC_OFFSET,	BYTE,	WO,	"SCSI Sync offset",
+    DMAC(A),	DMA_PBA_SCSI_CONFIGURATION,	BYTE,	RW,	"SCSI Configuration",
+    DMAC(A),	DMA_PBA_SCSI_CLOCK_CONVERSION,	BYTE,	WO,	"SCSI Clock conversion factor",
+d89 9
+a97 9
+    DMAC(A),	DMA_PBA_CEN_SINGLE,		BYTE,	RW,	"Centronics Single(write) / Status(read)",
+    DMAC(A),	DMA_PBA_CEN_STREAM,		BYTE,	WO,	"Centronics Stream",
+    DMAC(A),	DMA_PBA_CEN_INPRIME,		BYTE,	WO,	"Centronics Inprime",
+    DMAC(A),	DMA_PBA_CEN_REQDMA,		BYTE,	WO,	"Centronics REQDMA latch",
+    DMAC(B),	DMA_PBA_SCC_B_CTRL,		BYTE,	RW,	"SCC Chan B Ctrl reg",
+    DMAC(B),	DMA_PBA_SCC_B_DATA,		BYTE,	RW,	"SCC Chan B Data reg",
+    DMAC(B),	DMA_PBA_SCC_A_CTRL,		BYTE,	RW,	"SCC Chan A Ctrl reg",
+    DMAC(B),	DMA_PBA_SCC_A_DATA,		BYTE,	RW,	"SCC Chan A Data reg",
+    DMAC(B),	DMA_PBA_SCR,			BYTE,	RW,	"Serial Ctrl reg",
+d154 2
+a155 2
+ * Registers are assumed to be uniquely identifiable by their bottom
+ * 7 bits.
+d192 5
+d199 1
+@
+
+
+1.16
+log
+@Fixed use of sim_errno.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.15 88/04/18 10:42:31 brents Exp $
+a626 2
+
+
+d643 1
+a643 6
+            /*
+             * Right now we directly set interrupt level 6 in the
+             * CE interrupt simulator.  When we add the IOB interrupt
+             * simulator, we will want to change this. -rcb
+             */
+            set_ce_interrupt(6);
+@
+
+
+1.15
+log
+@brents- changed dmaca_operation and dmacb_operation to return
+E_DACC iff sim_errno != NO_ERROR: Tim, you may want to check
+this for accuracy since I didn't check out all the possible routes
+where sim_errno is set.  If I can get the simulator to build, I will
+check it out for functionality.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.14 88/03/10 10:32:27 robertb Exp $
+d276 1
+a276 1
+            sim_errno = E_DACC;
+d334 1
+a334 1
+                                    sim_errno = E_DACC;
+d338 1
+a338 1
+                                    sim_errno = E_DACC;
+d344 1
+a344 1
+                                    sim_errno = E_DACC;
+d348 1
+a348 1
+                                    sim_errno = E_DACC;
+d352 1
+a352 1
+                                sim_errno = E_DACC;
+d358 1
+a358 1
+                        sim_errno = E_DACC;
+d363 1
+a363 1
+                    sim_errno = E_DACC;
+d382 1
+a382 1
+                                    sim_errno = E_DACC;
+d386 1
+a386 1
+                                    sim_errno = E_DACC;
+d392 1
+a392 1
+                                    sim_errno = E_DACC;
+d396 1
+a396 1
+                                    sim_errno = E_DACC;
+d400 1
+a400 1
+                                sim_errno = E_DACC;
+d406 1
+a406 1
+                        sim_errno = E_DACC;
+d411 1
+a411 1
+                    sim_errno = E_DACC;
+d468 1
+a468 1
+        if (sim_errno != E_NONE) {
+d563 1
+a563 1
+            if (sim_errno != E_NONE) {
+d635 1
+a635 1
+        if (sim_errno == E_NONE) {
+d945 1
+a945 1
+	sim_errno = E_NONE;
+d1064 1
+a1064 1
+	if(sim_errno != E_NONE){
+d1199 1
+a1199 1
+	if(sim_errno != E_NONE){
+@
+
+
+1.14
+log
+@changed the setting of the sim_interrupt_flag to be a call
+to set_ce_interrupt(6).
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.13 88/03/01 14:55:19 brents Exp $
+d945 1
+a946 1
+
+d1064 3
+a1066 1
+
+d1199 3
+@
+
+
+1.13
+log
+@correction
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.12 88/02/17 09:10:23 timd Exp $
+d645 6
+a650 1
+            sim_interrupt_flag = DEVICE_INTERRUPT;
+@
+
+
+1.12
+log
+@Added DMAC B
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.11 88/02/01 14:48:09 timd Exp $
+d189 2
+a190 1
+        if (ulAddress_offset < WE32104_GLOBAL_REGISTERS) {
+d193 1
+a193 1
+            ulAddress_offset &= 0x3f;
+@
+
+
+1.11
+log
+@Enabling DWORD and QWORD and fixed problem with short memory fill.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.10 88/01/26 14:52:40 timd Exp $
+d1001 132
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.9 88/01/25 12:13:53 timd Exp $
+d272 1
+d277 1
+d430 1
+a430 1
+                                         Dma[cDmac].Model.Idb[cChannel].Shorts[ Dma[cDmac].cBytesFilled[cChannel] % 2] );
+@
+
+
+1.9
+log
+@Changed TCR (xfer count register) to be a byte-counter, instead of an
+operation counter, as per a phone call to ATT. Also activated memory
+operations for all channels, and implemented DWORD and QWORD memory
+operands.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.8 88/01/20 15:32:06 timd Exp $
+d476 1
+a476 1
+        if (!(Dma[cDmac].Model.Regs[cChannel].Mr & WE32104_MR_DAC_INCREMENT)) {
+d481 1
+a481 1
+        if (!(Dma[cDmac].Model.Regs[cChannel].Mr & WE32104_MR_SAC_INCREMENT)) {
+@
+
+
+1.8
+log
+@Cosmetic.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.7 88/01/20 15:26:23 timd Exp $
+d51 2
+a52 1
+static char    sSizeName[9][6] = { "?", "BYTE", "HALF", "?", "WORD", "?", "?", "?", "DWORD" };
+d56 1
+a56 1
+static  int    acSizes[8] = { 0, 0, 0, 0, WORD, DWORD, HALF, BYTE };
+d58 1
+a58 1
+static  int    acWidth[8] = { 0, 0, 0, 0,    4,     8,    2,    1 };
+d110 29
+d146 1
+a147 3
+
+
+
+d176 12
+a187 12
+#ifdef DMAC_TRANSACTIONS
+        cSection = (ulAddress_offset & 0x600) >> 9;
+        cChannel = (ulAddress_offset & 0x180) >> 7;
+        sim_printf ("DMAC Transaction\n");
+        sim_printf ("----------------\n");
+        sim_printf ("   Offset address:   0x%x\n", ulAddress_offset);
+        sim_printf ("   CPU reg contents: 0x%x\n", *pulReg);
+        sim_printf ("   Access size:      %s\n", sSizeName[cSize]);
+        sim_printf ("   Operation:        %s\n", sOpName[cMem_op_type]);
+        sim_printf ("   Section:          %d\n", cSection);
+        sim_printf ("   Channel:          %d\n", cChannel);
+#endif    
+d215 8
+a222 4
+#ifdef DMAC_TRANSACTIONS
+            sim_printf ("   Dmac Register:    ");
+            if (fRegisterFound) {
+                sim_printf ("%s\n", rviTable[i].sName);
+a223 4
+            else {
+                sim_printf ("No register at address 0x%x\n", ulAddress_offset);
+            }
+#endif
+d243 3
+a245 3
+#ifdef DMAC_TRANSACTIONS        
+        sim_printf ("\n");
+#endif
+d302 10
+d420 1
+a420 1
+                if ( (cDmac == A)  &&  ((cChannel == 0) || (cChannel == 2)) ) {
+d434 16
+d454 1
+a454 1
+                }
+d457 1
+a457 1
+                }
+d486 6
+a491 1
+        --Dma[cDmac].Model.Regs[cChannel].Tcr;
+d507 31
+a537 29
+#ifdef DMAC_TRANSACTIONS
+        sim_printf ("%s: DMA Operation Start\n", sDmacName[cDmac]);
+        sim_printf ("----------------------------\n");
+        sim_printf ("    Start Addr Reg:  0x%08x\n", Dma[cDmac].Model.Regs[cChannel].Sar);
+        sim_printf ("    Dest  Addr Reg:  0x%08x\n", Dma[cDmac].Model.Regs[cChannel].Dar);
+        sim_printf ("    Base  Addr Reg:  0x%08x\n", Dma[cDmac].Model.Regs[cChannel].Bar);
+        sim_printf ("    Xfer Count Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Tcr);
+        sim_printf ("    Intr Vect  Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Ivr);
+        sim_printf ("    Stat/Ctrl  Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Ivr);
+        sim_printf ("    Mode       Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Mr);
+        sim_printf ("    Dev Ctrl   Reg:  0x%04x\n", Dma[cDmac].Model.Regs[cChannel].Dcr);
+        sim_printf ("    Size/Width:      %s\n", sSizeName[ acSizes[ ((Dma[cDmac].Model.Regs[cChannel].Mr & 0xe0) >> 5) ] ]);
+        sim_printf ("    Type:            ");
+        switch ((Dma[cDmac].Model.Regs[cChannel].Mr & 0x6000) >> 13) {
+            case 0:
+                sim_printf ("mem-to-mem\n");
+                break;
+            case 1:
+                sim_printf ("periph-to-mem\n");
+                break;
+            case 2:
+                sim_printf ("mem-to-periph\n");
+                break;
+            case 3:
+                sim_printf ("memory fill\n");
+                break;
+            default:
+                sim_printf ("???\n");
+                break;
+a538 1
+        sim_printf ("\n");
+a539 1
+#endif
+a577 3
+        int			    fChaining;
+        unsigned int		    tulBaseAddr;
+        struct Dma_Request_Block    drbCurrent;
+a579 1
+
+d660 4
+d683 4
+d718 3
+a720 3
+#ifdef DMAC_TRANSACTIONS
+        sim_printf ("%s:   accessing channel %d, register offset 0x%x\n", sDmacName[cDmac], cChannel, ulReg_offset);
+#endif
+d954 3
+a956 3
+#ifdef DMAC_TRANSACTIONS
+                    sim_printf ("%s: channel is inactive via MASKR\n", sDmacName[cDmac]);
+#endif
+d1051 4
+@
+
+
+1.7
+log
+@Made all DMAC registers longwords, on advice of h/w folks.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.6 88/01/20 11:25:33 timd Exp $
+d938 1
+a938 1
+                    sim_printf ("timer: access misses legitimate peripheral bus addresses\n");
+d985 1
+a985 1
+            sim_printf ("%s: simulation error on unknown address 0x%x\n", sDmacName[cDmac], ulAddress_offset);
+@
+
+
+1.6
+log
+@Revised chaining and incrementing systems.
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.5 87/12/10 14:45:23 timd Exp $
+d100 6
+a105 6
+    DMAC(BOTH),	WE32104_XFER_COUNT_REG,		HALF,	RW,	"Xfer Count reg",
+    DMAC(BOTH),	WE32104_INTR_VECTOR_REG,	HALF,	RW,	"Intr Vector reg",
+    DMAC(BOTH),	WE32104_STATUS_REG,		HALF,	RW,	"Status/Ctrl reg",
+    DMAC(BOTH),	WE32104_CTRL_REG,		HALF,	RW,	"Status/Ctrl reg",
+    DMAC(BOTH),	WE32104_MODE_REG,		HALF,	RW,	"Mode reg",
+    DMAC(BOTH),	WE32104_DEVICE_CTRL_REG,	HALF,	RW,	"Device Ctrl reg",
+@
+
+
+1.5
+log
+@1st version of DMAC-A
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.4 87/12/10 14:11:06 timd Exp $
+d57 1
+d161 1
+a161 1
+        if (ulAddress_offset <= WE32104_GLOBAL_REGISTERS) {
+d221 1
+a221 1
+ * DmaXfer()
+d228 3
+a230 5
+static void    DmaXfer (cDmac, cChannel, fChaining, pdrbRequestBlock)
+    int				cDmac;
+    int				cChannel;
+    int				fChaining;
+    struct Dma_Request_Block	*pdrbRequestBlock;
+d242 4
+a245 4
+        cSize = Dma[cDmac].Model.Regs[cChannel].Mr & 0xe0;
+        cXferType = Dma[cDmac].Model.Regs[cChannel].Mr & 0x6000;
+        if ( (cSize != WE32104_MR_DS_BYTE) && (cSize != WE32104_MR_DS_WORD) && (cSize != WE32104_MR_DS_LONG) ) {
+            sim_printf ("%s:    only 8-, 16-, and 32-bit DMA transfers are simulated.\n");
+a249 3
+        /* -------------- */
+        /* Find Addresses */
+        /* -------------- */
+d251 3
+a253 8
+        if (fChaining) {
+            ulSourceAddr = pdrbRequestBlock->SourceAddr;
+            ulDestAddr   = pdrbRequestBlock->DestAddr;
+        }
+        else {
+            ulSourceAddr = Dma[cDmac].Model.Regs[cChannel].Sar;
+            ulDestAddr   = Dma[cDmac].Model.Regs[cChannel].Dar;
+        }
+d277 1
+d399 1
+a399 1
+                    ++Dma[cDmac].cBytesFilled[cChannel];
+d423 1
+a423 6
+            if (fChaining) {
+                ++pdrbRequestBlock->DestAddr;
+            }
+            else {
+                ++Dma[cDmac].Model.Regs[cChannel].Dar;
+            }
+d428 1
+a428 6
+            if (fChaining) {
+                ++pdrbRequestBlock->SourceAddr;
+            }
+            else {
+                ++Dma[cDmac].Model.Regs[cChannel].Sar;
+            }
+d432 1
+a432 6
+        if (fChaining) {
+            --pdrbRequestBlock->XferCount;
+        }
+        else {
+            --Dma[cDmac].Model.Regs[cChannel].Tcr;
+        }
+a435 1
+
+d437 1
+a437 1
+ * ChannelStart()
+d439 1
+a439 1
+ * Start a DMA operation on DMAC "cDmac"'s channel "cChannel".
+d443 3
+a445 3
+static void    ChannelStart (cDmac, cChannel)
+    int    cDmac;
+    int    cChannel;
+a447 6
+        int			    fChaining;
+        unsigned int		    tulBaseAddr;
+        struct Dma_Request_Block    drbCurrent;
+
+
+
+d449 2
+a450 1
+        sim_printf ("%s:    starting dma operation\n", sDmacName[cDmac]);
+d478 2
+a479 1
+        printf ("\n");
+d481 8
+a488 1
+        
+d490 35
+d542 1
+a542 8
+            /* get address of request block */
+            if (Dma[cDmac].Model.Regs[cChannel].Bar) {
+                tulBaseAddr = Dma[cDmac].Model.Regs[cChannel].Bar;
+                fChaining = 1;
+            }
+            else {
+                fChaining = 0;    /* no request block available */
+            }
+d544 5
+a548 2
+            /* chain loop */
+            while (fChaining) {
+d550 1
+a550 5
+                /* read request block */
+                drbCurrent.SourceAddr = read_sim_w (tulBaseAddr);
+                drbCurrent.DestAddr   = read_sim_w (tulBaseAddr + 0x4);
+                drbCurrent.XferCount  = read_sim_w (tulBaseAddr + 0x8);
+                drbCurrent.BaseAddr   = read_sim_w (tulBaseAddr + 0xc);
+d552 1
+a552 2
+                /* transfer loop */
+                while (drbCurrent.XferCount) {
+d554 1
+a554 23
+                    /* execute the transfer */
+                    DmaXfer (cDmac, cChannel, fChaining, &drbCurrent);
+                    
+                    /* check for error */
+                    if (sim_errno != E_NONE) {
+                        break;    /* abort the transfer */
+                    }
+                }
+
+                /* get next request block */
+                if (sim_errno == E_NONE) {
+                    if (drbCurrent.BaseAddr) {
+                        tulBaseAddr = drbCurrent.BaseAddr;
+                    }
+                    else {
+                        fChaining = 0;    /* end of chain */
+                    }
+                }
+                else {
+                    fChaining = 0;    /* terminate the DMA operation */
+                }
+
+            }    /* while fChaining */
+d564 2
+a565 15
+
+            /* transfer loop */
+            while (Dma[cDmac].Model.Regs[cChannel].Tcr) {
+
+                /* execute the transfer */
+                DmaXfer (cDmac, 
+                         cChannel, 
+                         0 /* non-chained */, 
+                         (struct Dma_Request_Block *) 0 /* no request block */);
+
+                /* check for error */
+                if (sim_errno != E_NONE) {
+                    break;    /* abort the operation */
+                }
+            }
+@
+
+
+1.4
+log
+@Added print stuff
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.3 87/12/08 16:27:31 timd Exp $
+d210 1
+a210 1
+                        TranactionError (cWhichDmac, "register is write-only");
+d748 1
+a748 1
+        sim_printf ("DMAC-");
+d766 1
+d771 1
+d776 1
+d779 1
+a779 1
+            sim_printf ("        0x%08x", Dma[cDmac].Model.Regs[i].Tcr);
+d781 1
+d784 1
+a784 1
+            sim_printf ("        0x%08x", Dma[cDmac].Model.Regs[i].Ivr);
+d786 1
+d789 1
+a789 1
+            sim_printf ("        0x%08x", Dma[cDmac].Model.Regs[i].Scr);
+d791 2
+a792 1
+        sim_printf ("Mr     ");
+d794 1
+a794 1
+            sim_printf ("        0x%08x", Dma[cDmac].Model.Regs[i].Mr);
+d796 1
+d799 1
+a799 1
+        ion (cWhichDmac,
+                             ulAddress_offset, pulReg, cSize, cMem_op_type)
+d631 1
+a631 1
+    int    cChannel
+d650 1
+a650 1
+    int    cChannel
+d735 141
+d894 4
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d17 1
+a17 1
+ * $Header: dmac.c,v 1.1 87/11/25 16:12:16 timd Exp $
+d22 2
+a24 1
+#include "dma.h"
+a25 1
+#include "sim.h"
+d43 2
+a44 1
+    struct Dma_Controller    Model;
+d54 3
+d71 16
+a86 15
+    DMAC(A),	DMA_PBA_SCSI_DATA_REG_1,	BYTE,	RW,	"SCSI Data reg 1",
+    DMAC(A),	DMA_PBA_SCSI_CMD_REG,		BYTE,	RW,	"SCSI Cmd reg",
+    DMAC(A),	DMA_PBA_SCSI_CTRL_REG,		BYTE,	RW,	"SCSI Ctrl reg",
+    DMAC(A),	DMA_PBA_SCSI_DEST_ID,		BYTE,	RW,	"SCSI Dest Id",
+    DMAC(A),	DMA_PBA_SCSI_AUX_STATUS,	BYTE,	RW,	"SCSI Aux status",
+    DMAC(A),	DMA_PBA_SCSI_ID_REG,		BYTE,	RW,	"SCSI Id reg",
+    DMAC(A),	DMA_PBA_SCSI_INTR_REG,		BYTE,	RW,	"SCSI Intr reg",
+    DMAC(A),	DMA_PBA_SCSI_SOURCE_ID,		BYTE,	RW,	"SCSI Source Id",
+    DMAC(A),	DMA_PBA_SCSI_DATA_REG_2,	BYTE,	RW,	"SCSI Data reg 2",
+    DMAC(A),	DMA_PBA_SCSI_DIAG_STATUS,	BYTE,	RW,	"SCSI Diag status",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_MSB,	BYTE,	RW,	"SCSI Xfer count msb",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_MID,	BYTE,	RW,	"SCSI Xfer count mid",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_LSB,	BYTE,	RW,	"SCSI Xfer count lsb",
+    DMAC(A),	DMA_PBA_SCSI_TEST,		BYTE,	RW,	"SCSI Test",
+    DMAC(A),	DMA_PBA_SCSI_EXT_ID_REG,	BYTE,	RW,	"SCSI Ext Id reg",
+d88 3
+a90 2
+    DMAC(A),	DMA_PBA_CEN_STREAM,		BYTE,	RW,	"Centronics Stream",
+    DMAC(A),	DMA_PBA_CEN_INPRIME,		BYTE,	RW,	"Centronics Inprime",
+d110 1
+a110 1
+    char	sErrorMessage;
+d135 1
+a135 1
+                             ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+a140 1
+    int			fOverride;
+d220 440
+d666 3
+a668 3
+void    InternalRegisters (cWhichDmac,
+                           ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+    int    		cWhichDmac;
+a672 1
+    int			fOverride;
+d685 3
+d693 1
+d696 1
+d699 1
+d702 1
+d705 1
+d707 14
+a720 2
+            case WE32104_STATUS_REG:
+            /* case WE32104_CTRL_REG: same as above */
+d723 1
+d726 1
+d729 1
+a729 1
+                sim_printf ("dmaca: access misses internal channel registers\n");
+a733 1
+
+d749 1
+a749 1
+        unsigned int    ulPbaAddress, ulReg_offset;
+d751 2
+d755 3
+d762 1
+a762 1
+        if ( (ulAddress_offset >= WE32104_PERIPH_BUS_ACCESS_0)  &&  (ulAddress_offset < WE32104_INTERNAL_REGISTERS_0)) {
+d764 10
+d786 11
+a796 15
+                case DMA_PBA_SCSI_DATA_REG_1:
+                case DMA_PBA_SCSI_CMD_REG:
+                case DMA_PBA_SCSI_CTRL_REG:
+                case DMA_PBA_SCSI_DEST_ID:
+                case DMA_PBA_SCSI_AUX_STATUS:
+                case DMA_PBA_SCSI_ID_REG:
+                case DMA_PBA_SCSI_INTR_REG:
+                case DMA_PBA_SCSI_SOURCE_ID:
+                case DMA_PBA_SCSI_DATA_REG_2:
+                case DMA_PBA_SCSI_DIAG_STATUS:
+                case DMA_PBA_SCSI_XFER_COUNT_MSB:
+                case DMA_PBA_SCSI_XFER_COUNT_MID:
+                case DMA_PBA_SCSI_XFER_COUNT_LSB:
+                case DMA_PBA_SCSI_TEST:
+                case                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         YTE,	RW,	"SCSI Dest Id",
+    DMAC(A),	DMA_PBA_SCSI_AUX_STATUS,	BYTE,	RW,	"SCSI Aux status",
+    DMAC(A),	DMA_PBA_SCSI_ID_REG,		BYTE,	RW,	"SCSI Id reg",
+    DMAC(A),	DMA_PBA_SCSI_INTR_REG,		BYTE,	RW,	"SCSI Intr reg",
+    DMAC(A),	DMA_PBA_SCSI_SOURCE_ID,		BYTE,	RW,	"SCSI Source Id",
+    DMAC(A),	DMA_PBA_SCSI_DATA_REG_2,	BYTE,	RW,	"SCSI Data reg 2",
+    DMAC(A),	DMA_PBA_SCSI_DIAG_STATUS,	BYTE,	RW,	"SCSI Diag status",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_MSB,	BYTE,	RW,	"SCSI Xfer count msb",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_MID,	BYTE,	RW,	"SCSI Xfer count mid",
+    DMAC(A),	DMA_PBA_SCSI_XFER_COUNT_LSB,	BYTE,	RW,	"SCSI Xfer count lsb",
+    DMAC(A),	DMA_PBA_SCSI_TEST,		BYTE,	RW,	"SCSI Test",
+    DMAC(A),	DMA_PBA_SCSI_EXT_ID_REG,	BYTE,	RW,	"SCSI Ext Id reg",
+d88 3
+a90 2
+    DMAC(A),	DMA_PBA_CEN_STREAM,		BYTE,	RW,	"Centronics Stream",
+    DMAC(A),	DMA_PBA_CEN_INPRIME,		BYTE,	RW,	"Centronics Inprime",
+d110 1
+a110 1
+    char	sErrorMessage;
+d135 1
+a135 1
+                             ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+a

@@ -1,0 +1,1550 @@
+head     1.18;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.18
+date     90.06.30.17.31.08;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     90.04.30.14.08.22;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     90.04.23.10.27.25;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     90.04.05.09.28.44;  author marvinw;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     90.03.28.14.57.49;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     90.03.15.09.02.56;  author andrew;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     90.03.08.14.38.33;  author andrew;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     90.01.02.16.54.35;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     89.12.18.15.46.00;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.11.17.08.06.52;  author davidl;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.11.14.14.26.55;  author marvinw;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.10.18.12.28.29;  author marvinw;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.09.21.10.18.10;  author paulg;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.09.08.16.04.59;  author paulg;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.08.20.18.08.30;  author paulg;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.08.20.17.54.01;  author paulg;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.08.04.10.14.12;  author davidl;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.30.23.07.23;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.18
+log
+@Deleted large useless comment at top of file.
+Deleted "register" in declaration to get it to compile.
+Fixed #else clause of an #ifdef TEK_HACK.
+Deleted some obsolete code that was in a #ifdef NOT_DEF
+@
+text
+@/* Find a variable's value in memory, for GDB, the GNU debugger.
+   Copyright (C) 1986, 1987, 1989 Free Software Foundation, Inc.
+
+   $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/findvar.c,v 1.17 90/04/30 14:08:22 robertb Exp $
+   $Locker:  $
+
+ */
+
+#include "defs.h"
+#include "param.h"
+#include "symtab.h"
+#include "frame.h"
+#include "value.h"
+#include "ui.h"
+#include "inferior.h"
+
+
+#ifdef TEK_HACK
+
+/* Return the address in which frame FRAME's value of register REGNUM has been
+   saved in memory.  Or, if the value is still in a register, return that
+   register's number.  Return INVALID_CORE_ADDR if REGNUM has been altered, but
+   not saved. If REGNUM specifies the SP, the value we return is actually
+   the SP value, not an address where it was saved.
+
+   If regnum >= NUM_REGS it means that we are to fetch the value of a
+   parameter passed in a register.  In this case we call our sister routine
+   find_saved_register_on_entry().  */
+
+CORE_ADDR
+find_saved_register(frame, regnum)
+  FRAME frame;
+  int regnum;
+{
+  CORE_ADDR addr, find_saved_register_on_entry();
+  static int recursion_count = 0;
+
+  if (recursion_count++ > 500) {
+    recursion_count = 0;
+    ui_badnews(-1, "find_saved_register: recursion loop! regnum=%d", 
+                                               regnum);
+  }
+
+  if (regnum >= NUM_REGS) {
+    addr =  find_saved_register_on_entry(frame, regnum - (NUM_REGS - 2));
+  } else {
+    if (get_current_frame() == frame || 
+        frame == (FRAME)0 || 
+        frame->next == (FRAME)0) {
+      addr = regnum;
+    } else {
+  
+       /* If we are asked for the pc of a frame other than the current
+          one, return the saved value of r1, which points to the instruction
+          that else { will execute first when the frame is resumed. -rcb 3/90 */
+    
+      if (regnum == SYNTH_PC_REGNUM) {
+        regnum = R1_REGNUM;
+      }
+    
+      addr = FRAME_FIND_SINGLE_SAVED_REG(get_frame_info(frame->next), regnum);
+      if (1 < addr && addr < NUM_GENERAL_REGS) {
+        addr = find_saved_register(frame->next, addr);
+      }
+    }
+  }
+  recursion_count--;
+  return addr;
+}
+
+/* Return the address in which frame FRAME's value of register REGNUM has been
+   saved in memory.  Or, if the value is still in a register, return that
+   register's number.  Return INVALID_CORE_ADDR if REGNUM has been altered, but
+   not saved. If REGNUM specifies the SP, the value we return is actually
+   the SP value, not an address where it was saved.  
+
+   return the address at which regnum has been saved on
+   entry to the function that created frame.   */
+
+CORE_ADDR
+find_saved_register_on_entry(frame, regnum)
+     FRAME frame;
+     int regnum;
+{
+  register CORE_ADDR addr;
+
+  if (regnum >= NUM_REGS) {
+    ui_badnews(-1, "find_saved_register_on_entry(0x%x, %d)\n", frame, regnum);
+  }
+
+   /* If we are asked for the pc of a frame other than the current
+      one, return the saved value of r1, which points to the instruction
+      that will execute first when the frame is resumed. -rcb 3/90 */
+
+  if (regnum == SYNTH_PC_REGNUM) {
+    regnum = R1_REGNUM;
+  }
+
+  addr = FRAME_FIND_SINGLE_SAVED_REG(get_frame_info(frame), regnum);
+  if (1 < addr && addr < NUM_GENERAL_REGS) {
+    addr = find_saved_register(frame, addr);
+  }
+  return addr;
+}
+#endif
+
+/* Copy the bytes of register REGNUM, relative to the current stack frame,
+   into our memory at MYADDR.
+   The number of bytes copied is REGISTER_RAW_SIZE (REGNUM).  */
+
+#ifdef TEK_HACK
+int
+#else /* not TEK_HACK*/
+void
+#endif /* not TEK_HACK */
+read_relative_register_raw_bytes (regnum, myaddr)
+     int regnum;
+     char *myaddr;
+{
+  register CORE_ADDR addr;
+
+  if (regnum == SYNTH_FP_REGNUM)
+    {
+      bcopy (&FRAME_FP(selected_frame), myaddr, sizeof (CORE_ADDR));
+#ifdef TEK_HACK
+      return 0;
+#else /* not TEK_HACK */
+      return;
+#endif /* not TEK_HACK */
+    }
+
+  addr = find_saved_register (selected_frame, regnum);
+
+#ifdef TEK_HACK
+  if (addr == INVALID_CORE_ADDR)
+    return 1;
+  if (addr >= NUM_REGS)
+#else /* not TEK_HACK */
+  if (addr)
+#endif /* not TEK_HACK */
+    {
+      if (regnum == SP_REGNUM)
+	{
+	  CORE_ADDR buffer = addr;
+	  bcopy (&buffer, myaddr, sizeof (CORE_ADDR));
+	}
+      else
+	read_memory (addr, myaddr, REGISTER_RAW_SIZE (regnum), M_NORMAL);
+      return;
+    }
+#ifdef TEK_HACK
+  read_register_bytes (REGISTER_BYTE (addr),
+		       myaddr, REGISTER_RAW_SIZE (addr));
+  return 0;
+#else /* not TEK_HACK */
+  read_register_bytes (REGISTER_BYTE (regnum),
+                       myaddr, REGISTER_RAW_SIZE (regnum));
+#endif /* not TEK_HACK */
+}
+
+/* Return a `value' with the contents of register REGNUM
+   in its virtual format, with the type specified by
+   REGISTER_VIRTUAL_TYPE.  */
+
+value
+value_of_register (regnum)
+     int regnum;
+{
+  register CORE_ADDR addr;
+  register value val;
+  char raw_buffer[MAX_REGISTER_RAW_SIZE];
+  char virtual_buffer[MAX_REGISTER_VIRTUAL_SIZE];
+
+  if (! (have_inferior_p () || have_core_file_p ()))
+    ui_badnews(-1,"Can't get value of register without inferior or core file");
+  
+  addr =  find_saved_register (selected_frame, regnum);
+#ifdef TEK_HACK
+  if (addr == INVALID_CORE_ADDR)
+    {
+      val = allocate_value (REGISTER_VIRTUAL_TYPE (regnum));
+      VALUE_LVAL (val) = lval_reg_invalid;
+      VALUE_REGNO (val) = regnum;
+      return val;
+    }
+  if (addr >= NUM_REGS)
+#else /* not TEK_HACK */
+  if (addr != 0)
+#endif /* not TEK_HACK */
+    {
+      if (regnum == SP_REGNUM)
+	return value_from_long (builtin_type_int, (LONGEST) addr);
+#ifdef TEK_HACK
+      switch (read_memory (addr, raw_buffer, REGISTER_RAW_SIZE (regnum), M_NORMAL))
+        {
+          char bummer_msg[128];
+
+        case 0: break;
+        case 1:
+          ui_badnews(-1, "couldn't read address 0x%x from core file", addr);
+          break;
+        default:
+          sprintf(bummer_msg, "ptrace couldn't read address 0x%x", addr);
+          perror_with_name (bummer_msg);
+        }
+#else /* not TEK_HACK */
+      read_memory (addr, raw_buffer, REGISTER_RAW_SIZE (regnum), M_NORMAL);
+#endif /* not TEK_HACK */
+    }
+  else
+#ifdef TEK_HACK
+  {
+    regnum = addr;
+    addr = 0;
+    read_register_bytes (REGISTER_BYTE (regnum), raw_buffer,
+			 REGISTER_RAW_SIZE (regnum));
+  }
+#else
+    read_register_bytes (REGISTER_BYTE (regnum), raw_buffer,
+			 REGISTER_RAW_SIZE (regnum));
+#endif
+
+  REGISTER_CONVERT_TO_VIRTUAL (regnum, raw_buffer, virtual_buffer);
+  val = allocate_value (REGISTER_VIRTUAL_TYPE (regnum));
+  bcopy (virtual_buffer, VALUE_CONTENTS (val), REGISTER_VIRTUAL_SIZE (regnum));
+  VALUE_LVAL (val) = addr ? lval_memory : lval_register;
+  VALUE_ADDRESS (val) = addr ? addr : REGISTER_BYTE (regnum);
+  VALUE_REGNO (val) = regnum;
+  return val;
+}
+
+/* Replacement for obsolete method of reading registers.
+   Copy "len" bytes of consecutive data from registers
+   starting with the "regbyte"'th byte of register data
+   into memory at "myaddr". */
+read_register_bytes (regbyte, myaddr, len)
+  int regbyte;
+  int *myaddr;
+  int len;
+{
+  int regno;
+  int count;
+
+  if (regbyte&3 || ((int)myaddr)&3 || len&3)
+    ui_badnews(-1, "read_register_bytes(%d,%d,%d): odd arguments.",
+	       regbyte, myaddr, len);
+  regno = regbyte>>2;
+  count = len>>2;
+  while (count--)
+    *myaddr++ = read_register(regno++);
+}
+
+/* Replacement for obsolete method of writing registers.
+   Copy "len" bytes of consecutive data from memory at "myaddr"
+   into registers starting with the "regbyte"'th byte of register data.  */
+write_register_bytes (regbyte, myaddr, len)
+  int regbyte;
+  int *myaddr;
+  int len;
+{
+  int regno;
+  int count;
+
+  if (regbyte&3 || ((int)myaddr)&3 || len&3)
+    ui_badnews(-1, "read_register_bytes(%d,%d,%d): odd arguments.",
+	       regbyte, myaddr, len);
+  regno = regbyte>>2;
+  count = len>>2;
+  while (count--)
+    write_register(regno++, *myaddr++);
+}
+
+
+/* Given a struct symbol for a variable,
+   and a stack frame id, read the value of the variable
+   and return a (pointer to a) struct value containing the value.  */
+
+value
+read_var_value (var, frame)
+     register struct symbol *var;
+     FRAME frame;
+{
+  register value v;
+
+  struct frame_info *fi;
+
+  struct type *type = SYMBOL_TYPE (var);
+  register CORE_ADDR addr = 0;
+  int val = SYMBOL_VALUE (var);
+  register int len;
+
+  v = allocate_value (type);
+  VALUE_LVAL (v) = lval_memory;	/* The most likely possibility.  */
+#ifdef TEK_HACK
+#ifdef GHSFORTRAN
+if (TYPE_CODE(type) == TYPE_CODE_FORTRAN_ARRAY)
+  len = fortran_length(type);
+else
+#endif
+#endif
+  len = TYPE_LENGTH (type);
+
+  if (frame == 0) frame = selected_frame;
+
+  switch (SYMBOL_CLASS (var))
+    {
+    case LOC_CONST:
+    case LOC_LABEL:
+      bcopy (&val, VALUE_CONTENTS (v), len);
+      VALUE_LVAL (v) = not_lval;
+      return v;
+
+    case LOC_CONST_BYTES:
+      bcopy (val, VALUE_CONTENTS (v), len);
+      VALUE_LVAL (v) = not_lval;
+      return v;
+
+    case LOC_STATIC:
+      addr = val;
+      break;
+
+    case LOC_ARG:
+      fi = get_frame_info (frame);
+      addr = val + FRAME_ARGS_ADDRESS (fi);
+      break;
+    
+    case LOC_REF_ARG:
+      fi = get_frame_info (frame);
+      addr = val + FRAME_ARGS_ADDRESS (fi);
+      addr = read_memory_integer (addr, sizeof (CORE_ADDR));
+      break;
+      
+    case LOC_LOCAL:
+      fi = get_frame_info (frame);
+      addr = val + FRAME_LOCALS_ADDRESS (fi);
+      break;
+
+    case LOC_TYPEDEF:
+      ui_badnews(-1,"Cannot look up value of a typedef");
+
+    case LOC_BLOCK:
+      VALUE_ADDRESS (v) = BLOCK_START (SYMBOL_BLOCK_VALUE (var));
+      return v;
+
+    case LOC_REGISTER:
+    case LOC_REGPARM:
+      v = value_from_register (type, val, frame);
+      return v;
+    }
+
+  read_memory (addr, VALUE_CONTENTS (v), len, M_NORMAL);
+  VALUE_ADDRESS (v) = addr;
+  return v;
+}
+
+/* Return a value of type TYPE, stored in register REGNUM, in frame
+   FRAME. */
+
+value
+value_from_register (type, regnum, frame)
+     struct type *type;
+     int regnum;
+     FRAME frame;
+{
+  char raw_buffer [MAX_REGISTER_RAW_SIZE];
+  char virtual_buffer[MAX_REGISTER_VIRTUAL_SIZE];
+  CORE_ADDR addr;
+  value v = allocate_value (type);
+  int len = TYPE_LENGTH (type);
+  char *value_bytes = 0;
+  int value_bytes_copied = 0;
+  int num_storage_locs;
+
+  VALUE_REGNO (v) = regnum;
+
+  num_storage_locs = (len > REGISTER_VIRTUAL_SIZE (regnum) ?
+		      ((len - 1) / REGISTER_RAW_SIZE (regnum)) + 1 :
+		      1);
+
+  if (num_storage_locs > 1)
+    {
+      /* Value spread across multiple storage locations.  */
+      
+      int local_regnum, current_regnum;
+      int mem_stor = 0, reg_stor = 0;
+      int mem_tracking = 1;
+      CORE_ADDR last_addr = 0;
+
+      value_bytes = (char *) alloca (len + MAX_REGISTER_RAW_SIZE);
+
+      /* Copy all of the data out, whereever it may be.  */
+
+      for (local_regnum = regnum;
+	   value_bytes_copied < len;
+	   (value_bytes_copied += REGISTER_RAW_SIZE (local_regnum),
+	    ++local_regnum))
+	{
+	  int register_index = local_regnum - regnum;
+	  addr = find_saved_register (frame, local_regnum);
+#ifdef TEK_HACK
+          if (addr == INVALID_CORE_ADDR)
+            {
+              VALUE_LVAL (v) = lval_reg_invalid;
+              return v;
+            }
+	  if (addr < NUM_REGS) 
+            {
+              current_regnum = addr;
+#else /* not TEK_HACK */
+	  if (addr == 0) 
+            {
+              current_regnum = local_regnum
+#endif /* not TEK_HACK */
+	      read_register_bytes (REGISTER_BYTE (current_regnum),
+				   value_bytes + value_bytes_copied,
+				   REGISTER_RAW_SIZE (local_regnum));
+	      reg_stor++;
+	    }
+	  else
+	    {
+	      read_memory (addr, value_bytes + value_bytes_copied,
+			   REGISTER_RAW_SIZE (local_regnum), M_NORMAL);
+	      mem_stor++;
+	      mem_tracking =
+		(mem_tracking
+		 && (regnum == local_regnum
+		     || addr == last_addr));
+	    }
+	  last_addr = addr;
+	}
+
+      if ((reg_stor && mem_stor)
+	  || (mem_stor && !mem_tracking))
+	/* Mixed storage; all of the hassle we just went through was
+	   for some good purpose.  */
+	{
+	  VALUE_LVAL (v) = lval_reg_frame_relative;
+	  VALUE_FRAME (v) = FRAME_FP (frame);
+	  VALUE_FRAME_REGNUM (v) = regnum;
+	}
+      else if (mem_stor)
+	{
+	  VALUE_LVAL (v) = lval_memory;
+	  VALUE_ADDRESS (v) = 
+                      find_saved_register (frame, regnum);
+	}
+      else if (reg_stor)
+	{
+	  VALUE_LVAL (v) = lval_register;
+	  VALUE_ADDRESS (v) = REGISTER_BYTE (regnum);
+	}
+      else
+	ui_badnews(1,"value_from_register: Value not stored anywhere!");
+      
+      /* Any structure stored in more than one register will always be
+	 an integral number of registers.  Otherwise, you'd need to do
+	 some fiddling with the last register copied here for little
+	 endian machines.  */
+
+      /* Copy into the contents section of the value.  */
+      bcopy (value_bytes, VALUE_CONTENTS (v), len);
+
+      return v;
+    }
+
+  /* Data is completely contained within a single register.  Locate the
+     register's contents in a real register or in core;
+     read the data in raw format.  */
+  
+  addr = find_saved_register (frame, regnum);
+#ifdef TEK_HACK
+  if (addr == INVALID_CORE_ADDR)
+    {
+      VALUE_LVAL (v) = lval_reg_invalid;
+      return v;
+    }
+  if (addr < NUM_REGS)
+    regnum = addr;
+  if (addr < NUM_REGS)
+#else /* not TEK_HACK */
+  if (addr == 0)
+#endif /* not TEK_HACK */
+    {
+      /* Value is really in a register.  */
+      
+      VALUE_LVAL (v) = lval_register;
+      VALUE_ADDRESS (v) = REGISTER_BYTE (regnum);
+      
+      read_register_bytes (REGISTER_BYTE (regnum),
+			   raw_buffer, REGISTER_RAW_SIZE (regnum));
+    }
+  else
+    {
+      /* Value was in a register that has been saved in memory.  */
+      
+      read_memory (addr, raw_buffer, REGISTER_RAW_SIZE (regnum), M_NORMAL);
+      VALUE_LVAL (v) = lval_memory;
+      VALUE_ADDRESS (v) = addr;
+    }
+  
+  /* Convert the raw contents to virtual contents.
+     (Just copy them if the formats are the same.)  */
+  
+  REGISTER_CONVERT_TO_VIRTUAL (regnum, raw_buffer, virtual_buffer);
+  
+  if (REGISTER_CONVERTIBLE (regnum))
+    {
+      /* When the raw and virtual formats differ, the virtual format
+	 corresponds to a specific data type.  If we want that type,
+	 copy the data into the value.
+	 Otherwise, do a type-conversion.  */
+      
+      if (type != REGISTER_VIRTUAL_TYPE (regnum))
+	{
+	  /* eg a variable of type `float' in a 68881 register
+	     with raw type `extended' and virtual type `double'.
+	     Fetch it as a `double' and then convert to `float'.  */
+	  v = allocate_value (REGISTER_VIRTUAL_TYPE (regnum));
+	  bcopy (virtual_buffer, VALUE_CONTENTS (v), len);
+	  v = value_cast (type, v);
+	}
+      else
+	bcopy (virtual_buffer, VALUE_CONTENTS (v), len);
+    }
+  else
+    {
+      /* Raw and virtual formats are the same for this register.  */
+
+#ifdef BYTES_BIG_ENDIAN
+      if (len < REGISTER_RAW_SIZE (regnum))
+	{
+  	  /* Big-endian, and we want less than full size.  */
+	  VALUE_OFFSET (v) = REGISTER_RAW_SIZE (regnum) - len;
+	}
+#endif
+
+      bcopy (virtual_buffer + VALUE_OFFSET (v),
+	     VALUE_CONTENTS (v), len);
+    }
+  
+  return v;
+}
+
+/* Given a struct symbol for a variable,
+   and a stack frame id, 
+   return a (pointer to a) struct value containing the variable's address.  */
+
+value
+locate_var_value (var, frame)
+     register struct symbol *var;
+     FRAME frame;
+{
+  register CORE_ADDR addr = 0;
+  int val = SYMBOL_VALUE (var);
+  struct frame_info *fi;
+  struct type *type = SYMBOL_TYPE (var);
+  struct type *result_type;
+
+  if (frame == 0) frame = selected_frame;
+
+  switch (SYMBOL_CLASS (var))
+    {
+    case LOC_CONST:
+    case LOC_CONST_BYTES:
+      ui_badnews(-1,"Address requested for identifier \"%s\" which is a constant.",
+	     SYMBOL_NAME (var));
+
+    case LOC_REGISTER:
+    case LOC_REGPARM:
+      addr = find_saved_register (frame, val);
+#ifdef TEK_HACK
+      if (addr == INVALID_CORE_ADDR)
+        ui_badnews(-1,"Address requested for identifier \"%s\" which is in a register that has been altered and not saved.",
+	     SYMBOL_NAME (var));
+      if (addr >= NUM_REGS)
+#else /* not TEK_HACK */
+      if (addr != 0)
+#endif /* not TEK_HACK */
+	{
+	  int len = TYPE_LENGTH (type);
+#ifdef BYTES_BIG_ENDIAN
+	  if (len < REGISTER_RAW_SIZE (val))
+	    /* Big-endian, and we want less than full size.  */
+	    addr += REGISTER_RAW_SIZE (val) - len;
+#endif
+	  break;
+	}
+      ui_badnews(-1,"Address requested for identifier \"%s\" which is in a register.",
+	     SYMBOL_NAME (var));
+
+    case LOC_STATIC:
+    case LOC_LABEL:
+      addr = val;
+      break;
+
+    case LOC_ARG:
+      fi = get_frame_info (frame);
+      addr = val + FRAME_ARGS_ADDRESS (fi);
+      break;
+
+    case LOC_REF_ARG:
+      fi = get_frame_info (frame);
+      addr = val + FRAME_ARGS_ADDRESS (fi);
+      addr = read_memory_integer (addr, sizeof (CORE_ADDR));
+      break;
+
+    case LOC_LOCAL:
+      fi = get_frame_info (frame);
+      addr = val + FRAME_LOCALS_ADDRESS (fi);
+      break;
+
+    case LOC_TYPEDEF:
+      ui_badnews(-1,"Address requested for identifier \"%s\" which is a typedef.",
+	     SYMBOL_NAME (var));
+
+    case LOC_BLOCK:
+      addr = BLOCK_START (SYMBOL_BLOCK_VALUE (var));
+      break;
+    }
+
+  /* Address of an array is of the type of address of it's elements.  */
+  result_type =
+#if defined(TEK_HACK) && defined(GHSFORTRAN)
+    lookup_pointer_type ((TYPE_CODE (type) == TYPE_CODE_ARRAY) || 
+		         (TYPE_CODE (type) == TYPE_CODE_FORTRAN_ARRAY) ?
+#else
+    lookup_pointer_type (TYPE_CODE (type) == TYPE_CODE_ARRAY ?
+#endif
+			 TYPE_TARGET_TYPE (type) : type);
+
+  return value_cast (result_type,
+		     value_from_long (builtin_type_long, (LONGEST) addr));
+}
+
+@
+
+
+1.17
+log
+@We now get the frame offsets of stack variables right in coffread.c,
+instead of using the ADJUST_FROM_OFFSET macro in every place that
+an offset is used.  This is cleaner and fixes the problem with
+getting frame offsets right for gcc-compiled code when the selected
+from is not gcc-compiled (or visa-versa, stopping in gcc-compiled code
+and getting the frame offsets of non-gcc compiled code).  This also
+corrected an error in the tutorial test.
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.16 90/04/23 10:27:25 robertb Exp $
+   $Locker: robertb $
+a6 56
+This file is part of GDB.
+
+GDB is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+GDB is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GDB; see the file COPYING.  If not, write to
+the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+
+
+/* 
+ * Changes made by Tektronix are marked by TEK_HACK, TEK_PROG_HACK, 
+ * and GHSFORTRAN.
+ * Changes made by Data General are marked by DG_HACK.  Compiling without these
+ * #defines should be equivalent to compiling vanilla 3.2, more or less.
+ *
+ * The changes done by Tektronix fit into three catagories:
+ *	TEK_HACK -- these were done just to get GDB to work in our environment,
+ *		    including work done to support the Green Hills C compiler.
+ *	TEK_PROG_HACK -- These were done to extend GDB by adding programming
+ *			 support: things like if-elif-else-endif, while, and
+ *			 arguments to user defined commands.
+ *	GHSFORTRAN -- These changes make (will make) GDB work with the Green
+ *		      Hills Fortran compiler.
+ *
+ *
+ * In addition, I/O routines were renamed so that I/O could be directed
+ * to/from the X interface if used.  See the files ui.c and ui.h for
+ * more information.  Here are the routines renamed:
+ *    Old name:			Renamed to:
+ *	fprintf			ui_fprintf
+ *	printf			ui_fprintf(stdout
+ *	putchar			ui_putchar
+ *	putc			ui_putc
+ *	fputc			ui_putc
+ *	fputs			ui_fputs
+ *	puts			ui_puts
+ *	gets			ui_gets
+ *	fgets			ui_fgets
+ *	fflush			ui_fflush
+ *	system			ui_system
+ *	wait			ui_wait
+ *	error			ui_badnews(-1
+ *	fatal			ui_badnews(1
+ *	getc, fgetc		replaced with ui_gets, ui_fgets
+ * These changes are not demarcated by ifdef.   
+ *
+ *					November 16, 1989
+d35 1
+a35 1
+  register CORE_ADDR addr, find_saved_register_on_entry();
+a375 17
+#ifdef NOT_DEF
+  /* Gross hack.  If we are looking for a register between 2 and 9 it
+     means that we want a parameter register value.  These are only
+     meaningful at the begining of the function, so find out their
+     value in the context of our caller, i.e., at the point that we
+     were entered.  I know this is confusing.  Send me email at
+     robertb@@cs.washington.edu if you want more information.  -rcb 3/90 */
+
+  if (2 <= regnum && regnum <= 9) {
+    frame = get_prev_frame(frame);
+    if (frame == 0) {
+      ui_badnews(-1, 
+     "value_from_register: Can't get r%d's value at start of function", regnum);
+    }
+  }
+#endif
+
+a627 1
+                         TYPE_TARGET_TYPE (type) : type);
+@
+
+
+1.16
+log
+@Made a new routine, find_saved_register_on_entry() that is like
+find_saved_register(), but finds the passed register's value on
+entry to the frame instead of the value of the register at the
+current point of execution.  Rewrote the later function to be
+linear instead of quadratic, but more importantly to make it
+tractable and to fix bugs that existed in 1.15.
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.14 90/03/28 14:57:49 robertb Exp $
+   $Locker:  $
+a379 3
+#ifdef TEK_HACK
+      ADJUST_FRAME_OFFSET(val)
+#endif
+a384 3
+#ifdef TEK_HACK
+      ADJUST_FRAME_OFFSET(val)
+#endif
+a670 3
+#ifdef TEK_HACK
+      ADJUST_FRAME_OFFSET(val)
+#endif
+a675 3
+#ifdef TEK_HACK
+      ADJUST_FRAME_OFFSET(val)
+#endif
+@
+
+
+1.15
+log
+@Fixed bug BLK02149.  We can now examine individual registers while in
+the innermost function call.  The fix is in find_saved_register.
+@
+text
+@d80 1
+a80 1
+   the SP value, not an address where it was saved.  
+d82 3
+a84 5
+   If on_entry == 1, return the address at which regnum has been saved on
+   entry to the function that created frame.  If on_entry == 0, do what this
+   function used to do, viz. return the address where regnum was saved at the
+   point where control is in frame.   When we are fetching the values of
+   parameter passed in registers we set on_entry == 1.  -rcb 3/90 */
+d87 3
+a89 4
+find_saved_register (frame, regnum, on_entry)
+     FRAME frame;
+     int regnum;
+     int on_entry;
+d91 2
+a92 2
+  struct frame_info *fi;
+  struct frame_saved_regs saved_regs;
+d94 5
+a98 3
+  register FRAME frame1 = 0;
+  register CORE_ADDR addr = regnum;
+  static int chase_cnt = 0;
+d100 13
+a112 20
+  while (1)
+    {
+      CORE_ADDR last_addr;
+      QUIT;
+
+      frame1 = get_prev_frame(frame1);
+      if ((on_entry == 0 && frame1 == frame) || frame1 == 0  || 
+
+	/* if we are in the innermost function call then get me the current
+	   register value and not something saved in the stack somewhere !!! */
+
+	   ((regnum != R1_REGNUM) && (frame1 == frame) && 
+	   (regnum != FP_REGNUM) && (frame == get_current_frame())))
+	break;
+      fi = get_frame_info (frame1);
+
+      /* If we are asked for the pc of a frame other than the current
+         one, return the saved value of r1, which points to the instruction
+         that will execute first when the frame is resumed. -rcb 3/90 */
+
+d116 10
+d127 5
+a131 2
+      last_addr = addr;
+      addr = FRAME_FIND_SINGLE_SAVED_REG (fi, regnum);
+d133 2
+a134 3
+      /* if "addr" contains a register number different then "regnum", it means
+         that "regnum" was saved in that register.  To handle this, simply
+         recurse with that new register and the current frame */
+d136 6
+a141 9
+      if ((addr != last_addr) && (addr > 1) && (addr < NUM_GENERAL_REGS))
+        {
+          if (chase_cnt++ > 500)
+            ui_badnews(-1, 
+         "find_saved_register: recursion loop! regnum=%d addr=%d last_addr=%d", 
+                                               regnum, addr, last_addr);
+          addr = find_saved_register (frame1, addr, 0);
+          --chase_cnt;
+        }
+d143 3
+a145 3
+      if ((on_entry == 1 && frame1 == frame) || frame1 == 0)
+	break;
+    }
+d147 12
+d188 1
+a188 1
+  addr = find_saved_register (selected_frame, regnum, IS_PARAM_REG(regnum));
+d233 1
+a233 1
+  addr =  find_saved_register (selected_frame, regnum, IS_PARAM_REG(regnum));
+a286 2
+
+/* Low level examining and depositing of registers.
+a287 22
+   Note that you must call `fetch_registers' once
+   before examining or depositing any registers.  */
+
+/* This routine is called only when doing remote debug. */
+CORE_ADDR
+synthetic_fp()
+{
+  struct block *b; /* used to test for GCC compiler flag */
+  CORE_ADDR the_pc, synthetic_fp = NULL_CORE_ADDR;
+
+  the_pc = remote_read_register(SXIP_REGNUM) & ~(IP_VALID|IP_EXCEPTION);
+
+  /* if the currently executing subroutine was generated by the Green Hills
+     compiler, then we need to synthesize a frame pointer. */
+
+  b = (struct block *) block_for_pc (the_pc);
+  if (BLOCK_COMPILED(b)!=gcc_compiled && BLOCK_COMPILED(b)!=ghs_ga_compiled) {
+      synthetic_fp = synthesize_sp (read_register(SP_REGNUM), the_pc) - 8;
+    }
+  return synthetic_fp;
+}
+
+d478 1
+a478 1
+	  addr = find_saved_register (frame, local_regnum, IS_PARAM_REG(local_regnum));
+d524 1
+a524 1
+                      find_saved_register (frame, regnum, IS_PARAM_REG(regnum));
+d549 1
+a549 1
+  addr = find_saved_register (frame, regnum, IS_PARAM_REG(regnum));
+d649 1
+a649 1
+      addr = find_saved_register (frame, val, IS_PARAM_REG(val));
+@
+
+
+1.14
+log
+@Rewrite of find_saved_register(), this improves the determination
+of the addresses at which registers on the stack are saved.
+Also finding the pc at frames above the innermost frame is fixed.
+Added parameter to calls of read_memory() to support the examine-user
+command (cross-gdb).
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.13 90/03/15 09:02:56 andrew Exp $
+   $Locker: robertb $
+d107 7
+a113 1
+      if ((on_entry == 0 && frame1 == frame) || frame1 == 0)
+@
+
+
+1.13
+log
+@Rework the register access scheme.
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.12 90/03/08 14:38:33 andrew Exp $
+   $Locker:  $
+d73 1
+d75 1
+d80 1
+a80 7
+   the SP value, not an address where it was saved.  */
+#else /* not TEK_HACK */
+/* Return the address in which frame FRAME's value of register REGNUM
+   has been saved in memory.  Or return zero if it has not been saved.
+   If REGNUM specifies the SP, the value we return is actually
+   the SP value, not an address where it was saved.  */
+#endif /* not TEK_HACK */
+d82 6
+d89 1
+a89 1
+find_saved_register (frame, regnum)
+d92 1
+a97 1
+#ifdef TEK_HACK
+a99 3
+#else
+  register CORE_ADDR addr = 0;
+#endif
+a100 44
+#ifdef HAVE_REGISTER_WINDOWS
+  /* We assume that a register in a register window will only be saved
+     in one place (since the name changes and dissapears as you go
+     towards inner frames), so we only call get_frame_saved_regs on
+     the current frame.  This is directly in contradiction to the
+     usage below, which assumes that registers used in a frame must be
+     saved in a lower (more interior) frame.  This change is a result
+     of working on a register window machine; get_frame_saved_regs
+     always returns the registers saved within a frame, within the
+     context (register namespace) of that frame. */
+
+  /* However, note that we don't want this to return anything if
+     nothing is saved (if there's a frame inside of this one).  Also,
+     callers to this routine asking for the stack pointer want the
+     stack pointer saved for *this* frame; this is returned from the
+     next frame.  */
+     
+
+  if (REGISTER_IN_WINDOW_P(regnum))
+    {
+      frame1 = get_next_frame (frame);
+      if (!frame1) return 0;	/* Registers of this frame are
+				   active.  */
+      
+      /* Get the SP from the next frame in; it will be this
+	 current frame.  */
+      if (regnum != SP_REGNUM)
+	frame1 = frame;	
+	  
+      fi = get_frame_info (frame1);
+#if defined(TEK_HACK) && defined(FRAME_FIND_SINGLE_SAVED_REG)
+      saved_regs.regs[regnum] = FRAME_FIND_SINGLE_SAVED_REG (fi, regnum);
+#else /* not TEK_HACK or not FRAME_FIND_SINGLE_SAVED_REG */
+      get_frame_saved_regs (fi, &saved_regs);
+#endif /* not TEK_HACK or not FRAME_FIND_SINGLE_SAVED_REG */
+      return (saved_regs.regs[regnum] ?
+	      saved_regs.regs[regnum] : 0);
+    }
+#endif /* HAVE_REGISTER_WINDOWS */
+
+  /* Note that this next routine assumes that registers used in
+     frame x will be saved only in the frame that x calls and
+     frames interior to it.  This is not true on the sparc, but the
+     above macro takes care of it, so we should be all right. */
+d103 1
+d105 3
+a107 2
+      frame1 = get_prev_frame (frame1);
+      if (frame1 == 0 || frame1 == frame)
+d111 3
+a113 1
+#ifdef TEK_HACK
+d115 5
+a119 1
+#ifdef FRAME_FIND_SINGLE_SAVED_REG
+a120 5
+#else /* not FRAME_FIND_SINGLE_SAVED_REG */
+      get_frame_saved_regs (fi, &saved_regs);
+      if (saved_regs.regs[regnum])
+	addr = saved_regs.regs[regnum];
+#endif /* not FRAME_FIND_SINGLE_SAVED_REG */
+d126 1
+a126 1
+      if ((addr != regnum) && (addr > 1) && (addr < NUM_GENERAL_REGS))
+d128 5
+a132 3
+          if (chase_cnt++ > NUM_GENERAL_REGS)
+            ui_badnews(1, "find_saved_register: recursion loop!");
+          addr = find_saved_register (frame1, addr);
+d136 2
+a137 6
+#else /* not TEK_HACK */
+      get_frame_saved_regs (fi, &saved_regs);
+      if (saved_regs.regs[regnum])
+	addr = saved_regs.regs[regnum];
+#endif /* not TEK_HACK */
+
+d142 1
+d169 1
+a169 1
+  addr = find_saved_register (selected_frame, regnum);
+d185 1
+a185 1
+	read_memory (addr, myaddr, REGISTER_RAW_SIZE (regnum));
+d214 1
+a214 1
+  addr =  find_saved_register (selected_frame, regnum);
+d231 1
+a231 1
+      switch (read_memory (addr, raw_buffer, REGISTER_RAW_SIZE (regnum)))
+d244 1
+a244 1
+      read_memory (addr, raw_buffer, REGISTER_RAW_SIZE (regnum));
+d250 1
+d418 1
+a418 1
+  read_memory (addr, VALUE_CONTENTS (v), len);
+d443 17
+d468 1
+a468 1
+      int local_regnum;
+d483 1
+a483 1
+	  addr = find_saved_register (frame, local_regnum);
+d490 3
+a492 1
+	  if (addr < NUM_REGS)
+d494 3
+a496 1
+	  if (addr == 0)
+d498 1
+a498 2
+	    {
+	      read_register_bytes (REGISTER_BYTE (local_regnum),
+d506 1
+a506 1
+			   REGISTER_RAW_SIZE (local_regnum));
+d528 2
+a529 1
+	  VALUE_ADDRESS (v) = find_saved_register (frame, regnum);
+d554 1
+a554 1
+  addr = find_saved_register (frame, regnum);
+d562 2
+d580 1
+a580 1
+      read_memory (addr, raw_buffer, REGISTER_RAW_SIZE (regnum));
+d654 1
+a654 1
+      addr = find_saved_register (frame, val);
+@
+
+
+1.12
+log
+@Rework gcc_compiled_flag to be more general, so as to indicate whether
+gcc or GH cc -ga was used.  Rework the code which finds procedure arguments
+in memory to distinguish between these two compilers -- GH does it "right",
+gcc does it the old way.  This addresses bug BLK1962.
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.11 90/01/02 16:54:35 robertb Exp $
+   $Locker: andrew $
+a72 2
+CORE_ADDR read_register ();
+
+d76 1
+a76 1
+   registers number.  Return INVALID_CORE_ADDR if REGNUM has been altered, but
+d168 1
+a168 1
+      if ((addr != regnum) && (addr > 1) && (addr < NUM_REGS))
+d170 1
+a170 1
+          if (chase_cnt++ > NUM_REGS)
+d202 1
+a202 1
+  if (regnum == FP_REGNUM)
+d316 1
+a316 2
+static char registers[REGISTER_BYTES];
+
+d323 1
+a323 1
+  the_pc = remote_read_register(SXIP_REGNUM) & ~3;
+d335 4
+a338 5
+/* Copy LEN bytes of consecutive data from registers
+   starting with the REGBYTE'th byte of register data
+   into memory at MYADDR.  */
+
+void
+d340 3
+a342 3
+     int regbyte;
+     char *myaddr;
+     int len;
+d344 10
+a353 5
+  if (remote_debugging) {
+    remote_read_register_bytes(regbyte, myaddr, len);
+  } else {
+    bcopy (&registers[regbyte], myaddr, len);
+  }
+d356 3
+a358 4
+/* Copy LEN bytes of consecutive data from memory at MYADDR
+   into registers starting with the REGBYTE'th byte of register data.  */
+
+void
+d360 3
+a362 3
+     int regbyte;
+     char *myaddr;
+     int len;
+d364 2
+d367 7
+a373 7
+  if (remote_debugging) {
+    remote_write_register_bytes(regbyte, myaddr, len);
+  } else {
+    bcopy (myaddr, &registers[regbyte], len);
+    if (have_inferior_p ())
+      store_inferior_registers (-1);
+  }
+a375 53
+/* Return the contents of register REGNO,
+   regarding it as an integer.  */
+
+CORE_ADDR
+read_register (regno)
+     int regno;
+{
+  /* This loses when REGISTER_RAW_SIZE (regno) != sizeof (int) */
+  if (remote_debugging) {
+    if (regno == 30) {
+      return synthetic_fp();
+    } else {
+      return (CORE_ADDR)remote_read_register(regno);
+    }
+  } else {
+    return *(int *) &registers[REGISTER_BYTE (regno)];
+  }
+}
+
+/* Store VALUE in the register number REGNO, regarded as an integer.  */
+
+void
+write_register (regno, val)
+     int regno, val;
+{
+  if (remote_debugging) {
+    remote_write_register(regno, val);
+  } else {
+    /* This loses when REGISTER_RAW_SIZE (regno) != sizeof (int) */
+#if defined(sun4)
+    /* This is a no-op on a Sun 4.  */
+    if (regno == 0)
+      return;
+#endif
+
+    *(int *) &registers[REGISTER_BYTE (regno)] = val;
+
+    if (have_inferior_p ())
+      store_inferior_registers (regno);
+  }
+}
+
+/* Record that register REGNO contains VAL.
+   This is used when the value is obtained from the inferior or core dump,
+   so there is no need to store the value there.  */
+
+void
+supply_register (regno, val)
+     int regno;
+     char *val;
+{
+  bcopy (val, &registers[REGISTER_BYTE (regno)], REGISTER_RAW_SIZE (regno));
+}
+d561 1
+a561 1
+	 an inegral number of registers.  Otherwise, you'd need to do
+@
+
+
+1.11
+log
+@Added the routine synthetic_fp(), which comes from code in 
+fetch_inferior_registers.  Added call to this new routine
+in the routine that reads registers.  Only has an effect
+when cross-debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.10 89/12/18 15:46:00 robertb Exp $
+   $Locker:  $
+d332 1
+a332 1
+  if (! BLOCK_GCC_COMPILED (b)) {
+@
+
+
+1.10
+log
+@Put diffs in for Tektronix cross-debugging support (diffs are
+from 3.1.2 version that was around summer of 89').
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.9 89/11/17 08:06:52 davidl Exp $
+   $Locker: robertb $
+d318 1
+a318 1
+char registers[REGISTER_BYTES];
+d320 18
+d383 5
+a387 1
+    return (CORE_ADDR)remote_read_register(regno);
+@
+
+
+1.9
+log
+@Added Tek header information.
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.8 89/11/14 14:26:55 marvinw Exp $
+   $Locker: davidl $
+d71 1
+d330 5
+a334 1
+  bcopy (&registers[regbyte], myaddr, len);
+d346 8
+a353 3
+  bcopy (myaddr, &registers[regbyte], len);
+  if (have_inferior_p ())
+    store_inferior_registers (-1);
+d364 5
+a368 1
+  return *(int *) &registers[REGISTER_BYTE (regno)];
+d377 4
+a380 1
+  /* This loses when REGISTER_RAW_SIZE (regno) != sizeof (int) */
+d382 3
+a384 3
+  /* This is a no-op on a Sun 4.  */
+  if (regno == 0)
+    return;
+d387 1
+a387 1
+  *(int *) &registers[REGISTER_BYTE (regno)] = val;
+d389 3
+a391 2
+  if (have_inferior_p ())
+    store_inferior_registers (regno);
+@
+
+
+1.8
+log
+@Fixed BLK01391, we now use ADJUST_FRAME_OFFSET to adjust the offsets for
+symbol classes LOC_ARG and LOC_REF_ARG.
+@
+text
+@d4 2
+a5 2
+   $Header: findvar.c,v 1.7 89/10/18 12:28:29 marvinw Exp $
+   $Locker:  $
+d22 42
+@
+
+
+1.7
+log
+@Added support for fortran arrays.
+@
+text
+@d4 1
+a4 1
+   $Header: findvar.c,v 1.6 89/09/21 10:18:10 paulg Exp $
+d250 3
+d255 5
+d396 3
+d404 3
+d670 3
+d678 3
+@
+
+
+1.6
+log
+@add rcsid stuff
+@
+text
+@d4 1
+a4 1
+   $Header:  $
+d358 7
+d681 4
+d686 2
+@
+
+
+1.5
+log
+@Added code to use FRAME_FIND_SINGLE_SAVED_REG if it's defined and to handle
+the case where it might not be possible to find a registers value.
+@
+text
+@d4 3
+@
+
+
+1.4
+log
+@change calles to "fatal" to "ui_badnews" with a first argument of 1.
+@
+text
+@d29 7
+d40 1
+d51 4
+d56 1
+d88 3
+d92 1
+d109 6
+d118 20
+d147 3
+d151 1
+d161 3
+d165 1
+d170 5
+d176 1
+d187 5
+d193 2
+a194 1
+		       myaddr, REGISTER_RAW_SIZE (regnum));
+d214 2
+a215 1
+  if (addr)
+d217 10
+d229 14
+d244 1
+d454 8
+d463 1
+d521 8
+d530 1
+d619 6
+d626 1
+@
+
+
+1.3
+log
+@change ui_badnews(0 to ui_badnews(-1
+@
+text
+@d405 1
+a405 1
+	fatal ("value_from_register: Value not stored anywhere!");
+@
+
+
+1.2
+log
+@Changes for initial runnable xgdb version.
+@
+text
+@d148 1
+a148 1
+    ui_badnews(0,"Can't get value of register without inferior or core file");
+d304 1
+a304 1
+      ui_badnews(0,"Cannot look up value of a typedef");
+d506 1
+a506 1
+      ui_badnews(0,"Address requested for identifier \"%s\" which is a constant.",
+d522 1
+a522 1
+      ui_badnews(0,"Address requested for identifier \"%s\" which is in a register.",
+d547 1
+a547 1
+      ui_badnews(0,"Address requested for identifier \"%s\" which is a typedef.",
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d25 1
+d148 1
+a148 1
+    error ("Can't get value of register without inferior or core file");
+d304 1
+a304 1
+      error ("Cannot look up value of a typedef");
+d506 1
+a506 1
+      error ("Address requested for identifier \"%s\" which is a constant.",
+d522 1
+a522 1
+      error ("Address requested for identifier \"%s\" which is in a register.",
+d547 1
+a547 1
+      error ("Address requested for identifier \"%s\" which is a typedef.",
+@

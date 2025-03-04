@@ -1,0 +1,2257 @@
+head     1.9;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.9
+date     91.01.13.23.36.55;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.01.01.21.23.49;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     90.12.29.21.30.50;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     90.12.10.21.24.51;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     90.11.27.01.09.05;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     90.05.16.10.23.04;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     90.05.14.17.18.23;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     90.04.22.18.03.31;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.04.10.11.34.36;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Bulk of the code for the Tektronix debug monitor for the Motorola
+188 board.
+@
+
+
+1.9
+log
+@Made it pass lint again.
+Changed version string to have separate time/date to make
+time/date more automatic.  Added multiprocessor features.
+Idle processors watch for unrecognized interrupts.
+Added most of the code for memory breakpoints.
+@
+text
+@/*
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/hmon/RCS/mon.c,v 1.8 91/01/01 21:23:49 robertb Exp Locker: robertb $
+ * $Locker: robertb $
+ *
+	Copyright (c) 1987, 1988, 1989, 1990 by Tektronix, Inc.
+
+    It may freely be redistributed and modified so long as the copyright
+    notices and credit attributions remain intact.
+ *
+ * This is the debug monitor for the Motorola 88000 CPU board.
+ *
+ * This code is reentrant to allow several CPU's to
+ * share the same memory used by the debugger (in range 0x2000..0x7fff).
+ * All variables are kept in a structure whose address is passed
+ * from the assembly code that first gets control at initialization
+ * and on exceptions.
+ *
+ * Contact Robert Bedichek at robertb@@cs.washington.edu
+ * if you have questions about this code.
+ */
+
+#include "mon.h"
+#include "montraps.h"
+
+#ifdef	lint
+#define	volatile
+#endif
+
+/* Addresses of some of the registers of the 68692 UART that is on the
+   188 console board. */
+
+#define UART_STATUS_ADDR	(volatile unsigned char *)(0xfff82007)
+#define	UART_CRA_ADDR		(volatile unsigned char *)(0xfff8200b)
+#define	UART_DATA_ADDR		(volatile unsigned char *)(0xfff8200f)
+#define	UART_ACR_ADDR		(volatile unsigned char *)(0xfff82013)
+
+/* Writing this location will reset the whole machine. */
+
+#define	GLBRES_ADDR		(volatile unsigned long *)(0xfff8700c)
+
+/* If the top bit of this word is set, there is an abort interrupt 
+   pending. */
+
+#define	INT_STATUS_ADDR		(volatile unsigned long *)(0xfff84040)
+#define	INT_ABORT_MASK		(0x80000000)
+
+/* We write 0x4 to this address to clear the debug interrupt flip flop
+   on the 188 board. */
+
+#define	CLR_ABORT_ADDR		(volatile unsigned long *)(0xfff8408c)
+
+extern void send_word();
+extern void send_short();
+extern void send_byte();
+extern unsigned char get_byte();
+extern unsigned short get_short();
+extern unsigned long get_word();
+extern unsigned char get_remote_char();
+extern void send_command();
+extern void download_cmd();
+extern void upload_cmd();
+extern void checksum_cmd();
+extern void go_cmd();
+extern void fill_cmd();
+extern void retptrs_cmd();
+extern void search_cmd();
+extern void move_cmd();
+extern void syscall188_cmd();
+extern void init_checksum();
+extern unsigned char fubyte();
+extern void subyte();
+extern void xrestart();
+
+extern int report_comm_errors;
+extern struct all_vars regs0, regs1, regs2, regs3;
+
+enum get_flag {abort_if_int, keep_trying};
+
+#define	VSTART	0x81
+#define	VSTOP	0x82
+
+enum parity_init { p_init, p_noinit };
+enum usmode { m_user, m_supervisor };
+#define	ABORT	0x81
+
+struct all_vars *our_var_area();
+extern void debug_monitor_entry_point();
+
+struct compress {
+  unsigned pattern;
+  unsigned length;
+};
+
+struct compress compress_table[] = {
+#include "compress.h"
+};
+
+#define	SIZEOF_COMPRESS_TABLE (sizeof(struct compress) * 256)
+
+extern struct compress compress_table[];
+
+#define	COMMAND_PREFIX1	(0x83)
+#define	COMMAND_PREFIX2	(0x84)
+
+/*
+ * Commands that the host sends to the monitor.
+ */
+#define	C_DOWNLOAD		(0x91)
+#define	C_UPLOAD		(0x92)
+#define	C_CHECKSUM		(0x93)
+#define	C_END			(0x94)
+#define	C_GO			(0x95)
+	
+#define	C_DATASTART     	(0x96)
+#define	C_CHECKSUMERR		(0x97)
+#define	C_ACK			(0x98)
+#define	C_DATAEND		(0x99)
+#define	C_FILL			(0x9a)
+#define	C_RETPTRS		(0x9b)
+#define	C_EXCEPTION		(0x9c)
+#define	C_DBWRITE		(0x9d)
+#define	C_DBREAD		(0x9e)
+#define C_SYNC			(0x9f)
+#define C_DATAERROR		(0xa0)
+#define C_UPLOADNOINIT		(0xa1)   
+#define C_CHECKSUMNOINIT	(0xa2) 
+#define C_SEARCH		(0xa3)
+#define C_MOVE			(0xa4)
+#define C_UPLOADUSER            (0xa5)
+#define C_UPLOADNOINITUSER      (0xa6)
+#define C_DOWNLOADUSER          (0xa7)
+#define C_EXPECTEDTOKEN		(0xa8)
+#define C_COMMERR               (0xa9)
+#define C_COMPRESSERR           (0xaa)
+#define C_BADCOMMAND            (0xab)
+#define C_188SYSCALL            (0xac)
+
+#define	L_BYTE		(1)
+#define	L_SHORT		(2)
+#define	L_WORD		(4)
+#define	L_QUOTED1	(COMMAND_PREFIX1)
+#define	L_QUOTED2	(COMMAND_PREFIX2)
+
+
+#define	true	1
+#define	false	0
+
+#define PAGESIZE (4096)
+
+#ifdef lint
+struct all_vars regs0, regs1, regs2, regs3;
+int report_comm_errors;
+void lintfunction(arg)
+{
+    char *p = 0;
+
+    (void)mon_dbread(p, (long)0);
+    mon_dbwrite(p, (long)0);
+    debug_monitor_entry_point();
+    mon_init();
+    lintfunction(arg);
+}
+#endif
+
+/* Called when some kind of error occurs.  We keep track of the
+   number of times this has happened and reset the machine if
+   it has happened more than 10 times. */
+
+void xrestart()
+{
+  register struct all_vars *p = our_var_area();
+
+  if (p->dm_restart_count++ > 10) {
+    *(volatile unsigned long *)GLBRES_ADDR = 0;
+    for (;;);
+  }
+  restart();
+}
+
+/* This adds 'b' to the running checksum */
+
+void add_to_checksum(p, b)
+  register struct all_vars *p;
+  register unsigned long b;
+{
+  register unsigned msb;
+  register unsigned cs = p->dm_checksum;
+  cs += b;
+  msb = cs >> 31;
+  cs <<= 1;
+  cs |= msb;
+  p->dm_checksum = cs;
+}
+
+/* Called to clean up after a DUART error.  We try to reset the
+   port.  If this fixes the problem, we tell the host, otherwise
+   we reset the machine. */
+
+static void handle_duart_error(p, status)
+  register struct all_vars *p;
+  register unsigned char status;
+{
+  unsigned char s;
+
+  *UART_CRA_ADDR = 0x40;
+  s = *UART_STATUS_ADDR;
+  if (s & 0xf0) {
+    *GLBRES_ADDR = 0;
+    for (;;);
+  }
+  if (report_comm_errors) {
+    send_command(p, C_COMMERR);
+    send_byte(p, status);
+  }
+}
+
+/* This checks to see if there is a stop character in our receive buffer. 
+   If so, we wait for another character from the host. */
+
+void check_for_stop(p)
+  register struct all_vars *p;
+{
+  register unsigned char c, status;
+
+  status = *UART_STATUS_ADDR & 0xf1;
+  if (status & 0xf0) {
+    handle_duart_error(p, status);
+  }
+  if (status != 1) {
+    return;
+  }
+  c = *UART_DATA_ADDR;
+  /* If we get just a VSTART, assume that the corresponding VSTOP was
+     thrown away by get_remote_char(). */
+  if (c == VSTART) {
+    return;
+  }
+  if (c == VSTOP) {
+    do {
+      status = *UART_STATUS_ADDR & 0xf1;
+      if (status & 0xf0) {
+        handle_duart_error(p, status);
+      }
+    } while (status != 1);
+    c = *UART_DATA_ADDR;
+    if (c == VSTART) {
+      return;
+    }
+  }
+  handle_duart_error(p, status);
+}
+
+/* This returns after some delay.  We do this so that SUN-OS doesn't
+   think we are a bad terminal. We reproduce the loop that is used
+   to generate the values passed to us to get approximately the same
+   delay. */
+delay(character_time)
+  unsigned long character_time;
+{
+  do {
+    unsigned char status = *UART_STATUS_ADDR & 0xf4;
+    if (status & 0xf0) {
+      fool_compiler();
+    }
+  } while (character_time-- > 0);
+}
+
+fool_compiler() {};
+
+/*
+ * This writes the passed byte to the comm line.
+ */
+void put_remote_char(p, c)
+  register struct all_vars *p;
+  register unsigned char c;
+{
+  register unsigned char  status;
+  register long cnt = 0;
+
+  check_for_stop(p);
+  c &= 0xff;
+  do {
+    status = *UART_STATUS_ADDR & 0xf4;
+    if (status & 0xf0) {
+      handle_duart_error(p, status);
+    }
+    cnt++;
+  } while (status != 4);
+  p->dm_character_time = cnt;
+  if (p->dm_checksumming) {
+    add_to_checksum(p, (unsigned long)c);
+  }
+  *UART_DATA_ADDR = c;
+}
+
+/*
+ * Sends the passed command to the other agent.
+ */
+void send_command(p, command)
+    register struct all_vars *p;
+    register unsigned char command;
+{
+    put_remote_char(p, COMMAND_PREFIX1);
+    put_remote_char(p, command);
+}
+
+/* This returns a raw character from the comm line.  If checksumming
+   is turned on, we add the received character to the running check
+   sum total.  We can't call 188BUG to do this for us because some
+   values that sees in the input register of the DUART will cause
+   its command interpreter to be entered.  We ignore start/stop characters
+   from the host */
+
+unsigned char get_remote_char(p, flag)
+  register struct all_vars *p;
+  register enum get_flag flag;
+{
+  register unsigned char c, status;
+
+  do {
+    do {
+      status = *UART_STATUS_ADDR & 0xf1;
+      if (status & 0xf0) {
+        handle_duart_error(p, status);
+      }
+      if (flag == abort_if_int && (*INT_STATUS_ADDR & INT_ABORT_MASK)) {
+        return ABORT;
+      }
+    } while (status != 1);
+    c = *UART_DATA_ADDR;
+  } while (c == VSTART || c == VSTOP);
+  if (p->dm_checksumming) {
+    add_to_checksum(p, (unsigned long)c);
+  }
+  return c;
+}
+
+
+/* In the comments below, "the other agent" is the host.  */
+
+/* This initializes the checksum */
+
+void init_checksum(p)
+  register struct all_vars *p;
+{
+  p->dm_checksum = 0;
+  p->dm_checksumming = 1;
+}
+
+/* Sends the checksum to the other agent.  */
+
+void send_checksum(p)
+  register struct all_vars *p;
+{
+  p->dm_checksumming = 0;
+  send_word(p, p->dm_checksum);
+}
+
+/* This sends the passed word to the other agent.  It does the
+   data compression.  */
+
+void send_word(p, word)
+  register struct all_vars *p;
+  register unsigned long word;
+{
+  register struct compress *ct = &compress_table[0];
+
+  while (ct->length == 4 || ct->length == 0) {
+    if (ct->pattern == word && ct->length == 4) {
+      put_remote_char(p, (unsigned char)(ct - &compress_table[0]));
+      return;
+    }
+    ct++;
+  }
+  send_short(p, (unsigned short)(word >> 16));
+  send_short(p, (unsigned short)word);
+}
+
+/*
+ * This sends a short to the other agent.
+ */
+void send_short(p, s)
+  register struct all_vars *p;
+  register unsigned short s;
+{
+  register struct compress *ct = &compress_table[SHORT_OFFSET];
+
+  while (ct->length == 2 || ct->length == 0) {
+    if (ct->pattern == s && ct->length == 2) {
+      put_remote_char(p, (unsigned char)(ct - &compress_table[0]));
+      return;
+    }
+    ct++;
+  }
+  send_byte(p, (unsigned char)(s >> 8));
+  send_byte(p, (unsigned char)s);
+}
+
+/*
+ * This sends a byte to the other agent.
+ */
+void send_byte(p, byte)
+  register struct all_vars *p;
+  register unsigned char byte;
+{
+  register struct compress *ct = &compress_table[BYTE_OFFSET];
+  while (ct < &compress_table[256]) {
+    if (ct->pattern == byte && ct->length == 1) {
+      put_remote_char(p, (unsigned char)(ct - &compress_table[0]));
+      return;
+    }
+    ct++;
+  }
+  /* We couldn't compress the byte.  Send it using the two byte
+     sequence.  */
+
+  if (byte & 0x80) {
+    put_remote_char(p, COMMAND_PREFIX2);
+  } else {
+    put_remote_char(p, COMMAND_PREFIX1);
+  }
+  put_remote_char(p, byte & 0x7f);
+}
+
+/* This returns an unsigned long word from the comm port (from other agent).  */
+
+unsigned long get_word(p)
+  register struct all_vars *p;
+{
+  register unsigned long t = 0;
+  register unsigned long i;
+
+  for (i = 0 ; i < 4 ; i++) {
+    t <<= 8;
+    t |= get_byte(p, keep_trying);
+  }
+  return t;
+}
+
+/* This returns an unsigned short from the comm port (from other agent).  */
+
+unsigned short get_short(p)
+  register struct all_vars *p;
+{
+  register unsigned long w = get_byte(p, keep_trying);
+
+  return (w << 8) | get_byte(p, keep_trying);
+}
+
+/* This returns a decode byte from the comm port (from other agent).  */
+
+unsigned char get_byte(p, flag)
+  register struct all_vars *p;
+  enum get_flag flag;
+{
+  register unsigned char c;
+  register struct compress *ct;
+
+  if (p->dm_partial_length) {
+    p->dm_partial_length--;
+    c = (p->dm_partial >> 24) & 0xff;
+    p->dm_partial <<= 8;
+    return c;
+  }
+
+  c = get_remote_char(p, flag);
+  /* If an abort interrupt happened while we were waiting, return 
+     immediately. */
+  if (c == ABORT) {
+    return ABORT;
+  }
+  ct = &compress_table[c];
+  switch (ct->length) {
+    case L_QUOTED1:
+      c = get_remote_char(p, flag);
+      return c;
+
+    case L_QUOTED2:
+      c = get_remote_char(p, flag);
+      return c + 0x80;
+
+    case L_BYTE:
+      return ct->pattern;
+
+    case L_SHORT:
+      p->dm_partial_length = 1;
+      p->dm_partial = ct->pattern << 24;
+      return (ct->pattern >> 8) & 0xff;
+
+    case L_WORD:
+      p->dm_partial_length = 3;
+      p->dm_partial = ct->pattern << 8;
+      return (ct->pattern >> 24) & 0xff;
+
+    default:
+      send_command(p, C_COMPRESSERR);
+      xrestart();
+      /*NOTREACHED*/
+  }
+}
+
+/* This reads the checksum from the comm line and compares it
+   with the value in the global 'checksum'.  */
+
+void verify_checksum(p)
+  register struct all_vars *p;
+{
+  register unsigned long received_checksum;
+
+  p->dm_checksumming = 0;
+  received_checksum = get_word(p);
+  if (p->dm_checksum != received_checksum) {
+    send_command(p, C_CHECKSUMERR);
+    send_word(p, p->dm_checksum);
+    send_word(p, received_checksum);
+    xrestart();
+  }
+}
+
+/* This looks for the passed command from the host.  */
+
+void wait_for_token(p, token)
+    register struct all_vars *p;
+    register unsigned char token;
+{
+    register unsigned char c;
+
+    if ((c = get_remote_char(p, keep_trying)) != COMMAND_PREFIX1) {
+        send_command(p, C_EXPECTEDTOKEN);
+        send_byte(p, COMMAND_PREFIX1);
+        send_byte(p, c);
+        xrestart();
+    }
+
+    if ((c = get_remote_char(p, keep_trying)) != token) {
+        send_command(p, C_EXPECTEDTOKEN);
+        send_byte(p, token);
+        send_byte(p, c);
+        xrestart();
+    }
+}
+
+/*
+ * Invalidate each I-cache that is installed.
+ * Copyback-flush each D-cache that is installed. 
+ * Its OK to invalidate CMMU's that are not turned on.
+ * We load the system status register of each data CMMU after copyback
+ * to make sure the copyback is done before we leave this routine and
+ * start executing user code.  This should solve a cache-coherency problem
+ * seen on 8 CMMU systems.  
+
+ From Andrew Klossner:
+
+  Here's the story on finding all the CMMUs, in order to give them
+  invalidate and/or flush commands.
+
+  The WHOAMI register is a 32-bit word located at address 0xfff88018.
+  Within this word, bits 7:4 contain the Hypermodule configuration code,
+  which is one of these:
+  
+	  0	4 CPU, 8 CMMU
+	  1	2 CPU, 8 CMMU
+	  2	1 CPU, 8 CMMU
+	  5	2 CPU, 4 CMMU
+	  6	1 CPU, 4 CMMU
+	  A	1 CPU, 2 CMMU
+  
+  This gives you the number of CMMUs.  The CMMU base addresses are:
+  
+	  unsigned long *dcmmu188[4] = {
+		  (unsigned long *)0xFFF6F000,
+		  (unsigned long *)0xFFF5F000,
+		  (unsigned long *)0xFFF3F000,
+		  (unsigned long *)0xFFF7F000
+	  };
+	  unsigned long *ccmmu188[4] = {
+		  (unsigned long *)0xFFF7E000,
+		  (unsigned long *)0xFFF7D000,
+		  (unsigned long *)0xFFF7B000,
+		  (unsigned long *)0xFFF77000
+	  };
+  
+  So, if you have 8 CMMUs, there's one at each of these addresses; if you
+  have 4 CMMUs, only dcmmu188[0], dcmmu188[1], ccmmu188[0], and
+  ccmmu188[1] are valid; if you have 2 CMMUs, only dcmmu188[0] and
+  ccmmu188[0] are valid.
+  
+  I don't know whether you can write to a non-existent CMMU without
+  taking a DACC.  We don't have a Hypermodule board with fewer than 8
+  CMMUs, so we have no way of experimenting.  I recommend that your code
+  not try to write to non-existent CMMUs.
+  
+  Bits 3:0 of the WHOAMI register contain the ordinal number (0 through
+  3) of the CMMU through which the register was fetched.  This can be
+  used to tell which CPU you are running on, by figuring out which CPU
+  this CMMU is assigned to.  This depends on the configuration:
+  
+	  config 0:  CPU 0 owns DCMMU 0; CPU 1 owns DCMMU 1;
+		     CPU 2 owns DCMMU 2; CPU 3 owns DCMMU 3.
+	  config 1:  CPU 0 owns DCMMUs 0 and 1; CPU 1 owns DCMMUs 2 and 3.
+	  config 2:  CPU 0 owns all DCMMUs.
+	  config 5:  CPU 0 owns DCMMU 0; CPU 1 owns DCMMU 1.
+	  config 6:  CPU 0 owns both DCMMUs.
+	  config A:  CPU 0 owns the DCMMU.
+  
+ */
+
+unsigned long *dcmmu188[4] = {
+  (unsigned long *)0xFFF6F000,
+  (unsigned long *)0xFFF5F000,
+  (unsigned long *)0xFFF3F000,
+  (unsigned long *)0xFFF7F000
+ };
+
+unsigned long *ccmmu188[4] = {
+  (unsigned long *)0xFFF7E000,
+  (unsigned long *)0xFFF7D000,
+  (unsigned long *)0xFFF7B000,
+  (unsigned long *)0xFFF77000
+};
+ 
+/*
+struct hyper_config {
+  char h_cpus, h_cmmus;
+} hyper_config[16] = { 
+  {4, 8}, {2, 8}, {1, 8}, {0, 0}, {0, 0}, {2, 4}, {1, 4}, {0, 0},
+  {0, 0}, {0, 0}, {1, 2}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+ */
+             
+/* Returns the CPU configuration code from the WHOAMI register. */
+ 
+/*
+static int
+whoami()
+{
+  return (int)((*(volatile unsigned long *)0xfff88018) >> 4) & 0xf;
+}
+*/
+
+static unsigned long
+mycpunumber()
+{
+  switch ((int)(*(volatile unsigned long *)0xfff88018) & 0xf) {
+    case 1: return 0;
+    case 2: return 1;
+    case 4: return 2;
+    case 8: return 3;
+  }
+  return 0xffffffff;
+}
+
+/* Copies back the data caches and invalidates the code caches in
+   preparation for executing "user" code */
+
+void flush_my_cache()
+{
+  register volatile int ssr;
+  register unsigned long cpu = mycpunumber();
+
+  *(ccmmu188[cpu] + 1) = 0x17;   /* Invalidate */
+  *(dcmmu188[cpu] + 1) = 0x1b;   /* Copyback */
+  ssr = *(dcmmu188[cpu] + 2);    /* Load system status register to sync */
+
+#ifdef	lint
+  lintfunction(ssr);
+#endif
+}
+
+/* Turn on the code cache.  We do this so that the monitor runs fast enough
+   that it doesn't get over runs at 38.4 K baud */
+
+void enable_my_code_cache()
+{
+  register unsigned long mycpu = mycpunumber();
+  /* Force the CI bit in the SAPR to be off */
+  if (mycpu < 4) {
+    *(ccmmu188[mycpu] + 0x200/4) &= ~0x40;
+  }
+}
+
+/* This is called by processors that did not get the host-communication-mutex.
+   We don't try to talk to the host.  Instead we watch our run flag and
+   return if it is non-zero.  We also watch for uncaught abort interrupts. 
+   If we decide to take over communication with the host after an
+   abort interrupt has gone unrecognized for a while, we send call
+   talkk_to_host() and return a 0.  If we are told to start running 
+   "user" code we return 1.  Otherwise we don't return. */
+
+int wait_quietly(p)
+  struct all_vars *p;
+{
+  register unsigned long *mb = p->dm_memory_breakpoint;
+  register unsigned long mc = *mb;
+
+  /* Let the host know that we are in the monitor now */
+  p->dm_in_mon = IN_MON_MAGIC;
+
+  while (p->dm_in_mon == IN_MON_MAGIC) {
+    register int i;
+    if (p->dm_memory_breakpoint != mb) {
+      mb = p->dm_memory_breakpoint;
+      mc = *mb;
+    }
+
+    /* Delay for a while so that we don't saturate the bus while
+       we wait. If a memory breakpoint is set, spin watching
+       the memory breakpoint location. */
+    for (i = 0 ; i < 10000 ; i++) {
+      if (mb && *mb != mc) {
+
+        /* Perhaps the reason that we appear to have reached a memory
+           breakpoint is that the user has changed the breakpoint
+           address register.  If so, reset our memory breakpoint variables
+           and don't interrupt the other processors. */
+
+        if (p->dm_memory_breakpoint != mb) {
+          mb = p->dm_memory_breakpoint;
+          mc = *mb;
+          break;
+        }
+        /* Generate an interrupt here. */
+        break;
+      }
+    }
+
+    /* Check to see if there is an abort interrupt pending.  If
+       no one clears it for a long time, try acquiring the 
+       host communication lock.  If everybody else is dead,
+       we might as well respond and let the user examine
+       memory. */
+
+    i = 100000;
+    while ((*INT_STATUS_ADDR & INT_ABORT_MASK) && --i > 0) ;
+    if (i == 0) {
+      /* Reset the abort interrupt. */
+      *CLR_ABORT_ADDR = 4;
+
+      if (acquire_host_comm_mutex()) {
+        p->dm_exception_code = TR_INT;
+        talk_to_host(p);
+        return 0;
+      }
+    }
+  }
+  flush_my_cache();
+  return 1;
+}
+
+/* Initialize the variables used in communication with the host and send an
+   exception packet up the hose with our exception number and processor
+   number. */
+talk_to_host(p)
+  struct all_vars *p;
+{
+  p->dm_partial = 0;
+  p->dm_partial_length = 0;
+  p->dm_checksumming = 0;
+  p->dm_checksum = 0;
+
+  if (p->dm_in_mon == IN_MON_MAGIC && p->dm_exception_code == TR_DACC) {
+    send_command(p, C_DATAERROR);
+  } else {
+    p->dm_in_mon = IN_MON_MAGIC;
+    send_command(p, C_EXCEPTION);
+    send_word(p, mycpunumber());
+    send_word(p, p->dm_exception_code);
+  }
+}
+
+/* This is the monitor's entry point.  */
+void
+debug_monitor_entry_point()
+{
+  register unsigned char c;
+  register struct all_vars *p = our_var_area();
+
+  /* If we are able to acqure the lock, then we are the CPU that will
+     talk to the host for now. The others will wait quietly on their
+     'p->dm_in_mon' flag. */
+
+  enable_my_code_cache();
+  if (acquire_host_comm_mutex()) {
+    if (p->dm_call_on_mon_entry) {
+      (*p->dm_call_on_mon_entry)();
+    }
+    talk_to_host(p);
+  } else {
+    if (wait_quietly(p)) {
+      return;
+    }
+  }    
+
+  /* This is the main loop for the g88 monitor.  We execute this
+     loop continuously while we are idle, looking for a COMMAND_PREFIX
+     character.  */
+  for (;;) {
+    init_checksum(p);
+    c = get_remote_char(p, keep_trying);
+    if (c == COMMAND_PREFIX1) {
+      c = get_remote_char(p, keep_trying);
+      switch (c) {
+        case C_DOWNLOAD: download_cmd(p, m_supervisor);         break;
+        case C_UPLOAD:   upload_cmd(p, p_init, m_supervisor);   break;
+        case C_CHECKSUM: checksum_cmd(p, p_init);               break;
+        case C_GO:       
+          go_cmd(p); 
+          if (p->dm_in_mon == 0) {
+            return;
+          }
+          if (wait_quietly(p)) {
+            return;
+          }
+          break;
+
+        case C_FILL:     fill_cmd(p);                           break;
+        case C_RETPTRS:  retptrs_cmd(p);                        break;
+        case C_SYNC:     sync_cmd(p);                           break;
+        case C_UPLOADNOINIT:   
+                         upload_cmd(p, p_noinit, m_supervisor); break;
+        case C_CHECKSUMNOINIT: 
+                         checksum_cmd(p, p_noinit);             break;
+        case C_SEARCH:   search_cmd(p);                         break;
+        case C_MOVE:     move_cmd(p);                           break;
+        case C_UPLOADNOINITUSER: 
+                         upload_cmd(p, p_noinit, m_user);       break;
+        case C_UPLOADUSER: 
+                         upload_cmd(p, p_init, m_user);         break;
+        case C_188SYSCALL:
+				 syscall188_cmd(p);                     break;
+
+        default: send_command(p, C_BADCOMMAND);
+                 send_byte(p, c);                               break;
+      }
+    }
+  }
+}
+
+/*
+ * This is the download command.  It has the form:
+ *
+ *   DOWNLOAD <address> <length> <data> <data> ... END        <checksum>
+ *   0x82 0x91  ...       ...     ..     ..    ... 0x82 0x94    ...
+ *
+ * When we enter this function we have already received the DOWNLOAD
+ * command sequence (p, 0x82, 0x91).
+ */
+void
+download_cmd(p, usmode)
+    register enum usmode usmode;
+    register struct all_vars *p;
+{
+    register unsigned long addr, length;
+    
+    addr = get_word(p);
+    length = get_word(p);
+    /*
+     * If the address is word aligned we read a word at a time
+     * from the serial line.  And we store into memory a word
+     * at a time.  This is important when dealing with the CMMU
+     * registers, which have to be accessed as words and not
+     * as bytes.  It also makes this run faster.
+     */
+    if ((addr & 3) == 0 && usmode != m_user) {
+        for ( ; length >= 4 ; length -= 4) {
+            *(unsigned long *)addr = get_word(p);
+            addr += 4;
+        }
+    }
+    if ((addr & 1) == 0 && usmode != m_user) {
+        for ( ; length >= 2 ; length -= 2) {
+            *(unsigned short *)addr = get_short(p);
+            addr += 2;
+        }
+    }
+    for ( ; length != 0 ; length--) {
+        if (usmode == m_user) {
+            subyte(addr, get_byte(p, keep_trying));
+        } else {
+            *(unsigned char *)addr = get_byte(p, keep_trying);
+        }
+        addr++;
+    }
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+    send_command(p, C_ACK);
+}
+
+/*
+ * This sends data from the target to the host.
+ */
+void
+upload_cmd(p, parity_init, usmode)
+    register struct all_vars *p;
+    register enum parity_init parity_init;
+    register enum usmode usmode;
+{
+    register unsigned long addr;
+    register long length;
+
+#ifdef	lint
+    lintfunction((int)parity_init);
+#endif
+
+    addr = get_word(p);
+    length = (long)get_word(p);
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+
+    init_checksum(p);
+    send_command(p, C_DATASTART);
+    /*
+     * If the address is word aligned then we fetch and send
+     * a word at a time.
+     */
+    if (usmode == m_supervisor) {
+        if ((addr & 3) == 0) {
+            for ( ; length >= 4 ; length -= 4) {
+                send_word(p, *(unsigned long *)addr);
+                addr += 4;
+            }
+        }
+        if ((addr & 1) == 0) {
+            for ( ; length >= 2 ; length -= 2) {
+                send_short(p, *(unsigned short *)addr);
+                addr += 2;
+            }
+        }
+    }
+    for ( ; length > 0 ; length--) {
+        if (usmode == m_user) {
+            send_byte(p, fubyte(addr));
+        } else {
+            send_byte(p, *(unsigned char *)addr);
+        }
+        addr++;
+    }
+    send_command(p, C_DATAEND);
+    send_checksum(p);
+}
+
+/*
+ * This sends a checksum up to the host for every 4k block, starting
+ * at 'addr' for 'length' bytes.
+ */
+void checksum_cmd(p, parity_init)
+    register struct all_vars *p;
+    register enum parity_init parity_init;
+{
+    register unsigned long addr, count;
+    register long length;
+    register checksums;		/* To provide delays for SUN-OS */
+
+    addr = get_word(p);
+    length = (long)get_word(p);
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+
+    send_command(p, C_DATASTART);
+    init_checksum(p);
+    count = 0;
+    checksums = 0;
+
+    if ((addr & 3) == 0) {
+        for ( ; length >= 4 ; length -= 4) {
+            add_to_checksum(p, *(unsigned long *)addr);
+            count += 4;
+            if (count == 4096) {
+                count = 0;
+                send_checksum(p);
+                if (checksums++ % 40 == 0) {
+                  delay(p->dm_character_time * 400);
+                }
+                init_checksum(p);
+            }
+            addr += 4;
+        }
+    }
+    for ( ; length > 0 ; length--) {
+        add_to_checksum(p, (unsigned long)(*(unsigned char *)addr++));
+        if (++count == 4096) {
+            count = 0;
+            send_checksum(p);
+            init_checksum(p);
+        }
+    }
+    if (count) {
+        send_checksum(p);
+    }
+    send_command(p, C_DATAEND);
+}
+
+/*
+ * This loads up the registers with the contents of the register save
+ * area and does an rte.
+ */
+void go_cmd(p)
+    register struct all_vars *p;
+{
+  char buf[4];
+  int i;
+
+  /* The host sends us 4 bytes, one for each processor.  If the byte
+     for a processor is non-zero, it means that we should let it go. */
+  for (i = 0 ; i < sizeof buf ; i++) {
+    buf[i] = get_byte(p, keep_trying);
+  }
+  wait_for_token(p, C_END);
+  verify_checksum(p);
+  flush_my_cache();
+  send_command(p, C_ACK);
+  release_host_comm_mutex(0); 
+  if (p->dm_call_on_mon_exit) {
+    (*p->dm_call_on_mon_exit)();
+  }
+  if (buf[0]) {
+    regs0.dm_in_mon = 0;
+  }
+  if (buf[1]) {
+    regs1.dm_in_mon = 0;
+  }
+  if (buf[2]) {
+    regs2.dm_in_mon = 0;
+  }
+  if (buf[3]) {
+    regs3.dm_in_mon = 0;
+  }
+}
+
+/*
+ * This fills an area of memory starting at 'addr' for 'length' bytes
+ * with zeros.
+ */
+void fill_cmd(p)
+    register struct all_vars *p;
+{
+    register unsigned long addr, length;
+
+    addr = get_word(p);
+    length = get_word(p);
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+    if ((addr & 3) == 0) {
+        for ( ; length >= 4 ; length -= 4) {
+            *(unsigned long *)addr = 0;
+            addr += 4;
+        }
+    }
+
+    for ( ; length != 0 ; length--) {
+        *(unsigned char *)addr++ = 0;
+    }
+    send_command(p, C_ACK);
+}
+
+/*
+ * This sends back key pointers for the debugger to use in future commands.
+ */
+void retptrs_cmd(p)
+    register struct all_vars *p;
+{
+    extern single_step_trap();
+    extern char *date_string;
+    extern char *time_string;
+
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+
+    init_checksum(p);
+    send_command(p, C_DATASTART);
+    send_word(p, (unsigned long)&regs0);
+    send_word(p, (unsigned long)&regs1);
+    send_word(p, (unsigned long)&regs2);
+    send_word(p, (unsigned long)&regs3);
+    send_word(p, (unsigned long)single_step_trap);
+    send_word(p, (unsigned long)&date_string[0]);
+    send_word(p, (unsigned long)&time_string[0]);
+    send_word(p, (unsigned long)&report_comm_errors);
+    send_command(p, C_DATAEND);
+    send_checksum(p);
+}
+
+/*
+ * Just echo the SYNC character.
+ */
+sync_cmd(p)
+    register struct all_vars *p;
+{
+    p->dm_partial = 0;
+    p->dm_partial_length = 0;
+    send_command(p, C_SYNC);
+}
+
+/*
+ * Send a packet with the passed word.
+ */
+void send_word_in_packet(p, w)
+    register struct all_vars *p;
+    register unsigned long w;
+{
+    init_checksum(p);
+    send_command(p, C_DATASTART);
+    send_word(p, w);
+    send_command(p, C_DATAEND);
+    send_checksum(p);
+}
+
+/*
+ * This is the search command.  It has the form:
+ *
+ *   C_SEARCH <address> <length> <stride> <pattern1> <pattern2> 
+ *            <mask1> <mask2> <parity-flag> C_END <checksum>
+ *
+ *  We search starting at <address>. We step <length> times,
+ *  by <stride> bytes after each comparison.  Each comparison is
+ *  eight bytes, and is done with <pattern1> <pattern2> and contents
+ *  of memory after anding with <mask1> <mask2>
+ *
+ *  The first match terminates the search.  The address of the match
+ *  is returned.  If no match is found, -1 is returned.
+ */
+void
+search_cmd(p)
+    register struct all_vars *p;
+{
+    register unsigned long addr, pattern1, pattern2;
+    register unsigned long mask1, mask2, parity_flag;
+    register long length, stride;
+    
+    addr = get_word(p);
+    length = (long)get_word(p);
+    stride = (long)get_word(p);
+    pattern1 = get_word(p);
+    pattern2 = get_word(p);
+    mask1 = get_word(p);
+    mask2 = get_word(p);
+    parity_flag = get_word(p);
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+
+    /*
+     * Make sure that we don't go into an endless loop by making sure
+     * that the stride is positive.
+     */
+    if (stride <= 0) {
+        stride = 1;
+    }
+
+    /*
+     * If the address is word-aligned, and will stay word-aligned,
+     * do the search by words, it's faster.
+     */
+    if ((addr & 3) == 0 && (stride & 3) == 0) {
+        while ((length -= stride) >= 0) {
+            if (pattern1 == (*(unsigned long *)addr & mask1) &&
+                pattern2 == (*(unsigned long *)(addr+4) & mask2)) {
+                send_word_in_packet(p, addr);
+                return;
+            }
+            addr += stride;
+        }
+    }  else {
+        while ((length -= stride) >= 0) {
+            unsigned long word1 = (*(unsigned char *)addr << 24)       |
+                                  (*(unsigned char *)(addr + 1) << 16) |
+                                  (*(unsigned char *)(addr + 2) << 8)  |
+                                   *(unsigned char *)(addr + 3);
+
+            unsigned long word2 = (*(unsigned char *)(addr + 4) << 24) |
+                                  (*(unsigned char *)(addr + 5) << 16) |
+                                  (*(unsigned char *)(addr + 6) << 8)  |
+                                   *(unsigned char *)(addr + 7);
+
+
+            if (pattern1 == (word1 & mask1) &&
+                pattern2 == (word2 & mask2)) {
+                send_word_in_packet(p, addr);
+                return;
+            }
+            addr += stride;
+        }
+    }
+    send_word_in_packet(p, (unsigned long)-1);
+}
+
+/*
+ * This is the move command.  It has the form:
+ *
+ *   C_MOVE <source address> <destination address> <length> 
+ *                         <parity-flag> C_END <checksum>
+ *  We move the block of memory starting at <source address> and
+ *  extending for <length> bytes to memory starting at <destination address>
+ */
+void
+move_cmd(p)
+    register struct all_vars *p;
+{
+    register unsigned long src_addr, dst_addr;
+    register unsigned long parity_flag;
+    register long length;
+    
+    src_addr = get_word(p);
+    dst_addr = get_word(p);
+    length = (long)get_word(p);
+    parity_flag = get_word(p);
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+
+    for ( ; length > 0 ; length--) {
+        *(unsigned char *)dst_addr = *(unsigned char *)src_addr;
+        src_addr++;
+        dst_addr++;
+    }
+    send_command(p, C_ACK);
+}
+
+/*
+ * Call the 188 BUG.
+ *   C_188SYSCALL <code> <arg1> <arg2> <arg3> <arg4> C_END <checksum>
+ *
+ * We reply with C_ACK right away.  
+ * If the call to 188BUG returns, we send C_DATASTART <return_val> C_DATAEND
+ * I don't know what the maximum number of arguments that a 188BUG 
+ * syscall takes, I guess that 4 is enough.
+ */
+void
+syscall188_cmd(p)
+    register struct all_vars *p;
+{
+    register unsigned long code = get_word(p);
+    register unsigned long arg1 = get_word(p);
+    register unsigned long arg2 = get_word(p);
+    register unsigned long arg3 = get_word(p);
+    register unsigned long arg4 = get_word(p);
+    register unsigned long return_val;
+
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+
+    send_command(p, C_ACK);
+    return_val = syscall(code, arg1, arg2, arg3, arg4);
+    init_checksum(p);
+    send_command(p, C_DATASTART);
+    send_word(p, return_val);
+    send_command(p, C_DATAEND);
+    send_checksum(p);
+}
+
+/* This is called when the kernel wants to read characters from
+ * the remote console.  */
+mon_dbread(buffer, length)
+    register char *buffer;
+    register long length;
+{
+  register int i, actual_length;
+  struct all_vars *p = our_var_area();
+
+  while (!acquire_host_comm_mutex());
+  init_checksum(p);
+  send_command(p, C_DBREAD);
+  send_word(p, (unsigned long)length);
+  send_checksum(p);
+
+  init_checksum(p);
+  wait_for_token(p, C_DATASTART);
+  actual_length = get_word(p);
+  for (i = 0 ; i < actual_length ; i++) {
+    unsigned char c = get_byte(p, abort_if_int);
+    if (c == 0xff) {
+      release_host_comm_mutex(1);
+      return i;
+    }
+    *buffer++ = c;
+  }
+  wait_for_token(p, C_DATAEND);
+  verify_checksum(p);
+  release_host_comm_mutex(1);
+  return actual_length;
+}
+
+#define MAXPACKETSIZE	20
+/*
+ * This is called when the kernel wants to write characters to
+ * the remote console.
+ */
+mon_dbwrite(buffer, length)
+    register char *buffer;
+    register long length;
+{
+  register struct all_vars *p = our_var_area();
+  register cnt = length;
+
+  while (!acquire_host_comm_mutex());
+  init_checksum(p);
+  send_command(p, C_DBWRITE);
+  send_word(p, (unsigned long)length);
+  send_command(p, C_DATASTART);
+  while (length-- > 0) {
+    send_byte(p, (unsigned char)(*buffer++));
+  }
+  send_command(p, C_DATAEND);
+  send_checksum(p);
+  delay(p->dm_character_time * cnt * 50);
+  release_host_comm_mutex(1);
+}
+
+char *date_string = __DATE__;
+char *time_string = __TIME__;
+@
+
+
+1.8
+log
+@Now recognizes flow control characters sent by the host.
+Formatting tweaks.
+@
+text
+@d2 1
+a2 1
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/hmon/RCS/mon.c,v 1.7 90/12/29 21:30:50 robertb Exp Locker: robertb $
+d25 4
+d36 3
+d41 11
+d74 5
+d84 1
+d150 15
+d184 1
+a184 1
+  int b;
+d199 1
+a199 1
+static void handle_duart_error(p)
+d201 1
+d203 1
+a203 1
+  unsigned char status;
+d206 2
+a207 1
+  if (*UART_STATUS_ADDR & 0xf0) {
+d211 4
+a214 2
+  send_command(p, C_COMMERR);
+  send_byte(p, status);
+d227 1
+a227 1
+    handle_duart_error(p);
+d242 1
+a242 1
+        handle_duart_error(p);
+d250 1
+a250 1
+  handle_duart_error(p);
+d253 17
+d278 2
+d285 1
+a285 1
+      handle_duart_error(p);
+d287 1
+d289 1
+d291 1
+a291 1
+    add_to_checksum(p, c);
+d314 1
+a314 1
+unsigned char get_remote_char(p)
+d316 1
+d324 1
+a324 1
+        handle_duart_error(p);
+d326 3
+d333 1
+a333 1
+    add_to_checksum(p, c);
+d435 1
+a435 1
+    t |= get_byte(p);
+d445 1
+a445 1
+  register unsigned long w = get_byte(p);
+d447 1
+a447 1
+  return (w << 8) | get_byte(p);
+d452 1
+a452 1
+unsigned char get_byte(p)
+d454 1
+d466 6
+a471 1
+  c = get_remote_char(p);
+d475 1
+a475 1
+      c = get_remote_char(p);
+d479 1
+a479 1
+      c = get_remote_char(p);
+a519 11
+/* Makes the parity bits for a block of memory valid.  The address of the
+   first byte to validate is passed in 'addr'.  'length' is the number of
+   bytes to validate.
+  
+   This doesn't do anything on the Motorola 188 box.  */
+
+void block_parity_init(addr, length)
+    register unsigned long  addr;
+    register          long  length;
+{ }
+
+d528 1
+a528 1
+    if ((c = get_remote_char(p)) != COMMAND_PREFIX1) {
+d535 1
+a535 1
+    if ((c = get_remote_char(p)) != token) {
+d622 1
+d628 1
+d632 1
+d638 1
+d640 12
+d655 1
+a655 1
+void flush_cache()
+d658 1
+a658 2
+  register i;
+  register int cmmus_per_port = hyper_config[whoami()].h_cmmus / 2;
+d660 7
+a666 5
+  for (i = 0 ; i < cmmus_per_port ; i++) {
+    *(ccmmu188[i] + 1) = 0x17;   /* Invalidate */
+    *(dcmmu188[i] + 1) = 0x1b;	/* Copyback */
+    ssr = *(dcmmu188[i] + 2);	/* Load system status register to sync */
+  }
+d672 1
+a672 1
+void enable_code_cache()
+d674 6
+a679 2
+  register int ssr, i;
+  register int cmmus_per_port = hyper_config[whoami()].h_cmmus / 2;
+d681 63
+a743 3
+  for (i = 0 ; i < cmmus_per_port ; i++) {
+    /* Force the CI bit in the SAPR's to be off */
+    *(ccmmu188[i] + 0x200/4) &= ~0x40;
+d745 2
+d749 22
+a770 3
+/*
+ * This is the monitor's entry point.
+ */
+d774 2
+a775 2
+    register unsigned char c;
+    register struct all_vars *p = our_var_area();
+d777 6
+d786 4
+a789 12
+    enable_code_cache();
+    p->dm_partial = 0;
+    p->dm_partial_length = 0;
+    p->dm_checksumming = 0;
+    p->dm_checksum = 0;
+
+    if (p->dm_in_mon == IN_MON_MAGIC && p->dm_exception_code == TR_DACC) {
+        send_command(p, C_DATAERROR);
+    } else {
+        p->dm_in_mon = IN_MON_MAGIC;
+        send_command(p, C_EXCEPTION);
+        send_word(p, p->dm_exception_code);
+d791 1
+d793 36
+a828 29
+    /*
+     * This is the main loop for the dbx monitor.  We execute this
+     * loop continuously while we are idle, looking for a COMMAND_PREFIX
+     * character.
+     */
+    for (;;) {
+        init_checksum(p);
+        c = get_remote_char(p);
+        if (c == COMMAND_PREFIX1) {
+            c = get_remote_char(p);
+            switch (c) {
+                case C_DOWNLOAD: download_cmd(p, m_supervisor);         break;
+                case C_UPLOAD:   upload_cmd(p, p_init, m_supervisor);   break;
+                case C_CHECKSUM: checksum_cmd(p, p_init);               break;
+                case C_GO:       go_cmd(p);                             return;
+                case C_FILL:     fill_cmd(p);                           break;
+                case C_RETPTRS:  retptrs_cmd(p);                        break;
+                case C_SYNC:     sync_cmd(p);                           break;
+                case C_UPLOADNOINIT:   
+                                 upload_cmd(p, p_noinit, m_supervisor); break;
+                case C_CHECKSUMNOINIT: 
+                                 checksum_cmd(p, p_noinit);             break;
+                case C_SEARCH:   search_cmd(p);                         break;
+                case C_MOVE:     move_cmd(p);                           break;
+                case C_UPLOADNOINITUSER: 
+                                 upload_cmd(p, p_noinit, m_user);       break;
+                case C_UPLOADUSER: 
+                                 upload_cmd(p, p_init, m_user);         break;
+                case C_188SYSCALL:
+d831 3
+a833 4
+                default: send_command(p, C_BADCOMMAND);
+                         send_byte(p, c);                               break;
+            }
+        }
+d835 1
+d877 1
+a877 1
+            subyte(addr, get_byte(p));
+d879 1
+a879 1
+            *(unsigned char *)addr = get_byte(p);
+d900 4
+a908 4
+    if (parity_init == p_init) {
+        block_parity_init(addr, length);
+    }
+
+d951 1
+a957 4
+    if (parity_init == p_init) {
+        block_parity_init(addr, length);
+    }
+
+d961 1
+d970 3
+d979 1
+a979 1
+        add_to_checksum(p, *(unsigned char *)addr++);
+d999 28
+a1026 8
+    wait_for_token(p, C_END);
+    verify_checksum(p);
+    flush_cache();
+    send_command(p, C_ACK);
+    p->dm_in_mon = 0;
+    if (p->dm_call_on_mon_exit) {
+      (*p->dm_call_on_mon_exit)();
+    }
+d1062 2
+a1063 1
+    extern char *version_string;
+d1070 4
+a1073 2
+    send_word(p, (unsigned long)&p->dm_dacc_address);
+    send_word(p, (unsigned long)&p->dm_genregs[0]);
+d1075 3
+a1077 2
+    send_word(p, (unsigned long)&version_string[0]);
+    send_word(p, (unsigned long)&p->dm_panic_code);
+a1147 4
+    if (parity_flag) {
+        block_parity_init(addr, length + 7);
+    }
+
+a1207 4
+    if (parity_flag) {
+        block_parity_init(src_addr, length);
+    }
+
+a1247 8
+/*
+ * We call this with values that we load for effect only to prevent
+ * the compiler from optimizing away the load.
+ */
+defeat_optimizer(x)
+    register int x;
+{}
+
+d1254 2
+a1255 2
+    register int i, actual_length;
+    struct all_vars *p = our_var_area();
+d1257 5
+a1261 4
+    init_checksum(p);
+    send_command(p, C_DBREAD);
+    send_word(p, (unsigned long)length);
+    send_checksum(p);
+d1263 8
+a1270 5
+    init_checksum(p);
+    wait_for_token(p, C_DATASTART);
+    actual_length = get_word(p);
+    for (i = 0 ; i < actual_length ; i++) {
+        *buffer++ = get_byte(p);
+d1272 6
+a1277 3
+    wait_for_token(p, C_DATAEND);
+    verify_checksum(p);
+    return actual_length;
+d1289 2
+a1290 2
+    register struct all_vars *p = our_var_area();
+    register long l;
+d1292 12
+a1303 19
+    /*
+     * Send the characters to the host in packets of 20 or less
+     * and re-enable interrupts after each packet so that the host
+     * can interrupt us if it wants to in a timely way.
+     */
+    while (length > 0) {
+        l = length > MAXPACKETSIZE ? MAXPACKETSIZE : length;
+
+        init_checksum(p);
+        send_command(p, C_DBWRITE);
+        send_word(p, (unsigned long)l);
+        send_command(p, C_DATASTART);
+        while (l-- > 0) {
+            send_byte(p, (unsigned char)(*buffer++));
+            length--;
+        }
+        send_command(p, C_DATAEND);
+        send_checksum(p);
+    }
+d1306 2
+a1307 17
+#ifdef lint
+char VER[1];
+
+void lintfunction()
+{
+    char *p = 0;
+
+    (void)mon_dbread(p, (long)0);
+    mon_dbwrite(p, (long)0);
+    debug_monitor_entry_point();
+    mon_init();
+    lintfunction();
+}
+#endif
+
+char *version_string = 
+  "Tektronix/HRI debug monitor for Motorola MVME188 system 1/1/91\n";
+@
+
+
+1.7
+log
+@Added xrestart(), which keeps track of how many times we've tried
+to restart and resets the machine if it is more than 10 times.
+Added Kawada's feature, to call user-supplied routines on entry
+and exit of debug monitor.
+@
+text
+@d2 1
+a2 1
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/hmon/RCS/mon.c,v 1.6 90/12/10 21:24:51 robertb Exp Locker: robertb $
+d28 5
+a32 5
+#define UART_STATUS_ADDR	(0xfff82007)
+#define	UART_CRA_ADDR		(0xfff8200b)
+#define	UART_DATA_ADDR		(0xfff8200f)
+#define	UART_ACR_ADDR		(0xfff82013)
+#define	GLBRES_ADDR		(0xfff8700c)
+d37 5
+a41 4
+extern inline unsigned char get_byte();
+extern inline unsigned short get_short();
+extern inline unsigned long get_word();
+extern inline unsigned char get_remote_char();
+d56 3
+d66 2
+a67 2
+	unsigned pattern;
+	unsigned length;
+a77 3
+#define	C_RESET			(0x81)
+#define	C_NMI			(0x82)
+
+d143 1
+a143 1
+void inline add_to_checksum(p, b)
+d156 54
+d214 2
+a215 2
+    register struct all_vars *p;
+    register unsigned char c;
+d217 7
+a223 7
+    register unsigned char  status;
+    c &= 0xff;
+    do {
+      status = *(volatile unsigned char *)UART_STATUS_ADDR;
+    } while (!(status & 4));
+    if (p->dm_checksumming) {
+        add_to_checksum(p, c);
+d225 5
+a229 1
+    *(volatile unsigned char *)UART_DATA_ADDR = c;
+d243 8
+a250 8
+/*
+ * This returns a raw character from the comm line.  If checksumming
+ * is turned on, we add the received character to the running check
+ * sum total.  We can't call 188BUG to do this for us because some
+ * values that sees in the input register of the DUART will cause
+ * its command interpreter to be entered.
+ */
+inline unsigned char get_remote_char(p)
+d255 9
+a263 7
+  while (((status = *(volatile unsigned char *)UART_STATUS_ADDR) & 1) == 0);
+  if (status & 0xf0) {
+    send_command(p, C_COMMERR);
+    send_byte(p, status);
+    xrestart();
+  }
+  c = *(volatile unsigned char *)UART_DATA_ADDR;
+d271 1
+a271 3
+/*
+ * In the comments below, "the other agent" is the host.
+ */
+d273 2
+a274 3
+/*
+ * This initializes the checksum
+ */
+d276 1
+a276 1
+    register struct all_vars *p;
+d278 2
+a279 2
+    p->dm_checksum = 0;
+    p->dm_checksumming = 1;
+d282 2
+a283 3
+/*
+ * Sends the checksum to the other agent.
+ */
+d285 1
+a285 1
+    register struct all_vars *p;
+d287 2
+a288 2
+    p->dm_checksumming = 0;
+    send_word(p, p->dm_checksum);
+d291 3
+a293 4
+/*
+ * This sends the passed word to the other agent.  It does the
+ * data compression.
+ */
+d295 2
+a296 2
+    register struct all_vars *p;
+    register unsigned long word;
+d298 1
+a298 1
+    register struct compress *ct = &compress_table[0];
+d300 4
+a303 6
+    while (ct->length == 4 || ct->length == 0) {
+        if (ct->pattern == word && ct->length == 4) {
+            put_remote_char(p, (unsigned char)(ct - &compress_table[0]));
+            return;
+        }
+        ct++;
+d305 4
+a308 2
+    send_short(p, (unsigned short)(word >> 16));
+    send_short(p, (unsigned short)word);
+d315 2
+a316 2
+    register struct all_vars *p;
+    register unsigned short s;
+d318 1
+a318 1
+    register struct compress *ct = &compress_table[SHORT_OFFSET];
+d320 4
+a323 6
+    while (ct->length == 2 || ct->length == 0) {
+        if (ct->pattern == s && ct->length == 2) {
+            put_remote_char(p, (unsigned char)(ct - &compress_table[0]));
+            return;
+        }
+        ct++;
+d325 4
+a328 2
+    send_byte(p, (unsigned char)(s >> 8));
+    send_byte(p, (unsigned char)s);
+d335 2
+a336 2
+    register struct all_vars *p;
+    register unsigned char byte;
+d338 5
+a342 7
+    register struct compress *ct = &compress_table[BYTE_OFFSET];
+    while (ct < &compress_table[256]) {
+        if (ct->pattern == byte && ct->length == 1) {
+            put_remote_char(p, (unsigned char)(ct - &compress_table[0]));
+            return;
+        }
+        ct++;
+d344 11
+a354 10
+    /*
+     * We couldn't compress the byte.  Send it using the two byte
+     * sequence.
+     */
+    if (byte & 0x80) {
+        put_remote_char(p, COMMAND_PREFIX2);
+    } else {
+        put_remote_char(p, COMMAND_PREFIX1);
+    }
+    put_remote_char(p, byte & 0x7f);
+d357 4
+a360 5
+/*
+ * This returns an unsigned long word from the comm port (from other agent).
+ */
+inline unsigned long get_word(p)
+    register struct all_vars *p;
+d362 2
+a363 2
+    register unsigned long t = 0;
+    register unsigned long i;
+d365 5
+a369 5
+    for (i = 0 ; i < 4 ; i++) {
+        t <<= 8;
+        t |= get_byte(p);
+    }
+    return t;
+d372 4
+a375 5
+/*
+ * This returns an unsigned short from the comm port (from other agent).
+ */
+inline unsigned short get_short(p)
+    register struct all_vars *p;
+d377 1
+a377 1
+    register unsigned long w = get_byte(p);
+d379 1
+a379 1
+    return (w << 8) | get_byte(p);
+d382 4
+a385 5
+/*
+ * This returns a decode byte from the comm port (from other agent).
+ */
+inline unsigned char get_byte(p)
+    register struct all_vars *p;
+d387 2
+a388 2
+    register unsigned char c;
+    register struct compress *ct;
+d390 6
+a395 6
+    if (p->dm_partial_length) {
+        p->dm_partial_length--;
+        c = (p->dm_partial >> 24) & 0xff;
+        p->dm_partial <<= 8;
+        return c;
+    }
+d397 6
+a402 6
+    c = get_remote_char(p);
+    ct = &compress_table[c];
+    switch (ct->length) {
+        case L_QUOTED1:
+            c = get_remote_char(p);
+            return c;
+d404 3
+a406 3
+        case L_QUOTED2:
+            c = get_remote_char(p);
+            return c + 0x80;
+d408 2
+a409 2
+        case L_BYTE:
+            return ct->pattern;
+d411 4
+a414 4
+        case L_SHORT:
+            p->dm_partial_length = 1;
+            p->dm_partial = ct->pattern << 24;
+            return (ct->pattern >> 8) & 0xff;
+d416 4
+a419 4
+        case L_WORD:
+            p->dm_partial_length = 3;
+            p->dm_partial = ct->pattern << 8;
+            return (ct->pattern >> 24) & 0xff;
+d421 5
+a425 5
+        default:
+            send_command(p, C_COMPRESSERR);
+            xrestart();
+            /*NOTREACHED*/
+    }
+d428 3
+a430 4
+/*
+ * This reads the checksum from the comm line and compares it
+ * with the value in the global 'checksum'.
+ */
+d432 1
+a432 1
+    register struct all_vars *p;
+d434 1
+a434 1
+    register unsigned long received_checksum;
+d436 8
+a443 8
+    p->dm_checksumming = 0;
+    received_checksum = get_word(p);
+    if (p->dm_checksum != received_checksum) {
+        send_command(p, C_CHECKSUMERR);
+        send_word(p, p->dm_checksum);
+        send_word(p, received_checksum);
+        xrestart();
+    }
+d445 7
+a451 7
+/*
+ * Makes the parity bits for a block of memory valid.  The address of the
+ * first byte to validate is passed in 'addr'.  'length' is the number of
+ * bytes to validate.
+ *
+ * This doesn't do anything on the Motorola 188 box.
+ */
+d455 1
+a455 3
+{
+    register int data_parity_state;
+}
+d457 2
+a458 3
+/*
+ * This looks for the passed command from the host.
+ */
+d1142 1
+a1142 1
+  "Tektronix/HRI debug monitor for Motorola MVME188 system 12/29/90\n";
+@
+
+
+1.6
+log
+@Had to speed up the monitor, it was dropping characters at
+38.4 Kbaud.  Turned on the code cache.
+@
+text
+@d2 1
+a2 1
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/hmon/RCS/mon.c,v 1.5 90/11/27 01:09:05 robertb Exp Locker: robertb $
+d18 1
+a18 1
+ * Contact Robert Bedichek (robertb@@cs.washington.edu 1-206-522-2645)
+d32 1
+d53 1
+d125 15
+d200 1
+a200 1
+    restart();
+d371 1
+a371 1
+            restart();
+d391 1
+a391 1
+        restart();
+d421 1
+a421 1
+        restart();
+d428 1
+a428 1
+        restart();
+d551 1
+a551 1
+    *(ccmmu188[i] + 200/4) &= ~0x40;
+d554 1
+d564 3
+d784 3
+d1094 1
+a1094 1
+  "Tektronix/HRI debug monitor for Motorola 188 board 11/26/90\n";
+@
+
+
+1.5
+log
+@Made most things a register, made several routines inline,
+added 'volatile' to UART accesses to prevent gcc -O from
+doing the wrong thing.
+@
+text
+@d2 1
+a2 1
+ * $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/hmon/RCS/mon.c,v 1.4 90/05/16 10:23:04 robertb Exp Locker: robertb $
+d505 1
+a505 1
+  return (int)((*(unsigned long *)0xfff88018) >> 4) & 0xf;
+d513 2
+a514 1
+  register int ssr, i;
+a520 1
+    defeat_optimizer(ssr);
+d524 13
+d546 1
+@
+
+
+1.4
+log
+@Changed Tek copyright
+@
+text
+@d2 1
+a2 1
+ * $Header: mon.c,v 1.3 90/05/14 17:18:23 robertb Locked $
+d36 4
+a39 4
+extern unsigned char get_byte();
+extern unsigned short get_short();
+extern unsigned long get_word();
+extern unsigned char get_remote_char();
+a116 5
+#define add_to_checksum(p, b) {         \
+  register unsigned msb;                \
+  msb = (p->dm_checksum += (b)) >> 31 ; \
+  p->dm_checksum <<= 1;                 \
+  p->dm_checksum |= msb; }
+d123 15
+d145 1
+a145 1
+    unsigned char  status;
+d148 1
+a148 1
+      status = *(unsigned char *)UART_STATUS_ADDR;
+d153 1
+a153 1
+    *(unsigned char *)UART_DATA_ADDR = c;
+d174 2
+a175 2
+unsigned char get_remote_char(p)
+    register struct all_vars *p;
+d177 1
+a177 1
+    unsigned char c, status;
+d179 11
+a189 16
+    do {
+        status = *(unsigned char *)UART_STATUS_ADDR;
+        if (status & 1) {
+          c = *(unsigned char *)UART_DATA_ADDR;
+        }
+        if (status & 0xf0) {
+            send_command(p, C_COMMERR);
+            send_byte(p, status);
+            restart();
+        }
+    } while ((status & 1) == 0 || c == C_NMI || c == C_RESET);
+
+    if (p->dm_checksumming) {
+        add_to_checksum(p, c);
+    }
+    return c;
+d265 1
+a265 1
+    struct compress *ct = &compress_table[BYTE_OFFSET];
+d288 1
+a288 1
+unsigned long get_word(p)
+d304 1
+a304 1
+unsigned short get_short(p)
+d315 1
+a315 1
+unsigned char get_byte(p)
+d514 1
+a514 1
+  int cmmus_per_port = hyper_config[whoami()].h_cmmus / 2;
+d640 2
+a641 2
+    enum parity_init parity_init;
+    enum usmode usmode;
+d693 1
+a693 1
+    enum parity_init parity_init;
+d955 6
+a960 6
+    unsigned long code = get_word(p);
+    unsigned long arg1 = get_word(p);
+    unsigned long arg2 = get_word(p);
+    unsigned long arg3 = get_word(p);
+    unsigned long arg4 = get_word(p);
+    unsigned long return_val;
+d988 1
+a988 1
+    int i, actual_length;
+d1056 1
+a1056 1
+  "Tektronix debug monitor for Motorola 188 board 4/23/90\n";
+@
+
+
+1.3
+log
+@Now we send the address of the word that has the address of
+the most recent dacc-while-in-the-monitor.
+@
+text
+@d2 1
+a2 1
+ * $Header: mon.c,v 1.2 90/04/22 18:03:31 robertb Exp $
+d5 4
+a8 2
+ * Copyright (c) 1987, Tektronix Inc.
+ * All Rights Reserved
+@
+
+
+1.2
+log
+@Added cache-flushing routines, mon_dbread(), mon_dbwrite(),
+whoami().  And changed the character I/O routines to go directly
+to the UART w/o the help of 188BUG (put_remote_char) and to
+do more checking of error conditions (get_remote_char).
+@
+text
+@d2 2
+a3 2
+ * $Header: mon.c,v 1.1 90/04/10 11:34:36 robertb Exp $
+ * $Locker:  $
+d784 1
+a784 1
+    send_word(p, (unsigned long)&compress_table[0]);
+d1049 1
+a1049 1
+  "Tektronix debug monitor for Motorola 188 board 4/22/90\n";
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+a2 1
+ * $Header: mon.c,v 1.45 89/09/04 00:06:31 robertb Exp $
+d23 2
+a24 4
+/*
+ * Define for the 188BUG ROM routines that we call to do our I/O.
+ */
+#define	OUTCHR	(32)	/* Function code to write a character to serial port */
+d26 4
+a29 5
+/*
+ * Addresses of CMMUs on 188 board.
+ */
+#define CE_CMMU_CODE_0 (0xfff7e000)
+#define CE_CMMU_DATA_0 (0xfff7f000)
+d133 1
+d135 3
+d141 1
+a141 1
+    syscall(OUTCHR, c);
+d168 10
+a177 3
+        while (!(*(char *)0xfff82007 & 1));
+        c = *(char *)0xfff8200f;
+    } while (c == C_NMI || c == C_RESET);
+d415 56
+a470 2
+ * seen on 8 CMMU systems.  (The above comment is from blackbird, now
+ * we just have 2 CMMUs on the 188 board).
+d472 32
+d506 2
+a507 1
+    register int ssr;
+d509 4
+a512 3
+    *(unsigned long *)(CE_CMMU_CODE_0 + 4) = 0x17;
+    *(unsigned long *)(CE_CMMU_DATA_0 + 4) = 0x1b;
+    ssr = *(unsigned long *)(CE_CMMU_DATA_0 + 8);
+d514 1
+d975 58
+d1049 1
+a1049 1
+    "Tektronix debug monitor for Motorola 188 board 4/10/90\n";
+@

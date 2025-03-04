@@ -1,0 +1,200 @@
+head     1.3;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.3
+date     88.02.12.16.13.42;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.23.14.43.42;  author timd;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.28.14.32.00;  author brents;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.3
+log
+@Added copyright message.
+@
+text
+@/*------------------------------------------------------------------------
+ * led.h
+ *
+ * This header file defines the configuration of the Blackbird Compute 
+ * Enginer diagnostic LED, which is controlled via the CE Master Display
+ * Register.
+ *
+ * Copyright (c) 1987, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: led.h,v 1.2 87/11/23 14:43:42 timd Exp $
+ * $Log:	led.h,v $
+ * Revision 1.2  87/11/23  14:43:42  timd
+ * Added header field for colast
+ * 
+ * Revision 1.1  87/10/28  14:32:00  brents
+ * Initial revision
+ * 
+ * Revision 1.1  87/10/05  13:11:09  timd
+ * Initial revision
+ * 
+ *------------------------------------------------------------------------
+ */
+
+/*------------------------------------------------------------------------
+ * Segment Lighting
+ * 
+ * The segments of the LED are numbered as follows:
+ *
+ *      a
+ *     ----
+ *   f|    |b
+ *    | g  |
+ *     ----
+ *   e|    |c
+ *    | d  |
+ * dp  ----
+ *  @@
+ *
+ * A segment is lighted by turning *off* (clearing) its approriate bit.
+ *------------------------------------------------------------------------
+ */
+
+#define SEGa 	0x1
+#define SEGb 	0x2
+#define SEGc 	0x4
+#define	SEGd 	0x8
+#define SEGe 	0x10
+#define SEGf 	0x20
+#define SEGg 	0x40
+#define SEGdp 	0x80		/* decimal point segment */
+
+/*------------------------------------------------------------------------
+ * Patterns 
+ *
+ * The following defines make various figures appear on the LED. These
+ * defines were painstakingly worked-out by Brent Sherwood, and ported 
+ * from 4301 diagnostics.; his original notation and comments remain
+ * intact. Please heed the cautions about character similarities.
+ *------------------------------------------------------------------------
+ */
+
+#define D_0 	(~(SEGa | SEGb | SEGc | SEGd | SEGe | SEGf))&0xff
+#define D_1 	(~(SEGb | SEGc))&0xff
+#define D_2 	(~(SEGa | SEGb | SEGd | SEGe | SEGg))&0xff
+#define D_3 	(~(SEGa | SEGb | SEGc | SEGd | SEGg))&0xff
+#define D_4 	(~(SEGb | SEGc | SEGf | SEGg))&0xff
+#define D_5 	(~(SEGa | SEGc | SEGd | SEGf | SEGg))&0xff
+#define D_6 	(~(SEGa |  SEGc | SEGd | SEGe | SEGf | SEGg ))&0xff
+#define D_7 	(~(SEGa | SEGb | SEGc))&0xff
+#define D_8 	(~(SEGa | SEGb | SEGc | SEGd | SEGe | SEGf | SEGg))&0xff
+#define D_9 	(~(SEGa | SEGb | SEGc | SEGf | SEGg))&0xff
+#define D_a 	(~(SEGa | SEGb | SEGc | SEGd | SEGe | SEGg))&0xff
+#define D_b 	(~(SEGc | SEGd | SEGe | SEGf | SEGg))&0xff
+#define D_c 	(~(SEGd | SEGe | SEGg))&0xff
+#define D_d 	(~(SEGb | SEGc | SEGd | SEGe | SEGg))&0xff
+#define D_e 	(~(SEGa | SEGb | SEGd | SEGe | SEGf | SEGg))&0xff
+#define D_g 	(~(SEGa | SEGb | SEGc | SEGd | SEGf | SEGg))&0xff /* too much like 9 */
+#define D_h 	(~(SEGc | SEGe | SEGf | SEGg))&0xff
+#define D_i 	(~(SEGe))&0xff	/* too much like 1 */
+#define D_o 	(~(SEGc | SEGd | SEGe | SEGg))&0xff
+#define D_n 	(~(SEGc | SEGe | SEGg))&0xff
+#define D_r 	(~(SEGe | SEGg))&0xff
+#define D_u 	(~(SEGc | SEGd | SEGe))&0xff
+#define D_P 	(~(SEGa | SEGb | SEGe | SEGf | SEGg))&0xff
+#define D_A 	(~(SEGa | SEGb | SEGc |  SEGe | SEGf | SEGg))&0xff
+#define D_11 	(~(SEGb | SEGc | SEGe |SEGf))&0xff
+#define D_C 	(~(SEGa | SEGd | SEGe | SEGf ))&0xff
+#define D_E 	(~(SEGa | SEGd | SEGe | SEGf | SEGg))&0xff
+#define D_F 	(~(SEGa | SEGe | SEGf | SEGg))&0xff
+#define D_G 	(~(SEGa |  SEGc | SEGd | SEGe | SEGf))&0xff
+#define D_H 	(~(SEGb | SEGc | SEGe | SEGf | SEGg))&0xff
+#define D_J 	(~(SEGb | SEGc | SEGd | SEGe))&0xff
+#define D_L 	(~(SEGd | SEGe | SEGf))&0xff
+#define D_U 	(~(SEGb | SEGc | SEGd | SEGe | SEGf))&0xff
+#define D_NULL	((SEGa | SEGb | SEGc | SEGd | SEGe | SEGf | SEGg | SEGdp))&0xff
+
+#define D_CONS 	(~(SEGd | SEGg))&0xff	         /* `=' */
+#define D_bars 	(~(SEGa | SEGd | SEGg))&0xff    /* three bars */
+#define D_gds  	(~(SEGa | SEGb |SEGe | SEGg))&0xff   /* gds error code */
+
+#define D_0dp 	(~(SEGa | SEGb | SEGc | SEGd | SEGe | SEGf | SEGdp))&0xff
+#define D_1dp 	(~(SEGb | SEGc | SEGdp))&0xff
+#define D_2dp 	(~(SEGa | SEGb | SEGd | SEGe | SEGg | SEGdp))&0xff
+#define D_3dp 	(~(SEGa | SEGb | SEGc | SEGd | SEGg | SEGdp))&0xff
+#define D_4dp 	(~(SEGb | SEGc | SEGf | SEGg | SEGdp))&0xff
+#define D_5dp 	(~(SEGa | SEGc | SEGd | SEGf | SEGg | SEGdp))&0xff
+#define D_6dp 	(~(SEGa |  SEGc | SEGd | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_7dp 	(~(SEGa | SEGb | SEGc | SEGdp))&0xff
+#define D_8dp 	(~(SEGa | SEGb | SEGc | SEGd | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_9dp 	(~(SEGa | SEGb | SEGc | SEGf | SEGg | SEGdp))&0xff
+#define D_adp 	(~(SEGa | SEGb | SEGc | SEGd | SEGe | SEGg | SEGdp))&0xff
+#define D_bdp 	(~(SEGc | SEGd | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_cdp 	(~(SEGd | SEGe | SEGg | SEGdp))&0xff
+#define D_ddp 	(~(SEGb | SEGc | SEGd | SEGe | SEGg | SEGdp))&0xff
+#define D_edp 	(~(SEGa | SEGb | SEGd | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_gdp 	(~(SEGa | SEGb | SEGc | SEGd | SEGf | SEGg | SEGdp))&0xff
+#define D_hdp 	(~(SEGc | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_idp 	(~(SEGe | SEGdp))&0xff
+#define D_odp 	(~(SEGc | SEGd | SEGe | SEGg | SEGdp))&0xff
+#define D_ndp 	(~(SEGc | SEGe | SEGg | SEGdp))&0xff
+#define D_rdp 	(~(SEGe | SEGg | SEGdp))&0xff
+#define D_udp 	(~(SEGc | SEGd | SEGe | SEGdp))&0xff
+#define D_Pdp 	(~(SEGa | SEGb | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_Adp 	(~(SEGa | SEGb | SEGc |  SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_11dp 	(~(SEGb | SEGc | SEGe |SEGf | SEGdp))&0xff
+#define D_Cdp 	(~(SEGa | SEGd | SEGe | SEGf | SEGdp))&0xff
+#define D_Edp 	(~(SEGa | SEGd | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_Fdp 	(~(SEGa | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_Gdp 	(~(SEGa |  SEGc | SEGd | SEGe | SEGf | SEGdp))&0xff
+#define D_Hdp 	(~(SEGb | SEGc | SEGe | SEGf | SEGg | SEGdp))&0xff
+#define D_Jdp 	(~(SEGb | SEGc | SEGd | SEGe | SEGdp))&0xff
+#define D_Ldp 	(~(SEGd | SEGe | SEGf | SEGdp))&0xff
+#define D_Udp 	(~(SEGb | SEGc | SEGd | SEGe | SEGf | SEGdp))&0xff
+#define D_dp  	(~(SEGdp))&0xff
+
+#define D_CONSdp (~(SEGd | SEGg | SEGdp))&0xff	         /* `.=' */
+#define D_barsdp (~(SEGa | SEGd | SEGg | SEGdp))&0xff   /* . three bars */
+#define D_gdsdp  (~(SEGa | SEGb |SEGe | SEGg | SEGdp))&0xff /* gds down display */
+@
+
+
+1.2
+log
+@Added header field for colast
+@
+text
+@a0 1
+/* $Header$ */
+d11 1
+a11 1
+ * $Header: led.h,v 1.1 87/10/28 14:32:00 brents Exp $
+d13 3
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+d12 1
+a12 1
+ * $Header: led.h,v 1.1 87/10/05 13:11:09 timd Exp $
+d14 3
+@

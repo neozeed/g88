@@ -1,0 +1,5559 @@
+head     1.48;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.48
+date     90.12.10.21.18.29;  author robertb;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     90.11.15.19.38.40;  author robertb;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     90.11.14.20.54.03;  author robertb;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     90.11.08.22.41.15;  author robertb;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     90.10.30.23.56.55;  author robertb;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     90.09.29.20.57.43;  author robertb;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     90.08.19.21.15.33;  author robertb;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     90.08.06.09.54.24;  author robertb;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     90.08.02.12.21.33;  author robertb;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     90.06.30.18.01.37;  author robertb;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     90.04.25.10.40.33;  author robertb;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     90.04.23.10.24.04;  author robertb;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     90.03.28.15.27.12;  author robertb;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     90.03.23.14.44.27;  author jrb;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     90.03.16.08.05.27;  author andrew;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     90.03.15.09.25.45;  author andrew;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     90.03.08.14.40.02;  author andrew;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     90.02.16.16.15.17;  author andrew;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     90.02.07.19.18.06;  author davidl;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     90.02.07.16.05.22;  author andrew;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     90.01.02.18.45.42;  author robertb;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     90.01.02.17.48.29;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     90.01.02.13.33.11;  author marvinw;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.12.31.00.43.52;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     89.12.20.19.07.39;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     89.12.20.15.52.53;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     89.12.19.13.21.00;  author andrew;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     89.12.18.17.58.59;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     89.12.18.17.19.40;  author andrew;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     89.12.11.14.24.56;  author marvinw;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     89.12.01.10.15.12;  author marvinw;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     89.11.30.14.43.22;  author marvinw;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     89.11.30.14.39.53;  author donhar;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     89.11.26.16.40.54;  author donhar;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     89.11.17.08.09.36;  author davidl;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     89.11.16.13.30.18;  author davidl;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     89.11.15.10.00.19;  author andrew;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     89.09.24.12.03.51;  author davidl;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     89.09.21.10.19.14;  author paulg;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.09.11.12.10.25;  author davidl;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.09.11.10.54.19;  author davidl;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.09.08.16.11.44;  author paulg;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.09.02.09.28.23;  author paulg;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.08.22.12.25.59;  author davidl;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.08.21.11.19.41;  author paulg;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.08.20.17.20.38;  author paulg;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.08.19.12.33.31;  author paulg;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.08.18.11.13.05;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.48
+log
+@Added m88k_is_dummy_active() to fix "cannot pop empty dummy frame"
+message.
+@
+text
+@/* Low level interface to ptrace, for GDB when running on the Motorola 88000.
+   Copyright (C) 1988 Free Software Foundation, Inc.
+
+   $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/m88k-dep.c,v 1.47 90/11/15 19:38:40 robertb Exp Locker: robertb $
+   $Locker: robertb $
+
+   Tektronix programming extensions to GDB, the GNU debugger.
+   Copyright (C) 1989 Free Software Foundation, Inc. */
+
+
+#include <sys/types.h>
+#include <stdio.h>
+#include <sys/dir.h>
+#include <signal.h>
+#include <sys/time.h>
+#include <sys/ptrace.h>
+#include <fcntl.h>
+
+#ifdef USEDGCOFF	/* -rcb 6/90 */
+#include "dghdr/a.out.h"
+#else
+#ifdef NON_NATIVE
+#include "a.out.gnu.h"  /* -rcb 8/20/90 */
+#else
+#include <a.out.h>
+#endif
+#endif
+
+#include <sys/file.h>
+#include <sys/stat.h>
+
+#include "defs.h"
+#include "param.h"
+#include "m88k-opcode.h"
+#include "symtab.h"
+#include "frame.h"
+#include "inferior.h"
+#include "ui.h"
+
+/* Offsets to interesting registers in struct ptrace_user. */
+#define R0_OFFSET   ((int)&((struct ptrace_user *)0)->pt_r0)
+#define PSR_OFFSET  ((int)&((struct ptrace_user *)0)->pt_psr)
+#define SXIP_OFFSET ((int)&((struct ptrace_user *)0)->pt_sigframe.sig_sxip)
+#define SNIP_OFFSET ((int)&((struct ptrace_user *)0)->pt_sigframe.sig_snip)
+#define SFIP_OFFSET ((int)&((struct ptrace_user *)0)->pt_sigframe.sig_sfip)
+#define FPSR_OFFSET ((int)&((struct ptrace_user *)0)->pt_fpsr)
+#define FPCR_OFFSET ((int)&((struct ptrace_user *)0)->pt_fpcr)
+
+extern struct block *block_for_pc();
+
+extern int errno;
+extern int sys_nerr;
+extern char *sys_errlist[];
+extern int simulator;
+
+REGISTER_TYPE read_register();
+static CORE_ADDR m88k_find_saved_fp();
+CORE_ADDR m88k_find_return_address();
+REGISTER_TYPE read_hard_register();
+static unsigned long find_reg_val();
+CORE_ADDR synthesize_previous_sp();
+static CORE_ADDR synthesize_previous_fp();
+static CORE_ADDR find_pc_function_addr();
+CORE_ADDR m88k_frame_find_single_saved_reg();
+
+#ifdef GHSFORTRAN
+#ifdef READ_DBX_FORMAT
+fix_fortran_lengths() { ui_badnews(-1, "fix_fortran_lengths called"); }
+fortran_length() { ui_badnews(-1, "fortran_length() called"); }
+#endif
+#endif
+
+/*
+ * serr -- return the system-defined string for the current system error code.
+ * If the error code is out of bounds, make up a string.
+ */
+char *
+serr()
+{
+  static char errbuf[80];
+
+  if (0<errno && errno<sys_nerr)
+    {
+      return sys_errlist[errno];
+    }
+  else
+    {
+      (void) sprintf(errbuf, "unknown system error (%d)", errno);
+      return errbuf;
+    }
+}
+
+/*
+ * call_ptrace -- do a ptrace; if it fails, print an error message.
+ */
+int
+call_ptrace (request, pid, arg3, arg4)
+  int request, pid, arg3, arg4;
+{
+  int val;
+
+  if (remote_debugging) {
+    fatal("ptrace(%d, %d, %d, %d) called when cross-debugging",
+	    request, pid, arg3, arg4);
+  }
+  errno = 0;
+  val = ptrace (request, pid, arg3, arg4);
+  if (errno) {
+    error("ptrace(%d,%d,%d,%d) failure: %s.", request, pid, arg3, arg4, serr());
+  }
+  return val;
+}
+
+/*
+ * kill_inferior -- if there is an inferior process, kill it and wait for it.
+ */
+kill_inferior ()
+{
+  if (remote_debugging)
+    return;
+  if (inferior_pid == 0)
+    return;
+  call_ptrace (8, inferior_pid, 0, 0);
+
+  /*
+   * The following wait is sloppy; error checking should be done.
+   */
+  wait (0);
+
+  inferior_died ();
+  ui_endSubProc();
+}
+
+/*
+ * kill_inferior_fast -- kill inferior as gdb exits.
+ * Like kill_inferior but doesn't call inferior_died().
+ */
+kill_inferior_fast ()
+{
+  if (remote_debugging)
+    return;
+  if (inferior_pid == 0)
+    return;
+  ptrace (8, inferior_pid, 0, 0);	/* not call_ptrace! */
+  wait (0);
+  ui_endSubProc();
+}
+
+/*
+ * fetch_inferior_registers -- get the register state.
+ */
+fetch_inferior_registers ()
+{
+  forget_registers();	/* clear register cache */
+}
+
+/*
+ * read_inferior_memory -- copy from inferior memory to our memory.
+ * Copy "len" bytes from inferior's memory starting at "memaddr" to debugger
+ * memory starting at "myaddr".
+ * On failure (cannot read from inferior, usually because address is out
+ * of bounds) returns the value of errno, else returns 0.
+ */
+int
+read_inferior_memory (memaddr, myaddr, len, usmode)
+  CORE_ADDR memaddr;
+  char *myaddr;
+  int len;
+{
+  register int i;
+  register CORE_ADDR addr;
+  register int count;
+  register int *buffer;
+
+  /* Round starting address down to longword boundary. */
+  addr = memaddr & -sizeof(int);
+
+  /* Round ending address up; get number of longwords that makes. */
+  count = (memaddr + len - addr + sizeof(int) - 1) / sizeof(int);
+
+  /* Allocate buffer of that many longwords.  */
+  buffer = (int *) alloca (count * sizeof(int));
+
+  /* Read all the longwords */
+  for (i = 0; i < count; i++, addr += sizeof(int))
+    {
+      errno = 0;
+      if (remote_debugging)
+	buffer[i] = remote_fetch_word (addr, usmode);
+      else
+	buffer[i] = ptrace (1, inferior_pid, addr, 0);
+      if (errno)
+	return errno;
+    }
+
+  /* Copy appropriate bytes out of the buffer.  */
+  bcopy ((char *) buffer + (memaddr & (sizeof(int) - 1)), myaddr, len);
+  return 0;
+}
+
+/*
+ * write_inferior_memory -- copy from our memory to inferior memory.
+ * Copy "len" bytes of data from debugger memory at "myaddr" to inferior's
+ * memory at "memaddr".
+ * On failure (cannot write the inferior) returns the value of errno, else
+ * returns 0.
+ */
+int
+write_inferior_memory (memaddr, myaddr, len)
+  CORE_ADDR memaddr;
+  char *myaddr;
+  int len;
+{
+  register int i;
+  register CORE_ADDR addr;
+  register int count;
+  register int *buffer;
+
+  /* Round starting address down to longword boundary.  */
+  addr = memaddr & -sizeof(int);
+
+  /* Round ending address up; get number of longwords that makes.  */
+  count = (memaddr + len - addr + sizeof(int) - 1) / sizeof(int);
+
+  /* Allocate buffer of that many longwords.  */
+  buffer = (int *) alloca (count * sizeof(int));
+
+  /* If the start address in inferior memory is not word-aligned, then fetch
+     the word that's there now and insert it in our buffer before doing the
+     bcopy, so that, when we write fullwords into the inferior, this partial
+     word will not be destroyed. */
+  if (addr & (sizeof(int)-1))
+    {
+      if (remote_debugging)
+	buffer[0] = remote_fetch_word (addr, M_NORMAL);
+      else
+	{
+	  errno = 0;
+	  buffer[0] = ptrace (1, inferior_pid, addr, 0);
+	  if (errno)
+	    return errno;
+	}
+    }
+
+  /* Likewise, prefill the last word if necessary. */
+  if ((memaddr+len)&(sizeof(int)-1) && count>1)
+    {
+      if (remote_debugging)
+	buffer[count-1] = remote_fetch_word (addr + (count-1)*sizeof(int), M_NORMAL);
+      else
+	{
+	  errno = 0;
+	  buffer[count-1] = ptrace (1, inferior_pid,
+				    addr + (count-1)*sizeof(int), 0);
+	  if (errno)
+	    return errno;
+	}
+    }
+
+  /* Copy data to be written over corresponding part of our buffer. */
+  bcopy (myaddr, (char *) buffer + (memaddr & (sizeof(int) - 1)), len);
+
+  /* Write the entire buffer to the inferior. */
+  for (i = 0; i < count; i++, addr += sizeof(int))
+    {
+      errno = 0;
+      if (remote_debugging)
+	remote_store_word (addr, buffer[i]);
+      else
+	ptrace (4, inferior_pid, addr, buffer[i]);
+      if (errno)
+	return errno;
+    }
+
+  return 0;
+}
+
+/* Work with core dump and executable files, for GDB.
+   This code would be in core.c if it weren't machine-dependent. */
+
+#ifndef N_TXTADDR
+#define N_TXTADDR(hdr) 0
+#endif
+
+#ifndef N_DATADDR
+#define N_DATADDR(hdr) hdr.a_text
+#endif
+
+/* Hook for `exec_file_command' command to call.  */
+
+extern void (*exec_file_display_hook) ();
+
+/* File names of core file and executable file.  */
+
+extern char *corefile;
+extern char *execfile;
+
+/* Descriptors on which core file and executable file are open.
+   Note that the execchan is closed when an inferior is created
+   and reopened if the inferior dies or is killed.  */
+
+extern int corechan;
+extern int execchan;
+
+/* Last modification time of executable file.
+   Also used in source.c to compare against mtime of a source file.  */
+
+extern int exec_mtime;
+
+/* Virtual addresses of bounds of the two areas of memory in the core file.  */
+
+extern CORE_ADDR data_start;
+extern CORE_ADDR data_end;
+extern CORE_ADDR stack_start;
+extern CORE_ADDR stack_end;
+
+/* Virtual addresses of bounds of two areas of memory in the exec file.
+   Note that the data area in the exec file is used only when there is no
+   core file. */
+
+extern CORE_ADDR text_start;
+extern CORE_ADDR text_end;
+extern CORE_ADDR bss_start;	/* For cross-debugging  -rcb 12/89 */
+extern CORE_ADDR entry_point;	/* For cross-debugging  -rcb 12/89 */
+extern u_long bss_size;		/* For cross-debugging  -rcb 12/89 */
+
+
+extern CORE_ADDR exec_data_start;
+extern CORE_ADDR exec_data_end;
+
+/* Address in executable file of start of text area data.  */
+
+extern int text_offset;
+
+/* Address in executable file of start of data area data.  */
+
+extern int exec_data_offset;
+
+/* Address in core file of start of data area data.  */
+
+extern int data_offset;
+
+/* Address in core file of start of stack area data.  */
+
+extern int stack_offset;
+
+/* various coff data structures */
+
+#ifdef COFF_FORMAT
+extern FILHDR file_hdr;
+extern SCNHDR text_hdr;
+extern SCNHDR data_hdr;
+#endif
+
+#ifndef COFF_FORMAT
+#ifndef AOUTHDR
+#define AOUTHDR struct exec
+#endif
+#endif
+
+extern AOUTHDR exec_aouthdr;
+
+extern char objname[];		/* For cross-debugging  -rcb 12/89 */
+
+/* a.out header of exec file.  */
+
+
+/*
+ * core_file_command -- establish a core dump file.
+ */
+core_file_command (filename, from_tty)
+  char *filename;
+  int from_tty;
+{
+#ifdef NOTDEF
+  register int regno;
+  struct ptrace_user u;
+#define U_WORD(offset) (*(int *)((char *)(&u)+(offset)))
+
+  if (remote_debugging)
+    ui_badnews(-1, "Can't look at a core file when attached.");
+
+  /* Discard all vestiges of any previous core file,
+     and mark data and stack spaces as empty.  */
+
+  if (corefile)
+    free (corefile);
+  corefile = 0;
+
+  if (corechan >= 0)
+    close (corechan);
+  corechan = -1;
+
+  data_start = 0;
+  data_end = 0;
+  stack_start = STACK_END_ADDR;
+  stack_end = STACK_END_ADDR;
+
+  forget_registers();
+
+  /* If there is no new core file to establish, that's all. */
+  if (!filename)
+    {
+      if (from_tty)
+	printf ("No core file now.\n");
+      return;
+    }
+
+  if (have_inferior_p ())
+    ui_badnews (-1,
+  "To look at a core file, you must first kill the inferior with \"kill\"."
+		);
+  corechan = open (filename, O_RDONLY, 0);
+  if (corechan < 0)
+    perror_with_name (filename);
+
+  /* Make the filename into a pathname and store at corefile. */
+  if (filename[0] == '/')
+    corefile = savestring (filename, strlen (filename));
+  else
+    corefile = concat (current_directory, "/", filename);
+
+  /* Read the ptrace_user structure. */
+  if (myread (corechan, &u, sizeof u) < 0)
+    perror_with_name (filename);
+
+  data_start = u.pt_o_data_start;
+  data_end = data_start +  u.pt_dsize;
+  stack_start = stack_end -  u.pt_ssize;
+  data_offset = (int) u.pt_dataptr;
+  stack_offset = data_offset + u.pt_dsize;
+
+  /* Read the register values out of the core file and store them where
+     `read_register' will find them.
+     Start with the 32 general purpose (integer unit) registers. */
+  for (regno = 0; regno < NUM_GENERAL_REGS; ++regno)
+    write_hard_register(regno, U_WORD(R0_OFFSET + regno*sizeof(REGISTER_TYPE)));
+
+  /* Read the other user-accessible registers. */
+  write_hard_register(EPSR_REGNUM, U_WORD(PSR_OFFSET));
+  write_hard_register(SXIP_REGNUM, U_WORD(SXIP_OFFSET));
+  write_hard_register(SNIP_REGNUM, U_WORD(SNIP_OFFSET));
+  write_hard_register(SFIP_REGNUM, U_WORD(SFIP_OFFSET));
+  write_hard_register(FPSR_REGNUM, U_WORD(FPSR_OFFSET));
+  write_hard_register(FPCR_REGNUM, U_WORD(FPCR_OFFSET));
+
+  /* Set up the current frame based on the frame pointer and PC. */
+  set_current_frame (create_new_frame (read_register (SYNTH_FP_REGNUM),
+				       read_register(SYNTH_PC_REGNUM)));
+  select_frame (get_current_frame (), 0);
+  validate_files ();
+#undef U_WORD
+#endif
+}
+
+#ifdef COFF_FORMAT
+/*
+ * exec_file_command -- do an exec command.
+ */
+exec_file_command (filename, from_tty)
+  char *filename;
+  int from_tty;
+{
+  int val;
+  int aout_hdrsize;
+  int num_sections;
+
+  /* Eliminate all traces of old exec file.
+     Mark text segment as empty.  */
+
+  if (execfile)
+    free (execfile);
+  execfile = 0;
+  data_start = 0;
+  data_end -= exec_data_start;
+  text_start = 0;
+  text_end = 0;
+  exec_data_start = 0;
+  exec_data_end = 0;
+  if (execchan >= 0)
+    close (execchan);
+  execchan = -1;
+
+  /* Now open and digest the file the user requested, if any.  */
+  if (filename)
+    {
+      /* Open the executable file. */
+      execchan = openp (getenv ("PATH"), 1, filename, O_RDONLY, 0, &execfile);
+      if (execchan < 0)
+	perror_with_name (filename);
+
+      if (read_file_hdr (execchan, &file_hdr) < 0)
+	ui_badnews(-1, "\"%s\": not in executable format.", execfile);
+
+      aout_hdrsize = file_hdr.f_opthdr;
+      num_sections = file_hdr.f_nscns;
+
+      if (read_aout_hdr (execchan, &exec_aouthdr, aout_hdrsize) < 0)
+	ui_badnews(-1, "\"%s\": can't read optional aouthdr", execfile);
+
+      if (read_section_hdr (execchan, _TEXT, &text_hdr, num_sections) < 0)
+	ui_badnews(-1, "\"%s\": can't read text section header", execfile);
+
+      if (read_section_hdr (execchan, _DATA, &data_hdr, num_sections) < 0)
+	ui_badnews(-1, "\"%s\": can't read data section header", execfile);
+
+      text_start = exec_aouthdr.text_start;
+#ifdef SWALLOW_WHOLE
+      initialize_text(execchan, text_hdr.s_scnptr, text_hdr.s_size);
+#else
+      initialize_text(text_hdr.s_scnptr, text_hdr.s_size);
+#endif
+      text_end = text_start + exec_aouthdr.tsize;
+      text_offset = text_hdr.s_scnptr;
+      exec_data_start = exec_aouthdr.data_start;
+      exec_data_end = exec_data_start + exec_aouthdr.dsize;
+      exec_data_offset = data_hdr.s_scnptr;
+      data_start = exec_data_start;
+      data_end += exec_data_start;
+      bss_size = exec_aouthdr.bsize;	/* For cross-debugging  -rcb 12/89 */
+      entry_point = exec_aouthdr.entry;	/* For cross-debugging  -rcb 12/89 */
+      bss_start = exec_data_end;	/* For cross-debugging  -rcb 12/89 */
+      exec_mtime = file_hdr.f_timdat;
+
+      validate_files ();
+    }
+  else if (from_tty)
+    printf ("No exec file now.\n");
+
+  /* Tell display code (if any) about the changed file name.  */
+  if (exec_file_display_hook)
+    (*exec_file_display_hook) (filename);
+
+  /* Tell cross-debugger about the changed file name. */
+  strcpy(objname, filename);
+}
+#else
+void
+exec_file_command (filename, from_tty)
+     char *filename;
+     int from_tty;
+{
+  int val;
+
+  /* Eliminate all traces of old exec file.
+     Mark text segment as empty.  */
+
+  if (execfile)
+    free (execfile);
+  execfile = 0;
+  data_start = 0;
+  data_end -= exec_data_start;
+  text_start = 0;
+  text_end = 0;
+  exec_data_start = 0;
+  exec_data_end = 0;
+  if (execchan >= 0)
+    close (execchan);
+  execchan = -1;
+
+  /* Now open and digest the file the user requested, if any.  */
+
+  if (filename)
+    {
+      execchan = openp (getenv ("PATH"), 1, filename, O_RDONLY, 0,
+			&execfile);
+      if (execchan < 0)
+	perror_with_name (filename);
+
+      {
+	struct stat st_exec;
+	val = myread (execchan, &exec_aouthdr, sizeof (AOUTHDR));
+
+	if (val < 0)
+	  perror_with_name (filename);
+
+        text_start = N_TXTADDR (exec_aouthdr);
+#ifdef SWALLOW_WHOLE
+      initialize_text(execchan, N_TXTOFF(exec_aouthdr), exec_aouthdr.a_text);
+#else
+      initialize_text(N_TXTOFF(exec_aouthdr), exec_aouthdr.a_text);
+#endif
+        exec_data_start = N_DATADDR (exec_aouthdr);
+	text_offset = N_TXTOFF (exec_aouthdr);
+	exec_data_offset = N_TXTOFF (exec_aouthdr) + exec_aouthdr.a_text;
+
+	text_end = text_start + exec_aouthdr.a_text;
+        exec_data_end = exec_data_start + exec_aouthdr.a_data;
+	data_start = exec_data_start;
+	data_end += exec_data_start;
+
+      bss_size = exec_aouthdr.a_bss;	/* For cross-debugging  -rcb 12/89 */
+      entry_point = exec_aouthdr.a_entry;/* For cross-debugging  -rcb 12/89 */
+      bss_start = exec_data_end;	/* For cross-debugging  -rcb 12/89 */
+
+	fstat (execchan, &st_exec);
+	exec_mtime = st_exec.st_mtime;
+      }
+
+      validate_files ();
+    }
+  else if (from_tty)
+    printf ("No exec file now.\n");
+
+  /* Tell display code (if any) about the changed file name.  */
+  if (exec_file_display_hook)
+    (*exec_file_display_hook) (filename);
+
+  /* Tell cross-debugger about the changed file name. */
+  strcpy(objname, filename);
+}
+#endif
+
+/*
+ * IEEE_isNAN -- return 1 if argument is Not A Number, else 0.
+ * fp points to a single precision OR double precision floating point value;
+ * len is the number of bytes, either 4 or 8.
+ * Returns 1 iff fp points to a valid IEEE floating point number.
+ * Returns 0 if fp points to a denormalized number or a NaN
+ */
+int
+IEEE_isNAN(fp, len)
+  int *fp;
+  int len;
+{
+  register int first_word;
+  register int exponent;
+
+  first_word = *fp;
+  switch (len)
+    {
+      case 4:
+	exponent = first_word & 0x7f800000;
+	return exponent==0x7f800000 || exponent==0 && first_word!=0;
+
+      case 8:
+	exponent = first_word & 0x7ff00000;
+	return exponent==0x7ff00000 ||
+	       exponent==0 && (first_word!=0 || fp[1]!=0);
+
+      default:
+	return 1;
+    }
+}
+
+/*
+ * bad_text_addr -- return 1 if address if not a valid instruction location.
+ * If we are cross-debugging, it is ok to have the stack below the text, but
+ * make sure that the address is word-aligned.
+ */
+static int
+bad_text_addr(addr)
+  CORE_ADDR addr;
+{
+  return
+    addr == 0 ||
+    addr > 0xfff00000 ||
+    addr & 3 ||
+    (!remote_debugging && addr > read_register (SP_REGNUM));
+}
+
+#define GROWS_STACK_IMM(inst)	  (((inst) & 0xffff0000) == 0x67ff0000)
+#define GROWS_STACK_REG2(inst)	  (((inst) & 0xffffffe0) == 0xf7ff6400)
+#define SHRINKS_STACK_IMM(inst)	  (((inst) & 0xffff0000) == 0x63ff0000)
+#define SHRINKS_STACK_REG2(inst)  (((inst) & 0xffffffe0) == 0xf7ff6000)
+
+#define	SETS_FRAME_POINTER_IMM(inst)  (((inst) & 0xffff0000) == 0x63df0000)
+#define	SETS_FRAME_POINTER_REG2(inst) (((inst) & 0xffffffe0) == 0xf7df6000)
+#define	MOVE_R31_TO_R30(inst) ((inst) == 0xf7c0581f)
+
+#define IS_BPT(inst)		  (remote_debugging ?  \
+				((inst) == 0xf000d0fe) : ((inst) == 0xf000d1ff))
+#define IS_BR(inst)		  m88k_is_br(inst)
+#define LOADS_REG32_BOT(reg,inst) (((inst)>>16) == (reg|(reg<<5)|0x5800))
+#define LOADS_REG32_TOP(reg,inst) (((inst) >> 16) == ((reg << 5) | 0x5c00))
+#define LOADS_REG16(reg,inst)	  (((inst) >> 16) == ((reg << 5) | 0x5800))
+#define STORES_REG_TO_STACK(reg, inst) \
+				  (((inst) >> 16) == ((reg << 5) | 0x241f))
+#define GET_IMM16(inst)		  ((short)(inst))
+#define GET_U_IMM16(inst)	  ((inst) & 0xffff)
+#define GET_DEST(inst)		  (((inst) >> 21) & 0x1f)
+#define GET_S1(inst)		  (((inst) >> 16) & 0x1f)
+#define GET_S2(inst)		  ((inst) & 0x1f)
+/*
+ * Test to see if the instruction is a bsr, bsr.n, jsr, or jsr.n.;
+ * i.e., a function call.
+ */
+#define ISCALL(i)		  (((i) & 0xf8000000) == 0xc8000000 || \
+				   ((i) & 0xfc00fbe0) == 0xf400c800)
+
+/*
+ * Test to see if the instruction is a bsr.n or jsr.n.;
+ * i.e., a function call.
+ */
+#define ISCALL_N(i)		  (((i) & 0xfc000000) == 0xcc000000 || \
+				   ((i) & 0xfc00fce0) == 0xf400cc00)
+
+/*
+ * m88k_is_br -- return 1 if instruction is a branch (transfers control).
+ * Does not consider traps to be branches.
+ */
+static int
+m88k_is_br(inst)
+  int inst;
+{
+  /* Here are all the 88k instructions that can transfer control (change the
+     instruction pointers), together with tests for them:
+	br:	((inst)>>27)==0x18   11000
+	bsr:	((inst)>>27)==0x19   11001
+	bb0:	((inst)>>27)==0x1a   11010
+	bb1:	((inst)>>27)==0x1b   11011
+	bcnd:	((inst)>>27)==0x1d   11101
+	jmp:	((inst)&0xfffffbe0)==0xf400c000
+	jsr:	((inst)&0xfffffbe0)==0xf400c800
+	rte:	(inst)==0xf400fc00
+	tb0:	((inst)&0xfc00fe00)==0xf000d000
+	tb1:	(((inst)&0xfc00fe00)==0xf000d800 && (inst)&0x1f00)
+	tbnd:	((inst)>>21)==0x7c0 ||
+		((inst)&0xffe0ffe0)==0xf400f800
+	tcnd:	((inst)&0xfc00fe00)==0xf000e800
+   */
+  register int i;
+
+  /* Test for br, bsr, bb0, bb1, and bcnd. */
+  i = inst>>27;
+  if ((i & 0x1c) == 0x18 || i==0x1d)
+    return 1;
+
+  /* Test for jmp and jsr. */
+  if ((inst & 0xfffff3e0) == 0xf400c000)
+    return 1;
+
+#ifdef NOTDEF
+  /* Don't test for traps.
+     This routine is used to see if an instruction in a function prolog
+     is a transfer of control.  Under UTek V, system calls return to the
+     following instructions without modifying r1 or r30, the registers we're
+     interested in. */
+
+  /* Test for tb0 or tb1.
+     But mask out the instruction "tb1 <b>,r0,<vec>", which will never transfer.
+     */
+  if ((inst & 0xfc00f600) == 0xf000d000 &&
+      (inst & 0xfc1ffe00) != 0xf000d800)
+    return 1;
+
+  /* Test for tbnd and tcnd. */
+  if ((inst>>21) == 0x7c0 || (inst&0xffe0ffe0) == 0xf400f800 ||
+      (inst&0xfc00fe00) == 0xf000e800)
+    return 1;
+#endif
+
+  /* Test for rte. */
+  if (inst == 0xf400fc00)
+    return 1;
+
+  return 0;
+}
+
+/* True if the block was compiled with gcc. */
+int block_gcc_compiled_p(b)
+  struct block *b;
+{
+  if (BLOCK_COMPILED(b) == gcc_compiled) return 1;
+  if (b->language == language_c && varvalue("gcc_compiled")) return 1;
+  return 0;
+}
+
+/*
+ * m88k_frame_chain -- get a frame's chain pointer (link to next older frame).
+ * Given the address of a frame, return the "chain-pointer".  For a GnuStyle
+ * frame or for GreenHills with -ga, just return the saved frame pointer.
+ * Otherwise the previous frame pointer must be synthesized.
+ */
+FRAME_ADDR
+m88k_frame_chain (thisframe)
+  FRAME thisframe; /* address of a frame stucture */
+{
+  CORE_ADDR called_at;
+  struct block *b;
+  CORE_ADDR assumed_sp;
+  CORE_ADDR parent;
+  CORE_ADDR addr, newfp;
+
+  /* First get the address of the instruction that called this subroutine.
+     (This might be 4 bytes off due to a delayed branch, but it doesn't
+     matter for our purposes here.) */
+
+  called_at = m88k_find_return_address (thisframe);
+  if (called_at==0 || bad_text_addr (called_at)) {
+    if (remote_debugging) {
+      return NULL_CORE_ADDR;
+    }
+    ui_badnews (-1, "m88k_frame_chain: can't get back to parent");
+  }
+
+  /* If the calling routine was compiled with gcc or with GHS cc -ga, then it
+     left a frame pointer in FP_REGNUM.  In this case, if the called routine
+     (the one into which called_at points) was also compiled in this way, then
+     it stored that frame pointer in its frame.  If both of these are true,
+     pick up that frame pointer.
+
+     Otherwise either the caller didn't maintain a frame pointer or the called
+     routine didn't save it, so try to synthesize a frame pointer. */
+
+  b = block_for_pc (called_at);
+
+  newfp = NULL_CORE_ADDR;
+  if (b == (struct block *)0 || block_gcc_compiled_p(b) || 
+      BLOCK_COMPILED(b) == ghs_ga_compiled) {
+    newfp = m88k_find_saved_fp (thisframe);
+  }
+  if (newfp == NULL_CORE_ADDR || newfp == INVALID_CORE_ADDR) {
+    newfp = synthesize_previous_fp(synthesize_previous_sp(thisframe->sp, 
+                                                          thisframe->subr_entry,
+                                                          thisframe->pc), 
+                                   called_at);
+  }
+
+  if (newfp == thisframe->frame) {
+    if (remote_debugging) {
+      return NULL_CORE_ADDR;
+    }
+    ui_fprintf(stderr, "m88k_frame_chain: prev fp == newfp, sp=0x%x pc=0x%x\n",
+                                           thisframe->sp, thisframe->pc);
+    ui_badnews(-1,     "                  prev sp=0x%x fp=0x%x, prev pc=0x%x", 
+                                  synthesize_previous_sp(thisframe->sp, 
+                                                         thisframe->subr_entry,
+                                                         thisframe->pc), 
+                                  newfp, 
+                                  called_at);
+  }
+  return newfp;
+}
+
+/*
+ * m88k_frame_find_saved_regs -- fill in the frame_save_register structure.
+ */
+m88k_frame_find_saved_regs (frame_id, saved_regs)
+  FRAME frame_id;	/* address of a frame stucture */
+  struct frame_saved_regs *saved_regs;
+{
+  register int i;
+
+  saved_regs->regs[0] = 0;	/* r0 = 0 on 88k */
+  for (i = 1; i < NUM_GENERAL_REGS; i++)
+    saved_regs->regs[i] = m88k_frame_find_single_saved_reg (frame_id, i);
+}
+
+/*
+ * m88k_frame_find_single_saved_reg -- find the address of a saved register.
+ * Find the address, or saved register number, of a single register.  If the
+ * register was altered and not saved, return INVALID_CORE_ADDR.  If "regnum"
+ * is the SP, return its actual value. If a register was not saved and not
+ * altered, just return its number.
+ */
+CORE_ADDR
+m88k_frame_find_single_saved_reg (frame_id, regnum)
+  FRAME frame_id;		/* Points to frame structure               */
+  int regnum;			/* Register to track the value of          */
+{
+  CORE_ADDR reg_addr_so_far;	/* Location of regnum when pc is at addr    */
+  CORE_ADDR assumed_sp;		/* Stack pointer value when pc is at addr   */
+  CORE_ADDR addr;		/* Address of current instruction           */
+  CORE_ADDR end_addr;		/* Address of last instruction to examine   */
+  CORE_ADDR my_entry;		/* Entry point of function that create frame*/
+  unsigned long inst;		/* Current instruction                      */
+  INSTAB *instab_entry;		/* Points to info on current instruction    */
+  int dest;			/* Destination register number of curr inst */
+  int src1;			/* Source 1 register number of current inst */
+  int src2;			/* Source 2 register number of current inst */
+  int cnt = 5000;		/* Limit on # of instructions to examine    */
+
+  if (regnum >= NUM_GENERAL_REGS) {
+    return INVALID_CORE_ADDR;
+  }
+  if (regnum == 0) {
+    return 0;
+  }
+
+  /* I don't know whether this is correct, to return the register number
+     when we are passed a nil frame.  I used to have an error message
+     here.  It was displayed after I tried to print a register after
+     downloading a target.  I haven't been able to reproduce the bug,
+     but if it was calling this routine to find out where the current
+     value of a register is, this should fix it.  -rcb 4/90 
+
+     And now I've changed it back.  find_saved_register(), the main
+     caller, needed to check for nil frames anyway, so we should
+     never see one here. */
+
+  if (frame_id == 0) {
+    ui_badnews(-1, "m88k_frame_find_single_saved_reg: nil frame"); 
+  }
+
+  /* The stack pointer is special, return its value, not where it is stored */
+  if (regnum == SP_REGNUM) {
+    if (frame_id->prev) {
+      return frame_id->prev->sp;
+    } else {
+      return synthesize_previous_sp (frame_id->sp, 
+                                     frame_id->subr_entry, 
+                                     frame_id->pc);
+    }
+  }
+
+  /* If this is the current frame, look at every instruction right
+     up to the one we just executed.  Otherwise look at every instruction
+     up to and including the one just before the bsr or jsr that
+     caused us to enter a new function.  If we looked at the
+     bsr or jsr, we would decide that all of the parameter registers
+     are junk and sometimes incorrectly return INVALID_CORE_ADDR. */
+
+  if (frame_id->pc == read_register(SYNTH_PC_REGNUM)) {
+    end_addr = frame_id->pc - 4;
+  } else {
+    end_addr = frame_id->pc - 8;
+  }
+
+  reg_addr_so_far = regnum;
+  my_entry = frame_id->subr_entry;
+  assumed_sp = synthesize_previous_sp(frame_id->sp, my_entry, end_addr);
+
+  for (addr = my_entry ; addr <= end_addr ; addr += 4) {
+    if (cnt-- == 0) {
+      ui_badnews(-1, "Giving up in m88k_frame_find_single_saved_reg");
+    }
+
+    inst = fetch_instruction(addr);
+
+    /* Non-preserved registers are assumed to be trashed by subroutine
+       calls.   -rcb 3/90 */
+
+    if (ISCALL(inst)) {
+
+      /* If this function suspended with a bsr.n or jsr.n, look at the
+         instruction in the branch delay slot instead of at the bsr.n or
+         jsr.n */
+
+      if (ISCALL_N(inst) && addr == end_addr) {
+        inst = fetch_instruction(addr + 4);
+      } else {
+        if (reg_addr_so_far < 14 || reg_addr_so_far > 25) {
+          return INVALID_CORE_ADDR;
+        }
+        continue;
+      }
+    }
+
+    instab_entry = (INSTAB *) m88k_inst_find (inst);
+    dest = GET_DEST (inst);
+    src1 = GET_S1 (inst);
+    src2 = GET_S2 (inst);
+
+    /* Adjust our notion of the stack pointer's value if the current
+       instruction manipulates the stack pointer register. */
+
+    if ((dest == SP_REGNUM) && (src1 == SP_REGNUM)) {
+      if (instab_entry->effect & GROWS) {
+        if (instab_entry->op3.type == REG) {
+          assumed_sp -= find_reg_val (GET_S2 (inst), addr - 4, my_entry);
+        } else {
+          assumed_sp -= GET_IMM16 (inst);
+          continue;
+        }
+      } else if (instab_entry->effect & SHRINKS) {
+        if (instab_entry->op3.type == REG) {
+          assumed_sp += find_reg_val (GET_S2 (inst), addr - 4, my_entry);
+        } else {
+          assumed_sp += GET_IMM16 (inst);
+          continue;
+	}
+      }
+    }
+
+    /* See if the contents of "reg_addr_so_far" is being saved in 
+       another register.  If it is moved into a preserved register, assume
+       that the value stays there and return the number of this
+       preserved register.  If is moved into another register, keep 
+       tracking it. */
+
+    if ((instab_entry->effect & MOVES) && 
+        (src1 == 0) && 
+        (src2 == reg_addr_so_far)) {
+
+      reg_addr_so_far = dest;
+      if (14 <= reg_addr_so_far && reg_addr_so_far <= 25) {
+        return reg_addr_so_far;
+      }
+      continue;
+    }
+
+    /* If the destination register isn't "regnum", skip this instruction.  If
+       the instruction is marked as a double, then also check the destination
+       register plus one (modulo 32) */
+
+    if (dest != reg_addr_so_far) {
+      if (! (instab_entry->effect & DBL)) {
+        continue;
+      }
+      dest = (dest + 1) % 32;
+      if (dest != reg_addr_so_far) {
+        continue;
+      }
+    }
+
+    /* See if the instruction saves the value that we are tracking
+       on the stack */
+
+    if (instab_entry->effect & SAVES) {
+      if (src1 == SP_REGNUM) {
+        reg_addr_so_far = assumed_sp;
+        if (instab_entry->op3.type == REG) {
+          reg_addr_so_far += find_reg_val (GET_S2 (inst), addr - 4, my_entry);
+        } else {
+          reg_addr_so_far += GET_IMM16 (inst);
+        }
+
+        if (dest == (GET_DEST(inst) + 1)) {
+          reg_addr_so_far += 4;
+        }
+        return reg_addr_so_far;
+
+      } else if (src1 == FP_REGNUM) {
+        reg_addr_so_far = frame_id->frame;
+        if (instab_entry->op3.type == REG) {
+          reg_addr_so_far += find_reg_val (GET_S2 (inst), addr - 4, my_entry);
+        } else {
+          reg_addr_so_far += GET_IMM16 (inst);
+        }
+
+        if (dest == (GET_DEST(inst) + 1)) {
+          reg_addr_so_far += 4;
+        }
+        return reg_addr_so_far;
+      }
+    }
+
+    /* See if the instruction alters "reg_addr_so_far". */
+
+    if (instab_entry->effect & ALTERS) {
+      return INVALID_CORE_ADDR;
+    }
+  }
+  return reg_addr_so_far;
+}
+
+/*
+ * m88k_init_extra_frame_info -- fill in the extra frame info.
+ */
+m88k_init_extra_frame_info (frame_id)
+  FRAME frame_id;	/* address of a frame structure */
+{
+  frame_id->subr_entry = find_pc_function_addr (frame_id->pc);
+  if (frame_id->next) {
+    frame_id->sp = synthesize_previous_sp(frame_id->next->sp, 
+                                          frame_id->next->subr_entry,
+                                          frame_id->next->pc);
+  } else {
+    frame_id->sp = read_register(SP_REGNUM);
+  }
+}
+
+/* synthesize_previous_fp -- synthesize the previous frame pointer.
+   Synthesize the previous frame pointer given the "current" stack pointer
+   and the "current" pc.  */
+static CORE_ADDR
+synthesize_previous_fp(current_sp, current_pc)
+  CORE_ADDR current_sp;
+  CORE_ADDR current_pc;
+{
+  CORE_ADDR subr_entry;
+  CORE_ADDR addr;
+  unsigned long inst;
+  int cnt = 1000;
+
+  subr_entry = find_pc_function_addr (current_pc);
+  if (bad_text_addr (subr_entry)) {
+    return NULL_CORE_ADDR;
+  }
+
+  /* Step backward through the subroutine, adjusting our idea of the frame
+     pointer.  The tacit assumptions being made here boggle the mind. */
+
+  for (addr = subr_entry; addr < current_pc - 4; addr += sizeof inst) {
+    if (remote_debugging) {
+      if (cnt-- == 0) {
+        error("Giving up in synthesize_previous_fp");
+      }
+    }
+    /* By calling 'fetch_intruction()' we get instructions from the text
+       section of the file.  This is faster than doing a ptrace() and won't
+       show us the breakpoint instructions that we've put in the text
+       that is in memory being executed. */
+
+    inst = fetch_instruction(addr);
+
+    if (SETS_FRAME_POINTER_IMM(inst)) {
+      return synthesize_previous_sp(current_sp, addr, current_pc) + 
+             GET_IMM16(inst);
+    }
+    if (SETS_FRAME_POINTER_REG2(inst)) {
+      return synthesize_previous_sp(current_sp, addr, current_pc) + 
+             find_reg_val(GET_S2(inst), addr - 4, subr_entry);
+    }
+    /* Added 10/24/90 by rcs to handle DG generated code */
+    if (MOVE_R31_TO_R30(inst)) {
+      return current_sp;
+    }
+  }
+  /* We couldn't find an assignment to the frame pointer, r30, so
+     it is probably a Green Hill's-generated frame.  Assume that
+     the frame pointer is the caller's stack pointer minus 8. */
+  return synthesize_previous_sp(current_sp, subr_entry, current_pc) - 8;
+}
+
+/*
+ * synthesize_previous_sp -- synthesize the previous stack pointer.
+ * Synthesize the previous stack pointer given the "current" stack pointer
+ * and the "current" pc.
+ */
+CORE_ADDR
+synthesize_previous_sp(current_sp, previous_pc, current_pc)
+  CORE_ADDR current_sp;
+  CORE_ADDR previous_pc;	/* Usually the subroutine entry point */
+  CORE_ADDR current_pc;
+{
+  CORE_ADDR subr_entry, previous_sp;
+  CORE_ADDR addr;
+  unsigned long inst;
+  int cnt = 5000;
+
+
+  /* Step backward through the subroutine, adjusting our idea of the stack
+     pointer.  The tacit assumptions being made here boggle the mind. */
+  previous_sp = current_sp;
+  for (addr = current_pc-4; addr >= previous_pc; addr -= 4) {
+    if (remote_debugging) {
+      if (cnt-- == 0) {
+        error("Giving up in synthesize_previous_sp");
+      }
+    }
+    /* By calling 'fetch_intruction()' we get instructions from the text
+       section of the file.  This is faster than doing a ptrace() and won't
+       show us the breakpoint instructions that we've put in the text
+       that is in memory being executed. */
+
+    inst = fetch_instruction(addr);
+
+    if (GROWS_STACK_IMM (inst)) {
+      previous_sp += GET_IMM16 (inst);
+    } else if (GROWS_STACK_REG2 (inst)) {
+      previous_sp += find_reg_val (GET_S2 (inst), addr - 4, subr_entry);
+    } else if (SHRINKS_STACK_IMM (inst)) {
+      previous_sp -= GET_IMM16 (inst);
+    } else if (SHRINKS_STACK_REG2 (inst)) {
+      previous_sp -= find_reg_val (GET_S2 (inst), addr - 4, subr_entry);
+    }
+  }
+
+  /* We now have the value of the stack pointer when the subroutine was
+     entered. */
+  return previous_sp;
+}
+
+struct symbol *find_pc_function();
+
+/* given a pc, find the address of the function containing that pc */
+
+static CORE_ADDR
+find_pc_function_addr (pc)
+     CORE_ADDR pc;
+{
+  struct symbol *func;
+  int misc_func;
+
+  func = find_pc_function (pc);
+
+  if (!func)
+    {
+      misc_func = find_pc_misc_function (pc);
+      if (misc_func == -1)
+	return -1;
+
+      return misc_function_vector[misc_func].address;
+    }
+  return BLOCK_START (SYMBOL_BLOCK_VALUE (func));
+}
+
+/* find the value in register "reg" by working backward in the code, from
+   "start" to "end", looking for where "reg" gets loaded with an immediat
+   value.  We assume that this is done in one of two ways: (1) an
+   "or.u <reg>,R0,Imm16" for the top half (if any) and an
+   "or <reg>,<reg>,Imm16" for the bottom half or (2) an "or <reg>,R0,Imm16".
+   The first way is for loading constants larger then 16 bits. */
+
+static unsigned long
+find_reg_val (reg, start, end)
+     int reg;
+     CORE_ADDR start;
+     CORE_ADDR end;
+{
+  int value = 0; /* zero meens "I don't know" */
+  unsigned long inst;
+
+  /* A little error checking ...  We can take this out later */
+
+  if (start < end) {
+    ui_badnews (-1, "internal: find_reg_val: start(%x) < end(%x)", start, end);
+  }
+  if (reg & ~0x1f) {
+    ui_badnews (-1, "internal: find_reg_val: bad reg = %d", reg);
+  }
+
+  for (; (start >= end); start -= 4) {
+    inst = fetch_instruction(start);
+    if (LOADS_REG32_BOT (reg, inst)) {
+      value |= GET_U_IMM16 (inst);
+      break;
+    }
+    if (LOADS_REG16 (reg, inst)) {
+      return GET_U_IMM16 (inst);
+    }
+  }
+  for (start -= 4; (start >= end); start -= 4) {
+    inst = fetch_instruction(start);
+    if (LOADS_REG32_TOP (reg, inst)) {
+       value |= GET_U_IMM16 (inst) << 16;
+       break;
+    }
+  }
+  return value;
+}
+
+#ifdef ATTACH_DETACH
+
+/*
+ * This attach/detach code is compliant with the BCS, except that the question
+ * of whether the attached process continues to execute after ptrace() is up
+ * in the air.
+ * Most of this code was taken from sparc-dep.c.
+ *   -=- andrew@@frip.wv.tek.com
+ */
+
+#define PTRACE_ATTACH 128
+#define PTRACE_DETACH 129
+
+extern int attach_flag;
+
+/* Start debugging the process whose number is PID.  */
+
+int
+attach (pid)
+     int pid;
+{
+  errno = 0;
+  call_ptrace (PTRACE_ATTACH, pid, 0, 0);
+  attach_flag = 1;
+
+  /*
+   * The BCS says that the kernel does not stop the process,
+   * so the debugger must.
+   */
+  if (kill(pid, SIGTRAP) == -1) {
+    perror_with_name("kill");
+  }
+
+  return pid;
+}
+
+/* Stop debugging the process whose number is PID
+   and continue it with signal number SIGNAL.
+   SIGNAL = 0 means just continue it.  */
+
+detach (signal)
+     int signal;
+{
+  errno = 0;
+  call_ptrace (PTRACE_DETACH, inferior_pid, 1, 0);
+  attach_flag = 0;
+  if (signal && kill(inferior_pid, signal) == -1) {
+    perror_with_name("kill");
+  }
+  ui_endSubProc();
+}
+#endif /* ATTACH_DETACH */
+
+/* The following is used to save and restore registers during function
+   calls.  A stack is necessary since the functions themselves may contain
+   break points allowing the user to nest these calls.  */
+
+static struct d_stack
+{
+	struct d_stack *next;
+	int sxip, snip, sfip;
+	int reg[FP_REGNUM];
+	int sp;
+} *d_top = NULL;
+
+m88k_push_dummy_frame ()
+{
+  register struct d_stack *new_top;
+  register int i;
+
+  new_top = (struct d_stack *) malloc(sizeof(*new_top));
+
+  if (new_top == NULL)
+    ui_badnews (-1, "Cannot create dummy frame for procedure call.");
+  new_top->next = d_top;
+  d_top = new_top;
+  fetch_inferior_registers();
+  d_top->sxip = read_register(SXIP_REGNUM);
+  d_top->snip = read_register(SNIP_REGNUM);
+  d_top->sfip = read_register(SFIP_REGNUM);
+
+  for (i = 1; i <= FP_REGNUM; i++)
+    d_top->reg[i-1] = read_register(i);
+  d_top->sp = read_register(SP_REGNUM);
+}
+
+m88k_pop_frame ()
+{
+  register struct d_stack *tmp;
+  register int i, sp;
+
+  sp = read_register(SP_REGNUM);
+
+  while (d_top)
+    {
+      /* In case of a long jump we have to peel back the stack */
+
+      if (d_top->sp >= sp)
+	break;
+      tmp = d_top;
+      d_top = d_top->next;
+      free(tmp);
+    }
+  if (d_top)
+    {
+      write_register(SNIP_REGNUM, d_top->snip);
+      write_register(SFIP_REGNUM, d_top->sfip);
+      for (i = 1; i <= FP_REGNUM; i++)
+	write_register(i, d_top->reg[i-1]);
+      write_register(SP_REGNUM, d_top->sp);
+      tmp = d_top;
+      d_top = d_top->next;
+      free(tmp);
+    }
+  else
+    ui_badnews (-1, "Cannot pop empty dummy stack.");
+}
+
+m88k_clear_dummy_stack ()
+{
+  register struct d_stack *tmp;
+
+  while (d_top)
+    {
+      tmp = d_top;
+      d_top = d_top->next;
+      free(tmp);
+    }
+}
+
+int m88k_is_dummy_active()
+{
+  return d_top != 0;
+}
+
+#ifdef SWALLOW_WHOLE
+static int *instruction_buf;	/* array of executable instructions */
+static int max_inst_idx;	/* index (+ 1) of last instruction */
+
+/*
+ * Read in entire text segment into buffer pointed to by instruction_buf.
+ */
+initialize_text (chan, start, size)
+  int chan;
+  int start;
+  int size;
+{
+  /* Make sure we are on a word boundary. */
+  size &= ~(sizeof(int)-1);
+  size += sizeof(int);
+  instruction_buf = (int *)xmalloc(size);
+
+  if (lseek (chan, (long)start, 0) < 0)
+    ui_badnews(-1, "Could not read in text");
+  if (myread (chan, (char *)instruction_buf, size) != size)
+    ui_badnews(-1, "Could not read in text");
+  max_inst_idx = size / sizeof(int);
+}
+
+/*
+ * Return instruction at given address, 0 if address is out of range.
+ */
+int
+fetch_instruction(addr)
+CORE_ADDR addr;
+{
+  int idx = (addr - text_start) / sizeof(int);
+  return idx >= 0 && idx < max_inst_idx ? instruction_buf[idx] : 0;
+}
+#else	/* not SWALLOW_WHOLE */
+#define CHUNKSIZE	4*0x1000 /* must be a one followed by CHUNKBITS of
+				    zeroes */
+#define CHUNKBITS	14	/* the number of bits to the right of the one
+				   in CHUNKSIZE */
+static struct text_chunk
+{
+	int buf[CHUNKSIZE];
+} **instruction_buf;	/* an array of buffers whose size is CHUNKSIZE */
+static int number_of_chunks = 0;
+static CORE_ADDR text_loc;
+
+/*
+ * Allocate an array of pointers to text_chunks, set number_of_chunks.
+ */
+initialize_text (start, size)
+  int start;
+  int size;
+{
+  clear_instruction_buf();
+  text_loc = start;
+  size &= ~(CHUNKSIZE-1);
+  size >>= CHUNKBITS;
+  number_of_chunks = size + 1;	/* might be 1 more than needed,
+				   but who cares? */
+  instruction_buf = (struct text_chunk **)
+		    xmalloc(number_of_chunks * (sizeof(struct text_chunk *)));
+  bzero(instruction_buf, number_of_chunks*(sizeof(struct text_chunk *)));
+}
+
+/*
+ * Return the instruction at the given address.  If the text has not been
+ * read into corresponding chunk, do so now.
+ */
+int
+fetch_instruction(addr)
+  CORE_ADDR addr;
+{
+  register int offset = addr - text_start;
+  register int chunk_idx = offset >> CHUNKBITS;
+  register int instr_idx = (offset & (CHUNKSIZE - 1)) >> 2;
+
+  if (offset < 0 || chunk_idx >= number_of_chunks) {
+    return 0;
+  }
+
+  if (instruction_buf[chunk_idx] == NULL) {
+    /* Read in chunk */
+    reopen_exec_file(); /* just in case it has been closed */
+    instruction_buf[chunk_idx] = (struct text_chunk *)xmalloc(CHUNKSIZE);
+
+    if (lseek (execchan, (long)text_loc+chunk_idx*CHUNKSIZE, 0) < 0) {
+      ui_badnews(-1, "seek failed reading instr at 0x%x", addr);
+    }
+
+    if (myread (execchan, (char *)(instruction_buf[chunk_idx]->buf),
+                    CHUNKSIZE) < 0) {
+      ui_badnews(-1, "read failed reading instr at 0x%x", addr);
+    }
+  }
+  return instruction_buf[chunk_idx]->buf[instr_idx];
+}
+
+/*
+ * Free up all space allocated for text chunks, reset instruction_buf back to
+ * NULL and number_of_chunks to 0.
+ */
+static
+clear_instruction_buf()
+{
+  register int i;
+
+  if (instruction_buf)
+    {
+      for (i = 0; i < number_of_chunks; i++)
+	if (instruction_buf[i])
+	  free(instruction_buf[i]);
+      number_of_chunks = 0;
+      free(instruction_buf);
+      instruction_buf = NULL;
+    }
+}
+#endif /* not SWALLOW_WHOLE */
+
+/*
+ * Low-level register read/write interface to Unix user processes.
+ * This replaces a tumor of machine semi-independent routines.
+ */
+
+/* Register access table.
+   One byte per register, indexed by the various XXX_REGNUM values.
+   Within each byte:
+     USER_REGACC is set if that register can be fetched for a user process;
+     REMOTE_REGACC is set if that register can be fetched from a remote target;
+     SIM_REGACC is set if that register can be fetched from a simulated machine.
+   */
+char reg_access[NUM_REGS] = {
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r0 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r1 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r2 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r3 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r4 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r5 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r6 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r7 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r8 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r9 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r10 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r11 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r12 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r13 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r14 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r15 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r16 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r17 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r18 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r19 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r20 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r21 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r22 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r23 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r24 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r25 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r26 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r27 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r28 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r29 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r30 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* r31 */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* synth_pc */
+		      REMOTE_REGACC | SIM_REGACC,	/* pid */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* psr */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* epsr */
+		      REMOTE_REGACC | SIM_REGACC,	/* ssbr */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* sxip */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* snip */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* sfip */
+		      REMOTE_REGACC | SIM_REGACC,	/* vbr */
+		      REMOTE_REGACC | SIM_REGACC,	/* dmt0 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dmd0 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dma0 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dmt1 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dmd1 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dma1 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dmt2 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dmd2 */
+		      REMOTE_REGACC | SIM_REGACC,	/* dma2 */
+		      REMOTE_REGACC | SIM_REGACC,	/* sr0 */
+		      REMOTE_REGACC | SIM_REGACC,	/* sr1 */
+		      REMOTE_REGACC | SIM_REGACC,	/* sr2 */
+		      REMOTE_REGACC | SIM_REGACC,	/* sr3 */
+		      REMOTE_REGACC | SIM_REGACC,	/* fpecr */
+		      REMOTE_REGACC | SIM_REGACC,	/* fphs1 */
+		      REMOTE_REGACC | SIM_REGACC,	/* fpls1 */
+		      REMOTE_REGACC | SIM_REGACC,	/* fphs2 */
+		      REMOTE_REGACC | SIM_REGACC,	/* fpls2 */
+		      REMOTE_REGACC | SIM_REGACC,	/* fppt */
+		      REMOTE_REGACC | SIM_REGACC,	/* fprh */
+		      REMOTE_REGACC | SIM_REGACC,	/* fprl */
+		      REMOTE_REGACC | SIM_REGACC,	/* fpit */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* fpsr */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* fpcr */
+		      REMOTE_REGACC | SIM_REGACC,	/* ceimr */
+				      SIM_REGACC,	/* comefrom */
+				      SIM_REGACC,	/* membrk */
+				      SIM_REGACC,	/* stackbase */
+				      SIM_REGACC,	/* ramsize */
+	USER_REGACC | REMOTE_REGACC | SIM_REGACC,	/* synthfp */
+};
+
+/* Names of registers.
+   This table must correspond to the various XXX_REGNUM values defined in
+   m-m88k.h. */
+char *reg_names[NUM_REGS+8+5] = {
+ 	"r0",
+	"r1",
+	"r2",
+	"r3",
+	"r4",
+	"r5",
+	"r6",
+	"r7",
+	"r8",
+	"r9",
+	"r10",
+	"r11",
+	"r12",
+	"r13",
+	"r14",
+	"r15",
+	"r16",
+	"r17",
+	"r18",
+	"r19",
+	"r20",
+	"r21",
+	"r22",
+	"r23",
+	"r24",
+	"r25",
+	"r26",
+	"r27",
+	"r28",
+	"r29",
+	"fp",
+	"sp",
+	"pc",
+	"pid",
+	"psr",
+	"epsr",
+	"ssbr",
+	"sxip",
+	"snip",
+	"sfip",
+	"vbr",
+	"dmt0",
+	"dmd0",
+	"dma0",
+	"dmt1",
+	"dmd1",
+	"dma1",
+	"dmt2",
+	"dmd2",
+	"dma2",
+	"sr0",
+	"sr1",
+	"sr2",
+	"sr3",
+	"fpecr",
+	"fphs1",
+	"fpls1",
+	"fphs2",
+	"fpls2",
+	"fppt",
+	"fprh",
+	"fprl",
+	"fpit",
+	"fpsr",
+	"fpcr",
+	"ceimr",
+	"comefrom",
+	"membrk",
+	"stackbase",
+	"ramsize",
+	"synthfp",
+	"r2",
+	"r3",
+	"r4",
+	"r5",
+	"r6",
+	"r7",
+	"r8",
+	"r9",
+	"<err0>",	/* Only internal errors in gdb or errors in debug */
+	"<err1>",	/* information from the executable will use these */
+	"<err2>",	/* It beats dumping core -rcb.                    */
+	"<err3>",
+	"<err4>",
+};
+
+/* Offsets from the beginning of the ptrace_user structure to each register
+   that is accessible from a Unix process. */
+short reg_offset[NUM_REGS] = {
+#ifdef NOTDEF
+	R0_OFFSET + 0*sizeof(REGISTER_TYPE),	/* r0 */
+	R0_OFFSET + 1*sizeof(REGISTER_TYPE),	/* r1 */
+	R0_OFFSET + 2*sizeof(REGISTER_TYPE),	/* r2 */
+	R0_OFFSET + 3*sizeof(REGISTER_TYPE),	/* r3 */
+	R0_OFFSET + 4*sizeof(REGISTER_TYPE),	/* r4 */
+	R0_OFFSET + 5*sizeof(REGISTER_TYPE),	/* r5 */
+	R0_OFFSET + 6*sizeof(REGISTER_TYPE),	/* r6 */
+	R0_OFFSET + 7*sizeof(REGISTER_TYPE),	/* r6 */
+	R0_OFFSET + 8*sizeof(REGISTER_TYPE),	/* r8 */
+	R0_OFFSET + 9*sizeof(REGISTER_TYPE),	/* r9 */
+	R0_OFFSET + 10*sizeof(REGISTER_TYPE),	/* r10 */
+	R0_OFFSET + 11*sizeof(REGISTER_TYPE),	/* r11 */
+	R0_OFFSET + 12*sizeof(REGISTER_TYPE),	/* r12 */
+	R0_OFFSET + 13*sizeof(REGISTER_TYPE),	/* r13 */
+	R0_OFFSET + 14*sizeof(REGISTER_TYPE),	/* r14 */
+	R0_OFFSET + 15*sizeof(REGISTER_TYPE),	/* r15 */
+	R0_OFFSET + 16*sizeof(REGISTER_TYPE),	/* r16 */
+	R0_OFFSET + 17*sizeof(REGISTER_TYPE),	/* r16 */
+	R0_OFFSET + 18*sizeof(REGISTER_TYPE),	/* r18 */
+	R0_OFFSET + 19*sizeof(REGISTER_TYPE),	/* r19 */
+	R0_OFFSET + 20*sizeof(REGISTER_TYPE),	/* r20 */
+	R0_OFFSET + 21*sizeof(REGISTER_TYPE),	/* r21 */
+	R0_OFFSET + 22*sizeof(REGISTER_TYPE),	/* r22 */
+	R0_OFFSET + 23*sizeof(REGISTER_TYPE),	/* r23 */
+	R0_OFFSET + 24*sizeof(REGISTER_TYPE),	/* r24 */
+	R0_OFFSET + 25*sizeof(REGISTER_TYPE),	/* r25 */
+	R0_OFFSET + 26*sizeof(REGISTER_TYPE),	/* r26 */
+	R0_OFFSET + 27*sizeof(REGISTER_TYPE),	/* r26 */
+	R0_OFFSET + 28*sizeof(REGISTER_TYPE),	/* r28 */
+	R0_OFFSET + 29*sizeof(REGISTER_TYPE),	/* r29 */
+	R0_OFFSET + 30*sizeof(REGISTER_TYPE),	/* r30 */
+	R0_OFFSET + 31*sizeof(REGISTER_TYPE),	/* r31 */
+	-1,					/* synth_pc */
+	-1,					/* pid */
+	-1,					/* psr */
+	PSR_OFFSET,				/* epsr */
+	-1,					/* ssbr */
+	SXIP_OFFSET,				/* sxip */
+	SNIP_OFFSET,				/* snip */
+	SFIP_OFFSET,				/* sfip */
+	-1,					/* vbr */
+	-1,					/* dmt0 */
+	-1,					/* dmd0 */
+	-1,					/* dma0 */
+	-1,					/* dmt1 */
+	-1,					/* dmd1 */
+	-1,					/* dma1 */
+	-1,					/* dmt2 */
+	-1,					/* dmd2 */
+	-1,					/* dma2 */
+	-1,					/* sr0 */
+	-1,					/* sr1 */
+	-1,					/* sr2 */
+	-1,					/* sr3 */
+	-1,					/* fpecr */
+	-1,					/* fphs1 */
+	-1,					/* fpls1 */
+	-1,					/* fphs2 */
+	-1,					/* fpls2 */
+	-1,					/* fppt */
+	-1,					/* fprh */
+	-1,					/* fprl */
+	-1,					/* fpit */
+	FPSR_OFFSET,				/* fpsr */
+	FPCR_OFFSET,				/* fpcr */
+#endif
+	-1,					/* ceimr */
+	-1,					/* comefrom */
+	-1,					/* membrk */
+	-1,					/* stackbase */
+	-1,					/* ramsize */
+	-1					/* synthfp */
+};
+
+/*
+ * reg_contents[] is a write-through cache of registers.
+ * If there's a core file, then it's pre-loaded,
+ * otherwise it's loaded on demand.
+ * reg_known[regno] is nonzero if reg_contents[regno] is valid.
+ */
+static REGISTER_TYPE reg_contents[NUM_REGS];
+static char reg_known[NUM_REGS];
+
+/*
+ * forget_registers -- discard the cache of register contents.
+ * Called when a new inferior is forked, for example.
+ */
+forget_registers()
+{
+  bzero(reg_known, sizeof reg_known);
+}
+
+/*
+ * read_hard_register -- get the contents of a real register.
+ */
+REGISTER_TYPE
+read_hard_register(regno)
+  unsigned regno;
+{
+  if (remote_debugging)
+    return remote_read_register(regno);
+
+  if (!CAN_REGACC_USER(regno))
+    ui_badnews(-1,
+	"read_register(%d): register %s not accessible from user process.",
+		regno, reg_names[regno]);
+
+  /* If we haven't already fetched (or stored) this register, go get it.
+     (If we're dealing with a core file, all registers have been fetched.) */
+  if (!reg_known[regno])
+    {
+      if (!inferior_pid)
+	ui_badnews(-1, "read_hard_register(%d): no inferior.", regno);
+      errno = 0;
+      reg_contents[regno] = ptrace (3, inferior_pid, reg_offset[regno], 0);
+      if (errno)
+	ui_badnews(-1, "read_hard_register(%d): ptrace failure: %s.",
+		   regno, serr());
+      reg_known[regno] = 1;
+    }
+  return reg_contents[regno];
+}
+
+/*
+ * write_hard_register -- store new real register contents.
+ * This routine is also called when reading a core file, to supply
+ * registers from the core dump.
+ */
+static
+write_hard_register(regno, value)
+  unsigned regno;
+  REGISTER_TYPE value;
+{
+  if (remote_debugging)
+    {
+      remote_write_register(regno, value);
+      return;
+    }
+
+  if (!CAN_REGACC_USER(regno))
+    ui_badnews(-1,
+	"write_register(%d): register %s not accessible from user process.",
+		regno, reg_names[regno]);
+
+  /* Store this register value in our cache, then write it through to the
+     inferior process if there is one.  (There won't be one if we're
+     examining a core file.) */
+  reg_contents[regno] = value;
+  reg_known[regno] = 1;
+  if (inferior_pid)
+    {
+      errno = 0;
+      ptrace (6, inferior_pid, reg_offset[regno], value);
+      if (errno)
+	ui_badnews(-1, "write_hard_register(%d): ptrace failure: %s.",
+		   regno, serr());
+    }
+}
+
+/*
+ * read_register -- get the contents of a real or phony register.
+ */
+REGISTER_TYPE
+read_register(regno)
+  unsigned regno;
+{
+  if (NUM_REGS <= regno)
+    ui_badnews(-1, "read_register(%d): bad register number.", regno);
+
+  switch (regno)
+    {
+      case R0_REGNUM:
+	/* There's no need to fetch r0. */
+	return 0;
+
+      case SYNTH_PC_REGNUM:
+	/* Reading $pc gives the address of the next instruction to execute. */
+	{
+	  /* Select the next instruction address in the same way as the CPU:
+	     -- if SNIP has the valid bit set, that's the address;
+	     -- otherwise, if SFIP has the valid bit set, that's the address;
+	     -- otherwise the address is SFIP+4. */
+	  register int pc;
+          if (simulator) {
+             return read_hard_register(SYNTH_PC_REGNUM);
+          }
+	  pc = read_hard_register(SNIP_REGNUM);
+	  if (pc & IP_VALID)
+	    return pc & ~(IP_VALID|IP_EXCEPTION);
+	  pc = read_hard_register(SFIP_REGNUM);
+	  if (pc & IP_VALID)
+	    return pc & ~(IP_VALID|IP_EXCEPTION);
+	  return (pc & ~(IP_VALID|IP_EXCEPTION)) + 4;
+	}
+
+      case PSR_REGNUM:
+	if (simulator) {
+          return read_hard_register(PSR_REGNUM);
+        } else {
+          return read_hard_register(EPSR_REGNUM);
+        }
+
+      case EPSR_REGNUM:
+	/* Reading from either $psr or $epsr returns $epsr. */
+	return read_hard_register(EPSR_REGNUM);
+
+      case SYNTH_FP_REGNUM:
+	{
+	  register int synthfp;
+	  register struct block *b;
+	  register int pc;
+
+	  /* Synthesizing a frame pointer is an expensive operation.
+	     Keep it in cache. */
+	  if (reg_known[SYNTH_FP_REGNUM])
+	    return reg_contents[SYNTH_FP_REGNUM];
+
+	  /* If the currently executing routine was generated by the Green
+	     Hills compiler without the -ga flag, or by some compiler that
+	     we don't know about, then we have to synthesize a frame pointer.
+	     Otherwise $synthfp is just $r30. */
+	  pc = read_register(SYNTH_PC_REGNUM);
+          b = block_for_pc(pc);
+          if (b == (struct block *)0 || block_gcc_compiled_p(b) ||
+              BLOCK_COMPILED(b) == ghs_ga_compiled) {
+            synthfp = read_hard_register(FP_REGNUM);
+          } else {
+            synthfp = synthesize_previous_fp(read_register(SP_REGNUM), pc);
+          }
+	  reg_contents[SYNTH_FP_REGNUM] = synthfp;
+	  reg_known[SYNTH_FP_REGNUM] = 1;
+	  return synthfp;
+	}
+
+      default:
+	return read_hard_register(regno);
+    }
+}
+
+/*
+ * write_register -- store new real or phony register contents.
+ */
+write_register(regno, value)
+  unsigned regno;
+  REGISTER_TYPE value;
+{
+  if (NUM_REGS <= regno)
+    ui_badnews(-1, "write_register(%d): bad register number.", regno);
+
+  switch (regno)
+    {
+      case R0_REGNUM:
+	/* We mustn't change the value of r0. */
+	break;
+
+      case SYNTH_PC_REGNUM:
+	/* If writing $pc to something other than its current value,
+	   changes $snip and $sxip so that the process will resume at
+	   that address. */
+        if (simulator) {
+          write_hard_register(SYNTH_PC_REGNUM, value);
+          break;
+        }
+	value &= ~(IP_VALID|IP_EXCEPTION);
+	if (value != read_register(SYNTH_PC_REGNUM))
+	  {
+	    register int new_snip = value | IP_VALID;
+	    register int new_sfip = new_snip + 4;
+	    ui_fprintf(stdout, "[Setting $SNIP to 0x%x, $SFIP to 0x%x]\n",
+		       new_snip, new_sfip);
+	    write_hard_register(SNIP_REGNUM, new_snip);
+	    write_hard_register(SFIP_REGNUM, new_sfip);
+	    reg_known[SYNTH_FP_REGNUM] = 0;
+	  }
+	break;
+
+      case PSR_REGNUM:
+	if (simulator) {
+          return write_hard_register(PSR_REGNUM, value);
+        } else {
+          return write_hard_register(EPSR_REGNUM, value);
+        }
+      case EPSR_REGNUM:
+	/* Writing to either $psr or $epsr changes $epsr. */
+	write_hard_register(EPSR_REGNUM, value);
+	break;
+
+      case SYNTH_FP_REGNUM:
+	/* Forbid writing $synthfp.
+	   (I'm not sure just what we would change.) */
+	ui_badnews(-1, "Can't change $synthfp.");
+
+      case SP_REGNUM:
+      case FP_REGNUM:
+      case SNIP_REGNUM:
+      case SFIP_REGNUM:
+	/* Changing these registers can change the synthetic frame pointer,
+	   so forget the cache value for SYNTH_FP. */
+	reg_known[SYNTH_FP_REGNUM] = 0;
+
+	/* fall through ... */
+
+      default:
+	write_hard_register(regno, value);
+    }
+}
+
+/*
+ * m88k_find_return_address -- try to discover the return address for a frame.
+ * The return value is the address in the inferior's virtual space to which
+ * the frame will return if we can figure it out, or 0 if we can't.
+ */
+CORE_ADDR
+m88k_find_return_address (thisframe)
+  FRAME thisframe;
+{
+  CORE_ADDR addr, return_address, find_saved_register_on_entry();
+
+  if (thisframe == 0) {
+    ui_badnews(-1, "m88k_find_return_address passed a nil frame id");
+  }
+  addr = find_saved_register_on_entry(thisframe, R1_REGNUM);
+  if (addr == INVALID_CORE_ADDR) {
+    if (remote_debugging) {
+      return INVALID_CORE_ADDR;
+    }
+    ui_badnews(-1, 
+      "m88k_find_return_address couldn't find address of saved return address");
+  }
+  if (addr < NUM_GENERAL_REGS) {
+    read_register_bytes(REGISTER_BYTE(addr), 
+                        &return_address, 
+                        sizeof(return_address));
+  } else {
+    read_memory(addr, &return_address, sizeof(return_address), M_NORMAL);
+  }
+  return return_address;
+}
+
+/*
+ * m88k_find_saved_fp -- try to discover the saved frame pointer for a frame.
+ * The saved frame pointer is the caller's fp.
+ * The return value is the that value if we can figure it out, or 0 if we can't.
+ */
+static CORE_ADDR
+m88k_find_saved_fp (thisframe)
+  FRAME thisframe;
+{
+  CORE_ADDR addr, frame_pointer, find_saved_register_on_entry();
+
+  addr = find_saved_register_on_entry(thisframe, FP_REGNUM);
+  if (addr == INVALID_CORE_ADDR) {
+    return INVALID_CORE_ADDR;
+  }
+  if (addr < NUM_GENERAL_REGS) {
+    read_register_bytes(REGISTER_BYTE (addr), 
+                        &frame_pointer, 
+                        sizeof(frame_pointer));
+  } else {
+    read_memory(addr, &frame_pointer, sizeof(frame_pointer), M_NORMAL);
+  }
+  return frame_pointer;
+}
+@
+
+
+1.47
+log
+@Added padding to end of reg_names[] to prevent segv in case of 
+slightly off register number.
+@
+text
+@d4 1
+a4 1
+   $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/m88k-dep.c,v 1.46 90/11/14 20:54:03 robertb Exp Locker: robertb $
+d1363 5
+@
+
+
+1.46
+log
+@Made synthesize_previous_sp() global.
+@
+text
+@d4 2
+a5 2
+   $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/m88k-dep.c,v 1.45 90/11/08 22:41:15 robertb Exp $
+   $Locker:  $
+d1572 1
+a1572 1
+char *reg_names[NUM_REGS+8] = {
+d1651 6
+a1656 1
+	"r9"
+@
+
+
+1.45
+log
+@Now simulator knows about the synthetic PC, and here we make the
+gdb front end know about it.
+@
+text
+@d4 1
+a4 1
+   $Header: /home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/m88k-dep.c,v 1.44 90/10/30 23:56:55 robertb Exp $
+d61 1
+a61 1
+static CORE_ADDR synthesize_previous_sp();
+a1121 1
+static
+@
+
+
+1.44
+log
+@Added a check for   or r30,r0,r31, something generated by
+the DG compiler.
+@
+text
+@d4 2
+a5 2
+   $Header: /home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/m88k-dep.c,v 1.43 90/09/29 20:57:43 robertb Exp Locker: robertb $
+   $Locker: robertb $
+d1842 3
+d1918 4
+@
+
+
+1.43
+log
+@Added gcc_compiled convenience variable to fix a bug.
+You have to set this now if your C code was compiled by gcc.
+Fixed problem with initialize_text() not being called.
+@
+text
+@d4 2
+a5 2
+   $Header: /home/vlsi/u2/cs568/g88/RCS/m88k-dep.c,v 1.42 90/08/19 21:15:33 robertb Exp $
+   $Locker:  $
+d669 1
+d1105 4
+@
+
+
+1.42
+log
+@Deleted some redundant include's, added NON_NATIVE stuff
+so that we use the gnu header file for the 88k when compiling
+on a non 88k host.
+@
+text
+@d4 2
+a5 2
+   $Header: /home/vlsi/u2/cs568/g88/RCS/m88k-dep.c,v 1.41 90/08/06 09:54:24 robertb Exp Locker: robertb $
+   $Locker: robertb $
+d578 5
+d759 9
+d808 1
+a808 1
+  if (b == (struct block *)0 || BLOCK_COMPILED(b) == gcc_compiled || 
+d1874 1
+a1874 1
+          if (b == (struct block *)0 || BLOCK_COMPILED(b) == gcc_compiled ||
+@
+
+
+1.41
+log
+@Fixes so that we can read dbx files.
+@
+text
+@d4 1
+a4 1
+   $Header: /home/vlsi/u2/cs568/g88/RCS/m88k-dep.c,v 1.40 90/08/02 12:21:33 robertb Exp Locker: robertb $
+a12 1
+#include <sys/param.h>
+a16 2
+#include <sys/user.h>
+#include <sys/ioctl.h>
+d22 3
+d26 1
+@
+
+
+1.40
+log
+@Fixed reading/writing of PSR when using simulator.
+@
+text
+@d4 2
+a5 2
+   $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/m88k-dep.c,v 1.39 90/06/30 18:01:37 robertb Exp $
+   $Locker:  $
+d65 7
+d602 3
+@
+
+
+1.39
+log
+@Added a version of exec_file_command() that can read a.out files.
+Made it use DG coff headers.
+Fixed two nil-pointer dereference bugs.
+#ifdef'd out big table w/ ref's to offsets of variables in U area
+(so that this file would compile).
+@
+text
+@d4 2
+a5 2
+   $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/m88k-dep.c,v 1.38 90/04/25 10:40:33 robertb Exp Locker: robertb $
+   $Locker: robertb $
+d53 1
+d1822 6
+d1899 5
+@
+
+
+1.38
+log
+@Made read_hard_register() accessible outside of this file.
+Supress the 'can't get back to parent' message if we are
+cross-debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.37 90/04/23 10:24:04 robertb Exp $
+   $Locker:  $
+d8 1
+a8 1
+   Copyright (C) 1989 Free Software Foundation, Inc.
+a9 1
+This file is part of GDB.
+a10 14
+GDB is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+GDB is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GDB; see the file COPYING.  If not, write to
+the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+d21 4
+d26 2
+d62 1
+a62 1
+static CORE_ADDR m88k_frame_find_single_saved_reg();
+d340 1
+d344 1
+d346 8
+a357 1
+extern AOUTHDR exec_aouthdr;
+d366 1
+d444 1
+d447 1
+d528 7
+d536 61
+d782 1
+a782 1
+  if (BLOCK_COMPILED(b) == gcc_compiled || 
+d1091 1
+d1627 1
+d1693 1
+d1699 1
+a1699 1
+	-1,					/* synthfp */
+d1842 1
+a1842 1
+          if (BLOCK_COMPILED(b) == gcc_compiled ||
+@
+
+
+1.37
+log
+@Regrooved a number of functions that are used to do stack
+traces.  Added synthesize_previous_fp(), changed the name of
+synthesize_sp() to synthesize_previous_fp().  Added comments
+to m88k_frame_find_single_saved_reg() and tweaked its code a bit.
+Stack tracing now works on stacks made by GHS and gnu -generated
+code.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.36 90/03/28 15:27:12 robertb Exp $
+   $Locker: robertb $
+d66 1
+a66 1
+static REGISTER_TYPE read_hard_register();
+d693 3
+d1649 1
+a1649 1
+static REGISTER_TYPE
+@
+
+
+1.36
+log
+@Regrooved m88k_find_return_address(), fixed a number of bugs in it.
+Now call find_saved_register() to get the return fp and pc instead
+of calling m88k_find_saved_register().  Deleted m88k_find_saved_register().
+#ifdef'd out old version of m88k_init_extra_frame_info().  It has
+what seems like a gross hack.  This hack breaks the current code, but
+maybe there was a reason for it.  (Hack involves the setaside variables).
+#ifdef'd out with TEK_BOGOSITY.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.35 90/03/23 14:44:27 jrb Exp $
+   $Locker:  $
+d64 2
+a65 4
+static CORE_ADDR get_parameter_register_address();
+static CORE_ADDR get_preserved_register_address();
+static CORE_ADDR m88k_find_saved_fp ();
+CORE_ADDR m88k_find_return_address ();
+d67 5
+d102 2
+a103 3
+  if (remote_debugging)
+    {
+      fatal("ptrace(%d, %d, %d, %d) called when cross-debugging",
+d105 1
+a105 1
+    }
+a148 6
+static CORE_ADDR setaside_subr_entry = NULL_CORE_ADDR;
+static CORE_ADDR setaside_sp = NULL_CORE_ADDR;
+CORE_ADDR synthesize_sp();
+static CORE_ADDR find_pc_function_addr();
+static CORE_ADDR m88k_frame_find_single_saved_reg();
+
+a154 1
+  setaside_sp = read_register(SP_REGNUM);
+d571 1
+a571 1
+    !remote_debugging && addr > read_register (SP_REGNUM);
+d578 4
+d603 7
+d692 3
+a694 4
+  if (called_at==0 || bad_text_addr (called_at))
+    {
+      ui_badnews (-1, "m88k_frame_chain: can't get back to parent");
+    }
+d704 1
+a705 3
+  if (!((BLOCK_COMPILED(b)==gcc_compiled || BLOCK_COMPILED(b)==ghs_ga_compiled)
+      && (newfp = m88k_find_saved_fp (thisframe)) != 0))
+    newfp = synthesize_sp (thisframe->frame + 8, called_at) - 8;
+d707 12
+a718 2
+  /* If we found the parent frame to be the same as our frame, then return 0,
+     so that we don't loop infinitely following the stack. */
+d721 1
+a721 3
+      newfp = NULL_CORE_ADDR; 
+    } else {
+      ui_badnews(-1, "m88k_frame_chain: frame points to self");
+d723 8
+a731 1
+
+d758 2
+a759 2
+  FRAME frame_id;	/* address of a frame stucture */
+  int regnum;
+d761 11
+a771 10
+  CORE_ADDR reg_addr_so_far;
+  CORE_ADDR assumed_sp;
+  CORE_ADDR addr, end_addr;
+  CORE_ADDR my_entry;
+  unsigned long inst;
+  INSTAB *instab_entry;
+  int dest;
+  int src1;
+  int src2;
+  int cnt = 5000;
+d773 2
+a774 2
+  if (frame_id == 0) {
+    ui_badnews(-1, "m88k_frame_find_single_saved_reg passed a nil frame id");
+d776 3
+d780 6
+a785 2
+  if (regnum >= NUM_GENERAL_REGS)
+    return INVALID_CORE_ADDR;
+d787 3
+a789 1
+  /* Do the "special" registers. */
+d791 3
+a793 2
+  if (regnum == 0)
+    return 0;
+d795 8
+a802 5
+  if (regnum == SP_REGNUM)
+    {
+      if (frame_id->prev)
+	return frame_id->prev->sp;
+      return synthesize_sp (frame_id->sp, frame_id->pc);
+d804 1
+a805 4
+  reg_addr_so_far = regnum;
+  assumed_sp = frame_id->frame + 8;
+  my_entry = frame_id->subr_entry;
+
+d809 1
+a809 1
+     caused us to enter an new function.  If we looked at the
+d811 1
+a811 1
+     we junk and sometimes incorrectly return INVALID_CORE_ADDR. */
+d819 3
+a821 9
+  for (addr = my_entry ; addr <= end_addr ; addr += 4)
+    {
+      if (cnt-- == 0)
+	ui_badnews(-1, "Giving up in m88k_frame_find_single_saved_reg");
+      inst = fetch_instruction(addr);
+      instab_entry = (INSTAB *) m88k_inst_find (inst);
+      dest = GET_DEST (inst);
+      src1 = GET_S1 (inst);
+      src2 = GET_S2 (inst);
+d823 19
+a841 3
+      /* Non-preserved registers are assumed to be trashed by subroutine
+         calls.   -rcb 3/90 */
+      if (ISCALL(inst)) {
+d843 1
+a843 1
+	  return INVALID_CORE_ADDR;
+d847 1
+d849 4
+a852 1
+      /* If necessary, adjust the assumed stack pointer. */
+d854 17
+a870 20
+      if ((dest == SP_REGNUM) && (src1 == SP_REGNUM))
+	{
+	  if (instab_entry->effect & GROWS)
+	    {
+	      if (instab_entry->op3.type == REG)
+		  assumed_sp -= find_reg_val (GET_S2 (inst), addr - 4,
+					      my_entry);
+	      else
+		  assumed_sp -= GET_IMM16 (inst);
+	      continue;
+	    }
+	  else if (instab_entry->effect & SHRINKS)
+	    {
+	      if (instab_entry->op3.type == REG)
+		  assumed_sp += find_reg_val (GET_S2 (inst), addr - 4,
+					      my_entry);
+	      else
+		  assumed_sp += GET_IMM16 (inst);
+	      continue;
+	    }
+d872 2
+d875 5
+a879 5
+      /* See if the contents of "reg_addr_so_far" is being saved in 
+         another register.  If it is moved into a preserved register, assume
+         that the value stays there and return the number of this
+         preserved register.  If is moved into another register, keep 
+         tracking it. */
+d881 3
+a883 10
+      if ((instab_entry->effect & MOVES) && 
+          (src1 == 0) && 
+          (src2 == reg_addr_so_far))
+	{
+          reg_addr_so_far = dest;
+          if (14 <= reg_addr_so_far && reg_addr_so_far <= 25) {
+            return reg_addr_so_far;
+          }
+	  continue;
+	}
+d885 6
+a890 3
+      /* If the destination register isn't "regnum", skip this instruction.  If
+	 the instruction is marked as a double, then also check the destination
+	 register plus one (modulo 32) */
+d892 3
+a894 8
+      if (dest != reg_addr_so_far)
+	{
+	  if (! (instab_entry->effect & DBL))
+	    continue;
+	  dest = (dest + 1) % 32;
+	  if (dest != reg_addr_so_far)
+	    continue;
+	}
+d896 9
+a904 1
+      /* See if the instruction saves the "regnum" on the stack */
+d906 2
+a907 10
+      if (instab_entry->effect & SAVES)
+	{
+	  if (src1 == SP_REGNUM)
+	    {
+	      reg_addr_so_far = assumed_sp;
+	      if (instab_entry->op3.type == REG)
+		  reg_addr_so_far += find_reg_val (GET_S2 (inst), addr - 4,
+						   my_entry);
+	      else
+		reg_addr_so_far += GET_IMM16 (inst);
+d909 8
+a916 15
+              /* Offsets were incorrect for second register of a double 
+                 store.  -rcb 3/90 */
+              if (dest == (GET_DEST(inst) + 1)) {
+                reg_addr_so_far += 4;
+              }
+              return reg_addr_so_far;
+	    }
+	  else if (src1 == FP_REGNUM)
+	    {
+	      reg_addr_so_far = frame_id->frame;
+	      if (instab_entry->op3.type == REG)
+		reg_addr_so_far += find_reg_val (GET_S2 (inst), addr - 4,
+						 my_entry);
+	      else
+		reg_addr_so_far += GET_IMM16 (inst);
+d918 4
+a921 8
+              /* Offsets were incorrect for second register of a double 
+                 store.  -rcb 3/90 */
+              if (dest == (GET_DEST(inst) + 1)) {
+                reg_addr_so_far += 4;
+              }
+	      return reg_addr_so_far;
+	    }
+	}
+d923 7
+a929 1
+      /* See if the instruction alters "reg_addr_so_far". */
+d931 5
+a935 4
+      if (instab_entry->effect & ALTERS)
+	{
+	  return INVALID_CORE_ADDR;
+	}
+d937 7
+a946 1
+#ifdef TEK_BOGOSITY
+d953 9
+a961 1
+  FRAME inner_id;
+d963 12
+a974 4
+  if (setaside_subr_entry)
+    frame_id->subr_entry = setaside_subr_entry;
+  else
+    frame_id->subr_entry = find_pc_function_addr (frame_id->pc);
+d976 4
+a979 4
+  if (! (frame_id->sp = setaside_sp) && (inner_id = frame_id->next))
+    {
+      frame_id->sp = synthesize_sp (inner_id->sp, inner_id->pc);
+    }
+d981 2
+a982 4
+  setaside_subr_entry = NULL_CORE_ADDR;
+  setaside_sp = NULL_CORE_ADDR;
+}
+#else
+d984 10
+a993 7
+/*
+ * m88k_init_extra_frame_info -- fill in the extra frame info.
+ */
+m88k_init_extra_frame_info (frame_id)
+  FRAME frame_id;	/* address of a frame structure */
+{
+  FRAME inner_id;
+d995 1
+a995 1
+  frame_id->subr_entry = find_pc_function_addr (frame_id->pc);
+d997 3
+a999 3
+  if (! (frame_id->sp = setaside_sp) && (inner_id = frame_id->next))
+    {
+      frame_id->sp = synthesize_sp (inner_id->sp, inner_id->pc);
+d1001 9
+a1009 3
+
+  setaside_subr_entry = NULL_CORE_ADDR;
+  setaside_sp = NULL_CORE_ADDR;
+a1010 1
+#endif
+d1013 1
+a1013 1
+ * synthesize_sp -- synthesize the previous stack pointer.
+d1018 4
+a1021 3
+synthesize_sp (assumed_sp, assumed_pc)
+  CORE_ADDR assumed_sp;
+  CORE_ADDR assumed_pc;
+d1023 1
+a1023 1
+  CORE_ADDR subr_entry;
+d1025 2
+a1026 2
+  unsigned long inst, tmp;
+  int cnt = 1000;
+a1027 4
+  assumed_pc &= ~3;
+  subr_entry = find_pc_function_addr (assumed_pc);
+  if (bad_text_addr (subr_entry))
+    return -1;
+a1028 5
+  /* save the subroutines address and stack pointer for later */
+
+  setaside_subr_entry = subr_entry;
+  setaside_sp = assumed_sp;
+
+d1031 5
+a1035 7
+
+  for (addr = assumed_pc-4; addr >= subr_entry; addr -= 4)
+    {
+      if (remote_debugging) {
+	if (cnt-- == 0) {
+	  error("Giving up in synthesize_sp");
+	}
+d1037 5
+a1041 3
+#ifdef NOTDEF
+	/* quick and dirty solution, check to see if next inst is a bpt.  If
+	   it is then check the breakpoints for the actual instruction */
+d1043 1
+a1043 1
+      inst = (unsigned long) read_memory_integer (addr, 4);
+d1045 8
+a1052 29
+      if (IS_BPT(inst))
+	if (tmp = get_inst(addr))
+		inst = tmp;
+#else
+	/* better solution, we now read in text from the file instead of using
+	   ptrace calls ... but we won't notice self-written code. */
+
+      inst = fetch_instruction(addr);
+#endif
+
+      if (GROWS_STACK_IMM (inst))
+	{
+	  assumed_sp += GET_IMM16 (inst);
+	}
+
+      else if (GROWS_STACK_REG2 (inst))
+	{
+	  assumed_sp += find_reg_val (GET_S2 (inst), addr - 4, subr_entry);
+	}
+
+      else if (SHRINKS_STACK_IMM (inst))
+	{
+	  assumed_sp -= GET_IMM16 (inst);
+	}
+
+      else if (SHRINKS_STACK_REG2 (inst))
+	{
+	  assumed_sp -= find_reg_val (GET_S2 (inst), addr - 4, subr_entry);
+	}
+d1054 1
+d1058 1
+a1058 2
+
+  return assumed_sp;
+d1092 1
+d1103 12
+a1114 4
+  if (start < end)
+    {
+      ui_badnews (-1, "internal: find_reg_val: start(%x) < end(%x)",
+		  start, end);
+d1116 2
+a1117 3
+  if (reg & ~0x1f)
+    {
+      ui_badnews (-1, "internal: find_reg_val: bad reg = %d", reg);
+d1119 6
+a1124 13
+
+  for (; (start >= end); start -= 4)
+    {
+      inst = fetch_instruction(start);
+      if (LOADS_REG32_BOT (reg, inst))
+	{
+	  value |= GET_U_IMM16 (inst);
+	  break;
+	}
+      if (LOADS_REG16 (reg, inst))
+	{
+	  return GET_U_IMM16 (inst);
+	}
+d1126 1
+a1126 9
+  for (start -= 4; (start >= end); start -= 4)
+    {
+      inst = fetch_instruction(start);
+      if (LOADS_REG32_TOP (reg, inst))
+	{
+	  value |= GET_U_IMM16 (inst) << 16;
+	  break;
+	}
+    }
+d1183 3
+a1185 7
+/*
+ *
+ * The following is used to save and restore registers during function
+ * calls.  A stack is necessary since the functions themselves may contain
+ * break points allowing the user to nest these calls.
+ *
+ */
+d1330 1
+a1330 1
+CORE_ADDR addr;
+d1336 3
+a1338 5
+  if (offset < 0)
+    {
+      ui_badnews(-1, "fetch_instruction: addr=0x%x but text_start=0x%x\n",
+		 addr, text_start);
+    }
+d1340 7
+a1346 4
+  if (chunk_idx >= number_of_chunks)
+    {
+      ui_badnews(-1, "fetch_instruction: chunk_idx=%d but number_of_chunks=%d",
+		 chunk_idx, number_of_chunks);
+d1349 3
+a1351 10
+  if (instruction_buf[chunk_idx] == NULL)
+    {
+      /* Read in chunk */
+      reopen_exec_file(); /* just in case it has been closed */
+      instruction_buf[chunk_idx] = (struct text_chunk *)xmalloc(CHUNKSIZE);
+      if (lseek (execchan, (long)text_loc+chunk_idx*CHUNKSIZE, 0) < 0)
+	ui_badnews(-1, "seek failed reading instr at 0x%x", addr);
+      if (myread (execchan, (char *)(instruction_buf[chunk_idx]->buf),
+		  CHUNKSIZE) < 0)
+	ui_badnews(-1, "read failed reading instr at 0x%x", addr);
+d1353 1
+d1467 1
+a1467 1
+char *reg_names[NUM_REGS] = {
+d1539 8
+d1764 7
+a1770 6
+	  b = block_for_pc(pc);
+	  if (BLOCK_COMPILED(b)!=gcc_compiled &&
+	      BLOCK_COMPILED(b)!=ghs_ga_compiled)
+	    synthfp = synthesize_sp(read_register(SP_REGNUM), pc) - 8;
+	  else
+	    synthfp = read_hard_register(FP_REGNUM);
+d1849 1
+a1849 1
+  CORE_ADDR addr, return_address;
+d1854 1
+a1854 1
+  addr = find_saved_register(thisframe, R1_REGNUM, 1);
+d1856 3
+d1881 1
+a1881 1
+  CORE_ADDR addr, frame_pointer;
+d1883 1
+a1883 4
+  if (thisframe == 0) {
+    ui_badnews(-1, "m88k_find_saved_fp: passed a nil frame id");
+  }
+  addr = find_saved_register(thisframe, FP_REGNUM, 1);
+d1885 1
+a1885 2
+    ui_badnews(-1, 
+            "m88k_find_saved_fp: couldn't find address of saved frame pointer");
+@
+
+
+1.35
+log
+@m88k_find_saved_register more robust in terms of handling
+backtrace with no frame pointer. Changed routine so
+that it returns if it encounters a CALL (jsr,bsr) and
+put in kludge code to deal with pc in start(). Needs
+more work in that area.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.34 90/03/16 08:05:27 andrew Exp $
+   $Locker: jrb $
+d64 5
+d170 1
+a170 1
+read_inferior_memory (memaddr, myaddr, len)
+d194 1
+a194 1
+	buffer[i] = remote_fetch_word (addr);
+d240 1
+a240 1
+	buffer[0] = remote_fetch_word (addr);
+d254 1
+a254 1
+	buffer[count-1] = remote_fetch_word (addr + (count-1)*sizeof(int));
+a687 5
+      /* This is a normal thing when cross-debugging, don't get the user
+	 worried */
+      if (remote_debugging) {
+	return 0;
+      }
+d707 5
+a711 1
+    ui_badnews(-1, "m88k_frame_chain: frame points to self");
+d745 1
+a745 1
+  CORE_ADDR addr;
+d751 2
+a752 1
+  int cnt = 1000;
+d754 4
+a772 13
+#ifdef NOTDEF
+  /* I don't think this is required.  I could be wrong.
+   * -=- andrew@@frip.wv.tek.com */
+  if (regnum == SXIP_REGNUM)
+    {
+      if (frame_id->prev)
+	return frame_id->frame + 4;
+      return regnum;
+    }
+#endif /* NOTDEF */
+
+  /* Do the "ordinary" registers. */
+
+d774 1
+a774 1
+  assumed_sp = frame_id->sp;
+d777 14
+a790 1
+  for (addr = frame_id->pc - 4; addr >= my_entry; addr -= 4)
+d793 1
+a793 1
+	error("Giving up in m88k_frame_find_single_saved_reg");
+d798 1
+d800 9
+d816 1
+a816 1
+		  assumed_sp += find_reg_val (GET_S2 (inst), addr - 4,
+d819 1
+a819 1
+		  assumed_sp += GET_IMM16 (inst);
+d825 1
+a825 1
+		  assumed_sp -= find_reg_val (GET_S2 (inst), addr - 4,
+d828 1
+a828 1
+		  assumed_sp -= GET_IMM16 (inst);
+d833 17
+d854 1
+a854 1
+      if (dest != regnum)
+d859 1
+a859 1
+	  if (dest != regnum)
+d875 7
+a881 1
+	      continue;
+d891 7
+a897 1
+	      continue;
+d901 1
+a901 1
+      /* See if the contents of "regnum" is being saved in another register. */
+a902 8
+      if ((instab_entry->effect & MOVES) && (src1 == 0))
+	{
+	  reg_addr_so_far = GET_S2 (inst);
+	  continue;
+	}
+
+      /* See if the instruction alters "regnum". */
+
+d905 1
+a905 2
+	  reg_addr_so_far = INVALID_CORE_ADDR;
+	  continue;
+d911 1
+d933 1
+d935 7
+d943 12
+d1319 6
+a1819 66
+ * m88k_find_saved_register -- try to discover the value of r1 or r30.
+ * The return value is that value if we can find it, or zero if we can't.
+ */
+static int
+m88k_find_saved_register (thisframe, regno, frame_offset)
+  FRAME thisframe;
+  int regno;
+  int frame_offset;
+{
+  register int current_pc;
+  register struct block *b;
+  register int inst;
+  char *name;
+  int addr;
+
+  /* Return addresses and frame pointers on the 88k are not stored in a
+     uniform place in the stack frame.  We find these by disassembling the
+     prolog for the containing function to see what it does with the
+     register.  If we find a store of the register into the stack frame, we
+     assume that we can recover its value from the standard offset on the
+     stack.  (This assumption may be wrong, but it works for our present
+     crop of compilers.)  If we find no store of the register and no
+     function calls between the start of the function and the frame's pc,
+     we assume that thisframe is the innermost frame and that the register
+     still contains the return address.  */
+
+  /* Set addr to the address of the beginning of the function containing the
+     current PC.  If there's a block for this PC, then the beginning of the
+     function is the beginning of the block.  If there's no block for this
+     PC, then take a best guess by calling find_pc_partial_function.  If
+     even that can't find a function, give up and return 0. */
+  current_pc = thisframe->pc & ~(IP_VALID|IP_EXCEPTION);
+  b = block_for_pc (current_pc);
+  if (b) {
+    addr = b->startaddr;
+    /* this is a kludge, I threw in to keep from core dumping
+     * or issueing an error on attempting to seek on 0 when
+     * we are doing a backtrace in the address range of __start.
+     * the block startaddr should not be 0. This is due
+     * to the fact that symbols are not stored if no debug
+     * info is included, see coffread.c. There should be a better fix.
+     */
+    if ( addr == 0 ) {
+      find_pc_partial_function (current_pc, &name, &addr);
+    }
+  }
+  else if (!find_pc_partial_function (current_pc, &name, &addr))
+    return 0;
+
+  /* Disassemble instructions from the beginning of the function to here,
+     looking for one that meets the criterion above. */
+  while (addr < current_pc)
+    {
+      inst = fetch_instruction(addr);
+      if (STORES_REG_TO_STACK(regno, inst))
+		/* standard offset for return address is frame_offset(FP). */
+	return read_memory_integer (thisframe->frame + frame_offset,
+				    sizeof(int));
+      if (ISCALL(inst))		/* give up on subroutine call */
+	return 0;
+      addr += sizeof(int);
+    }
+  return read_register(regno);
+}
+
+/*
+d1824 1
+a1824 1
+int
+d1828 18
+a1845 1
+  return m88k_find_saved_register (thisframe, R1_REGNUM, 4);
+d1847 1
+d1853 1
+a1853 1
+int
+d1857 18
+a1874 1
+  return m88k_find_saved_register (thisframe, FP_REGNUM, 0);
+@
+
+
+1.34
+log
+@Make kill_inferior_fast revert to using ptrace, not call_ptrace, to kill
+the inferior on the way out.  When there was no inferior, call_ptrace
+error'ed out, and so the "quit" command could never complete.
+Fix m88k_frame_chain to use reasonably smart heuristics to find the
+previous stack frame and return address, rather than assume a VAX
+architecture with standard stack frame for every routine.
+As part of doing this, add new routines m88k_is_br, m88k_find_saved_register,
+m88k_find_return_address, and m88k_find_saved_fp.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.33 90/03/15 09:25:45 andrew Exp $
+   $Locker: andrew $
+d591 6
+d1787 1
+a1787 1
+  if (b)
+d1789 11
+d1812 1
+a1812 1
+      if (IS_BR(inst))		/* give up on branch or call */
+@
+
+
+1.33
+log
+@Complete revisit.  Lots of corrections to formatting, spelling, etc.
+Complete rewrite of register access scheme.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.32 90/03/08 14:40:02 andrew Exp $
+d137 1
+a137 1
+  (void) call_ptrace (8, inferior_pid, 0, 0);
+d580 1
+d584 2
+d593 62
+d674 2
+a675 9
+  /*** @@@@@@
+   *** WRONG WRONG WRONG -- This assumes that the return address is at 4(FP).
+   *** This isn't necessarily true on the 88k, especially for assembly code.
+   *** Should find out what routine we're in now, disassemble code between the
+   *** start and end of prolog or here, and see if a "st r1,..." exists.
+   ***/
+
+  called_at = read_memory_integer (thisframe->frame + 4, 4) - 4;
+  if (bad_text_addr (called_at))
+d685 8
+a692 2
+  /* See whether the calling routine was compiled with gcc or with GHS cc -ga.
+     */
+d694 2
+a695 15
+  if (BLOCK_COMPILED(b)==gcc_compiled || BLOCK_COMPILED(b)==ghs_ga_compiled) {
+
+    /* The calling routine was compiled by the GNU compiler, or by the Green
+       Hills compiler with -ga.  The pointer to its frame is stored at (FP). */
+
+    /*** @@@@@@
+     *** WRONG WRONG WRONG -- This is only true if the current routine stores
+     *** the old r30 at (FP).  Again, this isn't necessarily true on the 88k
+     *** especially for assembly code.
+     ***/
+
+      newfp = read_memory_integer (thisframe->frame, 4);
+  } else {
+    /* The calling routine was not compiled with gcc or with GHS cc -ga.
+       Synthesize a frame pointer. */
+a696 1
+  }
+d701 1
+a701 1
+    return 0;
+d1265 1
+a1265 1
+	ui_badnews(-1, "failed to read instruction_buf");
+d1268 1
+a1268 1
+	ui_badnews(-1, "failed to read instruction_buf");
+d1745 78
+@
+
+
+1.32
+log
+@Rework gcc_compiled_flag to be more general, so as to indicate whether
+gcc or GH cc -ga was used.  Rework the code which finds procedure arguments
+in memory to distinguish between these two compilers -- GH does it "right",
+gcc does it the old way.  This addresses bug BLK1962.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.31 90/02/16 16:15:17 andrew Exp $
+d6 2
+a7 2
+ */
+/* Tektronix programming extensions to GDB, the GNU debugger.
+a9 1
+
+a25 62
+
+
+/*
+ * Changes made by Tektronix are marked by TEK_HACK, TEK_PROG_HACK,
+ * and GHSFORTRAN.
+ * Changes made by Data General are marked by DG_HACK.  Compiling without these
+ * #defines should be equivalent to compiling vanilla 3.2, more or less.
+ *
+ * The changes done by Tektronix fit into three catagories:
+ *	TEK_HACK -- these were done just to get GDB to work in our environment,
+ *		    including work done to support the Green Hills C compiler.
+ *	TEK_PROG_HACK -- These were done to extend GDB by adding programming
+ *			 support: things like if-elif-else-endif, while, and
+ *			 arguments to user defined commands.
+ *	GHSFORTRAN -- These changes make (will make) GDB work with the Green
+ *		      Hills Fortran compiler.
+ *
+ *
+ * In addition, I/O routines were renamed so that I/O could be directed
+ * to/from the X interface if used.  See the files ui.c and ui.h for
+ * more information.  Here are the routines renamed:
+ *    Old name:			Renamed to:
+ *	fprintf			ui_fprintf
+ *	printf			ui_fprintf(stdout
+ *	putchar			ui_putchar
+ *	putc			ui_putc
+ *	fputc			ui_putc
+ *	fputs			ui_fputs
+ *	puts			ui_puts
+ *	gets			ui_gets
+ *	fgets			ui_fgets
+ *	fflush			ui_fflush
+ *	system			ui_system
+ *	wait			ui_wait
+ *	error			ui_badnews(-1
+ *	fatal			ui_badnews(1
+ *	getc, fgetc		replaced with ui_gets, ui_fgets
+ * These changes are not demarcated by ifdef.
+ *
+ *					November 16, 1989
+ */
+
+
+
+
+
+#ifndef	TEK_HACK
+#define  DGUX
+#endif	/* not TEK_HACK */
+
+#define  BCS
+#include "defs.h"
+#include "param.h"
+#ifdef TEK_HACK
+#include "m88k-opcode.h"
+#include "symtab.h"
+#endif
+#include "frame.h"
+#include "inferior.h"
+#include "ui.h"
+
+#ifdef USG
+a26 2
+#endif
+
+a30 1
+#ifdef	TEK_HACK
+a32 1
+#endif	/* TEK_HACK */
+a33 4
+#ifndef USER			/* added to support BCS ptrace_user,
+				/*  Thu Mar  2 12:09:38 1989 djb */
+#define USER ptrace_user
+#endif
+a35 4
+
+#ifdef COFF_ENCAPSULATE
+#include "a.out.encap.h"
+#else
+a36 10
+#endif
+
+#ifndef N_SET_MAGIC
+#ifdef COFF_FORMAT
+#define N_SET_MAGIC(exec, val) ((exec).magic = (val))
+#else
+#define N_SET_MAGIC(exec, val) ((exec).a_magic = (val))
+#endif
+#endif
+
+d40 7
+a46 1
+/* #include <sys/reg.h>  ????? with m88k ?????? */
+d48 1
+a48 1
+/* define offsets to the pc instruction offsets in ptrace_user struct */
+a50 2
+#define FPSR_OFFSET ((int)&((struct ptrace_user *)0)->pt_fpsr)
+#define FPCR_OFFSET ((int)&((struct ptrace_user *)0)->pt_fpcr)
+d54 2
+d57 1
+a57 2
+/* Copies of the SXIP at the last fetch_inferior_registers() call. */
+static int fetched_sxip;
+d60 2
+a61 4
+
+/* This function simply calls ptrace with the given arguments.
+   It exists so that all calls to ptrace are isolated in this
+   machine-dependent file. 
+d63 1
+a63 5
+   Well, not exactly.  In fact there was only one call to ptrace()
+   through call_ptrace() as of 12/89.  I (rcb) made this routine
+   check errno after calling ptrace, also made sure that we were
+   not cross-debugging.  I changed the calls to ptrace() that did
+   not check errno afterwards into calls to call_ptrace(). 
+d65 8
+a72 2
+   This is better than it used to be, not yet clean, but a safe 
+   change. */
+d74 14
+d90 1
+a90 1
+     int request, pid, arg3, arg4;
+a92 1
+  extern char *sys_errlist[];
+d94 5
+a98 4
+  if (remote_debugging) {
+    fatal("ptrace(%d, %d, %d, %d) called when cross-debugging",
+			request, pid, arg3, arg4);
+  }
+d102 1
+a102 2
+    error("ptrace(%d, %d, %d, %d) fails with errno=%s", 
+			request, pid, arg3, arg4, sys_errlist[errno]);
+d107 3
+d116 5
+a120 1
+  ptrace (8, inferior_pid, 0, 0);
+d122 1
+d127 4
+a130 2
+/* This is used when GDB is exiting.  It gives less chance of error.*/
+
+d137 1
+a137 1
+  ptrace (8, inferior_pid, 0, 0);
+a141 22
+/* Resume execution of the inferior process.
+   If STEP is nonzero, single-step it.
+   If SIGNAL is nonzero, give it that signal.  */
+
+void
+resume (step, signal)
+     int step;
+     int signal;
+{
+  errno = 0;
+
+  if (remote_debugging)
+    remote_resume (step, signal);
+  else
+    {
+      ptrace (step ? 9 : 7, inferior_pid, 1, signal);
+      if (errno)
+	perror_with_name ("ptrace");
+    }
+}
+
+#ifdef TEK_HACK
+a146 1
+#endif /* TEK_HACK */
+d148 3
+a150 1
+void
+d153 2
+a154 57
+  register int regno;
+  register unsigned int regaddr;
+  int fetched_snip, fetched_sfip;
+  long buf;
+  register int i;
+
+  struct block *b; /* used to test for GCC compiler flag */
+  CORE_ADDR the_pc;
+
+  if (remote_debugging) {
+    setaside_sp = read_register(SP_REGNUM);
+    return;
+  }
+
+  /* byte offset in ptrace_user to first register */
+  regaddr = R0_OFFSET;
+
+  for (regno = 0; regno < NUM_REGS; regno++)
+    {
+      buf = ptrace (3, inferior_pid, regaddr, 0);
+      regaddr += sizeof (int);
+      supply_register (regno, &buf);
+    }
+
+  /* now load up registers 36 - 38 (SXIP - SFIP); special pc registers */
+  fetched_sxip = ptrace (3, inferior_pid, SXIP_OFFSET, 0);
+  supply_register (SXIP_REGNUM, &fetched_sxip);
+  fetched_snip = ptrace (3, inferior_pid, SNIP_OFFSET, 0);
+  supply_register (SNIP_REGNUM, &fetched_snip);
+  fetched_sfip = ptrace (3, inferior_pid, SFIP_OFFSET, 0);
+  supply_register (SFIP_REGNUM, &fetched_sfip);
+
+  /* Decide where we think the PC is.
+     This used to set the_pc to SXIP&~3, but this isn't right because gdb's
+     notion of the PC is the address of the next instruction to execute, and
+     SXIP contains the previously executed instruction.
+       -=- andrew@@frip.wv.tek.com */
+  the_pc = (fetched_snip & 2 ? fetched_snip : fetched_sfip) & ~3;
+
+  /* if the currently executing subroutine was generated by the Green Hills
+     compiler without the -ga flag, or by some compiler we don't know about,
+     then we need to synthesize a frame pointer. */
+
+  b = (struct block *) block_for_pc (the_pc);
+  if (BLOCK_COMPILED(b)!=gcc_compiled && BLOCK_COMPILED(b)!=ghs_ga_compiled)
+    {
+      CORE_ADDR synthetic_fp;
+
+      /* "synthesize_fp" must be called AFTER the pc registers and the sp
+	 registers have been set up (see above) */
+
+      synthetic_fp = synthesize_sp (read_register(SP_REGNUM), the_pc) - 8;
+      if (! BAD_STACK_ADDR (synthetic_fp + 8))
+	supply_register (FP_REGNUM, (char *)&synthetic_fp);
+    }
+  else
+    setaside_sp = read_register(SP_REGNUM);
+d157 12
+a168 6
+/* Store our register values back into the inferior.
+   If REGNO is -1, do this for all registers.
+   Otherwise, REGNO specifies which register (so we can save time).  */
+
+store_inferior_registers (regno)
+     int regno;
+d170 4
+a173 3
+  register unsigned int regaddr;
+  int new_pc, new_snip, new_sfip;
+  char buf[80];
+d175 2
+a176 36
+  if (remote_debugging) {
+    fatal("store_inferior_registers called when cross-debugging");
+  }
+  if (regno >= 0)
+    {
+	if (regno < PC_REGNUM)
+	   {
+	     regaddr = R0_OFFSET + regno * sizeof (int);
+	     ptrace (6, inferior_pid, regaddr, read_register (regno));
+	   }
+	else if (regno == SXIP_REGNUM)
+	  {
+	    new_pc = read_register(SXIP_REGNUM);
+	    if (new_pc != fetched_sxip)
+	      {
+		new_snip = new_pc | 2;
+		new_sfip = new_snip + 4;
+		ui_fprintf(stdout, "[Setting $SNIP to 0x%x, $SFIP to 0x%x]\n",
+			   new_snip, new_sfip);
+		ptrace (6, inferior_pid, SNIP_OFFSET, new_snip);
+		ptrace (6, inferior_pid, SFIP_OFFSET, new_sfip);
+	      }
+	  }
+	else if (regno == SNIP_REGNUM)
+	     ptrace (6, inferior_pid, SNIP_OFFSET, read_register(regno));
+	else if (regno == SFIP_REGNUM)
+	     ptrace (6, inferior_pid, SFIP_OFFSET, read_register(regno));
+	else printf ("Bad register number for store_inferior routine\n");
+    }
+  else
+    {
+      for (regno = 0; regno < NUM_REGS - 3; regno++)
+	{
+	  regaddr = R0_OFFSET + regno * sizeof (int);
+	  ptrace (6, inferior_pid, regaddr, read_register (regno));
+	}
+d178 2
+a179 6
+#ifndef TEK_HACK
+	/*** There is NEVER a good reason to write the SXIP.
+	 *** -=- andrew@@frip.wv.tek.com
+	 ***/
+      ptrace (6, inferior_pid, SXIP_OFFSET, read_register(SXIP_REGNUM));
+#endif
+a180 35
+      new_pc = read_register(SXIP_REGNUM);
+      if (new_pc != fetched_sxip)
+	{
+	  new_snip = new_pc | 2;
+	  new_sfip = new_snip + 4;
+	  ui_fprintf(stdout, "[Setting $SNIP to 0x%x, $SFIP to 0x%x]\n",
+		     new_snip, new_sfip);
+	  ptrace (6, inferior_pid, SNIP_OFFSET, new_snip);
+	  ptrace (6, inferior_pid, SFIP_OFFSET, new_sfip);
+	}
+      else
+	{
+	  ptrace (6, inferior_pid, SNIP_OFFSET, read_register(SNIP_REGNUM));
+	  ptrace (6, inferior_pid, SFIP_OFFSET, read_register(SFIP_REGNUM));
+	}
+    }
+}
+
+/* Copy LEN bytes from inferior's memory starting at MEMADDR
+   to debugger memory starting at MYADDR.
+   On failure (cannot read from inferior, usually because address is out
+   of bounds) returns the value of errno. */
+
+int
+read_inferior_memory (memaddr, myaddr, len)
+     CORE_ADDR memaddr;
+     char *myaddr;
+     int len;
+{
+  register int i;
+  /* Round starting address down to longword boundary.  */
+  register CORE_ADDR addr = memaddr & - sizeof (int);
+  /* Round ending address up; get number of longwords that makes.  */
+  register int count
+    = (((memaddr + len) - addr) + sizeof (int) - 1) / sizeof (int);
+d182 1
+a182 2
+  register int *buffer = (int *) alloca (count * sizeof (int));
+  extern int errno;
+d185 1
+a185 1
+  for (i = 0; i < count; i++, addr += sizeof (int))
+d197 1
+a197 1
+  bcopy ((char *) buffer + (memaddr & (sizeof (int) - 1)), myaddr, len);
+d201 7
+a207 5
+/* Copy LEN bytes of data from debugger memory at MYADDR
+   to inferior's memory at MEMADDR.
+   On failure (cannot write the inferior)
+   returns the value of errno.  */
+
+d210 3
+a212 3
+     CORE_ADDR memaddr;
+     char *myaddr;
+     int len;
+d215 4
+d220 2
+a221 1
+  register CORE_ADDR addr = memaddr & - sizeof (int);
+d223 2
+a224 2
+  register int count
+    = (((memaddr + len) - addr) + sizeof (int) - 1) / sizeof (int);
+d226 1
+a226 2
+  register int *buffer = (int *) alloca (count * sizeof (int));
+  extern int errno;
+d228 16
+a243 1
+  /* Fill start and end extra bytes of buffer with existing memory data.  */
+d245 2
+a246 6
+  if (remote_debugging)
+    buffer[0] = remote_fetch_word (addr);
+  else
+    buffer[0] = call_ptrace (1, inferior_pid, addr, 0);
+
+  if (count > 1)
+d249 1
+a249 2
+	buffer[count - 1]
+	  = remote_fetch_word (addr + (count - 1) * sizeof (int));
+d251 7
+a257 3
+	buffer[count - 1]
+	  = call_ptrace (1, inferior_pid,
+		    addr + (count - 1) * sizeof (int), 0);
+d260 2
+a261 1
+  /* Copy data to be written over corresponding part of buffer */
+d263 2
+a264 5
+  bcopy (myaddr, (char *) buffer + (memaddr & (sizeof (int) - 1)), len);
+
+  /* Write the entire buffer.  */
+
+  for (i = 0; i < count; i++, addr += sizeof (int))
+d277 1
+a277 1
+
+d283 1
+a283 1
+#endif /* no N_TXTADDR */
+a286 7
+#endif /* no N_DATADDR */
+
+/* Make COFF and non-COFF names for things a little more compatible
+   to reduce conditionals later.  */
+
+#ifndef COFF_FORMAT
+#define AOUTHDR struct exec
+a288 3
+extern char *sys_siglist[];
+
+
+d318 2
+a319 1
+   Note that the data area in the exec file is used only when there is no core file.  */
+a346 1
+#ifdef COFF_FORMAT
+d353 1
+a353 1
+#endif /* not COFF_FORMAT */
+a354 4
+/* a.out header saved in core file.  */
+
+extern AOUTHDR core_aouthdr;
+
+d359 3
+a361 2
+extern void validate_files ();
+
+d363 2
+a364 2
+     char *filename;
+     int from_tty;
+d366 3
+a368 1
+  int val;
+d370 4
+a373 1
+  /* Discard all vestiges of any previous core file
+d389 1
+a389 1
+  /* Now, if a new core file was specified, open it and digest it.  */
+d391 2
+a392 1
+  if (filename)
+d394 4
+a397 8
+      if (have_inferior_p ())
+	ui_badnews (-1, "To look at a core file, you must kill the inferior with \"kill\".");
+      corechan = open (filename, O_RDONLY, 0);
+      if (corechan < 0)
+	perror_with_name (filename);
+      /* 4.2-style (and perhaps also sysV-style) core dump file.  */
+      {
+	struct USER u;
+d399 7
+a405 4
+	val = myread (corechan, &u, sizeof u);
+	if (val < 0)
+	  perror_with_name (filename);
+	data_start = u.pt_o_data_start;
+d407 5
+a411 4
+	data_end = data_start +  u.pt_dsize;
+	stack_start = stack_end -  u.pt_ssize;
+	data_offset = (int) u.pt_dataptr;
+	stack_offset = data_offset + u.pt_dsize;
+d413 3
+a415 4
+	/* I don't know where to find this info.
+	   So, for now, mark it as not available.  */
+/*	N_SET_MAGIC (core_aouthdr, 0);  */
+	bzero ((char *) &core_aouthdr, sizeof core_aouthdr);
+d417 5
+a421 2
+	/* Read the register values out of the core file and store
+	   them where `read_register' will find them.  */
+d423 5
+a427 2
+	{
+	  register int regno;
+d429 7
+a435 3
+	  for (regno = 0; regno < NUM_REGS; regno++)
+	    {
+	      char buf[MAX_REGISTER_RAW_SIZE];
+d437 7
+a443 7
+ /* As the ptrace_user structure is the very first thing in a BCS core
+  * file, simply pass its size as the second param here, as that's what
+  * register_addr expects to be the address of the END of the user struct.
+  */
+	      val = lseek (corechan, register_addr (regno, sizeof u), 0);
+	      if (val < 0)
+		perror_with_name (filename);
+d445 3
+a447 23
+ 	      val = myread (corechan, buf, sizeof buf);
+	      if (val < 0)
+		perror_with_name (filename);
+	      supply_register (regno, buf);
+	    }
+	}
+      }
+      if (filename[0] == '/')
+	corefile = savestring (filename, strlen (filename));
+      else
+	{
+	  corefile = concat (current_directory, "/", filename);
+	}
+
+      set_current_frame ( create_new_frame (read_register (FP_REGNUM),
+					    read_pc ()));
+      select_frame (get_current_frame (), 0);
+      validate_files ();
+    }
+  else if (from_tty)
+    printf ("No core file now.\n");
+}
+
+d449 2
+a450 2
+     char *filename;
+     int from_tty;
+d453 2
+a472 1
+
+d475 2
+a476 6
+      extern char objname[];		/* For cross-debugging  -rcb 12/89 */
+
+      strcpy(objname, filename);	/* For cross-debugging  -rcb 12/89 */
+
+      execchan = openp (getenv ("PATH"), 1, filename, O_RDONLY, 0,
+			&execfile);
+d480 2
+a481 4
+#ifdef COFF_FORMAT
+      {
+	int aout_hdrsize;
+	int num_sections;
+d483 2
+a484 2
+	if (read_file_hdr (execchan, &file_hdr) < 0)
+	  ui_badnews(-1, "\"%s\": not in executable format.", execfile);
+d486 2
+a487 2
+	aout_hdrsize = file_hdr.f_opthdr;
+	num_sections = file_hdr.f_nscns;
+d489 2
+a490 2
+	if (read_aout_hdr (execchan, &exec_aouthdr, aout_hdrsize) < 0)
+	  ui_badnews(-1, "\"%s\": can't read optional aouthdr", execfile);
+d492 2
+a493 2
+	if (read_section_hdr (execchan, _TEXT, &text_hdr, num_sections) < 0)
+	  ui_badnews(-1, "\"%s\": can't read text section header", execfile);
+d495 1
+a495 5
+	if (read_section_hdr (execchan, _DATA, &data_hdr, num_sections) < 0)
+	  ui_badnews(-1, "\"%s\": can't read data section header", execfile);
+
+	text_start = exec_aouthdr.text_start;
+#ifdef TEK_HACK
+d497 1
+a497 1
+	initialize_text(execchan, text_hdr.s_scnptr, text_hdr.s_size);
+d499 1
+a499 1
+	initialize_text(text_hdr.s_scnptr, text_hdr.s_size);
+d501 11
+a511 16
+#endif
+	text_end = text_start + exec_aouthdr.tsize;
+	text_offset = text_hdr.s_scnptr;
+	exec_data_start = exec_aouthdr.data_start;
+	exec_data_end = exec_data_start + exec_aouthdr.dsize;
+	exec_data_offset = data_hdr.s_scnptr;
+	data_start = exec_data_start;
+	data_end += exec_data_start;
+        bss_size = exec_aouthdr.bsize;	/* For cross-debugging  -rcb 12/89 */
+        entry_point = exec_aouthdr.entry;/* For cross-debugging  -rcb 12/89 */
+        bss_start = exec_data_end;	/* For cross-debugging  -rcb 12/89 */
+	exec_mtime = file_hdr.f_timdat;
+      }
+#else /* not COFF_FORMAT */
+      {
+	struct stat st_exec;
+a512 29
+#ifdef HEADER_SEEK_FD
+	HEADER_SEEK_FD (execchan);
+#endif
+
+	val = myread (execchan, &exec_aouthdr, sizeof (AOUTHDR));
+
+	if (val < 0)
+	  perror_with_name (filename);
+
+	text_start = N_TXTADDR (exec_aouthdr);
+	exec_data_start = N_DATADDR (exec_aouthdr);
+
+	text_offset = N_TXTOFF (exec_aouthdr);
+	exec_data_offset = N_TXTOFF (exec_aouthdr) + exec_aouthdr.a_text;
+
+	text_end = text_start + exec_aouthdr.a_text;
+	exec_data_end = exec_data_start + exec_aouthdr.a_data;
+	data_start = exec_data_start;
+	data_end += exec_data_start;
+        bss_size = exec_aouthdr.bsize;	/* For cross-debugging  -rcb 12/89 */
+        entry_point = exec_aouthdr.entry;/* For cross-debugging  -rcb 12/89 */
+        bss_start = exec_data_end;	/* For cross-debugging  -rcb 12/89 */
+
+
+	fstat (execchan, &st_exec);
+	exec_mtime = st_exec.st_mtime;
+      }
+#endif /* not COFF_FORMAT */
+
+a520 1
+}
+d522 2
+a523 22
+/* helper functions for m-m88k.h */
+
+/* blockend is the address of the end of the user structure */
+m88k_register_u_addr (blockend, regnum)
+{
+  struct USER u;
+  int ustart = blockend - sizeof (struct USER);
+  switch (regnum)
+    {
+    case 0:  case 1:  case 2:  case 3:  case 4:  case 5:  case 6:  case 7:
+    case 8:  case 9:  case 10: case 11: case 12: case 13: case 14: case 15:
+    case 16: case 17: case 18: case 19: case 20: case 21: case 22: case 23:
+    case 24: case 25: case 26: case 27: case 28: case 29: case 30: case 31:
+		      return ustart + R0_OFFSET + sizeof(REGISTER_TYPE)*regnum;
+    case PSR_REGNUM:  return ustart + PSR_OFFSET;
+    case FPSR_REGNUM: return ustart + FPSR_OFFSET;
+    case FPCR_REGNUM: return ustart + FPCR_OFFSET;
+    case SXIP_REGNUM: return ustart + SXIP_OFFSET;
+    case SNIP_REGNUM: return ustart + SNIP_OFFSET;
+    case SFIP_REGNUM: return ustart + SFIP_OFFSET;
+    default: return blockend + sizeof (REGISTER_TYPE) * regnum;
+    }
+d526 7
+a532 2
+#define SINGLE_EXP_BITS  8
+#define DOUBLE_EXP_BITS 11
+d535 2
+a536 6
+     int *fp, len;
+     /* fp points to a single precision OR double precision
+      * floating point value; len is the number of bytes, either 4 or 8.
+      * Returns 1 iff fp points to a valid IEEE floating point number.
+      * Returns 0 if fp points to a denormalized number or a NaN
+      */
+d538 5
+a542 2
+  int exponent;
+  if (len == 4)
+d544 11
+a554 3
+      exponent = *fp;
+      exponent = exponent << 1 >> (32 - SINGLE_EXP_BITS - 1);
+      return ((exponent == -1) || (! exponent && *fp));
+a555 7
+  else if (len == 8)
+    {
+      exponent = *(fp+1);
+      exponent = exponent << 1 >> (32 - DOUBLE_EXP_BITS - 1);
+      return ((exponent == -1) || (! exponent && *fp * *(fp+1)));
+    }
+  else return 1;
+d558 7
+a564 11
+#ifdef TEK_HACK
+
+/* If we are cross-debugging, it is ok to have the stack below the
+   text.  But make sure that the address is word-aligned.  This is
+   true for the process-debugging mode, but in case it is not correct,
+   I am limiting it to cross-debugging 
+   This used to be a macro called BAD_CORE_ADDR, but got too 
+   compilicated to be clear as a macro. -rcb */
+
+static
+bad_text_addr(addr) 
+d567 5
+a571 9
+  if (addr == 0 || addr > 0xfff00000 || (addr & 3) != 0) {
+    return 1;
+  }
+
+  if (remote_debugging) {
+    return 0;
+  } else {
+    return addr > read_register (SP_REGNUM);
+  }
+d579 1
+a579 22
+                             ((inst) == 0xf000d0fe) : ((inst) == 0xf000d1ff))
+#if 0
+#define GROWS_STACK_REG1(inst)	  (((inst) & 0xffe0ffff) == 0xf7e0641f)
+#define SHRINKS_STACK_REG1(inst)  (((inst) & 0xffe0ffff) == 0xf7e0601f)
+#define IS_ST_REG_IMM(reg,inst)	  (((inst) >> 16) == (((reg) << 5) & 0x241f))
+#define IS_STD_REG_IMM(reg,inst)  (((inst) >> 16) == (((reg) << 5) & 0x201f))
+#define IS_ST_REG_IND1(reg,inst)  (((inst) & 0xffe0ffff) == (((reg) << 21) & 0xf400241f))
+#define IS_STD_REG_IND1(reg,inst) (((inst) & 0xffe0ffff) == (((reg) << 21) & 0xf400201f))
+#define IS_ST_REG_IND2(reg,inst)  (((inst) & 0xffffffe0) == (((reg) << 21) & 0xf41f2400))
+#define IS_STD_REG_IND2(reg,inst) (((inst) & 0xffffffe0) == (((reg) << 21) & 0xf41f2000))
+#define IS_BSR(inst)		  (((inst) & 0xf8000000) == 0xc8000000)
+#define IS_JSR(inst)		  (((inst) & 0xfffffbe0) == 0xf400c800)
+#define IS_ST_FP_IMM(inst)	  (((inst) & 0xffff0000) == 0x27df0000)
+#define IS_ST_FP_REG(inst)	  (((inst) & 0xfffffffe) == 0xf7df2400)
+#define IS_ADDU_FP_IMM(inst)	  (((inst) & 0xffff0000) == 0x63df0000)
+#define IS_ADDU_FP_REG(inst)	  (((inst) & 0xffffffe0) == 0xf7df6000)
+#define IS_CALL(inst) (IS_BSR (inst) || IS_JSR (inst))
+#define SAVES_FP(inst) (IS_ST_FP_IMM (inst) || IS_ST_FP_REG (inst))
+#define CHAINS_FP(inst) (IS_ADDU_FP_IMM (inst) || IS_ADDU_FP_REG (inst))
+#define GET_D26(inst) (((inst) & 0x02000000) ? ((inst) | 0xfc000000) \
+				  : ((inst) & 0x03ffffff))
+#endif
+d589 6
+a594 4
+/* given the address of a frame, return the "chain-pointer".  For a GnuStyle
+   frame, just return the saved frame pointer.  For a GreenHillsStyle frame,
+   the previous frame pointer must be synthisized */
+
+d596 2
+a597 2
+m88k_frame_chain(thisframe)
+     FRAME thisframe; /* address of a frame stucture */
+d607 1
+a607 1
+     matter for our purposes here) */
+d609 8
+a616 1
+  called_at = read_memory_integer ((thisframe)->frame + 4, 4) - 4;
+d620 1
+a620 1
+         worried */
+d622 1
+a622 1
+        return 0;
+d627 4
+a630 2
+  /* If the subroutine was compiled by the GNU compiler, or by the Green
+     Hills compiler with -ga, it's easy! */
+d632 10
+a641 3
+  b = (struct block *) block_for_pc (called_at);
+  if (BLOCK_COMPILED(b)==gcc_compiled || BLOCK_COMPILED(b)==ghs_ga_compiled) {
+      newfp = read_memory_integer ((thisframe)->frame, 4);
+d643 3
+a645 3
+    /* Assume that if it's not the GNU compiler, 
+       its the Green Hills compiler without -ga. */
+    newfp = synthesize_sp ((thisframe)->frame + 8, called_at) - 8;
+d647 5
+a651 2
+  if (newfp == thisframe->frame && remote_debugging) {
+    newfp = 0;
+d653 1
+d657 3
+a659 3
+/* Fill in the frame_save_register structure. */
+
+void
+d661 2
+a662 2
+     FRAME frame_id; /* address of a frame stucture */
+     struct frame_saved_regs *saved_regs;
+d664 1
+a664 1
+  int i;
+d666 2
+a667 2
+  saved_regs->regs[0] = 0;
+  for (i = 1; i < NUM_REGS; i++)
+d671 7
+a677 5
+/* Find the address, or saved register number, of a single register.  If the
+   register was altered and not saved, return INVALID_CORE_ADDR.  If "regnum"
+   is the SP, return its actual value. If a register was not saved and not
+   altered, just return its number. */
+
+d680 2
+a681 2
+     FRAME frame_id; /* address of a frame stucture */
+     int regnum;
+d693 3
+d708 4
+a711 1
+  if (regnum == PC_REGNUM)
+d717 1
+a718 3
+  if (regnum > SP_REGNUM)
+    return INVALID_CORE_ADDR;
+
+d727 2
+a728 6
+      if (remote_debugging) {
+        if (cnt-- == 0) {
+          error("Giving up in m88k_frame_find_single_saved_reg");
+        }
+      } 
+#ifdef TEK_HACK
+a729 3
+#else
+      inst = (unsigned long) read_memory_integer (addr, 4);
+#endif
+d816 3
+a818 3
+/* Fill in the extra frame info */
+
+void
+d820 1
+a820 1
+     FRAME frame_id; /* addres of a frame structure */
+d839 5
+a843 3
+/* Synthesize a the previous stack pointer given the "current" stack pointer
+   and the "current" pc. */
+
+d846 2
+a847 2
+     CORE_ADDR assumed_sp;
+     CORE_ADDR assumed_pc;
+d870 5
+a874 5
+        if (cnt-- == 0) {
+          error("Giving up in synthesize_sp");
+        }
+      } 
+#ifdef XXX
+d885 1
+a885 1
+	   ptrace calls */
+a914 1
+
+d960 2
+a961 1
+      ui_badnews (-1, "internal: find_reg_val: start(%x) < end(%x)", start, end);
+a969 1
+#ifdef TEK_HACK
+a970 3
+#else
+      inst = (unsigned long) read_memory_integer (start, 4);
+#endif
+a982 1
+#ifdef TEK_HACK
+a983 1
+#endif
+d998 1
+a998 1
+ * in the air.  Nonetheless, I leave it under TEK_HACK.
+d1015 1
+a1015 3
+  ptrace (PTRACE_ATTACH, pid, 0, 0);
+  if (errno)
+    perror_with_name ("ptrace");
+a1032 1
+void
+d1037 1
+a1037 3
+  ptrace (PTRACE_DETACH, inferior_pid, 1, 0);
+  if (errno)
+    perror_with_name ("ptrace");
+a1041 1
+#ifdef TEK_HACK
+a1042 1
+#endif /* TEK_HACK */
+d1064 2
+a1065 2
+	register struct d_stack *new_top;
+	register int i;
+d1067 1
+a1067 1
+	new_top = (struct d_stack *) malloc(sizeof(*new_top));
+d1069 8
+a1076 8
+	if (new_top == NULL)
+	  ui_badnews (-1, "Cannot create dummy frame for procedure call.");
+	new_top->next = d_top;
+	d_top = new_top;
+	fetch_inferior_registers();
+	d_top->sxip = read_register(SXIP_REGNUM);
+	d_top->snip = read_register(SNIP_REGNUM);
+	d_top->sfip = read_register(SFIP_REGNUM);
+d1078 3
+a1080 3
+	for (i = 1; i <= FP_REGNUM; i++)
+		d_top->reg[i-1] = read_register(i);
+	d_top->sp = read_register(SP_REGNUM);
+d1082 1
+d1085 2
+a1086 2
+	register struct d_stack *tmp;
+	register int i, sp;
+d1088 1
+a1088 1
+	sp = read_register(SP_REGNUM);
+d1090 3
+a1092 3
+	while (d_top)
+	{
+		/* In case of a long jump we have to peel back the stack */
+d1094 20
+a1113 8
+		if (d_top->sp >= sp)
+			break;
+		tmp = d_top;
+		d_top = d_top->next;
+		free(tmp);
+	}
+	if (d_top)
+	{
+a1114 19
+#ifndef TEK_HACK
+	/*** There is NEVER a good reason to write the SXIP.
+	 *** -=- andrew@@frip.wv.tek.com
+	 ***/
+		write_register(SXIP_REGNUM, d_top->sxip);
+#endif
+
+		write_register(SNIP_REGNUM, d_top->snip);
+		write_register(SFIP_REGNUM, d_top->sfip);
+		for (i = 1; i <= FP_REGNUM; i++)
+			write_register(i, d_top->reg[i-1]);
+		write_register(SP_REGNUM, d_top->sp);
+		tmp = d_top;
+		d_top = d_top->next;
+		free(tmp);
+	}
+	else
+	  	ui_badnews (-1, "Cannot pop empty dummy stack.");
+}
+d1117 1
+a1117 1
+	register struct d_stack *tmp;
+d1119 6
+a1124 6
+	while (d_top)
+	{
+		tmp = d_top;
+		d_top = d_top->next;
+		free(tmp);
+	}
+d1130 1
+a1131 1
+ *
+a1132 1
+ *
+a1133 1
+
+d1135 3
+a1137 3
+    int chan;
+    int start;
+    int size;
+d1139 1
+a1139 2
+  /* make sure we are on a word bddy */
+
+d1145 1
+a1145 1
+	ui_badnews(-1, "Could not read in text");
+d1147 1
+a1147 1
+	ui_badnews(-1, "Could not read in text");
+d1150 1
+a1151 1
+ * 
+a1152 1
+ *
+d1154 1
+a1154 2
+
+int 
+d1158 2
+a1159 6
+	int idx = (addr - text_start) / sizeof(int);
+
+	if (idx >= 0)
+	   if (idx < max_inst_idx)
+		return instruction_buf[idx];
+	else return 0;
+d1172 1
+a1173 1
+ *
+a1174 1
+ *
+a1175 1
+
+d1177 2
+a1178 2
+    int start;
+    int size;
+d1180 9
+a1188 10
+	clear_instruction_buf();
+	text_loc = start;
+	size &= ~(CHUNKSIZE-1);
+	size >>= CHUNKBITS;
+	number_of_chunks = size + 1;	/* might be 1 more than needed, but who
+					   cares? */
+	instruction_buf = (struct text_chunk **) xmalloc(number_of_chunks * 
+			   (sizeof(struct text_chunk *)));
+	bzero(instruction_buf, number_of_chunks *
+                           (sizeof(struct text_chunk *)));
+d1190 1
+a1191 1
+ *
+a1193 1
+ *
+d1195 1
+a1195 2
+
+int 
+d1199 3
+a1201 3
+	register int offset = addr - text_start;
+	register int chunk_idx = offset >> CHUNKBITS;
+	register int instr_idx = (offset & (CHUNKSIZE - 1)) >> 2;
+d1203 5
+a1207 6
+	if (chunk_idx >= number_of_chunks)
+	{
+		ui_badnews(-1,
+		"fetch_instruction: chunk_idx=%d but number_of_chunks=%d",
+			   chunk_idx, number_of_chunks);
+	}
+d1209 13
+a1221 3
+	if (instruction_buf[chunk_idx] == NULL)
+	{
+		/* Read in chunk */
+a1222 12
+		reopen_exec_file(); /* just in case it has been closed */
+		instruction_buf[chunk_idx] = 
+		   (struct text_chunk *)xmalloc(CHUNKSIZE);
+		if (lseek (execchan, (long)text_loc+chunk_idx*CHUNKSIZE, 0) 
+		    < 0)
+    			ui_badnews(-1, "failed to read instruction_buf");
+  		if (myread (execchan, (char *)(instruction_buf[chunk_idx]->buf),
+		    CHUNKSIZE) < 0)
+    			ui_badnews(-1, "failed to read instruction_buf");
+	}
+	return instruction_buf[chunk_idx]->buf[instr_idx];
+}
+a1223 1
+ *
+a1225 1
+ *
+d1227 4
+d1232 265
+a1496 1
+static clear_instruction_buf()
+d1498 2
+a1499 1
+	register int i;
+d1501 85
+a1585 1
+	if (instruction_buf)
+d1587 12
+a1598 6
+		for (i = 0; i < number_of_chunks; i++)
+			if (instruction_buf[i])
+				free(instruction_buf[i]);
+		number_of_chunks = 0;
+		free(instruction_buf);
+		instruction_buf = NULL;
+d1600 36
+a1636 1
+#endif /* not SWALLOW_WHOLE */
+d1638 58
+a1695 1
+#endif /* TEK_HACK */
+@
+
+
+1.31
+log
+@Another change of $PC from SXIP to SNIP.
+And add code to avoid subscript overflow for array instruction_buf.
+It happened once, due to a kernel problem; it may happen again,
+and it's better to see the error message than a core dump.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.30 90/02/07 19:18:06 davidl Exp $
+d271 2
+a272 1
+     compiler, then we need to synthesize a frame pointer. */
+d275 1
+a275 1
+  if (! BLOCK_GCC_COMPILED (b))
+d906 2
+a907 1
+  /* If the subroutine was compiled by the GNU compiler, it's easy! */
+d910 1
+a910 1
+  if (BLOCK_GCC_COMPILED (b)) {
+d914 1
+a914 1
+       its the Green Hills compiler. */
+@
+
+
+1.30
+log
+@detach() now informs the X interface that the process being debugged
+has been detached from.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.29 90/02/07 16:05:22 andrew Exp $
+   $Locker:  $
+d233 1
+d258 4
+a261 5
+  the_pc = fetched_sxip & ~3;
+  buf = ptrace (3, inferior_pid, SNIP_OFFSET, 0);
+  supply_register (SNIP_REGNUM, &buf);
+  buf = ptrace (3, inferior_pid, SFIP_OFFSET, 0);
+  supply_register (SFIP_REGNUM, &buf);
+d263 7
+d1498 7
+@
+
+
+1.29
+log
+@Undo support for watchpoint hits; no longer needed in this file.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.28 90/01/02 18:45:42 robertb Exp $
+   $Locker: andrew $
+d1309 3
+@
+
+
+1.28
+log
+@Now timeout in several routines that scan instructions in the
+program's text area.  This change only enabled when cross-debugging,
+because when the stack backtracing code gets confused these routines
+can try to scan millions of instructions.  This makes cross-gdb
+appear to hang.
+
+Made call_ptrace() check errno after calling ptrace().  Changed
+calls of ptrace() to calls of call_ptrace(), only changed those
+that do not check errno.
+
+Made m88k_frame_chain() return 0 if it would have otherwise returned
+a value the same as the previous frame.  Only enabled when cross-debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.22 89/12/19 13:21:00 andrew Exp $
+   $Locker:  $
+a202 6
+
+#ifdef TEK_HACK
+extern int kernel_support_for_watch;
+extern int hunting_watchpoint;
+#endif /* TEK_HACK */
+
+a208 6
+
+#ifdef TEK_HACK
+  /* don't allow ought but single_stepping if there are active watchpoints */
+  if ( (step == 0) && (!kernel_support_for_watch) && hunting_watchpoint)
+    step++;
+#endif
+@
+
+
+1.27
+log
+@Made synthetic_sp() global because it is now called in findvar.c.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.26 90/01/02 13:33:11 marvinw Exp $
+   $Locker: robertb $
+d143 11
+a153 1
+   machine-dependent file. */
+d158 14
+a171 1
+  return ptrace (request, pid, arg3, arg4);
+d251 5
+d261 1
+a261 5
+      if (remote_debugging) {
+        buf = remote_read_register(regno);
+      } else {
+        buf = ptrace (3, inferior_pid, regaddr, 0);
+       }
+d267 7
+a273 17
+  if (remote_debugging) {
+    fetched_sxip = remote_read_register(SXIP_REGNUM);
+    supply_register (SXIP_REGNUM, &fetched_sxip);
+    the_pc = fetched_sxip & ~3;
+    buf = remote_read_register(SNIP_REGNUM);
+    supply_register (SNIP_REGNUM, &buf);
+    buf = remote_read_register(SFIP_REGNUM);
+    supply_register (SFIP_REGNUM, &buf);
+  } else {
+    fetched_sxip = ptrace (3, inferior_pid, SXIP_OFFSET, 0);
+    supply_register (SXIP_REGNUM, &fetched_sxip);
+    the_pc = fetched_sxip & ~3;
+    buf = ptrace (3, inferior_pid, SNIP_OFFSET, 0);
+    supply_register (SNIP_REGNUM, &buf);
+    buf = ptrace (3, inferior_pid, SFIP_OFFSET, 0);
+    supply_register (SFIP_REGNUM, &buf);
+  }
+d281 1
+a281 1
+      int synthetic_fp;
+d305 3
+a387 1
+
+d431 1
+a431 1
+    buffer[0] = ptrace (1, inferior_pid, addr, 0);
+d440 1
+a440 1
+	  = ptrace (1, inferior_pid,
+a565 1
+  extern char registers[];
+d823 22
+a844 1
+#define BAD_CORE_ADDR(addr) ((addr) == 0 || (addr) > read_register (SP_REGNUM))
+d849 2
+a850 1
+#define IS_BPT(inst)		  ((inst) == 0xf000d1ff)
+d893 1
+a893 1
+  CORE_ADDR addr;
+d900 1
+a900 1
+  if (BAD_CORE_ADDR (called_at))
+d913 11
+a923 8
+  if (BLOCK_GCC_COMPILED (b))
+    {
+      return read_memory_integer ((thisframe)->frame, 4);
+    }
+
+  /* Assume that if it's not the GNU compiler, its the Green Hills compiler. */
+
+  return synthesize_sp ((thisframe)->frame + 8, called_at) - 8;
+d958 1
+d990 5
+d1120 1
+d1124 1
+a1124 1
+  if (BAD_CORE_ADDR (subr_entry))
+a1128 8
+
+
+
+
+
+
+
+
+d1137 5
+@
+
+
+1.26
+log
+@Added functions initialize_text and fetch_instruction.  They are used to
+read in the text segment from the executable file instead of using ptrace
+calls to get instructions from the inferior.  This make single stepping and
+back traces much faster when frame pointers are absent.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.24 89/12/20 19:07:39 robertb Exp $
+   $Locker:  $
+d212 1
+a212 1
+static CORE_ADDR synthesize_sp();
+a1065 1
+static
+@
+
+
+1.25
+log
+@Slight change for stack-unwinding code when cross-debugging.
+@
+text
+@d5 1
+a5 1
+   $Locker: robertb $
+d371 1
+d694 4
+a697 5
+/***
+	NOT FUNCTIONAL YET !!!
+
+	initialize_text(execchan, text_start, exec_aouthdr.tsize);
+***/
+d699 1
+d949 3
+d953 1
+d1099 1
+a1099 1
+/****/
+d1108 3
+a1110 1
+/****/
+a1111 3
+/***  NOT FUNCTIONAL YET, eventually we want to read in the original text
+      at startup instead of using ptrace calls to get at the text.
+
+d1113 1
+a1113 1
+****/
+d1195 3
+d1199 1
+d1212 3
+d1368 8
+a1375 1
+/****   NOT FUNCTIONAL YET *****
+d1377 1
+a1377 3
+static int *instruction_buf;
+static int max_inst_idx;
+initialize_text (chan, text_start, size)
+d1379 1
+a1379 1
+    int text_start;
+d1382 2
+d1388 2
+a1389 3
+****
+  lseek (chan, (long)text_start, 0);
+****
+d1391 1
+a1391 1
+    return -1;
+a1392 1
+  return 0;
+d1394 8
+a1401 1
+int fetch_instruction(addr)
+d1404 1
+a1404 1
+	int idx = (addr - 0x2200) / sizeof(int);
+d1406 2
+a1407 1
+	if (idx < max_inst_idx)
+d1411 85
+a1495 1
+******** NOT FUNCTIONAL YET *******/
+@
+
+
+1.24
+log
+@Taught fetch_inferior_registers about cross-debugging.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.23 89/12/20 15:52:53 robertb Exp $
+d864 5
+@
+
+
+1.23
+log
+@Added assignment to some variables that only the cross-debugging
+support use.  Copies information out of a.out header for download command.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.22 89/12/19 13:21:00 andrew Exp $
+d233 5
+a237 1
+      buf = ptrace (3, inferior_pid, regaddr, 0);
+d243 17
+a259 7
+  fetched_sxip = ptrace (3, inferior_pid, SXIP_OFFSET, 0);
+  supply_register (SXIP_REGNUM, &fetched_sxip);
+  the_pc = fetched_sxip & ~3;
+  buf = ptrace (3, inferior_pid, SNIP_OFFSET, 0);
+  supply_register (SNIP_REGNUM, &buf);
+  buf = ptrace (3, inferior_pid, SFIP_OFFSET, 0);
+  supply_register (SFIP_REGNUM, &buf);
+@
+
+
+1.22
+log
+@Fix the compiler warning "extra tokens (ignored) after directive".
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.21 89/12/18 17:58:59 robertb Exp $
+   $Locker: andrew $
+d692 3
+@
+
+
+1.21
+log
+@Added diffs to support Tektronix cross-debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.20 89/12/18 17:19:40 andrew Exp $
+   $Locker: robertb $
+d197 1
+a197 1
+#endif TEK_HACK
+@
+
+
+1.20
+log
+@Lots of changes, in part to satisfy BLK1292.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.19 89/12/11 14:24:56 marvinw Exp $
+   $Locker: andrew $
+d487 3
+d491 1
+d648 4
+d717 4
+@
+
+
+1.19
+log
+@Fixed bugs BLK01681 and BLK01630.  Synthesize_sp now checks to see if the
+next inst is a bpt, if so it uses get_inst defined in breakpoint.c to get
+the actual instruction.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.18 89/12/01 10:15:12 marvinw Exp $
+   $Locker: marvinw $
+d29 2
+a30 2
+/* 
+ * Changes made by Tektronix are marked by TEK_HACK, TEK_PROG_HACK, 
+d64 1
+a64 1
+ * These changes are not demarcated by ifdef.   
+d101 2
+a102 2
+#ifndef USER			/* added to support BCS ptrace_user, 
+                                /*  Thu Mar  2 12:09:38 1989 djb */
+d128 7
+a134 3
+#ifdef	DGUX
+#define SXIP_OFFSET ((char *)&u.pt_sigframe.dg_sigframe.sc_sxip - \
+				(char *)&u)
+d136 2
+a137 2
+#define SNIP_OFFSET ((char *)&u.pt_sigframe.dg_sigframe.sc_snip - \
+				(char *)&u)
+a138 9
+#define SFIP_OFFSET ((char *)&u.pt_sigframe.dg_sigframe.sc_sfip - (char *)&u)
+#else
+#define SXIP_OFFSET ((char *)&u.pt_sigframe.sig_sxip - (char *)&u)
+
+#define SNIP_OFFSET ((char *)&u.pt_sigframe.sig_snip - (char *)&u)
+
+#define SFIP_OFFSET ((char *)&u.pt_sigframe.sig_sfip - (char *)&u)
+#endif
+
+d141 2
+a142 2
+/* This function simply calls ptrace with the given arguments.  
+   It exists so that all calls to ptrace are isolated in this 
+d222 1
+a222 1
+  char buf[MAX_REGISTER_RAW_SIZE];
+a224 4
+  struct USER u;
+				/*  Fri Mar  3 08:10:48 1989 djb */
+  unsigned int offset;
+#ifdef TEK_HACK
+a226 1
+#endif /* TEK_HACK */
+d228 2
+a229 2
+  offset = (char *) &u.pt_r0 - (char *) &u; 
+  regaddr = offset; /* byte offset to r0;*/
+a230 1
+/*  offset = ptrace (3, inferior_pid, offset, 0) - KERNEL_U_ADDR; */
+d233 3
+a235 9
+      /*regaddr = register_addr (regno, offset);*/
+	/* 88k enhancement  */
+        
+      for (i = 0; i < REGISTER_RAW_SIZE (regno); i += sizeof (int))
+ 	{
+ 	  *(int *) &buf[i] = ptrace (3, inferior_pid, regaddr, 0);
+ 	  regaddr += sizeof (int);
+ 	}
+      supply_register (regno, buf);
+d237 1
+a237 1
+  
+d239 7
+a245 8
+#ifdef	TEK_HACK
+  *(int *) &buf[0] = ptrace (3, inferior_pid, SXIP_OFFSET, 0);
+  supply_register (SXIP_REGNUM, buf);
+  the_pc = *(int *)&buf[0] & ~3;
+  *(int *) &buf[0] = ptrace (3, inferior_pid, SNIP_OFFSET, 0);
+  supply_register (SNIP_REGNUM, buf);
+  *(int *) &buf[0] = ptrace (3, inferior_pid, SFIP_OFFSET, 0);
+  supply_register (SFIP_REGNUM, buf);
+d256 2
+a257 2
+         registers have been set up (see above) */
+      
+d260 1
+a260 1
+        supply_register (FP_REGNUM, (char *)&synthetic_fp);
+a263 8
+#else /* not TEK_HACK */
+  *(int *) &buf[0] = ptrace (3,inferior_pid,(char *)&u.pt_sigframe.dg_sigframe.sc_sxip - (char *)&u ,0);
+  supply_register (36, buf);
+  *(int *) &buf[0] = ptrace (3, inferior_pid, (char *)&u.pt_sigframe.dg_sigframe.sc_snip - (char *)&u ,0);
+  supply_register (37, buf);
+  *(int *) &buf[0] = ptrace (3, inferior_pid, (char *)&u.pt_sigframe.dg_sigframe.sc_sfip - (char *)&u ,0);
+  supply_register (38, buf);
+#endif	/* not TEK_HACK */
+d274 1
+a276 20
+  struct USER u;
+
+#if defined(BCS)
+#if defined(DGUX)
+
+  unsigned int offset = (char *) &u.pt_r0 - (char *) &u;
+
+#else
+
+  unsigned int offset = (char *) &u.pt_r0 - (char *) &u;
+
+#endif /* defined (DGUX) */
+#else
+
+  unsigned int offset = (char *) &u.pt_r0 - (char *) &u;
+
+#endif /* defined(BCS) */
+/*  offset = ptrace (3, inferior_pid, offset, 0) - KERNEL_U_ADDR; */
+  regaddr = offset;
+
+d279 5
+a283 12
+/*      regaddr = register_addr (regno, offset); */
+        if (regno < PC_REGNUM)
+           { 
+	     regaddr = offset + regno * sizeof (int);
+             errno = 0;
+             ptrace (6, inferior_pid, regaddr, read_register (regno));
+             if (errno != 0)
+	       {
+	         sprintf (buf, "writing register number %d", regno);
+	         perror_with_name (buf);
+	       }
+           }
+d285 12
+a296 1
+             ptrace (6, inferior_pid, SXIP_OFFSET, read_register(regno));
+d303 7
+a309 18
+  else { 
+         for (regno = 0; regno < NUM_REGS - 3; regno++)
+           {
+      /*      regaddr = register_addr (regno, offset); */
+              errno = 0;
+              regaddr = offset + regno * sizeof (int);
+              ptrace (6, inferior_pid, regaddr, read_register (regno));
+              if (errno != 0)
+         	{
+	          sprintf (buf, "writing register number %d", regno);
+	          perror_with_name (buf);
+	        }
+           }
+	 ptrace (6,inferior_pid,SXIP_OFFSET,read_register(SXIP_REGNUM));
+	 ptrace (6,inferior_pid,SNIP_OFFSET,read_register(SNIP_REGNUM));
+	 ptrace (6,inferior_pid,SFIP_OFFSET,read_register(SFIP_REGNUM));
+       }	
+           
+d311 23
+d337 1
+a337 1
+   to debugger memory starting at MYADDR. 
+d433 1
+a433 1
+/* Work with core dump and executable files, for GDB. 
+d457 1
+a457 1
+   
+d517 1
+a517 1
+  
+a561 2
+	int reg_offset;
+
+a571 16
+#if defined(BCS) 
+#if defined(DGUX)
+				/*  Fri Mar  3 08:11:55 1989 djb */
+        reg_offset = 2048;
+
+#else
+	reg_offset = (int) u.pt_r0 - KERNEL_U_ADDR;
+
+#endif /* defined (DGUX) */
+#else
+
+	/* original code: */
+	reg_offset = (int) u.pt_r0 - KERNEL_U_ADDR;
+
+#endif /* defined(BCS) */
+
+a586 1
+#ifdef TEK_HACK
+a591 3
+#else
+	      val = lseek (corechan, register_addr (regno, reg_offset), 0);
+#endif /* TEK_HACK */
+d699 2
+a700 2
+        text_start = N_TXTADDR (exec_aouthdr);
+        exec_data_start = N_DATADDR (exec_aouthdr);
+d706 1
+a706 1
+        exec_data_end = exec_data_start + exec_aouthdr.a_data;
+d734 12
+a745 40
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 25:
+    case 26:
+    case 27:
+    case 28:
+    case 29:
+    case 30:
+    case 31:          return (ustart + ((int) &u.pt_r0 - (int) &u) + sizeof(REGISTER_TYPE) * regnum);
+    case PSR_REGNUM:  return (ustart + ((int) &u.pt_psr - (int) &u));
+    case FPSR_REGNUM: return (ustart + ((int) &u.pt_fpsr - (int) &u));
+    case FPCR_REGNUM: return (ustart + ((int) &u.pt_fpcr - (int) &u));
+    case PID_REGNUM : return (ustart + ((int) &u.pt_ppid - (int) &u));
+    case SXIP_REGNUM: return (ustart + SXIP_OFFSET); 
+    case SNIP_REGNUM: return (ustart + SNIP_OFFSET);
+    case SFIP_REGNUM: return (ustart + SFIP_OFFSET); 
+    default: return (blockend + sizeof (REGISTER_TYPE) * regnum);
+d779 3
+a781 3
+#define GROWS_STACK_IMM(inst)     (((inst) & 0xffff0000) == 0x67ff0000)
+#define GROWS_STACK_REG2(inst)    (((inst) & 0xffffffe0) == 0xf7ff6400)
+#define SHRINKS_STACK_IMM(inst)   (((inst) & 0xffff0000) == 0x63ff0000)
+d783 1
+a783 1
+#define IS_BPT(inst)              ((inst) == 0xf000d1ff)
+d785 1
+a785 1
+#define GROWS_STACK_REG1(inst)    (((inst) & 0xffe0ffff) == 0xf7e0641f)
+d787 1
+a787 1
+#define IS_ST_REG_IMM(reg,inst)   (((inst) >> 16) == (((reg) << 5) & 0x241f))
+d793 6
+a798 6
+#define IS_BSR(inst)              (((inst) & 0xf8000000) == 0xc8000000)
+#define IS_JSR(inst)              (((inst) & 0xfffffbe0) == 0xf400c800)
+#define IS_ST_FP_IMM(inst)        (((inst) & 0xffff0000) == 0x27df0000)
+#define IS_ST_FP_REG(inst)        (((inst) & 0xfffffffe) == 0xf7df2400)
+#define IS_ADDU_FP_IMM(inst)      (((inst) & 0xffff0000) == 0x63df0000)
+#define IS_ADDU_FP_REG(inst)      (((inst) & 0xffffffe0) == 0xf7df6000)
+d803 1
+a803 1
+			      : ((inst) & 0x03ffffff))
+d807 6
+a812 6
+#define LOADS_REG16(reg,inst)     (((inst) >> 16) == ((reg << 5) | 0x5800))
+#define GET_IMM16(inst)           ((short)(inst))
+#define GET_U_IMM16(inst)         ((inst) & 0xffff)
+#define GET_DEST(inst)            (((inst) >> 21) & 0x1f)
+#define GET_S1(inst)              (((inst) >> 16) & 0x1f)
+#define GET_S2(inst)              ((inst) & 0x1f)
+d831 1
+a831 1
+  
+d892 1
+a892 1
+        return frame_id->prev->sp;
+d899 1
+a899 1
+        return frame_id->frame + 4;
+d902 1
+a902 1
+  
+d922 20
+a941 20
+        {
+          if (instab_entry->effect & GROWS)
+            {
+              if (instab_entry->op3.type == REG)
+                  assumed_sp += find_reg_val (GET_S2 (inst), addr - 4,
+                                              my_entry);
+              else
+                  assumed_sp += GET_IMM16 (inst);
+              continue;
+            }
+          else if (instab_entry->effect & SHRINKS)
+            {
+              if (instab_entry->op3.type == REG)
+                  assumed_sp -= find_reg_val (GET_S2 (inst), addr - 4,
+                                              my_entry);
+              else
+                  assumed_sp -= GET_IMM16 (inst);
+              continue;
+            }
+        }
+d944 2
+a945 2
+         the instruction is marked as a double, then also check the destination
+         register plus one (modulo 32) */
+d948 7
+a954 7
+        {
+          if (! (instab_entry->effect & DBL))
+            continue;
+          dest = (dest + 1) % 32;
+          if (dest != regnum)
+            continue;
+        }
+d959 22
+a980 22
+        {
+          if (src1 == SP_REGNUM)
+            {
+              reg_addr_so_far = assumed_sp;
+              if (instab_entry->op3.type == REG)
+                  reg_addr_so_far += find_reg_val (GET_S2 (inst), addr - 4,
+                                                   my_entry);
+              else
+                reg_addr_so_far += GET_IMM16 (inst);
+              continue;
+            }
+          else if (src1 == FP_REGNUM)
+            {
+              reg_addr_so_far = frame_id->frame;
+              if (instab_entry->op3.type == REG)
+                reg_addr_so_far += find_reg_val (GET_S2 (inst), addr - 4,
+                                                 my_entry);
+              else
+                reg_addr_so_far += GET_IMM16 (inst);
+              continue;
+            }
+        }
+d985 4
+a988 4
+        {
+          reg_addr_so_far = GET_S2 (inst);
+          continue;
+        }
+d993 4
+a996 4
+        {
+          reg_addr_so_far = INVALID_CORE_ADDR;
+          continue;
+        }
+a1021 1
+ 
+d1023 1
+d1057 1
+a1057 1
+  
+d1070 2
+a1071 2
+	
+/***  NOT FUNCTIONAL YET, eventually we want to read in the original text 
+d1077 4
+a1080 4
+      if (GROWS_STACK_IMM (inst)) 
+        {
+          assumed_sp += GET_IMM16 (inst);
+        }
+d1083 3
+a1085 3
+        {
+          assumed_sp += find_reg_val (GET_S2 (inst), addr - 4, subr_entry);
+        }
+d1088 3
+a1090 3
+        {
+          assumed_sp -= GET_IMM16 (inst);
+        }
+d1093 3
+a1095 3
+        {
+          assumed_sp -= find_reg_val (GET_S2 (inst), addr - 4, subr_entry);
+        }
+d1097 1
+a1097 1
+  
+d1100 1
+a1100 1
+  
+d1104 1
+a1104 1
+  
+d1117 1
+a1117 1
+  
+d1123 1
+a1123 1
+      
+d1143 1
+a1143 1
+  
+d1159 4
+a1162 4
+        {
+          value |= GET_U_IMM16 (inst);
+          break;
+        }
+d1164 3
+a1166 3
+        {
+          return GET_U_IMM16 (inst);
+        }
+d1171 4
+a1174 4
+        {
+          value |= GET_U_IMM16 (inst) << 16;
+          break;
+        }
+d1291 5
+d1297 2
+@
+
+
+1.18
+log
+@Added m88k_clear_dummy_stack.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.17 89/11/30 14:43:22 marvinw Exp $
+d721 7
+d862 1
+d1114 1
+a1114 1
+  unsigned long inst;
+d1137 1
+a1137 1
+  for (addr = assumed_pc; addr >= subr_entry; addr -= 4)
+d1139 4
+d1145 11
+d1394 32
+@
+
+
+1.17
+log
+@Added functions m88k_push_dummy_frame and m88k_pop_frame which are used to
+call functions from the command line.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.16 89/11/30 14:39:53 donhar Exp $
+d1359 11
+@
+
+
+1.16
+log
+@small tweek to support source stepping in watchpoints
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.15 89/11/26 16:40:54 donhar Exp $
+   $Locker: donhar $
+d1291 69
+@
+
+
+1.15
+log
+@to add watchpoint support
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.14 89/11/17 08:09:36 davidl Exp $
+d188 1
+a188 1
+extern int watchpoint_enabled_count;
+d200 1
+a200 1
+  if ( (step == 0) && (!kernel_support_for_watch) && watchpoint_enabled_count)
+d202 1
+a202 1
+#endif /* TEK_HACK */
+@
+
+
+1.14
+log
+@Added Tek header information.
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.13 89/11/16 13:30:18 davidl Exp $
+   $Locker: davidl $
+d185 6
+d197 7
+@
+
+
+1.13
+log
+@Standardized GDB header comment in each file so a script to add Tek-specific
+commends (regarding ifdef TEK_HACK, etc.) will work.
+@
+text
+@d4 1
+a4 1
+   $Header: m88k-dep.c,v 1.12 89/11/15 10:00:19 andrew Exp $
+d26 42
+@
+
+
+1.12
+log
+@Add support for process attach/detach.
+@
+text
+@d4 5
+a8 2
+   $Header: m88k-dep.c,v 1.11 89/09/24 12:03:51 davidl Exp $
+   $Locker: andrew $
+a9 5
+GDB is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY.  No author or distributor accepts responsibility to anyone
+for the consequences of using it or for whether it serves any
+particular purpose or works at all, unless he says so in writing.
+Refer to the GDB General Public License for full details.
+d11 1
+a11 6
+Everyone is granted permission to copy, modify and redistribute GDB,
+but only under the conditions described in the GDB General Public
+License.  A copy of this license is supposed to have been given to you
+along with GDB so you can know your rights and responsibilities.  It
+should be in a file named COPYING.  Among other things, the copyright
+notice and this notice must be preserved on all copies.
+d13 17
+a29 3
+In other words, go ahead and share GDB, but don't try to stop
+anyone else from sharing it farther.  Help stamp out software hoarding!
+*/
+@
+
+
+1.11
+log
+@We can now examine core files (fixed bug in core_file_command).
+@
+text
+@d4 2
+a5 2
+   $Header: m88k-dep.c,v 1.10 89/09/21 10:19:14 paulg Exp $
+   $Locker: davidl $
+d1172 58
+@
+
+
+1.10
+log
+@add rcsid stuff
+@
+text
+@d4 2
+a5 2
+   $Header:  $
+   $Locker:  $
+d572 7
+d580 1
+@
+
+
+1.9
+log
+@Added declaration of m88k_frame_find_single_saved_reg() before first use.
+@
+text
+@d4 3
+@
+
+
+1.8
+log
+@Added calls to ui_endSubProc() if process is killed.  Also added
+declarations of synthesize_sp and find_pc_function_addr so they are
+declared before first reference.
+@
+text
+@d154 1
+@
+
+
+1.7
+log
+@Add stuff in support of finding a register value for a given frame.
+@
+text
+@d113 1
+d126 1
+d152 2
+@
+
+
+1.6
+log
+@1) took out vestigial 386 stuff.  2) put in routine to synthesize an FP
+for Green Hills compiled subroutines.
+@
+text
+@d29 1
+d147 4
+a151 1
+
+d198 1
+a198 1
+  b = block_for_pc (the_pc);
+d206 2
+a207 2
+      synthetic_fp = synthesize_fp (read_register(SP_REGNUM), the_pc);
+      if (! BAD_STACK_ADDR (synthetic_fp))
+d210 2
+d513 1
+a513 1
+	ui_badnews (-1,"To look at a core file, you must kill the inferior with \"kill\".");
+d773 19
+a791 10
+#define GROWS_STACK_IMM(inst)   (((inst) & 0xffff0000) == 0x67ff0000)
+#define GROWS_STACK_REG(inst)   (((inst) & 0xffffffe0) == 0xf7ff6400)
+#define SHRINKS_STACK_IMM(inst) (((inst) & 0xffff0000) == 0x63ff0000)
+#define SHRINKS_STACK_REG(inst) (((inst) & 0xffffffe0) == 0xf7ff6200)
+#define IS_BSR(inst)            (((inst) & 0xf8000000) == 0xc8000000)
+#define IS_JSR(inst)            (((inst) & 0xfffffbe0) == 0xf400c800)
+#define IS_ST_FP_IMM(inst)      (((inst) & 0xffff0000) == 0x27df0000)
+#define IS_ST_FP_REG(inst)      (((inst) & 0xfffffffe) == 0xf7df2400)
+#define IS_ADDU_FP_IMM(inst)    (((inst) & 0xffff0000) == 0x63df0000)
+#define IS_ADDU_FP_REG(inst)    (((inst) & 0xffffffe0) == 0xf7df6000)
+a794 5
+#define LOADS_REG32_BOTTOM(reg,inst) (((inst)>>16) == (reg|(reg<<5)|0x5800))
+#define LOADS_REG32_TOP(reg,inst) (((inst) >> 16) == ((reg << 5) | 0x5c00))
+#define LOADS_REG16(reg,inst) (((inst) >> 16) == ((reg << 5) | 0x5800))
+#define GET_IMM16(inst) ((short)(inst))
+#define GET_U_IMM16(inst) ((inst) & 0xffff)
+d797 9
+a805 1
+#define GET_S2(inst) ((inst) & 0x1F)
+a819 1
+  int inst;
+d828 1
+a828 1
+      ui_badnews ("m88k_frame_chain: can't get back to parent");
+d831 1
+a831 1
+  /* If the subroutine was compiled by the GNU compiler, things are easy! */
+d839 1
+a839 2
+  /* No such luck, we'll have to do this the hard way.  This assumes that if
+     it's not the GNU compiler, its the Green Hills compiler */
+d841 1
+a841 1
+  return synthesize_fp ((thisframe)->frame + 8, called_at);
+d844 1
+a844 3
+/* Synthesize a frame pointer given a stack pointer and a pc.  This is only
+   called if the subroutine inwhich the give pc is pointing was generated by
+   the Green Hills compiler. */
+d846 174
+d1022 1
+a1022 1
+synthesize_fp (assumed_sp, assumed_pc)
+d1028 1
+a1028 1
+  int inst;
+d1035 13
+d1053 2
+a1054 1
+      inst = read_memory_integer (addr, 4);
+a1057 1
+          continue;
+d1059 2
+a1060 1
+      if (GROWS_STACK_REG (inst))
+a1062 1
+          continue;
+d1064 2
+a1065 1
+      if (SHRINKS_STACK_IMM (inst))
+a1067 1
+          continue;
+d1069 2
+a1070 1
+      if (SHRINKS_STACK_REG (inst))
+d1077 1
+a1077 1
+     entered.  The frame pointer is simply this address - 8. */
+d1079 1
+a1079 1
+  return assumed_sp - 8;
+d1120 1
+a1120 1
+  int inst;
+d1126 1
+a1126 1
+      ui_badnews ("internal: find_reg_val: start(%x) < end(%x)", start, end);
+d1130 1
+a1130 1
+      ui_badnews ("internal: find_reg_val: bad reg = %d", reg);
+d1135 2
+a1136 2
+      inst = read_memory_integer (start, 4);
+      if (LOADS_REG32_BOTTOM (reg, inst))
+@
+
+
+1.5
+log
+@Added #include "ui.h" so ui_badnews is defined.
+@
+text
+@d1 1
+a1 1
+/* Low level interface to ptrace, for GDB when running on the Intel 386.
+d28 3
+d159 4
+d180 2
+a181 1
+    /* now load up registers 36 - 38; special pc registers */
+d183 31
+a213 14
+    *(int *) &buf[0] = ptrace (3, inferior_pid, SXIP_OFFSET, 0);
+    supply_register (36, buf);
+    *(int *) &buf[0] = ptrace (3, inferior_pid, SNIP_OFFSET, 0);
+    supply_register (37, buf);
+    *(int *) &buf[0] = ptrace (3, inferior_pid, SFIP_OFFSET, 0);
+    supply_register (38, buf);
+#else
+    *(int *) &buf[0] = ptrace (3,inferior_pid,(char *)&u.pt_sigframe.dg_sigframe.sc_sxip - (char *)&u ,0);
+    supply_register (36, buf);
+    *(int *) &buf[0] = ptrace (3, inferior_pid, (char *)&u.pt_sigframe.dg_sigframe.sc_snip - (char *)&u ,0);
+    supply_register (37, buf);
+    *(int *) &buf[0] = ptrace (3, inferior_pid, (char *)&u.pt_sigframe.dg_sigframe.sc_sfip - (char *)&u ,0);
+    supply_register (38, buf);
+#endif	/* TEK_HACK */
+d685 1
+a685 1
+/* helper functions for m-i386.h */
+a686 363
+/* stdio style buffering to minimize calls to ptrace */
+static CORE_ADDR codestream_next_addr;
+static CORE_ADDR codestream_addr;
+static unsigned char codestream_buf[sizeof (int)];
+static int codestream_off;
+static int codestream_cnt;
+
+#define codestream_tell() (codestream_addr + codestream_off)
+#define codestream_peek() (codestream_cnt == 0 ? \
+			   codestream_fill(1): codestream_buf[codestream_off])
+#define codestream_get() (codestream_cnt-- == 0 ? \
+			 codestream_fill(0) : codestream_buf[codestream_off++])
+
+static unsigned char 
+codestream_fill (peek_flag)
+{
+  codestream_addr = codestream_next_addr;
+  codestream_next_addr += sizeof (int);
+  codestream_off = 0;
+  codestream_cnt = sizeof (int);
+  read_memory (codestream_addr,
+	       (unsi
+
+
+d737 10
+a

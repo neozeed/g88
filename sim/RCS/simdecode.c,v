@@ -1,0 +1,2464 @@
+head     1.28;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.28
+date     90.08.02.12.19.33;  author robertb;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     89.07.26.14.51.04;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     89.07.14.08.59.12;  author robertb;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.03.07.16.48.31;  author andrew;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.08.03.13.22.07;  author andrew;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.06.09.17.59.25;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.06.07.17.06.05;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.04.29.17.02.29;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.04.28.10.38.02;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.04.16.14.21.48;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.04.11.19.13.47;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.04.08.21.30.38;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.03.19.10.25.39;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.02.22.11.57.20;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.02.12.16.26.48;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.12.16.12.43;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.01.15.11.06.17;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     87.12.03.20.08.06;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     87.11.23.14.40.18;  author timd;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.11.23.14.25.35;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.19.19.32.24;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.11.22.26.21;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.09.22.38.58;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.05.19.51.15;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.05.19.40.06;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.04.20.05.40;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.03.15.57.42;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.33.42;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.28
+log
+@Made it understand both new and old opcodes for mul, div, divu,
+and cmp.
+@
+text
+@/*
+ * This decodes 88000 instructions
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * 
+ * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/simdecode.c,v 1.27 89/07/26 14:51:04 robertb Exp $
+ */
+
+#include "sim.h"
+#include "decode.h"
+#include "format.h"
+#include "fields88.h"
+
+/*
+ * These macros turn the lines of extern.h into extern declarations.
+ */
+#define L(x)  extern sim_/**/x();
+#define BB0(x) extern sim_bb0_/**/x();
+#define BB1(x) extern sim_bb1_/**/x();
+#define BB0_N(x) extern sim_bb0_n_/**/x();
+#define BB1_N(x) extern sim_bb1_n_/**/x();
+
+#include "extern.h"
+
+#undef L
+#undef BB0
+#undef BB1
+#undef BB0_N
+#undef BB1_N
+
+/*
+ * This is pointed to when we decode an instruction that tries
+ * to modify a register that is read-only.  Like r0, or dmt3.
+ *
+ * We need two words in case we have a double load to modify.
+ */
+double dummy_r0;
+
+#define	POOLSIZE	(1022)
+
+struct litpool {
+    struct litpool *next;
+    u_long litcnt;
+    u_long lits[POOLSIZE]; } *litpool = 0;
+
+/*
+ * Puts the passed value into the literal table.  Returns a pointer
+ * to it.
+ */
+u_long *mkliteral(value)
+    u_long value;
+{
+    struct litpool *newpool;
+    u_long *ptr;
+
+    if (!litpool) {
+        litpool = (struct litpool *)malloc(sizeof(struct litpool));
+        if (!litpool) {
+            err("mkliteral:no space for 1st pool.\n", __LINE__, __FILE__);
+        }
+        litpool->litcnt = 0;
+        litpool->next = 0;
+    }
+    if (litpool->litcnt == POOLSIZE) {
+        newpool = (struct litpool *)malloc(sizeof(struct litpool));
+        if (!newpool) {
+            err("mkliteral:no space for new pool.\n", __LINE__, __FILE__);
+        }
+        newpool->litcnt = 0;
+        newpool->next = litpool;
+        litpool = newpool;
+    }
+    ptr = &litpool->lits[litpool->litcnt++];
+    *ptr = value;
+    return ptr;
+}
+
+/*
+ * This deallocates the literal pools.
+ */
+void
+free_literals()
+{
+    struct litpool *p, *np;
+
+    p = litpool;
+    litpool = (struct litpool *)0;
+    while (p) {
+        np = p->next;
+        free(p);
+        p = np;
+    }
+}
+
+/*
+ * This decodes a 88000 instruction into a form for quick execution.
+ * The passed parameter points to the decode_i structure that will
+ * receive the decoded form.  The second parameter is the instruction
+ * pointer that the instruction resides at.  If there should be a
+ * code access fault, a 1 is returned.  Otherwise a 0 is returned.
+ */
+int
+decode(p, ip, usmode)
+    struct decoded_i   *p;
+    int ip;
+{
+    u_long instr;
+    struct instr_info *instr_info;
+    u_long physical_address;
+    u_long target_addr;
+    int exception;
+
+    exception = l_to_p(usmode, ip, &physical_address, CODE_CMMU(ip), READ);
+    if (exception != E_NONE) {
+        return 1;
+    }
+    instr = read_sim_w(physical_address);
+    if (sim_errno) {
+        return 1;
+    }
+
+    instr_info = sim_instruction_lookup(instr);
+
+    if (instr_info == (struct instr_info *)0) {
+        p->norm_e_addr = sim_opc_exception;
+        return 0;
+    }
+
+    p->norm_e_addr = instr_info->norm_e_addr;
+
+    switch (instr_info->format) {
+        /*
+         * Load, store, xmem, and register-to-register instructions
+         */
+        case STRO:
+        case STRI:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = (u_long *)(&regs[S2(instr)]);
+            p->dest = (u_long *)(&regs[D(instr)]);
+            break;
+
+
+        case STLIT:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = mkliteral(LIT16(instr));
+            p->dest = (u_long *)(&regs[D(instr)]);
+            break;
+
+        case LDRO:
+        case LDRI:
+        case INTRR:
+        case INTRR2OP:
+        case INTRR_S1_S2:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = (u_long *)(&regs[S2(instr)]);
+            p->dest = (u_long *)(&regs[D(instr)]);
+            break;
+
+        case LDLIT:
+        case INTRL:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = mkliteral(LIT16(instr));
+            p->dest = (u_long *)(&regs[D(instr)]);
+            break;
+
+        case ROT:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = mkliteral(O5(instr));
+            p->dest = (u_long *)(&regs[D(instr)]);
+            break;
+
+        case BITFIELD:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = mkliteral(instr & 0x3ff);
+            p->dest = (u_long *)(&regs[D(instr)]);
+            break;
+
+        /*
+         * Transfer of control instructions.
+         */
+        case BITBRANCH:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+
+            /*
+             * See if the target address is on the same page as
+             * the branch.  If so, set the s2 field to the decoded
+             * instruction pointer of the target.  If not, set
+             * s2 to zero and set the 'dest' field to the signed
+             * offset of the target (in bytes).
+             */
+            target_addr = (int)ip + REL16(instr);
+            if ((target_addr & ~PAGEMASK) == (ip & ~PAGEMASK)) {
+                p->s2 = (u_long *)l_to_d(target_addr, usmode, 0);
+            } else {
+                p->dest = (u_long *)REL16(instr);
+                p->s2 = (u_long *)0;
+            }
+            break;
+
+        case CBRANCH:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+
+            /*
+             * See if the target address is on the same page as
+             * the branch.  If so, set the s2 field to the decoded
+             * instruction pointer of the target.  If not, set
+             * s2 to zero and set the 'dest' field to the signed
+             * offset of the target (in bytes).
+             */
+            target_addr = (int)ip + REL16(instr);
+            if ((target_addr & ~PAGEMASK) == (ip & ~PAGEMASK)) {
+                p->s2 = (u_long *)l_to_d(target_addr, usmode, 0);
+            } else {
+                p->dest = (u_long *)REL16(instr);
+                p->s2 = (u_long *)0;
+            }
+            break;
+
+        case IPREL:
+            /*
+             * See if the target address is on the same page as
+             * the branch.  If so, set the s2 field to the decoded
+             * instruction pointer of the target.  If not, set
+             * s2 to zero and set the 'dest' field to the signed
+             * offset of the target (in bytes).
+             */
+            target_addr = (int)ip + REL26(instr);
+            if ((target_addr & ~PAGEMASK) == (ip & ~PAGEMASK)) {
+                p->s2 = (u_long *)l_to_d(target_addr, usmode, 0);
+            } else {
+                p->dest = (u_long *)REL26(instr);
+                p->s2 = (u_long *)0;
+            }
+            break;
+
+        case JMP:
+            p->dest = (u_long *)(&regs[S2(instr)]);
+            p->s2 = (u_long *)0;    /* For delayed jumps. */
+            break;
+
+        /*
+         * Trap instructions.
+         */
+        case TRAP:
+            p->dest = (u_long *)(1 << B5(instr));
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = (u_long *)(VEC(instr));
+            break;
+
+        case TBND:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = mkliteral(LIT16(instr));
+            break;
+
+        case TCND:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            p->s2 = (u_long *)(VEC(instr));
+            p->dest = (u_long *)(M5(instr));
+            break;
+            
+        case RTE:
+            break;
+
+        /*
+         * Control register manipulation instructions.
+         */
+        case FLDCR:
+            p->dest = (u_long *)(&regs[D(instr)]);
+            p->s1 = (u_long *)(&sfu1_regs[CRS(instr)]);
+            if (CRS(instr) >= 62) {
+                p->norm_e_addr = sim_uldcr;
+            }
+            break;
+            
+        case LDCR:
+            p->dest = (u_long *)(&regs[D(instr)]);
+            p->s1 = (u_long *)(&sfu0_regs[CRS(instr)]);
+            break;
+            
+        case FSTCR:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            /*
+             * Check to see if its a real fp register.  If not, make
+             * the destination point to our dummy destination.  We
+             * do this so that we don't have to zero the 53 SFU1 locations
+             * that do not have RAM behind them after doing a fstcr.  
+             * A fine point.
+             */
+            if (CRS(instr) <= 8 || CRS(instr) >= 62) {
+                p->dest = (u_long *)(&sfu1_regs[CRS(instr)]);
+            } else {
+                p->dest = (u_long *)&dummy_r0;
+            }
+            if (CRS(instr) >= 62) {
+                p->norm_e_addr = sim_ustcr;
+            }
+            break;
+            
+        case STCR:
+            p->s1 = (u_long *)(&regs[S1(instr)]);
+            switch (CRS(instr)) {
+                case 1: case 2: case 3: case 5: case 6: case 7:
+                case 17: case 18: case 19: case 20: case 21 /* STACKBASE */:
+                    p->dest = (u_long *)(&sfu0_regs[CRS(instr)]);
+                    break;
+
+                /*
+                 * The rest of the registers are read only.
+                 */
+                default:
+                    p->dest = (u_long *)&dummy_r0;
+                    break;
+            }
+            break;
+
+        case XCR:
+            p->s2 = (u_long *)(&sfu0_regs[CRS(instr)]);
+            switch (CRS(instr)) {
+                case 1: case 2: case 3: case 5: case 6: case 7:
+                case 17: case 18: case 19: case 20:
+                    p->s1 = (u_long *)(&regs[S1(instr)]);
+                    break;
+
+                /*
+                 * The rest of the registers are read only, so we
+                 * point the source pointer at the control register,
+                 * which makes the store into the control register
+                 * not change its value.
+                 */
+                default:
+                    p->s1 = (u_long *)(&sfu0_regs[CRS(instr)]);
+                    break;
+            }
+            p->dest = (u_long *)(&regs[D(instr)]);
+            break;
+
+        case FXCR:
+            p->s2 = (u_long *)(&sfu1_regs[CRS(instr)]);
+            if (CRS(instr) < 9 || CRS(instr) > 61) {
+                p->s1 = (u_long *)(&regs[S1(instr)]);
+            } else {
+                /*
+                 * The rest of the registers are read only, so we
+                 * point the source pointer at the control register,
+                 * which makes the store into the control register
+                 * not change its value.
+                 */
+                p->s1 = (u_long *)(&sfu1_regs[CRS(instr)]);
+            }
+            p->dest = (u_long *)(&regs[D(instr)]);
+            if (CRS(instr) >= 62) {
+                p->norm_e_addr = sim_uxcr;
+            }
+            break;
+            
+        default:
+            p->norm_e_addr = sim_opc_exception;
+            return 0;
+            break;
+    }
+    if (instr_info->fixup) {
+        instr_info->fixup(instr_info, instr, p);
+    }
+    return 0;
+}
+
+/*
+ * We check to see if the destination is r0.  If so, we change the
+ * instruction to point to a dummy copy of r0.
+ */
+fix_r0(instr_info, instr, p)
+    struct instr_info *instr_info;
+    u_long instr;
+    struct decoded_i *p;
+{
+    if (p->dest == &regs[0]) {
+        p->dest = (u_long *)&dummy_r0;
+    }
+}
+
+/*
+ * Put the literal in the top 16 bits and 1's into the lower 16 bits
+ * and make a new literal.
+ */
+fix_and_u(instr_info, instr, p)
+    struct instr_info *instr_info;
+    u_long instr;
+    struct decoded_i *p;
+{
+    *(p->s2) = (*(p->s2) << 16) | 0xffff;
+    fix_r0(instr_info, instr, p);
+}
+
+/*
+ * The literal form of the and instruction does not affect the upper
+ * 16 bits, so we or in 1's to the upper 16 bits of the value and
+ * make a new literal.
+ */
+fix_and(instr_info, instr, p)
+    struct instr_info *instr_info;
+    u_long instr;
+    struct decoded_i *p;
+{
+    *(p->s2) |= 0xffff0000;
+    fix_r0(instr_info, instr, p);
+}
+
+fix_mask_u(instr_info, instr, p)
+    struct instr_info *instr_info;
+    u_long instr;
+    struct decoded_i *p;
+{
+    *(p->s2) <<= 16;
+    fix_r0(instr_info, instr, p);
+}
+
+fix_or_u(instr_info, instr, p)
+    struct instr_info *instr_info;
+    u_long instr;
+    struct decoded_i *p;
+{
+    *(p->s2) <<= 16;
+    fix_r0(instr_info, instr, p);
+}
+
+#define REF(x)  (struct instr_info *)0, sim_/**/x
+#define NOFIX   ((int (*)())0)
+
+static
+struct instr_info in_tab[] = {
+0x70000000, 0xfc000000, "add",      INTRL,      REF(add),       fix_r0,
+0xf4007000, 0xfc00ffe0, "add",      INTRR,      REF(add),       fix_r0,
+0xf4007100, 0xfc00ffe0, "add.co",   INTRR,      REF(add_co),    fix_r0,
+0xf4007200, 0xfc00ffe0, "add.ci",   INTRR,      REF(add_ci),    fix_r0,
+0xf4007300, 0xfc00ffe0, "add.cio",  INTRR,      REF(add_cio),   fix_r0,
+
+0x60000000, 0xfc000000, "addu",     INTRL,      REF(addu),      fix_r0,
+0xf4006000, 0xfc00ffe0, "addu",     INTRR,      REF(addu),      fix_r0,
+0xf4006100, 0xfc00ffe0, "addu.co",  INTRR,      REF(addu_co),   fix_r0,
+0xf4006200, 0xfc00ffe0, "addu.ci",  INTRR,      REF(addu_ci),   fix_r0,
+0xf4006300, 0xfc00ffe0, "addu.cio", INTRR,      REF(addu_cio),  fix_r0,
+
+0x40000000, 0xfc000000, "and",      INTRL,      REF(and),       fix_and,
+0x44000000, 0xfc000000, "and.u",    INTRL,      REF(and),       fix_and_u,
+0xf4004000, 0xfc00ffe0, "and",      INTRR,      REF(and),       fix_r0,
+0xf4004400, 0xfc00ffe0, "and.c",    INTRR,      REF(and_c),     fix_r0,
+
+0xe8400000, 0xffe00000, "bcnd_eq0", CBRANCH,    REF(bcnd_eq0),  NOFIX,
+0xe9a00000, 0xffe00000, "bcnd_ne0", CBRANCH,    REF(bcnd_ne0),  NOFIX,
+0xe8200000, 0xffe00000, "bcnd_gt0", CBRANCH,    REF(bcnd_gt0),  NOFIX,
+0xe9800000, 0xffe00000, "bcnd_lt0", CBRANCH,    REF(bcnd_lt0),  NOFIX,
+0xe8600000, 0xffe00000, "bcnd_ge0", CBRANCH,    REF(bcnd_ge0),  NOFIX,
+0xe9c00000, 0xffe00000, "bcnd_le0", CBRANCH,    REF(bcnd_le0),  NOFIX,
+
+0xe8000000, 0xffe00000, "bcnd_0",   CBRANCH,    REF(noop),      NOFIX,
+0xe8800000, 0xffe00000, "bcnd_4",   CBRANCH,    REF(bcnd_4),    NOFIX,
+0xe8a00000, 0xffe00000, "bcnd_5",   CBRANCH,    REF(bcnd_5),    NOFIX,
+0xe8c00000, 0xffe00000, "bcnd_6",   CBRANCH,    REF(bcnd_6),    NOFIX,
+0xe8e00000, 0xffe00000, "bcnd_7",   CBRANCH,    REF(bcnd_7),    NOFIX,
+0xe9000000, 0xffe00000, "bcnd_8",   CBRANCH,    REF(bcnd_8),    NOFIX,
+0xe9200000, 0xffe00000, "bcnd_9",   CBRANCH,    REF(bcnd_9),    NOFIX,
+0xe9400000, 0xffe00000, "bcnd_10",  CBRANCH,    REF(bcnd_10),   NOFIX,
+0xe9600000, 0xffe00000, "bcnd_11",  CBRANCH,    REF(bcnd_11),   NOFIX,
+0xe9e00000, 0xffe00000, "bcnd_always",CBRANCH,  REF(bcnd_always),   NOFIX,
+
+0xec400000, 0xffe00000, "bcnd_eq0_n", CBRANCH,  REF(bcnd_eq0_n),NOFIX,
+0xeda00000, 0xffe00000, "bcnd_ne0_n", CBRANCH,  REF(bcnd_ne0_n),NOFIX,
+0xec200000, 0xffe00000, "bcnd_gt0_n", CBRANCH,  REF(bcnd_gt0_n),NOFIX,
+0xed800000, 0xffe00000, "bcnd_lt0_n", CBRANCH,  REF(bcnd_lt0_n),NOFIX,
+0xec600000, 0xffe00000, "bcnd_ge0_n", CBRANCH,  REF(bcnd_ge0_n),NOFIX,
+0xedc00000, 0xffe00000, "bcnd_le0_n", CBRANCH,  REF(bcnd_le0_n),NOFIX,
+
+0xec000000, 0xffe00000, "bcnd_0_n",   CBRANCH,    REF(noop),      NOFIX,
+0xec800000, 0xffe00000, "bcnd_4_n",   CBRANCH,    REF(bcnd_4_n),    NOFIX,
+0xeca00000, 0xffe00000, "bcnd_5_n",   CBRANCH,    REF(bcnd_5_n),    NOFIX,
+0xecc00000, 0xffe00000, "bcnd_6_n",   CBRANCH,    REF(bcnd_6_n),    NOFIX,
+0xece00000, 0xffe00000, "bcnd_7_n",   CBRANCH,    REF(bcnd_7_n),    NOFIX,
+0xed000000, 0xffe00000, "bcnd_8_n",   CBRANCH,    REF(bcnd_8_n),    NOFIX,
+0xed200000, 0xffe00000, "bcnd_9_n",   CBRANCH,    REF(bcnd_9_n),    NOFIX,
+0xed400000, 0xffe00000, "bcnd_10_n",  CBRANCH,    REF(bcnd_10_n),   NOFIX,
+0xed600000, 0xffe00000, "bcnd_11_n",  CBRANCH,    REF(bcnd_11_n),   NOFIX,
+0xede00000, 0xffe00000, "bcnd_always_n",CBRANCH,  REF(bcnd_always_n),   NOFIX,
+
+0xc0000000, 0xfc000000, "br",       IPREL,      REF(br),        NOFIX,
+0xc4000000, 0xfc000000, "br.n",     IPREL,      REF(br_n),      NOFIX,
+
+0xd0000000, 0xffe00000, "bb0_0",    BITBRANCH,  REF(bb0_0),     NOFIX,
+0xd0200000, 0xffe00000, "bb0_1",    BITBRANCH,  REF(bb0_1),     NOFIX,
+0xd0400000, 0xffe00000, "bb0_2",    BITBRANCH,  REF(bb0_2),     NOFIX,
+0xd0600000, 0xffe00000, "bb0_3",    BITBRANCH,  REF(bb0_3),     NOFIX,
+0xd0800000, 0xffe00000, "bb0_4",    BITBRANCH,  REF(bb0_4),     NOFIX,
+0xd0a00000, 0xffe00000, "bb0_5",    BITBRANCH,  REF(bb0_5),     NOFIX,
+0xd0c00000, 0xffe00000, "bb0_6",    BITBRANCH,  REF(bb0_6),     NOFIX,
+0xd0e00000, 0xffe00000, "bb0_7",    BITBRANCH,  REF(bb0_7),     NOFIX,
+0xd1000000, 0xffe00000, "bb0_8",    BITBRANCH,  REF(bb0_8),     NOFIX,
+0xd1200000, 0xffe00000, "bb0_9",    BITBRANCH,  REF(bb0_9),     NOFIX,
+0xd1400000, 0xffe00000, "bb0_10",   BITBRANCH,  REF(bb0_10),    NOFIX,
+0xd1600000, 0xffe00000, "bb0_11",   BITBRANCH,  REF(bb0_11),    NOFIX,
+0xd1800000, 0xffe00000, "bb0_12",   BITBRANCH,  REF(bb0_12),    NOFIX,
+0xd1a00000, 0xffe00000, "bb0_13",   BITBRANCH,  REF(bb0_13),    NOFIX,
+0xd1c00000, 0xffe00000, "bb0_14",   BITBRANCH,  REF(bb0_14),    NOFIX,
+0xd1e00000, 0xffe00000, "bb0_15",   BITBRANCH,  REF(bb0_15),    NOFIX,
+0xd2000000, 0xffe00000, "bb0_16",   BITBRANCH,  REF(bb0_16),    NOFIX,
+0xd2200000, 0xffe00000, "bb0_17",   BITBRANCH,  REF(bb0_17),    NOFIX,
+0xd2400000, 0xffe00000, "bb0_18",   BITBRANCH,  REF(bb0_18),    NOFIX,
+0xd2600000, 0xffe00000, "bb0_19",   BITBRANCH,  REF(bb0_19),    NOFIX,
+0xd2800000, 0xffe00000, "bb0_20",   BITBRANCH,  REF(bb0_20),    NOFIX,
+0xd2a00000, 0xffe00000, "bb0_21",   BITBRANCH,  REF(bb0_21),    NOFIX,
+0xd2c00000, 0xffe00000, "bb0_22",   BITBRANCH,  REF(bb0_22),    NOFIX,
+0xd2e00000, 0xffe00000, "bb0_23",   BITBRANCH,  REF(bb0_23),    NOFIX,
+0xd3000000, 0xffe00000, "bb0_24",   BITBRANCH,  REF(bb0_24),    NOFIX,
+0xd3200000, 0xffe00000, "bb0_25",   BITBRANCH,  REF(bb0_25),    NOFIX,
+0xd3400000, 0xffe00000, "bb0_26",   BITBRANCH,  REF(bb0_26),    NOFIX,
+0xd3600000, 0xffe00000, "bb0_27",   BITBRANCH,  REF(bb0_27),    NOFIX,
+0xd3800000, 0xffe00000, "bb0_28",   BITBRANCH,  REF(bb0_28),    NOFIX,
+0xd3a00000, 0xffe00000, "bb0_29",   BITBRANCH,  REF(bb0_29),    NOFIX,
+0xd3c00000, 0xffe00000, "bb0_30",   BITBRANCH,  REF(bb0_30),    NOFIX,
+0xd3e00000, 0xffe00000, "bb0_31",   BITBRANCH,  REF(bb0_31),    NOFIX,
+
+0xd8000000, 0xffe00000, "bb1_0",    BITBRANCH,  REF(bb1_0),     NOFIX,
+0xd8200000, 0xffe00000, "bb1_1",    BITBRANCH,  REF(bb1_1),     NOFIX,
+0xd8400000, 0xffe00000, "bb1_2",    BITBRANCH,  REF(bb1_2),     NOFIX,
+0xd8600000, 0xffe00000, "bb1_3",    BITBRANCH,  REF(bb1_3),     NOFIX,
+0xd8800000, 0xffe00000, "bb1_4",    BITBRANCH,  REF(bb1_4),     NOFIX,
+0xd8a00000, 0xffe00000, "bb1_5",    BITBRANCH,  REF(bb1_5),     NOFIX,
+0xd8c00000, 0xffe00000, "bb1_6",    BITBRANCH,  REF(bb1_6),     NOFIX,
+0xd8e00000, 0xffe00000, "bb1_7",    BITBRANCH,  REF(bb1_7),     NOFIX,
+0xd9000000, 0xffe00000, "bb1_8",    BITBRANCH,  REF(bb1_8),     NOFIX,
+0xd9200000, 0xffe00000, "bb1_9",    BITBRANCH,  REF(bb1_9),     NOFIX,
+0xd9400000, 0xffe00000, "bb1_10",   BITBRANCH,  REF(bb1_10),    NOFIX,
+0xd9600000, 0xffe00000, "bb1_11",   BITBRANCH,  REF(bb1_11),    NOFIX,
+0xd9800000, 0xffe00000, "bb1_12",   BITBRANCH,  REF(bb1_12),    NOFIX,
+0xd9a00000, 0xffe00000, "bb1_13",   BITBRANCH,  REF(bb1_13),    NOFIX,
+0xd9c00000, 0xffe00000, "bb1_14",   BITBRANCH,  REF(bb1_14),    NOFIX,
+0xd9e00000, 0xffe00000, "bb1_15",   BITBRANCH,  REF(bb1_15),    NOFIX,
+0xda000000, 0xffe00000, "bb1_16",   BITBRANCH,  REF(bb1_16),    NOFIX,
+0xda200000, 0xffe00000, "bb1_17",   BITBRANCH,  REF(bb1_17),    NOFIX,
+0xda400000, 0xffe00000, "bb1_18",   BITBRANCH,  REF(bb1_18),    NOFIX,
+0xda600000, 0xffe00000, "bb1_19",   BITBRANCH,  REF(bb1_19),    NOFIX,
+0xda800000, 0xffe00000, "bb1_20",   BITBRANCH,  REF(bb1_20),    NOFIX,
+0xdaa00000, 0xffe00000, "bb1_21",   BITBRANCH,  REF(bb1_21),    NOFIX,
+0xdac00000, 0xffe00000, "bb1_22",   BITBRANCH,  REF(bb1_22),    NOFIX,
+0xdae00000, 0xffe00000, "bb1_23",   BITBRANCH,  REF(bb1_23),    NOFIX,
+0xdb000000, 0xffe00000, "bb1_24",   BITBRANCH,  REF(bb1_24),    NOFIX,
+0xdb200000, 0xffe00000, "bb1_25",   BITBRANCH,  REF(bb1_25),    NOFIX,
+0xdb400000, 0xffe00000, "bb1_26",   BITBRANCH,  REF(bb1_26),    NOFIX,
+0xdb600000, 0xffe00000, "bb1_27",   BITBRANCH,  REF(bb1_27),    NOFIX,
+0xdb800000, 0xffe00000, "bb1_28",   BITBRANCH,  REF(bb1_28),    NOFIX,
+0xdba00000, 0xffe00000, "bb1_29",   BITBRANCH,  REF(bb1_29),    NOFIX,
+0xdbc00000, 0xffe00000, "bb1_30",   BITBRANCH,  REF(bb1_30),    NOFIX,
+0xdbe00000, 0xffe00000, "bb1_31",   BITBRANCH,  REF(bb1_31),    NOFIX,
+
+0xd4000000, 0xffe00000, "bb0_n_0",  BITBRANCH,  REF(bb0_n_0),   NOFIX,
+0xd4200000, 0xffe00000, "bb0_n_1",  BITBRANCH,  REF(bb0_n_1),   NOFIX,
+0xd4400000, 0xffe00000, "bb0_n_2",  BITBRANCH,  REF(bb0_n_2),   NOFIX,
+0xd4600000, 0xffe00000, "bb0_n_3",  BITBRANCH,  REF(bb0_n_3),   NOFIX,
+0xd4800000, 0xffe00000, "bb0_n_4",  BITBRANCH,  REF(bb0_n_4),   NOFIX,
+0xd4a00000, 0xffe00000, "bb0_n_5",  BITBRANCH,  REF(bb0_n_5),   NOFIX,
+0xd4c00000, 0xffe00000, "bb0_n_6",  BITBRANCH,  REF(bb0_n_6),   NOFIX,
+0xd4e00000, 0xffe00000, "bb0_n_7",  BITBRANCH,  REF(bb0_n_7),   NOFIX,
+0xd5000000, 0xffe00000, "bb0_n_8",  BITBRANCH,  REF(bb0_n_8),   NOFIX,
+0xd5200000, 0xffe00000, "bb0_n_9",  BITBRANCH,  REF(bb0_n_9),   NOFIX,
+0xd5400000, 0xffe00000, "bb0_n_10", BITBRANCH,  REF(bb0_n_10),  NOFIX,
+0xd5600000, 0xffe00000, "bb0_n_11", BITBRANCH,  REF(bb0_n_11),  NOFIX,
+0xd5800000, 0xffe00000, "bb0_n_12", BITBRANCH,  REF(bb0_n_12),  NOFIX,
+0xd5a00000, 0xffe00000, "bb0_n_13", BITBRANCH,  REF(bb0_n_13),  NOFIX,
+0xd5c00000, 0xffe00000, "bb0_n_14", BITBRANCH,  REF(bb0_n_14),  NOFIX,
+0xd5e00000, 0xffe00000, "bb0_n_15", BITBRANCH,  REF(bb0_n_15),  NOFIX,
+0xd6000000, 0xffe00000, "bb0_n_16", BITBRANCH,  REF(bb0_n_16),  NOFIX,
+0xd6200000, 0xffe00000, "bb0_n_17", BITBRANCH,  REF(bb0_n_17),  NOFIX,
+0xd6400000, 0xffe00000, "bb0_n_18", BITBRANCH,  REF(bb0_n_18),  NOFIX,
+0xd6600000, 0xffe00000, "bb0_n_19", BITBRANCH,  REF(bb0_n_19),  NOFIX,
+0xd6800000, 0xffe00000, "bb0_n_20", BITBRANCH,  REF(bb0_n_20),  NOFIX,
+0xd6a00000, 0xffe00000, "bb0_n_21", BITBRANCH,  REF(bb0_n_21),  NOFIX,
+0xd6c00000, 0xffe00000, "bb0_n_22", BITBRANCH,  REF(bb0_n_22),  NOFIX,
+0xd6e00000, 0xffe00000, "bb0_n_23", BITBRANCH,  REF(bb0_n_23),  NOFIX,
+0xd7000000, 0xffe00000, "bb0_n_24", BITBRANCH,  REF(bb0_n_24),  NOFIX,
+0xd7200000, 0xffe00000, "bb0_n_25", BITBRANCH,  REF(bb0_n_25),  NOFIX,
+0xd7400000, 0xffe00000, "bb0_n_26", BITBRANCH,  REF(bb0_n_26),  NOFIX,
+0xd7600000, 0xffe00000, "bb0_n_27", BITBRANCH,  REF(bb0_n_27),  NOFIX,
+0xd7800000, 0xffe00000, "bb0_n_28", BITBRANCH,  REF(bb0_n_28),  NOFIX,
+0xd7a00000, 0xffe00000, "bb0_n_29", BITBRANCH,  REF(bb0_n_29),  NOFIX,
+0xd7c00000, 0xffe00000, "bb0_n_30", BITBRANCH,  REF(bb0_n_30),  NOFIX,
+0xd7e00000, 0xffe00000, "bb0_n_31", BITBRANCH,  REF(bb0_n_31),  NOFIX,
+
+0xdc000000, 0xffe00000, "bb1_n_0",  BITBRANCH,  REF(bb1_n_0),   NOFIX,
+0xdc200000, 0xffe00000, "bb1_n_1",  BITBRANCH,  REF(bb1_n_1),   NOFIX,
+0xdc400000, 0xffe00000, "bb1_n_2",  BITBRANCH,  REF(bb1_n_2),   NOFIX,
+0xdc600000, 0xffe00000, "bb1_n_3",  BITBRANCH,  REF(bb1_n_3),   NOFIX,
+0xdc800000, 0xffe00000, "bb1_n_4",  BITBRANCH,  REF(bb1_n_4),   NOFIX,
+0xdca00000, 0xffe00000, "bb1_n_5",  BITBRANCH,  REF(bb1_n_5),   NOFIX,
+0xdcc00000, 0xffe00000, "bb1_n_6",  BITBRANCH,  REF(bb1_n_6),   NOFIX,
+0xdce00000, 0xffe00000, "bb1_n_7",  BITBRANCH,  REF(bb1_n_7),   NOFIX,
+0xdd000000, 0xffe00000, "bb1_n_8",  BITBRANCH,  REF(bb1_n_8),   NOFIX,
+0xdd200000, 0xffe00000, "bb1_n_9",  BITBRANCH,  REF(bb1_n_9),   NOFIX,
+0xdd400000, 0xffe00000, "bb1_n_10", BITBRANCH,  REF(bb1_n_10),  NOFIX,
+0xdd600000, 0xffe00000, "bb1_n_11", BITBRANCH,  REF(bb1_n_11),  NOFIX,
+0xdd800000, 0xffe00000, "bb1_n_12", BITBRANCH,  REF(bb1_n_12),  NOFIX,
+0xdda00000, 0xffe00000, "bb1_n_13", BITBRANCH,  REF(bb1_n_13),  NOFIX,
+0xddc00000, 0xffe00000, "bb1_n_14", BITBRANCH,  REF(bb1_n_14),  NOFIX,
+0xdde00000, 0xffe00000, "bb1_n_15", BITBRANCH,  REF(bb1_n_15),  NOFIX,
+0xde000000, 0xffe00000, "bb1_n_16", BITBRANCH,  REF(bb1_n_16),  NOFIX,
+0xde200000, 0xffe00000, "bb1_n_17", BITBRANCH,  REF(bb1_n_17),  NOFIX,
+0xde400000, 0xffe00000, "bb1_n_18", BITBRANCH,  REF(bb1_n_18),  NOFIX,
+0xde600000, 0xffe00000, "bb1_n_19", BITBRANCH,  REF(bb1_n_19),  NOFIX,
+0xde800000, 0xffe00000, "bb1_n_20", BITBRANCH,  REF(bb1_n_20),  NOFIX,
+0xdea00000, 0xffe00000, "bb1_n_21", BITBRANCH,  REF(bb1_n_21),  NOFIX,
+0xdec00000, 0xffe00000, "bb1_n_22", BITBRANCH,  REF(bb1_n_22),  NOFIX,
+0xdee00000, 0xffe00000, "bb1_n_23", BITBRANCH,  REF(bb1_n_23),  NOFIX,
+0xdf000000, 0xffe00000, "bb1_n_24", BITBRANCH,  REF(bb1_n_24),  NOFIX,
+0xdf200000, 0xffe00000, "bb1_n_25", BITBRANCH,  REF(bb1_n_25),  NOFIX,
+0xdf400000, 0xffe00000, "bb1_n_26", BITBRANCH,  REF(bb1_n_26),  NOFIX,
+0xdf600000, 0xffe00000, "bb1_n_27", BITBRANCH,  REF(bb1_n_27),  NOFIX,
+0xdf800000, 0xffe00000, "bb1_n_28", BITBRANCH,  REF(bb1_n_28),  NOFIX,
+0xdfa00000, 0xffe00000, "bb1_n_29", BITBRANCH,  REF(bb1_n_29),  NOFIX,
+0xdfc00000, 0xffe00000, "bb1_n_30", BITBRANCH,  REF(bb1_n_30),  NOFIX,
+0xdfe00000, 0xffe00000, "bb1_n_31", BITBRANCH,  REF(bb1_n_31),  NOFIX,
+
+0xc8000000, 0xfc000000, "bsr",      IPREL,      REF(bsr),       NOFIX,
+0xcc000000, 0xfc000000, "bsr.n",    IPREL,      REF(bsr_n),     NOFIX,
+
+0xf0008000, 0xfc00fc00, "clr",      BITFIELD,   REF(clr),       fix_r0,
+0xf4008000, 0xfc00ffe0, "clr",      INTRR,      REF(clr),       fix_r0,
+
+0x7c000000, 0xfc000000, "cmp",      INTRL,      REF(cmp),       fix_r0,
+0xf4007c00, 0xfc00fee0, "cmp",      INTRR,      REF(cmp),       fix_r0,
+
+0x78000000, 0xfc000000, "div",      INTRL,      REF(div),       fix_r0,
+0xf4007800, 0xfc00fee0, "div",      INTRR,      REF(div),       fix_r0,
+
+0x68000000, 0xfc000000, "divu",     INTRL,      REF(divu),      fix_r0,
+0xf4006800, 0xfc00fee0, "divu",     INTRR,      REF(divu),      fix_r0,
+
+0xf0009000, 0xfc00fc00, "ext",      BITFIELD,   REF(ext),       fix_r0,
+0xf4009000, 0xfc00ffe0, "ext",      INTRR,      REF(ext),       fix_r0,
+
+0xf0009800, 0xfc00fc00, "extu",     BITFIELD,   REF(extu),      fix_r0,
+0xf4009800, 0xfc00ffe0, "extu",     INTRR,      REF(extu),      fix_r0,
+
+0x84002800, 0xfc00ffe0, "fadd.sss", INTRR,      REF(fadd_sss),  fix_r0,
+0x84002880, 0xfc00ffe0, "fadd.ssd", INTRR,      REF(fadd_ssd),  fix_r0,
+0x84002a00, 0xfc00ffe0, "fadd.sds", INTRR,      REF(fadd_sds),  fix_r0,
+0x84002a80, 0xfc00ffe0, "fadd.sdd", INTRR,      REF(fadd_sdd),  fix_r0,
+0x84002820, 0xfc00ffe0, "fadd.dss", INTRR,      REF(fadd_dss),  fix_r0,
+0x840028a0, 0xfc00ffe0, "fadd.dsd", INTRR,      REF(fadd_dsd),  fix_r0,
+0x84002a20, 0xfc00ffe0, "fadd.dds", INTRR,      REF(fadd_dds),  fix_r0,
+0x84002aa0, 0xfc00ffe0, "fadd.ddd", INTRR,      REF(fadd_ddd),  fix_r0,
+
+0x84003800, 0xfc00ffe0, "fcmp.sss", INTRR,      REF(fcmp_sss),  fix_r0,
+0x84003880, 0xfc00ffe0, "fcmp.ssd", INTRR,      REF(fcmp_ssd),  fix_r0,
+0x84003a00, 0xfc00ffe0, "fcmp.sds", INTRR,      REF(fcmp_sds),  fix_r0,
+0x84003a80, 0xfc00ffe0, "fcmp.sdd", INTRR,      REF(fcmp_sdd),  fix_r0,
+
+0x84007000, 0xfc00ffe0, "fdiv.sss", INTRR,      REF(fdiv_sss),  fix_r0,
+0x84007080, 0xfc00ffe0, "fdiv.ssd", INTRR,      REF(fdiv_ssd),  fix_r0,
+0x84007200, 0xfc00ffe0, "fdiv.sds", INTRR,      REF(fdiv_sds),  fix_r0,
+0x84007280, 0xfc00ffe0, "fdiv.sdd", INTRR,      REF(fdiv_sdd),  fix_r0,
+0x84007020, 0xfc00ffe0, "fdiv.dss", INTRR,      REF(fdiv_dss),  fix_r0,
+0x840070a0, 0xfc00ffe0, "fdiv.dsd", INTRR,      REF(fdiv_dsd),  fix_r0,
+0x84007220, 0xfc00ffe0, "fdiv.dds", INTRR,      REF(fdiv_dds),  fix_r0,
+0x840072a0, 0xfc00ffe0, "fdiv.ddd", INTRR,      REF(fdiv_ddd),  fix_r0,
+
+0xf400ec00, 0xfc1fffe0, "ff0",      INTRR2OP,   REF(ff0),       fix_r0,
+0xf400e800, 0xfc1fffe0, "ff1",      INTRR2OP,   REF(ff1),       fix_r0,
+
+0x80004800, 0xfc1ff81f, "fldcr",    FLDCR,      REF(ldcr),      fix_r0,
+
+0x84002000, 0xfc1fffe0, "flt.ss",   INTRR2OP,   REF(flt_ss),    fix_r0,
+0x84002020, 0xfc1fffe0, "flt.ds",   INTRR2OP,   REF(flt_ds),    fix_r0,
+
+0x84000000, 0xfc00ffe0, "fmul.sss", INTRR,      REF(fmul_sss),  fix_r0,
+0x84000080, 0xfc00ffe0, "fmul.ssd", INTRR,      REF(fmul_ssd),  fix_r0,
+0x84000200, 0xfc00ffe0, "fmul.sds", INTRR,      REF(fmul_sds),  fix_r0,
+0x84000280, 0xfc00ffe0, "fmul.sdd", INTRR,      REF(fmul_sdd),  fix_r0,
+0x84000020, 0xfc00ffe0, "fmul.dss", INTRR,      REF(fmul_dss),  fix_r0,
+0x840000a0, 0xfc00ffe0, "fmul.dsd", INTRR,      REF(fmul_dsd),  fix_r0,
+0x84000220, 0xfc00ffe0, "fmul.dds", INTRR,      REF(fmul_dds),  fix_r0,
+0x840002a0, 0xfc00ffe0, "fmul.ddd", INTRR,      REF(fmul_ddd),  fix_r0,
+
+0x80008800, 0xffe0f800, "fstcr",    FSTCR,      REF(stcr),      NOFIX,
+
+0x84003000, 0xfc00ffe0, "fsub.sss", INTRR,      REF(fsub_sss),  fix_r0,
+0x84003080, 0xfc00ffe0, "fsub.ssd", INTRR,      REF(fsub_ssd),  fix_r0,
+0x84003200, 0xfc00ffe0, "fsub.sds", INTRR,      REF(fsub_sds),  fix_r0,
+0x84003280, 0xfc00ffe0, "fsub.sdd", INTRR,      REF(fsub_sdd),  fix_r0,
+0x84003020, 0xfc00ffe0, "fsub.dss", INTRR,      REF(fsub_dss),  fix_r0,
+0x840030a0, 0xfc00ffe0, "fsub.dsd", INTRR,      REF(fsub_dsd),  fix_r0,
+0x84003220, 0xfc00ffe0, "fsub.dds", INTRR,      REF(fsub_dds),  fix_r0,
+0x840032a0, 0xfc00ffe0, "fsub.ddd", INTRR,      REF(fsub_ddd),  fix_r0,
+
+0x8000c800, 0xfc00f800, "fxcr",     FXCR,       REF(xcr),       NOFIX,
+
+0x84004800, 0xfc1fffe0, "int.ss",   INTRR2OP,   REF(int_ss),    fix_r0,
+0x84004880, 0xfc1fffe0, "int.sd",   INTRR2OP,   REF(int_sd),    fix_r0,
+
+0xf400c000, 0xffffffe0, "jmp",      JMP,        REF(jmp),       NOFIX,
+0xf400c400, 0xffffffe0, "jmp.n",    JMP,        REF(jmp_n),     NOFIX,
+
+0xf400c800, 0xffffffe0, "jsr",      JMP,        REF(jsr),       NOFIX,
+0xf400cc00, 0xffffffe0, "jsr.n",    JMP,        REF(jsr_n),     NOFIX,
+
+0x10000000, 0xfc000000, "ld.d",     LDLIT,      REF(ld_d),      NOFIX,
+0x14000000, 0xfc000000, "ld",       LDLIT,      REF(ld),        fix_r0,
+0x18000000, 0xfc000000, "ld.h",     LDLIT,      REF(ld_h),      fix_r0,
+0x1c000000, 0xfc000000, "ld.b",     LDLIT,      REF(ld_b),      fix_r0,
+0x00000000, 0xfc000000, "xmem.bu",  LDLIT,      REF(xmem_bu),   NOFIX,
+0x04000000, 0xfc000000, "xmem",     LDLIT,      REF(xmem),      NOFIX,
+0x08000000, 0xfc000000, "ld.hu",    LDLIT,      REF(ld_hu),     fix_r0,
+0x0c000000, 0xfc000000, "ld.bu",    LDLIT,      REF(ld_bu),     fix_r0,
+
+0xf4000000, 0xfc00ffe0, "xmem.bu",  LDRO,       REF(xmem_bu),   NOFIX,
+0xf4000400, 0xfc00ffe0, "xmem",     LDRO,       REF(xmem),      NOFIX,
+0xf4000800, 0xfc00ffe0, "ld.hu",    LDRO,       REF(ld_hu),     fix_r0,
+0xf4000c00, 0xfc00ffe0, "ld.bu",    LDRO,       REF(ld_bu),     fix_r0,
+0xf4001000, 0xfc00ffe0, "ld.d",     LDRO,       REF(ld_d),      fix_r0,
+0xf4001400, 0xfc00ffe0, "ld",       LDRO,       REF(ld),        fix_r0,
+0xf4001800, 0xfc00ffe0, "ld.h",     LDRO,       REF(ld_h),      fix_r0,
+0xf4001c00, 0xfc00ffe0, "ld.b",     LDRO,       REF(ld_b),      fix_r0,
+
+0xf4000200, 0xfc00ffe0, "xmem.bu",  LDRI,       REF(xmem_bu),   NOFIX,
+0xf4000600, 0xfc00ffe0, "xmem",     LDRI,       REF(xmem_sc),   NOFIX,
+0xf4000a00, 0xfc00ffe0, "ld.hu",    LDRI,       REF(ld_hu_sc),  fix_r0,
+0xf4000e00, 0xfc00ffe0, "ld.bu",    LDRI,       REF(ld_bu),     fix_r0,
+0xf4001200, 0xfc00ffe0, "ld.d",     LDRI,       REF(ld_d_sc),   NOFIX,
+0xf4001600, 0xfc00ffe0, "ld",       LDRI,       REF(ld_sc),     fix_r0,
+0xf4001a00, 0xfc00ffe0, "ld.h",     LDRI,       REF(ld_h_sc),   fix_r0,
+0xf4001e00, 0xfc00ffe0, "ld.b",     LDRI,       REF(ld_b),      fix_r0,
+
+0xf4000900, 0xfc00ffe0, "ld.hu.usr",    LDRO,   REF(ld_hu_usr), fix_r0,
+0xf4000d00, 0xfc00ffe0, "ld.bu.usr",    LDRO,   REF(ld_bu_usr), fix_r0,
+0xf4001100, 0xfc00ffe0, "ld.d.usr",     LDRO,   REF(ld_d_usr),  NOFIX,
+0xf4001500, 0xfc00ffe0, "ld.usr",       LDRO,   REF(ld_usr),    fix_r0,
+0xf4001900, 0xfc00ffe0, "ld.h.usr",     LDRO,   REF(ld_h_usr),  fix_r0,
+0xf4001d00, 0xfc00ffe0, "ld.b.usr",     LDRO,   REF(ld_b_usr),  fix_r0,
+
+0xf4000b00, 0xfc00ffe0, "ld.hu.usr",    LDRI,   REF(ld_hu_usr_sc),fix_r0,
+0xf4000f00, 0xfc00ffe0, "ld.bu.usr",    LDRI,   REF(ld_bu_usr),   fix_r0,
+0xf4001300, 0xfc00ffe0, "ld.d.usr",     LDRI,   REF(ld_d_usr_sc), NOFIX,
+0xf4001700, 0xfc00ffe0, "ld.usr",       LDRI,   REF(ld_usr_sc),   fix_r0,
+0xf4001b00, 0xfc00ffe0, "ld.h.usr",     LDRI,   REF(ld_h_usr_sc), fix_r0,
+0xf4001f00, 0xfc00ffe0, "ld.b.usr",     LDRI,   REF(ld_b_usr),    fix_r0,
+
+0xf4000100, 0xfc00ffe0, "xmem.bu.usr",  LDRO,   REF(xmem_bu_usr), NOFIX,
+0xf4000500, 0xfc00ffe0, "xmem.usr",     LDRO,   REF(xmem_usr),    NOFIX,
+0xf4000300, 0xfc00ffe0, "xmem.bu.usr",  LDRI,   REF(xmem_bu_usr), NOFIX,
+0xf4000700, 0xfc00ffe0, "xmem.usr",     LDRI,   REF(xmem_usr_sc), NOFIX,
+
+/*
+ * This is my closest guess on the lda LDLIT and LDRO
+ * modes, they aren't documented.
+ */
+0x30000000, 0xfc000000, "lda.d",    INTRL,      REF(addu),      fix_r0,
+0x34000000, 0xfc000000, "lda",      INTRL,      REF(addu),      fix_r0,
+0x38000000, 0xfc000000, "lda.h",    INTRL,      REF(addu),      fix_r0,
+0x3c000000, 0xfc000000, "lda.b",    INTRL,      REF(addu),      fix_r0,
+
+0xf4003000, 0xfc00ffe0, "lda.d",    INTRR,      REF(addu),      fix_r0,
+0xf4003400, 0xfc00ffe0, "lda",      INTRR,      REF(addu),      fix_r0,
+0xf4003800, 0xfc00ffe0, "lda.h",    INTRR,      REF(addu),      fix_r0,
+0xf4003c00, 0xfc00ffe0, "lda.b",    INTRR,      REF(addu),      fix_r0,
+
+0xf4003200, 0xfc00ffe0, "lda.d",    INTRR,      REF(lda_d),     fix_r0,
+0xf4003600, 0xfc00ffe0, "lda",      INTRR,      REF(lda),       fix_r0,
+0xf4003a00, 0xfc00ffe0, "lda.h",    INTRR,      REF(lda_h),     fix_r0,
+0xf4003e00, 0xfc00ffe0, "lda.b",    INTRR,      REF(addu),      fix_r0,
+
+0x80004000, 0xfc1ff81f, "ldcr",     LDCR,       REF(ldcr),      fix_r0,
+
+0xf000a000, 0xfc00fc00, "mak",      BITFIELD,   REF(mak),       fix_r0,
+0xf400a000, 0xfc00ffe0, "mak",      INTRR,      REF(mak),       fix_r0,
+
+0x48000000, 0xfc000000, "mask",     INTRL,      REF(and),       fix_r0,
+0x4c000000, 0xfc000000, "mask.u",   INTRL,      REF(and),       fix_mask_u,
+
+0x6c000000, 0xfc000000, "mul",      INTRL,      REF(mul),       fix_r0,
+0xf4006c00, 0xfc00fee0, "mul",      INTRR,      REF(mul),       fix_r0,
+
+0x84005000, 0xfc1fffe0, "nint.ss",  INTRR2OP,   REF(nint_ss),   fix_r0,
+0x84005080, 0xfc1fffe0, "nint.sd",  INTRR2OP,   REF(nint_sd),   fix_r0,
+
+0x58000000, 0xfc000000, "or",       INTRL,      REF(or),        fix_r0,
+0x5c000000, 0xfc000000, "or.u",     INTRL,      REF(or),        fix_or_u,
+0xf4005800, 0xfc00ffe0, "or",       INTRR,      REF(or),        fix_r0,
+0xf4005c00, 0xfc00ffe0, "or.c",     INTRR,      REF(or_c),      fix_r0,
+
+0xf000a800, 0xfc00ffe0, "rot",      ROT,        REF(rot),       fix_r0,
+0xf400a800, 0xfc00ffe0, "rot",      INTRR,      REF(rot),       fix_r0,
+
+0xf400fc00, 0xffffffff, "rte",      RTE,        REF(rte),       NOFIX,
+
+0xf0008800, 0xfc00fc00, "set",      BITFIELD,   REF(set),       fix_r0,
+0xf4008800, 0xfc00ffe0, "set",      INTRR,      REF(set),       fix_r0,
+
+0x20000000, 0xfc000000, "st.d",     STLIT,      REF(st_d),      NOFIX,
+0x24000000, 0xfc000000, "st",       STLIT,      REF(st),        NOFIX,
+0x28000000, 0xfc000000, "st.h",     STLIT,      REF(st_h),      NOFIX,
+0x2c000000, 0xfc000000, "st.b",     STLIT,      REF(st_b),      NOFIX,
+
+0xf4002000, 0xfc00ffe0, "st.d",     STRO,       REF(st_d),      NOFIX,
+0xf4002400, 0xfc00ffe0, "st",       STRO,       REF(st),        NOFIX,
+0xf4002800, 0xfc00ffe0, "st.h",     STRO,       REF(st_h),      NOFIX,
+0xf4002c00, 0xfc00ffe0, "st.b",     STRO,       REF(st_b),      NOFIX,
+
+0xf4002200, 0xfc00ffe0, "st.d",     STRI,       REF(st_d_sc),   NOFIX,
+0xf4002600, 0xfc00ffe0, "st",       STRI,       REF(st_sc),     NOFIX,
+0xf4002a00, 0xfc00ffe0, "st.h",     STRI,       REF(st_h_sc),   NOFIX,
+0xf4002e00, 0xfc00ffe0, "st.b",     STRI,       REF(st_b),      NOFIX,
+
+0xf4002100, 0xfc00ffe0, "st.d.usr", STRO,       REF(st_d_usr),  NOFIX,
+0xf4002500, 0xfc00ffe0, "st.usr",   STRO,       REF(st_usr),    NOFIX,
+0xf4002900, 0xfc00ffe0, "st.h.usr", STRO,       REF(st_h_usr),  NOFIX,
+0xf4002d00, 0xfc00ffe0, "st.b.usr", STRO,       REF(st_b_usr),  NOFIX,
+
+0xf4002300, 0xfc00ffe0, "st.d.usr", STRI,       REF(st_d_usr_sc),   NOFIX,
+0xf4002700, 0xfc00ffe0, "st.usr",   STRI,       REF(st_usr_sc),     NOFIX,
+0xf4002b00, 0xfc00ffe0, "st.h.usr", STRI,       REF(st_h_usr_sc),   NOFIX,
+0xf4002f00, 0xfc00ffe0, "st.b.usr", STRI,       REF(st_b_usr),      NOFIX,
+
+0x80008000, 0xffe0f800, "stcr",     STCR,       REF(stcr),      NOFIX,
+
+0x74000000, 0xfc000000, "sub",      INTRL,      REF(sub),       fix_r0,
+0xf4007400, 0xfc00ffe0, "sub",      INTRR,      REF(sub),       fix_r0,
+0xf4007500, 0xfc00ffe0, "sub.bo",   INTRR,      REF(sub_bo),    fix_r0,
+0xf4007600, 0xfc00ffe0, "sub.bi",   INTRR,      REF(sub_bi),    fix_r0,
+0xf4007700, 0xfc00ffe0, "sub.bio",  INTRR,      REF(sub_bio),   fix_r0,
+
+0x64000000, 0xfc000000, "subu",     INTRL,      REF(subu),      fix_r0,
+0xf4006400, 0xfc00ffe0, "subu",     INTRR,      REF(subu),      fix_r0,
+0xf4006500, 0xfc00ffe0, "subu.bo",  INTRR,      REF(subu_bo),   fix_r0,
+0xf4006600, 0xfc00ffe0, "subu.bi",  INTRR,      REF(subu_bi),   fix_r0,
+0xf4006700, 0xfc00ffe0, "subu.bio", INTRR,      REF(subu_bio),  fix_r0,
+
+0xf000d000, 0xfc00fe00, "tb0",      TRAP,       REF(tb0),       NOFIX,
+0xf000d800, 0xfc00fe00, "tb1",      TRAP,       REF(tb1),       NOFIX,
+
+0xf8000000, 0xffe00000, "tbnd",     TBND,       REF(tbnd),      NOFIX,
+0xf400f800, 0xffe0ffe0, "tbnd",     INTRR_S1_S2,REF(tbnd),      NOFIX,
+
+0xf000e800, 0xfc00fe00, "tcnd",     TCND,       REF(tcnd),      NOFIX,
+
+0x84005800, 0xfc1fffe0, "trnc.ss",  INTRR2OP,   REF(trnc_ss),   fix_r0,
+0x84005880, 0xfc1fffe0, "trnc.sd",  INTRR2OP,   REF(trnc_sd),   fix_r0,
+
+0x8000c000, 0xfc00c000, "xcr",      XCR,        REF(xcr),       NOFIX,
+
+0x50000000, 0xfc000000, "xor",      INTRL,      REF(xor),       fix_r0,
+0x54000000, 0xfc000000, "xor.u",    INTRL,      REF(xor),       fix_or_u,
+0xf4005000, 0xfc00ffe0, "xor",      INTRR,      REF(xor),       fix_r0,
+0xf4005400, 0xfc00ffe0, "xor.c",    INTRR,      REF(xor_c),     fix_r0,
+
+0x00000000, 0x00000000, "pseudo",   0,          REF(end_of_page), NOFIX,
+0x00000000, 0x00000000, "pseudo",   0,          REF(not_decoded), NOFIX,
+0x00000000, 0x00000000, "pseudo",   0,          REF(opc_exception), NOFIX
+};
+
+#define INTAB_SIZE (sizeof(in_tab) / sizeof(struct instr_info))
+
+static struct instr_info *last_p = &(in_tab[INTAB_SIZE]);
+
+#define DECODECACHESIZE  (64)
+#define DECODECACHESHIFT (32 - 6)       /* 32 - log2(DECODECACHESIZE) */
+static struct instr_info decodecache[DECODECACHESIZE];
+
+/*
+ * This builds a small lookup table based on the top 6 bits of the
+ * instruction.  We use it to speed up sim_instructions_lookup().
+ */
+builddecodetable()
+{
+    register struct instr_info *p;
+    register struct instr_info *lp = last_p;
+    register i;
+    static int initialized = 0;
+
+    if (!initialized) {
+        initialized = 1;
+        for (p = &in_tab[0] ; p < lp ; p++) {
+            i = p->opcode >> DECODECACHESHIFT;
+            p->link = decodecache[i].link;
+            decodecache[i].link = p;
+        }
+    }
+}
+
+/*
+ * This returns a pointer to the instruction table entry that matches
+ * the passed instruction.
+ */
+struct instr_info *
+sim_instruction_lookup(i)
+    register u_long i;
+{
+    register struct instr_info *p, *prev, *head;
+    register struct instr_info *lp = last_p;
+    register int cnt;
+
+    prev = head = &decodecache[i >> DECODECACHESHIFT];
+    for (p = head->link ; p ; prev = p, p = p->link) {
+        if ((p->opmask & i) == p->opcode) {
+            /*
+             * We do a little adaptive searching here: when
+             * we find an instruction we put it at the head of
+             * the list.
+             */
+            prev->link = p->link;
+            p->link = head->link;
+            head->link = p;
+            return p;
+        }
+    }
+    return (struct instr_info *)0;
+}
+@
+
+
+1.27
+log
+@Fixed typo caught by new compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.26 89/07/14 08:59:12 robertb Exp $
+d627 1
+a627 1
+0xf4007d00, 0xfc00ffe0, "cmp",      INTRR,      REF(cmp),       fix_r0,
+d630 1
+a630 1
+0xf4007900, 0xfc00ffe0, "div",      INTRR,      REF(div),       fix_r0,
+d633 1
+a633 1
+0xf4006900, 0xfc00ffe0, "divu",     INTRR,      REF(divu),      fix_r0,
+d777 1
+a777 1
+0xf4006d00, 0xfc00ffe0, "mul",      INTRR,      REF(mul),       fix_r0,
+@
+
+
+1.26
+log
+@Fixed some type-matching problems shown by the new compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.25 89/03/07 16:48:31 andrew Exp $
+d859 1
+a859 1
+static struct instr_into *last_p = &(in_tab[INTAB_SIZE]);
+d872 1
+a872 1
+    register struct instr_into *lp = last_p;
+d895 1
+a895 1
+    register struct instr_into *lp = last_p;
+@
+
+
+1.25
+log
+@Fix decode.c per Terry Laskodi's request.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.24 88/08/03 13:22:07 andrew Exp $
+d427 1
+a427 1
+#define REF(x)  0, sim_/**/x
+@
+
+
+1.24
+log
+@Implement new control register cr21, the stack base.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.23 88/06/09 17:59:25 robertb Exp $
+d130 2
+a361 1
+    p->norm_e_addr = instr_info->norm_e_addr;
+@
+
+
+1.23
+log
+@added the uncommon bcnd instructions
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.22 88/06/07 17:06:05 robertb Exp $
+d302 1
+a302 1
+                case 17: case 18: case 19: case 20:
+@
+
+
+1.22
+log
+@Added 4 xmem.usr instructions to the decode table.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.21 88/04/29 17:02:29 robertb Exp $
+d455 11
+d472 11
+@
+
+
+1.21
+log
+@removed sim_ss(), switched to new scheme for single stepping
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.20 88/04/28 10:38:02 robertb Exp $
+d714 12
+a725 6
+0xf4000b00, 0xfc00ffe0, "ld.hu.usr",    LDRI,   REF(ld_hu_usr_sc),  fix_r0,
+0xf4000f00, 0xfc00ffe0, "ld.bu.usr",    LDRI,   REF(ld_bu_usr),     fix_r0,
+0xf4001300, 0xfc00ffe0, "ld.d.usr",     LDRI,   REF(ld_d_usr_sc),   NOFIX,
+0xf4001700, 0xfc00ffe0, "ld.usr",       LDRI,   REF(ld_usr_sc),     fix_r0,
+0xf4001b00, 0xfc00ffe0, "ld.h.usr",     LDRI,   REF(ld_h_usr_sc),   fix_r0,
+0xf4001f00, 0xfc00ffe0, "ld.b.usr",     LDRI,   REF(ld_b_usr),      fix_r0,
+@
+
+
+1.20
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.19 88/04/16 14:21:48 robertb Exp $
+d18 5
+a22 5
+#define L(x)  extern sim_/**/x(), sim_/**/x/**/_ss();
+#define BB0(x) extern sim_bb0_/**/x(), sim_bb0_/**/x/**/_ss();
+#define BB1(x) extern sim_bb1_/**/x(), sim_bb1_/**/x/**/_ss();
+#define BB0_N(x) extern sim_bb0_n_/**/x(), sim_bb0_n_/**/x/**/_ss();
+#define BB1_N(x) extern sim_bb1_n_/**/x(), sim_bb1_n_/**/x/**/_ss();
+a380 3
+#define REF(x)  0, sim_/**/x, sim_/**/x/**/_ss
+#define NOFIX   ((int (*)())0)
+
+d426 3
+a883 20
+}
+
+/*
+ * Returns the single-step entry point for the decoded instruction
+ * whose pointer is passed.
+ */
+int (*normal_to_ss(d_ptr)) ()
+    struct decoded_i *d_ptr;
+{
+    register struct instr_info *p;
+    register struct instr_into *lp = last_p;
+    register int (*norm_e_addr)() = d_ptr->norm_e_addr;
+
+    for (p = in_tab ; p < lp ; p++) {
+        if (p->norm_e_addr == norm_e_addr) {
+            return p->ss_e_addr;
+        }
+    }
+    sim_printf("simulator fatal error, could not find single-step entry.\n");
+    return sim_opc_exception_ss;
+@
+
+
+1.19
+log
+@Made sim_instruction_lookup much faster.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.18 88/04/11 19:13:47 robertb Exp $
+d16 1
+a16 1
+ * This macro turns the lines of extern.h into extern declarations.
+d18 5
+a22 1
+#define L(x)  extern sim_/**/x/**/(), sim_/**/x/**/_ss();
+d26 6
+d40 7
+d48 49
+d104 1
+a104 1
+decode(p, ip, us_mode)
+d114 1
+a114 1
+    exception = l_to_p(us_mode, ip, &physical_address, CODE_CMMU(ip), READ);
+d144 1
+a144 2
+            p->literal = LIT16(instr);
+            p->s2 = (u_long *)&(p->literal);
+d161 1
+a161 2
+            p->literal = LIT16(instr);
+            p->s2 = (u_long *)&(p->literal);
+d167 1
+a167 2
+            p->literal = O5(instr);
+            p->s2 = (u_long *)&(p->literal);
+d173 1
+a173 2
+            p->literal = instr & 0x3ff;
+            p->s2 = (u_long *)&(p->literal); 
+a180 1
+            p->dest = (u_long *)(1 << B5(instr));
+a181 1
+            p->literal = REL16(instr);
+a182 2
+            target_addr = (int)ip + REL16(instr);
+
+d187 2
+a188 1
+             * s2 to zero.
+d190 3
+a192 2
+            if ((target_addr & ~PAGE_MASK) == (ip & ~PAGE_MASK)) {
+                p->s2 = (u_long *)l_to_d(target_addr, us_mode);
+d194 1
+a200 8
+            target_addr = (int)ip + REL16(instr);
+            p->literal = REL16(instr);
+            /*
+             * In case this is a slow conditional branch, we put the
+             * M field in the decoded instruction.  This is for
+             * bcnd or bcnd_n.
+             */
+            p->dest = (u_long *)(M5(instr));
+d206 2
+a207 1
+             * s2 to zero.
+d209 3
+a211 2
+            if ((target_addr & ~PAGE_MASK) == (ip & ~PAGE_MASK)) {
+                p->s2 = (u_long *)l_to_d(target_addr, us_mode);
+d213 1
+a218 3
+            target_addr = (int)ip + REL26(instr);
+            p->literal = REL26(instr);
+
+d223 2
+a224 1
+             * s2 to zero.
+d226 3
+a228 2
+            if ((target_addr & ~PAGE_MASK) == (ip & ~PAGE_MASK)) {
+                p->s2 = (u_long *)l_to_d(target_addr, us_mode);
+d230 1
+d251 1
+a251 2
+            p->literal = LIT16(instr);
+            p->s2 = (u_long *)&(p->literal);
+d269 3
+a271 1
+            p->literal = CRS(instr) < 62;
+a276 1
+            p->literal = 1; /* Cause exception if executed in user mode */
+d283 4
+a286 1
+             * the destination point to our dummy destination.
+d288 1
+a288 1
+            if (CRS(instr) < 9 || CRS(instr) > 61) {
+d293 3
+a295 1
+            p->literal = CRS(instr) < 62;
+a312 1
+            p->literal = 1; /* Cause exception if executed in user mode */
+a333 1
+            p->literal = 1; /* Cause exception if executed in user mode */
+d350 3
+a352 1
+            p->literal = CRS(instr) < 62;
+d393 1
+a393 1
+    p->literal = (p->literal << 16) | 0xffff;
+d407 1
+a407 1
+    p->literal |= 0xffff0000;
+d416 1
+a416 1
+    p->literal <<= 16;
+d425 1
+a425 1
+    p->literal <<= 16;
+a428 28
+/*
+ * If an XMEM instruction has register zero as its destination register
+ * then turn it into a store.  
+ */
+fix_xmem_bu(instr_info, instr, p)
+    struct instr_info *instr_info;
+    u_long instr;
+    struct decoded_i *p;
+{
+    if (D(instr) == 0) {
+        p->norm_e_addr = sim_st_b;
+    }
+}
+
+/*
+ * If an XMEM instruction has register zero as its destination register
+ * then turn it into a store.  
+ */
+fix_xmem(instr_info, instr, p)
+    struct instr_info *instr_info;
+    u_long instr;
+    struct decoded_i *p;
+{
+    if (D(instr) == 0) {
+        p->norm_e_addr = sim_st;
+    }
+}
+
+a454 2
+0xe8000000, 0xfc000000, "bcnd",     CBRANCH,    REF(bcnd),      NOFIX,
+
+a461 2
+0xec000000, 0xfc000000, "bcnd_n",   CBRANCH,    REF(bcnd_n),    NOFIX,
+
+d465 32
+a496 2
+0xd0000000, 0xfc000000, "bb0",      BITBRANCH,  REF(bb0),       NOFIX,
+0xd4000000, 0xfc000000, "bb0.n",    BITBRANCH,  REF(bb0_n),     NOFIX,
+d498 32
+a529 2
+0xd8000000, 0xfc000000, "bb1",      BITBRANCH,  REF(bb1),       NOFIX,
+0xdc000000, 0xfc000000, "bb1.n",    BITBRANCH,  REF(bb1_n),     NOFIX,
+d531 66
+d684 2
+a685 2
+0x00000000, 0xfc000000, "xmem.bu",  LDLIT,      REF(xmem_bu),   fix_xmem_bu,
+0x04000000, 0xfc000000, "xmem",     LDLIT,      REF(xmem),      fix_xmem,
+d689 2
+a690 2
+0xf4000000, 0xfc00ffe0, "xmem.bu",  LDRO,       REF(xmem_bu),   fix_xmem_bu,
+0xf4000400, 0xfc00ffe0, "xmem",     LDRO,       REF(xmem),      fix_xmem,
+d698 2
+a699 2
+0xf4000200, 0xfc00ffe0, "xmem.bu",  LDRI,       REF(xmem_bu),   fix_xmem_bu,
+0xf4000600, 0xfc00ffe0, "xmem",     LDRI,       REF(xmem_sc),   fix_xmem,
+a824 2
+0x00000000, 0x00000000, "pseudo",   0,          REF(unimplemented), NOFIX,
+0x00000000, 0x00000000, "pseudo",   0,          REF(decode_problem), NOFIX,
+d834 1
+a834 1
+static struct instr_info *decodecache[DECODECACHESIZE];
+d842 1
+a842 1
+    register struct instr_info *p, *prev_p;
+d845 1
+d847 2
+a848 3
+    for (i = 0 ; i < DECODECACHESIZE ; i++) {
+        prev_p = 0;
+        decodecache[i] = &in_tab[0];
+d850 3
+a852 5
+            if (i == (p->opcode >> DECODECACHESHIFT)) {
+                decodecache[i] = p;
+                p->link = prev_p;
+                prev_p = p;
+            }
+d865 1
+a865 1
+    register struct instr_info *p;
+d869 2
+a870 1
+    for (p = decodecache[i >> DECODECACHESHIFT] ; p ; p = p->link) {
+d872 8
+@
+
+
+1.18
+log
+@Fixed opcode errors based on Moto documentation.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.17 88/04/08 21:30:38 robertb Exp $
+d320 1
+a320 1
+#define REF(x)  sim_/**/x, sim_/**/x/**/_ss
+d679 4
+d684 23
+d716 1
+d718 1
+a718 1
+    for (p = in_tab ; p < lp ; p++) {
+a744 1
+
+@
+
+
+1.17
+log
+@small change to make SUN compiler happy
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.16 88/03/19 10:25:39 robertb Exp $
+d472 4
+a475 4
+0x84003820, 0xfc00ffe0, "fcmp.sss", INTRR,      REF(fcmp_sss),  fix_r0,
+0x840038a0, 0xfc00ffe0, "fcmp.ssd", INTRR,      REF(fcmp_ssd),  fix_r0,
+0x84003a20, 0xfc00ffe0, "fcmp.sds", INTRR,      REF(fcmp_sds),  fix_r0,
+0x84003aa0, 0xfc00ffe0, "fcmp.sdd", INTRR,      REF(fcmp_sdd),  fix_r0,
+d492 1
+a492 1
+0x84002080, 0xfc1fffe0, "flt.ds",   INTRR2OP,   REF(flt_ds),    fix_r0,
+@
+
+
+1.16
+log
+@Fiddled with exception codes, changed 78 to 88
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.15 88/02/22 11:57:20 robertb Exp $
+d321 1
+a321 1
+#define NOFIX   ((int (*func)())0)
+@
+
+
+1.15
+log
+@Changed to using u_long, u_short and u_char.
+@
+text
+@d2 1
+a2 1
+ * This decodes 78000 instructions
+d7 1
+a7 1
+ * $Header: decode.c,v 1.14 88/02/12 16:26:48 robertb Exp $
+d13 1
+a13 1
+#include "fields78.h"
+d31 1
+a31 1
+ * This decodes a 78000 instruction into a form for quick execution.
+@
+
+
+1.14
+log
+@Deleted extra "*/" in header comment.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.13 88/02/12 16:12:43 robertb Exp $
+d39 2
+a40 2
+	struct decoded_i   *p;
+	int ip;
+d42 5
+a46 5
+	unsigned instr;
+	struct instr_info *instr_info;
+	unsigned physical_address;
+	unsigned target_addr;
+	int exception;
+d48 8
+a55 8
+	exception = l_to_p(us_mode, ip, &physical_address, CODE_CMMU(ip), READ);
+	if (exception != E_NONE) {
+		return 1;
+	}
+	instr = read_sim_w(physical_address);
+	if (sim_errno) {
+		return 1;
+	}
+d57 1
+a57 1
+	instr_info = sim_instruction_lookup(instr);
+d59 4
+a62 4
+	if (instr_info == (struct instr_info *)0) {
+		p->norm_e_addr = sim_opc_exception;
+		return 0;
+	}
+d64 10
+a73 10
+	switch (instr_info->format) {
+		/*
+		 * Load, store, xmem, and register-to-register instructions
+		 */
+		case STRO:
+		case STRI:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->s2 = (unsigned *)(&regs[S2(instr)]);
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			break;
+d76 6
+a81 6
+		case STLIT:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->literal = LIT16(instr);
+			p->s2 = (unsigned *)&(p->literal);
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			break;
+d83 9
+a91 9
+		case LDRO:
+		case LDRI:
+		case INTRR:
+		case INTRR2OP:
+		case INTRR_S1_S2:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->s2 = (unsigned *)(&regs[S2(instr)]);
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			break;
+d93 7
+a99 7
+		case LDLIT:
+		case INTRL:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->literal = LIT16(instr);
+			p->s2 = (unsigned *)&(p->literal);
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			break;
+d101 6
+a106 6
+		case ROT:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->literal = O5(instr);
+			p->s2 = (unsigned *)&(p->literal);
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			break;
+d108 6
+a113 6
+		case BITFIELD:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->literal = instr & 0x3ff;
+			p->s2 = (unsigned *)&(p->literal); 
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			break;
+d115 7
+a121 7
+		/*
+		 * Transfer of control instructions.
+		 */
+		case BITBRANCH:
+			p->dest = (unsigned *)(1 << B5(instr));
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->literal = REL16(instr);
+d123 1
+a123 1
+			target_addr = (int)ip + REL16(instr);
+d125 12
+a136 12
+			/*
+			 * See if the target address is on the same page as
+			 * the branch.  If so, set the s2 field to the decoded
+			 * instruction pointer of the target.  If not, set
+			 * s2 to zero.
+			 */
+			if ((target_addr & ~PAGE_MASK) == (ip & ~PAGE_MASK)) {
+				p->s2 = (unsigned *)l_to_d(target_addr, us_mode);
+			} else {
+				p->s2 = (unsigned *)0;
+			}
+			break;
+d138 10
+a147 10
+		case CBRANCH:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			target_addr = (int)ip + REL16(instr);
+			p->literal = REL16(instr);
+			/*
+			 * In case this is a slow conditional branch, we put the
+			 * M field in the decoded instruction.  This is for
+			 * bcnd or bcnd_n.
+			 */
+			p->dest = (unsigned *)(M5(instr));
+d149 12
+a160 12
+			/*
+			 * See if the target address is on the same page as
+			 * the branch.  If so, set the s2 field to the decoded
+			 * instruction pointer of the target.  If not, set
+			 * s2 to zero.
+			 */
+			if ((target_addr & ~PAGE_MASK) == (ip & ~PAGE_MASK)) {
+				p->s2 = (unsigned *)l_to_d(target_addr, us_mode);
+			} else {
+				p->s2 = (unsigned *)0;
+			}
+			break;
+d162 3
+a164 3
+		case IPREL:
+			target_addr = (int)ip + REL26(instr);
+			p->literal = REL26(instr);
+d166 12
+a177 12
+			/*
+			 * See if the target address is on the same page as
+			 * the branch.  If so, set the s2 field to the decoded
+			 * instruction pointer of the target.  If not, set
+			 * s2 to zero.
+			 */
+			if ((target_addr & ~PAGE_MASK) == (ip & ~PAGE_MASK)) {
+				p->s2 = (unsigned *)l_to_d(target_addr, us_mode);
+			} else {
+				p->s2 = (unsigned *)0;
+			}
+			break;
+d179 4
+a182 4
+		case JMP:
+			p->dest = (unsigned *)(&regs[S2(instr)]);
+			p->s2 = (unsigned *)0;	/* For delayed jumps. */
+			break;
+d184 8
+a191 8
+		/*
+		 * Trap instructions.
+		 */
+		case TRAP:
+			p->dest = (unsigned *)(1 << B5(instr));
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->s2 = (unsigned *)(VEC(instr));
+			break;
+d193 5
+a197 5
+		case TBND:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->literal = LIT16(instr);
+			p->s2 = (unsigned *)&(p->literal);
+			break;
+d199 8
+a206 8
+		case TCND:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			p->s2 = (unsigned *)(VEC(instr));
+			p->dest = (unsigned *)(M5(instr));
+			break;
+			
+		case RTE:
+			break;
+d208 36
+a243 36
+		/*
+		 * Control register manipulation instructions.
+		 */
+		case FLDCR:
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			p->s1 = (unsigned *)(&sfu1_regs[CRS(instr)]);
+			p->literal = CRS(instr) < 62;
+			break;
+			
+		case LDCR:
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			p->s1 = (unsigned *)(&sfu0_regs[CRS(instr)]);
+			p->literal = 1;	/* Cause exception if executed in user mode */
+			break;
+			
+		case FSTCR:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			/*
+			 * Check to see if its a real fp register.  If not, make
+			 * the destination point to our dummy destination.
+			 */
+			if (CRS(instr) < 9 || CRS(instr) > 61) {
+				p->dest = (unsigned *)(&sfu1_regs[CRS(instr)]);
+			} else {
+				p->dest = (unsigned *)&dummy_r0;
+			}
+			p->literal = CRS(instr) < 62;
+			break;
+			
+		case STCR:
+			p->s1 = (unsigned *)(&regs[S1(instr)]);
+			switch (CRS(instr)) {
+				case 1: case 2: case 3: case 5: case 6: case 7:
+				case 17: case 18: case 19: case 20:
+					p->dest = (unsigned *)(&sfu0_regs[CRS(instr)]);
+					break;
+d245 9
+a253 9
+				/*
+				 * The rest of the registers are read only.
+				 */
+				default:
+					p->dest = (unsigned *)&dummy_r0;
+					break;
+			}
+			p->literal = 1;	/* Cause exception if executed in user mode */
+			break;
+d255 7
+a261 7
+		case XCR:
+			p->s2 = (unsigned *)(&sfu0_regs[CRS(instr)]);
+			switch (CRS(instr)) {
+				case 1: case 2: case 3: case 5: case 6: case 7:
+				case 17: case 18: case 19: case 20:
+					p->s1 = (unsigned *)(&regs[S1(instr)]);
+					break;
+d263 2
+a264 2
+				/*
+				 * The rest of the registers are read only, so we
+d268 8
+a275 8
+				 */
+				default:
+					p->s1 = (unsigned *)(&sfu0_regs[CRS(instr)]);
+					break;
+			}
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			p->literal = 1;	/* Cause exception if executed in user mode */
+			break;
+d277 7
+a283 7
+		case FXCR:
+			p->s2 = (unsigned *)(&sfu1_regs[CRS(instr)]);
+			if (CRS(instr) < 9 || CRS(instr) > 61) {
+				p->s1 = (unsigned *)(&regs[S1(instr)]);
+			} else {
+				/*
+				 * The rest of the registers are read only, so we
+d287 17
+a303 17
+				 */
+				p->s1 = (unsigned *)(&sfu1_regs[CRS(instr)]);
+			}
+			p->dest = (unsigned *)(&regs[D(instr)]);
+			p->literal = CRS(instr) < 62;
+			break;
+			
+		default:
+			p->norm_e_addr = sim_opc_exception;
+			return 0;
+			break;
+	}
+	p->norm_e_addr = instr_info->norm_e_addr;
+	if (instr_info->fixup) {
+		instr_info->fixup(instr_info, instr, p);
+	}
+	return 0;
+d311 3
+a313 3
+	struct instr_info *instr_info;
+	unsigned instr;
+	struct decoded_i *p;
+d315 3
+a317 3
+	if (p->dest == &regs[0]) {
+		p->dest = (unsigned *)&dummy_r0;
+	}
+d320 2
+a321 2
+#define	REF(x)	sim_/**/x, sim_/**/x/**/_ss
+#define	NOFIX	((int (*func)())0)
+d328 3
+a330 3
+	struct instr_info *instr_info;
+	unsigned instr;
+	struct decoded_i *p;
+d332 2
+a333 2
+	p->literal = (p->literal << 16) | 0xffff;
+	fix_r0(instr_info, instr, p);
+d342 3
+a344 3
+	struct instr_info *instr_info;
+	unsigned instr;
+	struct decoded_i *p;
+d346 2
+a347 2
+	p->literal |= 0xffff0000;
+	fix_r0(instr_info, instr, p);
+d351 3
+a353 3
+	struct instr_info *instr_info;
+	unsigned instr;
+	struct decoded_i *p;
+d355 2
+a356 2
+	p->literal <<= 16;
+	fix_r0(instr_info, instr, p);
+d360 3
+a362 3
+	struct instr_info *instr_info;
+	unsigned instr;
+	struct decoded_i *p;
+d364 2
+a365 2
+	p->literal <<= 16;
+	fix_r0(instr_info, instr, p);
+d373 3
+a375 3
+	struct instr_info *instr_info;
+	unsigned instr;
+	struct decoded_i *p;
+d377 3
+a379 3
+	if (D(instr) == 0) {
+		p->norm_e_addr = sim_st_b;
+	}
+d387 3
+a389 3
+	struct instr_info *instr_info;
+	unsigned instr;
+	struct decoded_i *p;
+d391 3
+a393 3
+	if (D(instr) == 0) {
+		p->norm_e_addr = sim_st;
+	}
+d398 5
+a402 5
+0x70000000, 0xfc000000, "add",      INTRL,		REF(add),		fix_r0,
+0xf4007000, 0xfc00ffe0, "add",      INTRR,		REF(add),		fix_r0,
+0xf4007100, 0xfc00ffe0, "add.co",   INTRR,		REF(add_co),	fix_r0,
+0xf4007200, 0xfc00ffe0, "add.ci",   INTRR,		REF(add_ci),	fix_r0,
+0xf4007300, 0xfc00ffe0, "add.cio",  INTRR,		REF(add_cio),	fix_r0,
+d404 5
+a408 5
+0x60000000, 0xfc000000, "addu",     INTRL,		REF(addu),		fix_r0,
+0xf4006000, 0xfc00ffe0, "addu",     INTRR,		REF(addu),		fix_r0,
+0xf4006100, 0xfc00ffe0, "addu.co",  INTRR,		REF(addu_co),	fix_r0,
+0xf4006200, 0xfc00ffe0, "addu.ci",  INTRR,		REF(addu_ci),	fix_r0,
+0xf4006300, 0xfc00ffe0, "addu.cio", INTRR,		REF(addu_cio),	fix_r0,
+d410 4
+a413 4
+0x40000000, 0xfc000000, "and",      INTRL,		REF(and),		fix_and,
+0x44000000, 0xfc000000, "and.u",    INTRL,		REF(and),		fix_and_u,
+0xf4004000, 0xfc00ffe0, "and",      INTRR,		REF(and),		fix_r0,
+0xf4004400, 0xfc00ffe0, "and.c",    INTRR,		REF(and_c),		fix_r0,
+d415 6
+a420 6
+0xe8400000, 0xffe00000, "bcnd_eq0", CBRANCH,	REF(bcnd_eq0),	NOFIX,
+0xe9a00000, 0xffe00000, "bcnd_ne0", CBRANCH,	REF(bcnd_ne0),	NOFIX,
+0xe8200000, 0xffe00000, "bcnd_gt0", CBRANCH,	REF(bcnd_gt0),	NOFIX,
+0xe9800000, 0xffe00000, "bcnd_lt0", CBRANCH,	REF(bcnd_lt0),	NOFIX,
+0xe8600000, 0xffe00000, "bcnd_ge0", CBRANCH,	REF(bcnd_ge0),	NOFIX,
+0xe9c00000, 0xffe00000, "bcnd_le0", CBRANCH,	REF(bcnd_le0),	NOFIX,
+d422 1
+a422 1
+0xe8000000, 0xfc000000, "bcnd",		CBRANCH,	REF(bcnd),		NOFIX,
+d424 6
+a429 6
+0xec400000, 0xffe00000, "bcnd_eq0_n", CBRANCH,	REF(bcnd_eq0_n),NOFIX,
+0xeda00000, 0xffe00000, "bcnd_ne0_n", CBRANCH,	REF(bcnd_ne0_n),NOFIX,
+0xec200000, 0xffe00000, "bcnd_gt0_n", CBRANCH,	REF(bcnd_gt0_n),NOFIX,
+0xed800000, 0xffe00000, "bcnd_lt0_n", CBRANCH,	REF(bcnd_lt0_n),NOFIX,
+0xec600000, 0xffe00000, "bcnd_ge0_n", CBRANCH,	REF(bcnd_ge0_n),NOFIX,
+0xedc00000, 0xffe00000, "bcnd_le0_n", CBRANCH,	REF(bcnd_le0_n),NOFIX,
+d431 1
+a431 1
+0xec000000, 0xfc000000, "bcnd_n",	CBRANCH,	REF(bcnd_n),	NOFIX,
+d433 2
+a434 2
+0xc0000000, 0xfc000000, "br",       IPREL,		REF(br),		NOFIX,
+0xc4000000, 0xfc000000, "br.n",     IPREL,		REF(br_n),		NOFIX,
+d436 2
+a437 2
+0xd0000000, 0xfc000000, "bb0",      BITBRANCH,	REF(bb0),		NOFIX,
+0xd4000000, 0xfc000000, "bb0.n",    BITBRANCH,	REF(bb0_n),		NOFIX,
+d439 2
+a440 2
+0xd8000000, 0xfc000000, "bb1",      BITBRANCH,	REF(bb1),		NOFIX,
+0xdc000000, 0xfc000000, "bb1.n",    BITBRANCH,	REF(bb1_n),		NOFIX,
+d442 2
+a443 2
+0xc8000000, 0xfc000000, "bsr",      IPREL,		REF(bsr),		NOFIX,
+0xcc000000, 0xfc000000, "bsr.n",    IPREL,		REF(bsr_n),		NOFIX,
+d445 2
+a446 2
+0xf0008000, 0xfc00fc00, "clr",      BITFIELD,	REF(clr),		fix_r0,
+0xf4008000, 0xfc00ffe0, "clr",      INTRR,		REF(clr),		fix_r0,
+d448 2
+a449 2
+0x7c000000, 0xfc000000, "cmp",		INTRL,		REF(cmp),		fix_r0,
+0xf4007d00, 0xfc00ffe0, "cmp",      INTRR,		REF(cmp),		fix_r0,
+d451 2
+a452 2
+0x78000000, 0xfc000000, "div",		INTRL,		REF(div),		fix_r0,
+0xf4007900, 0xfc00ffe0, "div",		INTRR,		REF(div),		fix_r0,
+d454 2
+a455 2
+0x68000000, 0xfc000000, "divu",		INTRL,		REF(divu),		fix_r0,
+0xf4006900, 0xfc00ffe0, "divu",		INTRR,		REF(divu),		fix_r0,
+d457 2
+a458 2
+0xf0009000, 0xfc00fc00, "ext",		BITFIELD,	REF(ext),		fix_r0,
+0xf4009000, 0xfc00ffe0, "ext",		INTRR,		REF(ext),		fix_r0,
+d460 2
+a461 2
+0xf0009800, 0xfc00fc00, "extu",		BITFIELD,	REF(extu),		fix_r0,
+0xf4009800, 0xfc00ffe0, "extu",		INTRR,		REF(extu),		fix_r0,
+d463 8
+a470 8
+0x84002800, 0xfc00ffe0, "fadd.sss",	INTRR,		REF(fadd_sss),	fix_r0,
+0x84002880, 0xfc00ffe0, "fadd.ssd",	INTRR,		REF(fadd_ssd),	fix_r0,
+0x84002a00, 0xfc00ffe0, "fadd.sds",	INTRR,		REF(fadd_sds),	fix_r0,
+0x84002a80, 0xfc00ffe0, "fadd.sdd",	INTRR,		REF(fadd_sdd),	fix_r0,
+0x84002820, 0xfc00ffe0, "fadd.dss",	INTRR,		REF(fadd_dss),	fix_r0,
+0x840028a0, 0xfc00ffe0, "fadd.dsd",	INTRR,		REF(fadd_dsd),	fix_r0,
+0x84002a20, 0xfc00ffe0, "fadd.dds",	INTRR,		REF(fadd_dds),	fix_r0,
+0x84002aa0, 0xfc00ffe0, "fadd.ddd",	INTRR,		REF(fadd_ddd),	fix_r0,
+d472 4
+a475 4
+0x84003820, 0xfc00ffe0, "fcmp.sss",	INTRR,		REF(fcmp_sss),	fix_r0,
+0x840038a0, 0xfc00ffe0, "fcmp.ssd",	INTRR,		REF(fcmp_ssd),	fix_r0,
+0x84003a20, 0xfc00ffe0, "fcmp.sds",	INTRR,		REF(fcmp_sds),	fix_r0,
+0x84003aa0, 0xfc00ffe0, "fcmp.sdd",	INTRR,		REF(fcmp_sdd),	fix_r0,
+d477 8
+a484 8
+0x84007000, 0xfc00ffe0, "fdiv.sss",	INTRR,		REF(fdiv_sss),	fix_r0,
+0x84007080, 0xfc00ffe0, "fdiv.ssd",	INTRR,		REF(fdiv_ssd),	fix_r0,
+0x84007200, 0xfc00ffe0, "fdiv.sds",	INTRR,		REF(fdiv_sds),	fix_r0,
+0x84007280, 0xfc00ffe0, "fdiv.sdd",	INTRR,		REF(fdiv_sdd),	fix_r0,
+0x84007020, 0xfc00ffe0, "fdiv.dss",	INTRR,		REF(fdiv_dss),	fix_r0,
+0x840070a0, 0xfc00ffe0, "fdiv.dsd",	INTRR,		REF(fdiv_dsd),	fix_r0,
+0x84007220, 0xfc00ffe0, "fdiv.dds",	INTRR,		REF(fdiv_dds),	fix_r0,
+0x840072a0, 0xfc00ffe0, "fdiv.ddd",	INTRR,		REF(fdiv_ddd),	fix_r0,
+d486 2
+a487 2
+0xf400ec00, 0xfc1fffe0, "ff0",		INTRR2OP,	REF(ff0),		fix_r0,
+0xf400e800, 0xfc1fffe0, "ff1",		INTRR2OP,	REF(ff1),		fix_r0,
+d489 1
+a489 1
+0x80004800, 0xfc1ff81f, "fldcr",	FLDCR,		REF(ldcr),		fix_r0,
+d491 2
+a492 2
+0x84002000, 0xfc1fffe0, "flt.ss", 	INTRR2OP,	REF(flt_ss),	fix_r0,
+0x84002080, 0xfc1fffe0, "flt.ds",	INTRR2OP,	REF(flt_ds),	fix_r0,
+d494 8
+a501 8
+0x84000000, 0xfc00ffe0, "fmul.sss",	INTRR,		REF(fmul_sss),	fix_r0,
+0x84000080, 0xfc00ffe0, "fmul.ssd",	INTRR,		REF(fmul_ssd),	fix_r0,
+0x84000200, 0xfc00ffe0, "fmul.sds",	INTRR,		REF(fmul_sds),	fix_r0,
+0x84000280, 0xfc00ffe0, "fmul.sdd",	INTRR,		REF(fmul_sdd),	fix_r0,
+0x84000020, 0xfc00ffe0, "fmul.dss",	INTRR,		REF(fmul_dss),	fix_r0,
+0x840000a0, 0xfc00ffe0, "fmul.dsd",	INTRR,		REF(fmul_dsd),	fix_r0,
+0x84000220, 0xfc00ffe0, "fmul.dds",	INTRR,		REF(fmul_dds),	fix_r0,
+0x840002a0, 0xfc00ffe0, "fmul.ddd",	INTRR,		REF(fmul_ddd),	fix_r0,
+d503 1
+a503 1
+0x80008800, 0xffe0f800, "fstcr",	FSTCR,		REF(stcr),		NOFIX,
+d505 8
+a512 8
+0x84003000, 0xfc00ffe0, "fsub.sss",	INTRR,		REF(fsub_sss),	fix_r0,
+0x84003080, 0xfc00ffe0, "fsub.ssd",	INTRR,		REF(fsub_ssd),	fix_r0,
+0x84003200, 0xfc00ffe0, "fsub.sds",	INTRR,		REF(fsub_sds),	fix_r0,
+0x84003280, 0xfc00ffe0, "fsub.sdd",	INTRR,		REF(fsub_sdd),	fix_r0,
+0x84003020, 0xfc00ffe0, "fsub.dss",	INTRR,		REF(fsub_dss),	fix_r0,
+0x840030a0, 0xfc00ffe0, "fsub.dsd",	INTRR,		REF(fsub_dsd),	fix_r0,
+0x84003220, 0xfc00ffe0, "fsub.dds",	INTRR,		REF(fsub_dds),	fix_r0,
+0x840032a0, 0xfc00ffe0, "fsub.ddd",	INTRR,		REF(fsub_ddd),	fix_r0,
+d514 1
+a514 1
+0x8000c800, 0xfc00f800, "fxcr",		FXCR,		REF(xcr),		NOFIX,
+d516 2
+a517 2
+0x84004800, 0xfc1fffe0, "int.ss", 	INTRR2OP,	REF(int_ss),	fix_r0,
+0x84004880, 0xfc1fffe0, "int.sd",	INTRR2OP,	REF(int_sd),	fix_r0,
+d519 2
+a520 2
+0xf400c000, 0xffffffe0, "jmp",		JMP,		REF(jmp),		NOFIX,
+0xf400c400, 0xffffffe0, "jmp.n",	JMP,		REF(jmp_n),		NOFIX,
+d522 2
+a523 2
+0xf400c800, 0xffffffe0, "jsr",		JMP,		REF(jsr),		NOFIX,
+0xf400cc00, 0xffffffe0, "jsr.n",	JMP,		REF(jsr_n),		NOFIX,
+d525 8
+a532 8
+0x10000000, 0xfc000000, "ld.d",		LDLIT,		REF(ld_d),		NOFIX,
+0x14000000, 0xfc000000, "ld",		LDLIT,		REF(ld),		fix_r0,
+0x18000000, 0xfc000000, "ld.h",		LDLIT,		REF(ld_h),		fix_r0,
+0x1c000000, 0xfc000000, "ld.b",		LDLIT,		REF(ld_b),		fix_r0,
+0x00000000, 0xfc000000, "xmem.bu",	LDLIT,		REF(xmem_bu),	fix_xmem_bu,
+0x04000000, 0xfc000000, "xmem",		LDLIT,		REF(xmem),		fix_xmem,
+0x08000000, 0xfc000000, "ld.hu",	LDLIT,		REF(ld_hu),		fix_r0,
+0x0c000000, 0xfc000000, "ld.bu",	LDLIT,		REF(ld_bu),		fix_r0,
+d534 8
+a541 8
+0xf4000000, 0xfc00ffe0, "xmem.bu",	LDRO,		REF(xmem_bu),	fix_xmem_bu,
+0xf4000400, 0xfc00ffe0, "xmem",		LDRO,		REF(xmem),		fix_xmem,
+0xf4000800, 0xfc00ffe0, "ld.hu",	LDRO,		REF(ld_hu),		fix_r0,
+0xf4000c00, 0xfc00ffe0, "ld.bu",	LDRO,		REF(ld_bu),		fix_r0,
+0xf4001000, 0xfc00ffe0, "ld.d",		LDRO,		REF(ld_d),		fix_r0,
+0xf4001400, 0xfc00ffe0, "ld",		LDRO,		REF(ld),		fix_r0,
+0xf4001800, 0xfc00ffe0, "ld.h",		LDRO,		REF(ld_h),		fix_r0,
+0xf4001c00, 0xfc00ffe0, "ld.b",		LDRO,		REF(ld_b),		fix_r0,
+d543 8
+a550 8
+0xf4000200, 0xfc00ffe0, "xmem.bu",	LDRI,		REF(xmem_bu),	fix_xmem_bu,
+0xf4000600, 0xfc00ffe0, "xmem",		LDRI,		REF(xmem_sc),	fix_xmem,
+0xf4000a00, 0xfc00ffe0, "ld.hu",	LDRI,		REF(ld_hu_sc),	fix_r0,
+0xf4000e00, 0xfc00ffe0, "ld.bu",	LDRI,		REF(ld_bu),		fix_r0,
+0xf4001200, 0xfc00ffe0, "ld.d",		LDRI,		REF(ld_d_sc),	NOFIX,
+0xf4001600, 0xfc00ffe0, "ld",		LDRI,		REF(ld_sc),		fix_r0,
+0xf4001a00, 0xfc00ffe0, "ld.h",		LDRI,		REF(ld_h_sc),	fix_r0,
+0xf4001e00, 0xfc00ffe0, "ld.b",		LDRI,		REF(ld_b),		fix_r0,
+d552 6
+a557 6
+0xf4000900, 0xfc00ffe0, "ld.hu.usr",	LDRO,	REF(ld_hu_usr),	fix_r0,
+0xf4000d00, 0xfc00ffe0, "ld.bu.usr",	LDRO,	REF(ld_bu_usr),	fix_r0,
+0xf4001100, 0xfc00ffe0, "ld.d.usr",		LDRO,	REF(ld_d_usr),	NOFIX,
+0xf4001500, 0xfc00ffe0, "ld.usr",		LDRO,	REF(ld_usr),	fix_r0,
+0xf4001900, 0xfc00ffe0, "ld.h.usr",		LDRO,	REF(ld_h_usr),	fix_r0,
+0xf4001d00, 0xfc00ffe0, "ld.b.usr",		LDRO,	REF(ld_b_usr),	fix_r0,
+d559 6
+a564 6
+0xf4000b00, 0xfc00ffe0, "ld.hu.usr",	LDRI,	REF(ld_hu_usr_sc),	fix_r0,
+0xf4000f00, 0xfc00ffe0, "ld.bu.usr",	LDRI,	REF(ld_bu_usr),		fix_r0,
+0xf4001300, 0xfc00ffe0, "ld.d.usr",		LDRI,	REF(ld_d_usr_sc),	NOFIX,
+0xf4001700, 0xfc00ffe0, "ld.usr",		LDRI,	REF(ld_usr_sc),		fix_r0,
+0xf4001b00, 0xfc00ffe0, "ld.h.usr",		LDRI,	REF(ld_h_usr_sc),	fix_r0,
+0xf4001f00, 0xfc00ffe0, "ld.b.usr",		LDRI,	REF(ld_b_usr),		fix_r0,
+d569 4
+a572 4
+0x30000000, 0xfc000000, "lda.d",	INTRL,		REF(addu),		fix_r0,
+0x34000000, 0xfc000000, "lda",		INTRL,		REF(addu),		fix_r0,
+0x38000000, 0xfc000000, "lda.h",	INTRL,		REF(addu),		fix_r0,
+0x3c000000, 0xfc000000, "lda.b",	INTRL,		REF(addu),		fix_r0,
+d574 4
+a577 4
+0xf4003000, 0xfc00ffe0, "lda.d",	INTRR,		REF(addu),		fix_r0,
+0xf4003400, 0xfc00ffe0, "lda",		INTRR,		REF(addu),		fix_r0,
+0xf4003800, 0xfc00ffe0, "lda.h",	INTRR,		REF(addu),		fix_r0,
+0xf4003c00, 0xfc00ffe0, "lda.b",	INTRR,		REF(addu),		fix_r0,
+d579 4
+a582 4
+0xf4003200, 0xfc00ffe0, "lda.d",	INTRR,		REF(lda_d),		fix_r0,
+0xf4003600, 0xfc00ffe0, "lda",		INTRR,		REF(lda),		fix_r0,
+0xf4003a00, 0xfc00ffe0, "lda.h",	INTRR,		REF(lda_h),		fix_r0,
+0xf4003e00, 0xfc00ffe0, "lda.b",	INTRR,		REF(addu),		fix_r0,
+d584 1
+a584 1
+0x80004000, 0xfc1ff81f, "ldcr",		LDCR,		REF(ldcr),		fix_r0,
+d586 2
+a587 2
+0xf000a000, 0xfc00fc00, "mak",		BITFIELD,	REF(mak),		fix_r0,
+0xf400a000, 0xfc00ffe0, "mak",		INTRR,		REF(mak),		fix_r0,
+d589 2
+a590 2
+0x48000000, 0xfc000000, "mask",		INTRL,		REF(and),		fix_r0,
+0x4c000000, 0xfc000000, "mask.u",	INTRL,		REF(and),		fix_mask_u,
+d592 2
+a593 2
+0x6c000000, 0xfc000000, "mul",		INTRL,		REF(mul),		fix_r0,
+0xf4006d00, 0xfc00ffe0, "mul",		INTRR,		REF(mul),		fix_r0,
+d595 2
+a596 2
+0x84005000, 0xfc1fffe0, "nint.ss",	INTRR2OP,	REF(nint_ss),	fix_r0,
+0x84005080, 0xfc1fffe0, "nint.sd",	INTRR2OP,	REF(nint_sd),	fix_r0,
+d598 4
+a601 4
+0x58000000, 0xfc000000, "or",		INTRL,		REF(or),		fix_r0,
+0x5c000000, 0xfc000000, "or.u",		INTRL,		REF(or),		fix_or_u,
+0xf4005800, 0xfc00ffe0, "or",		INTRR,		REF(or),		fix_r0,
+0xf4005c00, 0xfc00ffe0, "or.c",		INTRR,		REF(or_c),		fix_r0,
+d603 2
+a604 2
+0xf000a800, 0xfc00ffe0, "rot",		ROT,		REF(rot),		fix_r0,
+0xf400a800, 0xfc00ffe0, "rot",		INTRR,		REF(rot),		fix_r0,
+d606 1
+a606 1
+0xf400fc00, 0xffffffff, "rte",		RTE,		REF(rte),		NOFIX,
+d608 2
+a609 2
+0xf0008800, 0xfc00fc00, "set",      BITFIELD,	REF(set),		fix_r0,
+0xf4008800, 0xfc00ffe0, "set",      INTRR,		REF(set),		fix_r0,
+d611 4
+a614 4
+0x20000000, 0xfc000000, "st.d",		STLIT,		REF(st_d),		NOFIX,
+0x24000000, 0xfc000000, "st",		STLIT,		REF(st),		NOFIX,
+0x28000000, 0xfc000000, "st.h",		STLIT,		REF(st_h),		NOFIX,
+0x2c000000, 0xfc000000, "st.b",		STLIT,		REF(st_b),		NOFIX,
+d616 4
+a619 4
+0xf4002000, 0xfc00ffe0, "st.d",		STRO,		REF(st_d),		NOFIX,
+0xf4002400, 0xfc00ffe0, "st",		STRO,		REF(st),		NOFIX,
+0xf4002800, 0xfc00ffe0, "st.h",		STRO,		REF(st_h),		NOFIX,
+0xf4002c00, 0xfc00ffe0, "st.b",		STRO,		REF(st_b),		NOFIX,
+d621 4
+a624 4
+0xf4002200, 0xfc00ffe0, "st.d",		STRI,		REF(st_d_sc),	NOFIX,
+0xf4002600, 0xfc00ffe0, "st",		STRI,		REF(st_sc),		NOFIX,
+0xf4002a00, 0xfc00ffe0, "st.h",		STRI,		REF(st_h_sc),	NOFIX,
+0xf4002e00, 0xfc00ffe0, "st.b",		STRI,		REF(st_b),		NOFIX,
+d626 4
+a629 4
+0xf4002100, 0xfc00ffe0, "st.d.usr",	STRO,		REF(st_d_usr),	NOFIX,
+0xf4002500, 0xfc00ffe0, "st.usr",	STRO,		REF(st_usr),	NOFIX,
+0xf4002900, 0xfc00ffe0, "st.h.usr",	STRO,		REF(st_h_usr),	NOFIX,
+0xf4002d00, 0xfc00ffe0, "st.b.usr",	STRO,		REF(st_b_usr),	NOFIX,
+d631 4
+a634 4
+0xf4002300, 0xfc00ffe0, "st.d.usr",	STRI,		REF(st_d_usr_sc),	NOFIX,
+0xf4002700, 0xfc00ffe0, "st.usr",	STRI,		REF(st_usr_sc),		NOFIX,
+0xf4002b00, 0xfc00ffe0, "st.h.usr",	STRI,		REF(st_h_usr_sc),	NOFIX,
+0xf4002f00, 0xfc00ffe0, "st.b.usr",	STRI,		REF(st_b_usr),		NOFIX,
+d636 1
+a636 1
+0x80008000, 0xffe0f800, "stcr",		STCR,		REF(stcr),		NOFIX,
+d638 5
+a642 5
+0x74000000, 0xfc000000, "sub",		INTRL,		REF(sub),		fix_r0,
+0xf4007400, 0xfc00ffe0, "sub",		INTRR,		REF(sub),		fix_r0,
+0xf4007500, 0xfc00ffe0, "sub.bo",	INTRR,		REF(sub_bo),	fix_r0,
+0xf4007600, 0xfc00ffe0, "sub.bi",	INTRR,		REF(sub_bi),	fix_r0,
+0xf4007700, 0xfc00ffe0, "sub.bio",	INTRR,		REF(sub_bio),	fix_r0,
+d644 5
+a648 5
+0x64000000, 0xfc000000, "subu",		INTRL,		REF(subu),		fix_r0,
+0xf4006400, 0xfc00ffe0, "subu",		INTRR,		REF(subu),		fix_r0,
+0xf4006500, 0xfc00ffe0, "subu.bo",	INTRR,		REF(subu_bo),	fix_r0,
+0xf4006600, 0xfc00ffe0, "subu.bi",	INTRR,		REF(subu_bi),	fix_r0,
+0xf4006700, 0xfc00ffe0, "subu.bio",	INTRR,		REF(subu_bio),	fix_r0,
+d650 2
+a651 2
+0xf000d000, 0xfc00fe00, "tb0",		TRAP,		REF(tb0),		NOFIX,
+0xf000d800, 0xfc00fe00, "tb1",		TRAP,		REF(tb1),		NOFIX,
+d653 2
+a654 2
+0xf8000000, 0xffe00000, "tbnd",		TBND,		REF(tbnd),		NOFIX,
+0xf400f800, 0xffe0ffe0, "tbnd",		INTRR_S1_S2,REF(tbnd),		NOFIX,
+d656 1
+a656 1
+0xf000e800, 0xfc00fe00, "tcnd",		TCND,		REF(tcnd),		NOFIX,
+d658 2
+a659 2
+0x84005800, 0xfc1fffe0, "trnc.ss",	INTRR2OP,	REF(trnc_ss),	fix_r0,
+0x84005880, 0xfc1fffe0, "trnc.sd",	INTRR2OP,	REF(trnc_sd),	fix_r0,
+d661 1
+a661 1
+0x8000c000, 0xfc00c000, "xcr",		XCR,		REF(xcr),		NOFIX,
+d663 4
+a666 4
+0x50000000, 0xfc000000, "xor",		INTRL,		REF(xor),		fix_r0,
+0x54000000, 0xfc000000, "xor.u",	INTRL,		REF(xor),		fix_or_u,
+0xf4005000, 0xfc00ffe0, "xor",		INTRR,		REF(xor),		fix_r0,
+0xf4005400, 0xfc00ffe0, "xor.c",	INTRR,		REF(xor_c),		fix_r0,
+d668 5
+a672 5
+0x00000000, 0x00000000, "pseudo",	0,          REF(end_of_page), NOFIX,
+0x00000000, 0x00000000, "pseudo",	0,          REF(not_decoded), NOFIX,
+0x00000000, 0x00000000, "pseudo",	0,          REF(unimplemented), NOFIX,
+0x00000000, 0x00000000, "pseudo",	0,          REF(decode_problem), NOFIX,
+0x00000000, 0x00000000, "pseudo",	0,          REF(opc_exception), NOFIX
+d685 1
+a685 1
+	register unsigned i;
+d687 2
+a688 2
+	register struct instr_info *p;
+	register struct instr_into *lp = last_p;
+d690 6
+a695 6
+	for (p = in_tab ; p < lp ; p++) {
+		if ((p->opmask & i) == p->opcode) {
+			return p;
+		}
+	}
+	return (struct instr_info *)0;
+d703 1
+a703 1
+	struct decoded_i *d_ptr;
+d705 3
+a707 3
+	register struct instr_info *p;
+	register struct instr_into *lp = last_p;
+	register int (*norm_e_addr)() = d_ptr->norm_e_addr;
+d709 7
+a715 7
+	for (p = in_tab ; p < lp ; p++) {
+		if (p->norm_e_addr == norm_e_addr) {
+			return p->ss_e_addr;
+		}
+	}
+	sim_printf("simulator fatal error, could not find single-step entry.\n");
+	return sim_opc_exception_ss;
+@
+
+
+1.13
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: decode.c,v 1.12 88/01/15 11:06:17 robertb Exp $ */
+d9 1
+@
+
+
+1.12
+log
+@Fixed fsub.ddd
+@
+text
+@a0 1
+/* $Header: decode.c,v 1.11 87/12/03 20:08:06 robertb Exp $ */
+d3 5
+@
+
+
+1.11
+log
+@Changed NOOP to RTE.
+@
+text
+@d1 1
+a1 1
+/* $Header: decode.c,v 1.10 87/11/23 14:40:18 timd Exp $ */
+d507 1
+a507 1
+0x840032a0, 0xfc00ffe0, "fsub.ddd",	INTRR,		REF(fsub_dsd),	fix_r0,
+@
+
+
+1.10
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d200 1
+a200 1
+		case NOOP:
+d601 1
+a601 1
+0xf400fc00, 0xffffffff, "rte",		NOOP,		REF(rte),		NOFIX,
+@
+
+
+1.9
+log
+@Now flag as OPC exception cases where we had reported an internal
+error.  Fixed code so that warning about mixed pointer and integer
+aren't reported by GH compiler.
+@
+text
+@d1 1
+@
+
+
+1.8
+log
+@Eliminated ss_e_addr field in decoded_i structure
+@
+text
+@d289 1
+a289 2
+			sim_printf("decode_instr(%X) case error, instr=%X\n", p, instr);
+			p->norm_e_addr = sim_decode_problem;
+d696 1
+a696 1
+int (*(normal_to_ss(d_ptr)) ())
+@
+
+
+1.7
+log
+@see changes_10_11.doc
+@
+text
+@a54 1
+		p->ss_e_addr = sim_opc_exception_ss;
+a290 1
+			p->ss_e_addr = sim_decode_problem_ss;
+d294 1
+a294 2
+	p->norm_e_addr = instr_info->entry;
+	p->ss_e_addr = instr_info->entry_ss;
+a373 1
+		p->ss_e_addr = sim_st_b_ss;
+a387 1
+		p->ss_e_addr = sim_st_ss;
+d662 6
+d672 2
+d683 1
+a683 1
+	register struct instr_into *last_p;
+d685 1
+a685 2
+	last_p = &(in_tab[INTAB_SIZE]);
+	for (p = in_tab ; p < last_p ; p++) {
+d692 21
+@
+
+
+1.6
+log
+@see file changes_11_9 for description of changes
+@
+text
+@a7 1
+#include "exception.h"
+d40 1
+a40 1
+	int status;
+d42 2
+a43 3
+	status = l_to_p(us_mode, ip, &physical_address, CODE_CMMU(ip));
+	set_u_and_m_bits(LD);
+	if (status == NO_TRAN) {
+d47 3
+@
+
+
+1.5
+log
+@Fixed lda opcodes.
+@
+text
+@d43 1
+a43 1
+	status = l_to_p(us_mode, ip, &physical_address, CODE_CMMU);
+@
+
+
+1.4
+log
+@Added scaled lda instructions.
+@
+text
+@d568 4
+a571 4
+0x10000000, 0xfc000000, "lda.d",	INTRL,		REF(addu),		fix_r0,
+0x14000000, 0xfc000000, "lda",		INTRL,		REF(addu),		fix_r0,
+0x18000000, 0xfc000000, "lda.h",	INTRL,		REF(addu),		fix_r0,
+0x1c000000, 0xfc000000, "lda.b",	INTRL,		REF(addu),		fix_r0,
+@
+
+
+1.3
+log
+@Added #include to get format.h
+@
+text
+@d568 4
+a571 4
+0x10000000, 0xfc000000, "lda.d",	LDLIT,		REF(add),		fix_r0,
+0x14000000, 0xfc000000, "lda",		LDLIT,		REF(add),		fix_r0,
+0x18000000, 0xfc000000, "lda.h",	LDLIT,		REF(add),		fix_r0,
+0x1c000000, 0xfc000000, "lda.b",	LDLIT,		REF(add),		fix_r0,
+d573 4
+a576 4
+0xf4003000, 0xfc00ffe0, "lda.d",	LDRO,		REF(add),		fix_r0,
+0xf4003400, 0xfc00ffe0, "lda",		LDRO,		REF(add),		fix_r0,
+0xf4003800, 0xfc00ffe0, "lda.h",	LDRO,		REF(add),		fix_r0,
+0xf4003c00, 0xfc00ffe0, "lda.b",	LDRO,		REF(add),		fix_r0,
+d578 4
+a581 4
+0xf4003200, 0xfc00ffe0, "lda.d",	LDRI,		REF(unimplemented),		fix_r0,
+0xf4003600, 0xfc00ffe0, "lda",		LDRI,		REF(unimplemented),		fix_r0,
+0xf4003a00, 0xfc00ffe0, "lda.h",	LDRI,		REF(unimplemented),		fix_r0,
+0xf4003e00, 0xfc00ffe0, "lda.b",	LDRI,		REF(add),		fix_r0,
+@
+
+
+1.2
+log
+@Fixed problems with register-offset loads and xmems.
+@
+text
+@d6 1
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d532 8
+a539 8
+0xf4000000, 0xfc00ffe0, "xmem.bu",	LDRO,		REF(ld_d),		fix_xmem_bu,
+0xf4000400, 0xfc00ffe0, "xmem",		LDRO,		REF(ld),		fix_xmem,
+0xf4000800, 0xfc00ffe0, "ld.hu",	LDRO,		REF(ld_h),		fix_r0,
+0xf4000c00, 0xfc00ffe0, "ld.bu",	LDRO,		REF(ld_b),		fix_r0,
+0xf4001000, 0xfc00ffe0, "ld.d",		LDRO,		REF(xmem_bu),	fix_r0,
+0xf4001400, 0xfc00ffe0, "ld",		LDRO,		REF(xmem),		fix_r0,
+0xf4001800, 0xfc00ffe0, "ld.h",		LDRO,		REF(ld_hu),		fix_r0,
+0xf4001c00, 0xfc00ffe0, "ld.b",		LDRO,		REF(ld_bu),		fix_r0,
+@

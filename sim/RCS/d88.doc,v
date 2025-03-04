@@ -1,0 +1,2312 @@
+head     1.10;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.10
+date     88.09.19.23.41.52;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.06.28.12.18.51;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.04.29.17.02.42;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.04.28.13.57.36;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.04.12.00.08.49;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     88.02.12.16.15.29;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.12.22.18.01.18;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.12.08.20.10.11;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.12.08.17.00.43;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.12.07.22.57.58;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Describes the internal structure of the 78000 simulator.
+@
+
+
+1.10
+log
+@Started the cross-debugging section.
+@
+text
+@
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * $Header: d88.doc,v 1.9 88/06/28 12:18:51 robertb Exp $
+
+
+
+           88000 SIMULATOR INTERNAL DESIGN
+
+
+
+DATE: December 7, 1987 (updated 4-9-88 and 4-28-88)
+      (cross-debugging section added 9-18-88)
+
+FROM: Robert Bedichek
+
+
+This documents the internal structure of the UTek 88000 simulator and
+cross-debugger.  Before reading this you may find it helpful to the
+simulator source files.  You may also find the files that describe
+changes that were made to the simulator useful.  All of these are
+checked into dbx/d88/RCS.
+
+
+           APPROACH TO SIMULATION
+
+This simulator is designed to be used by programmers that need
+a 88000 execution vehicle to in order to port large programs, 
+such as the UTek kernel.  The goals of this design were:
+
+  1. Make it execute the common instructions as quickly as possible.
+
+  2. Make the execution as precise as programmers need it to be.
+
+  3. Provide a clean interface for a high or low level debugger.
+
+  4. Allow a lot of physical memory to be simulated efficiently.
+
+  5. Have a low start-up time.
+
+The things we didn't intend to model:
+
+  1. FP accuracy wrt to the 88000 hardware.
+
+  2. 88000 instruction timing.
+
+  3. Little endian mode.
+
+  4. The exact shadow scoreboard register contents.
+
+  5. Exact CMMU cache and PATC contents.
+
+
+           SOURCE FILES
+
+The source for the simulator is in //cupcake/UTek/src/dbx/d88.  Here
+is a brief description of the files:
+
+  Makefile         builds d88 out of the sources in this directory and
+                   in ../min
+
+  cmmu.[ch]        l_to_p, the logical-to-physical address translation
+                   function is here.  Also has the IO simulator for
+                   the CMMU.
+
+  console.c        a simple, not-like-any-real-hardware, console device.
+
+  decode.[ch]      contains decode().  This translates a 88000 instruction
+                   into a fast-to-execute decoded instruction
+
+  disk.c           like the console, but an idealized disk.
+
+  dma.h            contains definitions of devices that are only
+                   accessible thru the DMA controller.
+
+  dmac.c           a DMA simulator (written by Tim Dale)
+
+  dram_mapper.c    simulates some control hardware on the CE board (Brent)
+
+  execute.c        contains the sim() function, which executes decoded
+                   instructions
+
+  extern.h         created by Makefile whenever execute.c changes.
+                   grep of execute.c for the entry points.  included 
+                   by decode.c to get decls for the simulator
+                   entry points
+
+  fields88.h       macros for extracting fields from 88000 instructions
+
+  fixjmp.c         a short program that filters the output of the compiler,
+                   converting indirect jsbr's to indirect jmp's
+
+  format.h         defines the values that the format field of the instr_info
+                   structure can have
+
+  gettime.c        a pseudo-device that gives the host time of day
+
+  init.c           all of the initialization functions except for
+                   the IO init functions are here.
+
+  io.[ch]          provides the connection between the CPU simulator
+                   and the IO simulators
+
+  iob.c            a partial simulator for something (written by Tim Dale)
+
+  lcsr.c           simulates the local control and status register
+
+  led.[ch]         diagnostic LED simulator (written by Brent Sherwood)
+
+  memory.c         has the physical memory interface functions
+
+  misc.c           supports the sim() function with routines of general 
+                   utility, but are not called by the front end
+
+  newcons.c        a cross between console and scc, simulates one console
+                   device that generates interrupts on receive and uses
+                   a real or pseudo tty line
+
+  rom.c            simulates the ROMs
+
+  scc.c            AmZ 8530 simulator
+
+  sim.h            contains definitions for the whole simulator
+
+  sim_interface.h  contains definitions that the front end needs
+
+  dp8571.h, timer.c NSC DP8571 TCP simulator (written by Tim Dale)
+
+  we32104.h        contains definitions for the DMA chip from AT&T
+
+
+           SIMULATOR INTERFACE
+
+
+
+This section details the interface that the 88000 UTek simulator presents
+to its front-end.  This is a starting point for understanding the
+simulator and also serves any one connecting the simulator to a new
+front end.
+
+Currently the simulator has one front-end, dbx.   The front-end
+of dbx and the 88k simulator together are called d88.  There is
+an adb front-end, but it hasn't been kept in sync with the simulator
+for about 7 months.  The adb front-end and the simulator together
+are called ad78.  If you want to look at the interface to the simulator
+in ad78, examine files "runpcs.c" and "sr71.c".
+
+The most important C file to look at in order to understand the
+interface and one that should be included by any program connecting to
+the simulator is sim_interface.h.  
+
+In d88, the dbx front end, look in "sim.c", "process.c", "machine.c",
+and "main.c".  Grep for "sim_" in these files.  Currently the
+files in the directory "d88" are under RCS in //cupcake/UTek/src/dbx/d88.
+
+
+
+           88000 REGISTERS
+
+The 88000 registers are modeled with three separated arrays of unsigned
+integers.  One each for the general registers, the Integer Unit control
+registers, and the Floating Point control registers.  The general registers
+are in "regs".  regs[0] is r0 (should always be zero), r31 is in r[31].
+There is an element regs[32]; it exits in case an instruction such as
+
+        ld.d    r31,r0,_foo
+
+is executed.  regs[32] would get the superfluous data.
+
+The control unit registers are modeled with the "sfu0_regs" and
+"sfu1_regs" arrays.  Each is 64 elements and each element is an
+unsigned.  They are indexed with the control register numbers listed in
+the 88000 user's manual.
+
+The XIP, the executing instruction pointer, is modeled by the global
+variable "ip".  Note that in a real machine this register is not
+accessible to software or external hardware directly.  Its value is
+read when the simulation function sim() is entered and is written
+before sim() exits.  The simulated ip is kept in a register variable
+during instruction execution.
+
+
+           EXECUTION OF 88000 INSTRUCTIONS
+
+To execute one instruction do "sim(1)".  This will execute the
+instruction pointed to by the instruction pointer in "ip".  To execute
+many instructions do "sim(0)".  This will keep executing until one of
+the following occurs:
+
+    1. A breakpoint instruction is encountered.  This instruction
+       is "tb0 0,r0,131".
+      
+    2. The user hits control C.  Control from sim() will return
+       after the next branch instruction that is taken.  It is up 
+       to the front end to provide the SIGINT handler and to have 
+       the line "sim_interrupt_flag |= INT_FRONT_END" in this handler.
+
+    3. The program writes to the interrupt device.  This is a word
+       in the IO region.  It has exactly the same effect as hitting
+       control C.
+
+    4. The simulator gets into a state that would cause a real 88k
+       to lock up.  For example, doing a "tb0 0,r0,xxx" with a non-zero
+       scoreboard register will cause a real machine to lock up and
+       will cause the simulator to stop with a message.
+
+The function sim() is the only entry point in the simulator that causes
+instructions to be executed.  The rest of the entry points are for
+reading and writing simulated memory or for printing internal device
+information that may be interesting to a user.  Sim() returns its
+reason for returning.  The identifiers that associate return causes and
+their meanings are:
+
+    NONE       : returned by sim when single stepping (i.e., sim() is called
+                 with a value of one) nothing exceptional happened.
+
+    BREAKPOINT : returned when a "tb0 0,t0,131" instruction is executed.  
+
+    INTERRUPT  : returned when the global flag "sim_interrupt_flag"
+                 has the INT_FRONT_END bit set (used to implement 
+                 control-C).
+
+    HOSED      : returned when there have been too many exceptions with 
+                 the shadow registers frozed or some other condition 
+                 that would cause a real 88k to lock up.
+
+    CAUGHT_EXCEPTION : returned when an exception occurs that is
+                       being caught.
+          
+
+Before calling any other simulator function, the function sim_init()
+should be called.  This initializes all of the registers, simulated
+memory, and IO devices.  It can be called at any time to reinitialize
+the entire simulator.  It completely resets the simulator state, except
+that structures for modeling data and instruction pages are not freed,
+just cleaned.  This affects the display of memory use when the
+sim_printmap() function is called.
+
+
+           READING AND WRITING LOCATIONS
+
+There are nine functions for reading and writing locations in the
+physical address space.  Three functions are for reading and three are
+for writing a word or less at a time.  In each set of three there is 
+one for bytes, one for half words, and one for words.  Reads are 
+always unsigned, the sign bit of a byte of half word are not sign extended.
+There are two functions for reading or writing a file directly from
+simulation memory.  One function can clear a block of simulation
+memory.
+
+After the fashion of "errno", there is a global called "sim_errno" that
+is set by these functions to a non zero value if the memory operation
+would have caused an exception had the processor tried to do it.
+
+Note that all of these memory access routines deal in physical
+addresses.  There is a routine called "l_to_p" that will translate
+logical addresses to physical addresses.
+
+           FUNCTIONS THAT THE FRONT END MUST PROVIDE
+
+The simulator relies on the front end to do its IO.  The front end
+must provide the following functions:
+
+    1. sim_printf().      Called to print out all error and warning
+                          messages.
+
+    2. sim_consputchar(). Called when the 88000 program writes to the
+                          simulated console.
+
+    3. sim_consgetchar(). Called when the 88000 program reads from the
+                          simulated console device.
+
+The front end is free to do whatever it wishes when these routines are
+called.  The simulator makes no assumptions about what actually happens
+when these functions execute.  Only the return value from sim_consgetchar()
+is used.
+
+There is a global word that is declared in init.c called
+"sim_interrupt_flag".  The simulator checks this after each branch that
+is taken.  If the INT_FRONT_END bit is non zero when the simulator
+checks it, then sim() return with the code INTERRUPT.
+
+           SPECIAL ENTRY POINTS
+
+There are several simulator functions that print information about the
+IO simulators.  sim_io_print_devices() lists all of the IO simulators,
+the number of operations completed with them, their addresses,
+sim_io_print() is passed a device index or a physical address.  If the
+device index or address corresponds to a valid device, that device's
+print function is called.  If there is no such correspondence, it
+sim_io_print() returns silently.
+
+  sim_io_trace(physical_address, number_to_show) 
+
+This prints IO trace records.  The second parameter says how many trace
+records to display.  One record is displayed per line and the most
+recent records are displayed first.   If the first parameter,
+physical_address, is zero, trace records for all devices are shown.
+
+If physical_address is non-zero, trace records for just one device are
+shown.  It is either a small integer, giving the device's index, or a
+large one, giving the device's IO address.  If it a device index, trace
+records in the trace buffer for the indicated device are displayed.  If
+it is an address, only trace records from IO operations with the
+specified address are shown.  This is the most selective form of the
+sim_io_trace() call.
+
+           NOTES
+
+The simulator calls malloc() and sbrk() to allocate memory while it
+executes.  It is possible for the system to run out of memory at any
+time.  If this happens the simulator will terminate with a message
+saying it was unable to malloc or sbrk more memory.
+
+           LINKING IN THE SIMULATOR
+
+
+The simulator uses asm inserts so the compiler that compiles it must
+support them.
+
+One part of the building process is a little tricky and bears
+explanation.  The result of this compilation is an assembly files that
+is processed with both a sed script and a small program that converts
+indirect function calls into indirect branches.  This filtered file is
+assembled to produce execute.o.  Execute.o contains the sim() function.
+The fixup program is call "fixup" and its operation is very compiler-
+dependent.
+
+           SIMULATING PHYSICAL MEMORY
+
+The current simulator models a 88000 with up to 256 MB of contiguous
+physical memory starting at zero.  Other physical memory is modeled by
+the IO section (e.g., ROMs, device registers, etc.).  Each 4k page of
+physical memory is modeled with a page structure (see sim.h).  This
+structure has the 4k bytes of data that the 88000 program sees on each
+page, the physical address of the page, and a pointer to the decoded
+form of the instructions on the page.
+
+Each page structure is pointed to by an element of the page_table
+array.  This array is malloc'd in sim_init and has one element for each
+possible physical page.  Initially all of these pointers are nil.  A
+nil pointer means that the physical page has not been touched by the
+program.  When a program or the front end tries to read or write a
+physical page which does not have a page structure we allocate and
+initialize a page structure for it.  You can see this in the code for
+read_sim_w().
+
+This scheme of delaying allocation of page structures enables the
+simulator to start quickly even if the size of the simulated physical
+memory is large.  It also puts less load on the VM of the host for most
+88000 programs.
+
+Once a page is allocated it is never deallocated, even if sim_init() is
+called.  Because pages are never deallocated sbrk() is used to get
+memory as this is more efficient than malloc.
+
+           DECODED INSTRUCTIONS
+
+The simulator does not execute 88000 instructions directly.  Before it
+it executes an instruction it decodes the instruction into a form that
+can be executed quickly.  This second form is called a decoded
+instruction and is represented by the decoded_i structure.  The
+simulator derives much of its speed from this two stage process.  All
+instruction decoding is done in decode.c.
+
+Here is its declaration in sim.h:
+
+struct decoded_i {
+    int         (*norm_e_addr)();
+    unsigned    *dest;
+    unsigned    *s1;
+    unsigned    *s2;
+};
+
+The first element is pointer to an entry point in execute.c for the
+instruction.  This entry point reached by branching indirectly through
+this field, norm_e_addr.  It is declared as a pointer to a function
+because C does not support label types.  execute.c is coded with calls
+through this field.  The program fixjmp.c converts the indirect
+function calls in the output of the compiler to indirect jmp's.  This
+is the biggest kludge and in the simulator.  Removing it would,
+however, would probably slow the simulator down, I guess, to a factor of
+.6 of its current speed.
+
+The rest of the fields are optional.  Their values depend on the
+instruction.  The function decode() writes these fields and the code
+in execute.c reads them.  It is important that decode.c be consistent
+with execute.c in this regard.
+
+The three fields, dest, s1, and s2 are pointers to the memory that the
+registers are modeled by (see sim_interface.doc for the register model)
+or to a literal constant in the literal pool.  If the instruction has 
+a literal, such as the "321" in "addu  r4,r4,321" the literal is put
+in the literal pool and s2 points to it.  
+
+Some examples of instruction and what their decoded form looks like:
+
+    subu   r4,r5,r6 
+
+        norm_e_addr = sim_subu (an entry point in execute.c)
+        dest        = &regs[4]
+        s1          = &regs[5]
+        s2          = &regs[6]
+
+    xor   r29,r4,0xfef7
+
+        norm_e_addr = sim_xor  (an entry point in execute.c)
+        dest        = &regs[29]
+        s1          = &regs[4]
+        s2          = address of literal 0xfef7 in literal pool
+
+    ld.d  r5,r0,r31
+
+        norm_e_addr = sim_ld_d (an entry point in execute.c)
+        dest        = &regs[5]
+        s1          = &regs[0]
+        s2          = &regs[31]
+
+    xcr   r5,r0,cr1
+
+        norm_e_addr = sim_xcr  (an entry point in execute.c)
+        dest        = &regs[5]
+        s1          = &regs[0]
+        s2          = &sfu0_regs[1]
+
+    bsr   0x1030      (where the bsr is at address 0x1010)
+
+        norm_e_addr = sim_bsr  (an entry point in execute.c)
+        dest        = 0        (not used)
+        s1          = 0        (not used)
+        s2          = ptr to decoded instruction for instruction at 0x1030
+
+    bsr   0x1030      (where the bsr is at address 0x800)
+
+        norm_e_addr = sim_bsr  (an entry point in execute.c)
+        dest        = 0x830    (difference between 0x1030 and 0x800)
+        s1          = 0        (not used)
+        s2          = 0        (indicates that the branch target is off-page)
+
+    bcnd  le0,r1,0x411c (where the bcnd is at address 0x4020)
+
+        norm_e_addr = sim_bcnd_le0 (an entry point in execute.c)
+        dest        = 0            (not used)
+        s1          = &regs[1]     (the register to test)
+        s2          = ptr to decoded instruction for the instruction at 0x411c
+
+    bcnd  le0,r1,0x411c (where the bcnd is at address 0x10)
+
+        norm_e_addr = sim_bcnd_le0 (an entry point in execute.c)
+        dest        = 0x410c       (0x411c - 0x10)
+        s1          = &regs[1]     (the register to test)
+        s2          = 0            (indicates that the target is off-page)
+
+    rte               
+        norm_e_addr = sim_rte      (an entry point in execute.c)
+        dest        = 0            (not used) 
+        s1          = 0            (not used)
+        s2          = 0            (not used)
+    
+
+           SIMULATOR ENTRY POINTS
+
+The function sim() has many "entry points" other than the usual one
+made by the C compiler.  These are code locations that are branched to
+in a rather unorthodox fashion.  These entry points are made by using
+the L() macro:
+
+#define L(name)                           \
+    { name:;                              \
+      asm(" .globl _sim_/**/name");       \
+      asm("_sim_/**/name:"); }
+
+
+Here is the entry point and handler for the addu instruction:
+
+L(addu);
+    DST = SRC1 + SRC2;
+    DISPATCH_NEXT;
+
+The line "L(addu)" has the effect of making a label at the start of the
+handler for the instruction and making this label, "_sim_addu" global.
+
+The section "EXECUTING INSTRUCTIONS" will explain the body of this
+handler.
+
+In other parts of the simulator, the entry points are treated as
+external functions.  They are not functions at all, this is just a way
+to make the compiler, assembler, and linker pass the addresses of the
+entry points correctly.
+
+           DECODING INSTRUCTIONS
+
+
+The page structure has a field, decoded_part, that may point to an
+array of 1025 decoded_i structures or may be nil.  If decoded_part is
+nil it means that no instructions have been executed on that physical
+page yet.  Delaying the allocation of decoded_part structures saves
+host VM and thus makes the simulator faster.
+
+decoded_part structures are never deallocated, even if sim_init is
+called.  When it is allocated it is also initialized.  The norm_e_addr
+field of the first 1024 enties is set to point to a special entry point
+in execute.c: sim_not_decoded.  The last entry of the decoded_i array
+points to the sim_end_of_page entry point.
+
+When the instruction executer in sim() dispatches an instruction it
+branches indirectly through the norm_e_addr of the decoded form of the
+instruction to be executed.  There is no need to check whether the
+instruction is decoded or not.  If the instruction has not yet been
+decoded the dispatch will branch to the sim_not_decoded entry point,
+by virtue of the decoded page initialization.  This entry point decodes
+the instruction by calling decode() and then redispatches the
+newly-decoded instruction.
+
+decode() fetches the instruction to be decoded by calling sim_read_w
+after calling l_to_p to get its physical address.  It calls
+sim_instruction_lookup to find the instruction information in the
+in_tab array.  If the instruction doesn't match any patterns in this
+table, decode() sets the entry point field of the decoded instruction
+to sim_opc_exception.  This entry point generates an OPC exception
+(unimplemented instruction) when it is dispatched.  decode() must set
+the norm_e_addr field to something other than sim_not_decoded or else
+the simulator will be in an infinite loop.
+
+in_tab is an array of instr_info structures.  Here is its declaration:
+
+struct instr_info {
+    u_long   opcode;             /* Opcode of instruction.               */
+    u_long   opmask;             /* Mask to use before comparing opcode. */
+    u_char   *mnemonic;          /* String programmers use. (comment only)*/
+    u_char   format;             /* Type of instruction.                 */
+    struct instr_info *link;     /* Points to next instr w/ same top bits*/
+    int      (*norm_e_addr)();   /* Normal entry point.                  */
+    int      (*fixup)();         /* Routine to do any extra decoding.    */
+};
+
+The first two fields are used by sim_instruction lookup to find the
+instr_info element corresponding to the bit pattern passed to it.  The
+mnemonic field is mostly for documentation, but is sometimes used by
+temporary simulator debugging code.  format classifies the instruction
+and its value and is used by decode() to decide how to fill in the fields
+of the decoded_i structure.  Norm_e_addr is copied directly to the
+field of the same name in the decoded_i structure.  Fixup is either
+zero or the address of a function in decode.c to call to do some
+instruction-specific decoding.  The link field is used in the
+instruction lookup function to thread all instructions that have the
+same top 6 bits.
+
+Note that more instructions listed in the User's Manual than there are
+entry points in execute.c.  This is because we use some entry points
+for more than one instruction.  For example, the instructions:
+
+    addu  r4,r5,1432
+    addu  r1,r2,r3
+    lda   r7,r9,0x8888
+    lda   r6,r7,r9
+    lda.d r2,r9,r10
+    lda.b r5,r6[r8]
+
+all use the sim_addu entry point.  The only differences between the
+decoded forms of these instructions are the pointers in the s1, s2, and
+dest fields.  The scaled lda instructions, except for "lda.b" do not
+use the sim_addu entry point, they use their own entry points.
+
+
+           EXECUTING DECODED INSTRUCTIONS
+
+The sim() function in execute.c execute decoded instructions.  Sim()
+executes instructions until it encounters a "tb0 0,r0,131" instruction
+or until an exception occurs that is being caught.  There is an array
+called sim_catch_exception that has a character-wide flag for each
+88000 exception.  If it is non-zero and the exception occurs, it is
+"caught" and control returns to the front end.  The sim_catch_exception
+array has 1024 elements.  The first 512 are used in supervisor mode and
+the second 512 are used in user mode.  This allows the user to catch an
+exception based on what mode the processor is in.
+
+The 88000's instruction pointer, XIP, is not modeled directly.  Instead
+its value is computed by the IP macro when it is needed.  The IP macro
+compiles to 4 68020 instructions, so it isn't an expensive calculation.
+Here is IP:
+
+#define IP    (pagela+(p-pagep)/(sizeof(struct decoded_i)/4))
+
+Pagela is the 88000 logical address of the 4k page that the simulator
+is currently executing on.  In other words, it is "XIP & ~PAGEMASK".
+Pagep is declared as a u_long, but is really the decoded instruction 
+pointer that points to the first decoded instruction of the 4k page 
+that the simulator is currently executing on.  P is also a u_long that
+is really a pointer to the decoded instruction currently being
+executed.  So "p-pagep" is a number in 0..16383 (because 
+sizeof(struct decoded_i) is 16).  
+
+Here is an example of the contents of the decoded_i structure for the
+addu instruction:
+
+    addu   r4,r5,r6 
+
+ p -->  norm_e_addr = sim_addu (an entry point in execute.c)
+        dest        = &regs[4]
+        s1          = &regs[5]
+        s2          = &regs[6]
+
+Here is the C code for the addu handler:
+
+L(addu);
+    DST = SRC1 + SRC2;
+    DISPATCH_NEXT;
+
+Here are the macros used to do the addition (see "DECODING INSTRUCTIONS"
+for the definition of "P"):
+
+#define SRC1        (*P->s1)
+#define SRC2        (*P->s2)
+#define DST         (*P->dest)
+
+Here is the definition of the macro to dispatch the next instruction:
+
+/*
+ * Dispatch the decoded instruction pointed to by 'p'.
+ */
+#define	DISPATCH  { (P->norm_e_addr)(); }
+
+Note that this indirect call through the norm_e_addr field of a decoded
+instruction will be converted to an indirect jump through this field by
+the assembly filter 'fixjmp'.  See "DECODED INSTRUCTIONS" for more
+information on this translation.
+
+With p in register a2 pointing at this decoded_i structure, this
+instruction will be executed by the following 68020 code:
+
+ .globl _sim_addu          <<< created by the L() and GEN_GLOBAL_SYM()
+_sim_addu:                 <<< macros
+
+    movl    a2@@(4),a1      <<< the pointer to r4 is put into a1
+    movl    a2@@(12),a0     <<< the pointer to s2 is loaded into a0
+    movl    a0@@,d0         <<< the contents of r4 is loaded into d0
+    movl    a2@@(8),a0      <<< The pointer to s1 is loaded into a0
+    addl    a0@@,d0         <<< The addition happens!
+    movl    d0,a1@@         <<< the result is stored into r4
+
+    movl    a3,d3          <<< we test the delayed_p pointer.
+    bne L67                <<< it is usually zero.
+
+    addl    d5,a2          <<< p += sizeof(struct decoded_i)
+    movl    a2@@,a0         <<< fetch the address of the next instr's entry point
+    jmp     a0@@            <<< branch to the next instr's entry point.
+
+
+           INSTRUCTION DISPATCHING
+
+To dispatch the instruction pointed to by p, we use the DISPATCH
+macro:
+
+#define DISPATCH                { (P->norm_e_addr)(); }
+
+The macro P is:
+
+#define P                       ((struct decoded_i *)p)
+
+This is needed because p is declared to be an u_long (see "THE
+DECODED INSTRUCTION POINTER").
+
+Since the indirect call "(P->norm_e_addr)()" is converted to an
+indirect jump, control will never actually return to the code following
+the "DISPATCH."
+
+           THE DECODED INSTRUCTION POINTER
+     
+Although p is a (struct decoded_i *), it is declared as an unsigned
+integer for performance reasons.  After every non-branching instruction
+p is incremented by the size of a decoded instruction structure
+(currently 16).  P is incremented by "p += r_size" where r_size is just
+a register variable whose value never changes.  By using this instead
+of "p++" with p declared as a (struct decoded_i *), we save one host
+instruction per 88000 instruction.  The code sequence for "p++" is
+
+    movl   16,d0
+    addl   d0,a2         ; a2 is used for p
+
+whereas the code for "p += r_size" is
+
+    addl   d5,a2         ; d5 holds r_size, a2 is used for p
+
+This may not seem like much, but the addu instruction requires only
+11 host instructions to execute.  With the older, cleaner scheme,
+it took 12 instructions.
+
+When the last instruction on a page is executed and it is not a
+branching instruction the 1025th decoded instruction is executed.  This
+is a pseudo-instruction that requalifies p and redispatches from the
+newly qualified value of p.  To requalify p, it passes the logical
+address of the instruction pointer to l_to_d, which
+translates logical addresses to decoded instruction pointers.
+
+
+           LOGICAL ADDRESS TO DECODED INSTRUCTION POINTER TRANSLATION
+
+The translation of logical addresses to decoded instruction pointers is
+a two step process.  First, l_to_p is called to find the physical
+address since decoded instructions correspond to 88000 instructions in
+*physical* memory.  With the physical 88000 address we look in the page
+table and get the page structure.  If the decoded_part field of the
+page structure is nil, we allocate a decoded_part structure.  Its
+pointer then replaces the nil value in the page structure.  Finally,
+the word page offset is multiplied by the size of the decoded_i
+structure and is added to the pointer to the base of the decoded_part
+structure.  This yields the pointer to the decoded instruction
+structure for the instruction pointed to by the logical address passed
+to l_to_d.
+
+We cache decoded instruction pointers in l_to_d in an array called
+deccache.  Doing this sped-up the simulator by 10% when running the
+system V kernel.
+
+           DELAYED BRANCHES
+
+The 88000 has branch instructions that execute the instruction
+following the branch before executing the target of the branch.  These
+are called delayed branches.
+
+The simulator supports these instructions with a separate set of
+handlers for them and two special local variables: r_delayed_p and
+delayed_ip.
+
+When a delayed branch is taken delayed_ip gets the target address and
+r_delayed_p gets the pointer to the delayed branch instruction.  The
+"p" variable is updated as its is a normal non-branching instruction.
+After every non-branching instruction r_delayed_p is tested to see if
+it is non zero.  If it is it means that the previous instruction was a
+delayed branch that was taken.
+
+In this case, we examine the s2 field of the delayed branch.  This
+tells us if the branch target is on the same page as the branch or not.
+If it is on-page the new decoded instruction pointer is in the s2 field
+of the delayed branch decoded instruction.  If it is off page, we must
+requalify p by calling l_to_d with the logical address of the branch
+target that is in delayed_ip.
+
+           THE SIMULATOR'S TLB'S
+
+In order to speed the execution of memory instructions the simulator
+keeps a set of tables called tlb's.  These TLB's are arrays of pointers
+that are indexed with logical segment numbers (i.e., bits 22 through 31 of
+the logical address).  Here is their declaration:
+
+
+/*
+ * These are *software* tlb's.  Two for user mode and two for supervisor.
+ *
+ * They are indexed with logical segment numbers.  The values are pointers
+ * to our tlb's page tables (not to be confused with 88k page tables).
+ */
+u_char **u_load_tlb[SEGTLB];
+u_char **s_load_tlb[SEGTLB];
+
+u_char **u_store_tlb[SEGTLB];
+u_char **s_store_tlb[SEGTLB];
+
+The arrays with "u_" are for user mode accesses and the arrays with
+"s_" are used for supervisor mode accesses.  The "load_" arrays buffer
+addresses for load instructions and "store_" arrays do the same for
+store and xmem instructions.
+
+When a load, store, or exchange is executed the effective logical
+address is first computed.   If misaligned-address checking is on, the
+address is checked to see that it is consistent with the size of the
+operation.  If the check is not on, the effective address is forced to
+be aligned on a boundary consistent with the size of the operation.
+The top 10 bits of the effective address index one of the first level
+tlb arrays (u_long_tlb, s_load_tlb, u_store_tlb, or s_store_tlb).
+
+These arrays have 1024 elements, all of which are non-zero and point to
+second-level tlb arrays.  The second level tlb array is indexed with 10
+bits of the effective address (bits 12 thru 21).  An element of a
+second level tlb arrays is either zero or a pointer to the data part of
+a simulated page of physical memory.
+
+If a zero is found in the second level tlb, the function l_mem_op() is
+called.   If not, the page offset is added to the pointer found in the
+second level tlb array and the result is the pointer to the memory that
+models the location accessed by the 88000 memory instruction.  The
+load, store, or exchange is then performed.  Here is the macro in
+execute.c that does what I've just described:
+
+/*
+ * This calculates the unscaled logical address.  It looks up the
+ * host virtual address in the tlb's.  If it can't find the address
+ * in the tlb then it calls a function 'l_mem_op'
+ * to do the load, store, or exchange for it.
+ */
+#define CALC_ADDR(REG_PTR, SIZE, MEM_OP_TYPE, TLB, MODE)                      \
+    ptr = SRC1 + SRC2;                                                        \
+    if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto misaligned_access;          \
+    else ptr &= ~(SIZE - 1);                                                  \
+    ptr = (u_long)TLB/**/_tlb[btos(ptr)][btop(ptr)] + poff(ptr);              \
+    if (ptr < PAGESIZE) { ip = IP;                                            \
+        ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, MODE);         \
+        if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }
+
+
+While execute.c is running there are 2 local variables that point to
+the two active tlb arrays.  When the PSR bit 31 is set, the supervisor
+tlb's are used and when it is zero the user tlb's are used.  Here is
+the macro that is used to set up these pointers:
+
+
+/*
+ * This sets our local pointers to either the user's or supervisors
+ * software tlbs.  We do it when we enter the execution function and
+ * whenever the PSR might have been changed.
+ */
+#define SET_TLB_PTRS if (USERMODE) {                    \
+                         load_tlb  = &(u_load_tlb[0]);  \
+                         store_tlb = &(u_store_tlb[0]); \
+                     } else {                           \
+                         load_tlb  = &(s_load_tlb[0]);  \
+                         store_tlb = &(s_store_tlb[0]); \
+                     }
+
+The reason that there are separate tlbs for loads and stores is that a
+logical page may write-protected and thus not accessible to a store
+while remaining readable by a load.  Also, a load access sets the U
+bits in the PTE if the access was mapped by a page table.  A store or
+exchange sets the M bit in the PTE in addition to setting the U bit.
+Having separate caches gives the simulator two different tlb faults,
+corresponding to the two different kinds of accesses, during which
+these bits are set.  (by tlb faults, I mean simulator-tlb faults, which
+are totally invisible to the 88000 program.)
+
+If the pointer fetched from a tlb is nil, l_mem_op is called.  l_mem_op
+calls l_to_p to translate the logical address to a physical address.
+l_to_p may set the U and M bits.  If this translation indicates the
+access is an error, l_mem_op will return the exception to be raised
+(either E_DACC or E_MA).  If the access is a normal memory access,
+l_mem_op will do the memory operation itself, install a pointer to the
+page structure in the appropriate tlb, and return E_NONE.
+
+If the access is out of range of the simulated physical memory,
+l_mem_op calls io_operation.  l_mem_op will pass back whatever
+exception code the io_operation returned and will not install a pointer
+in a tlb array.  This means that loads and stores of IO devices will
+always cause l_mem_op, l_to_p, and io_operation to be called.  This
+includes loads of words from the simulated ROM.
+
+The tlb's cache the translation of 88000 logical addresses to host
+pointers.  The are similar in concept only to the tlb of the 88200 CMMU
+and should only be visible to the user in their effect on the speed of
+simulation.  The tlb's are flushed when the 88000 program tells a CMMU
+to flush its patc.  Sections of tlb's are flushed when a BATC port is changed.
+
+
+           SINGLE STEPPING
+
+When sim() is called with a 1, instead of a 0, it means that just
+one instruction should be executed.  To do this sim() puts one or two
+single-step breakpoints in the decoded instruction space.  One
+such breakpoint is placed immediately after the instruction being
+single stepped.  If the instruction is a branching instruction a
+single step breakpoint is put at the target of the branch.
+
+The rte instruction is handled specially, its handler simply checks
+to see if sim() was called with a 1.
+
+The exception handling code also checks sim()'s parameter explicitly
+and returns to the front end if it is 1.
+
+If we are single stepping, we don't turn on the process virtual
+timer.
+
+           THE IO SECTION
+
+The principle function in the IO section is io_operation.  Here is
+its declaration:
+
+int io_operation(physical_address, value_ptr, size, mem_op_type, override)
+    unsigned physical_address;
+    unsigned *value_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+    int      override;
+
+It is called each time a memory operation is performed that does not
+access the simulated physical memory (i.e., when the address is greater
+than the size of physical memory being simulated).  The parameters to
+io_operation() completely define the operation; the address, a pointer
+to the general register to be loaded, stored, or exchanged with, the
+number of bytes (1, 2, 4, or 8) to transfer, the type of operation
+(load signed, load unsigned, store, exchange signed, and exchange
+unsigned), and a boolean that indicates whether the front end initiated
+the transfer.
+
+   An element of the IO device table:
+
+struct io_dev {
+    u_long    l_addr;         /* Lowest address device responds to    */
+    u_long    size;           /* 1, 2, 4, or 8.  Size of IO operation.*/
+    u_long    restore;        /* boolean, 1 => call after checkpoint  */
+    u_long    cnt;            /* Number of IO transactions performed  */
+    char      *name;          /* Name of IO device.                   */
+    void      (*init)();      /* function called at initialization.   */
+    int       (*operation)(); /* function called for each IO operation*/
+    void      (*print)();     /* function called to print dev state.  */
+};
+
+Io_operation() searches the device table using the physical_address
+parameter as the key.  It looks for a device which reponds to the
+passed address.  The device table is also in io.c and has one element
+for each simulated device.
+
+Io_cache is a 256 element hash table that is used to speed up
+io_operation().  It is indexed with bits 12 through 19 of the
+physical_address parameter and yields a pointer into the device table.
+Using io_cache gives a better starting point for a linear search of the
+table.  For most accesses, the pointer gotten from io_cache will point
+to the device being operated on and the search will only have to
+examine one element of the device table.
+
+If io_operation() does not find a device that responds to the passed
+address is calls cmmu_set_bus_error so that the cmmu's local status
+register will reflect the bus error.  On a real machine a failed
+attempt to access a device on the MBUS causes a bus error.
+Io_operation() returns as its value the exception code that should be
+raised by the code initiating the access.  If no exception should be
+raised, a E_NONE is returned.
+
+If io_operation() finds a responding IO device it calls the simulator for
+that device.  Each device simulator consists of at least three
+functions.  The addresses of these functions are in fields of struct
+io_dev in the device table.  The first is called when a hardware reset
+is simulated.  It initializes the device.  It can be null and does not
+return a value.  The second is the meat of the device simulator, it is
+the operation function.  Its parameters are the same as those to
+io_operation() exception that the first parameter is the address_offset,
+the difference between the physical_address passed to io_operation() and
+the lowest address that the device responds to.
+
+   An element of the IO trace buffer:
+
+   struct io_trace {
+       unsigned addr;           /* address of IO transaction            */
+       struct io_dev *io_ptr;   /* Points to IO device structure        */
+       unsigned ip;             /* Instruction pointer at time of IO    */
+       unsigned value;          /* Word that is loaded or stored to IO  */
+       char     mem_op_type;    /* Type of IO operation (LD, ST, LD_U..)*/
+       char     size;           /* 1, 2, 4, or 8. Size of IO operation  */
+       short     pad; };        /* Make this word aligned               */
+
+Each IO operation is recorded in a circular buffer called
+io_trace.  This is used by sim_io_trace() to display IO
+operations for the user's benefit.  It has nothing to do with
+implementing the semantics of the 88000 or any attached devices.
+The size of io_trace is set at simulator initialization, defaults
+to 20000, and can be set explicitly with the SIMTRACE environment
+variable.
+
+The third function of an IO device is called when to display information
+on the internal state of the simulator.  It is called by sim_io_print().
+Sim_io_print() is called by the front end.
+
+------------------------------------------------------------------------------
+   Major section:
+
+                            CROSS-DEBUGGING
+
+D88 will operate in cross-debugging mode if the environment variable
+REMOTETTY is set.
+
+         THE DEBUG-COMMUNICATIONS LINE
+
+D88 communicates with the target via a RS-232 serial line running at
+38400 baud.  Most of d88 doesn't depend on the exact implementation
+of the communications channel.  So it would be relatively easy to 
+change d88, if need be, to have it use a different medium to  communicate 
+with its target.  
+
+
+         DATA COMPRESSION
+
+         PACKETS THAT THE HOST SENDS TO THE TARGET
+
+         PACKETS THAT THE TARGET SENDS TO THE HOST
+
+         WHAT HAPPENS DURING THE INIT COMMAND
+
+         WHAT HAPPENS WHEN THE TARGET IS INTERRUPTED BY THE HOST
+@
+
+
+1.9
+log
+@incorporated the sim_interface.doc.
+updated to reflect recent changes
+many obsolete items fixed.
+@
+text
+@d4 1
+a4 1
+ * $Header: sim.doc,v 1.8 88/04/29 17:02:42 robertb Exp $
+d13 1
+d18 5
+a22 5
+This documents the internal structure of the UTek 88000 simulator.
+Before reading this you may find it helpful to the simulator source
+files.  You may also find the files that describe changes that were
+made to the simulator useful.  All of these are checked into
+dbx/d88/RCS.
+d960 27
+@
+
+
+1.8
+log
+@removed sim_ss(), switched to new scheme for single stepping
+@
+text
+@d4 1
+a4 1
+ * $Header: sim.doc,v 1.7 88/04/28 13:57:36 robertb Exp $
+d18 4
+a21 4
+Before reading this you may find it helpful to read sim_interface.doc
+and to browse the simulator source files.  You may also find the files
+that describe changes that were made to the simulator useful.  All of
+these are checked into s88/RCS.
+d48 1
+a48 1
+  4. Anything the programmers don't need.
+d50 1
+a50 1
+  5. The shadow scoreboard register contents.
+a51 1
+  6. Exact CMMU cache and PATC contents.
+a52 1
+
+d55 1
+a55 1
+The source for the simulator is in //cupcake/UTek/src/dbx/s88.  Here
+d58 2
+a59 1
+  Makefile         builds sim.o out of the sources in this directory
+d72 2
+a73 1
+  dma.h, dmac.c    a DMA simulator (written by Tim Dale)
+d75 2
+a86 2
+  exception.h      #defines of the E_.. codes for exceptions
+
+d95 2
+d111 2
+a112 3
+  misc.c           supports the sim() and sim_ss() functions with
+                   routines of general utility, but are not called
+                   by the front end
+d116 1
+a116 1
+                   a real or psuedo tty line
+d128 200
+d352 1
+a352 1
+Once a page is allocated it is never deallocated, even if sim_init is
+d381 2
+a382 2
+however, would probably slow the simulator down, I guess, by factor of
+1.5.
+d467 4
+a471 1
+#define L(x)                    GEN_GLOBAL_SYM(x,)
+a472 5
+define GEN_GLOBAL_SYM(name, suffix)                \
+    { name:;                                        \
+      asm(" .globl _sim_/**/name/**/suffix");       \
+      asm("_sim_/**/name/**/suffix:"); }
+
+d479 2
+a480 2
+The line "L(addu)" has the effect of making a label at the start of hte
+handler for the instruction and making this label, "sim_addu" global.
+d540 3
+a542 3
+and its value and is used by decode to decide how to fill in the fields
+of the decoded_i structure.  norm_e_addr is copied directly to the
+field of the same name in the decoded_i structure.  fixup is either
+d560 3
+a562 4
+decoded forms of these instructions are the pointers in the s1, s2,
+and dest fields and the integer in the literal field.  The scaled
+lda instructions, except for "lda.b" do not use the sim_addu entry 
+point, they use their own entry points.
+d567 9
+a575 10
+The sim() function in execute.c execute decoded
+instructions.  sim() executes instructions until it encounters a "tb0
+0,r0,131" instruction or until an exception occurs that is being
+caught.  There is an array called sim_catch_exception that has a
+character-wide flag for each 88000 exception.  If it is non-zero and
+the exception occurs, it is "caught" and control returns to the front
+end.  The sim_catch_exception array has 1024 elements.  The first 512
+are used in supervisor mode and the second 512 are used in user mode.
+This allows the user to catch an exception based on what mode the
+processor is in.  
+d578 3
+a580 3
+its value is computed by the IP macro when it is needed.  The IP
+macro compiles to 4 68020 instructions, so it isn't an expensive
+calculation.  Here is IP:
+d584 1
+a584 1
+pagela is the 88000 logical address of the 4k page that the simulator
+d586 1
+a586 1
+pagep is declared as a u_long, but is really the decoded instruction 
+d588 1
+a588 1
+that the simulator is currently executing on.  p is also a u_long that
+d623 4
+a626 4
+Note that this indirect call through the norm_e_addr field of a
+decoded instruction will be converted to an indirect jump through
+this field by the filter 'fixjmp'.  See "DECODED INSTRUCTIONS"
+for more information on this translation.
+d628 1
+a628 1
+With p in register a2 pointing at this decoded_i structure, this 
+d660 1
+a660 1
+this is needed because p is declared to be an unsigned (see "THE
+d664 2
+a665 1
+indirect jump, control will never actually return to this if statement.
+d670 1
+a670 1
+integer for performance reasons.  After every non branching instruction
+d672 1
+a672 1
+(currently 16).  p is incremented by "p += r_size" where r_size is just
+d712 1
+a712 1
+deccache.  Doing this sped up the simulator by 10% when running the
+d727 4
+a730 4
+r_ip and p variables are updated as they are for a normal non branching
+instruction.  After every non-branching instruction r_delayed_p is
+tested to see if it is non zero.  If it is it means that the previous
+instruction was a delayed branch that was taken.
+d762 1
+a762 1
+store and xmem instructions.  
+d764 7
+a770 2
+When a load is executed the effective logical address is first
+computed.  
+d772 5
+a776 1
+ADD NEW STUFF HERE
+d778 6
+a783 4
+The page offset is added to this pointer and the result is
+the pointer to the memory that models the location accessed by the
+88000 memory instruction.  The load, store, or exchange is then
+performed.
+d785 16
+d884 7
+a890 6
+than 8 MB).  The parameters to io_operation completely define the
+operation; the address, a pointer to the general register to be loaded,
+stored, or exchanged with, the number of bytes (1, 2, 4, or 8) to
+transfer, the type of operation (load signed, load unsigned, store,
+exchange signed, and exchange unsigned), and a boolean that
+indicates whether the front end initiated the transfer.
+d905 1
+a905 1
+io_operation searches the device table using the physical_address
+d910 2
+a911 2
+io_cache is a 256 element hash table that is used to speed up
+io_operation.  It is indexed with bits 12 through 19 of the
+d918 7
+a924 7
+If io_operation does not find a device that responds to the passed
+address is calls cmmu_set_bus_error so that the cmmu's status register
+will reflect the bus error.  On a real machine a failed attempt to
+access a device on the MBUS causes a bus error.  io_operation returns
+as its value the exception code that should be raised by the code
+initiating the access.  If no exception should be raised, a E_NONE is
+returned.  
+d926 1
+a926 1
+If io_operation finds a responding IO device it calls the simulator for
+d933 2
+a934 2
+io_operation exception that the first parameter is the address_offset,
+the difference between the physical_address passed to io_operation and
+d948 2
+a949 2
+Each IO operation is recorded in a 10000 element circular buffer called
+io_trace.  This is used by the sim_io_trace function to display IO
+d952 3
+d957 2
+a958 2
+on the internal state of the simulator.  It is called by sim_io_print.
+sim_io_print is called by the front end.
+@
+
+
+1.7
+log
+@Updated to reflect basic changes made recently.  Section on
+tlbs not finished.
+@
+text
+@d4 1
+a4 1
+ * $Header: sim.doc,v 1.6 88/04/12 00:08:49 robertb Exp $
+d77 2
+a78 2
+  execute.c        contains the sim() and sim_ss() functions.  These
+                   execute decoded instructions
+a333 1
+    int      (*ss_e_addr)();     /* Single step entry point.             */
+d343 2
+a344 4
+field of the same name in the decoded_i structure.  ss_e_addr is like
+norm_e_addr except that it is an entry point into the form of execute.c
+that is compiled for single-stepping.  fixup is either zero or the
+address of a function in decode.c to call to do some
+d369 1
+a369 1
+The sim() and sim_ss() functions in execute.c execute decoded
+d378 1
+a378 2
+processor is in.  sim_ss() executes one instruction and returns.  See "SINGLE
+STEPPING" for more information on sim_ss().
+d629 6
+a634 6
+The execute.c file is compiled and assembled twice.  One compilation
+yields execute.o, which contains sim().  The other yields execute_ss.o,
+which has sim_ss().  sim() and sim_ss() are mostly the same, they both
+execute 88000 instructions.  The difference lies in the action taken
+after an instruction is executed.  sim() dispatches the next
+instruction, while sim_ss() returns to its caller (the front-end).
+d636 2
+a637 6
+There are two sets of entry points, those in sim() and those in
+sim_ss().  When sim() is called, its entry points are used to dispatch
+instructions.  Likewise sim_ss() uses its own entry points to dispatch
+instructions.  Chaos would result if sim() executed any of sim_ss()'s
+instructions or vis-versa since the register allocation for the two
+functions are different.
+d639 5
+a643 9
+The sim() entry points are stored in the first element of the decoded_i
+structure, making the dispatch of instructions by sim() fast.  To save
+space in the decoded_i structure, the sim_ss() entry points are looked
+up each time they are needed by a function in decoded.c called
+normal_to_ss().  This function is passed the normal entry point, the
+one for the sim() function, and returns the single step entry point, an
+address in sim_ss().  The normal entry point is gotten from the
+norm_e_addr field of the decoded instruction.  Since this is only done
+once per single step, this is not a performance problem.
+@
+
+
+1.6
+log
+@changed 78 to 88
+correct a number of english mistakes.
+updated technical content.
+@
+text
+@d4 1
+a4 1
+ * $Header: sim.doc,v 1.5 88/02/12 16:15:29 robertb Exp $
+d12 1
+a12 1
+DATE: December 7, 1987 (updated April 9, 1988)
+d113 4
+d129 7
+a135 7
+The current simulator models a 88000 with 8 MB of contiguous physical
+memory starting at zero.  Other physical memory is modeled by the IO
+section (e.g., ROMs, device registers, etc.).  Each 4k page of physical
+memory is modeled with a page structure (see sim.h).  This structure
+has the 4k bytes of data that the 88000 program sees on each page, the
+physical address of the page, and a pointer to the decoded form of the
+instructions on the page.
+d148 2
+a149 2
+memory is large.  It also puts less load on the VM of the host for most 88000
+programs.
+a150 6
+The physical address of the page is both implicit in the location of
+its pointer in the page_table array and explicit in the
+physical_address field.  Some code needs to know the physical address
+of a page and only has a pointer to the page structure.  It could
+search the page_table array, but this would be inefficient.
+
+d152 2
+a153 1
+called.
+a170 1
+    int         literal;
+d190 3
+a192 4
+or the literal field.  If the instruction has a literal, such as the
+"321" in "addu  r4,r4,321" the literal field contains the literal and
+s1 or s2 points to it.  Some instructions use the literal field as a
+flag for something entirely different.
+a201 1
+        literal     = 0        (not used)
+d208 1
+a208 2
+        s2          = &(p->literal) (where p points to this structure)
+        literal     = 0xfef7
+a215 1
+        literal     = 0        (not used)
+a222 1
+        literal     = 0        (not used)
+d224 1
+a224 1
+    bsr   0x1030      (where the bsr is between 0x1000 and 0x1fff)
+a229 1
+        literal     = 0x1030   (88000 logical target address)
+d231 1
+a231 1
+    bsr   0x1030      (where the bsr is not between 0x1000 and 0x1ffc)
+d234 1
+a234 1
+        dest        = 0        (not used)
+a236 1
+        literal     = 0x1030   (88000 logical target address)
+d238 1
+a238 1
+    bcnd  le0,r1,0x411c (where the bcnd is between 0x4000 and 0x4ffc)
+d241 1
+a241 1
+        dest        = the M5 field (not used by this, is used for bb0 and bb1)
+a243 1
+        literal     = 0x411c       (88000 logical target address)
+d245 1
+a245 1
+    bcnd  le0,r1,0x411c (where the bcnd is not between 0x4000 and 0x4ffc)
+d248 1
+a248 1
+        dest        = the M5 field (not used by this, is used for bb0 and bb1)
+a250 1
+        literal     = 0x411c       (88000 logical target address)
+a251 10
+    bb1   9,r8,0xfec0 (where the bb1 is between 0x4000 and 0x4ffc)
+
+        norm_e_addr = sim_bb1      (an entry point in execute.c)
+        dest        = 0x00000200   (a mask with bit 9 set).
+        s1          = &regs[8]     (the register to test)
+        s2          = ptr to decoded instruction for the instruction at 0xfec0
+        literal     = 0xfec0       (88000 logical target address)
+
+    (the off-page form of bb1 has a zero s2 field just as with bcnd)
+
+a256 1
+        literal     = 0            (not used)
+d269 4
+a272 2
+#define GEN_GLOBAL_SYM(name, suffix)                \
+    { asm(" .globl _sim_/**/name/**/suffix"); asm("_sim_/**/name/**/suffix:"); }
+d328 8
+a335 7
+    unsigned opcode;        /* Opcode of instruction.               */
+    unsigned opmask;        /* Mask to use before comparing opcode. */
+    char     *mnemonic;     /* String programmers use. (comment only)*/
+    char     format;        /* Type of instruction.                 */
+    int      (*norm_e_addr)();/* Normal entry point.                */
+    int      (*ss_e_addr)();/* Single step entry point.             */
+    int      (*fixup)();    /* Routine to do any extra decoding.    */
+d348 3
+a350 1
+instruction-specific decoding.
+d378 4
+a381 1
+end.  sim_ss() executes one instruction and returns.  See "SINGLE
+d384 4
+a387 7
+The 88000's instruction pointer, XIP, is modeled by r_ip while sim() or
+sim_ss() are executing.  Upon entry to sim() or sim_ss(), the global ip
+is copied to the register variable r_ip and before either of these
+functions return they copy r_ip back to ip.  They also copy r_ip to ip
+before calling l_mem_op.  They do this in case the memory operation is
+with an IO device.  The IO section records the ip at the time of every
+IO operation in a trace buffer.
+d389 1
+a389 3
+Most instructions do not use r_ip, they just keep it up to date.
+However it is used in the bsr instruction to compute the return
+address.   It is used in a few other instances as well.
+d391 8
+a398 4
+There is another local variable, p, that points to the decoded
+instruction being executed.  As we move from one instruction to the
+next both r_ip and p are updated.  The following example shows how an
+addu instruction is executed.
+a408 1
+        literal     = 0        (not used)
+d428 1
+a428 1
+#define	DISPATCH  { (P->norm_e_addr)(); if (always1) goto top; }
+a451 2
+    addql   #4,d2          <<< r_ip += 4
+
+d461 1
+a461 1
+#define DISPATCH                { (P->norm_e_addr)(); if (always1) goto top; }
+a469 10
+The "if (always1) goto top" occurs in a number of places.  It fools the
+Green Hills compiler into not doing optimizations that would break the
+simulator.
+
+The "goto top" prevents the compiler from reusing registers that should
+not be reused.  The "if (always1)" is there to fool the compiler into
+not optimizing away most of the code that follows this line.  In other
+words, if we just had "goto top" it would treat the code following as
+unreachable.
+
+d476 6
+a481 7
+integer for performance reasons.  After every non branching
+instruction, r_ip is incremented by 4 and p is incremented by the size
+of a decoded instruction structure (currently 20).  p is incremented by
+"p += r_size" where r_size is just a register variable whose value
+never changes.  By using this instead of "p++" with p declared as a
+(struct decoded_i *), we save one host instruction per 88000
+instruction.  The code sequence for "p++" is
+d483 1
+a483 1
+    movl   20,d0
+d491 2
+a492 2
+12 host instructions to execute.  With the older, cleaner scheme,
+it took 13 instructions.
+d498 1
+a498 1
+address of the instruction pointer, in r_ip, to l_to_d, which
+d517 3
+d538 1
+a538 1
+In this case, we examine the literal field of the delayed branch.  This
+d549 1
+a549 1
+that are indexed with logical page numbers (i.e., bits 12 through 31 of
+d553 8
+a560 1
+#define TLB_SIZE    (512)
+d562 2
+a563 4
+char *u_load_tlb_low[TLB_SIZE];
+char *u_load_tlb_high[TLB_SIZE];
+char *s_load_tlb_low[TLB_SIZE];
+char *s_load_tlb_high[TLB_SIZE];
+a564 5
+char *u_store_tlb_low[TLB_SIZE];
+char *u_store_tlb_high[TLB_SIZE];
+char *s_store_tlb_low[TLB_SIZE];
+char *s_store_tlb_high[TLB_SIZE];
+
+d568 1
+a568 7
+store and xmem instructions.  The "low" arrays buffer address for the
+first (PAGE_SIZE * TLB_SIZE) bytes of logical address space.  The
+"high" arrays do the same for for the last (PAGE_SIZE * TLB_SIZE) bytes
+of logical address space.  The choice of buffering the first and last
+chunks (currently PAGE_SIZE * TLB_SIZE = 4 MB) of memory was motivated
+by the expected behavior of the UTek kernel.  References that miss
+the TLB's will work, but just take longer to execute.
+d571 1
+a571 7
+computed.  The EA is compared with constants to see if the access hits
+the high or low cache.  If it does, the page number of the EA is used
+to index the appropriate tlb array and a pointer to the 'values' field
+of a page structure is gotten.  The page offset is added to this
+pointer and the result is the pointer to the memory that models the
+location accessed by the 88000 memory instruction.  The load, store, or
+exchange is then performed.
+d573 9
+a581 2
+While execute.c is running there are 4 local variables that point to
+the four active tlb arrays.  When the PSR bit 31 is set, the supervisor
+d585 6
+d592 6
+a597 9
+    load_tlb_high  = &(u_load_tlb_high[0]);             \
+    load_tlb_low   = &(u_load_tlb_low[0]);              \
+    store_tlb_high = &(u_store_tlb_high[0]);            \
+    store_tlb_low  = &(u_store_tlb_low[0]); } else {    \
+                                                        \
+    load_tlb_high  = &(s_load_tlb_high[0]);             \
+    load_tlb_low   = &(s_load_tlb_low[0]);              \
+    store_tlb_high = &(s_store_tlb_high[0]);            \
+    store_tlb_low  = &(s_store_tlb_low[0]); }
+d613 1
+a613 1
+(either E_DACC or E_CACC).  If the access is a normal memory access,
+d615 1
+a615 1
+page structure in the appropriate tlb, and return a zero.
+d628 1
+a628 1
+to flush.  Sections of tlb's are flushed when a BATC port is changed.
+d680 10
+a689 8
+   struct io_dev {
+       unsigned l_addr;         /* Lowest address device responds to    */
+       unsigned size;           /* 1, 2, 4, or 8.  Size of IO operation.*/
+       char     *name;          /* Name of IO device.                   */
+       int      (*init)();      /* function called at initialization.   */
+       int      (*operation)(); /* function called to do IO operation.  */
+       int      (*print)();     /* function called to print dev state.  */
+   };
+d709 2
+a710 6
+initiating the access.  If no exception should be raised, a zero is
+returned.  Unfortunately the code for the reset exception, E_RST, is
+zero.  This means that until I change something the IO section can not
+raise this exception.  The scc simulator might want to do this to
+simulate the hardware-reset board that is used with remote adb and that
+will be used with remote d88.
+@
+
+
+1.5
+log
+@Added copyright notice and rcs header.
+@
+text
+@d4 1
+a4 1
+ * $Header: $
+d8 1
+a8 1
+           78000 SIMULATOR INTERNAL DESIGN
+d12 1
+a12 1
+DATE: December 7, 1987
+d17 1
+a17 1
+This documents the internal structure of the UTek 78000 simulator.
+d21 1
+a21 1
+these are checked into s78/RCS.
+d27 1
+a27 1
+a 78000 execution vehicle to in order to port large programs, 
+d42 1
+a42 1
+  1. FP accuracy wrt to the 78000 hardware.
+d44 1
+a44 1
+  2. 78000 instruction timing.
+a53 1
+The things that we didn't model but might need to add:
+a54 6
+  1. The DMT, DMA, DMD register behavior.
+
+  2. Numerous other details (this is a reminder to me to
+     add these details to this list as I remember them).
+
+
+d57 1
+a57 1
+The source for the simulator is in //cupcake/UTek/src/dbx/d78.  Here
+d68 1
+a68 1
+  decode.[ch]      contains decode().  This translates a 78000 instruction
+d71 1
+a71 1
+  disk.c           like the console, but a disk, not fully implemented.
+d87 1
+a87 1
+  fields78.h       macros for extracting fields from 78000 instructions
+d125 1
+a125 1
+The current simulator models a 78000 with 8 MB of contiguous physical
+d129 1
+a129 1
+has the 4k bytes of data that the 78000 program sees on each page, the
+d144 1
+a144 1
+is large.  It also puts less load on the VM of the host for most 78000
+d158 1
+a158 1
+The simulator does not execute 78000 instructions directly.  Before it
+d181 3
+a183 3
+is the biggest kludge and the largest source of non-portability in the
+simulator.  Removing it would, however, would probably slow the
+simulator down, I guess, by factor of 1.5.
+d237 1
+a237 1
+        literal     = 0x1030   (78000 logical target address)
+d245 1
+a245 1
+        literal     = 0x1030   (78000 logical target address)
+d253 1
+a253 1
+        literal     = 0x411c       (78000 logical target address)
+d261 1
+a261 1
+        literal     = 0x411c       (78000 logical target address)
+d269 1
+a269 1
+        literal     = 0xfec0       (78000 logical target address)
+d308 2
+a309 2
+to make the compiler, assembler, and linker pass treat addresses
+correctly.
+d361 3
+a363 3
+and its value is used by decode to decide how to fill in the fields of
+the decoded_i structure.  norm_e_addr is copied directly to the field
+of the same name in the decoded_i structure.  ss_e_addr is like
+d369 3
+a371 3
+Note that more instructions listed in the User's Manual than there
+are entry points in execute.c.  This is because we use some entry
+points for more than one instruction.  For example, the instructions:
+d391 6
+a396 5
+0,r0,131" instruction or until four exceptions have occurred with shadow
+registers frozen.  The choice of returning after four such exceptions
+was arbitrary, I just didn't want to loop forever not being able to do
+anything reasonable.  sim_ss() executes one instruction and returns.  See
+"SINGLE STEPPING" for more information on sim_ss().
+d398 7
+a404 7
+The 78000's instruction pointer, XIP, is modeled by r_ip while sim()
+or sim_ss() are executing.  Upon entry to sim() or sim_ss(), the global
+ip is copied to the register variable r_ip and before either of these
+functions return they copy r_ip back to ip.  They also copy r_ip to
+ip before calling l_mem_op.  They do this in case the memory operation
+is with an IO device.  The IO section records the ip at the time
+of every IO operation in a trace buffer.
+d410 4
+a413 4
+There is another local variable, p, that points to the decoded instruction
+being executed.  As we move from one instruction to the next both r_ip
+and p are updated.  The following example shows how an addu instruction
+is executed.
+d509 1
+a509 1
+(struct decoded_i *), we save one host instruction per 78000
+d535 2
+a536 2
+address since decoded instructions correspond to 78000 instructions in
+*physical* memory.  With the physical 78000 address we look in the page
+d549 1
+a549 1
+The 78000 has branch instructions that execute the instruction
+d608 1
+a608 1
+location accessed by the 78000 memory instruction.  The load, store, or
+d635 1
+a635 1
+are totally invisible to the 78000 program.)
+d652 2
+a653 2
+The tlb's cache the translation of 78000 logical addresses to host
+pointers.  The are similar in concept only to the tlb of the 78200 CMMU
+d655 1
+a655 1
+simulation.  The tlb's are flushed when the 78000 program tells a CMMU
+d664 1
+a664 1
+execute 78000 instructions.  The difference lies in the action taken
+d740 1
+a740 1
+will be used with remote d78.
+d767 1
+a767 1
+implementing the semantics of the 78000 or any attached devices.
+@
+
+
+1.4
+log
+@Fixed errors that Andrew Klossner pointed out.
+@
+text
+@d2 3
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d73 1
+a73 1
+                   into a decoded instruction
+d130 6
+a135 5
+memory starting at zero.  Each 4k page of physical memory is modeled
+with a page structure (see sim.h).  This structure has the 4k bytes of
+data that the 78000 program sees on each page, the physical address of
+the page, and a pointer to the decoded form of the instructions on the
+page.
+d172 5
+a176 5
+	int			(*norm_e_addr)();
+	unsigned	*dest;
+	unsigned	*s1;
+	unsigned	*s2;
+	int			literal;
+d205 5
+a209 5
+	    norm_e_addr = sim_subu (an entry point in execute.c)
+	    dest        = &regs[4]
+	    s1          = &regs[5]
+	    s2          = &regs[6]
+	    literal     = 0        (not used)
+d214 4
+a217 4
+	    dest        = &regs[29]
+	    s1          = &regs[4]
+	    s2          = &(p->literal) (where p points to this structure)
+	    literal     = 0xfef7
+d221 5
+a225 5
+	    norm_e_addr = sim_st_d (an entry point in execute.c)
+	    dest        = &regs[5]
+	    s1          = &regs[0]
+	    s2          = &regs[31]
+	    literal     = 0        (not used)
+d229 5
+a233 5
+	    norm_e_addr = xcr      (an entry point in execute.c)
+	    dest        = &regs[5]
+	    s1          = &regs[0]
+	    s2          = &sfu0_regs[1]
+	    literal     = 0        (not used)
+d237 5
+a241 5
+	    norm_e_addr = sim_bsr  (an entry point in execute.c)
+	    dest        = 0        (not used)
+	    s1          = 0        (not used)
+	    s2          = ptr to decoded instruction for instruction at 0x1030
+	    literal     = 0x1030   (78000 logical target address)
+d245 5
+a249 5
+	    norm_e_addr = sim_bsr  (an entry point in execute.c)
+	    dest        = 0        (not used)
+	    s1          = 0        (not used)
+	    s2          = 0        (indicates that the branch target is off-page)
+	    literal     = 0x1030   (78000 logical target address)
+d253 5
+a257 5
+	    norm_e_addr = sim_bcnd_le0 (an entry point in execute.c)
+	    dest        = the M5 field (not used by execute.c for this branch)
+	    s1          = &regs[1]     (the register to test)
+	    s2          = ptr to decoded instruction for the instruction at 0x411c
+	    literal     = 0x411c       (78000 logical target address)
+d261 5
+a265 5
+	    norm_e_addr = sim_bcnd_le0 (an entry point in execute.c)
+	    dest        = the M5 field (not used by execute.c for this branch)
+	    s1          = &regs[1]     (the register to test)
+	    s2          = 0            (indicates that the target is off-page)
+	    literal     = 0x411c       (78000 logical target address)
+d269 5
+a273 5
+	    norm_e_addr = sim_bb1      (an entry point in execute.c)
+	    dest        = 0x00000200   (a mask with bit 9 set).
+	    s1          = &regs[8]     (the register to test)
+	    s2          = ptr to decoded instruction for the instruction at 0xfec0
+	    literal     = 0xfec0       (78000 logical target address)
+d278 6
+a283 6
+	    norm_e_addr = sim_rte      (an entry point in execute.c)
+	    dest        = 0            (not used) 
+	    s1          = 0            (not used)
+	    s2          = 0            (not used)
+	    literal     = 0            (not used)
+	
+d293 1
+a293 1
+#define	L(x)					GEN_GLOBAL_SYM(x,)
+d295 2
+a296 2
+#define	GEN_GLOBAL_SYM(name, suffix)				\
+	{ asm(" .globl _sim_/**/name/**/suffix"); asm("_sim_/**/name/**/suffix:"); }
+d301 2
+a302 2
+	DST = SRC1 + SRC2;
+	DISPATCH_NEXT;
+d352 7
+a358 7
+	unsigned opcode;		/* Opcode of instruction. 				*/
+	unsigned opmask;		/* Mask to use before comparing opcode. */
+	char	 *mnemonic;		/* String programmers use. (comment only)*/
+	char	 format;		/* Type of instruction.					*/
+	int      (*norm_e_addr)();/* Normal entry point.                */
+	int		 (*ss_e_addr)();/* Single step entry point.				*/
+	int      (*fixup)();	/* Routine to do any extra decoding.    */
+d381 1
+a381 1
+    lda.d r0,r0,r0
+d386 3
+a388 1
+and dest fields and the integer in the literal field.
+d396 3
+a398 1
+registers frozen.  sim_ss() executes one instruction and returns.  See
+d424 4
+a427 4
+	    dest        = &regs[4]
+	    s1          = &regs[5]
+	    s2          = &regs[6]
+	    literal     = 0        (not used)
+d432 2
+a433 2
+	DST = SRC1 + SRC2;
+	DISPATCH_NEXT;
+d435 2
+a436 1
+Here are the macros used to do the addition:
+d438 3
+a440 3
+#define SRC1		(*P->s1)
+#define	SRC2		(*P->s2)
+#define	DST			(*P->dest)
+d442 12
+d460 6
+a465 6
+	movl	a2@@(4),a1      <<< the pointer to r4 is put into a1
+	movl	a2@@(12),a0     <<< the pointer to s2 is loaded into a0
+	movl	a0@@,d0         <<< the contents of r4 is loaded into d0
+	movl	a2@@(8),a0      <<< The pointer to s1 is loaded into a0
+	addl	a0@@,d0         <<< The addition happens!
+	movl	d0,a1@@         <<< the result is stored into r4
+d467 2
+a468 2
+	movl	a3,d3          <<< we test the delayed_p pointer.
+	bne	L67                <<< it is usually zero.
+d470 2
+a471 2
+	addl	d5,a2          <<< p += sizeof(struct decoded_i)
+	addql	#4,d2          <<< r_ip += 4
+d473 2
+a474 2
+	movl	a2@@,a0         <<< fetch the address of the next instr's entry point
+	jmp 	a0@@            <<< branch to the next instr's entry point.
+d482 1
+a482 1
+#define	DISPATCH				{ (P->norm_e_addr)(); if (always1) goto top; }
+d486 1
+a486 1
+#define	P						((struct decoded_i *)p)
+d515 2
+a516 2
+	movl   20,d0
+	addl   d0,a2         ; a2 is used for p
+d577 3
+a579 1
+keeps a set of tables called tlb's.  Here is their declaration:
+d582 1
+a582 1
+#define	TLB_SIZE	(512)
+d600 4
+a603 1
+of logical address space.
+d606 7
+a612 8
+computed.  This is very much like the operation of an addu instruction,
+except the result is not stored in a 78000 register.  The EA is
+compared with constants to see if the access hits the high or low
+cache.  If it does, the page number is used to index the appropriate
+tlb array and a pointer to the 'values' field of a page structure is
+gotten.  The page offset is added to this pointer and the result is the
+pointer to the memory that models the location accessed by the 78000
+memory instruction.  The load or store is then performed.
+d619 10
+a628 10
+#define	SET_TLB_PTRS if (USERMODE) {					\
+	load_tlb_high  = &(u_load_tlb_high[0]);				\
+	load_tlb_low   = &(u_load_tlb_low[0]);				\
+	store_tlb_high = &(u_store_tlb_high[0]);			\
+	store_tlb_low  = &(u_store_tlb_low[0]); } else {	\
+														\
+	load_tlb_high  = &(s_load_tlb_high[0]);				\
+	load_tlb_low   = &(s_load_tlb_low[0]);				\
+	store_tlb_high = &(s_store_tlb_high[0]);			\
+	store_tlb_low  = &(s_store_tlb_low[0]); }
+d633 6
+a638 6
+bits in the PTE if the access was mapped by a page table.  A store sets
+the M bit in the PTE.  Having separate caches gives the simulator two
+different tlb faults, corresponding to the two different kinds of
+accesses, during which these bits are set.  (by tlb faults, I mean
+simulator-tlb faults, which are totally invisible to the 78000
+program.)
+d644 1
+a644 1
+(either E_DACC for E_CACC).  If the access is a normal memory access,
+d650 4
+a653 4
+exception code the io_operation returned and will not install a
+pointer in a tlb array.  This means that loads and stores of IO
+devices will always cause l_mem_op, l_to_p, and io_operation to
+be called.
+d682 5
+a686 3
+normal_to_ss().  It is passed the sim() entry point in the decoded_i
+structure and returns the sim_ss() entry point.  Since this is only
+done once per single step, this is not a performance problem.
+d705 2
+a706 1
+transfer, the type of operation (LOAD, ST, etc.), and a boolean that
+d713 1
+a713 1
+       unsigned size;         	/* Number of byte from l_addr dev is    */
+d716 1
+a716 1
+       int      (*operation)();
+d726 1
+a726 1
+io_operation.  It is indexed with bits 12 through 15 of the
+d736 1
+a736 1
+access a device on the PBUS causes a bus error.  io_operation returns
+d747 8
+a754 8
+functions.  The addresses of these functions are in fields of the
+device table.  The first is called when a hardware reset is simulated.
+It initializes the device.  It can be null and does not return a value.
+The second is the meat of the device simulator, it is the operation
+function.  Its parameters are the same as those to io_operation
+exception that the first parameter is the address_offset, the
+difference between the physical_address passed to io_operation and the
+lowest address that the device responds to.
+d759 7
+a765 7
+	   unsigned addr;				/* IO address transaction is done with.	*/
+	   struct io_dev *io_ptr;		/* Points to IO device structure.		*/
+	   unsigned ip;				/* Instruction pointer at time of IO.	*/
+	   unsigned value;				/* Word that is loaded or stored to IO.	*/
+	   char     mem_op_type;		/* Type of IO operation (LD, ST, LD_U..)*/
+	   char     size; 				/* Size of IO operation (BYTE, HALF, ..)*/
+	   short	 pad; };			/* Make this word aligned.              */
+d768 1
+a768 1
+io_trace.  This is used by the sim_io_print function to display IO
+d771 4
+@
+
+
+1.2
+log
+@much added, checking in to back up.  not done yet.
+@
+text
+@d14 5
+a18 5
+This documents the internal structure of the 78000 simulator.  Before
+reading this you may find it helpful to read sim_interface.doc and to
+browse the simulator source files.  You may also find the files that
+describe changes that were made to the simulator useful.  All of these
+are checked into RCS.
+d47 1
+a47 1
+  5. The shadow scoreboad register contents.
+d49 1
+a49 1
+  6. CMMU cache contents.
+d55 1
+a55 1
+  2. Numereous other details (this is a reminder to me to
+d61 20
+d84 4
+a87 2
+  decode.c         contains decode().  This translates a 78000 instruction
+                   into a decoded instruction
+d89 1
+a89 1
+  sim.h            contains definitions for the whole simulator
+d91 1
+a91 1
+  sim_interface.h  contains definitions that the front end needs
+d93 2
+a94 3
+  misc.c           supports the sim() and sim_ss() functions with
+                   routines of general utility, but are not called
+                   by the front end
+d96 2
+a97 1
+  memory.c         has the physical memory interface functions
+d102 1
+a102 1
+  io.c             provides the connection between the CPU simulator
+d105 1
+a105 3
+  cmmu.c           l_to_p, the logical-to-physical address translation
+                   function is here.  Also has the IO simulator for
+                   the CMMU.
+d107 1
+a107 1
+  scc.c            AmZ 8530 simulator
+d109 1
+a109 1
+  timer.c          NSC DP8571 TCP simulator (written by Tim Dale)
+d111 1
+a111 1
+  led.c            diagnostic LED simulator (written by Brent Sherwood)
+d113 3
+a115 1
+  lcsr.c           simulates the local control and status register
+d119 1
+d121 6
+d131 4
+a134 3
+with the page structure (see sim.h).  This structure has the 4k bytes
+of data that the 78000 program sees, the physical address of the page, 
+and a pointer to the decoded form of the instructions on the page.
+d145 2
+a146 2
+This scheme of delaying allocation of page structures means that the
+simulator will start quickly even if the size of the simulated physical
+d152 1
+a152 1
+phsysical_address field.  Some code needs to know the physical address
+d161 6
+a166 6
+The simulator does not execute 78000 instructions directly.  The
+first time it execute an instruction it decodes the instructions
+into a form that can be executed quickly.  This second form is
+called a decoded instruction and is represented by the decoded_i
+structure.  The simulator derives much of its speed from this
+two stage process.  All instruction decoding is done in decode.c.
+d179 8
+a186 8
+instruction.  This entry point it gotten to by branching indirectly
+through this field.  It is declared as a pointer to a function
+because C does not support label types.  execute.c is coded
+with calls through this field.  The program fixjmp.c converts
+the indirect function calls in the output of the compiler to
+indirect jmp's.  This is the biggest kludge and the largest source
+of non-portability in the simulator.  Removing it would, however,
+would probably slow the simulator down, I guess, by factor of 1.5.
+d190 1
+a190 1
+in execute.c uses them.  It is important that decode.c be consistent
+d220 1
+a220 1
+	    norm_e_addr = sim_st_d (an entry point is execute.c)
+d228 1
+a228 1
+	    norm_e_addr = xcr      (an entry point is execute.c)
+d236 1
+a236 1
+	    norm_e_addr = sim_bsr  (an entry point is execute.c)
+d244 1
+a244 1
+	    norm_e_addr = sim_bsr  (an entry point is execute.c)
+d252 1
+a252 1
+	    norm_e_addr = sim_bcnd_le0 (an entry point is execute.c)
+d260 1
+a260 1
+	    norm_e_addr = sim_bcnd_le0 (an entry point is execute.c)
+d268 1
+a268 1
+	    norm_e_addr = sim_bb1      (an entry point is execute.c)
+d277 1
+a277 1
+	    norm_e_addr = sim_rte      (an entry point is execute.c)
+d284 30
+d317 5
+a321 5
+The page structure has a field, deocded_part, that may point to an
+array of 1025 decoded_i structures.  If decoded_part is nil it means
+that no instructions have been executed on that physical page yet.
+Delaying the allocation of decoded_part structures saves host VM and
+thus makes the simulator faster.
+d323 5
+a327 5
+Once a decoded_part structure is allocated is never deallocated, even
+if sim_init is called.  When it is allocated it is also initialized.
+The norm_e_addr field of the first 1024 enties is set to point to a
+special entry point in execute.c: sim_not_decoded.  The last entry of
+the decoded_i array points to the sim_end_of_page entry point.
+d329 8
+a336 8
+When the instruction executer in sim() or sim_ss() dispatches an
+instruction it branches indirectly through the norm_e_addr of the
+decoded form of the instruction to be executed.  There is no need to
+check whether the instruction is decoded or not.  If the instruction
+has not yet been decoded, by virtue of the decoded page initialization,
+the dispatch will branch to the sim_not_decoded entry point.  This
+entry point decodes the instruction by calling decode and then
+redispatches the newly-decoded instruction.
+d342 5
+a346 5
+table, decode sets the entry point field of the decoded instruction to
+sim_opc_exception.  This entry point generates an OPC execption
+(unimplemented instruction).  decode() must set the norm_e_addr field
+to something other than sim_not_decoded or else the simulator will be
+in an infinite loop.
+d364 7
+a370 7
+its value is used by decode
+to decide how to fill in the fields of the decoded_i structure.
+norm_e_addr is copied directly to the field of the same name in the
+decoded_i structure.  ss_e_addr is like norm_e_addr except that it is
+an entry point into the form of execute.c that is compiled for
+single-stepping.  fixup is either zero or the address of a function in
+decode.c to call to do some instruction-specific decoding.
+d372 3
+a374 3
+Note that many more instructions listed in the User's Manual than there
+are entries points in execute.c.  This is because we use some entry
+points for several instructions.  For example, the instructions:
+d387 1
+d390 166
+d575 6
+a580 6
+"s_" are used for supivisor mode accesses.  The "load_" arrays buffer
+addresses for load instructions and "store_" arrays do the same
+for store and xmem instructions.  The "low" arrays buffer address for
+the first (PAGE_SIZE * TLB_SIZE) bytes of logical address space.
+The "high" arrays do the same for for the last (PAGE_SIZE * TLB_SIZE)
+bytes of logical address space.
+d582 9
+a590 9
+When a load is executed the effective logical address is first computed.
+This is very much like the operation of an addu instruction, except the
+result is not stored in a 78000 register.  The EA is compared to see
+if the access hits the high or low cache.  If it does, the page number
+is used to index the appropiate tlb array and a pointer to the 'values'
+field of a page structure is gotten.  The page offset is added to this
+pointer and the result is the pointer to the memory that models the
+location accessed by the 78000 memory instruction.  The load or store
+is then performed.
+d592 4
+a595 4
+While execute.c is running there are 4 local variables that point
+to the four active tlb.  When the PSR bit 31 is set, the supervisor
+tlb's are used and when it is zero the user tlb's are used.  Here
+is the macro that is used to set up these pointers:
+d609 1
+a609 1
+logical page may write-protected and thus no accessible to a store
+d614 3
+a616 1
+accesses, during which these bits are set.
+d620 5
+a624 6
+l_to_p also sets the U and M bits according to the type of access.  If
+this translation indicates the access is an error, l_mem_op will return
+the exception to be raised (either E_DACC for E_CACC).  If the access
+is a normal memory access, l_mem_op will do the memory operation
+itself, install a pointer to the page structure in the appropriate tlb,
+and return a zero.
+d628 4
+a631 2
+exception code the io_operation returned and will in no event install a
+pointer in a tlb array.
+d633 1
+a633 1
+These tlb's cache the translation of 78000 logical addresses to host
+d640 24
+d670 5
+a674 5
+	unsigned physical_address;
+	unsigned *value_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d680 1
+a680 1
+stored, or exhanged with, the number of bytes (1, 2, 4, or 8) to
+d684 12
+a695 1
+io_operation searches a device table using the physical_address
+d701 1
+a701 1
+io_operation.  It is indexed with bits 8 through 15 of the
+d705 2
+a706 1
+to the device being operated on.
+d709 1
+a709 1
+address is calls cmmu_set_bus_error so that the cmmu's status register 
+d713 6
+a718 6
+initiating the access.  If no exception should be raised, a zero
+is returned.  Unfortunatly the code for the reset exception, E_RST,
+is zero.  This means that until I change something the IO section
+can not raise this exception.  The scc simulator might want to do
+this to simulate the hardware-reset board that is used with remote
+adb and that will be used with remote d78.
+d720 2
+a721 2
+If io_operation finds a responding IO device it calls the simulator
+for that device.  Each device simultor consists of at least three 
+d728 2
+a729 2
+difference between the physical_address passed to io_operation
+and the lowest address that the device responds to.
+d731 1
+a731 5
+Each IO operation is recorded in a 10000 element circular buffer
+called io_trace.  This is used by the sim_io_print function to
+display IO operations for the user's benefit.  It has nothing to
+do with implementing the sematics of the 78000 or any attached
+devices.
+d733 8
+d742 4
+a745 3
+           LOGICAL TO PHYSICAL ADDRESS TRANSLATION
+
+           EXCEPTIONS
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d33 1
+d35 2
+d39 1
+a39 1
+  1. FP accuracy.
+d41 1
+a41 1
+  2. 78000 timing.
+d45 1
+a45 1
+  4. Anything the programmers using it didn't need.
+d47 51
+d100 5
+d106 8
+d115 139
+d256 71
+d331 79
+d411 60
+@

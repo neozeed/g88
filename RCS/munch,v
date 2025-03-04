@@ -1,0 +1,55 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.2
+date     89.11.30.14.34.50;  author andrew;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.30.23.49.10;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@Added dollar-header-dollar.
+@
+text
+@#! /bin/sh
+# $Header$
+
+# create an initialization procedure from a list of .o files
+
+echo '/* Do not modify this file.  It is created automatically by "munch". */'
+echo 'void initialize_all_files () {'
+
+if test "$1" = "-DSYSV" ; then
+    shift;
+    nm $* | egrep '^(.*[^a-zA-Z_]_|_)initialize_' | \
+	sed -e 's/^.*\(_initialize_[a-zA-Z0-9_]*\)[^a-zA-Z0-9_].*$/   \1 ();/'
+else
+    nm -p $* | egrep 'T *__initialize_' | \
+	sed -e 's/^.*T *_*\(.*\)/    _\1 ();/'
+fi
+
+echo '}'
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+@

@@ -1,0 +1,7177 @@
+head     1.48;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.48
+date     91.01.13.23.44.36;  author robertb;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     90.12.29.16.29.41;  author robertb;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     90.08.19.21.20.59;  author robertb;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     90.06.30.17.55.57;  author robertb;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     90.04.16.15.15.52;  author jrb;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     90.03.28.14.16.11;  author robertb;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     90.02.20.11.41.16;  author andrew;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     90.02.07.16.05.45;  author andrew;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     89.12.12.15.21.34;  author andrew;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     89.12.12.12.42.14;  author paulg;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     89.12.09.18.30.12;  author paulg;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     89.12.09.18.07.02;  author paulg;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     89.12.06.12.43.11;  author paulg;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     89.12.01.08.59.49;  author davidl;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     89.11.30.22.21.45;  author paulg;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     89.11.17.08.09.19;  author davidl;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     89.11.17.07.40.19;  author davidl;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     89.11.15.14.08.41;  author davidl;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     89.11.14.12.49.24;  author paulg;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     89.11.12.16.45.00;  author paulg;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     89.11.11.16.40.45;  author davidl;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     89.11.09.13.03.51;  author davidl;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     89.11.08.10.35.59;  author davidl;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.11.06.19.17.14;  author davidl;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     89.11.02.18.07.31;  author davidl;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     89.11.02.15.36.00;  author paulg;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     89.11.02.12.43.11;  author davidl;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     89.11.01.15.03.25;  author davidl;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     89.10.31.17.07.49;  author davidl;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     89.10.27.19.41.55;  author paulg;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     89.10.27.14.29.58;  author davidl;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     89.10.26.09.51.27;  author davidl;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     89.10.25.19.17.05;  author davidl;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     89.10.24.17.23.42;  author donhar;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     89.10.24.15.58.16;  author paulg;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     89.10.23.16.27.16;  author davidl;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     89.10.19.15.49.30;  author paulg;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     89.10.10.12.23.17;  author paulg;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     89.10.07.10.26.45;  author paulg;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.10.04.18.26.41;  author davidl;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.10.04.08.45.16;  author davidl;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.09.29.16.40.33;  author davidl;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.09.28.15.07.08;  author paulg;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.09.27.13.15.01;  author davidl;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.09.26.21.54.43;  author paulg;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.09.26.11.02.44;  author paulg;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.09.26.10.41.42;  author paulg;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.09.21.11.30.36;  author davidl;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Programming language enhancement for gdb.
+@
+
+
+1.48
+log
+@Fixed segmentation fault from Tektronix code.
+@
+text
+@/* Tektronix programming extensions to GDB, the GNU debugger.
+   Copyright (C) 1989 Free Software Foundation, Inc.
+
+   $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/programmer.c,v 1.47 90/12/29 16:29:41 robertb Exp $
+   $Locker:  $
+
+ */
+
+
+#ifdef TEK_PROG_HACK  /* this covers the whole file! */
+
+
+
+/*     +-----------------+     */
+/*  -=#|  Include Files  |#=-  */
+/*     +-----------------+     */
+
+
+
+#include "defs.h"
+#include "param.h"
+#include "ui.h"
+#include "obstack.h"
+#include "expression.h"
+#include "value.h"
+#include "command.h"
+#include "regex.h"
+#include "symtab.h"
+#include "frame.h"
+#include <stdio.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <sys/types.h>
+#include <time.h>
+
+
+
+/*     +-------------+     */
+/*  -=#|  #Define's  |#=-  */
+/*     +-------------+     */
+
+
+
+#define BYTEWIDTH            8
+#define obstack_chunk_alloc  xmalloc
+#define obstack_chunk_free   free
+#define EAT_WHITESP_FRD(p)    while (*(p)&&((*(p)==' ')||(*(p)=='\t'))) ++(p);
+#define EAT_WHITESP_BWD(p)    while ((*(p) == ' ') || (*(p) == '\t')) --(p);
+#define iscmdchar(c)          (isalpha(c)||((c)=='-')||isdigit(c))
+#define DFLTSHIFTTOLOWER      1
+#define DFLTSCANLIMIT         1
+#define DFLTTICKCHR           '`'
+#define OPENBRACE             '{'
+#define CLOSEBRACE            '}'
+#define STARCHR               '*'
+#define MATCHCHR              'm'
+#define COUNTCHR              'c'
+#define PRINTCHR              'p'
+#define EXAMINECHR            'x'
+#define DFLTSUCCEEDEDMSG      "succeeded"
+#define DFLTFAILEDMSG         "failed"
+#define MAXPROMPTLEN          128
+#define MACROSTACK            "macro-stack"
+
+
+
+/*     +------------------------+     */
+/*  -=#|  External Subroutines  |#=-  */
+/*     +------------------------+     */
+
+
+
+extern void free ();
+extern char *index ();
+extern void execute_command ();
+extern void add_com ();
+extern char *validate_comname ();
+extern void dont_repeat ();
+extern void nested_commands_command ();
+extern void free_command_lines ();
+extern void source_cleanup ();
+extern char *command_line_input ();
+extern struct format_data decode_format ();
+extern void validate_format ();
+extern struct expression *parse_c_expression ();
+extern struct expression *parse_c_1 ();
+extern char *last_break_macro ();
+
+
+
+/*     +-----------------------------------------------------------+     */
+/*  -=#|  Data Global To Entire Program, Not Defined In This File  |#=-  */
+/*     +-----------------------------------------------------------+     */
+
+
+
+extern int autorepeat;
+extern struct cmd_list_element *setlist;
+extern struct cmd_list_element *cmdlist;
+extern struct cmd_list_element *set_cmd;
+extern char *gbl_prompt;
+extern FILE *instream;
+extern int usingX;
+extern char last_format;
+extern char _rcsid[];
+extern char *version;
+extern char *source_path;
+extern int selected_frame_level;
+
+
+
+/*     +--------------------+     */
+/*  -=#|  Type Definitions  |#=-  */
+/*     +--------------------+     */
+
+
+
+/* This structure is used for one-way linked lists.  The data item stored in
+   the elements of these lists is a character string pointer.  The two main
+   uses of these lists are to hold the arguments to a user defined function
+   and to hold the results of a match statment. */
+
+struct string_list_el {
+  char *string;
+  struct string_list_el *next;
+};
+typedef struct string_list_el *string_list_el;
+
+/* This next structure is used to impliment a stack that keeps track of the
+   conditional command state.  Each IF command pushes a new element on the
+   stack which will be removed from the stack by the matching ENDIF command.
+   Each such "execution level" can be thought of as being divided into blocks
+   by ELIF and ELSE commands.  (There can be only one block beginning with an
+   ELSE command and it must be the last block in the level.)  Only one block
+   of commands in a level will be executed.  While looking for which block to
+   execute (by evaluating IF and ELIF expressions) the execute state for the
+   level will be "exec_disabled".  When the block to execute (if any) is found,
+   the execution state is set to "exec_enabled" while that block is executed.
+   Once a block is executed, the execution state for this level is set to
+   "exec_skiping" and nothing gets executed while this level is active. */
+
+enum exec_state_type {
+  exec_enabled, exec_disabled, exec_skipping,
+};
+
+struct cond_level
+{
+  enum exec_state_type exec_state;
+  int else_ok;
+  struct cond_level *prev;
+};
+typedef struct cond_level *cond_level;
+
+/* This structure is used to impliment the stack behind "scanlimit".
+   "Scanlimit" specifies how many times an input line is scanned for macros
+   durring a single call to "macro_expand()".
+   
+    This is also used to impliment the stacks behind "shift-to-lower" and
+    "macroescape". */
+
+struct intlist_element {
+  int value;
+  struct intlist_element *next;
+};
+
+/* This data struct is from printcmd.c: it should be in a common include.  It
+   is used here as part of the interface to "print_formatted()".  */
+
+struct format_data
+{
+  int count;
+  char format;
+  char size;
+};
+
+
+
+/*     +----------------------+     */
+/*  -=#|  Forward References  |#=-  */
+/*     +----------------------+     */
+
+
+
+static char		       *skip_quoted_string ();
+static void		       error_bad_arg ();
+static int		       count_strings ();
+static char		       *get_a_string ();
+static void		       print_string_list ();
+static string_list_el	       new_string_list_el ();
+static void		       arg_expansions_cleanup ();
+static void		       match_expansions_cleanup ();
+static void		       pushed_int_cleanup ();
+static struct cleanup	       *init_fake_pr_routines ();
+static void		       restore_print_routines ();
+static int		       fake_fprintf ();
+static int		       fake_fputs ();
+static int		       fake_fputc ();
+static int		       fake_fflush (); 
+static char		       *date_macro ();
+static char		       *line_macro ();
+static char		       *cur_function_macro ();
+static char		       *cur_srcfile_macro ();
+static char		       *level_macro ();
+static char		       *is_outer_macro ();
+static char		       *expand_print_or_examine ();
+static void		       perform_star_expansion ();
+static char		       *expand_single_macro ();
+static char		       *do_macro_scan_right ();
+       void		       set_either_prompt_command ();
+static void		       eval_and_set_state ();
+static void		       match_routine ();
+       void		       free_macro_expansion ();
+       void		       free_string_list ();
+       struct cmd_list_element *my_lookup_cmd ();
+       string_list_el	       parse_string_list ();
+       struct command_line     *copy_command_lines ();
+       void		       update_prompt ();
+       void		       clear_cond_stack ();
+       char		       *macro_expand ();
+       void		       print_command_lines ();
+       struct command_line     *read_command_lines ();
+       int		       skip_execute ();
+       struct cleanup	       *push_def_expansions ();
+       struct cleanup	       *push_match_expansions ();
+static void		       nested_while_command ();
+static void		       nested_define_command ();
+static void		       nested_document_command ();
+static void		       macro_command ();
+static void		       match_command ();
+static void		       while_command ();
+static void		       if_command ();
+static void		       elif_command ();
+static void		       else_command ();
+static void		       endif_command ();
+static void		       set_autorepeat ();
+static void		       set_prompt_command ();
+static void		       set_prompt2_command ();
+static void		       set_macro_escape ();
+static void		       set_macro_scan_limit ();
+static void		       set_shift_to_lower ();
+static void		       autorepeat_info ();
+static void		       user_info ();
+static void		       macro_info ();
+static void		       shift_to_lower_info ();
+       void		       _initialize_programmer ();
+       void		       init_cmd_pointers ();
+
+			       
+
+/*     +-------------------------------------+     */
+/*  -=#|  Data Global Within This File Only  |#=-  */
+/*     +-------------------------------------+     */
+
+
+
+static struct obstack macro_expansion_obstack;
+static struct obstack *meo = &macro_expansion_obstack;
+
+static string_list_el arg_expansions = 0;
+static string_list_el match_expansions = 0;  
+
+static int tickchr = DFLTTICKCHR;
+static int macro_scan_limit = DFLTSCANLIMIT;
+static struct intlist_element *scanlimit_stack = 0;
+static struct intlist_element *shift_to_lower_stack = 0;
+static struct intlist_element *tickchr_stack = 0;
+static struct cmd_list_element *macrolist;
+static struct string_list_el *macro_stack = 0;
+
+static cond_level cond_stack = 0;
+static int nesting_level = 0;
+
+static char *prompt[2];
+
+/* Strings used by all the "match" commands. */
+
+static char *match_string, *match_pattern;
+struct re_pattern_buffer buf;
+
+/* The following "commands" are internal only: they are not on any list.  They
+   are used when a command that causes nesting is executed.  These are
+   initialized at start up.  */
+
+static struct cmd_list_element nested_define;
+static struct cmd_list_element nested_commands;
+static struct cmd_list_element nested_document;
+static struct cmd_list_element nested_while;
+
+/* These variables are used to hold pointers to particular commands.  They are
+   initialized when the commands are "created" durring start up.  They are
+   used in comparisons with more general command pointers. */
+
+static struct cmd_list_element *define_p;
+static struct cmd_list_element *commands_p;
+static struct cmd_list_element *document_p;
+static struct cmd_list_element *while_p;
+static struct cmd_list_element *elif_p;
+static struct cmd_list_element *if_p;
+static struct cmd_list_element *endif_p;
+
+/* The following variables are used in faking out the print routines durring
+   the expansion of the `p and `x macros.  Basicly what happens is that some
+   entries in the user interface vector are temporarily replaced so that the
+   the internals of the "print" or "execute" commands can be executed and
+   their output "captured".  This captured text then becomes the expantion
+   macro in question.  */
+
+static int (*save_fprintf)();
+static int (*save_fputs)();
+static int (*save_fputc)();
+static int (*save_fflush)();
+static int save_usingX;
+static int fake_pr_buffer_size = 0;
+static char *fake_pr_buffer = 0;
+static char *fake_pr_ptr;
+
+
+
+/*     +------------------------------------------------+     */
+/*  -=#|  Utility Routines Available In This File Only  |#=-  */
+/*     +------------------------------------------------+     */
+
+
+
+/* Skip a quoted string: return pointer to matching quote ("). */
+
+static char *
+skip_quoted_string (c)
+     register char *c;
+{
+  if (*c != '"')
+    ui_badnews (-1, "internal: skip_quoted_string(), no quote: %s ", c);
+  for (;;)
+    {
+      ++c;
+      if (*c == '"')
+	return c;
+      if (*c == '\\')
+        ++c;
+    }
+#ifdef lint
+  return c;
+#endif
+}
+
+
+/* Print error message for unexpected argument. */
+
+static void
+error_bad_arg (want, got)
+     char *want;
+     char *got;
+{
+  ui_badnews (-1, "This command wants %s, you typed \"%s\"", want, got);
+}
+
+
+/*
+ *  ---  Routines to deal with string lists.  ---
+ */
+
+
+/* Count the number of entries in string list "l". */
+
+static
+count_strings (l)
+     string_list_el l;
+{
+  int count = 0;
+
+  for (; l; l = l->next) ++count;
+  return count;
+}
+
+
+/* Return the "n"th element in string list "l". */
+
+static char *
+get_a_string (l, n)
+     string_list_el l;
+     int n;
+{
+  int count = 0;
+
+  for (; l; l = l->next)
+    if (count++ == n)
+      return l->string;
+
+  return 0;
+}
+
+
+/* Print a string list using a given format for each element. */
+
+static void
+print_string_list (fmt, l)
+     char *fmt;
+     string_list_el l;
+{
+  for (; l; l=l->next)
+    printf_filtered (fmt, l->string);
+}
+
+
+/* Allocate memory for a new string list element. */
+
+static string_list_el
+ new_string_list_el ()
+{
+  string_list_el new;
+  
+  new = (string_list_el) xmalloc (sizeof (struct string_list_el));
+  new->next = 0;
+  new->string = 0;
+  return new;
+}
+
+
+/*
+ *  ---  Various cleanup routines.  ---
+ */
+
+
+/* Free argument expansions. */
+
+static void
+arg_expansions_cleanup (prev)
+     string_list_el prev;
+{
+  free_string_list (arg_expansions);
+  arg_expansions = prev;
+}
+
+
+/* Free match expansions. */
+
+static void
+match_expansions_cleanup (prev)
+     string_list_el prev;
+{
+  free_string_list (match_expansions);
+  match_expansions = prev;
+}
+
+
+/* Free a pushed int after some error. */
+
+static void
+pushed_int_cleanup (thing)
+     int *thing;
+{
+  struct intlist_element **badstack;
+  struct intlist_element *badelement;
+
+  if (thing == &tickchr)
+    badstack = &tickchr_stack;
+  else if (thing == &macro_scan_limit)
+    badstack = &scanlimit_stack;
+  else if (thing == &shift_to_lower)
+    badstack = &shift_to_lower_stack;
+  else
+    ui_badnews (1, "pushed_int_cleanup called with unknown argument");
+
+  badelement = *badstack;
+  *thing = badelement->value;
+  *badstack = badelement -> next;
+  free (badelement);
+}
+
+
+
+/*
+ *  ---  Routines that termporarily replace User Interface routines so  ---
+ *  ---  that the output of gdb commands can be "captured".             ---
+ */
+
+
+/* Activate "capture output" mode by temporarily replacing some UI routines. */
+
+static struct cleanup *
+init_fake_pr_routines ()
+{
+  save_fprintf = uiVector->uiv_fprintf;
+  save_fputs = uiVector->uiv_fputs;
+  save_fputc = uiVector->uiv_fputc;
+  save_fflush = uiVector->uiv_fflush;
+  save_usingX = usingX;
+  if (fake_pr_buffer == 0)
+    {
+      fake_pr_buffer = xmalloc (1024);
+      fake_pr_buffer_size = 1024;
+    }
+  fake_pr_ptr = fake_pr_buffer;
+  uiVector->uiv_fprintf = fake_fprintf;
+  uiVector->uiv_fputs = fake_fputs;
+  uiVector->uiv_fputc = fake_fputc;
+  uiVector->uiv_fflush = fake_fflush;
+  usingX = 1;
+  return make_cleanup (restore_print_routines, 0);
+}
+
+
+/* Deactiveate "capture output" mode by resoreing some UI routines. */
+
+static void
+restore_print_routines ()
+{
+  uiVector->uiv_fprintf = save_fprintf;
+  uiVector->uiv_fputs = save_fputs;
+  uiVector->uiv_fputc = save_fputc;
+  uiVector->uiv_fflush = save_fflush;
+  usingX = save_usingX;
+}
+
+
+/* Temporary replacement for "ui_fprintf". */
+
+static
+fake_fprintf (stream, format, arg1, arg2, arg3, arg4, arg5, arg6)
+     FILE *stream;
+     char *format;
+{
+  if (stream != stdout)
+    {
+      (*save_fprintf) (stream, format, arg1, arg2, arg3, arg4, arg5, arg6);
+      return;
+    }
+
+  if (fake_pr_buffer_size - (fake_pr_ptr - fake_pr_buffer) < 1024)
+    {
+      int delta = fake_pr_ptr - fake_pr_buffer;
+
+      fake_pr_buffer_size += 1024;
+      fake_pr_buffer = xrealloc (fake_pr_buffer, fake_pr_buffer_size);
+      fake_pr_ptr = fake_pr_buffer + delta;
+    }
+
+  sprintf (fake_pr_ptr, format, arg1, arg2, arg3, arg4, arg5, arg6);
+  fake_pr_ptr += strlen (fake_pr_ptr);
+}
+
+
+/* Temporary replacement for "ui_fputs". */
+
+static
+fake_fputs (buf, stream)
+     char *buf;
+     FILE *stream;
+{
+  int req;
+
+  if (stream != stdout)
+    {
+      return (*save_fputs) (buf, stream);
+    }
+
+  req = strlen (buf);
+  if (fake_pr_buffer_size - (fake_pr_ptr - fake_pr_buffer) < req)
+    {
+      int delta = fake_pr_ptr - fake_pr_buffer;
+
+      fake_pr_buffer_size += 1024;
+      fake_pr_buffer = xrealloc (fake_pr_buffer, fake_pr_buffer_size);
+      fake_pr_ptr = fake_pr_buffer + delta;
+    }
+
+  *fake_pr_ptr = 0;
+  (void) strcat (fake_pr_ptr, buf);
+  fake_pr_ptr += strlen (fake_pr_ptr);
+}
+
+
+/* Temporary replacement for "ui_fputc". */
+
+static
+fake_fputc (ch, stream)
+     FILE *stream;
+{
+  if (stream != stdout)
+    {
+      (*save_fputc) (ch, stream);
+      return;
+    }
+
+  if (ch == 0)
+    return;
+
+  if (fake_pr_buffer_size - (fake_pr_ptr - fake_pr_buffer) < 2)
+    {
+      int delta = fake_pr_ptr - fake_pr_buffer;
+
+      fake_pr_buffer_size += 1024;
+      fake_pr_buffer = xrealloc (fake_pr_buffer, fake_pr_buffer_size);
+      fake_pr_ptr = fake_pr_buffer + delta;
+    }
+
+  *fake_pr_ptr++ = ch;
+}
+
+
+/* Temporary replacement for "ui_fflush". */
+
+static 
+fake_fflush (stream)
+     FILE *stream;
+{
+  if (stream != stdout)
+    (*save_fflush) (stream);
+}
+
+
+/*
+ *  ---  Builtin macros: support routines.  ---
+ */
+
+
+/* `date - The current date, formatted as specified by "fmt". */
+
+static char *
+date_macro (fmt)
+     char *fmt;
+{
+#ifdef SYSV
+  char date_string[256];
+  char *eol, *ret;
+  time_t machine_time;
+
+  date_string[0] = 0;
+  ret = 0;
+  time (&machine_time);
+  cftime (date_string, fmt, &machine_time);
+  if (*date_string)
+    {
+      eol = date_string + strlen(date_string) - 1;
+      if (*eol == '\n')
+	*eol = 0;
+      ret = &date_string[0];
+    }
+  return ret;
+#else
+  return "date_macro routine is broken";
+#endif
+}
+
+
+/* `line - The source line currently being executed. */
+
+static char *
+line_macro (arg)
+  char *arg;
+{
+  register int c;
+  register int desc, n;
+  register FILE *stream;
+  char *thisline = (char *) xmalloc(256);
+  register int line = current_source_line + 5;
+
+  make_cleanup(free, thisline);
+  thisline[0] = 0;
+  if (symtab_list == 0 && partial_symtab_list == 0)
+	return thisline;
+
+  /* Pull in a current source symtab if necessary */
+  if (current_source_symtab == 0)
+      select_source_symtab(0);
+  if (current_source_symtab == 0)
+      ui_badnews(-1,"No default source file yet.");
+  desc = openp (source_path, 0, current_source_symtab->filename, 
+	O_RDONLY, 0, &current_source_symtab->fullname);
+  if (desc < 0)
+  {
+    extern int errno;
+
+    perror_with_name (current_source_symtab->filename);
+    print_sys_errmsg (current_source_symtab->filename, errno);
+    return;
+  }
+  if (current_source_symtab->line_charpos == 0)
+      find_source_lines (current_source_symtab, desc);
+
+  if (line < 1 || line > 
+    current_source_symtab->nlines) {
+        close (desc);
+        ui_badnews(-1,"Line number out of range; %s has %d lines.",
+           current_source_symtab->filename, current_source_symtab->nlines);
+  }
+
+  if (lseek (desc, 
+	current_source_symtab->line_charpos[line - 1], 0) < 0)
+  {
+    close (desc);
+    perror_with_name (current_source_symtab->filename);
+  }
+
+  stream = fdopen (desc, "r");
+  clearerr (stream);
+
+  c = fgetc (stream);
+  if (c == EOF) return thisline;
+  sprintf(thisline, "%d", line);
+  n = strlen(thisline);
+  thisline[n++] = '\t';
+  do {
+      if (c < 040 && c != '\t' && c != '\n') {
+          thisline[n++] = '^';
+          thisline[n++] = (char) (c + 0100);
+      }
+      else if (c == 0177) {
+          thisline[n++] = '^';
+          thisline[n++] = '?';
+      }
+      else if (c == '\\') {
+	  thisline[n++] = c; 
+          thisline[n++] = c;
+      }
+      else
+          thisline[n++] = c;
+  } while (c != '\n' && (c = fgetc (stream)) >= 0);
+  fclose(stream);
+  thisline[n - 1] = 0;
+  return thisline;
+}
+
+
+/* `func - The name of the function currently being executed. */
+
+static char *
+cur_function_macro(arg)
+    char *arg;
+{
+  extern FRAME selected_frame;
+  struct symbol *func;
+  char *funname = 0;
+
+  if (selected_frame == 0) return 0;
+
+  func = get_frame_function (selected_frame);
+  if (func)
+    funname = SYMBOL_NAME (func);
+
+  return funname;
+}
+
+
+/* `file - Name of current source file. */
+
+static char *
+cur_srcfile_macro (arg)
+    char *arg;
+{
+  /* Pull in a current source symtab if necessary */
+  if (current_source_symtab == 0)
+      select_source_symtab(0);
+  if (current_source_symtab == 0)
+      return 0;
+  return current_source_symtab->filename;
+}
+
+
+/* `level - Level number of current stack frame. */
+
+static char *
+level_macro ()
+{
+  char tmp[8];
+
+  sprintf(tmp, "%d", selected_frame_level);
+  return tmp;
+}
+
+
+/* `isouter - 1 if current frame is outer-most, 0 otherwise. */
+
+static char *
+is_outer_macro ()
+{
+  char tmp[2];
+  register FRAME frame;
+  int count = 1;
+
+  if (! have_inferior_p() && ! have_core_file_p())
+     count = 1;
+  else {
+     frame = find_relative_frame(selected_frame, &count);
+ /* find_relative_frame zeros count if it's able to go up one frame, in
+  * which case we must not be in the outermost frame.
+  */
+  }
+  sprintf(tmp, "%d", count);
+  return tmp;
+}
+
+
+/*
+ *  ---  Support routines for macro expansion.  ---
+ */
+
+
+/* Take care of the `x or `p macros. */
+
+static char *
+expand_print_or_examine (is_print, arg, brace)
+     char *arg;
+     char *brace;
+{
+  struct expression *expr;
+  register struct cleanup *old_chain = 0;
+  register char format = 0;
+  register value val;
+  struct format_data fmt;
+  char *tmpstr;
+  CORE_ADDR examine_address;
+
+  if (brace)
+    {
+      tmpstr = savestring (arg, brace - arg);
+      old_chain = make_cleanup (free, tmpstr);
+    }
+  else
+    tmpstr = arg;
+
+  if (tmpstr && *tmpstr == '/')
+    {
+      tmpstr++;
+      fmt = decode_format (&tmpstr, last_format, 0);
+      if (is_print)
+	validate_format (fmt, "print");
+      last_format = format = fmt.format;
+    }
+
+  if (tmpstr && *tmpstr)
+    {
+      expr = parse_c_1 (&tmpstr, 0, 0);
+      if (brace && *tmpstr)
+	ui_badnews (-1, "Junk after end of expression in macro.");
+      if (old_chain)
+	(void) make_cleanup (free_current_contents, &expr);
+      else
+	old_chain = make_cleanup (free_current_contents, &expr);
+      val = evaluate_expression (expr);
+    }
+  else
+    val = access_value_history (0);
+
+  if (old_chain)
+    (void) init_fake_pr_routines ();
+  else
+    old_chain = init_fake_pr_routines ();
+
+  if (is_print)
+    print_formatted (val, format, fmt.size, M_NORMAL);
+  else
+    {
+      if (last_format == 'i'
+	  && TYPE_CODE (VALUE_TYPE (val)) != TYPE_CODE_PTR
+	  && VALUE_LVAL (val) == lval_memory)
+	examine_address = VALUE_ADDRESS (val);
+      else
+	examine_address = (CORE_ADDR) value_as_long (val);
+      do_examine (format, examine_address, M_NORMAL);
+    }
+
+  obstack_grow (meo, fake_pr_buffer, fake_pr_ptr - fake_pr_buffer);
+  do_cleanups (old_chain);
+
+  if (brace)
+    return brace + 1;
+  return tmpstr;
+}
+
+
+/* Take care of `*<n> or `m*<n> macros. */
+
+static void
+perform_star_expansion (l, n)
+     string_list_el l;
+     int n;
+{
+  int count = 0;
+  int need_blank = 0;
+
+  for (; l; l = l->next)
+    if (count++ >= n)
+      {
+        if (need_blank)
+          obstack_1grow (meo, ' ');
+        need_blank = 1;
+        obstack_grow (meo, l->string, strlen(l->string));
+      }
+}
+
+
+/* Expand the macro pointed to by the variable pointed to by "pp" and incriment
+   the variable pointed to by "pp" to point the the first character after the
+   macro. */
+
+static char *
+expand_single_macro (pp)
+     char **pp;
+{
+  char *p = *pp;
+  char *p2;
+  char *matching_brace = 0;
+  int nestbrace;
+  int is_star = 0;
+  int have_number = 0;
+  int number = 0;
+  string_list_el which_list = arg_expansions;
+  struct cmd_list_element *c;
+  static char sml_buffer[16];
+
+  /* Make sure all is well. */
+  
+  if (*p != tickchr)
+    ui_badnews (1, "Internal: expand_single_macro called wrong.");
+  ++p;
+  
+  /* See if the macro starts with an open brace. */
+  
+  if (*p == OPENBRACE)
+    {
+      for (nestbrace = 0, p2 = ++p; *p2; ++p2)
+	{
+	  if (*p2 == OPENBRACE)
+	    ++nestbrace;
+	  else if ((*p2 == CLOSEBRACE) && (nestbrace-- == 0))
+	    {
+	      matching_brace = p2;
+	      break;
+	    }
+	}
+      if (!matching_brace)
+        goto failure_label;
+    }
+
+  /* If the form is m..., then what follows references the match stuff. */
+  
+  if (*p == MATCHCHR)
+    {
+      ++p;
+      if (isdigit (*p))
+        /* `m<n>  */
+        which_list = match_expansions;
+      else if (! iscmdchar (*p))
+        /* `m  */
+        which_list = match_expansions;
+      else if (*p=='c' && (! iscmdchar (p[1])))
+        /* `mc */
+        which_list = match_expansions;
+      else if (*p == STARCHR && isdigit (p[1]))
+        /* `m*<n> */
+        which_list = match_expansions;
+
+      if (which_list != match_expansions)
+        --p;
+    }
+  
+  /* See if a count is being requested: `c `{c} `mc or `{mc} */
+  
+  if (*p == COUNTCHR && (strlen(p) == 1 || *(p + 1) == '}' ||
+	*(p + 1) == ' ' || *(p + 1) == '\t' || *(p + 1) == '\\'))
+    {
+      ++p;
+      if (matching_brace && (matching_brace != p))
+        goto failure_label;
+      sprintf (sml_buffer, "%d", count_strings (which_list));
+      *pp = p;
+      return sml_buffer;
+    }
+  
+  else 
+    {
+
+  /* Handle the "special" macros first */
+
+  	p2 = p;
+  	c = lookup_cmd (&p2, macrolist, "*macro*", -1, 0);
+  	if ((c) && (! matching_brace || (p2 == matching_brace)))
+    	{
+      	    if (matching_brace)
+		++p2;
+            while (isspace (p2[-1]))  --p2;
+      	    *pp = p2;
+      	    if (c->function)
+		p2 = (*((char *(*)())(c->function)))(c->aux);
+              else
+	    p2 = c->aux;
+          return p2;
+        }
+    }
+
+  /* Handle the form p[/<fmt> ]<expr>. */
+  
+  if (matching_brace && *p == PRINTCHR)
+    {
+      *pp = expand_print_or_examine (1, p+1, matching_brace);
+      return 0;
+    }
+  
+  /* Handle the form x[/<fmt> ]<expr>. */
+  
+  if (matching_brace && *p == EXAMINECHR)
+    {
+      *pp = expand_print_or_examine (0, p+1, matching_brace);
+      return 0;
+    }
+  
+  /* See if this is a "skip" form: `*<n> `{*<n>} `m*<n> or `{m*<n>} */
+  
+  if (*p == STARCHR)
+    {
+      ++p;
+      ++is_star;
+    }
+  
+  /* Grab the <n> part, if any. */
+  
+  if (isdigit (*p))
+    {
+      have_number = 1;
+      number = atoi (p);
+      while (isdigit (*++p)) /*null*/;
+    }
+  
+  /* At this point, we should have everything for all types of macros except
+     "special" ones like `func, `file, and so on. */
+  
+  /* Make sure we match any open brace. */
+  
+  if (matching_brace && (p != matching_brace))
+    if ((which_list == match_expansions) || is_star || have_number)
+      goto failure_label;
+  
+  /* See if we want all the expansions except the first <n>.  If <n> is
+     ommited, don't skip any.  Each expansion will be surrounded by a single
+     blank. */
+  
+  if (is_star)
+    {
+      if (matching_brace)
+        *pp = matching_brace + 1;
+      else
+        *pp = p;
+      perform_star_expansion (which_list, number);
+      return 0;
+    }
+  
+  /* See if we want the <n>'th expansion. */
+  
+  if (have_number)
+    {
+      *pp = p;
+      return get_a_string (which_list, number);
+    }
+  
+  /* See if it is the form `m or `{m} */
+  
+  if (which_list && (which_list == match_expansions))
+    {
+      *pp = p;
+      p2 = (count_strings (match_expansions) ? "success" : "failure");
+      c = lookup_cmd (&p2, macrolist, "*macro*", -1, 0);
+      if (c)
+	return  c->aux;
+    }
+  
+ failure_label:
+  ui_badnews (-1, "Ill formed macro");
+}
+
+
+/* Scan the text pointed to by "in", expanding any macros found in it. */
+
+static char *
+do_macro_scan_right (in)
+     char *in;
+{
+  char *p;
+  int cnt;
+  
+  p = index (in, tickchr);
+  if (p == 0)
+    return 0;
+  
+  while (p)
+    {
+      obstack_grow (meo, in, p - in);
+      in = p;
+      while ((*in == tickchr) && (in[1] == tickchr))
+        {
+          obstack_1grow (meo, tickchr);
+          in += 2;
+        }
+     /* if (in != p) break;  pjg  */
+      if (*in == tickchr)
+        {
+          p = expand_single_macro (&in);
+          if (p)
+            obstack_grow (meo, p, strlen(p));
+        }
+      p = index (in, tickchr);
+    }
+  return obstack_copy0 (meo, in, strlen (in));
+}
+
+
+/*
+ *  ---  Support routines for GDB commands defined below  ---
+ */
+
+
+/* Set either prompt: promp[0] is the major promt, prompt[1] is secondary. */
+
+void
+set_either_prompt_command (which, text)
+     int which;
+     char *text;
+{
+  char *p, *q;
+  register int c;
+  char *new;
+  
+  if (text == 0)
+    error_no_arg ("string to which to set prompt");
+  
+  new = (char *) xmalloc (strlen (text) + 2);
+  p = text; q = new;
+  while (c = *p++)
+    {
+      if (c == '\\')
+	{
+	  /* \ at end of argument is used after spaces
+	     so they won't be lost.  */
+	  if (*p == 0)
+	    break;
+	  c = parse_escape (&p);
+	  if (c == 0)
+	    break; /* C loses */
+	  else if (c > 0)
+	    *q++ = c;
+	}
+      else
+	*q++ = c;
+    }
+  if (*(p - 1) != '\\')
+    *q++ = ' ';
+  *q++ = '\0';
+  new = (char *) xrealloc (new, q - new);
+  free (prompt[which]);
+  prompt[which] = new;
+  update_prompt (0);
+}
+
+
+/* Called from if_command and elif_command */
+
+static void
+eval_and_set_state (arg, level)
+     char *arg;
+     cond_level level;
+{
+  struct expression *expr;
+  value val;
+  int cleanup = 0;
+  struct cleanup *old_chain = 0;
+  char *cp = arg ? arg + 5 : 0;
+  char *tem;
+  int is_not = 0;
+
+  /* See if this is a "not". */
+
+  if (arg && strncmp (arg, "not", 3) == 0 && isspace (arg[3]))
+    {
+      is_not = 1;
+      arg += 3;
+      EAT_WHITESP_FRD (arg);
+    }
+
+  /* Either evaluate the argument or get a value from history. */
+  
+  if (arg && strncmp (arg, "match", 5) == 0 && isspace (arg[5]))
+    {
+      
+      /* Doing 'if match' or 'elif match' */
+
+      cp = arg + 5;
+      EAT_WHITESP_FRD (cp);
+      match_command(cp);
+      /* 'if' succeeds only if we get a total match */
+      if (match_string && strlen(match_string) &&
+	  strncmp (match_string, match_expansions->string,
+		  strlen(match_string)) == 0) {
+	/*
+	 * we have a total match.
+	 */
+        level->exec_state = is_not ? exec_disabled : exec_enabled;
+      }
+      else
+        level->exec_state = is_not ? exec_enabled : exec_disabled;
+      return;
+    }
+  else if (arg && strncmp (arg, "defined", 7) == 0 && isspace (arg[7]))
+    {
+      tem = arg + 8;
+      if (lookup_cmd (&tem, macrolist, "", -1, 0))
+        level->exec_state = is_not ? exec_disabled : exec_enabled;
+      else
+        level->exec_state = is_not ? exec_enabled : exec_disabled;
+      return;
+    }
+  else if (arg && *arg)
+    {
+      expr = parse_c_expression (arg);
+      old_chain = make_cleanup (free_current_contents, &expr);
+      cleanup = 1;
+      val = evaluate_expression (expr);
+    }
+  else
+    val = access_value_history (0);
+  
+  /* Set the execution state depending on the value obtained above. */
+  
+  if (val->lval == lval_reg_invalid)
+    ui_badnews(-1, "condition is #%s=%s#", reg_names[VALUE_REGNO (val)],
+	       THE_UNKNOWN);
+  level->exec_state = val->contents[0] ?
+    (is_not ? exec_disabled : exec_enabled) :
+      (is_not ? exec_enabled : exec_disabled);
+  
+  /* Clean up after ourself */
+  
+  if (cleanup)
+    do_cleanups (old_chain);
+}
+
+
+/* This stores matches in a list, the head of which is pointed to by
+ * match_expansions Notice that we don't free this list in this module.
+ * Caller is responsible for that.
+ * We store at most RE_NREGS - 1 matches (currently 9), even though we will
+ * march through as many matches as are supplied in the pattern.  Thus matches
+ * 10 and subsequent are lost.
+ * The first element on the list is the entire string matched by pattern; if
+ * no matches are specified in pattern by \(..\), that's all the list will
+ * contain.  Thus
+ *	"hiya"	hiya	generates a list containing one element, "hiya"
+ *	"\(hiya\)" hiya generates a list containing two elements, "hiya"
+ *		(entire match) and "hiya" (exact match returned)
+ *	"hiya" woops    generates a zero list (match_expansions set to 0)
+ */
+
+static void
+match_routine (matchbuf, mstring)
+     struct re_pattern_buffer *matchbuf;
+     char *mstring;
+{
+  int n = 1;
+  struct re_registers myregs;
+  string_list_el match_node;
+  string_list_el last_node;
+  int num_matched;
+  
+  num_matched = re_match(matchbuf, mstring, strlen(mstring),  0, &myregs);
+  if (num_matched >= 1) {
+    /* Save entire matched pattern */
+    match_node = new_string_list_el ();
+    match_node->string = savestring(mstring, num_matched);
+    match_expansions = match_node;
+    last_node = match_node;
+    /* Save matches */
+    while (n < RE_NREGS) {
+      match_node->next = new_string_list_el ();
+      match_node = match_node->next;
+      if ((myregs.end[n] <= myregs.start[n])
+	  || (myregs.end[n] > myregs.end[0]))
+	{
+	  match_node->string = savestring("", 0);
+	}
+      else
+	{              
+	  match_node->string =
+	    savestring(mstring + myregs.start[n], 
+		       myregs.end[n] - myregs.start[n]);
+          last_node = match_node;
+	}
+      n++;
+    }
+    match_node = last_node->next;
+    last_node->next = 0;
+    while (match_node)
+    {
+      last_node = match_node;
+      match_node = last_node -> next;
+      free (last_node->string);
+      free (last_node);
+    }
+  }
+  else
+    match_expansions = 0;
+}
+
+
+
+/*     +--------------------------------------+     */
+/*  -=#|  Utility Routines Available Globaly  |#=-  */
+/*     +--------------------------------------+     */
+
+
+/* This is to allow us to expand the grammar set for command names without
+ * munging either the expression parser or command.c.  We look at the incoming
+ * command name and examine it for a certain set of known attributes, and
+ * make the right substitutions accordingly, then call lookup_cmd() with the
+ * result.
+ */
+struct cmd_list_element *
+my_lookup_cmd (line, list, cmdtype, allow_unknown, ignore_help_classes)
+    char **line;
+    struct cmd_list_element *list;
+    char *cmdtype;
+    int allow_unknown;
+    int ignore_help_classes;
+{
+/* Currently these are the 'special characters' we know about; if the command
+ * starts with one of these, we substitute known values for the special
+ * character and call lookup_cmd.
+ *       >   redirect-output
+ *  	 /   forward-search
+ *       ?   reverse-search
+ */
+      char *p = *line;
+      char *newcmd;
+
+      while (*p == ' ' || *p == '\t') p++;
+      if (*p != '/' && *p != '?' && *p != '>')
+  	return (lookup_cmd(line, list, cmdtype, allow_unknown, 
+		ignore_help_classes));
+
+      if (*p == '>') {
+	newcmd = (char *) alloca(strlen(p) + strlen("redirect-output "));
+        sprintf(newcmd, "redirect-output %s", p + 1);
+      }
+      else if (*p == '/') {
+	newcmd = (char *) alloca(strlen(p) + strlen("forward-search "));
+        sprintf(newcmd, "forward-search %s", p + 1);
+        p = newcmd + strlen(newcmd) - 1;
+        while (*p == ' ' || *p == '\t') p--;
+        if (*p == '/') *p = '\0';
+      }
+      else {  /* *p == '?' */
+	newcmd = (char *) alloca(strlen(p) + strlen("reverse-search "));
+        sprintf(newcmd, "reverse-search %s", p + 1);
+        p = newcmd + strlen(newcmd) - 1;
+        while (*p == ' ' || *p == '\t') p--;
+        if (*p == '?') *p = '\0';
+      }
+      /*  free (*line); */
+      *line = newcmd;
+      return (lookup_cmd(line, list, cmdtype, allow_unknown, 
+		ignore_help_classes));
+}
+
+/* Free old, macro expanded, line. */
+
+void
+free_macro_expansion (old)
+     char *old;
+{
+  obstack_free (meo, old);
+}
+
+
+/* Free all the memory associated with a string list.  This includes the
+   the memory for the string list elements and for the actual strings. */
+
+void
+free_string_list (l)
+     string_list_el l;
+{
+  string_list_el next_l;
+
+  for (; l; l = next_l)
+    {
+      next_l = l->next;
+      if (l->string)
+        free (l->string);
+      free (l);
+    }
+}
+
+
+/* Parse a string into a list of strings.  Strings deliminated by white
+   space or by quotes (") if the string is quoted.  If a string is to
+   contain white space, it should be quoted.
+   Example:
+     input:  this is "one test"and another
+    output:  [this|->] [is|->] [one test|->] [and|->] [another|0] */
+
+string_list_el
+parse_string_list (text)
+     char *text;
+{
+  char *first, *last;
+  string_list_el ret_val, new, tail;
+  
+  if (text == 0)
+    return 0;
+  
+  first = text;
+  EAT_WHITESP_FRD (first);
+  if (*first == '\0')
+    return 0;
+  
+  ret_val = 0;
+  last = first;
+  while (*last)
+    {
+      if ((*last == '"') && (first == last))
+	{
+	  last = skip_quoted_string (first);
+	  new = (string_list_el) xmalloc (sizeof (struct string_list_el));
+	  new->string = savestring (first + 1, last - first - 1);
+	  new->next = 0;
+	  if (ret_val) 
+	    tail->next = new;
+	  else 
+	    ret_val = new;
+          tail = new;
+          ++last;
+	  EAT_WHITESP_FRD (last);
+	  first = last;
+	}
+      else if ((*last == ' ') || (*last == '"'))
+	{
+	  new = (string_list_el) xmalloc (sizeof (struct string_list_el));
+	  new->string = savestring (first, last - first);
+	  new->next = 0;
+	  if (ret_val)
+	    tail->next = new;
+	  else
+	    ret_val = new;
+	  tail = new;
+	  EAT_WHITESP_FRD (last);
+	  first = last;	  
+	}
+      if (*last && *last != '"')
+	++last;
+    }
+  new = (string_list_el) xmalloc (sizeof (struct string_list_el));
+  new->string = savestring (first, last - first);
+  new->next = 0;
+  if (ret_val)
+    tail->next = new;
+  else
+    ret_val = new;
+  return ret_val;
+}
+
+
+/* Update the prompt with respect to the level.  If "subcmd" is -1, the level
+   is decreased by 1.  If "subcmd" is 0, leave the level alone.  If "subcmd"
+   is is 1, increase the level by 1.  If "subcmd" is 2, set the level to 0.
+   Once the level is updated,  generate a new prompt.  If the level is 0,
+   the new prompt is the primary prompt (prompt[0]).  Otherwise the
+   secondary prompt (prompt[1]) serves as a format for generating the new
+   prompt (as in "sprintf (new_prompt, prompt[1], level)") */
+
+void
+update_prompt (subcmd)
+{
+  switch (subcmd) {
+  case -1:
+    --nesting_level;
+    break;
+  case 0:
+    break;
+  case 1:
+    ++nesting_level;
+    break;
+  case 2:
+    nesting_level = 0;
+    break;
+  default:
+    ui_badnews (1, "Internal: update_prompt called with arg %d\n", subcmd);
+  }
+  
+  if (gbl_prompt && *gbl_prompt && gbl_prompt != prompt[0])
+    free (gbl_prompt);
+  
+  if (nesting_level == 0)
+    gbl_prompt = prompt[0];
+  else
+    {
+      gbl_prompt = (char *) xmalloc (MAXPROMPTLEN);
+      sprintf (gbl_prompt, prompt[1], nesting_level);
+    }
+}
+
+
+/* Clear the condition stack, freeing all its memeory. */  
+
+void
+clear_cond_stack ()
+{
+  cond_level level_to_free;
+  
+  while (cond_stack)
+    {
+      level_to_free = cond_stack;
+      cond_stack = cond_stack->prev;
+      free (level_to_free);
+    }
+  
+  /* Fix up the nesting level too. */
+
+  update_prompt (2);
+}
+
+
+/* Make one pass of macro expansion.  "in" points to the text to be scanned
+   for macros and expanded.  "c" points to the command to which the text is
+   attached.  If the command will not be executed due to the condition
+   stack,  then expansion is skipped.  Durring one pass of macro expansion,
+   the text my be scanned for macros severial times, depending on 
+   "macro_scan_limit". */
+
+char *
+macro_expand (in, c)
+     char *in;
+     struct cmd_list_element *c;
+{
+  int scans_done;
+  char *old, *new;
+
+/* First we check the current execution state.  If this is
+ *    exec_enabled	we expand
+ *    exec_skipping     we don't expand
+ *    exec_disabled     we expand ONLY if the current command is 'elif' and
+ *	the previous level's state was not exec_disabled.
+ */
+
+  if (in == 0)
+    return obstack_copy (meo, "", 1);
+  
+  old =  obstack_copy (meo, in, strlen (in) + 1);
+  /* -rcb 6/90 added "cond_stack &&" to front of this if to eliminate
+     segmentation fault here on the sparc. 
+
+     -rcb 12/90  This broke macro expansion.  The code had depended on
+     not only being able to dereference a nil pointer, but also on
+     finding a zero there and 'exec_enabled' having an ordinal value of zero.
+     yech.  */
+
+  if (!cond_stack || ((cond_stack->exec_state == exec_enabled) || (cond_stack->exec_state ==
+    exec_disabled && c == elif_p && cond_stack->prev->exec_state !=
+    exec_disabled))) {
+      for (scans_done = 0; scans_done < macro_scan_limit; ++scans_done)
+        {
+          new = do_macro_scan_right (old);
+          if (new == 0)
+            return old;
+          free_macro_expansion (old);
+          old = new;
+        }
+  }
+  return old;
+}
+
+
+/* Decide if execution should be skipped based on the condition stack and on
+   the particular command.  Return 1 if execution should be skipped, zero
+   otherwise. */
+
+skip_execute (c)
+     struct cmd_list_element *c;
+{
+  if (cond_stack == 0)
+    return 0;
+  if (c->class == (int) class_conditional)
+    return 0;
+  return (cond_stack->exec_state != exec_enabled);
+}
+
+
+/* Push the old user defined command arguments and parse the new ones.  The
+   cleanup list is used to maintain the stack of arguments via the cleanup
+   routine arg_expansions_cleanup(). */
+
+struct cleanup *
+push_def_expansions (name, text, delims)
+     char *name;
+     char *text;
+     string_list_el delims;
+{
+  struct cleanup *old_chain;
+  string_list_el ret_val, new, tail;
+  string_list_el cd;
+  char *first, *last;
+  char delim_char;
+  char *p = text;
+  int len;
+  
+  /* Push the old set of expansions via the cleanup list. */
+
+  old_chain = make_cleanup (arg_expansions_cleanup, arg_expansions);
+
+  /* If there is no text to parse, we are done. */
+
+  if (p == 0)
+    {
+      arg_expansions = 0;
+      return old_chain;
+    }
+
+  /* The first thing on the string list will be the name of the user
+     defined command.  This corrasponds to `0. */
+
+  ret_val = (string_list_el) xmalloc (sizeof (struct string_list_el));
+  ret_val->string = savestring (name, strlen (name));
+  ret_val->next = 0;
+  tail = ret_val;
+
+  /* If "text" is the empty string or blank, we are done. */
+
+  EAT_WHITESP_FRD (p);
+  if (p == 0)
+    {
+      arg_expansions = ret_val;
+      return old_chain;
+    }
+
+  /* See if there is a single, one-character delimiter, like a comma. */
+
+  delim_char = 0;
+  if (delims == 0)
+    delim_char = ',';
+  else if ((count_strings (delims) == 1) &&
+	   (strlen (delims->string) == 1))
+    delim_char = *(delims->string);
+
+  first = p;
+  while (*p)
+    {
+      if (*p == '"')
+	p = skip_quoted_string (p);
+      else if (delim_char)
+	{
+	  /* There is a simple delimiter, so find the next one. */
+
+	  if (*p == delim_char)
+	    {
+	      last = p++ - 1;
+	      EAT_WHITESP_BWD (last);
+	      new = (string_list_el) xmalloc (sizeof (struct string_list_el));
+	      len = (last >= first) ? last - first + 1 : 0;
+	      new->string = savestring (first, len);
+	      new->next = 0;
+	      tail->next = new;
+	      tail = new;
+	      EAT_WHITESP_FRD (p);
+	      first = p;
+	      continue;
+	    }
+	}
+      else
+	{
+	  /* Check through the a list of delimiter strings. */
+
+	  for (cd=delims; cd; cd=cd->next)
+	    {
+	      len = strlen(cd->string);
+	      if ((strncmp (p, cd->string, len) == 0) &&
+		  ((p == text) ? 1 : (p[-1] == ' ')) &&
+		  ((p[len] ? (p[len] == ' ') : 1)))
+		{
+		  last = p - 1;
+		  EAT_WHITESP_BWD (last);
+		  if (last >= first)
+		    {
+		      new = (string_list_el)
+			xmalloc (sizeof (struct string_list_el));
+		      new->string = savestring (first, last - first + 1);
+		      new->next = 0;
+		      tail->next = new;
+		      tail = new;
+		    }
+		  new = (string_list_el) xmalloc
+		    (sizeof (struct string_list_el));
+		  new->string = savestring (cd->string,
+					       strlen (cd->string));
+		  new->next = 0;
+		  tail->next = new;
+		  tail = new;
+		  p += strlen (cd->string);
+		  EAT_WHITESP_FRD (p);
+		  first = p--;
+		  break;
+		}
+	    }
+	}
+      if (*p)
+	++p;
+    }
+
+  /* Handle the last argument. */
+
+  last = p;
+  EAT_WHITESP_BWD (last);
+  if (last > first)
+    {
+      new = (string_list_el) xmalloc (sizeof (struct string_list_el));
+      new->string = savestring (first, last - first);
+      new->next = 0;
+      tail->next = new;
+    }
+  arg_expansions = ret_val;
+  return old_chain;
+}
+
+
+/* Push the old match returns.  The cleanup list is used to maintain the
+   stack of match returns via the cleanup routine
+   match_expansions_cleanup(). */
+
+struct cleanup *
+push_match_expansions ()
+{
+  struct cleanup *old_chain;
+  
+  old_chain = make_cleanup (match_expansions_cleanup, match_expansions);
+  match_expansions = 0;
+  return old_chain;
+}
+
+
+/*
+ *  ---  Support routines for "command_line" lists.  ---
+ */
+
+
+/* Make a deep copy of a command list. The text of all the new copies will
+   have been processed by macro_expand exactly once durring the copy.  For
+   a complete description of how "command_line"s are used, see the comment
+   after the decliration for "command_line" in the defs.h include file. */
+
+struct command_line *
+copy_command_lines (in)
+     register struct command_line *in;
+{
+  register struct command_line *out;
+  extern char *macro_expand();
+  
+  if (in == 0)
+    return 0;
+  
+  out = (struct command_line *) xmalloc (sizeof (struct command_line));
+  
+  out->cmd = in->cmd;
+  if (in->cmd && (in->cmd->class == class_nested))
+    out->line = (char *) copy_command_lines ((struct command_lines *)
+					     in->line);
+  else {
+    char *tmp;
+
+    tmp = macro_expand(in->line, in->cmd);
+    out->line = savestring(tmp, strlen (tmp));
+    free_macro_expansion(tmp);
+  }
+  out->next = copy_command_lines (in->next);
+  
+  return out;
+}
+
+
+/* Print a "command_line" list at a given nesting/condition level.  This 
+   does not handle the case where "cmd" is -1,  that must be check for
+   before this is called.  The major "wrinkle" here is for dealing with the
+   case of sub-commands.  If "cmd"->aux is non-zero, it points to the
+   cmd_list_element of the command that is the "parent" of this command.  In
+   this way, we can reconstruct the "fully qualified" command.  */
+
+void
+print_command_lines (lvl, cmdlines)
+     int lvl;
+register struct command_line *cmdlines;
+{
+  int i;
+  
+  for (; cmdlines; cmdlines = cmdlines->next)
+    {
+      printf_filtered ("\t");
+      if (cmdlines->cmd)
+        {
+          if (cmdlines->cmd->class == class_nested)
+            {
+              for (i = 0; i < lvl; ++i)
+                printf_filtered ("  ");
+              printf_filtered ("%s %s\n", cmdlines->cmd->name,
+                               ((struct command_line *)
+                                (cmdlines->line))->line);
+              print_command_lines (lvl + 1,
+                                   ((struct command_line *)
+                                    (cmdlines->line))->next);
+              printf_filtered ("\t");
+              for (i = 0; i < lvl; ++i)
+                printf_filtered ("  ");
+              printf_filtered ("end\n");
+              continue;
+            }
+          if ((cmdlines->cmd->class == class_conditional)
+	      && (cmdlines->cmd != if_p))
+            --lvl;
+          for (i = 0; i < lvl; ++i)
+            printf_filtered ("  ");
+	  if (cmdlines->cmd->aux)
+	    printf_filtered ("%s",
+              ((struct cmd_list_element *)(cmdlines->cmd->aux))->prefixname);
+          printf_filtered ("%s %s\n", cmdlines->cmd->name, cmdlines->line);
+          if ((cmdlines->cmd->class == class_conditional)
+	      && (cmdlines->cmd != endif_p))
+            ++lvl;
+        }
+      else
+        {
+          for (i = 0; i < lvl; ++i)
+            printf_filtered ("  ");
+          printf_filtered ("%s\n", cmdlines->line);
+        }
+    }
+}
+
+
+/* Read command lines forming a "command_line" list. */
+
+struct command_line *
+read_command_lines (kind)
+     int kind; /* 0  'document' command
+                  1  'commands' command
+		  2  'while'  command
+		  3  'define' command
+		  4  nested 'define' command
+		  != 0 && != 4, check commands for validity.
+		  == 1, a 'silent' command is a legal initial command. */
+{
+  struct command_line *first = 0;
+  register struct command_line *next, *tail = 0;
+  register char *p, *p1;
+  struct cleanup *old_chain = 0;
+  register struct cmd_list_element *c;
+  char *psav;
+  struct cmd_list_element *nested_cmd;
+  cond_level starting_level = cond_stack;
+  int new_kind;
+  
+  update_prompt (1);
+  
+  while (1)
+    {
+      dont_repeat ();
+      p = command_line_input ((instream == stdin) ? gbl_prompt : 0,
+                              instream == stdin);
+      if (p == (char *)EOF)
+	break;
+      /* Remove leading and trailing blanks.  */
+      while (*p == ' ' || *p == '\t') p++;
+      /*if (kind == 1 || kind == 2) p = macro_expand(p);*/
+      p1 = p + strlen (p);
+      while (p1 != p && (p1[-1] == ' ' || p1[-1] == '\t')) p1--;
+      
+      /* Is this "end"?  */
+      if (p1 - p == 3 && !strncmp (p, "end", 3))
+	break;
+      /* See if the command is a valid one. */
+      switch (kind) {
+      case 0:
+        c = 0;
+        break;
+      case 4:  
+       /* We could have a 'while' inside a define here, in which case
+        * we'll have to change new_kind */
+        psav = p;
+        c = my_lookup_cmd (&psav, cmdlist, "", 1, 1);
+        p = psav;
+        p1 = p + strlen (p);
+        while (p1 != p && (p1[-1] == ' ' || p1[-1] == '\t')) p1--;
+        break;
+      case 1:
+        if ((tail == 0) && (p1 - p == 6) && !strncmp (p, "silent", 6))
+          {
+            c = 0;
+            break;
+          }
+        /* Fall through if not first line or silent "command". */
+      default:
+        psav = p;
+        c = my_lookup_cmd (&psav, cmdlist, "", 0, 1);
+        if (c == NULL)
+          ui_badnews (-1, "bad command: %s", p);
+        if (c->function == 0)
+          ui_badnews (-1,"%s: this is not a command, just a help topic.",p);
+        p = psav;
+        p1 = p + strlen (p);
+        while (p1 != p && (p1[-1] == ' ' || p1[-1] == '\t')) p1--;
+      }
+      
+      /* See if we should nest. It would be nice if the cmd_list_element
+         could tell us this, but that would be more intrusive. */
+      nested_cmd = 0;
+      if (c == define_p)
+        {
+          nested_cmd = &nested_define;
+          new_kind = 4;
+        }
+      else if (c == commands_p)
+        {
+          nested_cmd = &nested_commands;
+          new_kind = 1;
+        }
+      else if (c == document_p)
+        {
+          nested_cmd = &nested_document;
+          new_kind = 0;
+        }
+      else if (c == while_p)
+        {
+          nested_cmd = &nested_while;
+          new_kind = 2;
+        }
+      else if (c == if_p)
+        {
+          update_prompt (1);
+        }
+      else if (c == endif_p)
+        {
+          update_prompt (-1);
+        }
+      
+      if (nested_cmd)
+        {
+          next = (struct command_line *)
+	    xmalloc (sizeof (struct command_line));
+          next->cmd = nested_cmd;
+          next->line = (char *) xmalloc (sizeof (struct command_line));
+          ((struct command_line *)(next->line))->cmd = 0;
+          ((struct command_line *)(next->line))->line =
+	    savestring (p, p1 - p);
+          ((struct command_line *)(next->line))->next =
+            read_command_lines (new_kind);
+          next->next = 0;
+        }
+      else
+        {
+	  
+	  /* No => add this line to the chain of command lines.  */
+	  next = (struct command_line *)
+	    xmalloc (sizeof (struct command_line));
+	  next->cmd = c;
+	  next->line = savestring (p, p1 - p);
+	  next->next = 0;
+        }
+      if (tail)
+	{
+	  tail->next = next;
+	}
+      else
+	{
+	  /* We just read the first line.
+	     From now on, arrange to throw away the lines we have
+	     if we quit or get an error while inside this function.  */
+	  first = next;
+	  old_chain = make_cleanup (free_command_lines, &first);
+	}
+      tail = next;
+    }
+  
+  dont_repeat ();
+  
+  if (starting_level != cond_stack)
+    ui_badnews (-1, "Missing \"endif\" command(s)");
+  update_prompt (-1);
+  
+  /* Now we are about to return the chain to our caller,
+     so freeing it becomes his responsibility.  */
+  if (first)
+    discard_cleanups (old_chain);
+  return first;
+}
+
+
+
+/*     +-----------------------+     */
+/*  -=#|  Nested GDB Commands  |#=-  */
+/*     +-----------------------+     */
+
+
+
+/* Nested "while" command. */
+
+static void
+nested_while_command (cmds, from_tty)
+     char *cmds;
+     int from_tty;
+{
+  register struct command_line *cmdlines, *l;
+  register struct cmd_list_element *c;
+  register char *cond;
+  struct expression *expr;
+  value val;
+  struct cleanup *old_chain, *chain_2;
+  char *cp;
+  enum {cond_expression, do_match, do_defined} cond_type;
+  int is_not = 0;
+  char *tem;
+
+  for (;;)
+    {
+      cond_type = cond_expression;
+      cmdlines = (struct command_line *)cmds;
+      cond = macro_expand (cmdlines->line, cmdlines->cmd);
+      old_chain = make_cleanup (free_macro_expansion, cond);
+
+      if (strncmp (cond, "not", 3) == 0 && isspace (cond[3]))
+        {
+          is_not = 1;
+          cond += 3;
+          EAT_WHITESP_FRD (cond);
+        }
+      
+      if (strncmp (cond, "match", 5) == 0 && isspace (cond[5]))
+        cond_type = do_match;
+      else if (strncmp (cond, "defined", 7) == 0 && isspace (cond[7]))
+        cond_type = do_defined;
+      
+      /* Test the condition. */
+      
+      if (cond_type == do_match)
+        {
+          cp = cond + 5;
+          /* Doing 'while match' ' */
+          EAT_WHITESP_FRD (cp);
+          match_command(cp);
+          /* 'while' succeeds only if we get a total match */
+          if (match_string && strlen(match_string) &&
+              strncmp (match_string, match_expansions->string,
+                      strlen(match_string)) == 0) {
+            /*
+             * we have a total match.
+             */
+            if (is_not)
+              break;
+            else
+              do_cleanups(old_chain);
+          }
+          else if (is_not)
+            do_cleanups (old_chain);
+          else
+            break;
+        }
+      else if (cond_type == do_defined)
+        {
+          tem = cond + 8;
+          if (lookup_cmd (&tem, macrolist, "", -1, 0))
+            {
+              if (is_not)
+                break;
+              else
+                do_cleanups(old_chain);
+            }
+          else if (is_not)
+            do_cleanups (old_chain);
+          else
+            break; 
+        }
+      else
+        {
+          expr = parse_c_expression (cond);
+          (void) make_cleanup (free_current_contents, &expr);
+          val = evaluate_expression (expr);
+          if (val->lval == lval_reg_invalid)
+            ui_badnews(-1, "condition is #%s=%s#", reg_names[VALUE_REGNO (val)],
+                       THE_UNKNOWN);
+          if (val->contents[0] != 0)
+            {
+              if (is_not)
+                break;
+              else
+                do_cleanups(old_chain);
+            }
+          else if (is_not)
+            do_cleanups (old_chain);
+          else
+            break; 
+        }
+      
+      /* Do the loop */
+      
+      /* Check for a null loop. */
+      cmdlines = cmdlines->next;
+      if (cmdlines == 0)
+        continue;
+      
+      /* Set the instream to 0, indicating execution of a
+         user-defined function.  */
+      old_chain =  make_cleanup (source_cleanup, instream);
+      instream = (FILE *) 0;
+      while (cmdlines)
+        {
+          execute_command (cmdlines->cmd, cmdlines->line, 0);
+          cmdlines = cmdlines->next;
+        }
+      do_cleanups (old_chain);
+    }
+  do_cleanups (old_chain);
+}
+
+
+/* Nested "define" command. */
+
+static void
+nested_define_command (cmds, from_tty)
+     char *cmds;
+     int from_tty;
+{
+  register struct command_line *cmdlines;
+  register struct cmd_list_element *c;
+  register char *comname;
+  char *tem;
+  char *extra;
+  struct command_line *real_cmds;
+  
+  cmdlines = (struct command_line *)cmds;
+  tem = macro_expand (cmdlines->line, cmdlines->cmd);
+  extra = validate_comname (tem);
+  comname = savestring (tem, extra - tem);
+  extra = savestring (extra, strlen (extra));
+  free_macro_expansion (tem);
+  
+  tem = comname;
+  c = lookup_cmd (&tem, cmdlist, "", -1, 1);
+  
+  if (c && c->class == (int) class_user)
+    free_command_lines (&c->function);
+  
+  if (*extra)
+    {
+      real_cmds = (struct command_line *)
+	xmalloc (sizeof (struct command_line));
+      real_cmds->cmd = (struct cmd_list_element *) INVALID_CORE_ADDR;
+      real_cmds->line = (char *) parse_string_list (extra);
+      free (extra);
+      real_cmds->next = copy_command_lines (cmdlines->next);
+    }
+  else
+    real_cmds = copy_command_lines (cmdlines->next);
+  
+  add_com (comname, class_user, real_cmds,
+	   (c && c->class == (int) class_user)
+	    ? c->doc : savestring ("User-defined.", 13));
+}
+
+
+/* Nested "document" command. */
+
+static void
+nested_document_command (cmds)
+     char *cmds;
+{
+  register struct command_line *doclines;
+  register struct cmd_list_element *c;
+  char *comname;
+  char *extra;
+  
+  doclines = (struct command_line *)cmds;
+  comname= doclines->line;
+  
+  extra = validate_comname (comname);
+  if (*extra)
+    ui_badnews(-1,"Junk in argument list: \"%s\"", extra);
+  
+  c = lookup_cmd (&comname, cmdlist, "", 0, 1);
+  
+  if (c->class != (int) class_user)
+    ui_badnews(-1,"Command \"%s\" is built-in.", doclines->line);
+  
+  doclines = doclines->next;
+  
+  if (c->doc) free (c->doc);
+  
+  {
+    register struct command_line *cl1;
+    register int len = 0;
+    
+    for (cl1 = doclines; cl1; cl1 = cl1->next)
+      len += strlen (cl1->line) + 1;
+    
+    c->doc = (char *) xmalloc (len + 1);
+    *c->doc = 0;
+    
+    for (cl1 = doclines; cl1; cl1 = cl1->next)
+      {
+	strcat (c->doc, cl1->line);
+	if (cl1->next)
+	  strcat (c->doc, "\n");
+      }
+  }
+}
+
+
+
+/*     +----------------+     */
+/*  -=#|  GDB Commands  |#=-  */
+/*     +----------------+     */
+
+
+/* Assigns a value to the 'fileoffuncname' macro. */
+
+static void
+assign_funcname_command(arg)
+     char *arg;
+{
+   char cmdstring[1024];
+   int desc;
+
+   /* If 'arg' is the name of a file we can find, just use it.  
+    * If not, try to find a source file containing a function named 'arg'.
+    * If that fails, set the `fileoffuncname macro to NOT_FOUND.
+    */
+   desc = openp (source_path, 0, arg, O_RDONLY, 0, 0);
+   if (desc != -1) {
+	sprintf(cmdstring, "fileoffuncname \"%s\"", arg);
+        close(desc);
+   }
+   else { 
+        struct symtabs_and_lines sals;
+        struct symtab_and_line sal;
+
+	if (lookup_symbol(arg, 0, VAR_NAMESPACE, 0)) {
+            sals = decode_line_spec(arg, 0);
+            sal = sals.sals[0];
+            free (sals.sals);
+            sprintf(cmdstring, "fileoffuncname \"%s\"", sal.symtab->filename);
+        }
+        else {
+	    sprintf(cmdstring, "fileoffuncname \"NOT_FOUND\"");
+        }
+   }
+   macro_command(cmdstring);
+}
+
+/* Assign a value to the 'typevar' command. Possible values are for present
+ * VAR for variable name (usable with watchpoint commands) and OTHER for
+ * functions or line numbers (usable with break commands) */
+static void
+assign_typevar_command(arg)
+     char *arg;
+{
+   char cmdstring[1024];
+   struct symbol *sym;
+
+   sym = lookup_symbol(arg, get_selected_block(), VAR_NAMESPACE, 0);
+/* May have to munge arg to deal with scope delimiters */
+   if (sym) {
+	switch (sym->class) {
+	    case LOC_STATIC:
+	    case LOC_REGISTER:
+	    case LOC_ARG:
+	    case LOC_REF_ARG:
+	    case LOC_REGPARM:
+	    case LOC_LOCAL:
+		sprintf(cmdstring, "typevar \"VAR\"");
+		break;
+	    default:
+		sprintf(cmdstring, "typevar \"OTHER\"");
+        }
+    }
+    else {
+	sprintf(cmdstring, "typevar \"OTHER\"");
+    }
+   macro_command(cmdstring);
+}
+
+
+/* Remember (or forget) a user-defined macro. */
+
+static void
+macro_command (args)
+     char *args;
+{
+  char *tem;
+  char *p, *q, ch;
+  char *body;
+  char *macname;
+  struct cmd_list_element *c;
+  struct string_list_el *new;
+
+  if ((args == 0) || (*args == 0))
+    error_no_arg ("name of user macro");
+  body = validate_comname (args);
+  macname = savestring (args, body - args);
+  (void) make_cleanup (free, macname);
+ 
+  if (body)
+    {
+      if (*body == 0)
+        body = 0;
+      else
+        {
+          EAT_WHITESP_FRD (body);
+          if (*body != '"')
+            ui_badnews (-1, "Ill formed macro body.");
+          tem = skip_quoted_string (body++);
+          p = body;
+          body = xmalloc (tem - body + 1);
+          q = body;
+          while (p != tem)
+            {
+              ch = *p++;
+              if (ch == '\\')
+                {
+                  ch = parse_escape (&p);
+                  if (ch == 0)
+                    break; /* C loses */
+                  else if (ch > 0)
+                    *q++ = ch;
+                }
+              else
+                *q++ = ch;
+            }
+          *q = 0;
+          (void) make_cleanup (free, body);
+        }
+    }
+
+  tem = args;
+  c = lookup_cmd (&tem, macrolist, "", -1, 0);
+  if (c)
+    {
+      if (c->class == (int) class_user)
+        if (body)
+          tem = "Redefine user macro \"%s\"? ";
+        else
+          tem = "Delete user macro \"%s\"? ";
+      else
+        if (body)
+          tem = "Really redefine built-in macro \"%s\"? ";
+        else
+          tem = "Really delete built-in macro \"%s\"? ";
+      if (!query (tem, macname))
+	ui_badnews (-1, "Macro \"%s\" not redefined.", macname);
+      if (strcmp(macname, MACROSTACK) == 0)
+        {
+          if (body)
+            {
+              new = new_string_list_el ();
+              new->string = c->aux;
+              new->next = macro_stack;
+              macro_stack = new;
+              c->aux = savestring (body, strlen (body));
+              return;
+            }
+          else if (macro_stack)
+            {
+              if (c->aux)
+                free (c->aux);
+              c->aux = macro_stack->string;
+              new = macro_stack->next;
+              free (macro_stack);
+              macro_stack = new;
+              return;
+            }
+        }
+      else if (c->aux)
+	free (c->aux);
+      c->function = 0;
+      c->class = (int) class_user;
+    }
+
+  if (body)
+    {
+      c = add_cmd (macname, class_user, 0, "User Macro", &macrolist);
+      c->aux = savestring (body, strlen(body));
+    }
+  else
+    delete_cmd (macname, &macrolist);
+}
+
+
+/* This is passed a string which should contain "....." ......
+ * where the "..." part is the pattern to match, and the ..... is the
+ * string to match against it.  
+ */
+
+static void
+match_command (line)
+     char *line;
+{
+  char *mark;
+  char fastmap[(1 << BYTEWIDTH)];
+  int len;
+  
+  if (line == 0)
+    error_no_arg ("pattern to match against");
+  if (*line != '"')
+    ui_badnews(-1, "must begin pattern with \" character");
+  
+  /* Make sure we skip over " chars which are escaped thus \"  */
+  mark = skip_quoted_string (line++);
+  match_pattern = savestring(line, mark++ - line);
+  
+  /* Now skip white space, everything else is the string to match against
+   * the pattern
+   */
+  while (*mark && (*mark == ' ' || *mark == '\t'))
+    mark++;
+  if (*mark == '\0') {
+    free(match_pattern);
+    error_no_arg ("string to match against pattern");
+  }
+  match_string = savestring(mark, strlen(mark));
+  
+  /* Now we know we have a good pattern and string.  Compile the
+   * pattern and do the match.
+   */
+  buf.allocated = 40;
+  buf.buffer = (char *) xmalloc (buf.allocated);
+  
+  /* Currently re_match makes no use of fastmaps; no use supplying one */
+  /*buf.fastmap = fastmap;*/
+  re_compile_pattern(match_pattern, strlen(match_pattern), &buf);
+  /*re_compile_fastmap(&buf);*/
+  match_routine(&buf, match_string);
+}
+
+
+/*
+ *  ---  Conditional commands  ---
+ */
+
+
+/* The "while" command.  Used like:
+
+   while <condition/match/defined>
+     ...
+     end
+
+   The command between the "while" and its matching "end" will be executed
+   repeatedly while <condition> evaluates to 1, while the match is successfull,
+   or while the macro is deifned. */
+
+static void
+while_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+{
+  struct command_line *cmdlines, *newone;
+  struct cleanup *old_chain;
+  char *cond;
+  
+  /* We don't want conditional commands to auto repeat. */
+  dont_repeat ();
+  
+  /* Make sure there is a condition. */
+  if ((arg == 0) || (*arg == 0))
+    error_no_arg ("while condition");
+  cond = savestring (arg, strlen (arg));
+  
+  /* Gather up the body of the while loop */
+  
+  if (from_tty)
+    {
+      ui_fprintf(stdout, "Type commands for body of while loop.\n\
+End with a line saying just \"end\".\n");
+      ui_fflush (stdout);
+    }
+  cmdlines = read_command_lines (2);
+  old_chain = make_cleanup (free_command_lines, &cmdlines);
+  
+  /* Try to execute the loop only if we are currently enabled */
+  if (cond_stack == 0 || cond_stack->exec_state == exec_enabled)
+    {
+      /* Construct a command list for "nested_while_command" and call it. */
+      newone = (struct command_line *) xmalloc (sizeof (struct command_line));
+      newone->cmd = 0;
+      newone->line = cond;
+      newone->next = cmdlines;
+      cmdlines = newone;
+      nested_while_command ((char *) cmdlines, from_tty);
+    }
+  
+  /* All done, clean up. */
+  do_cleanups (old_chain);
+}
+
+
+/* The "if" command.  Used like:
+
+   if <condition/match>
+     ...
+   [elif <condition/match>
+     ...] ...
+   [else
+     ...]
+   endif
+
+   If the "if" condition/match is true, then the command lines following
+   the "if" are executed.  Otherwise, the commands following the first
+   "elif" command with a true condition/match are executed.  If the "if"
+   condition/match was false, and there were no "elif" commands or none
+   with a true condition/match, then the command followin the "else" command,
+   if any, are executed.  The "endif" command signals the end of this
+   "condition level". */
+
+static void
+if_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+{
+  cond_level new_level;
+  
+  /* We don't want conditional commands to auto repeat. */
+  
+  dont_repeat ();
+  
+  /* Create a new level */
+  
+  update_prompt (1);
+  new_level = (cond_level) malloc (sizeof(struct cond_level));
+  new_level->prev = cond_stack;
+  new_level->else_ok = 1;
+  cond_stack = new_level;
+  
+  /* Handle the case where we are not currently enabled */
+  
+  if (new_level->prev->exec_state != exec_enabled)
+    {
+      new_level->exec_state = exec_skipping;
+      return;
+    }
+  eval_and_set_state(arg, new_level);
+}
+
+
+/* The "elif" command.  (See above) */
+
+static void
+elif_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+{
+  cond_level cur_level = cond_stack;
+  
+  /* We don't want conditional commands to auto repeat. */
+  
+  dont_repeat ();
+  
+  /* Make sure we are have seen an "if" at this level and not an "else". */
+  
+  if (! (cur_level && cur_level->else_ok))
+    ui_badnews(-1, "not expecting an \"elif\" command");
+  
+  /* If we have been executing commands, then start skipping them. */
+  
+  if (cur_level->exec_state == exec_enabled)
+    cur_level->exec_state = exec_skipping;
+  
+  /* If we are skipping commands until the next "endif", then bugout without
+     evaluating our argument. */
+  
+  if (cur_level->exec_state == exec_skipping)
+    return;
+  
+  eval_and_set_state(arg, cur_level);
+}
+
+
+/* The "else" command.  (See above) */
+
+static void
+else_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+{
+  cond_level cur_level = cond_stack;
+  
+  /* We don't want conditional commands to auto repeat. */
+  
+  dont_repeat ();
+  
+  /* Make sure we are have seen an "if" at this level and not an "else". */
+  
+  if (! (cur_level && cur_level->else_ok))
+    ui_badnews(-1, "not expecting an \"else\" command");
+  
+  /* Make sure this is the only else we'll take at this level */
+  
+  cur_level->else_ok = 0;
+  
+  /* "Toggle" the execution sate. */
+  
+  if (cur_level->exec_state == exec_enabled)
+    cur_level->exec_state = exec_disabled;
+  else if (cur_level->exec_state == exec_disabled)
+    cur_level->exec_state = exec_enabled;
+}
+
+
+/* The "endif" command.  (See above) */
+
+static void
+endif_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+{
+  cond_level cur_level = cond_stack;
+  
+  /* We don't want conditional commands to auto repeat. */
+  
+  dont_repeat ();
+  
+  /* Make sure we have already seen an "if" */
+  
+  if (! cur_level)
+    ui_badnews(-1, "not expecting an \"endif\" command");
+  
+  /* Get rid of this level */
+  
+  update_prompt (-1);
+  cond_stack = cur_level->prev;
+  free (cur_level);
+}
+
+
+/*
+ *  ---  Set sub-commands.  ---
+ */
+
+
+/* Set autorepeat on or off. */
+
+static void
+set_autorepeat (arg)
+     char *arg;
+{
+  if (arg == 0)
+    {
+      autorepeat = ! autorepeat;
+      return;
+    }
+  EAT_WHITESP_FRD (arg);
+  if (*arg == 0)
+    autorepeat = ! autorepeat;
+  else if (strcmp (arg, "on") == 0)
+    autorepeat = 1;
+  else if (strcmp (arg, "off") == 0)
+    autorepeat = 0;
+  else
+    error_bad_arg ("\"on\" or \"off\"", arg);
+}
+
+
+/* Set the primary prompt.  (default is "(gdb)") */
+
+static void
+set_prompt_command (arg)
+     char *arg;
+{
+  set_either_prompt_command (0, arg);
+}
+
+
+/* Set the secondary prompt.  (defaulg is "<%d\>") */
+
+static void
+set_prompt2_command (arg)
+     char *arg;
+{
+  set_either_prompt_command (1, arg);
+}
+
+
+/* Set the macro escape character.  (default is '`')  The format is:
+   set macroescape {push | {pop | <char>}}
+   If "push" is used, then the current macro escape character is pushed on a
+   stack.  If "pop" is used, the top of that stack becomes the new macro
+   escape character and the stack is poped. */
+
+static void
+set_macro_escape (arg)
+     char *arg;
+{
+  struct intlist_element *newone;
+  char newtick;
+  register struct cleanup *old_chain = 0;
+
+  if (arg)
+    EAT_WHITESP_FRD (arg);
+  if ((arg == 0) || (*arg == 0))
+    error_no_arg ("macro escape character");
+  if ((strncmp (arg, "push", 4) == 0) && isspace (arg[4]))
+    {
+      newone = (struct intlist_element *)
+	xmalloc (sizeof (struct intlist_element));
+      newone->value = tickchr;
+      newone->next = tickchr_stack;
+      tickchr_stack = newone;
+      old_chain = make_cleanup (pushed_int_cleanup, &tickchr);
+      arg += 4;
+      EAT_WHITESP_FRD (arg);
+      if (*arg == 0)
+        ui_badnews (-1, "Nothing following push.\n");
+    }
+  if (strncmp (arg, "pop", 3) == 0)
+    {
+      arg += 3;
+      EAT_WHITESP_FRD (arg);
+      if (*arg)
+        ui_badnews (-1,"Junk following pop: \"%s\"", arg);
+      if (tickchr_stack)
+	{
+	  tickchr = tickchr_stack->value;
+	  newone = tickchr_stack->next;
+	  free (tickchr_stack);
+	  tickchr_stack = newone;
+	}
+      else
+	tickchr = DFLTTICKCHR;
+    }
+  else
+    {
+      newtick = *arg++;
+      EAT_WHITESP_FRD (arg);
+      if (*arg != 0)
+        ui_badnews (-1,"Junk following macro escape character: \"%s\"", arg);
+      tickchr = newtick;
+    }
+
+  if (old_chain)
+    discard_cleanups (old_chain);
+}
+
+
+/* Set the macro scan limit.  (default is 1)  The format is:
+   set scanlimit {push | {pop | <char>}}
+   If "pop" is used, then the scan limit is set to a previous value.  If
+   "push" is used, then the current value is saved before the new value is
+   set. */
+
+static void
+set_macro_scan_limit (arg)
+     char *arg;
+{
+  char *p;
+  struct intlist_element *newone;
+  register struct cleanup *old_chain = 0;
+  
+  if (arg == 0)
+    error_no_arg ("macro scan limit");
+  EAT_WHITESP_FRD (arg);
+  if ((strncmp (arg, "push", 4) == 0) && isspace (arg[4]))
+    {
+      newone = (struct intlist_element *)
+	xmalloc (sizeof (struct intlist_element));
+      newone->value = macro_scan_limit;
+      newone->next = scanlimit_stack;
+      scanlimit_stack = newone;
+      old_chain = make_cleanup (pushed_int_cleanup, &macro_scan_limit);
+      arg += 4;
+      EAT_WHITESP_FRD (arg);
+    }
+  if (strncmp (arg, "pop", 3) == 0)
+    {
+      arg += 3;
+      EAT_WHITESP_FRD (arg);
+      if (*arg)
+        ui_badnews(-1,"Junk following pop: \"%s\"", arg);
+      if (scanlimit_stack)
+	{
+	  macro_scan_limit = scanlimit_stack->value;
+	  newone = scanlimit_stack->next;
+	  free (scanlimit_stack);
+	  scanlimit_stack = newone;
+	}
+      else
+	macro_scan_limit = DFLTSCANLIMIT;
+    }
+  else
+    {
+      for (p = arg; *p; ++p)
+	if ((*p < '0') && (*p > '9'))
+	  ui_badnews (-1, "Argument must be numeric.");
+      macro_scan_limit = atoi (arg);
+    }
+
+  if (old_chain)
+    discard_cleanups (old_chain);
+}
+
+/* Set shift-to-lower.  (default is ON).  This format is:
+   set shift-to-lower pop | [push] { ON | OFF }
+   If "pop" is used, then shift-to-lower is set to a previous value.  If
+   "push" is used, then the current value is saved before the new value is
+   set. */
+
+static void
+set_shift_to_lower (arg)
+     char *arg;
+{
+  char *p;
+  struct intlist_element *newone;
+  register struct cleanup *old_chain = 0;
+
+  if (arg == 0)
+    error_no_arg ("shift-to-lower setting");
+  EAT_WHITESP_FRD (arg);
+  if ((strncmp (arg, "push", 4) == 0) && isspace (arg[4]))
+    {
+      newone = (struct intlist_element *)
+	xmalloc (sizeof (struct intlist_element));
+      newone->value = shift_to_lower;
+      newone->next = shift_to_lower_stack;
+      shift_to_lower_stack = newone;
+      old_chain = make_cleanup (pushed_int_cleanup, &shift_to_lower);
+      arg += 4;
+      EAT_WHITESP_FRD (arg);
+    }
+  if (strncmp (arg, "pop", 3) == 0)
+    {
+      arg += 3;
+      EAT_WHITESP_FRD (arg);
+      if (*arg)
+        ui_badnews(-1,"Junk following pop: \"%s\"", arg);
+      if (shift_to_lower_stack)
+	{
+	  shift_to_lower = shift_to_lower_stack->value;
+	  newone = shift_to_lower_stack->next;
+	  free (shift_to_lower_stack);
+	  shift_to_lower_stack = newone;
+	}
+      else
+	shift_to_lower = DFLTSHIFTTOLOWER;
+    }
+  else
+    shift_to_lower = parse_binary_operation ("set shift-to-lower", arg);
+
+  if (old_chain)
+    discard_cleanups (old_chain);
+}
+
+
+/*
+ *  ---  Info sub-commands. ---
+ */
+
+
+/* Print out the current state of "autorepeat". */
+
+static void
+autorepeat_info ()
+{
+  printf_filtered ("The autorepeat feature is %s.\n",
+		   (autorepeat ? "on" : "off"));
+}
+
+
+/* Either print out a single user defined command, or all of them. */
+
+static void
+user_info (cmd_name)
+     char *cmd_name;
+{
+  struct cmd_list_element *c;
+  register struct command_line *cmdlines;
+  
+  if (cmd_name && *cmd_name)
+    {
+      c = lookup_cmd (&cmd_name, cmdlist, "", 0, 1);
+      if (c == 0) return; /* Just to be sure. */
+      if (c->function == 0)
+	ui_badnews (-1,"That is not a command, just a help topic.");
+      if (c->class != (int) class_user)
+        ui_badnews (-1, "That is not a user command.");
+      printf_filtered ("define %s ", c->name);
+      cmdlines = (struct command_line *) c->function;
+      if (cmdlines->cmd == (struct cmd_list_element *) INVALID_CORE_ADDR)
+	{
+	  print_string_list ("%s ", cmdlines->line);
+	  cmdlines = cmdlines->next;
+	}
+      printf_filtered ("\n");
+      print_command_lines (0, cmdlines);
+      printf_filtered ("end\n");
+    }
+  else
+    for (c = cmdlist; c; c = c->next)
+      {
+        cmdlines = (struct command_line *) c->function;
+        if (cmdlines == 0)
+          continue;
+        if (c->class != (int) class_user)
+          continue;
+        printf_filtered ("define %s ", c->name);
+	if (cmdlines->cmd == (struct cmd_list_element *) INVALID_CORE_ADDR)
+	  {
+	    print_string_list ("%s ", cmdlines->line);
+	    cmdlines = cmdlines->next;
+	  }
+	printf_filtered ("\n");
+	print_command_lines (0, cmdlines);
+	printf_filtered ("end\n");
+      }
+}
+
+
+/* Print out the current state of macro expansion along with expansions of
+   all the macros currently defined. */
+
+static void
+macro_info ()
+{
+  struct cmd_list_element *c;
+  struct intlist_element *slp;
+  char tmp_buf[256];
+
+  if (isprint(tickchr))
+    printf_filtered ("The macro escape character is: %c\n", tickchr);
+  else
+    printf_filtered ("The macro escape character (0x%02x) is unprintable: no macro expansion.\n",
+                     tickchr & 0xff);
+  if (tickchr_stack)
+    {
+      printf_filtered ("Previous macro escape characters:");
+      for (slp=tickchr_stack; slp; slp=slp->next)
+        if (isprint (slp->value))
+          printf_filtered (" %c", slp->value);
+        else
+          printf_filtered (" 0x%02x", slp->value & 0xff);
+      printf_filtered ("\n");
+    }
+
+  if (macro_scan_limit <= 0)
+    printf_filtered ("Scan limit is zero: no macro expansion.\n");
+
+  if ((macro_scan_limit > 0) && isprint (tickchr))
+    {
+      printf_filtered ("A command line will be scanned at most %d time(s).\n",
+			 macro_scan_limit);
+      if (scanlimit_stack)
+	{
+	  printf_filtered ("Previous scan limits:");
+	  for (slp=scanlimit_stack; slp; slp=slp->next)
+	    printf_filtered (" %d", slp->value);
+	  printf_filtered ("\n");
+	}
+      printf_filtered("\nBuiltin Macros:\n");
+      for (c=macrolist; c; c=c->next)  if (c->class == no_class)
+	{
+	  printf_filtered("%c%s ", tickchr, c->name);
+	  if (c->function)
+	    {
+	      char *p = (*((char *(*)())(c->function)))(c->aux);
+	      strcpy (tmp_buf, p ? p : "<nil>");
+	      printf_filtered("\"%s\"\n", tmp_buf);
+	    }
+	  else
+	    printf_filtered("\"%s\"\n", c->aux);
+	}
+      printf_filtered("\nUser Macros:\n");
+      for (c=macrolist; c; c=c->next)  if (c->class == class_user)
+        {
+          printf_filtered("%c%s \"%s\"\n", tickchr, c->name, c->aux);
+        }
+    }
+}
+
+
+/* Print the current state of shift-to-lower. */
+
+static void
+shift_to_lower_info ()
+{
+  struct intlist_element *slp;
+
+  printf_filtered("shift-to-lower is %s: ", shift_to_lower ? "on" : "off");
+  if (shift_to_lower)
+    printf_filtered("command and macro names will be shifted to lower case.\n");
+  else
+    printf_filtered("case will be significant in command and macro names.\n");
+  if (shift_to_lower_stack)
+    {
+      printf_filtered ("Previous settings of shift_to_lower:");
+      for (slp=shift_to_lower_stack; slp; slp=slp->next)
+        printf_filtered (" %s", slp->value ? "on" : "off");
+      printf_filtered ("\n");
+    }
+}
+
+
+
+/*     +-------------------+     */
+/*  -=#|  Initializations  |#=-  */
+/*     +-------------------+     */
+
+
+
+/* Module initializations. */
+
+void
+_initialize_programmer ()
+{
+  struct cmd_list_element *new;
+
+  /*
+   *  Add GDB Commands.
+   */
+
+  add_com("match", class_obscure, match_command, 
+          "Try to match a double-quoted pattern against a string.");
+  add_com ("endif", class_conditional, endif_command, "Endif part of conditional.");
+  add_com ("elif", class_conditional, elif_command, "Elif part of conditional.");
+  add_com ("else", class_conditional, else_command, "Else part of conditional.");
+  add_com ("if", class_conditional, if_command, "If part of conditional.");
+  add_com ("while", class_conditional, while_command, "While loop.");
+  add_com ("macro", class_obscure, macro_command, "Define user macro.");
+  add_com ("assign-funcname", class_obscure, assign_funcname_command, 
+	   "Assign value to \"fileoffuncname\" macro.");
+  add_com ("assign-typevar", class_obscure, assign_typevar_command, 
+	   "Assign value to \"typevar\" macro.");
+
+  /*
+   *  Add Set Sub-Commands.
+   */
+
+  new = add_cmd ("autorepeat", class_support, set_autorepeat,
+		 "Change the response to a line with just a carriage return.\n\
+Arguments can be \"on\" or \"off\".  No arguments will toggle 'autorepeat'.",
+		 &setlist);
+  if (new)
+    new->aux = (char *) set_cmd;
+
+  new = add_cmd ("prompt", class_support, set_prompt_command,
+		 "Change gdb's primary prompt from the default of \"(gdb)\"",
+		 &setlist);
+  if (new)
+    new->aux = (char *) set_cmd;
+
+  new =add_cmd ("prompt2", class_support, set_prompt2_command,
+		"Change gdb's secondary prompt.\n\
+The default secondary prompt is \"r<%d>\".",
+	   &setlist);
+  if (new)
+    new->aux = (char *) set_cmd;
+
+  new = add_cmd ("scanlimit", class_obscure, set_macro_scan_limit,
+                 "Set the macro scan limit.\n\
+Before a command line is executed, gdb will scan it for macros until all\n\
+macros have been expanded or until the scan limit is reached.  Scanning the\n\
+entire line counts as one scan.  It is possible to save the previous scan\n\
+limit by including the word \"push\" in front of the new value.  Previous\n\
+values can be returned to by using the word \"pop\" in place of the value.",
+                 &setlist);
+  if (new)
+    new->aux = (char *) set_cmd;
+
+  new = add_cmd ("macroescape", class_obscure, set_macro_escape,
+                 "Set the macro escape character.\n\
+Before a command line is executed, gdb will scan it for macros.  All macros\n\
+start with a special character called the macro escape character.  The\n\
+default macro escape character is a back quote (`).  If you change it to an\n\
+unprintable character, then scanning for macros is not done.",
+                 &setlist);
+  if (new)
+    new->aux = (char *) set_cmd;
+
+  new = add_cmd ("shift-to-lower", class_obscure, set_shift_to_lower,
+                 "Shift command and macro names to lower case (or don't).\n\
+If shift-to-lower is set \"on\", command and macro names are shifted to\n\
+lower case before they are used or defined.  If shift-to-lower is set\n\
+\"off\", this is not done and character case will be significant.  It is\n\
+possible to save the previous setting of shift-to-lower by including the\n\
+word \"push\" in front of the new setting.  Previous settings can be\n\
+returned by using the word \"pop\" in place of \"on\" or \"off\".",
+                 &setlist);
+  if (new)
+    new->aux = (char *) set_cmd;
+
+  /*
+   *  Add Info Sub-Commands
+   */
+
+  add_info ("user", user_info,
+            "Show definitions of any or all user commands.\n\
+Use \"info user COMMAND\" to show the definition of COMMAND or use \"info user\"\n\
+to see the definitions of all commands.");
+
+  add_info ("macro", macro_info,
+            "Show macro expansion parameters and macros with their values.\n\
+Show the current macro escape character and the macro scan limit.  Also\n\
+show all the currently defined macros and their values.");
+
+  add_info ("autorepeat", autorepeat_info,
+	    "Show if autorepeat is on or off.\n\
+If autorepeat is on, then simply pressing the return key at the start of an\n\
+empty line after gdb's prompt will cause the previous command to be repeated.\n\
+It may not be a good idea for some commands to be repeated in this way, so \n\
+this feature is not applied to some commands.  If autorepeat is off, this\n\
+feature is never applied.");
+
+  add_info ("shift-to-lower", shift_to_lower_info,
+            "show the state of \"shift-to-lower\".\n\
+If shift-to-lower is set \"on\", command and macro names are shifted to\n\
+lower case before they are used or defined.  If shift-to-lower is set\n\
+\"off\", this is not done and character case will be significant.");
+
+
+  /*
+   *  Keyword Macros
+   */
+
+  new = add_cmd ("date", no_class, date_macro,
+           "Current date and time.\n\
+This macro expands to the current date and time, in the same format as the\
+standard utility \"date\".", &macrolist);
+  new->aux = savestring ("%a %b %e %T %Z %Y", 17);
+  new = add_cmd ("rcsid", no_class, 0, "Gdb's rcs id.", &macrolist);
+  new->aux = savestring (_rcsid, strlen (_rcsid));
+  new = add_cmd ("version", no_class, 0, "Gdb's version number.", &macrolist);
+  new->aux = savestring (version, strlen (version));
+  new = add_cmd ("line", no_class, line_macro, "Current source line.", &macrolist);
+  new->aux = NULL;
+  new = add_cmd ("level", no_class, level_macro, "Current frame level.", &macrolist);
+  new->aux = NULL;
+  new = add_cmd ("isouter", no_class, is_outer_macro, "Equals 1 if current frame is outermost, else 0.", &macrolist);
+  new->aux = NULL;
+  new = add_cmd ("func", no_class, cur_function_macro, 
+	"Name of current function.", &macrolist);
+  new->aux = NULL;
+  new = add_cmd ("file", no_class, cur_srcfile_macro, 
+	"Name of current source file.", &macrolist);
+  new->aux = NULL;
+  new = add_cmd ("lastbreak", no_class, last_break_macro,
+        "Number of most recently defined break-point.", &macrolist);
+  new->aux = savestring ("%d", 2);
+  new = add_cmd ("success", no_class, 0,
+        "Expansion for `m macro when the previous MATCH succeeded.",
+		 &macrolist);
+  new->aux = savestring (DFLTSUCCEEDEDMSG, strlen (DFLTSUCCEEDEDMSG));
+  new = add_cmd ("failure", no_class, 0,
+        "Expansion for `m macro when the previous MATCH failed.",
+		 &macrolist);
+  new->aux = savestring (DFLTFAILEDMSG, strlen (DFLTFAILEDMSG));
+
+  /*
+   *   Other Initializations
+   */
+
+  obstack_init (meo);
+  prompt[0] = savestring ("(gdb) ", 6);
+  prompt[1] = savestring ("<%d> ", 5);
+  gbl_prompt = prompt[0];
+  update_prompt (2);
+}
+
+
+/* Initialize intternal commands and pointers to them. */
+
+void
+init_cmd_pointers ()
+{
+  char *p;
+  
+  p = "define";
+  define_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (define_p == 0)
+    ui_badnews (1, "Internal: \"Define\" not defined.");
+  p = "commands";
+  commands_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (commands_p == 0)
+    ui_badnews (1, "Internal: \"Commands\" not defined.");
+  p = "document";
+  document_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (document_p == 0)
+    ui_badnews (1, "Internal: \"Document\" not defined.");
+  p = "while";
+  while_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (while_p == 0)
+    ui_badnews (1, "Internal: \"While\" not defined.");
+  p = "elif";
+  elif_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (elif_p == 0)
+    ui_badnews (1, "Internal: \"Elif\" not defined.");
+  p = "if";
+  if_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (if_p == 0)
+    ui_badnews (1, "Internal: \"If\" not defined.");
+  p = "endif";
+  endif_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (endif_p == 0)
+    ui_badnews (1, "Internal: \"Endif\" not defined.");
+  nested_define.function = nested_define_command;
+  nested_define.name = "define";
+  nested_define.class = class_nested;
+  nested_commands.function = nested_commands_command;
+  nested_commands.name = "commands";
+  nested_commands.class = class_nested;
+  nested_document.function = nested_document_command;
+  nested_document.name = "document";
+  nested_document.class = class_nested;
+  nested_while.function = nested_while_command;
+  nested_while.name = "while";
+  nested_while.class = class_nested;
+}
+
+#endif /* TEK_PROG_HACK */  /* this covers the whole file! */
+@
+
+
+1.47
+log
+@Fixed macro expansion.
+@
+text
+@d4 2
+a5 2
+   $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/programmer.c,v 1.46 90/08/19 21:20:59 robertb Exp Locker: robertb $
+   $Locker: robertb $
+d2478 1
+a2478 1
+  if (cond_stack->exec_state == exec_enabled)
+@
+
+
+1.46
+log
+@Got rid of compiler warning on line 341.
+@
+text
+@d4 1
+a4 1
+   $Header: /home/vlsi/u2/cs568/g88/RCS/programmer.c,v 1.45 90/06/30 17:55:57 robertb Exp Locker: robertb $
+d1546 9
+a1554 3
+     segmentation fault here on the sparc. */
+  if (cond_stack && ((cond_stack->exec_state == exec_enabled) || (cond_stack->exec_state ==
+    exec_disabled && c == elif_p && cond_stack->prev->exec_state !=
+d2959 2
+a2960 1
+	      strcpy (tmp_buf, (*((char *(*)())(c->function)))(c->aux));
+@
+
+
+1.45
+log
+@Deleted large useless comment at top of file.
+made set_either_prompt_command() global so that sim/simgdb.c could
+call it to set the processor number in the prompt.
+Made it compile by #ifdef'ing out the date macro code.
+Fixed nil-pointer dereference bug.
+@
+text
+@d4 2
+a5 2
+   $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/programmer.c,v 1.44 90/04/16 15:15:52 jrb Exp $
+   $Locker:  $
+d341 1
+d343 1
+@
+
+
+1.44
+log
+@changed number of lines printed out on invalid line number
+error message in line_macro() function, off by one error.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.43 90/03/28 14:16:11 robertb Exp $
+   $Locker: jrb $
+a6 56
+This file is part of GDB.
+
+GDB is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+GDB is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GDB; see the file COPYING.  If not, write to
+the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+
+
+/* 
+ * Changes made by Tektronix are marked by TEK_HACK, TEK_PROG_HACK, 
+ * and GHSFORTRAN.
+ * Changes made by Data General are marked by DG_HACK.  Compiling without these
+ * #defines should be equivalent to compiling vanilla 3.2, more or less.
+ *
+ * The changes done by Tektronix fit into three catagories:
+ *	TEK_HACK -- these were done just to get GDB to work in our environment,
+ *		    including work done to support the Green Hills C compiler.
+ *	TEK_PROG_HACK -- These were done to extend GDB by adding programming
+ *			 support: things like if-elif-else-endif, while, and
+ *			 arguments to user defined commands.
+ *	GHSFORTRAN -- These changes make (will make) GDB work with the Green
+ *		      Hills Fortran compiler.
+ *
+ *
+ * In addition, I/O routines were renamed so that I/O could be directed
+ * to/from the X interface if used.  See the files ui.c and ui.h for
+ * more information.  Here are the routines renamed:
+ *    Old name:			Renamed to:
+ *	fprintf			ui_fprintf
+ *	printf			ui_fprintf(stdout
+ *	putchar			ui_putchar
+ *	putc			ui_putc
+ *	fputc			ui_putc
+ *	fputs			ui_fputs
+ *	puts			ui_puts
+ *	gets			ui_gets
+ *	fgets			ui_fgets
+ *	fflush			ui_fflush
+ *	system			ui_system
+ *	wait			ui_wait
+ *	error			ui_badnews(-1
+ *	fatal			ui_badnews(1
+ *	getc, fgetc		replaced with ui_gets, ui_fgets
+ * These changes are not demarcated by ifdef.   
+ *
+ *					November 16, 1989
+d209 1
+a209 1
+static void		       set_either_prompt_command ();
+d621 1
+d638 3
+d1112 1
+a1112 1
+static void
+d1543 3
+a1545 1
+  if ((cond_stack->exec_state == exec_enabled) || (cond_stack->exec_state ==
+d1547 1
+a1547 1
+    exec_disabled)) {
+@
+
+
+1.43
+log
+@Added a parameter to a call of print_formatted and
+do_examine() to support
+the examine-user command (cross-gdb)
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.42 90/02/20 11:41:16 andrew Exp $
+   $Locker: robertb $
+d735 1
+a735 2
+           current_source_symtab->filename, current_source_symtab->nlines-1);
+	 /* "nlines" is purposely 1 too many */
+@
+
+
+1.42
+log
+@Make control-D work correctly.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.41 90/02/07 16:05:45 andrew Exp $
+   $Locker: andrew $
+d902 1
+a902 1
+    print_formatted (val, format, fmt.size);
+d911 1
+a911 1
+      do_examine (format, examine_address);
+@
+
+
+1.41
+log
+@Change messages so as not to refer to 'wcommands' command.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.40 89/12/12 15:21:34 andrew Exp $
+d1904 2
+@
+
+
+1.40
+log
+@Delete some superfluous (and confusing) local variable declarations.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.39 89/12/12 12:42:14 paulg Exp $
+a135 1
+extern void nested_wcommands_command ();
+a341 1
+static struct cmd_list_element nested_wcommands;
+a350 1
+static struct cmd_list_element *wcommands_p;
+d1880 1
+a1880 1
+                  1  'commands' or 'wcommands' command
+a1958 5
+      else if (c == wcommands_p)
+        {
+          nested_cmd = &nested_wcommands;
+          new_kind = 1;
+        }
+a3217 4
+  p = "wcommands";
+  wcommands_p = lookup_cmd (&p, cmdlist, "", -1, 1);
+  if (wcommands_p == 0)
+    ui_badnews (1, "Internal: \"Wcommands\" not defined.");
+a3243 3
+  nested_wcommands.function = nested_wcommands_command;
+  nested_wcommands.name = "wcommands";
+  nested_wcommands.class = class_nested;
+@
+
+
+1.39
+log
+@1) added stack for macroescape.  2) made `mc work correctly.  added cleanup
+stuff for macroescape, scanlevel and shift-to-lower stack so that errors are
+recovered from correctly.  3) fixed malloc length bug in new_string_list_el().
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.38 89/12/09 18:30:12 paulg Exp $
+   $Locker: paulg $
+a2305 1
+   int desc;
+a2306 2
+   struct symtabs_and_lines sals;
+   struct symtab_and_line sal;
+@
+
+
+1.38
+log
+@fix typo.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.37 89/12/09 18:07:02 paulg Exp $
+d105 1
+d215 2
+a216 1
+    This is also used to impliment the stack behind "shift-to-lower". */
+d249 1
+d319 1
+a319 1
+static char tickchr = DFLTTICKCHR;
+d323 1
+d467 1
+a467 1
+  string_list_el new = (string_list_el)xmalloc(sizeof (string_list_el));
+d469 1
+d503 26
+d992 1
+a992 2
+  if (*p == MATCHCHR && (strlen(p) == 1 || isdigit(*(p + 1)) || 
+	*(p + 1) == 'c' || isspace (*(p + 1)) || *(p + 1) == '\\'))
+d995 15
+a1009 1
+      which_list = match_expansions;
+d1235 1
+a1235 1
+  if (arg && strncmp(arg, "match", 5) == 0 && isspace (arg[5]))
+d1245 1
+a1245 1
+	  strncmp(match_string, match_expansions->string,
+d1256 1
+a1256 1
+  else if (arg && strncmp(arg, "defined", 7) == 0 && isspace (arg[7]))
+d1292 1
+a1292 1
+ * match_expansions. Notice that we don't free this list in this module.
+d1314 1
+d1323 1
+d1338 1
+d1342 9
+d2092 1
+a2092 1
+              strncmp(match_string, match_expansions->string,
+d2732 5
+a2736 1
+/* Set the macro escape character.  (default is '`') */
+d2742 6
+d2750 40
+a2789 1
+  tickchr = *arg;
+d2793 2
+a2794 2
+/* Set the macro scan limit.  (default is 1)  This format is:
+   set scanlimit pop | [push] <n>
+d2805 1
+d2810 1
+a2810 1
+  if (strncmp (arg, "push", 4) == 0)
+d2817 1
+d2823 4
+d2844 3
+d2861 2
+a2862 1
+  
+d2866 1
+a2866 1
+  if (strncmp (arg, "push", 4) == 0)
+d2873 1
+d2879 4
+d2895 3
+d2978 13
+a2990 1
+    printf_filtered ("The macro escape character is unprintable: no macro expansion.\n");
+d2993 2
+a2994 1
+  else
+d3017 5
+a3021 5
+    }
+  printf_filtered("\nUser Macros:\n");
+  for (c=macrolist; c; c=c->next)  if (c->class == class_user)
+    {
+      printf_filtered("%c%s \"%s\"\n", tickchr, c->name, c->aux);
+@
+
+
+1.37
+log
+@1) fixed fake_ stuff so that increasing the size of the buffer is done
+correctly. 2) added support for shift-to-lower. 3) removed references in
+documentation strings to deleted features.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.36 89/12/06 12:43:11 paulg Exp $
+d2897 1
+a2897 1
+  printf_filtered("shift_to_lower is %s: ", shift_to_lower ? "on" : "off");
+@
+
+
+1.36
+log
+@fix bug BLK01682: define foo "bar" would crash gdb, no it doesn't.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.35 89/12/01 08:59:49 davidl Exp $
+d105 1
+d212 3
+a214 1
+   durring a single call to "macro_expand()".  */
+d216 3
+a218 3
+struct scanlimit_element {
+  int limit;
+  struct scanlimit_element *next;
+d294 1
+d298 1
+d318 2
+a319 1
+static struct scanlimit_element *scanlimit_stack = 0;
+d557 2
+d561 1
+d586 2
+d590 1
+d611 3
+d616 2
+d620 1
+d622 2
+d2699 1
+a2699 1
+  struct scanlimit_element *newone;
+d2706 3
+a2708 3
+      newone = (struct scanlimit_element *)
+	xmalloc (sizeof (struct scanlimit_element));
+      newone->limit = macro_scan_limit;
+d2718 1
+a2718 1
+	  macro_scan_limit = scanlimit_stack->limit;
+d2735 5
+d2741 37
+d2849 1
+a2849 1
+  struct scanlimit_element *slp;
+d2866 1
+a2866 1
+	    printf_filtered (" %d", slp->limit);
+d2890 1
+d2892 21
+d2942 5
+d2953 1
+d2959 1
+a2966 4
+  /*
+   *  Add Set Sub-Commands.
+   */
+
+d2970 4
+a2973 6
+macros have been expanded or until the scan limit is reached.  If macro\n\
+expansion is breadth first, scanning the entire line counts as one scan.\n\
+If macro expansion is depth first, each time a macro is expanded counts\n\
+as one scan.  It is possible to save the previous scan limit by including,\n\
+the word \"push\" in front of the new value.  Previous values can be\n\
+returned to by using the word \"pop\" in place of the new value.",
+d2977 1
+d2985 2
+d2988 12
+d3008 1
+d3010 4
+a3013 3
+            "Show macro expansion parameters.\n\
+Show the state of macro expansion (depth first or breadth first), the macro\n\
+scan direction (left-to-right or right-to-left), and the macro scan limit.");
+d3021 7
+@
+
+
+1.35
+log
+@Support added for nested 'wcommands' (commands associated with
+watchpoints set inside user-defined commands).
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.34 89/11/30 22:21:45 paulg Exp $
+   $Locker: davidl $
+d1406 1
+d1423 1
+a1423 1
+      if (*last != '"')
+@
+
+
+1.34
+log
+@1) fixed BLK1441 (w/s beween macros)
+2) added "defined" to if elif and while
+3) added "not" to if elif and while
+4) the macro "macro-stack" is special: each time it is define via "macro" it
+   pushes its old value onto a stack; each time is is undefine it pops the
+   previos value from the stack.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.33 89/11/17 08:09:19 davidl Exp $
+   $Locker: paulg $
+d134 1
+d333 1
+d1880 1
+a1880 1
+      else if (c == commands_p || c == wcommands_p)
+d1885 5
+d3013 3
+@
+
+
+1.33
+log
+@Added Tek header information.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.32 89/11/17 07:40:19 davidl Exp $
+   $Locker: davidl $
+d103 1
+a103 1
+#define EAT_WHITESP_FRD(p)    while ((*(p) == ' ') || (*(p) == '\t')) ++(p);
+d117 1
+d314 1
+d936 1
+d940 1
+a940 1
+	*(p + 1) == 'c'))
+d970 1
+d1046 1
+a1046 1
+  if (which_list == match_expansions)
+d1155 12
+d1169 1
+a1169 1
+  if (arg && strncmp(arg, "match", 5) == 0 && cp && (*cp == ' ' || *cp == '\t'))
+d1173 3
+a1175 1
+      while ((*cp == ' ' || *cp == '\t') && cp < arg + strlen(arg)) cp++;
+d1184 1
+a1184 1
+        level->exec_state = exec_enabled;
+d1186 2
+a1187 1
+      else level->exec_state = exec_disabled;
+d1190 9
+d1214 3
+a1216 1
+  level->exec_state = val->contents[0] ? exec_enabled : exec_disabled;
+d1975 4
+a1978 6
+  int do_match = 0;
+  
+  cond = ((struct command_line *)(cmds))->line;
+  cp = cond + 5;
+  if (strncmp(cond, "match", 5) == 0 && (*cp == ' ' || *cp == '\t')) 
+      do_match = 1;
+d1981 1
+a1981 2
+      /* Test the condition. */
+      
+d1985 17
+a2001 1
+      if (do_match) {
+d2003 2
+a2004 2
+	/* Doing 'while match' ' */
+          while ((*cp == ' ' || *cp == '\t') && cp < cond + strlen(cond)) cp++;
+d2006 1
+a2006 1
+        /* 'while' succeeds only if we get a total match */
+d2008 9
+a2016 6
+          strncmp(match_string, match_expansions->string,
+		  strlen(match_string)) == 0) {
+        /*
+         * we have a total match.
+         */
+             do_cleanups(old_chain);
+d2018 22
+a2039 4
+         else break;
+      }
+
+      else {
+d2045 13
+a2057 5
+                   THE_UNKNOWN);
+          if (val->contents[0] == 0)
+            break;
+          do_cleanups (old_chain);
+      }
+d2250 1
+a2250 1
+/* Remember a user-defined macro. */
+d2256 2
+a2257 1
+  char *tem = args;
+d2261 1
+d2267 33
+d2301 1
+d2306 4
+a2309 1
+	tem = "Redefine user macro \"%s\"? ";
+d2311 4
+a2314 1
+	tem = "Really redefine built-in macro \"%s\"? ";
+d2317 23
+a2339 1
+      if (c->aux)
+d2344 1
+a2344 1
+ 
+d2347 2
+a2348 10
+      if (*body == 0)
+	body = 0;
+      else
+	{
+	  EAT_WHITESP_FRD (body);
+	  if (*body != '"')
+	    ui_badnews (-1, "Ill formed macro body.");
+	  tem = skip_quoted_string (body++);
+	  body = savestring(body, tem - body);
+        }
+d2350 2
+a2351 3
+
+  c = add_cmd (macname, class_user, 0, "User Macro", &macrolist);
+  c->aux = savestring (body, strlen(body));
+d2409 1
+a2409 1
+   while <condition/match>
+d2414 2
+a2415 2
+   repeatedly while <condition> evaluates to 1 or while the match is
+   successfull. */
+@
+
+
+1.32
+log
+@Added support for watchpoints.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.31 89/11/15 14:08:41 davidl Exp $
+d22 42
+@
+
+
+1.31
+log
+@Fixed bug in parse_string_list(). 
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.30 89/11/14 12:49:24 paulg Exp $
+d297 1
+d1732 1
+a1732 1
+                  1  'commands' command
+d1806 1
+a1806 1
+      else if (c == commands_p)
+d2100 36
+d2679 2
+d2807 4
+@
+
+
+1.30
+log
+@changed update_prompt and calls to it to reflect new argument usage.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.29 89/11/12 16:45:00 paulg Exp $
+   $Locker: paulg $
+d1326 1
+a1326 1
+	  if (ret_val)
+d1328 3
+d1341 3
+@
+
+
+1.29
+log
+@rearange things and add some comments.  Changed the names of some things to
+better match what was being done.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.25 89/11/06 19:17:14 davidl Exp $
+d1092 1
+a1092 1
+  update_prompt (2);
+a1370 1
+    nesting_level = 0;
+d1376 1
+d1408 4
+d2743 1
+a2743 1
+  update_prompt (0);
+@
+
+
+1.28
+log
+@Added my_lookup_cmd().  This isolates all our munging to allow dbx-style
+command names which don't fit gdb grammar, without modifying the parser
+or command.c.  It calls lookup_cmd() once it has done its stuff.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.27 89/11/09 13:03:51 davidl Exp $
+   $Locker: davidl $
+d33 1
+a122 18
+/*     +----------------------+     */
+/*  -=#|  Forward References  |#=-  */
+/*     +----------------------+     */
+
+
+
+static void match_command();
+static char *date_macro ();
+static char *line_macro ();
+static char *level_macro ();
+static char *is_outer_macro ();
+static char *cur_srcfile__macro ();
+static char *cur_function_macro ();
+void free_macro_expansion();
+struct cmd_list_element *my_lookup_cmd();
+
+
+
+d134 3
+a136 3
+struct expansion_el {
+  char *expansion;
+  struct expansion_el *next;
+d138 1
+a138 1
+typedef struct expansion_el *expansion_el;
+d186 69
+d264 2
+a265 2
+static expansion_el arg_expansions = 0;
+static expansion_el match_expansions = 0;  
+d280 1
+d327 1
+a327 1
+/* Count the number of entries in expansion list "l". */
+d329 36
+d366 2
+a367 2
+count_expansions (l)
+     expansion_el l;
+d376 1
+a376 1
+/* Return the "n"th element in expansion list "l". */
+d379 2
+a380 2
+get_an_expansion (l, n)
+     expansion_el l;
+d387 1
+a387 1
+      return l->expansion;
+a391 7
+static void
+perform_star_expansion (l, n)
+     expansion_el l;
+     int n;
+{
+  int count = 0;
+  int need_blank = 0;
+d393 1
+a393 9
+  for (; l; l = l->next)
+    if (count++ >= n)
+      {
+        if (need_blank)
+          obstack_1grow (meo, ' ');
+        need_blank = 1;
+        obstack_grow (meo, l->expansion, strlen(l->expansion));
+      }
+}
+d398 1
+a398 1
+     expansion_el l;
+d401 1
+a401 1
+    printf_filtered (fmt, l->expansion);
+a403 5
+void
+free_string_list (l)
+     expansion_el l;
+{
+  expansion_el next_l;
+d405 1
+a405 8
+  for (; l; l = next_l)
+    {
+      next_l = l->next;
+      if (l->expansion)
+        free (l->expansion);
+      free (l);
+    }
+}
+d407 2
+a408 3
+static char *
+skip_quoted_string (c)
+     register char *c;
+d410 1
+a410 17
+  for (;;)
+    {
+      ++c;
+      if (*c == '"')
+	return c;
+      if (*c == '\\')
+        ++c;
+    }
+  return c;
+}
+
+expansion_el
+parse_delims (text)
+     char *text;
+{
+  char *first, *last;
+  expansion_el ret_val, new, tail;
+a411 29
+  if (text == 0)
+    return 0;
+  
+  first = text;
+  while ((*first == ' ') || (*first == '\t')) ++first;
+  if (*first == '\0')
+    return 0;
+  
+  ret_val = 0;
+  last = first;
+  while (*last)
+    {
+      if (*last == ' ')
+	{
+	  new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+	  new->expansion = savestring (first, last - first);
+	  new->next = 0;
+	  if (ret_val)
+	    tail->next = new;
+	  else
+	    ret_val = new;
+	  tail = new;
+	  while ((*last == ' ') || (*last == '\t')) ++last;
+	  first = last;	  
+	}
+      ++last;
+    }
+  new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+  new->expansion = savestring (first, last - first);
+d413 2
+a414 5
+  if (ret_val)
+    tail->next = new;
+  else
+    ret_val = new;
+  return ret_val;
+d417 8
+d427 1
+a427 1
+     expansion_el prev;
+a432 12
+static expansion_el
+def_args_parse (cmd, args, delims)
+     char *cmd;
+     char *args;
+     expansion_el delims;
+{
+  expansion_el ret_val, new, tail;
+  expansion_el cd;
+  char *first, *last;
+  char delim_char;
+  char *p = args;
+  int dlen;
+d434 1
+a434 3
+  delim_char = 0;
+  if (p == 0)
+    return 0;
+a435 85
+  ret_val = (expansion_el) xmalloc (sizeof (struct expansion_el));
+  ret_val->expansion = savestring (cmd, strlen (cmd));
+  ret_val->next = 0;
+  tail = ret_val;
+
+  EAT_WHITESP_FRD (p);
+
+  if (p == 0)
+    return ret_val;
+
+  if (delims == 0)
+    delim_char = ',';
+  else if ((count_expansions (delims) == 1) &&
+	   (strlen (delims->expansion) == 1))
+    delim_char = *(delims->expansion);
+
+  first = p;
+  while (*p)
+    {
+      if (*p == '"')
+	p = skip_quoted_string (p);
+      else if (delim_char)
+	{
+	  if (*p == delim_char)
+	    {
+	      last = p++ - 1;
+	      EAT_WHITESP_BWD (last);
+	      new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+	      new->expansion = savestring (first, last - first +1);
+	      new->next = 0;
+	      tail->next = new;
+	      tail = new;
+	      EAT_WHITESP_FRD (p);
+	      first = p;
+	      continue;
+	    }
+	}
+      else
+	{
+	  for (cd=delims; cd; cd=cd->next)
+	    {
+	      dlen = strlen(cd->expansion);
+	      if ((strncmp (p, cd->expansion, dlen) == 0) &&
+		  ((p == args) ? 1 : (p[-1] == ' ')) &&
+		  ((p[dlen] ? (p[dlen] == ' ') : 1)))
+		{
+		  last = p - 1;
+		  EAT_WHITESP_BWD (last);
+		  if (last >= first)
+		    {
+		      new = (expansion_el)
+			xmalloc (sizeof (struct expansion_el));
+		      new->expansion = savestring (first, last - first + 1);
+		      new->next = 0;
+		      tail->next = new;
+		      tail = new;
+		    }
+		  new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+		  new->expansion = savestring (cd->expansion,
+					       strlen (cd->expansion));
+		  new->next = 0;
+		  tail->next = new;
+		  tail = new;
+		  p += strlen (cd->expansion);
+		  EAT_WHITESP_FRD (p);
+		  first = p--;
+		  break;
+		}
+	    }
+	}
+      if (*p)
+	++p;
+    }
+  last = p;
+  EAT_WHITESP_BWD (last);
+  if (last > first)
+    {
+      new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+      new->expansion = savestring (first, last - first);
+      new->next = 0;
+      tail->next = new;
+    }
+  return ret_val;
+}
+
+d438 1
+a438 1
+     expansion_el prev;
+d444 11
+a454 2
+static expansion_el
+new_expansion_el ()
+d456 17
+a472 5
+  expansion_el new = (expansion_el)xmalloc(sizeof (expansion_el));
+  
+  new->next = 0;
+  new->expansion = 0;
+  return new;
+d475 3
+d479 1
+a479 3
+error_bad_arg (want, got)
+     char *want;
+     char *got;
+d481 5
+a485 1
+  ui_badnews (-1, "This command wants %s, you typed \"%s\"", want, got);
+d488 4
+d512 4
+d524 1
+a524 2
+      (*save_fputs) (buf, stream);
+      return;
+d539 4
+d559 4
+a569 9
+static void
+restore_print_routines ()
+{
+  uiVector->uiv_fprintf = save_fprintf;
+  uiVector->uiv_fputs = save_fputs;
+  uiVector->uiv_fputc = save_fputc;
+  uiVector->uiv_fflush = save_fflush;
+  usingX = save_usingX;
+}
+d571 3
+a573 21
+static struct cleanup *
+init_fake_pr_routines ()
+{
+  save_fprintf = uiVector->uiv_fprintf;
+  save_fputs = uiVector->uiv_fputs;
+  save_fputc = uiVector->uiv_fputc;
+  save_fflush = uiVector->uiv_fflush;
+  save_usingX = usingX;
+  if (fake_pr_buffer == 0)
+    {
+      fake_pr_buffer = xmalloc (1024);
+      fake_pr_buffer_size = 1024;
+    }
+  fake_pr_ptr = fake_pr_buffer;
+  uiVector->uiv_fprintf = fake_fprintf;
+  uiVector->uiv_fputs = fake_fputs;
+  uiVector->uiv_fputc = fake_fputc;
+  uiVector->uiv_fflush = fake_fflush;
+  usingX = 1;
+  return make_cleanup (restore_print_routines, 0);
+}
+a574 12
+static char *
+expand_print_or_examine (is_print, arg, brace)
+     char *arg;
+     char *brace;
+{
+  struct expression *expr;
+  register struct cleanup *old_chain = 0;
+  register char format = 0;
+  register value val;
+  struct format_data fmt;
+  char *tmpstr;
+  CORE_ADDR examine_address;
+d576 1
+a576 7
+  if (brace)
+    {
+      tmpstr = savestring (arg, brace - arg);
+      old_chain = make_cleanup (free, tmpstr);
+    }
+  else
+    tmpstr = arg;
+a577 49
+  if (tmpstr && *tmpstr == '/')
+    {
+      tmpstr++;
+      fmt = decode_format (&tmpstr, last_format, 0);
+      if (is_print)
+	validate_format (fmt, "print");
+      last_format = format = fmt.format;
+    }
+
+  if (tmpstr && *tmpstr)
+    {
+      expr = parse_c_1 (&tmpstr, 0, 0);
+      if (brace && *tmpstr)
+	ui_badnews (-1, "Junk after end of expression in macro.");
+      if (old_chain)
+	(void) make_cleanup (free_current_contents, &expr);
+      else
+	old_chain = make_cleanup (free_current_contents, &expr);
+      val = evaluate_expression (expr);
+    }
+  else
+    val = access_value_history (0);
+
+  if (old_chain)
+    (void) init_fake_pr_routines ();
+  else
+    old_chain = init_fake_pr_routines ();
+
+  if (is_print)
+    print_formatted (val, format, fmt.size);
+  else
+    {
+      if (last_format == 'i'
+	  && TYPE_CODE (VALUE_TYPE (val)) != TYPE_CODE_PTR
+	  && VALUE_LVAL (val) == lval_memory)
+	examine_address = VALUE_ADDRESS (val);
+      else
+	examine_address = (CORE_ADDR) value_as_long (val);
+      do_examine (format, examine_address);
+    }
+
+  obstack_grow (meo, fake_pr_buffer, fake_pr_ptr - fake_pr_buffer);
+  do_cleanups (old_chain);
+
+  if (brace)
+    return brace + 1;
+  return tmpstr;
+}
+
+d600 3
+d604 1
+a604 1
+line_macro(arg)
+d681 1
+d701 2
+d704 1
+a704 1
+cur_srcfile_macro(arg)
+d716 2
+d719 1
+a719 1
+level_macro()
+d727 3
+d731 1
+a731 1
+is_outer_macro()
+d750 3
+d755 1
+d758 96
+d864 1
+a864 1
+  expansion_el which_list = arg_expansions;
+d908 1
+a908 1
+      sprintf (sml_buffer, "%d", count_expansions (which_list));
+d994 1
+a994 1
+      return get_an_expansion (which_list, number);
+d1002 1
+a1002 1
+      p2 = (count_expansions (match_expansions) ? "success" : "failure");
+d1012 3
+a1046 17
+struct command_line *
+copy_command_lines (in)
+     register struct command_line *in;
+{
+  register struct command_line *out;
+  extern char *macro_expand();
+  
+  if (in == 0)
+    return 0;
+  
+  out = (struct command_line *) xmalloc (sizeof (struct command_line));
+  
+  out->cmd = in->cmd;
+  if (in->cmd && (in->cmd->class == class_nested))
+    out->line = (char *) copy_command_lines ((struct command_lines *)in->line);
+  else {
+    char *tmp;
+d1048 3
+a1050 9
+/* We may want to expand macros in ALL cases, not just if class != nested */
+    tmp = macro_expand(in->line, in->cmd);
+    out->line = savestring(tmp, strlen (tmp));
+    free_macro_expansion(tmp);
+  }
+  out->next = copy_command_lines (in->next);
+  
+  return out;
+}
+a1051 40
+static void
+set_either_prompt (which, text)
+     int which;
+     char *text;
+{
+  char *p, *q;
+  register int c;
+  char *new;
+  void update_prompt ();
+  
+  if (text == 0)
+    error_no_arg ("string to which to set prompt");
+  
+  new = (char *) xmalloc (strlen (text) + 2);
+  p = text; q = new;
+  while (c = *p++)
+    {
+      if (c == '\\')
+	{
+	  /* \ at end of argument is used after spaces
+	     so they won't be lost.  */
+	  if (*p == 0)
+	    break;
+	  c = parse_escape (&p);
+	  if (c == 0)
+	    break; /* C loses */
+	  else if (c > 0)
+	    *q++ = c;
+	}
+      else
+	*q++ = c;
+    }
+  if (*(p - 1) != '\\')
+    *q++ = ' ';
+  *q++ = '\0';
+  new = (char *) xrealloc (new, q - new);
+  free (prompt[which]);
+  prompt[which] = new;
+  update_prompt (2);
+}
+d1053 2
+d1095 1
+d1097 1
+d1099 1
+a1099 1
+eval_and_set_state(arg, level)
+d1118 1
+a1118 1
+	  strncmp(match_string, match_expansions->expansion,
+d1152 14
+d1167 40
+d1212 23
+d1236 31
+d1268 2
+a1269 1
+update_prompt (delta)
+d1271 96
+a1366 1
+  switch (delta) {
+d1379 1
+a1379 1
+    ui_badnews (1, "Internal: update_prompt called with arg %d\n", delta);
+d1394 3
+d1410 12
+a1421 3
+void
+free_macro_expansion (old)
+     char *old;
+d1423 2
+a1424 2
+  obstack_free (meo, old);
+}
+d1432 1
+a1432 8
+char *
+macro_expand (in, c)
+     char *in;
+     struct cmd_list_element *c;
+{
+  int scans_done;
+  char *old, *new;
+  
+d1452 6
+a1457 2
+static void
+print_command_aux (c)
+d1460 5
+a1464 4
+  if (c->aux == 0)
+    return;
+  /*  print_command_aux ((struct cmd_list_element *)(c->aux));*/
+  printf_filtered ("%s", ((struct cmd_list_element *)(c->aux))->prefixname);
+d1467 198
+d1698 3
+a1700 1
+	  print_command_aux (cmdlines->cmd);
+d1716 2
+a1717 9
+/* Possible values of KIND here:
+ *     0  'document' command
+ *     1  'commands' command
+ *     2  'while'  command
+ *     3  'define' command
+ *     4  nested 'define' command
+ *  If kind != 0 && kind != 4, check commands for validity.
+ *  If kind == 1, a 'silent' command is a legal initial command.
+ */
+d1720 7
+a1726 1
+     int kind; 
+d1781 1
+a1781 1
+          ui_badnews (-1, "%s: this is not a command, just a help topic.", p);
+d1821 2
+a1822 1
+          next = (struct command_line *) xmalloc (sizeof (struct command_line));
+d1826 2
+a1827 1
+          ((struct command_line *)(next->line))->line = savestring (p, p1 - p);
+d1836 2
+a1837 1
+	  next = (struct command_line *) xmalloc (sizeof (struct command_line));
+a1869 9
+skip_execute (c)
+     struct cmd_list_element *c;
+{
+  if (cond_stack == 0)
+    return 0;
+  if (c->class == (int) class_conditional)
+    return 0;
+  return (cond_stack->exec_state != exec_enabled);
+}
+a1870 12
+struct cleanup *
+push_def_expansions (name, text, delims)
+     char *name;
+     char *text;
+     expansion_el delims;
+{
+  struct cleanup *old_chain;
+  
+  old_chain = make_cleanup (arg_expansions_cleanup, arg_expansions);
+  arg_expansions = def_args_parse (name, text, delims);
+  return old_chain;
+}
+a1871 12
+struct cleanup *
+push_match_expansions ()
+{
+  struct cleanup *old_chain;
+  
+  old_chain = make_cleanup (match_expansions_cleanup, match_expansions);
+  match_expansions = 0;
+  return old_chain;
+}
+
+
+
+d1878 2
+d1912 1
+a1912 1
+          strncmp(match_string, match_expansions->expansion,
+d1955 3
+d1988 1
+a1988 1
+      real_cmds->line = (char *) parse_delims (extra);
+d1995 3
+a1997 2
+  add_com (comname, class_user, real_cmds, (c && c->class == (int) class_user)
+	   ? c->doc : savestring ("User-defined.", 13));
+d2000 3
+d2054 1
+d2057 35
+d2138 4
+a2141 1
+/* Assigns a value to the 'fileoffuncname' macro.
+d2143 1
+d2145 2
+a2146 2
+assign_funcname_command(arg)
+     char *arg;
+d2148 36
+a2183 2
+   char cmdstring[1024];
+   int desc;
+a2184 12
+   /* If 'arg' is the name of a file we can find, just use it.  
+    * If not, try to find a source file containing a function named 'arg'.
+    * If that fails, set the `fileoffuncname macro to NOT_FOUND.
+    */
+   desc = openp (source_path, 0, arg, O_RDONLY, 0, 0);
+   if (desc != -1) {
+	sprintf(cmdstring, "fileoffuncname \"%s\"", arg);
+        close(desc);
+   }
+   else { 
+        struct symtabs_and_lines sals;
+        struct symtab_and_line sal;
+d2186 3
+a2188 12
+	if (lookup_symbol(arg, 0, VAR_NAMESPACE, 0)) {
+            sals = decode_line_spec(arg, 0);
+            sal = sals.sals[0];
+            free (sals.sals);
+            sprintf(cmdstring, "fileoffuncname \"%s\"", sal.symtab->filename);
+        }
+        else {
+	    sprintf(cmdstring, "fileoffuncname \"NOT_FOUND\"");
+        }
+   }
+   macro_command(cmdstring);
+}
+a2189 19
+static void
+set_autorepeat (arg)
+     char *arg;
+{
+  if (arg == 0)
+    {
+      autorepeat = ! autorepeat;
+      return;
+    }
+  EAT_WHITESP_FRD (arg);
+  if (*arg == 0)
+    autorepeat = ! autorepeat;
+  else if (strcmp (arg, "on") == 0)
+    autorepeat = 1;
+  else if (strcmp (arg, "off") == 0)
+    autorepeat = 0;
+  else
+    error_bad_arg ("\"on\" or \"off\"", arg);
+}
+d2191 1
+a2191 6
+static void
+autorepeat_info ()
+{
+  printf_filtered ("The autorepeat feature is %s.\n",
+		   (autorepeat ? "on" : "off"));
+}
+d2193 3
+a2195 6
+static void
+set_prompt_command (arg)
+     char *arg;
+{
+  set_either_prompt_command (0, arg);
+}
+d2197 3
+a2199 6
+static void
+set_prompt2_command (arg)
+     char *arg;
+{
+  set_either_prompt_command (1, arg);
+}
+a2201 46
+user_info (cmd_name)
+     char *cmd_name;
+{
+  struct cmd_list_element *c;
+  register struct command_line *cmdlines;
+  
+  if (cmd_name && *cmd_name)
+    {
+      c = lookup_cmd (&cmd_name, cmdlist, "", 0, 1);
+      if (c == 0) return; /* Just to be sure. */
+      if (c->function == 0)
+	ui_badnews (-1,"That is not a command, just a help topic.");
+      if (c->class != (int) class_user)
+        ui_badnews (-1, "That is not a user command.");
+      printf_filtered ("define %s ", c->name);
+      cmdlines = (struct command_line *) c->function;
+      if (cmdlines->cmd == (struct cmd_list_element *) INVALID_CORE_ADDR)
+	{
+	  print_string_list ("%s ", cmdlines->line);
+	  cmdlines = cmdlines->next;
+	}
+      printf_filtered ("\n");
+      print_command_lines (0, cmdlines);
+      printf_filtered ("end\n");
+    }
+  else
+    for (c = cmdlist; c; c = c->next)
+      {
+        cmdlines = (struct command_line *) c->function;
+        if (cmdlines == 0)
+          continue;
+        if (c->class != (int) class_user)
+          continue;
+        printf_filtered ("define %s ", c->name);
+	if (cmdlines->cmd == (struct cmd_list_element *) INVALID_CORE_ADDR)
+	  {
+	    print_string_list ("%s ", cmdlines->line);
+	    cmdlines = cmdlines->next;
+	  }
+	printf_filtered ("\n");
+	print_command_lines (0, cmdlines);
+	printf_filtered ("end\n");
+      }
+}
+
+void
+d2245 20
+a2264 1
+void
+d2293 4
+a2296 1
+void
+d2326 4
+a2329 1
+void
+d2357 4
+a2360 1
+void
+d2383 8
+d2392 2
+a2393 1
+macro_info ()
+d2395 1
+a2395 11
+  struct cmd_list_element *c;
+  struct scanlimit_element *slp;
+  char tmp_buf[256];
+
+  if (isprint(tickchr))
+    printf_filtered ("The macro escape character is: %c\n", tickchr);
+  else
+    printf_filtered ("The macro escape character is unprintable: no macro expansion.\n");
+  if (macro_scan_limit <= 0)
+    printf_filtered ("Scan limit is zero: no macro expansion.\n");
+  else
+d2397 2
+a2398 21
+      printf_filtered ("A command line will be scanned at most %d time(s).\n",
+			 macro_scan_limit);
+      if (scanlimit_stack)
+	{
+	  printf_filtered ("Previous scan limits:");
+	  for (slp=scanlimit_stack; slp; slp=slp->next)
+	    printf_filtered (" %d", slp->limit);
+	  printf_filtered ("\n");
+	}
+      printf_filtered("\nBuiltin Macros:\n");
+      for (c=macrolist; c; c=c->next)  if (c->class == no_class)
+	{
+	  printf_filtered("%c%s ", tickchr, c->name);
+	  if (c->function)
+	    {
+	      strcpy (tmp_buf, (*((char *(*)())(c->function)))(c->aux));
+	      printf_filtered("\"%s\"\n", tmp_buf);
+	    }
+	  else
+	    printf_filtered("\"%s\"\n", c->aux);
+	}
+d2400 9
+a2408 5
+  printf_filtered("\nUser Macros:\n");
+  for (c=macrolist; c; c=c->next)  if (c->class == class_user)
+    {
+      printf_filtered("%c%s \"%s\"\n", tickchr, c->name, c->aux);
+    }
+d2411 3
+d2415 20
+d2443 7
+d2491 3
+a2493 13
+/* This stores matches in a list, the head of which is pointed to by
+ * match_expansions. Notice that we don't free this list in this module.
+ * Caller is responsible for that.
+ * We store at most RE_NREGS - 1 matches (currently 9), even though we will
+ * march through as many matches as are supplied in the pattern.  Thus matches
+ * 10 and subsequent are lost.
+ * The first element on the list is the entire string matched by pattern; if
+ * no matches are specified in pattern by \(..\), that's all the list will
+ * contain.  Thus
+ *	"hiya"	hiya	generates a list containing one element, "hiya"
+ *	"\(hiya\)" hiya generates a list containing two elements, "hiya"
+ *		(entire match) and "hiya" (exact match returned)
+ *	"hiya" woops    generates a zero list (match_expansions set to 0)
+a2494 37
+static void
+match_routine(matchbuf, mstring)
+     struct re_pattern_buffer *matchbuf;
+     char *mstring;
+{
+  int n = 1;
+  struct re_registers myregs;
+  expansion_el match_node;
+  int num_matched;
+  
+  num_matched = re_match(matchbuf, mstring, strlen(mstring),  0, &myregs);
+  if (num_matched >= 1) {
+    /* Save entire matched pattern */
+    match_node = new_expansion_el ();
+    match_node->expansion = savestring(mstring, num_matched);
+    match_expansions = match_node;
+    /* Save matches */
+    while (n < RE_NREGS) {
+      match_node->next = new_expansion_el ();
+      match_node = match_node->next;
+      if ((myregs.end[n] <= myregs.start[n])
+	  || (myregs.end[n] > myregs.end[0]))
+	{
+	  match_node->expansion = savestring("", 0);
+	}
+      else
+	{              
+	  match_node->expansion =
+	    savestring(mstring + myregs.start[n], 
+		       myregs.end[n] - myregs.start[n]);
+	}
+      n++;
+    }
+  }
+  else
+    match_expansions = 0;
+}
+a2495 1
+struct re_pattern_buffer buf;
+d2497 2
+d2500 1
+a2500 1
+free_match()
+d2502 2
+a2503 3
+  free(match_string);
+  free(match_pattern);
+  free(buf.buffer);
+d2506 3
+a2508 4
+/* This is passed a string which should contain "....." ......
+ * where the "..." part is the pattern to match, and the ..... is the
+ * string to match against it.  
+ */
+d2510 2
+a2511 2
+match_command(line)
+     char *line;
+d2513 2
+a2514 3
+  char *mark;
+  char fastmap[(1 << BYTEWIDTH)];
+  int len;
+d2516 37
+a2552 31
+  if (line == 0)
+    error_no_arg ("pattern to match against");
+  if (*line != '"')
+    ui_badnews(-1, "must begin pattern with \" character");
+  
+  /* Make sure we skip over " chars which are escaped thus \"  */
+  mark = skip_quoted_string (line++);
+  match_pattern = savestring(line, mark++ - line);
+  
+  /* Now skip white space, everything else is the string to match against
+   * the pattern
+   */
+  while (*mark && (*mark == ' ' || *mark == '\t'))
+    mark++;
+  if (*mark == '\0') {
+    free(match_pattern);
+    error_no_arg ("string to match against pattern");
+  }
+  match_string = savestring(mark, strlen(mark));
+  
+  /* Now we know we have a good pattern and string.  Compile the
+   * pattern and do the match.
+   */
+  buf.allocated = 40;
+  buf.buffer = (char *) xmalloc (buf.allocated);
+  
+  /* Currently re_match makes no use of fastmaps; no use supplying one */
+  /*buf.fastmap = fastmap;*/
+  re_compile_pattern(match_pattern, strlen(match_pattern), &buf);
+  /*re_compile_fastmap(&buf);*/
+  match_routine(&buf, match_string);
+d2556 2
+d2559 2
+a2560 13
+/* This is to allow us to expand the grammar set for command names without
+ * munging either the expression parser or command.c.  We look at the incoming
+ * command name and examine it for a certain set of known attributes, and
+ * make the right substitutions accordingly, then call lookup_cmd() with the
+ * result.
+ */
+struct cmd_list_element *
+my_lookup_cmd (line, list, cmdtype, allow_unknown, ignore_help_classes)
+    char **line;
+    struct cmd_list_element *list;
+    char *cmdtype;
+    int allow_unknown;
+    int ignore_help_classes;
+d2562 3
+a2564 9
+/* Currently these are the 'special characters' we know about; if the command
+ * starts with one of these, we substitute known values for the special
+ * character and call lookup_cmd.
+ *       >   redirect-output
+ *  	 /   forward-search
+ *       ?   reverse-search
+ */
+      char *p = *line;
+      char *newcmd;
+d2566 35
+a2600 27
+      while (*p == ' ' || *p == '\t') p++;
+      if (*p != '/' && *p != '?' && *p != '>')
+  	return (lookup_cmd(line, list, cmdtype, allow_unknown, 
+		ignore_help_classes));
+
+      if (*p == '>') {
+	newcmd = (char *) alloca(strlen(p) + strlen("redirect-output "));
+        sprintf(newcmd, "redirect-output %s", p + 1);
+      }
+      else if (*p == '/') {
+	newcmd = (char *) alloca(strlen(p) + strlen("forward-search "));
+        sprintf(newcmd, "forward-search %s", p + 1);
+        p = newcmd + strlen(newcmd) - 1;
+        while (*p == ' ' || *p == '\t') p--;
+        if (*p == '/') *p = '\0';
+      }
+      else {  /* *p == '?' */
+	newcmd = (char *) alloca(strlen(p) + strlen("reverse-search "));
+        sprintf(newcmd, "reverse-search %s", p + 1);
+        p = newcmd + strlen(newcmd) - 1;
+        while (*p == ' ' || *p == '\t') p--;
+        if (*p == '?') *p = '\0';
+      }
+      /*  free (*line); */
+      *line = newcmd;
+      return (lookup_cmd(line, list, cmdtype, allow_unknown, 
+		ignore_help_classes));
+d2604 1
+d2611 3
+d2618 3
+a2620 1
+  /* Add GDB Commands */
+d2631 1
+a2631 1
+	"Assign value to \"fileoffuncname\" macro.");
+d2650 3
+a2652 1
+  /* Add Set Sub-Commands */
+d2674 3
+a2676 1
+  /* Add Info Sub-Commands */
+d2694 3
+a2696 1
+  /* Keyword Macros */
+d2731 3
+a2733 1
+  /* Other Initializations */
+d2742 4
+a2792 2
+
+
+@
+
+
+1.27
+log
+@Added assign-funcname command, which assigns to the "fileoffuncname"
+command.  Thus 'assign-funcname file_name' is the same as
+'macro fileoffuncname "file_name"    and
+'assign-funcname  function_name'  is the same as
+'macro fileoffuncname "filename_in_which_function_name_is_defined"
+
+This is in order to accommodate dbx-style commands which give an 
+argument which may be either a filename or a function name.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.26 89/11/08 10:35:59 davidl Exp $
+d136 1
+d1426 1
+a1426 1
+        c = lookup_cmd (&psav, cmdlist, "", 1, 1);
+d1428 2
+d1440 1
+a1440 1
+        c = lookup_cmd (&psav, cmdlist, "", 0, 1);
+d1446 2
+d2265 54
+d2490 2
+@
+
+
+1.26
+log
+@Added check in read_command_lines to find a 'while' nested within a
+nested 'define', in which case 'kind' must change for the next call to
+read_command_lines.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.25 89/11/06 19:17:14 davidl Exp $
+   $Locker:  $
+d1781 2
+d1784 33
+d2280 2
+@
+
+
+1.25
+log
+@Some changes in expand_single_macro so that macros such as `c are not
+improperly treated as abbreviations for other macro commands.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.24 89/11/02 18:07:31 davidl Exp $
+d1419 2
+d1422 5
+a1426 1
+        c = 0;
+@
+
+
+1.24
+log
+@Added is_outer macro; returns 1 if current frame is outermost, else 0.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.23 89/11/02 15:36:00 paulg Exp $
+   $Locker: davidl $
+d910 24
+d937 13
+a949 12
+  p2 = p;
+  c = lookup_cmd (&p2, macrolist, "*macro*", -1, 0);
+  if ((c) && (! matching_brace || (p2 == matching_brace)))
+    {
+      if (matching_brace)
+	++p2;
+      *pp = p2;
+      if (c->function)
+	p2 = (*((char *(*)())(c->function)))(c->aux);
+      else
+	p2 = c->aux;
+      return p2;
+d954 1
+a954 1
+  if (*p == PRINTCHR)
+d962 1
+a962 1
+  if (*p == EXAMINECHR)
+a965 20
+    }
+  
+  /* If the form is m..., then what follows references the match stuff. */
+  
+  if (*p == MATCHCHR)
+    {
+      ++p;
+      which_list = match_expansions;
+    }
+  
+  /* See if a count is being requested: `c `{c} `mc or `{mc} */
+  
+  if (*p == COUNTCHR)
+    {
+      ++p;
+      if (matching_brace && (matching_brace != p))
+        goto failure_label;
+      sprintf (sml_buffer, "%d", count_expansions (which_list));
+      *pp = p;
+      return sml_buffer;
+@
+
+
+1.23
+log
+@1) get rid (partialy) of depth-first macro expansion. 2) expansion of `m now
+controled by two macros: `success and `failure.  3) `lastbreak now expands
+to number of most reciently defined break-point.\
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.22 89/11/02 12:43:11 davidl Exp $
+   $Locker: paulg $
+d132 1
+d849 6
+d856 11
+d870 2
+d2306 2
+@
+
+
+1.22
+log
+@We now check in macro_expand, and only expand if current exec_state is
+enabled, OR if all of the following are true:
+	current command is 'elif'
+	current state is disabled
+	previous state was NOT disabled
+
+This necessitates a second parameter to macro_expand, namely the current
+command.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.21 89/11/01 15:03:25 davidl Exp $
+   $Locker:  $
+a25 1
+/*-=#|  Include Files  |#=-*/
+d27 6
+a48 1
+/*-=#|  #Define's  |#=-*/
+d50 7
+d71 2
+a72 3
+
+#define SUCCEEDEDMSG          "succeeded"
+#define FAILEDMSG             "failed"
+a74 1
+/*-=#|  External Subroutines  |#=-*/
+d76 7
+d97 1
+a98 1
+/*-=#|  Data Global To Entire Program, Not Defined In This File  |#=-*/
+d100 7
+a119 1
+/*-=#|  Forward References  |#=-*/
+d121 7
+a135 1
+/*-=#|  Type Definitions  |#=-*/
+d137 12
+d155 13
+d180 4
+d189 2
+a190 1
+/* this data struct is from printcmd.c: it should be in a common include. */
+a198 1
+/*-=#|  Data Global Within This File Only  |#=-*/
+d200 7
+d209 1
+d212 2
+a213 1
+static int macro_breadth_first = 1;
+d216 2
+a217 1
+static char tickchr = DFLTTICKCHR;
+d220 1
+d222 18
+d247 8
+a254 4
+static struct cmd_list_element nested_define;
+static struct cmd_list_element nested_commands;
+static struct cmd_list_element nested_document;
+static struct cmd_list_element nested_while;
+a262 1
+static char *string, *pattern;
+a263 1
+static struct cmd_list_element *macrolist;
+a264 1
+/*-=#|  Utility Routines Available In This File Only  |#=-*/
+d266 8
+d284 3
+d838 1
+d996 4
+a999 1
+      return count_expansions (match_expansions) ? SUCCEEDEDMSG : FAILEDMSG;
+a1031 2
+          if (! macro_breadth_first)
+	    return obstack_copy0 (meo, in, strlen (in));
+d1167 3
+a1169 2
+      if (string && strlen(string) &&
+	  strncmp(string, match_expansions->expansion, strlen(string)) == 0) {
+a1201 1
+/*-=#|  Utility Routines Available Globaly  |#=-*/
+d1203 6
+a1526 1
+/*-=#|  Nested GDB Commands  |#=-*/
+d1528 7
+d1566 3
+a1568 2
+          if (string && strlen(string) &&
+          strncmp(string, match_expansions->expansion, strlen(string)) == 0) {
+a1694 1
+/*-=#|  GDB Commands  |#=-*/
+d1696 7
+a1997 2
+  printf_filtered ("Macro expansion is %s first.\n",
+                   macro_breadth_first ? "breadth" : "depth");
+d2006 1
+a2006 2
+      if (macro_breadth_first)
+	printf_filtered ("A command line will be scanned at most %d time(s).\n",
+a2007 2
+      else
+	printf_filtered ("A command line will be scanned until at most %d macro(s) have been expanded.\n");
+a2044 15
+set_macro_expansion (arg)
+     char *arg;
+{
+  if (arg == 0)
+    error_no_arg ("\"breadth\" or \"depth\"");
+  EAT_WHITESP_FRD (arg);
+  if (strcmp (arg, "breadth") == 0)
+    macro_breadth_first = 1;
+  if (strcmp (arg, "depth") == 0)
+    macro_breadth_first = 0;
+  else
+    error_bad_arg ("\"breadth\" or \"depth\"", arg);
+}
+
+static void
+d2142 2
+a2143 2
+  free(string);
+  free(pattern);
+d2166 1
+a2166 1
+  pattern = savestring(line, mark++ - line);
+d2174 1
+a2174 1
+    free(pattern);
+d2177 1
+a2177 1
+  string = savestring(mark, strlen(mark));
+d2187 1
+a2187 1
+  re_compile_pattern(pattern, strlen(pattern), &buf);
+d2189 1
+a2189 1
+  match_routine(&buf, string);
+a2191 1
+/*-=#|  Initializations  |#=-*/
+d2193 7
+a2233 9
+  new = add_cmd ("expand", class_obscure, set_macro_expansion,
+		 "Change gdb's macro expansion algorithm.\n\
+When gdb expands macros, it does so either depth first or breadth first.\n\
+Use \"depth\" to select depth first expansion.\n\
+Use \"breadth\" to select breadth first expansion.\n\
+(See also: set scan)",
+                 &setlist);
+  if (new)
+    new->aux = (char *) set_cmd;
+d2293 11
+@
+
+
+1.21
+log
+@Add `file macro (current source file) and `level macro (current frame 
+level).
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.20 89/10/31 17:07:49 davidl Exp $
+   $Locker: davidl $
+d158 1
+d736 1
+a736 1
+      ui_badnews(-1,"No default source file yet.");
+d957 1
+a957 1
+    tmp = macro_expand(in->line);
+d1154 6
+d1161 1
+a1161 1
+macro_expand (in)
+d1163 1
+d1172 12
+a1183 8
+  for (scans_done = 0; scans_done < macro_scan_limit; ++scans_done)
+    {
+      new = do_macro_scan_right (old);
+      if (new == 0)
+        return old;
+      free_macro_expansion (old);
+      old = new;
+    }
+d1446 1
+a1446 1
+      cond = macro_expand (cmdlines->line);
+d1510 1
+a1510 1
+  tem = macro_expand (cmdlines->line);
+d2227 4
+@
+
+
+1.20
+log
+@Added 'while match'.
+
+Call free_macro_expansion in copy_command_lines to correctly free
+obstack chunk.
+
+Add kind 4 in read_command_lines, for nested defines.  In this case
+don't check command validity, as we may be defining commands as macros
+which aren't yet evaluated.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.19 89/10/27 19:41:55 paulg Exp $
+   $Locker:  $
+d95 1
+d102 2
+d727 11
+d740 13
+d2177 2
+d2181 3
+@
+
+
+1.19
+log
+@commented out davidl's "fix" in do_macro_scan_right.  Spiffed up
+"set_autorepeat" and added an info command for autorepeat.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.18 89/10/27 14:29:58 davidl Exp $
+   $Locker: paulg $
+d102 1
+d704 2
+d926 6
+a931 2
+    in->line = macro_expand(in->line);
+    out->line = savestring(in->line, strlen (in->line));
+d1212 2
+a1213 1
+ *  If kind != 0, check commands for validity.
+a1214 1
+ *  If kind == 1 or kind == 2, macro expansion is done here.
+d1249 1
+d1275 1
+a1275 1
+          new_kind = 3;
+d1395 2
+d1398 4
+d1409 22
+a1430 5
+      expr = parse_c_expression (cond);
+      (void) make_cleanup (free_current_contents, &expr);
+      val = evaluate_expression (expr);
+      if (val->lval == lval_reg_invalid)
+        ui_badnews(-1, "condition is #%s=%s#", reg_names[VALUE_REGNO (val)],
+d1432 4
+a1435 3
+      if (val->contents[0] == 0)
+        break;
+      do_cleanups (old_chain);
+@
+
+
+1.18
+log
+@Better (I think) treatment of multiple tickchars in do_macro_scan_right.
+
+Added macro_expansion in copy_command_lines.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.17 89/10/26 09:51:27 davidl Exp $
+   $Locker:  $
+d51 1
+d123 5
+d144 2
+a145 1
+static int macro_scan_limit = 1;
+d893 1
+a893 1
+      if (in != p) break;
+d1561 2
+a1562 2
+set_autorepeat (text)
+     char *text;
+d1564 14
+a1577 3
+  if (text[0] != 'o') return;
+  if (text[1] != 'n') autorepeat = 0;
+  if (text[1] != 'f') autorepeat = 1;
+d1581 1
+a1581 2
+set_prompt_command (text)
+     char *text;
+d1583 2
+a1584 1
+  set_either_prompt_command (0, text);
+d1588 2
+a1589 2
+set_prompt2_command (text)
+     char *text;
+d1591 1
+a1591 1
+  set_either_prompt_command (1, text);
+d1595 7
+d1805 1
+a1815 3
+  else if (macro_breadth_first)
+    printf_filtered ("A command line will be scanned at most %d time(s).\n",
+		     macro_scan_limit);
+a1816 3
+    printf_filtered ("A command line will be scanned until at most %d macro(s) have been expanded.\n");
+  printf_filtered("\nBuiltin Macros:\n");
+  for (c=macrolist; c; c=c->next)  if (c->class == no_class)
+d1818 6
+a1823 2
+      printf_filtered("%c%s ", tickchr, c->name);
+      if (c->function)
+d1825 4
+a1828 2
+	  strcpy (tmp_buf, (*((char *(*)())(c->function)))(c->aux));
+	  printf_filtered("\"%s\"\n", tmp_buf);
+d1830 12
+a1841 2
+      else
+	printf_filtered("\"%s\"\n", c->aux);
+d1879 1
+d1884 29
+a1912 4
+  for (p = arg; *p; ++p)
+    if ((*p < '0') && (*p > '9'))
+      ui_badnews (-1, "Argument must be numeric.");
+  macro_scan_limit = atoi (arg);
+d2040 1
+a2040 1
+arguments can be \"on\" or \"off\".",
+d2042 2
+d2073 3
+a2075 1
+as one scan.",
+d2097 7
+@
+
+
+1.17
+log
+@We forgot to connect up the match_nodes to the match list, so that `mn was
+always zero unless n == 0.  Fixed this.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.16 89/10/25 19:17:05 davidl Exp $
+   $Locker: davidl $
+d886 1
+d905 1
+d915 2
+a916 1
+  else
+d918 1
+d1192 10
+d1204 1
+a1204 1
+     int kind; /* 0: don't check; 1: silent OK as 1st; otherwise: check all */
+d1225 1
+d1260 1
+a1260 1
+          new_kind = 2;
+@
+
+
+1.16
+log
+@Added `line and `func macros.  
+
+Fixed spelling errors and other nits.
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.15 89/10/24 17:23:42 donhar Exp $
+d863 1
+a863 1
+  ui_badnews (-1, "Ill formed marcro");
+d1870 2
+a1871 1
+      match_node = new_expansion_el ();
+@
+
+
+1.15
+log
+@added set_autorepeat() support function.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.14 89/10/24 15:58:16 paulg Exp $
+   $Locker: donhar $
+d37 1
+d93 1
+d99 2
+d620 96
+d1767 1
+a1767 1
+  printf_filtered ("Macro expantion is %s first.\n",
+d1772 1
+a1772 1
+    printf_filtered ("The macro escape character is unprintable: no macro expantion.\n");
+d1774 1
+a1774 1
+    printf_filtered ("Scan limit is zero: no macro expantion.\n");
+d2023 1
+a2023 1
+  new = add_cmd ("rcsid", no_class, 0, "Gdb's rcs id.", macrolist);
+d2025 1
+a2025 1
+  new = add_cmd ("version", no_class, 0, "Gdb's version number.", macrolist);
+d2027 5
+@
+
+
+1.14
+log
+@added user defineable macros using the "macro" command.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.13 89/10/23 16:27:16 davidl Exp $
+   $Locker: paulg $
+d82 1
+d1439 9
+d1860 4
+@
+
+
+1.13
+log
+@Strip enclosing double quotes from pattern before compiling it in match_command.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.12 89/10/19 15:49:30 paulg Exp $
+   $Locker: davidl $
+d89 2
+a116 7
+struct special_macro
+{
+  int name_length;
+  char *name;
+  char *(*special_routine)();
+};
+
+d158 1
+a158 4
+static struct special_macro specials [] = {
+  {4, "date", date_macro},
+  {0, 0, 0}
+};
+d296 1
+a296 1
+def_args_parse (cmd, p, delims)
+d298 1
+a298 1
+     char *p;
+d305 2
+d353 4
+a356 1
+	      if (strncmp (p, cd->expansion, strlen(cd->expansion)) == 0)
+d593 2
+a594 1
+date_macro ()
+d596 2
+a597 3
+  char *date_string;
+  char *eol;
+
+d600 2
+d603 2
+a604 2
+  date_string = ctime (&machine_time);
+  if ((date_string) && *date_string)
+d609 1
+d611 1
+a611 1
+  return date_string;
+d626 1
+a626 1
+  struct special_macro *spec_ptr;
+d655 3
+a657 1
+  for (spec_ptr = specials; spec_ptr->name_length; ++spec_ptr)
+d659 8
+a666 9
+      if (strncmp (spec_ptr->name, p, spec_ptr->name_length) == 0)
+	{
+	  p += spec_ptr->name_length;
+	  if (matching_brace && (p != matching_brace))
+	    break;
+	  *pp = p;
+	  p = (*(spec_ptr->special_routine))();
+	  return p;
+	}
+d1391 47
+d1654 3
+d1670 17
+d1690 9
+a1788 2
+
+
+d1849 1
+d1883 7
+d1901 12
+@
+
+
+1.12
+log
+@fix bug in def_arg_scan,  got rid of unimplimented `e macro form, implimented
+`p and \x macro forms.  Got `date macro to work.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.11 89/10/10 12:23:17 paulg Exp $
+   $Locker: paulg $
+d1732 2
+a1733 2
+  mark = skip_quoted_string (line);
+  pattern = savestring(line, ++mark - line);
+@
+
+
+1.11
+log
+@get user defined command argument delimiters to work
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.10 89/10/07 10:26:45 paulg Exp $
+d36 1
+d40 2
+d56 3
+a58 1
+#define EVALCHR               'e'
+d75 4
+d87 2
+d90 5
+d115 16
+d153 8
+a160 2
+
+static void match_command();
+d163 5
+d252 2
+a253 2
+  parse_delims (text)
+char *text;
+d363 9
+a372 5
+		  new->expansion = savestring (first, last - first + 1);
+		  new->next = 0;
+		  tail->next = new;
+		  tail = new;
+		  new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+d390 7
+a396 4
+  new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+  new->expansion = savestring (first, last - first);
+  new->next = 0;
+  tail->next = new;
+d401 2
+a402 2
+  match_expansions_cleanup (prev)
+expansion_el prev;
+d409 1
+a409 1
+  new_expansion_el ()
+d419 3
+a421 3
+  error_bad_arg (want, got)
+char *want;
+char *got;
+d426 99
+d526 3
+a528 2
+  expand_single_macro (pp)
+char **pp;
+d530 88
+d626 1
+d628 1
+a628 1
+  
+d638 31
+a668 10
+    for (nestbrace = 0, p2 = ++p; *p2; ++p2)
+      {
+        if (*p2 == OPENBRACE)
+          ++nestbrace;
+        else if ((*p2 == CLOSEBRACE) && (nestbrace-- == 0))
+          {
+            matching_brace = p2;
+            break;
+          }
+      }
+d670 5
+a674 1
+  /* Handle the forms e<expr>.  For now, just eat it. */
+d676 3
+a678 1
+  if (*p == EVALCHR)
+d680 1
+a680 4
+      if (matching_brace)
+        *pp = matching_brace;
+      else
+        *pp = ++p;
+a698 2
+      else
+        ++p;
+d724 1
+a724 1
+  /* If we don't have a special, make sure we match any open brace. */
+d730 3
+a732 2
+  /* See if we want all the expansions except the first <n>.  If <n> is ommited,
+     don't skip any.  Each expansion will be surrounded by a single blank. */
+a759 11
+  /* All that's left now is the "special" macros. */
+  
+  if (strncmp(p, "func", 4) == 0)
+    {
+      p += 4;
+      if (matching_brace && (p != matching_brace))
+        goto failure_label;
+      *pp = p;
+      return "foo";
+    }
+  
+d765 2
+a766 2
+  do_macro_scan_right (in)
+char *in;
+a783 1
+      
+d798 2
+a799 2
+  copy_command_lines (in)
+register struct command_line *in;
+d819 3
+a821 3
+  set_either_prompt (which, text)
+int which;
+char *text;
+d860 3
+a862 3
+  set_either_prompt_command (which, text)
+int which;
+char *text;
+d901 3
+a903 3
+  eval_and_set_state(arg, level)
+char *arg;
+cond_level level;
+d956 1
+a956 1
+  update_prompt (delta)
+d987 1
+a987 1
+  clear_cond_stack ()
+d1000 2
+a1001 2
+  free_macro_expansion (old)
+char *old;
+d1007 2
+a1008 2
+  macro_expand (in)
+char *in;
+d1029 2
+a1030 2
+  print_command_aux (c)
+struct cmd_list_element *c;
+d1087 2
+a1088 2
+  read_command_lines (kind)
+int kind; /* 0: don't check; 1: silent OK as 1st; otherwise: check all */
+d1253 3
+a1255 3
+  nested_while_command (cmds, from_tty)
+char *cmds;
+int from_tty;
+d1305 1
+a1305 1
+int from_tty;
+d1344 2
+a1345 2
+  nested_document_command (cmds)
+char *cmds;
+d1390 2
+a1391 2
+  set_prompt_command (text)
+char *text;
+d1397 2
+a1398 2
+  set_prompt2_command (text)
+char *text;
+d1450 3
+a1452 3
+  while_command (arg, from_tty)
+char *arg;
+int from_tty;
+d1494 3
+a1496 3
+  if_command (arg, from_tty)
+char *arg;
+int from_tty;
+d1523 3
+a1525 3
+  elif_command (arg, from_tty)
+char *arg;
+int from_tty;
+d1553 3
+a1555 3
+  else_command (arg, from_tty)
+char *arg;
+int from_tty;
+d1581 3
+a1583 3
+  endif_command (arg, from_tty)
+char *arg;
+int from_tty;
+d1604 1
+a1604 1
+  macro_info ()
+d1622 2
+a1623 2
+  set_macro_expansion (arg)
+char *arg;
+d1637 2
+a1638 2
+  set_macro_scan_limit (arg)
+char *arg;
+d1666 3
+a1668 3
+  match_routine(matchbuf, mstring)
+struct re_pattern_buffer *matchbuf;
+char *mstring;
+d1705 1
+a1705 1
+  free_match()
+d1719 2
+a1720 2
+  match_command(line)
+char *line;
+@
+
+
+1.10
+log
+@make it so "info user" will do the right thing when printing lines begining with sub commands (like "info break")
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.9 89/10/04 18:26:41 davidl Exp $
+d64 1
+a64 1
+extern void validate_comname ();
+d170 3
+a172 2
+arg_expansions_cleanup (prev)
+     expansion_el prev;
+d174 8
+a181 1
+  expansion_el l;
+d184 1
+a184 1
+  for (l = arg_expansions; l; l = next_l)
+d191 66
+d261 1
+a261 1
+def_args_parse (cmd, p)
+d264 1
+d267 5
+a271 2
+  char *s;
+  
+d281 11
+d294 44
+a337 12
+      s = index (p, ',');
+      if (s == 0)
+        {
+          s = &p[strlen (p)];
+          EAT_WHITESP_BWD (s);
+        }
+      new = (expansion_el) xmalloc (sizeof (struct expansion_el));
+      new->expansion = savestring (p, s - p);
+      new->next = 0;
+      tail->next = new;
+      tail = new;
+      p = s;
+d339 1
+a339 2
+        ++p;
+      EAT_WHITESP_FRD (p);
+d341 6
+d351 2
+a352 2
+match_expansions_cleanup (prev)
+     expansion_el prev;
+d354 1
+a354 10
+  expansion_el l;
+  expansion_el next_l;
+
+  for (l = match_expansions; l; l = next_l)
+    {
+      next_l = l->next;
+      if (l->expansion)
+        free (l->expansion);
+      free (l);
+    }
+d359 1
+a359 1
+new_expansion_el ()
+d361 5
+a365 5
+    expansion_el new = (expansion_el)xmalloc(sizeof (expansion_el));
+
+    new->next = 0;
+    new->expansion = 0;
+    return new;
+d369 3
+a371 3
+error_bad_arg (want, got)
+     char *want;
+     char *got;
+d377 2
+a378 2
+expand_single_macro (pp)
+     char **pp;
+d389 1
+a389 1
+
+d395 1
+a395 1
+
+d397 1
+a397 1
+
+d409 1
+a409 1
+
+d411 1
+a411 1
+ 
+d420 1
+a420 1
+
+d422 1
+a422 1
+
+d430 1
+a430 1
+
+d442 1
+a442 1
+
+d450 1
+a450 1
+
+d452 1
+a452 1
+
+d459 1
+a459 1
+
+d462 1
+a462 1
+
+d464 1
+a464 1
+
+d468 1
+a468 1
+
+d471 1
+a471 1
+
+d481 1
+a481 1
+
+d489 1
+a489 1
+
+d491 1
+a491 1
+
+d497 1
+a497 1
+
+d499 1
+a499 1
+
+d508 2
+a509 2
+
+failure_label:
+d514 2
+a515 2
+do_macro_scan_right (in)
+     char *in;
+d519 1
+a519 1
+
+d523 1
+a523 1
+
+d533 1
+a533 1
+
+d540 1
+a540 1
+              return obstack_copy0 (meo, in, strlen (in));
+d548 2
+a549 2
+copy_command_lines (in)
+     register struct command_line *in;
+d552 1
+a552 1
+
+d555 1
+a555 1
+
+d557 1
+a557 1
+
+d564 1
+a564 1
+
+d569 3
+a571 3
+set_either_prompt (which, text)
+     int which;
+     char *text;
+d577 1
+a577 1
+
+d580 1
+a580 1
+
+d610 3
+a612 3
+set_either_prompt_command (which, text)
+     int which;
+     char *text;
+d617 1
+a617 1
+
+d620 1
+a620 1
+
+d651 3
+a653 3
+eval_and_set_state(arg, level)
+     char *arg;
+     cond_level level;
+d661 1
+a661 1
+
+d664 2
+a665 2
+
+/* Doing 'if match' or 'elif match' */
+d668 1
+a668 1
+/* 'if' succeeds only if we get a total match */
+d670 4
+a673 4
+         strncmp(string, match_expansions->expansion, strlen(string)) == 0) {
+/*
+ * we have a total match.
+ */
+d688 1
+a688 1
+
+d690 1
+a690 1
+
+d693 1
+a693 1
+	THE_UNKNOWN);
+d695 1
+a695 1
+
+d697 1
+a697 1
+
+d706 1
+a706 1
+update_prompt (delta)
+d723 1
+a723 1
+
+d726 1
+a726 1
+
+d737 1
+a737 1
+clear_cond_stack ()
+d740 1
+a740 1
+
+d750 2
+a751 2
+free_macro_expansion (old)
+     char *old;
+d757 2
+a758 2
+macro_expand (in)
+     char *in;
+d765 1
+a765 1
+
+d769 1
+a769 1
+        new = do_macro_scan_right (old);
+d779 2
+a780 2
+print_command_aux (c)
+     struct cmd_list_element *c;
+d784 1
+a784 1
+/*  print_command_aux ((struct cmd_list_element *)(c->aux));*/
+d791 1
+a791 1
+     register struct command_line *cmdlines;
+d794 1
+a794 1
+
+d817 1
+a817 1
+                   && (cmdlines->cmd != if_p))
+d824 1
+a824 1
+                   && (cmdlines->cmd != endif_p))
+d837 2
+a838 2
+read_command_lines (kind)
+     int kind; /* 0: don't check; 1: silent OK as 1st; otherwise: check all */
+d849 1
+a849 1
+
+d851 1
+a851 1
+
+d861 1
+a861 1
+
+d886 1
+a886 1
+
+d932 6
+a937 6
+
+      /* No => add this line to the chain of command lines.  */
+      next = (struct command_line *) xmalloc (sizeof (struct command_line));
+      next->cmd = c;
+      next->line = savestring (p, p1 - p);
+      next->next = 0;
+d953 1
+a953 1
+
+d955 1
+a955 1
+
+d959 1
+a959 1
+
+d978 1
+a978 1
+push_def_expansions (name, text)
+d981 1
+d984 1
+a984 1
+
+d986 1
+a986 1
+  arg_expansions = def_args_parse (name, text);
+d1003 3
+a1005 3
+nested_while_command (cmds, from_tty)
+     char *cmds;
+     int from_tty;
+d1013 1
+a1013 1
+
+d1017 1
+a1017 1
+
+d1030 1
+a1030 1
+
+d1032 1
+a1032 1
+
+d1037 1
+a1037 1
+
+d1055 1
+a1055 1
+     int from_tty;
+d1061 3
+a1063 1
+
+d1066 3
+a1068 1
+  comname = savestring (tem, strlen(tem));
+d1070 1
+a1070 2
+
+  validate_comname (comname);
+d1073 1
+a1073 1
+
+d1076 14
+a1089 3
+
+  add_com (comname, class_user, copy_command_lines (cmdlines->next),
+	   (c && c->class == (int) class_user)
+d1094 2
+a1095 2
+nested_document_command (cmds)
+     char *cmds;
+d1100 2
+a1101 1
+
+d1104 5
+a1108 3
+
+  validate_comname (comname);
+
+d1110 1
+a1110 1
+
+d1113 1
+a1113 1
+
+d1115 1
+a1115 1
+
+d1117 1
+a1117 1
+
+d1121 1
+a1121 1
+
+d1124 1
+a1124 1
+
+d1127 1
+a1127 1
+
+d1140 2
+a1141 2
+set_prompt_command (text)
+     char *text;
+d1147 2
+a1148 2
+set_prompt2_command (text)
+     char *text;
+d1159 1
+a1159 1
+
+d1168 1
+a1168 1
+      printf_filtered ("%s:\n", c->name);
+d1170 6
+d1177 1
+d1182 2
+a1183 1
+        if (c->function == 0)
+d1187 9
+a1195 3
+        printf_filtered ("%s:\n", c->name);
+        cmdlines = (struct command_line *) c->function;
+        print_command_lines (0, cmdlines);
+d1200 3
+a1202 3
+while_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+d1210 1
+a1210 1
+
+d1215 1
+a1215 1
+
+d1226 1
+a1226 1
+
+d1244 3
+a1246 3
+if_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+d1249 1
+a1249 1
+
+d1251 1
+a1251 1
+
+d1253 1
+a1253 1
+
+d1255 1
+a1255 1
+
+d1261 1
+a1261 1
+
+d1263 1
+a1263 1
+
+d1273 3
+a1275 3
+elif_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+d1278 1
+a1278 1
+
+d1280 1
+a1280 1
+
+d1282 1
+a1282 1
+
+d1284 1
+a1284 1
+
+d1287 1
+a1287 1
+
+d1289 1
+a1289 1
+
+d1292 1
+a1292 1
+
+d1295 1
+a1295 1
+
+d1298 1
+a1298 1
+
+d1303 3
+a1305 3
+else_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+d1308 1
+a1308 1
+
+d1310 1
+a1310 1
+
+d1312 1
+a1312 1
+
+d1314 1
+a1314 1
+
+d1317 1
+a1317 1
+
+d1319 1
+a1319 1
+
+d1321 1
+a1321 1
+
+d1323 1
+a1323 1
+
+d1331 3
+a1333 3
+endif_command (arg, from_tty)
+     char *arg;
+     int from_tty;
+d1336 1
+a1336 1
+
+d1338 1
+a1338 1
+
+d1340 1
+a1340 1
+
+d1345 1
+a1345 1
+
+d1347 1
+a1347 1
+
+d1354 1
+a1354 1
+macro_info ()
+d1366 1
+a1366 1
+                    macro_scan_limit);
+d1372 2
+a1373 2
+set_macro_expansion (arg)
+     char *arg;
+d1387 2
+a1388 2
+set_macro_scan_limit (arg)
+     char *arg;
+d1391 1
+a1391 1
+
+d1416 3
+a1418 3
+match_routine(matchbuf, mstring)
+    struct re_pattern_buffer *matchbuf;
+    char *mstring;
+d1420 18
+a1437 26
+    int n = 1;
+    struct re_registers myregs;
+    expansion_el match_node;
+    int num_matched;
+
+    num_matched = re_match(matchbuf, mstring, strlen(mstring),  0, &myregs);
+    if (num_matched >= 1) {
+     /* Save entire matched pattern */
+        match_node = new_expansion_el ();
+        match_node->expansion = savestring(mstring, num_matched);
+        match_expansions = match_node;
+     /* Save matches */
+	while (n < RE_NREGS) {
+            match_node = new_expansion_el ();
+            if ((myregs.end[n] <= myregs.start[n])
+                || (myregs.end[n] > myregs.end[0]))
+              {
+                match_node->expansion = savestring("", 0);
+              }
+            else
+              {              
+                match_node->expansion =
+                  savestring(mstring + myregs.start[n], 
+                             myregs.end[n] - myregs.start[n]);
+              }
+            n++;
+d1439 11
+a1449 3
+      }
+    else
+      match_expansions = 0;
+d1455 1
+a1455 1
+free_match()
+d1457 3
+a1459 3
+    free(string);
+    free(pattern);
+    free(buf.buffer);
+d1469 2
+a1470 2
+match_command(line)
+    char *line;
+d1472 9
+a1480 12
+    char *mark;
+    char fastmap[(1 << BYTEWIDTH)];
+    int len;
+
+    if (line == 0)
+	error_no_arg ("pattern to match against");
+    if (*line != '"')
+        ui_badnews(-1, "must begin pattern with \" character");
+    line++;
+	
+
+    mark = index(line, '"');
+d1482 25
+a1506 30
+    while(mark && *(mark - 1) == '\\') 
+	mark = index(mark + 1, '"');
+     if (! mark)
+	ui_badnews(-1, "must end pattern with \" character");
+     len = mark - line;
+     pattern = savestring(line, len);
+
+   /* Now skip white space, everything else is the string to match against
+    * the pattern
+    */
+     mark++;
+     while (*mark && (*mark == ' ' || *mark == '\t'))
+	mark++;
+     if (*mark == '\0') {
+        free(pattern);
+	error_no_arg ("string to match against pattern");
+     }
+     string = savestring(mark, strlen(mark));
+
+    /* Now we know we have a good pattern and string.  Compile the
+     * pattern and do the match.
+     */
+     buf.allocated = 40;
+     buf.buffer = (char *) xmalloc (buf.allocated);
+
+/* Currently re_match makes no use of fastmaps; no use supplying one */
+     /*buf.fastmap = fastmap;*/
+     re_compile_pattern(pattern, strlen(pattern), &buf);
+     /*re_compile_fastmap(&buf);*/
+     match_routine(&buf, string);
+@
+
+
+1.9
+log
+@Fixed set prompt.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.8 89/10/04 08:45:16 davidl Exp $
+   $Locker:  $
+d75 1
+d152 18
+d269 1
+a269 1
+  int number;
+d356 1
+a356 1
+    { /* For now, just eat it. */
+d358 1
+a358 1
+        *pp = matching_brace;
+d360 2
+a361 1
+        *pp = ++p;
+d427 1
+a427 1
+  return obstack_copy (meo, in, strlen (in));
+a429 7
+static char *
+do_macro_scan_left (in)
+     char *in;
+{
+  return 0;
+}
+
+d661 10
+d704 1
+d1372 2
+d1383 7
+a1389 5
+  add_cmd ("prompt", class_support, set_prompt_command,
+	   "Change gdb's primary prompt from the default of \"(gdb)\"",
+	   &setlist);
+  add_cmd ("prompt2", class_support, set_prompt2_command,
+	   "Change gdb's secondary prompt.\n\
+d1392 2
+d1397 2
+a1398 2
+  add_cmd ("expand", class_obscure, set_macro_expansion,
+           "Change gdb's macro expansion algorithm.\n\
+d1403 5
+a1407 3
+           &setlist);
+  add_cmd ("scanlimit", class_obscure, set_macro_scan_limit,
+           "Set the macro scan limit.\n\
+d1413 3
+a1415 1
+           &setlist);
+@
+
+
+1.8
+log
+@Added support for 'if match' and 'elif match' statements to 
+eval_and_set_state. 
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.7 89/09/29 16:40:33 davidl Exp $
+d594 1
+a594 1
+  if (gbl_prompt != prompt[0])
+@
+
+
+1.7
+log
+@Combined common code from if_command and elif_command into
+eval_and_set_state, new function.
+
+Fixed mis-spelling of 'breadth'.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.6 89/09/28 15:07:08 paulg Exp $
+   $Locker: davidl $
+d121 3
+d529 1
+d532 1
+a532 1
+  if (arg && *arg)
+d534 17
+a1278 1
+static char *string, *pattern;
+a1299 1
+    struct re_registers myregs;
+a1300 1
+    struct cleanup *old_chain;
+@
+
+
+1.6
+log
+@got rid of idea that macros could be scanned for from right to left.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.5 89/09/27 13:15:01 davidl Exp $
+   $Locker: paulg $
+d104 1
+a104 1
+static int macro_bredth_first = 1;
+d399 1
+a399 1
+          if (! macro_bredth_first)
+d516 36
+a860 1
+#ifdef TEK_HACK
+a863 1
+#endif /* TEK_HACK */
+a1054 4
+  struct expression *expr;
+  value val;
+  struct cleanup *old_chain = 0;
+  int cleanup = 0;
+d1075 1
+a1075 26
+
+  /* Either evaluate the argument or get a value from history. */
+
+  if (arg && *arg)
+    {
+      expr = parse_c_expression (arg);
+      old_chain = make_cleanup (free_current_contents, &expr);
+      cleanup = 1;
+      val = evaluate_expression (expr);
+    }
+  else
+    val = access_value_history (0);
+
+  /* Set the execution state depending on the value obtained above. */
+
+#ifdef TEK_HACK
+  if (val->lval == lval_reg_invalid)
+    ui_badnews(-1, "condition is #%s=%s#", reg_names[VALUE_REGNO (val)],
+	THE_UNKNOWN);
+#endif
+  new_level->exec_state = val->contents[0] ? exec_enabled : exec_disabled;
+
+  /* Clean up after ourself */
+
+  if (cleanup)
+    do_cleanups (old_chain);
+a1083 4
+  struct expression *expr;
+  struct cleanup *old_chain = 0;
+  value val;
+  int cleanup = 0;
+d1105 1
+a1105 25
+  /* Either evaluate the argument or get a value from history. */
+
+  if (arg && *arg)
+    {
+      expr = parse_c_expression (arg);
+      old_chain = make_cleanup (free_current_contents, &expr);
+      cleanup = 1;
+      val = evaluate_expression (expr);
+    }
+  else
+    val = access_value_history (0);
+
+  /* Set the execution state depending on the value obtained above. */
+
+#ifdef TEK_HACK
+  if (val->lval == lval_reg_invalid)
+    ui_badnews(-1, "condition is #%s=%s#", reg_names[VALUE_REGNO (val)],
+	THE_UNKNOWN);
+#endif
+  cur_level->exec_state = val->contents[0] ? exec_enabled : exec_disabled;
+
+  /* Clean up after ourself */
+
+  if (cleanup)
+    do_cleanups (old_chain);
+d1163 1
+a1163 1
+                   macro_bredth_first ? "bredth" : "depth");
+d1170 1
+a1170 1
+  else if (macro_bredth_first)
+d1182 1
+a1182 1
+    error_no_arg ("\"bredth\" or \"depth\"");
+d1184 2
+a1185 2
+  if (strcmp (arg, "bredth") == 0)
+    macro_bredth_first = 1;
+d1187 1
+a1187 1
+    macro_bredth_first = 0;
+d1189 1
+a1189 1
+    error_bad_arg ("\"bredth\" or \"depth\"", arg);
+d1351 1
+a1351 1
+When gdb expands macros, it does so either depth first or bredth first.\n\
+d1353 1
+a1353 1
+Use \"bredth\" to select bredth first expansion.\n\
+d1360 1
+a1360 1
+expansion is bredth first, scanning the entire line counts as one scan.\n\
+d1373 1
+a1373 1
+Show the state of macro expansion (depth first or bredth first), the macro\n\
+@
+
+
+1.5
+log
+@Go ahead and allocate storage for a match if end pointer == myregs.end[0]
+in match_routine.
+
+Change initialize_cmd_pointers() to init_cmd_pointers() so munch doesn't
+put it in init.c.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.4 89/09/26 21:54:43 paulg Exp $
+   $Locker:  $
+d47 1
+a47 1
+#define TICKCHR               '`'
+d104 3
+a106 3
+static macro_bredth_first = 1;
+static macro_scan_right = 1;
+static macro_scan_limit = 1;
+d253 1
+a253 1
+  if (*p != TICKCHR)
+d380 1
+a380 1
+  p = index (in, TICKCHR);
+d388 1
+a388 1
+      while ((*in == TICKCHR) && (in[1] == TICKCHR))
+d390 1
+a390 1
+          obstack_1grow (meo, TICKCHR);
+d394 1
+a394 1
+      if (*in == TICKCHR)
+d402 1
+a402 1
+      p = index (in, TICKCHR);
+a581 1
+      if (macro_scan_right)
+a582 2
+      else
+        new = do_macro_scan_left (old);
+d1185 1
+a1185 1
+  printf_filtered ("Macro expantion is %s first\n",
+d1187 4
+a1190 2
+  printf_filtered ("Command lines are scanned for macros %s\n",
+                   macro_scan_right ? "left-to-right" : "right-to-left");
+d1192 1
+a1192 1
+    printf_filtered ("Actualy, no macro expantion will be done because the scan limit is zero.\n");
+d1194 1
+a1194 1
+    printf_filtered ("A command line will be scanned at most %d times.\n",
+d1197 1
+a1197 1
+    printf_filtered ("A command line will be scanned until at most %d macros have been expanded.\n");
+a1215 15
+set_macro_scan_direction (arg)
+     char *arg;
+{
+  if (arg == 0)
+    error_no_arg ("\"right\" or \"left\"");
+  EAT_WHITESP_FRD (arg);
+  if (strcmp (arg, "right") == 0)
+    macro_scan_right = 1;
+  if (strcmp (arg, "left") == 0)
+    macro_scan_right = 0;
+  else
+    error_bad_arg ("\"right\" or \"left\"", arg);
+}
+
+static void
+a1377 7
+           &setlist);
+  add_cmd ("scan", class_obscure, set_macro_scan_direction,
+           "Change the direction gdb scans to expand macros.\n\
+When gdb expands macros, it does so either left-to-right or right-to-left.\n\
+Use \"right\" to select left-to-right scanning.\n\
+Use \"left\" to select right-to-left scanning.\n\
+(see also: set expand)",
+@
+
+
+1.4
+log
+@fix silly initialization bug.
+@
+text
+@d4 2
+a5 2
+   $Header: programmer.c,v 1.3 89/09/26 11:02:44 paulg Exp $
+   $Locker: paulg $
+d1280 1
+a1280 1
+                || (myregs.end[n] >= myregs.end[0]))
+d1431 1
+a1431 1
+initialize_cmd_pointers ()
+@
+
+
+1.3
+log
+@change TEK_DEF_HACK to TEK_PROG_HACK
+@
+text
+@d4 1
+a4 1
+   $Header: programmer.c,v 1.2 89/09/26 10:41:42 paulg Exp $
+d1427 1
+@
+
+
+1.2
+log
+@transfered most of the programming support stuff from main.c to programer.c
+@
+text
+@d4 2
+a5 2
+   $Header:  $
+   $Locker:  $
+d24 1
+a24 1
+#ifdef TEK_DEF_HACK  /* this covers the whole file! */
+d1472 1
+a1472 1
+#endif /* TEK_DEF_HACK */  /* this covers the whole file! */
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 27
+a27 1
+#include "regex.h"
+d29 1
+d31 5
+d37 2
+a38 1
+#define BYTEWIDTH 8
+d40 1
+a40 1
+extern char *index();
+d42 41
+a82 3
+struct args_el {
+  char *arg;
+  struct args_el *next;
+d84 1
+a84 1
+typedef struct args_el *args_el;
+d86 3
+a88 2
+extern args_el match_args;
+static args_el match_head;
+d90 7
+d98 1
+d100 26
+a125 2
+args_el
+make_new_match()
+d127 1
+a127 1
+    args_el new = (args_el)xmalloc(sizeof (args_el));
+d129 95
+d225 1
+a225 2
+    new->arg = 0;
+    if (! match_head) match_head = new;
+d229 1020
+a1248 3
+/* This stores matches in a list, the head of which is pointed to by match_args.
+ * Notice that we don't free this list in this module.  Caller is 
+ * responsible for that.
+d1258 1
+a1258 1
+ *	"hiya" woops    generates a zero list (match_args set to 0)
+d1267 1
+a1267 1
+    args_el match_node;
+d1273 3
+a1275 2
+        match_node = make_new_match();
+        match_node->arg = savestring(mstring, num_matched);
+d1278 12
+a1289 6
+            if (myregs.end[n] == myregs.start[n]) break;
+            match_node = make_new_match();
+            match_node->arg = savestring(mstring + myregs.start[n], 
+		myregs.end[n] - myregs.start[n]);
+
+	    if (myregs.end[n] >= myregs.end[0]) break;
+d1292 3
+a1294 2
+    }
+    match_args = match_head;
+a1323 1
+    match_head = 0;
+a1363 1
+     
+d1365 1
+d1367 1
+a1367 1
+_initialize_match ()
+d1369 59
+a1427 2
+   add_com("match", class_obscure, match_command, 
+	"Try to match a double-quoted pattern against a string.");
+d1429 44
+@

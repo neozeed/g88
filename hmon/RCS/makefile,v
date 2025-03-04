@@ -1,0 +1,161 @@
+head     1.4;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @# @;
+
+
+1.4
+date     91.01.13.23.41.56;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     90.09.29.21.09.36;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     90.05.16.10.24.31;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.04.10.11.34.08;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Makefile for the Tektronix monitor for the Motorola 188 board.
+@
+
+
+1.4
+log
+@Changed for GNU loader, assembler.
+@
+text
+@
+
+# Makefile for building the 188 debug monitor on an XD/88
+# Robert Bedichek  3/90
+
+
+#	Copyright (c) 1990 by Tektronix, Inc.
+#
+# It may freely be redistributed and modified so long as the copyright
+# notices and credit attributions remain intact.
+
+# "$Header: /tmp_mnt/u2/cs568/g88/hmon/RCS/makefile,v 1.3 90/09/29 21:09:36 robertb Exp $";
+
+CPP=/lib/cpp
+OCSAS=ocs-m88k-as
+
+AS=m88k-as
+CC=gcc
+LD=m88k-ld
+GCCFLAGS=-B../../lib/m88k-
+
+# Really we should not generate this file with the host
+# compiler.  But it works out.
+
+HOSTCC=/bin/cc
+HOSTAS=/bin/as
+
+tek188mon: mon.o monlow.o
+	$(LD) -T ffe18000 -o tek188mon monlow.o mon.o
+
+clean:
+	rm -f mon.o monlow.o temp.s tek188mon
+
+mon.o: mon.c monoffsets.h mon.h psl.h compress.h
+	$(CC) $(GCCFLAGS) -S -O -Dinline= mon.c
+	ex - <fix.mon mon.s
+	$(AS) -o mon.o mon.s
+
+monoffsets.h: genmonoffsets
+	./genmonoffsets >monoffsets.h
+
+genmonoffsets: genmonoffsets.c mon.h
+	$(HOSTCC) -o genmonoffsets genmonoffsets.c
+
+monlow.o: monlow.s monoffsets.h psl.h
+	$(CPP) -P monlow.s | \
+        sed -e 's/8\*3/24/' \
+            -e 's/8\*1/8/' \
+            -e 's/8\*253/2024/' \
+            -e 's/8\*254/2032/' > temp.s
+	$(AS) -o monlow.o temp.s
+
+conv: conv.c
+	$(CC) -o conv conv.c
+@
+
+
+1.3
+log
+@Converted to build on a SUN/4
+@
+text
+@d12 1
+a12 1
+# "$Header: /tmp_mnt/u2/cs568/g88/hmon/RCS/makefile,v 1.2 90/05/16 10:24:31 robertb Exp Locker: robertb $";
+d29 1
+a29 1
+	$(LD) -o tek188mon monlow.o mon.o
+d35 1
+a35 1
+	$(CC) $(GCCFLAGS) -S mon.c
+d46 5
+a50 1
+	$(CPP) -P monlow.s > temp.s
+@
+
+
+1.2
+log
+@Added Tek copyright.
+@
+text
+@d12 1
+a12 1
+# "$Header: makefile,v 1.1 90/04/10 11:34:08 robertb Locked $";
+d15 1
+a15 3
+AS=/bin/as
+CC=/bin/cc
+LD=ld88
+d17 4
+a20 2
+tek188mon: linkdirectives mon.o monlow.o
+	$(LD) -o tek188mon linkdirectives monlow.o mon.o
+d22 12
+d35 1
+a35 1
+	$(CC) -S mon.c
+d37 1
+a37 1
+	$(AS) mon.s
+d43 1
+a43 1
+	$(CC) -o genmonoffsets genmonoffsets.c
+d47 1
+a47 4
+	cp temp.s tempex.s
+	ex - <fix.temp.sysv tempex.s
+	tr '`' '\012' <tempex.s >temptr.s
+	$(AS) -F 0 -o monlow.o temptr.s
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d6 7
+a12 1
+# "$Header: compress.h,v 1.1 89/08/24 15:29:14 robertb Exp $";
+@

@@ -1,0 +1,3247 @@
+head     1.31;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.31
+date     90.04.29.19.29.53;  author robertb;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     88.10.05.10.33.31;  author andrew;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     88.09.08.17.21.27;  author andrew;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     88.09.08.11.41.18;  author andrew;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     88.08.23.17.08.23;  author timd;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     88.05.26.18.45.24;  author robertb;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     88.05.20.20.53.31;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.05.11.17.05.12;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.04.16.14.23.16;  author robertb;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.04.15.14.17.56;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.04.08.21.33.47;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.03.10.10.31.39;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.03.02.08.43.44;  author timd;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.03.01.10.51.50;  author timd;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.03.01.10.10.19;  author timd;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.02.08.14.23.43;  author timd;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     87.12.18.16.26.55;  author timd;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     87.12.17.15.27.40;  author timd;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     87.12.07.15.09.35;  author timd;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     87.12.03.17.54.39;  author timd;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     87.12.02.18.13.06;  author timd;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     87.11.25.16.12.32;  author timd;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.11.25.13.17.33;  author timd;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.11.25.11.52.58;  author timd;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.11.23.15.44.17;  author timd;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.23.14.42.00;  author timd;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.23.14.31.22;  author timd;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.19.17.50.11;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.19.17.33.24;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.19.16.38.56;  author timd;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.19.16.35.56;  author timd;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.31
+log
+@Ported to System V.  Compiles, but is untested.
+@
+text
+@/*------------------------------------------------------------------------
+ * timer.c
+ *
+ * This module simulates the NSC DP8571 TCP (Timer/Clock Peripheral).
+ *
+ * This simulator does *not* simulate timer input clocks OSC, OSC/4,
+ * and 93usec. It does not simulate purely hardware artifacts (e.g,
+ * the configuration of output lines, battery-backup operation, etc.)
+ *
+ * 
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ *
+ * $Header: timer.c,v 1.30 88/10/05 10:33:31 andrew Exp $
+ *------------------------------------------------------------------------
+ */
+
+#include <sys/time.h>
+#include <signal.h>
+#include "sim.h"
+#undef   DP8571_C_STRUCTURES
+#include "dp8571.h"
+
+static struct  {
+        /* this section is used for housekeeping and such */
+        unsigned int	cTimer0;         /* current timer value */
+        unsigned int    cTimer1;         /* current timer value */
+        unsigned int    fWaiting0;       /* timer waiting for 1 clock transition */
+        unsigned int    fWaiting1;       /* timer waiting for 1 clock transition */
+        unsigned int    fTimerStart0;    /* true when timer 0 is started */
+        unsigned int    fTimerStart1;    /* true when timer 1 is started/finished */
+
+        /* this section models the actual chip */
+        struct {
+            unsigned char	Ram[32];
+    	    struct {
+    	    	    unsigned char	Timer0_Ctrl;
+       		    unsigned char	Timer1_Ctrl;
+		    unsigned char	PeriodicFlag;
+		    unsigned char	InterruptRouting;
+            } Rs0;
+            struct {
+	  	    unsigned char	RealTimeMode;
+		    unsigned char	OutputMode;
+		    unsigned char	Intr0_Ctrl;
+		    unsigned char	Intr1_Ctrl;
+            } Rs1;
+	    unsigned char	Msr;
+	    unsigned char	Hz100_Counter;
+	    unsigned char	Sec_Counter;
+	    unsigned char	Min_Counter;
+	    unsigned char	Hrs_Counter;
+	    unsigned char	DayOfMonth_Counter;
+	    unsigned char	Mon_Counter;
+	    unsigned char	Yrs_Counter;
+	    unsigned char	JulianUnits_Counter;
+	    unsigned char	Julian100s_Counter;
+	    unsigned char	DayOfWeek_Counter;
+	    unsigned char	Timer0_Lsb;
+	    unsigned char	Timer0_Msb;
+	    unsigned char	Timer1_Lsb;
+	    unsigned char	Timer1_Msb;
+	    unsigned char	Sec_Compare;
+	    unsigned char	Min_Compare;
+	    unsigned char	Hrs_Compare;
+	    unsigned char	DayOfMonth_Compare;
+	    unsigned char	Mon_Compare;
+	    unsigned char	DayOfWeek_Compare;
+	    unsigned char	Sec_Save;
+	    unsigned char	Min_Save;
+	    unsigned char	Hrs_Save;
+	    unsigned char	DayOfMonth_Save;
+	    unsigned char	Mon_Save;
+	    unsigned char	Page0_Ram;
+	    unsigned char	Test;
+        } Model;
+}  Tcp;
+
+static struct itimerval itvCurrent;
+static int timer_going = 0;
+static verbose;
+static int vmemask = 0;			/* copy of VME interrupt enable mask */
+
+/*------------------------------------------------------------------------
+ * timer_init()
+ *
+ * Initializes the timer simulator, both the hardware simulation and the
+ * housekeeping stuff.
+ *------------------------------------------------------------------------
+ */
+
+void    timer_init(restore)
+    {
+        int simslow = varvalue("simslow");
+        unsigned int cMicrosecondsIn60Hz;
+        unsigned int slowdownfactor;
+        extern void Oscillator();
+
+        verbose = varvalue("simtrans") != 0;
+
+        /* install the signal handler */
+        (void) simsignal(SIGVTALRM, Oscillator);
+
+        if (simslow == 0) {
+            slowdownfactor = 1;
+        } else {
+            slowdownfactor = simslow;
+            if (slowdownfactor <= 0 || slowdownfactor > 100000) {
+                sim_printf("$simslow must be in 1..100000\n");
+                slowdownfactor = 1;
+            }
+        }
+        cMicrosecondsIn60Hz = 16667 * slowdownfactor;
+
+        /* set UTek timer for 60Hz */
+        itvCurrent.it_interval.tv_sec = cMicrosecondsIn60Hz / 1000000;
+        itvCurrent.it_interval.tv_usec = cMicrosecondsIn60Hz % 1000000;
+
+        if (restore) {
+            return;
+        }
+
+        itvCurrent.it_value.tv_sec = cMicrosecondsIn60Hz / 1000000;
+        itvCurrent.it_value.tv_usec = cMicrosecondsIn60Hz % 1000000;
+
+        /* ------------ */
+        /* Initialize.  */
+        /* ------------ */
+
+        bzero(&Tcp, sizeof(Tcp));
+        Tcp.Model.Rs0.PeriodicFlag = DP8571_PFR_FAILURE;
+    }
+
+/*------------------------------------------------------------------------
+ * D2B()
+ *
+ * Convert the BCD value "bcdValue" to binary. This routine assumes that
+ * nothing dumb is encountered, like BCD values greater than 9...
+ *------------------------------------------------------------------------
+ */
+
+static unsigned char    D2B (bcdValue)
+    unsigned char    bcdValue;
+    {
+        return ( (unsigned char) (
+                    ((int)((bcdValue & 0xf0) >> 4) * 10)
+                    +
+                    (int)(bcdValue & 0x0f)
+               ));
+    }
+
+
+
+
+
+
+/*------------------------------------------------------------------------
+ * B2D()
+ *
+ * Convert the binary value to BCD. It is assumed that nothing dumb will
+ * be encountered (like a binary value greater than 99(10).
+ *------------------------------------------------------------------------
+ */
+
+static unsigned char    B2D (ucValue)
+
+    {
+        return ( (unsigned char) (
+                    (int)(( (int)ucValue / 10) << 4)
+                    +
+                    (int)( (int)ucValue % 10)
+               ));
+    }
+
+/*------------------------------------------------------------------------
+ * PUC_Xlate_Physical_Addr_To_Model_Addr ()
+ *
+ * Given "pucPhysAddr", returns the address of the data structure element
+ * that mimics the register/memory located at "pucPhysAddr". This is
+ * determined by the 5 lsbs of the "pucPhysAddr", and the current setting
+ * of the Main Status Register (which selects the TCP's page and register
+ * banks.
+ *------------------------------------------------------------------------
+ */
+
+static unsigned char    *PUC_Xlate_Physical_Addr_To_Model_Addr (pucPhysAddr)
+    unsigned char    *pucPhysAddr;
+
+    {
+        unsigned int    ulOffset;
+        unsigned int    ulModelAddr;
+
+
+        ulOffset = (unsigned int)pucPhysAddr  &  0x1f;
+
+        /* Main Status Register */
+        if (ulOffset == 0) {
+            ulModelAddr = (int)&Tcp.Model.Msr;
+        }
+
+        /* RAM Page */
+        else if (Tcp.Model.Msr & DP8571_MSR_PAGE_SELECT) {
+            ulModelAddr = (int)Tcp.Model.Ram + ulOffset;
+        }
+
+        /* Register Page */
+        else if (ulOffset <= 0x04) {
+            if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                ulModelAddr = (int)&Tcp.Model.Rs1  +  ulOffset - 1;
+            }
+            else {
+                ulModelAddr = (int)&Tcp.Model.Rs0  +  ulOffset - 1;
+            }            
+        }
+
+        /* Clock RAM */
+        else {
+            ulModelAddr = (int)&Tcp.Model.Hz100_Counter + (ulOffset - 0x05);
+        }
+
+
+        return ((unsigned char *) ulModelAddr);
+    }
+
+/*------------------------------------------------------------------------
+ * timer_print()
+ *
+ * Print a detailed dump of the state of the DP8571 timer.
+ *------------------------------------------------------------------------
+ */
+
+#ifdef NOTDEF
+	/*
+	 * This is the old version, before Andrew rewrote it.
+	 */
+
+int    timer_print ()
+
+    {
+        sim_printf ("\n");
+        sim_printf ("NSC DP8571 Timer/Clock Peripheral\n");
+        sim_printf ("---------------------------------\n");
+        sim_printf ("Control Registers:\n");
+        sim_printf ("    Msr:              0x%02x\n", Tcp.Model.Msr);
+        sim_printf ("    Timer0_Ctrl:      0x%02x\n", Tcp.Model.Rs0.Timer0_Ctrl);
+        sim_printf ("    Timer1_Ctrl:      0x%02x\n", Tcp.Model.Rs0.Timer1_Ctrl);
+        sim_printf ("    PeriodicFlag:     0x%02x\n", Tcp.Model.Rs0.PeriodicFlag);
+        sim_printf ("    InterruptRouting: 0x%02x\n", Tcp.Model.Rs0.InterruptRouting);
+        sim_printf ("    RealTimeMode:     0x%02x\n", Tcp.Model.Rs1.RealTimeMode);
+        sim_printf ("    OutputMode:       0x%02x\n", Tcp.Model.Rs1.OutputMode);
+        sim_printf ("    Intr0_Ctrl:       0x%02x\n", Tcp.Model.Rs1.Intr0_Ctrl);
+        sim_printf ("    Intr1_Ctrl:       0x%02x\n", Tcp.Model.Rs1.Intr1_Ctrl);
+        sim_printf ("Counters:  day %02d%02d, dow %02d,   %02d/%02d/%02d %02d:%02d:%02d.%02d\n",
+                 D2B(Tcp.Model.Julian100s_Counter),
+                 D2B(Tcp.Model.JulianUnits_Counter),
+                 D2B(Tcp.Model.DayOfWeek_Counter),
+                 D2B(Tcp.Model.DayOfMonth_Counter),
+                 D2B(Tcp.Model.Mon_Counter),
+                 D2B(Tcp.Model.Yrs_Counter),
+                 D2B(Tcp.Model.Hrs_Counter),
+                 D2B(Tcp.Model.Min_Counter),
+                 D2B(Tcp.Model.Sec_Counter),
+                 D2B(Tcp.Model.Hz100_Counter));
+        sim_printf ("Compare:   day ----, dow %02d,   %02d/%02d/-- %02d:%02d:%02d.-\n",
+                 D2B(Tcp.Model.DayOfWeek_Compare),
+                 D2B(Tcp.Model.DayOfMonth_Compare),
+                 D2B(Tcp.Model.Mon_Compare),
+                 D2B(Tcp.Model.Hrs_Compare),
+                 D2B(Tcp.Model.Min_Compare),
+                 D2B(Tcp.Model.Sec_Compare));
+        sim_printf ("Save:      day ----, dow --,   %02d/%02d/-- %02d:%02d:%02d.-\n",
+                 D2B(Tcp.Model.DayOfMonth_Save),
+                 D2B(Tcp.Model.Mon_Save),
+                 D2B(Tcp.Model.Hrs_Save),
+                 D2B(Tcp.Model.Min_Save),
+                 D2B(Tcp.Model.Sec_Save));
+        sim_printf ("Timers:    0: 0x%02x%02x    1: 0x%02x%02x\n", 
+                 Tcp.Model.Timer0_Msb,
+                 Tcp.Model.Timer0_Lsb,
+                 Tcp.Model.Timer0_Msb,
+                 Tcp.Model.Timer1_Lsb);
+        sim_printf ("Page0_Ram: 0x%02x\n", Tcp.Model.Page0_Ram);
+        sim_printf ("Test:      0x%02x\n", Tcp.Model.Test);
+        
+        sim_printf ("\n");
+    }
+
+#else
+
+	/*
+	 * This is Andrew's new version.
+	 */
+
+/*
+ * These are used by the "disp_fields" routine in scc.c.
+ */
+
+struct fields {
+	unsigned char mask;
+	unsigned char value;
+	char *desc;
+};
+
+static struct fields MSRf[] = {
+	0x01, 0x01, "interrupt pending",
+	0x02, 0x02, "power fail",
+	0x04, 0x04, "period interrupt",
+	0x08, 0x08, "alarm",
+	0x10, 0x10, "timer 0",
+	0x20, 0x20, "timer 1",
+	0x00, 0x00, 0
+};
+
+static struct fields TIMER_CTRLf[] = {
+	0x01, 0x01, "timer started",
+	0x01, 0x00, "timer stopped",
+	0x06, 0x00, "single pulse",
+	0x06, 0x02, "rate generator",
+	0x06, 0x04, "square wave",
+	0x06, 0x06, "one shot",
+	0x38, 0x00, "timer1 output",
+	0x38, 0x08, "crystal oscillator",
+	0x38, 0x10, "crystal oscillator / 4",
+	0x38, 0x18, "93.5 us",
+	0x38, 0x20, "1 ms",
+	0x38, 0x28, "10 ms",
+	0x38, 0x30, "100 ms",
+	0x38, 0x38, "1 second",
+	0x40, 0x40, "timer read",
+	0x80, 0x80, "count hold/gate",
+	0x00, 0x00, 0
+};
+
+static struct fields PERIODICf[] = {
+	0x01, 0x01, "minutes rollover",
+	0x02, 0x02, "10 second rollover",
+	0x04, 0x04, "seconds rollover",
+	0x08, 0x08, "100 ms rollover",
+	0x10, 0x10, "10 ms rollover",
+	0x20, 0x20, "1 ms rollover",
+	0x40, 0x40, "oscillator failed",
+	0x80, 0x80, "test mode enable",
+	0x00, 0x00, 0
+};
+
+static struct fields INTROUTEf[] = {
+	0x01, 0x01, "power fail -> MFO",
+	0x02, 0x02, "periodic -> MFO",
+	0x04, 0x04, "alarm -> MFO",
+	0x08, 0x08, "timer0 -> MFO",
+	0x10, 0x10, "timer1 -> MFO",
+	0x20, 0x20, "PF delay enable",
+	0x40, 0x40, "low battery",
+	0x80, 0x80, "time save enable",
+	0x00, 0x00, 0
+};
+
+static struct fields REALTIMEf[] = {
+	0x03, 0x00, "leap year LSB=0",
+	0x03, 0x01, "leap year LSB=1",
+	0x03, 0x02, "leap year LSB=2",
+	0x03, 0x03, "leap year LSB=3",
+	0x04, 0x00, "24-hour mode",
+	0x04, 0x04, "12-hour mode",
+	0x08, 0x00, "clock stopped",
+	0x08, 0x08, "clock started",
+	0x10, 0x10, "interrupt PF op",
+	0x20, 0x20, "timer PF op",
+	0x60, 0x00, "32.768KHz",
+	0x60, 0x20, "4.1943MHz",
+	0x60, 0x40, "4.9152MHz",
+	0x60, 0x60, "32.000KHz",
+	0x00, 0x00, 0
+};
+
+static struct fields OUTPUTMODEf[] = {
+	0x03, 0x00, "RAM bits=00",
+	0x03, 0x01, "RAM bits=01",
+	0x03, 0x02, "RAM bits=10",
+	0x03, 0x03, "RAM bits=11",
+	0x0C, 0x00, "INTR act-low open drain",
+	0x0C, 0x04, "INTR act-high open drain",
+	0x0C, 0x08, "INTR act-low push-pull",
+	0x0C, 0x0C, "INTR act-high push-pull",
+	0x30, 0x00, "MFO act-low open drain",
+	0x30, 0x10, "MFO act-high open drain",
+	0x30, 0x20, "MFO act-low push-pull",
+	0x30, 0x30, "MFO act-high push-pull",
+	0xC0, 0x00, "MFO = 2nd interrupt",
+	0xC0, 0x40, "MFO = timer 0",
+	0x80, 0x80, "MFO = crystal osc",
+	0x00, 0x00, 0
+};
+
+static struct fields INTCTRL0f[] = {
+	0x01, 0x01, "minutes enable",
+	0x02, 0x02, "10 sec enable",
+	0x04, 0x04, "seconds enable",
+	0x08, 0x08, "100 ms enable",
+	0x10, 0x10, "10 ms enable",
+	0x20, 0x20, "1 ms enable",
+	0x40, 0x40, "timer 0 enable",
+	0x80, 0x80, "timer 1 enable",
+	0x00, 0x00, 0
+};
+
+static struct fields INTCTRL1f[] = {
+	0x01, 0x01, "second compare enable",
+	0x02, 0x02, "minute compare enable",
+	0x04, 0x04, "hour compare enable",
+	0x08, 0x08, "day of month compare enable",
+	0x10, 0x10, "month compare enable",
+	0x20, 0x20, "day of week compare enable",
+	0x40, 0x40, "alarm interrupt enable",
+	0x80, 0x80, "power fail interrupt enable",
+	0x00, 0x00, 0
+};
+
+int    timer_print ()
+
+    {
+	register int i;
+
+        sim_printf ("\Main status    = 0x%02x", Tcp.Model.Msr);
+		disp_fields(MSRf, Tcp.Model.Msr);
+        sim_printf ("\nTimer 0 ctrl   = 0x%02x", Tcp.Model.Rs0.Timer0_Ctrl);
+		disp_fields(TIMER_CTRLf, Tcp.Model.Rs0.Timer0_Ctrl);
+        sim_printf ("\nTimer 1 ctrl   = 0x%02x", Tcp.Model.Rs0.Timer1_Ctrl);
+		disp_fields(TIMER_CTRLf, Tcp.Model.Rs0.Timer1_Ctrl);
+        sim_printf ("\nPeriodic flag  = 0x%02x", Tcp.Model.Rs0.PeriodicFlag);
+		disp_fields(PERIODICf, Tcp.Model.Rs0.PeriodicFlag);
+        sim_printf ("\nIntr routing   = 0x%02x", Tcp.Model.Rs0.InterruptRouting);
+		disp_fields(INTROUTEf, Tcp.Model.Rs0.InterruptRouting);
+        sim_printf ("\nReal time mode = 0x%02x", Tcp.Model.Rs1.RealTimeMode);
+		disp_fields(REALTIMEf, Tcp.Model.Rs1.RealTimeMode);
+        sim_printf ("\nOutput mode    = 0x%02x", Tcp.Model.Rs1.OutputMode);
+		disp_fields(OUTPUTMODEf, Tcp.Model.Rs1.OutputMode);
+        sim_printf ("\nIntr ctrl 0    = 0x%02x", Tcp.Model.Rs1.Intr0_Ctrl);
+		disp_fields(INTCTRL0f, Tcp.Model.Rs1.Intr0_Ctrl);
+        sim_printf ("\nIntr ctrl 1    = 0x%02x", Tcp.Model.Rs1.Intr1_Ctrl);
+		disp_fields(INTCTRL1f, Tcp.Model.Rs1.Intr1_Ctrl);
+        sim_printf ("\nCounters:  day %02d%02d, dow %02d,   %02d/%02d/%02d %02d:%02d:%02d.%02d\n",
+                 D2B(Tcp.Model.Julian100s_Counter),
+                 D2B(Tcp.Model.JulianUnits_Counter),
+                 D2B(Tcp.Model.DayOfWeek_Counter),
+                 D2B(Tcp.Model.DayOfMonth_Counter),
+                 D2B(Tcp.Model.Mon_Counter),
+                 D2B(Tcp.Model.Yrs_Counter),
+                 D2B(Tcp.Model.Hrs_Counter),
+                 D2B(Tcp.Model.Min_Counter),
+                 D2B(Tcp.Model.Sec_Counter),
+                 D2B(Tcp.Model.Hz100_Counter));
+        sim_printf ("Compare:   day ----, dow %02d,   %02d/%02d/-- %02d:%02d:%02d.-\n",
+                 D2B(Tcp.Model.DayOfWeek_Compare),
+                 D2B(Tcp.Model.DayOfMonth_Compare),
+                 D2B(Tcp.Model.Mon_Compare),
+                 D2B(Tcp.Model.Hrs_Compare),
+                 D2B(Tcp.Model.Min_Compare),
+                 D2B(Tcp.Model.Sec_Compare));
+        sim_printf ("Save:      day ----, dow --,   %02d/%02d/-- %02d:%02d:%02d.-\n",
+                 D2B(Tcp.Model.DayOfMonth_Save),
+                 D2B(Tcp.Model.Mon_Save),
+                 D2B(Tcp.Model.Hrs_Save),
+                 D2B(Tcp.Model.Min_Save),
+                 D2B(Tcp.Model.Sec_Save));
+        sim_printf ("Timers:    0: 0x%02x%02x    1: 0x%02x%02x\n", 
+                 Tcp.Model.Timer0_Msb,
+                 Tcp.Model.Timer0_Lsb,
+                 Tcp.Model.Timer0_Msb,
+                 Tcp.Model.Timer1_Lsb);
+        sim_printf ("Page0_Ram: 0x%02x\n", Tcp.Model.Page0_Ram);
+        sim_printf ("Test:      0x%02x\n", Tcp.Model.Test);
+        
+	/*
+	 * Don't display Ram[0]; it doesn't exist in the chip.
+	 */
+	sim_printf ("RAM bank:    ");
+	for (i=1; i<=0x0f; ++i) {
+		sim_printf(" %02x", Tcp.Model.Ram[i]);
+	}
+	sim_printf ("\n          ");
+	for (i=0x10; i<=0x1f; ++i) {
+		sim_printf(" %02x", Tcp.Model.Ram[i]);
+	}
+
+        sim_printf ("\n");
+    }
+
+#endif
+
+
+/*------------------------------------------------------------------------
+ * This section contains the simulated internal oscillator and clocking
+ * functions of the DP8571.
+ *
+ * This simulation is driven by the UTek setitimer() function using 
+ * virtual time mode (i.e., the timer only runs when this process is
+ * running, as opposed to real/walltime).
+ *
+ * The oscillator is simulated by Oscillator(). The clock is simulated by
+ * Clock().
+ *
+ * Because the simulator runs a little less then 250 times slower than the
+ * real hardware, this section must simulate an oscillator than is 250 
+ * slower than realtime. To further complicate things, the UTek system
+ * clock cannot provide a granularity any finer than 60Hz. Therefore, the
+ * fast frequency that can be simulated is (60Hz * 250) = 15kHz. The most
+ * convenient TCP frequency to use is 32kHz, so a compromise is reached:
+ * each tick of the simulated oscillator is considered to be 2 tics of
+ * the TCP's 32kHz oscillator. Only a 32kHz oscillator is supported by
+ * this simulation
+ *------------------------------------------------------------------------
+ */
+
+
+static unsigned int    cOscillations;      /* oscillator's progress during a second */
+
+static unsigned int    cMilliseconds;      /* milliseconds counter during a second */
+
+static int             fRolloverOccurred;  /* true when a clock rollover occurs */
+
+static int             fTimerPulse_1Hz;    /* true when a 1Hz rollover occurs */
+static int             fTimerPulse_10Hz;   /* true when a 10Hz rollover occurs */
+static int             fTimerPulse_100Hz;  /* true when a 100Hz rollover occurs */
+static int             fTimerPulse_1000Hz; /* true when a 1000Hz rollover occurs */
+
+
+/*------------------------------------------------------------------------
+ * Clock()
+ *
+ * Handle the clock portion of the TCP by checking the oscillation count
+ * and rolling any time elements necessary. The appropriate bits in the
+ * Periodic Flag register are set as rollover occurs. After the rollover
+ * is completed, the bits set in the Periodic Flag register are compared
+ * against the periodic interrupt enable bits in Intr Ctrl 0 register.
+ * Any matches cause the period-interrupt bit to be set in the MSR, and
+ * a h/w interrupt to be caused.
+ *
+ * The rollover code is admittedly very ugly, but efficient; its cascade
+ * structure only executes as much code as is absolutely necessary.
+ *------------------------------------------------------------------------
+ */
+
+static void    Clock()
+    {
+        void             HoldOscillator(), ReleaseOscillator(), CauseHwInterrupt();
+        unsigned char    fPm, ucMask;
+        int              fNewMonth, fNewDay, fLeapYear, fInterrupt;
+        int              cYearsSinceLastLeapYear, cBits;
+        
+
+
+        /* ========== */
+        /* Roll Clock */
+        /* ========== */
+
+        fRolloverOccurred = 0;
+        fTimerPulse_1Hz = 0;
+        fTimerPulse_10Hz = 0;
+        fTimerPulse_100Hz = 0;
+        fTimerPulse_1000Hz = 0;
+
+
+        /* ------------ */
+        /* Milliseconds */
+        /* ------------ */
+        if ((cOscillations % 32) == 0) {
+            HoldOscillator();
+            ++cMilliseconds;
+            cMilliseconds %= 1000;
+            fTimerPulse_1000Hz = 1;
+	    if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+		Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_MSEC_FLAG;
+		fRolloverOccurred = 1;
+	    }
+
+            /* ----- */
+            /* 100Hz */
+            /* ----- */
+            if ((cMilliseconds % 10) == 0) {
+                fTimerPulse_100Hz = 1;
+		if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+		    Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_10_MSEC_FLAG;
+		}
+                Tcp.Model.Hz100_Counter = B2D( (D2B(Tcp.Model.Hz100_Counter) + 1) % 100 );
+                if (Tcp.Model.Hz100_Counter == 0x00) {
+                    cMilliseconds = 0;    /* sync clock to ticker */
+                }
+
+
+                /* -------- */
+                /* 1/10 Sec */
+                /* -------- */
+                if ((cMilliseconds % 100) == 0) {
+                    fTimerPulse_10Hz = 1;
+		    if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+			Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_100_MSEC_FLAG;
+		    }
+
+
+                    /* ------ */
+                    /* Second */
+                    /* ------ */
+                    if ((cMilliseconds % 1000) == 0) {
+                        fTimerPulse_1Hz = 1;
+			if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+			    Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_SEC_FLAG;
+			}
+                        Tcp.Model.Sec_Counter = B2D( (D2B(Tcp.Model.Sec_Counter) + 1) % 60);
+
+
+                        /* ---------- */
+                        /* 10 Seconds */
+                        /* ---------- */
+                        if ((D2B(Tcp.Model.Sec_Counter) % 10) == 0) {
+			    if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+				Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_10_SEC_FLAG;
+			    }
+
+
+                            /* ------- */
+                            /* Minutes */
+                            /* ------- */
+                            if (D2B(Tcp.Model.Sec_Counter) == 0) {
+				if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+				    Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_MIN_FLAG;
+				}
+                                Tcp.Model.Min_Counter = B2D( (D2B(Tcp.Model.Min_Counter) + 1) % 60);
+
+                                
+                                /* ----- */
+                                /* Hours */
+                                /* ----- */
+                                if (D2B(Tcp.Model.Min_Counter) == 0) {
+                                    fNewDay = 0;
+                                    if (!(Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_MILITARY)) {
+                                        Tcp.Model.Hrs_Counter = B2D( (D2B(Tcp.Model.Hrs_Counter) + 1) % 24);
+                                        if (Tcp.Model.Hrs_Counter == 0x00) {
+                                            fNewDay = 1;
+                                        }
+                                    }
+                                    else {
+                                        fPm = Tcp.Model.Hrs_Counter & 0x80;
+                                        Tcp.Model.Hrs_Counter &= 0x7f;    /* trim of PM bit, for now */
+                                        Tcp.Model.Hrs_Counter = B2D( D2B(Tcp.Model.Hrs_Counter) + 1);
+                                        if (Tcp.Model.Hrs_Counter >= 0x13) {
+                                            Tcp.Model.Hrs_Counter = 0x01;
+                                            if (fPm) {
+                                                fNewDay = 1;
+                                            }
+                                            else {
+                                                Tcp.Model.Hrs_Counter |= 0x80;   /* set PM bit */
+                                            }
+                                        }
+                                        else {
+                                            Tcp.Model.Hrs_Counter |= fPm;   /* restore PM bit */
+                                        }
+                                    }
+
+
+                                    /* --- */
+                                    /* Day */
+                                    /* --- */
+                                    if (fNewDay) {
+                                        Tcp.Model.DayOfWeek_Counter = B2D( D2B(Tcp.Model.DayOfWeek_Counter) + 1);
+                                        if (Tcp.Model.DayOfWeek_Counter > 0x07) {
+                                            Tcp.Model.DayOfWeek_Counter = 0x01;
+                                        }
+                                        Tcp.Model.JulianUnits_Counter = B2D( (D2B(Tcp.Model.JulianUnits_Counter) + 1) 
+                                                                              % 100);
+                                        if (Tcp.Model.JulianUnits_Counter == 0x00) {
+                                            Tcp.Model.Julian100s_Counter = B2D( D2B(Tcp.Model.Julian100s_Counter) + 1);
+                                        }
+                                        Tcp.Model.DayOfMonth_Counter = B2D( D2B(Tcp.Model.DayOfMonth_Counter) + 1);
+                                        
+
+
+                                        /* ----- */
+                                        /* Month */
+                                        /* ----- */
+                                        fNewMonth = 0;
+                                        fLeapYear = 0;
+                                        if ((!(Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_LEAP_YEAR_LSB))
+                                            && (!(Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_LEAP_YEAR_MSB))) {
+                                            fLeapYear = 1;
+                                        }
+                                        switch (Tcp.Model.Mon_Counter) {
+                                            case 0x02:
+                                                if ((Tcp.Model.DayOfMonth_Counter == 0x29)  
+                                                     &&  (!fLeapYear)) {
+                                                    fNewMonth = 1;
+                                                }
+                                                else if (Tcp.Model.DayOfMonth_Counter == 0x30) {
+                                                    fNewMonth = 1;
+                                                }
+                                                break;
+                                            case 0x01:
+                                            case 0x03:
+                                            case 0x05:
+                                            case 0x07:
+                                            case 0x08:
+                                            case 0x10:
+                                            case 0x12:
+                                                if (Tcp.Model.DayOfMonth_Counter == 0x32) {
+                                                    fNewMonth = 1;
+                                                }
+                                                break;
+                                            default:
+                                                if (Tcp.Model.DayOfMonth_Counter == 0x31) {
+                                                    fNewMonth = 1;
+                                                }
+                                                break;
+                                         }    /* switch */       
+                                         if (fNewMonth) {
+                                            Tcp.Model.DayOfMonth_Counter = 0x01;
+                                            Tcp.Model.Mon_Counter = B2D( D2B(Tcp.Model.Mon_Counter) + 1);
+                                            Tcp.Model.DayOfMonth_Counter = 0x01;
+
+
+                                            /* ---- */
+                                            /* Year */
+                                            /* ---- */
+                                            if (Tcp.Model.Mon_Counter > 0x12) {
+                                                cYearsSinceLastLeapYear = (int)Tcp.Model.Rs1.RealTimeMode & 0x03;
+                                                ++cYearsSinceLastLeapYear;
+                                                cYearsSinceLastLeapYear %= 4;
+                                                Tcp.Model.Rs1.RealTimeMode = (Tcp.Model.Rs1.RealTimeMode & 0xfc)
+                                                                         | (unsigned char)(cYearsSinceLastLeapYear & 0x03);
+                                                Tcp.Model.Mon_Counter = 0x01;
+                                                Tcp.Model.Yrs_Counter = B2D( (D2B(Tcp.Model.Yrs_Counter) + 1) % 100);
+                                                Tcp.Model.Julian100s_Counter = 0x00;
+                                                Tcp.Model.JulianUnits_Counter = 0x00;
+                                            }    /* new year */
+                                        }    /* new month */
+                                    }    /* new day */
+                                }    /* new hour */
+                            }    /* new minute */
+                        }    /* new 10 seconds */
+                    }    /* new second */
+                }    /* new 1/10 second */
+            }    /* new 100Hz pulse */
+            ReleaseOscillator();
+        }    /* new millisecond */
+
+                                        
+
+
+
+        /* ====================== */
+        /* Save RAM follows Clock */
+        /* ====================== */
+
+        if (Tcp.Model.Rs0.InterruptRouting & DP8571_IRR_TIME_SAVE_ENABLE) {
+            Tcp.Model.Sec_Save = Tcp.Model.Sec_Counter;
+            Tcp.Model.Min_Save = Tcp.Model.Min_Counter;
+            Tcp.Model.Hrs_Save = Tcp.Model.Hrs_Counter;
+            Tcp.Model.DayOfMonth_Save = Tcp.Model.DayOfMonth_Counter;
+            Tcp.Model.Mon_Save = Tcp.Model.Mon_Counter;
+        }
+
+
+
+
+        /* ======================== */
+        /* Cause Rollover Interrupt */
+        /* ======================== */
+
+        fInterrupt = 0;
+        ucMask = 0x01;
+        for (cBits = 0;    cBits <= 5;    cBits++) {
+            if (Tcp.Model.Rs0.PeriodicFlag & ucMask) {
+                if (Tcp.Model.Rs1.Intr0_Ctrl & ucMask) {
+                    fInterrupt = 1;
+                    cBits = 6;    /* clean break */
+                }
+            }
+            ucMask <<= 1;
+        }        
+        if (fInterrupt) {
+            if (verbose) {
+                sim_printf ("\n");
+                sim_printf ("*** Periodic interrupt ***\n");
+            }
+            Tcp.Model.Msr |= DP8571_MSR_PERIOD_INTERRUPT;
+            CauseHwInterrupt();
+        }
+    
+    }
+                
+
+/*------------------------------------------------------------------------
+ * Alarm()
+ *
+ * This routine compares the compare RAM against the clock for those time
+ * elements that have been enabled for alarm comparison. If a match is
+ * found, then the appropriate interrupt action is taken.
+ *
+ * An easy optimization is to call this routine only after a clock rollover
+ * has occurred.
+ *------------------------------------------------------------------------
+ */
+
+static void    Alarm()
+
+    {
+        void            CauseHwInterrupt();
+        unsigned int    cMask;
+        int             cBits, fMatch;
+
+
+
+        /* see if any alarms are enabled */
+        if (!(Tcp.Model.Rs1.Intr1_Ctrl & 0x3f)) {
+            return;
+        }
+
+        /* ------- */
+        /* Compare */
+        /* ------- */
+        
+        fMatch = 1;
+        cMask = 0x01;
+        for (cBits = 0;    cBits <= 5;    cBits++)    {
+            if (Tcp.Model.Rs1.Intr1_Ctrl & cMask) {
+                switch (cMask) {
+                    case DP8571_ICR1_SEC_COMPARE_ENABLE:
+                        if (Tcp.Model.Sec_Counter != Tcp.Model.Sec_Compare) {
+                            fMatch = 0;
+                        }
+                        break;
+                    case DP8571_ICR1_MIN_COMPARE_ENABLE:
+                        if (Tcp.Model.Min_Counter != Tcp.Model.Min_Compare) {
+                            fMatch = 0;
+                        }
+                        break;
+                    case DP8571_ICR1_HRS_COMPARE_ENABLE:
+                        if (Tcp.Model.Hrs_Counter != Tcp.Model.Hrs_Compare) {
+                            fMatch = 0;
+                        }
+                        break;
+                    case DP8571_ICR1_DOM_COMPARE_ENABLE:
+                        if (Tcp.Model.DayOfMonth_Counter != Tcp.Model.DayOfMonth_Compare) {
+                            fMatch = 0;
+                        }
+                        break;
+                    case DP8571_ICR1_MON_COMPARE_ENABLE:
+                        if (Tcp.Model.Mon_Counter != Tcp.Model.Mon_Compare) {
+                            fMatch = 0;
+                        }
+                        break;
+                    case DP8571_ICR1_DOW_COMPARE_ENABLE:
+                        if (Tcp.Model.DayOfWeek_Counter != Tcp.Model.DayOfWeek_Compare) {
+                            fMatch = 0;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (!fMatch) {
+                break;
+            }
+            else {
+                cMask <<= 1;
+            }
+        }
+
+
+
+        /* --------- */
+        /* Interrupt */
+        /* --------- */
+
+        if (fMatch) {
+            if (verbose) {
+                sim_printf ("timer: *** Alarm interrupt ***\n");
+            }
+            Tcp.Model.Msr |= DP8571_MSR_ALARM_INTERRUPT;
+            if (Tcp.Model.Rs1.Intr1_Ctrl & DP8571_ICR1_ALARM_INTR_ENABLE) {
+                CauseHwInterrupt();
+            }
+        }
+
+    }
+
+/*------------------------------------------------------------------------
+ * Timers()
+ *
+ * This routine simulates the timers. All output modes are supported, but
+ * the oscillator clock inputs are not supported.
+ *
+ * Timer 1 is simulated first, because its output can affect the operation of
+ * Timer 0.
+ *
+ * A simple optimization is to call this routine only after a clock rollover.
+ *------------------------------------------------------------------------
+ */
+
+static void    Timers()
+
+    {
+        void             CauseHwInterrupt();
+        int              fInterrupt, fDecrement, fTimerPulse_Timer1;
+        unsigned char    cInputClock, cMode;
+        
+
+        /* ------- */
+        /* Timer 1 */
+        /* ------- */
+
+        fTimerPulse_Timer1 = 0;
+        if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_START) {
+            if (!(Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_COUNT_HOLD)) {
+                fDecrement = 0;
+                cInputClock = (Tcp.Model.Rs0.Timer1_Ctrl & (DP8571_TCR_ICS_1 | DP8571_TCR_ICS_2 | DP8571_TCR_ICS_3));
+                switch (cInputClock) {
+                    case DP8571_TCR_CLOCK_1:
+                        if (fTimerPulse_1Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    case DP8571_TCR_CLOCK_10:
+                        if (fTimerPulse_10Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    case DP8571_TCR_CLOCK_100:
+                        if (fTimerPulse_100Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    case DP8571_TCR_CLOCK_1000:
+                        if (fTimerPulse_1000Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    default:
+			/*
+			 * For all faster inputs, just assume it ticked.
+			 * This is needed to simulate the kernel, which uses
+			 * a 32768 (crystal oscillator speed) input.
+			 */
+                        fDecrement = 1;
+                }
+                if (fDecrement) {
+                    if (Tcp.cTimer1) {
+                        --Tcp.cTimer1;
+                    }
+                    if (Tcp.cTimer1 == 0) {
+                        fInterrupt = 0;
+                        cMode = Tcp.Model.Rs0.Timer1_Ctrl & (DP8571_TCR_MS_1 | DP8571_TCR_MS_2);
+                        switch (cMode) {
+                            case DP8571_TCR_SINGLE_PULSE_GEN:
+                                Tcp.Model.Rs0.Timer1_Ctrl &= ~DP8571_TCR_TIMER_START;
+                                fInterrupt = 1;
+                                break;
+                            case DP8571_TCR_RATE_GEN:
+                                if (Tcp.fWaiting1) {
+                                    Tcp.fWaiting1 = 0;
+                                    Tcp.cTimer1 = (int)(Tcp.Model.Timer1_Msb << 8);
+                                    Tcp.cTimer1 += (int)Tcp.Model.Timer1_Lsb;
+                                    Tcp.cTimer1 &= 0xffff;
+                                }
+                                else {
+                                    Tcp.fWaiting1 = 1;
+                                    fInterrupt = 1;
+                                }
+                                break;
+                            case DP8571_TCR_SQUARE_WAVE:
+                                if (Tcp.fWaiting1) {
+                                    Tcp.fWaiting1 = 0;
+                                }
+                                else {
+                                    Tcp.fWaiting1 = 1;
+                                    fInterrupt = 1;
+                                }
+                                Tcp.cTimer1 = (int)(Tcp.Model.Timer1_Msb << 8);
+                                Tcp.cTimer1 += (int)Tcp.Model.Timer1_Lsb;
+                                Tcp.cTimer1 &= 0xffff;
+                                break;
+                            case DP8571_TCR_ONE_SHOT:
+                                fInterrupt = 1;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (fInterrupt) {
+                            fTimerPulse_Timer1 = 1;
+                            if (Tcp.Model.Rs1.Intr0_Ctrl & DP8571_ICR_TIMER_1) {
+                                Tcp.Model.Msr |= DP8571_MSR_TIMER_1_INTERRUPT;
+                                if (verbose) {
+                                    sim_printf ("timer: *** Timer 1 interrupt ***\n");
+                                }
+                                CauseHwInterrupt();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        /* ------- */
+        /* Timer 0 */
+        /* ------- */
+
+        if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_START) {
+            if (!(Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_COUNT_HOLD)) {
+                fDecrement = 0;
+                cInputClock = (Tcp.Model.Rs0.Timer0_Ctrl & (DP8571_TCR_ICS_1 | DP8571_TCR_ICS_2 | DP8571_TCR_ICS_3));
+                switch (cInputClock) {
+                    case DP8571_TCR_CLOCK_1:
+                        if (fTimerPulse_1Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    case DP8571_TCR_CLOCK_10:
+                        if (fTimerPulse_10Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    case DP8571_TCR_CLOCK_100:
+                        if (fTimerPulse_100Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    case DP8571_TCR_CLOCK_1000:
+                        if (fTimerPulse_1000Hz) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    case DP8571_TCR_CLOCK_TIMER1_OUTPUT:
+                        if (fTimerPulse_Timer1) {
+                            fDecrement = 1;
+                        }
+                        break;
+                    default:
+			/*
+			 * For all faster inputs, just assume it ticked.
+			 * This is needed to simulate the kernel, which uses
+			 * a 32768 (crystal oscillator speed) input.
+			 */
+                        fDecrement = 1;
+                }
+                if (fDecrement) {
+                    if (Tcp.cTimer0) {
+                        --Tcp.cTimer0;
+                    }
+                    if (Tcp.cTimer0 == 0) {
+                        fInterrupt = 0;
+                        cMode = Tcp.Model.Rs0.Timer0_Ctrl & (DP8571_TCR_MS_1 | DP8571_TCR_MS_2);
+                        switch (cMode) {
+                            case DP8571_TCR_SINGLE_PULSE_GEN:
+                                Tcp.Model.Rs0.Timer0_Ctrl &= ~DP8571_TCR_TIMER_START;
+                                fInterrupt = 1;
+                                break;
+                            case DP8571_TCR_RATE_GEN:
+                                if (Tcp.fWaiting0) {
+                                    Tcp.fWaiting0 = 0;
+                                    Tcp.cTimer0 = (int)(Tcp.Model.Timer0_Msb << 8);
+                                    Tcp.cTimer0 += (int)Tcp.Model.Timer0_Lsb;
+                                    Tcp.cTimer0 &= 0xffff;
+                                }
+                                else {
+                                    Tcp.fWaiting0 = 1;
+                                    fInterrupt = 1;
+                                }
+                                break;
+                            case DP8571_TCR_SQUARE_WAVE:
+                                if (Tcp.fWaiting0) {
+                                    Tcp.fWaiting0 = 0;
+                                }
+                                else {
+                                    Tcp.fWaiting0 = 1;
+                                    fInterrupt = 1;
+                                }
+                                Tcp.cTimer0 = (int)(Tcp.Model.Timer0_Msb << 8);
+                                Tcp.cTimer0 += (int)Tcp.Model.Timer0_Lsb;
+                                Tcp.cTimer0 &= 0xffff;
+                                break;
+                            case DP8571_TCR_ONE_SHOT:
+                                fInterrupt = 1;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (fInterrupt) {
+                            if (Tcp.Model.Rs1.Intr0_Ctrl & DP8571_ICR_TIMER_0) {
+                                Tcp.Model.Msr |= DP8571_MSR_TIMER_0_INTERRUPT;
+                                if (verbose) {
+                                    sim_printf ("timer: *** Timer 0 interrupt ***\n");
+                                }
+                                CauseHwInterrupt();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }        
+
+/*------------------------------------------------------------------------
+ * ReassertInterrupts()
+ *
+ * This routine reasserts interrupts that user code has failed to clear
+ * yet.
+ *------------------------------------------------------------------------
+ */
+
+static void    ReassertInterrupts()
+
+    {
+        /* periodic */
+        if (Tcp.Model.Rs1.Intr0_Ctrl & 0x3f) {
+            if (Tcp.Model.Msr & DP8571_MSR_PERIOD_INTERRUPT) {
+                CauseHwInterrupt();
+                return;
+            }
+        }
+
+
+        /* timer 0 */
+        if (Tcp.Model.Rs1.Intr0_Ctrl & DP8571_ICR_TIMER_0) {
+            if (Tcp.Model.Msr & DP8571_MSR_TIMER_0_INTERRUPT) {
+                CauseHwInterrupt();
+                return;
+            }
+        }
+
+
+        /* timer 1 */
+        if (Tcp.Model.Rs1.Intr0_Ctrl & DP8571_ICR_TIMER_1) {
+            if (Tcp.Model.Msr & DP8571_MSR_TIMER_1_INTERRUPT) {
+                CauseHwInterrupt();
+                return;
+            }
+        }
+
+
+        /* alarm */
+        if (Tcp.Model.Rs1.Intr1_Ctrl & DP8571_ICR1_ALARM_INTR_ENABLE) {
+            if (Tcp.Model.Msr & DP8571_MSR_ALARM_INTERRUPT) {
+                CauseHwInterrupt();
+                return;
+            }
+        }
+
+    }
+
+
+/*
+ * timer_new_vmemask -- the I/O board VME interrupt enable mask has changed.
+ * Bit 6 of this mask controls whether timer interrupts get to the CE board.
+ * Keep track of whether timer interrupts are now enabled.
+ */
+timer_new_vmemask(mask) int mask;
+{
+	vmemask = mask;
+	ReassertInterrupts();
+}
+        
+/*------------------------------------------------------------------------
+ * Oscillator()
+ *
+ * This routine simulatate the oscillator. This routine gets called by UTek
+ * in response to a SIGVTALRM. In response, 2 pulses are added to the
+ * oscillation count, and the clock, timer, and alarm management routines
+ * are called.
+ *------------------------------------------------------------------------
+ */
+
+
+void    Oscillator()
+
+    {
+        /* Best Estimate:
+        cOscillations += 2;
+        */
+
+        /* so development doesn't take forever */
+        cOscillations += 32;    /* every tic is a millisecond */
+        
+
+        cOscillations %= 32000;
+
+        Clock();
+        if (fRolloverOccurred) {
+            Alarm();
+            Timers();
+            /* ReleaseOscillator(); */
+        }
+        /*
+        ReassertInterrupts();
+        */
+
+    }
+
+
+/*------------------------------------------------------------------------
+ * StopOscillator()
+ *
+ * Stop the oscillator simulation by stoping the UTek clock.
+ *------------------------------------------------------------------------
+ */
+
+static void    StopOscillator()
+    {
+        struct itimerval    itvOff;
+        
+	/*
+	 * If the oscillator is already stopped, do nothing.
+	 */
+	if (!timer_going) {
+		return;
+	}
+
+        itvOff.it_interval.tv_sec = 0;
+        itvOff.it_interval.tv_usec = 0;
+        itvOff.it_value.tv_sec = 0;
+        itvOff.it_value.tv_usec = 0;
+        setitimer (ITIMER_VIRTUAL, &itvOff, &itvCurrent);
+        timer_going = 0;
+    }
+
+/*
+ * maybeStopOscillator - stop the oscillator if all three of the
+ * time-of-day clock, timer 0 and timer 1 are off.
+ * This is incorrect because it will stop the period flag register bits from
+ * rolling, but this allows programs that don't explicitly start the timer
+ * to run without the oscillator overhead.
+ */
+static void maybeStopOscillator()
+{
+	if (!(Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_START) &&
+	    !(Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_START) &&
+	    !(Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START)) {
+		StopOscillator();
+	}
+}
+
+
+/*------------------------------------------------------------------------
+ * StartOscillator()
+ *
+ * Start the oscillator simulation by starting the UTek clock.
+ *------------------------------------------------------------------------
+ */
+
+static void    StartOscillator()
+    {
+        struct itimerval itvDummy;
+
+	/*
+	 * If the oscillator is already started, do nothing.
+	 */
+	if (timer_going) {
+		return;
+	}
+
+        /* start the simulated oscillator count */
+        cOscillations = 0;
+        cMilliseconds = 0;
+
+        /* start the UTek clock */
+        itvCurrent.it_value.tv_usec += 30; /* Compensate for startup time. */
+        (void) setitimer (ITIMER_VIRTUAL, &itvCurrent, &itvDummy);
+        timer_going = 1;
+    }
+
+
+/*------------------------------------------------------------------------
+ * HoldOscillator()
+ *
+ * Temporarily stop the oscillator by stopping the UTek timer that drives
+ * it. This is also very handy when doing a rollover in case the simulation
+ * code requires more than 1/60sec to execute!, and to make it effectively
+ * "non-interruptable" (by the UTek timer).
+ *------------------------------------------------------------------------
+ */
+
+static int hold_count=0;
+
+void    HoldOscillator()
+    {
+        struct itimerval    itvOff;
+
+	/*
+	 * If the timer isn't ticking, there's nothing to hold.
+	 */
+	if (!timer_going) {
+		return;
+	}
+
+	/*
+	 * Consistency check: make sure that calls to HoldOscillator and
+	 * ReleaseOscillator are in the proper sequence.
+	 */
+	if (hold_count != 0) {
+		sim_printf("HoldOscillator called while already held\n");
+		return;
+	}
+	hold_count = 1;
+
+	/*
+	 * Turn off the interval timer, and save its old value.
+	 */
+        itvOff.it_interval.tv_sec = 0;
+        itvOff.it_interval.tv_usec = 0;
+        itvOff.it_value.tv_sec = 0;
+        itvOff.it_value.tv_usec = 0;
+
+        (void) setitimer (ITIMER_VIRTUAL, &itvOff, &itvCurrent);
+    }
+
+
+
+
+
+/*------------------------------------------------------------------------
+ * ReleaseOscillator()
+ *
+ * Restart the oscillator simulation by re-starting the UTek timer used to
+ * drive it. This routine assumes that the UTek timer has been stopped by
+ * HoldOscillator().
+ *------------------------------------------------------------------------
+ */
+
+void    ReleaseOscillator()
+    {
+        struct itimerval    itvDummy;
+
+	/*
+	 * If the timer isn't supposed to be ticking, there's nothing to hold.
+	 */
+	if (!timer_going) {
+		return;
+	}
+
+	if (hold_count != 1) {
+		sim_printf("ReleaseOscillator called when not held\n");
+		return;
+	}
+	hold_count = 0;
+
+        itvCurrent.it_value.tv_usec += 30;
+        (void) setitimer (ITIMER_VIRTUAL, &itvCurrent, &itvDummy);
+    }
+
+/*------------------------------------------------------------------------
+ * CauseHwInterrupt()
+ *
+ * Simulate a hardware interrupt by setting the simulator interrupt flag.
+ *------------------------------------------------------------------------
+ */
+
+static void    CauseHwInterrupt()
+    {
+        Tcp.Model.Msr |= DP8571_MSR_INTERRUPT_STATUS;
+	if (vmemask) {
+            set_iob_interrupt(8, 0);
+	}
+    }
+
+/*------------------------------------------------------------------------
+ * timer_operation()
+ *
+ * This routine is the interface of the TCP simulator with the m78k 
+ * simulator.
+ *------------------------------------------------------------------------
+ */
+
+int    timer_operation (ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+    unsigned int    ulAddress_offset;
+    unsigned int    *pulReg;
+    unsigned int    cSize;
+    unsigned int    cMem_op_type;
+    int             fOverride;
+
+    {
+        unsigned char    *pucModelAddr, tucReg, tucTimer, tucMsr, tucBitClr;
+
+        if ((ulAddress_offset & 3) != 0) {
+            sim_printf("timer_operation: address must hit ls byte\n");
+            return E_DACC;
+        }
+
+        /*
+         * Kludge to make address layout of timer chip correspond
+         * to kludge of timer address on IO board.
+         */
+        ulAddress_offset >>= 2;
+
+        /* -------- */
+        /* Validate */
+        /* -------- */
+
+        if ( (!fOverride) & (cSize != BYTE) ) {
+            sim_printf ("Timer: I/O must use byte operations ");
+            sim_printf ("(addr: 0x%x)\n", (0xc0000000 + ulAddress_offset));
+            return (E_DACC);
+        }
+
+        /* --------------------- */
+        /* Perform the operation */
+        /* --------------------- */
+
+        pucModelAddr = PUC_Xlate_Physical_Addr_To_Model_Addr ((unsigned char *)ulAddress_offset);
+
+        if (verbose) {
+            sim_printf ("timer: transaction\n");
+            sim_printf ("       register:     0x%x\n", *pulReg);
+            sim_printf ("       rel addr:     0x%x   ", ulAddress_offset);
+            if ((pucModelAddr >= Tcp.Model.Ram) && (pucModelAddr < &Tcp.Model.Rs0.Timer0_Ctrl)) {
+                sim_printf ("Ram location 0x%x", ulAddress_offset);
+            }
+            else switch (ulAddress_offset) {
+                case DP8571_MSR:
+                    sim_printf ("Main Status Register");
+                    break;
+                case DP8571_TIMER_0_CTRL:
+                    if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                        sim_printf ("Realtime Mode Register");
+                    }
+                    else {
+                        sim_printf ("Timer 0 Ctrl Register");
+                    }
+                    break;
+                case DP8571_TIMER_1_CTRL:
+                    if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                        sim_printf ("Output Mode Register");
+                    }
+                    else {
+                        sim_printf ("Timer 1 Ctrl Register");
+                    }
+                    break;
+                case DP8571_PERIODIC_FLAG:
+                    if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                        sim_printf ("Intr 0 Ctrl Register");
+                    }
+                    else {
+                        sim_printf ("Periodic Flag Register");
+                    }
+                    break;
+                case DP8571_INTR_ROUTE:
+                    if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                        sim_printf ("Intr 1 Ctrl Register");
+                    }
+                    else {
+                        sim_printf ("Intr Routing Register");
+                    }
+                    break;
+                case DP8571_TIMER_0_LSB:
+                    sim_printf ("Timer 0 LSB ");
+                    if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_READ) {
+                        sim_printf ("(Actual)");
+                    }
+                    else {
+                        sim_printf ("(Data)");
+                    }
+                    break;
+                case DP8571_TIMER_0_MSB:
+                    sim_printf ("Timer 0 MSB ");
+                    if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_READ) {
+                        sim_printf ("(Actual)");
+                    }
+                    else {
+                        sim_printf ("(Data)");
+                    }
+                    break;
+                case DP8571_TIMER_1_LSB:
+                    sim_printf ("Timer 1 LSB ");
+                    if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_READ) {
+                        sim_printf ("(Actual)");
+                    }
+                    else {
+                        sim_printf ("(Data)");
+                    }
+                    break;
+                case DP8571_TIMER_1_MSB:
+                    sim_printf ("Timer 1 MSB ");
+                    if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_READ) {
+                        sim_printf ("(Actual)");
+                    }
+                    else {
+                        sim_printf ("(Data)");
+                    }
+                    break;
+                default:
+                    break;
+            }
+            sim_printf ("\n");
+            sim_printf ("       cMem_op_type: ");
+            switch (cMem_op_type) {
+                case LD: sim_printf ("LD"); break;
+                case ST: sim_printf ("ST"); break;
+                case XMEM: sim_printf ("XMEM"); break;
+                case LD_U: sim_printf ("LD_U"); break;
+                case XMEM_U: sim_printf ("XMEM_U"); break;
+                default: sim_printf ("***UNKNOWN***");
+            }
+            sim_printf ("\n\n");
+        }
+
+
+        /* -------------------- */
+        /* Call Register Driver */
+        /* -------------------- */
+        
+        if ((pucModelAddr >= Tcp.Model.Ram) && (pucModelAddr < &Tcp.Model.Rs0.Timer0_Ctrl)) {
+            do_mem_op (pulReg, (unsigned int *)pucModelAddr, BYTE, cMem_op_type);
+        }
+        else switch (ulAddress_offset) {
+            case DP8571_MSR:
+                switch (cMem_op_type) {
+                    case LD:
+                    case LD_U:
+                        *pulReg = Tcp.Model.Msr;
+                        break;
+                    case ST:
+                    case XMEM:
+                    case XMEM_U:
+                        /* get the current MSR, less page/register bits */
+                        tucMsr = Tcp.Model.Msr & 0x3f;
+
+                        /* get page/register bits */
+                        tucMsr |= *pulReg & 0xc0;
+
+                        /* clear interrupt bits that have 1 written to them */
+                        tucBitClr = (*pulReg &= 0xfe);
+                        tucBitClr &= (DP8571_MSR_PERIOD_INTERRUPT | DP8571_MSR_ALARM_INTERRUPT
+                                    | DP8571_MSR_TIMER_0_INTERRUPT | DP8571_MSR_TIMER_1_INTERRUPT);
+                        tucMsr &= ~tucBitClr;
+
+                        /* clear interrupt status bit */
+                        if (!(tucMsr & (DP8571_MSR_PERIOD_INTERRUPT | DP8571_MSR_ALARM_INTERRUPT
+                                     | DP8571_MSR_TIMER_0_INTERRUPT | DP8571_MSR_TIMER_1_INTERRUPT))) {
+                            tucMsr &= ~DP8571_MSR_INTERRUPT_STATUS;
+                        }
+                        else {
+                            tucMsr |= DP8571_MSR_INTERRUPT_STATUS;
+                        }
+
+                        /* handle exchanges */
+                        if ((cMem_op_type == XMEM) || (cMem_op_type == XMEM_U)) {
+                            *pulReg = Tcp.Model.Msr;
+                        }
+
+                        /* do the actual store */
+                        Tcp.Model.Msr = tucMsr;
+                        break;
+                    default: break;
+                }
+                break;
+            case DP8571_TIMER_0_CTRL:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                    /* Real Time Mode Register */
+		    do_mem_op (pulReg, &Tcp.Model.Rs1.RealTimeMode, BYTE, cMem_op_type);
+		    if ( (cMem_op_type == ST) || (cMem_op_type == XMEM) || (cMem_op_type == XMEM_U) ) {
+                        if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+                            StartOscillator();
+                        }
+                        else {
+                            maybeStopOscillator();
+                        }
+                    }
+                }
+                else {
+                    /* Timer 0 Control Register */
+		    do_mem_op (pulReg, &Tcp.Model.Rs0.Timer0_Ctrl, BYTE, cMem_op_type);
+		    if ( (cMem_op_type == ST) || (cMem_op_type == XMEM) || (cMem_op_type == XMEM_U) ) {
+                        if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_START) {
+                            StartOscillator();
+                            if (!Tcp.fTimerStart0) {
+                                Tcp.cTimer0 = (unsigned int) ((Tcp.Model.Timer0_Msb << 8) | Tcp.Model.Timer0_Lsb);
+                                Tcp.fTimerStart0 = 1;
+                            }
+                        }
+                        else {
+                            maybeStopOscillator();
+                            Tcp.fTimerStart0 = 0;
+                        }
+                        if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_COUNT_HOLD) {
+                            if ((Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_MS_1) 
+                                 && (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_MS_2)) {
+                                /* retrigger */
+                                Tcp.cTimer0 = (unsigned int) ((Tcp.Model.Timer0_Msb << 8) | Tcp.Model.Timer0_Lsb);
+                            }
+                        }
+                    }
+                }
+                break;
+            case DP8571_TIMER_1_CTRL:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+		    /* output mode */
+		    do_mem_op (pulReg, &Tcp.Model.Rs1.OutputMode, BYTE, cMem_op_type);
+                }
+                else {
+                    /* Timer 1 Control Register */
+		    do_mem_op (pulReg, &Tcp.Model.Rs0.Timer1_Ctrl, BYTE, cMem_op_type);
+		    if ( (cMem_op_type == ST) || (cMem_op_type == XMEM) || (cMem_op_type == XMEM_U) ) {
+                        if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_START) {
+                            StartOscillator();
+                            if (!Tcp.fTimerStart1) {
+                                Tcp.cTimer1 = (unsigned int) ((Tcp.Model.Timer1_Msb << 8) | Tcp.Model.Timer1_Lsb);
+                                Tcp.fTimerStart1 = 1;
+                            }
+                        }
+                        else {
+                            maybeStopOscillator();
+                            Tcp.fTimerStart1 = 0;
+                        }
+                        if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_COUNT_HOLD) {
+                            if ((Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_MS_1) 
+                                 && (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_MS_2)) {
+                                /* retrigger */
+                                Tcp.cTimer1 = (unsigned int) ((Tcp.Model.Timer1_Msb << 8) | Tcp.Model.Timer1_Lsb);
+                            }
+                        }
+                    }
+                }
+                break;
+            case DP8571_PERIODIC_FLAG:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                    /* Interrupt 0 Control Register */
+                    do_mem_op (pulReg, &Tcp.Model.Rs1.Intr0_Ctrl, BYTE, cMem_op_type);
+                }
+                else {
+                    /* Periodic Flag Register */
+                    switch (cMem_op_type) {
+                        case ST:
+                        case XMEM:
+                        case XMEM_U:
+                            if (*pulReg & 0x3f) {
+                                sim_printf ("timer: Periodic Flag Register D0-D5 are read-only\n");
+                            }
+                            tucReg = *pulReg & 0xc0;
+                            if ((cMem_op_type == XMEM) || (cMem_op_type == XMEM_U)) {
+                                *pulReg = Tcp.Model.Rs0.PeriodicFlag;
+                                Tcp.Model.Rs0.PeriodicFlag &= 0xc0;
+                            }
+                            Tcp.Model.Rs0.PeriodicFlag &= 0x3f;
+                            Tcp.Model.Rs0.PeriodicFlag |= tucReg;
+                            break;
+                        case LD:
+                        case LD_U:
+                            *pulReg = Tcp.Model.Rs0.PeriodicFlag;
+                            Tcp.Model.Rs0.PeriodicFlag &= 0xc0;
+                            break;                            
+                        default:
+                            break;
+                    }
+                        
+                }
+                break;
+            case DP8571_INTR_ROUTE:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                    /* Interrupt Control Register 1 */
+		    do_mem_op (pulReg, &Tcp.Model.Rs1.Intr1_Ctrl, BYTE, cMem_op_type);
+                }
+                else {
+                    /* Interrupt Routing Register */
+		    do_mem_op (pulReg, &Tcp.Model.Rs0.InterruptRouting, BYTE, cMem_op_type);
+		    if ( (cMem_op_type == ST) || (cMem_op_type == XMEM) || (cMem_op_type == XMEM_U) ) {
+                        if (Tcp.Model.Rs0.InterruptRouting & DP8571_IRR_TIME_SAVE_ENABLE) {
+                            /* immediate latch */
+                            Tcp.Model.Sec_Save = Tcp.Model.Sec_Counter;
+                            Tcp.Model.Min_Save = Tcp.Model.Min_Counter;
+                            Tcp.Model.Hrs_Save = Tcp.Model.Hrs_Counter;
+                            Tcp.Model.DayOfMonth_Save = Tcp.Model.DayOfMonth_Counter;
+                            Tcp.Model.Mon_Save = Tcp.Model.Mon_Counter;
+                        }
+                    }
+                }
+                break;
+            case DP8571_TIMER_0_LSB:
+                if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_READ) {
+                    tucTimer = (unsigned char) (Tcp.cTimer0 & 0x00ff);
+                    switch (cMem_op_type) {
+                        case ST:
+                            Tcp.Model.Timer0_Lsb = *pulReg;
+                            break;
+                        case XMEM:
+                        case XMEM_U:
+                            tucReg = *pulReg;
+                            *pulReg = tucTimer;
+                            Tcp.Model.Timer0_Lsb = tucReg;
+                            break;
+                        case LD:
+                        case LD_U:
+                            *pulReg = tucTimer;
+                            break;
+                    }
+                    Tcp.Model.Rs0.Timer0_Ctrl &= ~DP8571_TCR_TIMER_READ;
+                }
+                else {
+                    do_mem_op (pulReg, &Tcp.Model.Timer0_Lsb, BYTE, cMem_op_type);
+                }
+                break;
+            case DP8571_TIMER_0_MSB:
+                if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_READ) {
+                    tucTimer = (unsigned char) ((Tcp.cTimer0 & 0xff00) >> 8);
+                    switch (cMem_op_type) {
+                        case ST:
+                            Tcp.Model.Timer0_Msb = *pulReg;
+                            break;
+                        case XMEM:
+                        case XMEM_U:
+                            tucReg = *pulReg;
+                            *pulReg = tucTimer;
+                            Tcp.Model.Timer0_Msb = tucReg;
+                            break;
+                        case LD:
+                        case LD_U:
+                            *pulReg = tucTimer;
+                            break;
+                    }
+                }
+                else {
+                    do_mem_op (pulReg, &Tcp.Model.Timer0_Msb, BYTE, cMem_op_type);
+                }
+                break;
+            case DP8571_TIMER_1_LSB:
+                if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_READ) {
+                    tucTimer = (unsigned char) (Tcp.cTimer1 & 0x00ff);
+                    switch (cMem_op_type) {
+                        case ST:
+                            Tcp.Model.Timer1_Lsb = *pulReg;
+                            break;
+                        case XMEM:
+                        case XMEM_U:
+                            tucReg = *pulReg;
+                            *pulReg = tucTimer;
+                            Tcp.Model.Timer1_Lsb = tucReg;
+                            break;
+                        case LD:
+                        case LD_U:
+                            *pulReg = tucTimer;
+                            break;
+                    }
+                    Tcp.Model.Rs0.Timer1_Ctrl &= ~DP8571_TCR_TIMER_READ;
+                }
+                else {
+                    do_mem_op (pulReg, &Tcp.Model.Timer1_Lsb, BYTE, cMem_op_type);
+                }
+                break;
+            case DP8571_TIMER_1_MSB:
+                if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_READ) {
+                    tucTimer = (unsigned char) ((Tcp.cTimer1 & 0xff00) >> 8);
+                    switch (cMem_op_type) {
+                        case ST:
+                            Tcp.Model.Timer1_Msb = *pulReg;
+                            break;
+                        case XMEM:
+                        case XMEM_U:
+                            tucReg = *pulReg;
+                            *pulReg = tucTimer;
+                            Tcp.Model.Timer1_Msb = tucReg;
+                            break;
+                        case LD:
+                        case LD_U:
+                            *pulReg = tucTimer;
+                            break;
+                    }
+                }
+                else {
+                    do_mem_op (pulReg, &Tcp.Model.Timer1_Msb, BYTE, cMem_op_type);
+                }
+                break;
+
+            default:
+                do_mem_op (pulReg, (unsigned int *)pucModelAddr, BYTE, cMem_op_type);
+                break;
+        }    /* register driver dispatch */
+
+        if ((Tcp.Model.Msr & 1) == 0) {
+            if (verbose) {
+                sim_printf("*** reseting timer interrupt ***\n");
+            }
+            reset_iob_interrupt(8, 0);
+        }
+
+        return (E_NONE);
+    }
+         
+
+@
+
+
+1.30
+log
+@Only rollover flags if the real-time clock is started.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.29 88/09/08 17:21:27 andrew Exp $
+d95 1
+a95 3
+        char *getenv();
+
+        char *simslow = getenv("SIMSLOW");
+d100 1
+a100 1
+        verbose = getenv("SIMTRANS") != 0;
+d105 1
+a105 1
+        if (simslow == (char *)0) {
+d108 1
+a108 1
+            slowdownfactor = atoi(simslow);
+d110 1
+a110 1
+                sim_printf("SIMSLOW must be in 1..100000\n");
+@
+
+
+1.29
+log
+@Make timer tick when fast input rate is selected, instead of doing nothing.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.28 88/09/08 11:41:18 andrew Exp $
+d575 4
+a578 2
+            Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_MSEC_FLAG;
+            fRolloverOccurred = 1;
+a579 1
+
+d585 3
+a587 1
+                Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_10_MSEC_FLAG;
+d599 3
+a601 2
+                    Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_100_MSEC_FLAG;
+                    
+d603 1
+d609 3
+a611 1
+                        Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_SEC_FLAG;
+d619 3
+a621 1
+                            Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_10_SEC_FLAG;
+d628 3
+a630 1
+                                Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_MIN_FLAG;
+@
+
+
+1.28
+log
+@Rework:
+-- housekeeping is simpler (zero the block, set one bit)
+-- rewrote the printf routine to provide symbolic interpretations of
+   the control register bits, and to display the bank of RAM
+-- added support for the VME INTERRUPT ENABLE mask, in which bit 6
+   now controls whether timer interrupts are delivered to the CE board
+-- ReleaseOscillator was called twice for each call to HoldOscillator
+   (on timer interrupt)
+-- Deleted start_clock_ticking and stop_clock_ticking, they did the
+   same thing as ReleaseOscillator and HoldOscillator
+-- The oscillator used to run only when the real-time clock was running.
+   This doesn't match the hardware.  The oscillator now runs whenever
+   the real-time clock or either timer is started.  This still isn't
+   right, because the bits in the periodic flag register won't be
+   updated if all three of these are off, but it's good enough to
+   debug the kernel.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.27 88/08/23 17:08:23 timd Exp $
+d930 6
+a935 1
+                        break;
+d1031 6
+a1036 1
+                        break;
+@
+
+
+1.27
+log
+@When a timer expired, the MSR interrupt bit was being set regardless
+of whether timer interrupts had been enabled.
+
+Corrected so that the MSR interrupt bit is set only if timer
+interrupts have been enabled.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.26 88/05/26 18:45:24 robertb Exp $
+d83 1
+d130 1
+a130 1
+        /* Housekeeping */
+d134 1
+a134 17
+
+        Tcp.fTimerStart0 = 0;
+        Tcp.fTimerStart1 = 0;
+        Tcp.fWaiting0 = 0;
+        Tcp.fWaiting1 = 0;
+
+
+        /* -------- */
+        /* Hardware */
+        /* -------- */
+
+        Tcp.Model.Rs0.Timer0_Ctrl &= ~DP8571_TCR_TIMER_START;
+        Tcp.Model.Rs0.PeriodicFlag |= DP8571_PFR_FAILURE;
+        Tcp.Model.Rs1.RealTimeMode &= 0x00;
+        Tcp.Model.Rs1.Intr0_Ctrl = 0x00;
+        Tcp.Model.Rs1.Intr1_Ctrl = 0x00;
+
+d235 5
+d280 5
+a284 5
+        sim_printf ("Timers:    0: 0x%x%x    1: 0x%x%x\n", 
+                 D2B(Tcp.Model.Timer0_Msb),
+                 D2B(Tcp.Model.Timer0_Lsb),
+                 D2B(Tcp.Model.Timer0_Msb),
+                 D2B(Tcp.Model.Timer1_Lsb));
+d290 204
+d1133 12
+d1174 1
+a1174 1
+            ReleaseOscillator();
+d1184 1
+a1184 1
+ * StopOcsillator()
+d1194 7
+d1209 17
+d1237 7
+a1253 32
+/*
+ * This is called by the main 88k execution function when its
+ * about to return so that the timer is frozen while the frontend
+ * is running.
+ */
+stop_clock_ticking()
+{
+    struct itimerval    itvOff;
+        
+    if (timer_going) {
+        itvOff.it_interval.tv_sec = 0;
+        itvOff.it_interval.tv_usec = 0;
+        itvOff.it_value.tv_sec = 0;
+        itvOff.it_value.tv_usec = 0;
+        setitimer (ITIMER_VIRTUAL, &itvOff, &itvCurrent);
+    }
+}
+
+
+/*
+ * Called by the front end to start the clock.
+ */
+start_clock_ticking()
+{
+    struct itimerval itvDummy;
+
+    if (timer_going) {
+        itvCurrent.it_value.tv_usec += 30; /* Compensate for startup time. */
+        setitimer (ITIMER_VIRTUAL, &itvCurrent, &itvDummy);
+    }
+}
+
+d1265 3
+a1267 1
+static void    HoldOscillator()
+d1271 20
+d1312 1
+a1312 1
+static void    ReleaseOscillator()
+d1316 13
+d1343 3
+a1345 1
+        set_iob_interrupt(8, 0);
+d1547 1
+a1547 1
+                            StopOscillator();
+d1556 1
+d1563 1
+d1586 1
+d1593 1
+@
+
+
+1.26
+log
+@Added a new signal handling mechanism to avoid race
+conditions inside the simulator.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.25 88/05/20 20:53:31 robertb Exp $
+a781 1
+                            Tcp.Model.Msr |= DP8571_MSR_TIMER_1_INTERRUPT;
+d783 1
+a876 1
+                            Tcp.Model.Msr |= DP8571_MSR_TIMER_0_INTERRUPT;
+d878 1
+@
+
+
+1.25
+log
+@tweaks.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.24 88/05/11 17:05:12 robertb Exp $
+a24 2
+
+
+d104 1
+a104 1
+        (void) signal (SIGVTALRM, Oscillator);
+d950 1
+a1144 2
+
+
+d1519 1
+@
+
+
+1.24
+log
+@Made it use new IOB simulator.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.23 88/04/16 14:23:16 robertb Exp $
+d84 1
+a85 1
+
+a86 17
+ * I_MonitorTransactions()
+ *
+ * This routine checks to see if the environment variable "SIMTRANS" is 
+ * set. If this variable is set, TRUE is returned. This routine is called
+ * by monitoring code. This lets users selectively turn off I/O simulator
+ * monitoring (which can be quite verbose).
+ *------------------------------------------------------------------------
+ */
+
+static int    I_MonitorTransactions()
+    {
+        char    *getenv();
+
+        return ( (int) getenv("SIMTRANS") );
+    }
+
+/*------------------------------------------------------------------------
+d96 2
+d103 1
+d134 2
+d580 1
+a580 1
+            if (I_MonitorTransactions()) {
+d675 1
+a675 1
+            if (I_MonitorTransactions()) {
+d786 1
+a786 1
+                                if (I_MonitorTransactions()) {
+d881 1
+a881 1
+                                if (I_MonitorTransactions()) {
+d1125 4
+d1130 6
+d1154 1
+a1154 1
+        if (I_MonitorTransactions()) {
+d1516 6
+a1521 1
+
+@
+
+
+1.23
+log
+@Made the timer simulation more accurate.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.22 88/04/15 14:17:56 robertb Exp $
+d1116 1
+a1116 6
+
+        /*
+         * Right now we cause a CE interrupt directly.  When we write
+         * an IOB interrupt simulator we will want to change this.
+         */
+        set_ce_interrupt(9);
+@
+
+
+1.22
+log
+@added the stop_clock_ticking and start_clock_ticking functions.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.21 88/04/08 21:33:47 robertb Exp $
+d82 1
+a82 1
+static struct itimerval itvNew, itvOld;
+a121 4
+        if (restore) {
+            return;
+        }
+
+d134 10
+a143 4
+        itvNew.it_interval.tv_sec = cMicrosecondsIn60Hz / 1000000;
+        itvNew.it_interval.tv_usec = cMicrosecondsIn60Hz % 1000000;
+        itvNew.it_value.tv_sec = cMicrosecondsIn60Hz / 1000000;
+        itvNew.it_value.tv_usec = cMicrosecondsIn60Hz % 1000000;
+a153 2
+
+
+d999 1
+a999 1
+        struct itimerval    itvNew, itvOld;
+d1001 5
+a1005 5
+        itvNew.it_interval.tv_sec = 0;
+        itvNew.it_interval.tv_usec = 0;
+        itvNew.it_value.tv_sec = 0;
+        itvNew.it_value.tv_usec = 0;
+        setitimer (ITIMER_VIRTUAL, &itvNew, &itvOld);
+d1018 1
+d1025 2
+a1026 1
+        (void) setitimer (ITIMER_VIRTUAL, &itvNew, &itvOld);
+d1037 1
+a1037 1
+    struct itimerval    itvNew, itvOld;
+d1040 5
+a1044 5
+        itvNew.it_interval.tv_sec = 0;
+        itvNew.it_interval.tv_usec = 0;
+        itvNew.it_value.tv_sec = 0;
+        itvNew.it_value.tv_usec = 0;
+        setitimer (ITIMER_VIRTUAL, &itvNew, &itvOld);
+d1054 2
+d1057 2
+a1058 1
+        setitimer (ITIMER_VIRTUAL, &itvNew, &itvOld);
+d1075 1
+a1075 1
+        struct itimerval    itvNew, itvOld;
+d1077 4
+a1080 4
+        itvNew.it_interval.tv_sec = 0;
+        itvNew.it_interval.tv_usec = 0;
+        itvNew.it_value.tv_sec = 0;
+        itvNew.it_value.tv_usec = 0;
+d1082 1
+a1082 1
+        (void) setitimer (ITIMER_VIRTUAL, &itvNew, &itvOld);
+d1100 1
+a1100 2
+        struct itimerval    itvNew, itvOld;
+        unsigned int        cMicrosecondsIn60Hz = 16667;
+d1102 2
+a1103 6
+        itvNew.it_interval.tv_sec = 0;
+        itvNew.it_interval.tv_usec = cMicrosecondsIn60Hz;
+        itvNew.it_value.tv_sec = 0;
+        itvNew.it_value.tv_usec = cMicrosecondsIn60Hz;
+
+        (void) setitimer (ITIMER_VIRTUAL, &itvNew, &itvOld);
+@
+
+
+1.21
+log
+@Added SIMSLOW, to allow the timer's clock to be slowed down.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.20 88/03/10 10:31:39 robertb Exp $
+d83 1
+d111 1
+a111 1
+void    timer_init()
+d116 1
+d118 8
+d163 1
+d1006 1
+a1008 4
+
+
+
+
+a1022 3
+        /* install the signal handler */
+        (void) signal (SIGVTALRM, Oscillator);
+
+d1025 1
+d1027 30
+@
+
+
+1.20
+log
+@changed the setting of the sim_interrupt_flag to be a call
+to set_ce_interrupt(9).
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.19 88/03/02 08:43:44 timd Exp $
+d82 1
+a83 3
+
+extern int   sim_interrupt_flag;
+
+d112 20
+a1009 8
+        struct itimerval    itvNew, itvOld;
+        unsigned int        cMicrosecondsIn60Hz = 16667;
+
+        /* set UTek timer for 60Hz */
+        itvNew.it_interval.tv_sec = 0;
+        itvNew.it_interval.tv_usec = cMicrosecondsIn60Hz;
+        itvNew.it_value.tv_sec = 0;
+        itvNew.it_value.tv_usec = cMicrosecondsIn60Hz;
+@
+
+
+1.19
+log
+@Changed timer contents printout to hex.
+Reconciled simulator with regards to register r/w info from NSC.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.18 88/03/01 10:51:50 timd Exp $
+d1071 5
+a1075 1
+        sim_interrupt_flag |= DEVICE_INTERRUPT;
+@
+
+
+1.18
+log
+@Ditto as last time, except for timer 1
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.17 88/03/01 10:10:19 timd Exp $
+d275 1
+a275 1
+        sim_printf ("Timers:    0: %02d%02d    1: %02d%02d\n", 
+d1259 2
+a1260 2
+                    if (cMem_op_type == ST) {
+                        Tcp.Model.Rs1.RealTimeMode = *pulReg;
+a1267 3
+                    else {
+                        sim_printf ("timer: Real Time Mode Register is read-only\n");
+                    }
+d1271 2
+a1272 2
+                    if (cMem_op_type == ST) {
+                        Tcp.Model.Rs0.Timer0_Ctrl = *pulReg;
+a1289 3
+                    else {
+                        sim_printf ("timer: Timer 0 Control Register is write-only\n");
+                    }
+d1294 2
+a1295 15
+                    switch (cMem_op_type) {
+                        case ST:
+                            Tcp.Model.Rs1.OutputMode = *pulReg;
+                            break;
+                        case XMEM:
+                        case XMEM_U:
+                            tucReg = Tcp.Model.Rs1.OutputMode & 0x03;    /* only D0 and D1 are RAM */
+                            Tcp.Model.Rs1.OutputMode = *pulReg;
+                            *pulReg = tucReg;                  
+                            break;
+                        case LD:
+                        case LD_U:
+                            *pulReg = (Tcp.Model.Rs1.OutputMode & 0x03);
+                            break;
+                    }
+d1299 2
+a1300 2
+                    if (cMem_op_type == ST) {
+                        Tcp.Model.Rs0.Timer1_Ctrl = *pulReg;
+a1317 3
+                    else {
+                        sim_printf ("timer: Timer 1 Control Register is write-only\n");
+                    }
+d1323 1
+a1323 6
+                    if (cMem_op_type == ST) {
+                        Tcp.Model.Rs1.Intr0_Ctrl = *pulReg;
+                    }
+                    else {
+                        sim_printf ("timer: Interrupt Control Register 0 is read-only\n");
+                    }
+d1356 1
+a1356 6
+                    if (cMem_op_type == ST) {
+                        Tcp.Model.Rs1.Intr1_Ctrl = *pulReg;
+                    }
+                    else {
+                        sim_printf ("timer: Interrupt Control Register 1 is read-only\n");
+                    }
+d1360 2
+a1361 2
+                    if (cMem_op_type == ST) {
+                        Tcp.Model.Rs0.InterruptRouting = *pulReg;
+a1369 3
+                    }
+                    else {
+                        sim_printf ("timer: Interrupt Routing Register is read-only\n");
+@
+
+
+1.17
+log
+@Corrected control register read-only message to say write-only.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.16 88/02/08 14:23:43 timd Exp $
+d1338 1
+a1338 1
+                        sim_printf ("timer: Timer 0 Control Register is read-only\n");
+@
+
+
+1.16
+log
+@Transaction monitoring now done only if environment variable 
+SIMTRANS is set.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.15 87/12/18 16:26:55 timd Exp $
+d1294 1
+a1294 1
+                        sim_printf ("timer: Timer 0 Control Register is read-only\n");
+@
+
+
+1.15
+log
+@Removed last of the debug messages, and corrected a problem with the
+periodic interrupt generation.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.14 87/12/17 15:27:40 timd Exp $
+a24 2
+#define TIME_DILATION    250    /* # of times slower we're running than the real hardware */
+#undef TCP_TRANSACTIONS
+a26 1
+
+d88 17
+a363 3
+#ifdef TCP_TRANSACTIONS
+            sim_printf ("roll ms  %d\n", cMilliseconds);
+#endif
+a373 3
+#ifdef TCP_TRANSACTIONS
+                sim_printf ("roll 100Hz\n");
+#endif
+a385 3
+#ifdef TCP_TRANSACTIONS
+                    sim_printf ("roll 1/10sec\n");
+#endif
+a393 3
+#ifdef TCP_TRANSACTIONS
+                        sim_printf ("roll sec\n");
+#endif
+a402 3
+#ifdef TCP_TRANSACTIONS
+                            sim_printf ("roll 10sec\n");
+#endif
+a409 3
+#ifdef TCP_TRANSACTIONS
+                                sim_printf ("roll min\n");
+#endif
+a417 3
+#ifdef TCP_TRANSACTIONS
+                                    sim_printf ("roll hrs\n");
+#endif
+a447 3
+#ifdef TCP_TRANSACTIONS
+                                        sim_printf ("roll day\n");
+#endif
+a463 3
+#ifdef TCP_TRANSACTIONS
+                                        sim_printf ("roll month\n");
+#endif
+a506 3
+#ifdef TCP_TRANSACTIONS
+                                                sim_printf ("roll year\n");
+#endif
+d563 4
+a566 4
+#ifdef TCP_TRANSACTIONS
+            sim_printf ("\n");
+            sim_printf ("*** Periodic interrupt ***\n");
+#endif
+d658 3
+a660 3
+#ifdef TCP_TRANSACTIONS
+            sim_printf ("timer: *** Alarm interrupt ***\n");
+#endif
+a662 1
+                sim_printf ("timer: *** Alarm interrupt ***\n");
+d769 3
+a771 4
+#ifdef TCP_TRANSACTIONS
+                                sim_printf ("timer: *** Timer 1 interrupt ***\n");
+#endif
+                                sim_printf ("timer: *** Timer 1 interrupt ***\n");
+d864 3
+a866 4
+#ifdef TCP_TRANSACTIONS
+                                sim_printf ("timer: *** Timer 0 interrupt ***\n");
+#endif
+                                sim_printf ("timer: *** Timer 0 interrupt ***\n");
+d1111 93
+a1203 6
+#ifdef TCP_TRANSACTIONS
+        sim_printf ("timer: transaction\n");
+        sim_printf ("       register:     0x%x\n", *pulReg);
+        sim_printf ("       rel addr:     0x%x   ", ulAddress_offset);
+        if ((pucModelAddr >= Tcp.Model.Ram) && (pucModelAddr < &Tcp.Model.Rs0.Timer0_Ctrl)) {
+            sim_printf ("Ram location 0x%x", ulAddress_offset);
+a1204 87
+        else switch (ulAddress_offset) {
+            case DP8571_MSR:
+                sim_printf ("Main Status Register");
+                break;
+            case DP8571_TIMER_0_CTRL:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                    sim_printf ("Realtime Mode Register");
+                }
+                else {
+                    sim_printf ("Timer 0 Ctrl Register");
+                }
+                break;
+            case DP8571_TIMER_1_CTRL:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                    sim_printf ("Output Mode Register");
+                }
+                else {
+                    sim_printf ("Timer 1 Ctrl Register");
+                }
+                break;
+            case DP8571_PERIODIC_FLAG:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                    sim_printf ("Intr 0 Ctrl Register");
+                }
+                else {
+                    sim_printf ("Periodic Flag Register");
+                }
+                break;
+            case DP8571_INTR_ROUTE:
+                if (Tcp.Model.Msr & DP8571_MSR_REGISTER_SELECT) {
+                    sim_printf ("Intr 1 Ctrl Register");
+                }
+                else {
+                    sim_printf ("Intr Routing Register");
+                }
+                break;
+            case DP8571_TIMER_0_LSB:
+                sim_printf ("Timer 0 LSB ");
+                if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_READ) {
+                    sim_printf ("(Actual)");
+                }
+                else {
+                    sim_printf ("(Data)");
+                }
+                break;
+            case DP8571_TIMER_0_MSB:
+                sim_printf ("Timer 0 MSB ");
+                if (Tcp.Model.Rs0.Timer0_Ctrl & DP8571_TCR_TIMER_READ) {
+                    sim_printf ("(Actual)");
+                }
+                else {
+                    sim_printf ("(Data)");
+                }
+                break;
+            case DP8571_TIMER_1_LSB:
+                sim_printf ("Timer 1 LSB ");
+                if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_READ) {
+                    sim_printf ("(Actual)");
+                }
+                else {
+                    sim_printf ("(Data)");
+                }
+                break;
+            case DP8571_TIMER_1_MSB:
+                sim_printf ("Timer 1 MSB ");
+                if (Tcp.Model.Rs0.Timer1_Ctrl & DP8571_TCR_TIMER_READ) {
+                    sim_printf ("(Actual)");
+                }
+                else {
+                    sim_printf ("(Data)");
+                }
+                break;
+            default:
+                break;
+        }
+        sim_printf ("\n");
+        sim_printf ("       cMem_op_type: ");
+        switch (cMem_op_type) {
+            case LD: sim_printf ("LD"); break;
+            case ST: sim_printf ("ST"); break;
+            case XMEM: sim_printf ("XMEM"); break;
+            case LD_U: sim_printf ("LD_U"); break;
+            case XMEM_U: sim_printf ("XMEM_U"); break;
+            default: sim_printf ("***UNKNOWN***");
+        }
+        sim_printf ("\n\n");
+#endif /* TCP_TRANSACTIONS */
+@
+
+
+1.14
+log
+@Removed most debug messages, and removed re-assertion of uncleared
+interrupts.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.13 87/12/07 15:09:35 timd Exp $
+d576 1
+a582 1
+            sim_printf ("*** Periodic interrupt ***\n");
+a676 1
+            sim_printf ("timer: *** Alarm interrupt ***\n");
+d679 1
+a782 4
+#ifdef TCP_TRANSACTIONS
+                            sim_printf ("timer: *** Timer 1 interrupt ***\n");
+#endif
+                            sim_printf ("timer: *** Timer 1 interrupt ***\n");
+d786 4
+d880 2
+d883 1
+a883 1
+                            sim_printf ("timer: *** Timer 0 interrupt ***\n");
+d885 1
+a885 3
+                            sim_printf ("timer: *** Timer 0 interrupt ***\n");
+                            Tcp.Model.Msr |= DP8571_MSR_TIMER_0_INTERRUPT;
+                            if (Tcp.Model.Rs1.Intr0_Ctrl & DP8571_ICR_TIMER_0) {
+@
+
+
+1.13
+log
+@Corrected problem with alarm simulation
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.12 87/12/03 17:54:39 timd Exp $
+d26 1
+a26 1
+#define TCP_TRANSACTIONS
+d86 3
+d131 1
+a131 1
+unsigned char    D2B (bcdValue)
+d154 1
+a154 1
+unsigned char    B2D (ucValue)
+d175 1
+a175 1
+unsigned char    *PUC_Xlate_Physical_Addr_To_Model_Addr (pucPhysAddr)
+d237 1
+a237 1
+        sim_printf ("Counters:  day %02d%02d, dow %02d,   %02d/%02d/%02d %02d:%02d:%02d.%01d\n",
+d317 1
+a317 3
+ * a h/w interrupt to be caused. This compare check is in a loop so that
+ * an interrupt will be repeatedly caused until the periodic flag register
+ * is read by the uP, thus clearing the cause of the periodic interrupt.
+d324 1
+a324 1
+void    Clock()
+d350 1
+d352 1
+d363 1
+d365 1
+d378 1
+d380 1
+d389 1
+d391 1
+d401 1
+d403 1
+d411 1
+d413 1
+d422 1
+d424 1
+d455 1
+d457 1
+d474 1
+d476 1
+d520 1
+d522 1
+d567 7
+a573 9
+        do {
+            fInterrupt = 0;
+            ucMask = 0x01;
+            for (cBits = 0;    cBits <= 5;    cBits++) {
+                if (Tcp.Model.Rs0.PeriodicFlag & ucMask) {
+                    if (Tcp.Model.Rs1.Intr0_Ctrl & ucMask) {
+                        fInterrupt = 1;
+                        cBits = 6;    /* clean break */
+                    }
+d575 3
+a577 2
+            }        
+            if (fInterrupt) {
+d579 2
+a580 2
+                sim_printf ("\n");
+                sim_printf ("*** Periodic interrupt ***\n");
+d582 4
+a585 4
+                Tcp.Model.Msr |= DP8571_MSR_PERIOD_INTERRUPT;
+                CauseHwInterrupt();
+            }
+        } while (fInterrupt);
+d595 1
+a595 3
+ * found, then the appropriate interrupt action is taken. If a h/w
+ * interrupt is caused, then this routine will continue to cause it until
+ * the interrupt has been cleared at the MSR.
+d602 1
+a602 1
+void    Alarm()
+d677 1
+d680 1
+a680 3
+                do {
+                    CauseHwInterrupt();
+                } while (Tcp.Model.Msr & DP8571_MSR_ALARM_INTERRUPT);
+a694 3
+ * If a h/w interrupt is caused, this routine will continue to cause it until
+ * the timer interrupt is cleared in the MSR.
+ *
+d699 1
+a699 1
+void    Timers()
+d786 1
+d790 1
+a790 3
+                                do {
+                                    CauseHwInterrupt();
+                                } while (Tcp.Model.Msr & DP8571_MSR_TIMER_1_INTERRUPT);
+d883 1
+d886 1
+a886 3
+                                do {
+                                    CauseHwInterrupt();
+                                } while (Tcp.Model.Msr & DP8571_MSR_TIMER_0_INTERRUPT);
+d897 48
+d973 3
+d987 1
+a987 1
+void    StopOscillator()
+d1009 1
+a1009 1
+void    StartOscillator()
+d1041 1
+a1041 1
+void    HoldOscillator()
+d1066 1
+a1066 1
+void    ReleaseOscillator()
+d1086 1
+a1086 1
+void    CauseHwInterrupt()
+d1090 1
+a1090 1
+        sim_interrupt_flag = DEVICE_INTERRUPT;
+a1119 6
+        }
+
+        if ((ulAddress_offset == DP8571_MSR) 
+            && (*pulReg & DP8571_MSR_INTERRUPT_STATUS)) {
+            *pulReg &= 0xfe;    /* intr status bit is read only */
+            sim_printf ("timer MSR intr status bit is read-only\n");
+@
+
+
+1.12
+log
+@Corrections to roll-over code.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.11 87/12/02 18:13:06 timd Exp $
+d594 1
+a594 1
+        if (!(Tcp.Model.Rs1.Intr0_Ctrl & 0x3f)) {
+d643 3
+@
+
+
+1.11
+log
+@Now passes time rollover test.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.10 87/11/25 16:12:32 timd Exp $
+d225 1
+a225 1
+        sim_printf ("    Msr: 0x%02x\n", Tcp.Model.Msr);
+d411 1
+a411 1
+                                    if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_MILITARY) {
+d558 4
+d593 5
+d653 3
+d766 3
+d864 3
+d894 1
+d896 6
+d956 1
+a1063 1
+
+d1190 1
+a1190 1
+                        tucBitClr = *pulReg;
+@
+
+
+1.10
+log
+@Allow non-BYTE accesses if fOverride.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.9 87/11/25 13:17:33 timd Exp $
+d195 1
+a195 1
+                ulModelAddr = (int)&Tcp.Model.Rs1  +  ulOffset;
+d198 1
+a198 1
+                ulModelAddr = (int)&Tcp.Model.Rs0  +  ulOffset;
+d349 1
+d360 1
+d364 3
+d373 1
+d382 1
+d392 1
+d400 1
+d409 1
+d413 1
+a413 1
+                                        if (Tcp.Model.Hrs_Counter = 0x00) {
+d440 1
+d457 1
+d501 1
+d508 1
+a508 1
+                                                Tcp.Model.Yrs_Counter = B2D( (D2B(Tcp.Model.Yrs_Counter) + 1) % 99);
+d1193 8
+a1200 3
+                    do_mem_op (pulReg, pucModelAddr, BYTE, ST);
+                    if (Tcp.Model.Rs1.RealTimeMode & DP8571_RMR_CLOCK_START) {
+                        StartOscillator();
+d1203 1
+a1203 1
+                        StopOscillator();
+d1318 1
+a1318 1
+                        *pulReg = Tcp.Model.Rs1.Intr1_Ctrl;
+d1327 1
+a1327 1
+                        *pulReg = Tcp.Model.Rs0.InterruptRouting;
+@
+
+
+1.9
+log
+@Corrected PM bit problem on hours rollover.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.8 87/11/25 11:52:58 timd Exp $
+d293 1
+a293 1
+unsigned int    cOscillations;      /* oscillator's progress during a second */
+d295 1
+a295 1
+unsigned int    cMilliseconds;      /* milliseconds counter during a second */
+d297 1
+a297 1
+int             fRolloverOccurred;  /* true when a clock rollover occurs */
+d299 4
+a302 4
+int             fTimerPulse_1Hz;    /* true when a 1Hz rollover occurs */
+int             fTimerPulse_10Hz;   /* true when a 10Hz rollover occurs */
+int             fTimerPulse_100Hz;  /* true when a 100Hz rollover occurs */
+int             fTimerPulse_1000Hz; /* true when a 1000Hz rollover occurs */
+d1011 1
+a1011 1
+        if (cSize != BYTE) {
+@
+
+
+1.8
+log
+@More information display.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.7 87/11/23 15:44:17 timd Exp $
+d409 1
+d421 1
+a421 1
+                                            Tcp.Model.Hrs_Counter |= fPm;
+@
+
+
+1.7
+log
+@Corrections to page/register switching.
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.6 87/11/23 14:42:00 timd Exp $
+d188 1
+a188 1
+        if (Tcp.Model.Msr & DP8571_MSR_PAGE_SELECT) {
+d221 1
+d245 1
+a245 1
+        sim_printf ("Counters:                dow %02d,   %02d/%02d/-- %02d:%02d:%02d\n",
+d252 1
+a252 1
+        sim_printf ("Save:                          %02d/%02d/-- %02d:%02d:%02d\n",
+d976 1
+a976 2
+ * Simulate a hardware interrupt by doing a dummy read of the simulator 
+ * interrupt device.
+d982 1
+a982 1
+        unsigned int    tiDummy;
+d984 1
+a984 4
+
+        /* cause interrupt */
+        Tcp.Model.Msr |= DP8571_MSR_INTERRUPT_STATUS;
+        tiDummy = (* (unsigned int *) 0xffff0010);
+d1036 1
+a1036 1
+            printf ("Ram location 0x%x", ulAddress_offset);
+@
+
+
+1.6
+log
+@Added header field for colast
+@
+text
+@a0 1
+/* $Header$ */
+d15 1
+a15 1
+ * $Header: timer.c,v 1.5 87/11/23 14:31:22 timd Exp $
+d193 1
+a193 3
+        if (ulOffset <= 0x04) {
+
+            /* Page 1 */
+a196 2
+
+            /* Page 0 */
+d202 1
+a202 1
+        /* Clock RAM Page */
+d1038 4
+a1041 1
+        switch (ulAddress_offset) {
+d1043 1
+a1043 1
+                printf ("Main Status Register");
+d1047 1
+a1047 1
+                    printf ("Realtime Mode Register");
+d1050 1
+a1050 1
+                    printf ("Timer 0 Ctrl Register");
+d1055 1
+a1055 1
+                    printf ("Output Mode Register");
+d1058 1
+a1058 1
+                    printf ("Timer 1 Ctrl Register");
+d1063 1
+a1063 1
+                    printf ("Intr 0 Ctrl Register");
+d1066 1
+a1066 1
+                    printf ("Periodic Flag Register");
+d1071 1
+a1071 1
+                    printf ("Intr 1 Ctrl Register");
+d1074 1
+a1074 1
+                    printf ("Intr Routing Register");
+d1078 1
+a1078 1
+                printf ("Timer 0 LSB ");
+d1080 1
+a1080 1
+                    printf ("(Actual)");
+d1083 1
+a1083 1
+                    printf ("(Data)");
+d1087 1
+a1087 1
+                printf ("Timer 0 MSB ");
+d1089 1
+a1089 1
+                    printf ("(Actual)");
+d1092 1
+a1092 1
+                    printf ("(Data)");
+d1096 1
+a1096 1
+                printf ("Timer 1 LSB ");
+d1098 1
+a1098 1
+                    printf ("(Actual)");
+d1101 1
+a1101 1
+                    printf ("(Data)");
+d1105 1
+a1105 1
+                printf ("Timer 1 MSB ");
+d1107 1
+a1107 1
+                    printf ("(Actual)");
+d1110 1
+a1110 1
+                    printf ("(Data)");
+d1116 1
+a1116 1
+        printf ("\n");
+d1119 6
+a1124 6
+            case LD: printf ("LD"); break;
+            case ST: printf ("ST"); break;
+            case XMEM: printf ("XMEM"); break;
+            case LD_U: printf ("LD_U"); break;
+            case XMEM_U: printf ("XMEM_U"); break;
+            default: printf ("***UNKNOWN***");
+d1134 4
+a1137 1
+        switch (ulAddress_offset) {
+d1422 1
+@
+
+
+1.5
+log
+@Spruced up the transaction tracer.
+@
+text
+@d1 1
+d16 1
+a16 1
+ * $Header: timer.c,v 1.4 87/11/19 17:50:11 timd Exp $
+@
+
+
+1.4
+log
+@Cosmetic
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.3 87/11/19 17:33:24 robertb Exp $
+d26 1
+a1036 12
+sim_printf ("timer: transaction\n");
+sim_printf ("       *pulReg:  0x%x\n", *pulReg);
+sim_printf ("       pucModelAddr: 0x%x\n", pucModelAddr);
+sim_printf ("       cSize:        %d\n", cSize);
+sim_printf ("       cMem_op_type: %d\n", cMem_op_type);
+sim_printf ("\n");
+/*
+        do_mem_op (pulReg,
+                   (unsigned int *)pucModelAddr,
+                   cSize,
+                   cMem_op_type);
+*/
+d1038 91
+a1128 1
+
+@
+
+
+1.3
+log
+@added dummy RestoreOscillator() to make it link
+@
+text
+@d15 1
+a15 1
+ * $Header: timer.c,v 1.2 87/11/19 16:38:56 timd Exp $
+a26 1
+RestoreOscillator() {}
+d28 1
+d871 1
+a871 1
+            RestoreOscillator();
+@
+
+
+1.2
+log
+@Cosmetic.
+@
+text
+@d15 1
+a15 1
+ * $Header$
+d27 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 18
+@

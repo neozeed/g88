@@ -1,0 +1,3596 @@
+head     1.48;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.48
+date     90.12.10.21.23.38;  author robertb;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     90.11.09.11.38.58;  author robertb;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     90.08.19.21.22.52;  author robertb;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     90.06.30.17.54.31;  author robertb;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     90.05.08.03.23.08;  author robertb;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     90.04.25.10.21.49;  author robertb;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     90.03.28.15.50.03;  author robertb;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     90.03.15.09.08.30;  author andrew;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     90.02.21.10.16.51;  author andrew;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     90.02.16.16.13.56;  author andrew;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     90.02.09.13.03.56;  author davidl;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     90.02.09.12.51.49;  author andrew;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     90.02.07.16.04.35;  author andrew;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     90.01.02.18.04.59;  author robertb;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     89.12.31.00.41.48;  author robertb;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     89.12.22.15.31.17;  author donhar;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     89.12.19.13.20.17;  author andrew;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     89.12.18.17.18.38;  author andrew;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     89.12.12.17.22.11;  author andrew;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     89.12.06.15.20.38;  author donhar;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     89.12.04.18.21.08;  author donhar;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     89.12.04.12.55.36;  author andrew;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     89.12.04.12.14.35;  author andrew;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     89.12.04.11.29.28;  author donhar;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     89.12.01.11.32.56;  author marvinw;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     89.11.30.20.11.52;  author donhar;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     89.11.29.10.04.38;  author donhar;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     89.11.17.08.07.06;  author davidl;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     89.11.17.00.29.33;  author marvinw;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     89.11.17.00.17.57;  author marvinw;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     89.11.16.23.56.35;  author donhar;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     89.11.16.17.05.29;  author donhar;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     89.11.16.16.59.37;  author donhar;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     89.11.16.15.18.46;  author marvinw;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     89.10.16.17.25.34;  author davidl;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     89.09.26.11.02.23;  author paulg;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     89.09.23.14.05.57;  author paulg;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     89.09.23.10.38.06;  author paulg;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     89.09.21.10.18.33;  author paulg;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     89.09.14.16.17.14;  author davidl;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     89.08.20.18.08.36;  author paulg;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     89.08.20.17.54.09;  author paulg;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     89.08.18.15.57.56;  author paulg;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     89.08.19.12.33.21;  author paulg;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     89.08.11.14.42.25;  author davidl;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     89.08.09.09.32.36;  author davidl;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     89.08.04.10.17.07;  author davidl;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.07.30.23.07.48;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.48
+log
+@Hopefully fixed the 'cannot pop empty dummy stack" problem.
+@
+text
+@/* Start and stop the inferior process, for GDB.
+   Copyright (C) 1986, 1987, 1988, 1989 Free Software Foundation, Inc.
+
+   $Header: /am/bigbird/home/bigbird/Usr.U6/robertb/m88k/src/g88/RCS/infrun.c,v 1.47 90/11/09 11:38:58 robertb Exp Locker: robertb $
+   $Locker: robertb $
+
+ */
+
+/* Notes on the algorithm used in wait_for_inferior to determine if we
+   just did a subroutine call when stepping.  We have the following
+   information at that point:
+
+                  Current and previous (just before this step) pc.
+		  Current and previous sp.
+		  Current and previous start of current function.
+
+   If the start's of the functions don't match, then
+
+   	a) We did a subroutine call.
+
+   In this case, the pc will be at the beginning of a function.
+
+	b) We did a subroutine return.
+
+   Otherwise.
+
+	c) We did a longjmp.
+
+   If we did a longjump, we were doing "nexti", since a next would
+   have attempted to skip over the assembly language routine in which
+   the longjmp is coded and would have simply been the equivalent of a
+   continue.  I consider this ok behaivior.  We'd like one of two
+   things to happen if we are doing a nexti through the longjmp()
+   routine: 1) It behaves as a stepi, or 2) It acts like a continue as
+   above.  Given that this is a special case, and that anybody who
+   thinks that the concept of sub calls is meaningful in the context
+   of a longjmp, I'll take either one.  Let's see what happens.  
+
+   Acts like a subroutine return.  I can handle that with no problem
+   at all.
+
+   -->So: If the current and previous beginnings of the current
+   function don't match, *and* the pc is at the start of a function,
+   we've done a subroutine call.  If the pc is not at the start of a
+   function, we *didn't* do a subroutine call.  
+
+   -->If the beginnings of the current and previous function do match,
+   either: 
+
+   	a) We just did a recursive call.
+
+	   In this case, we would be at the very beginning of a
+	   function and 1) it will have a prologue (don't jump to
+	   before prologue, or 2) (we assume here that it doesn't have
+	   a prologue) there will have been a change in the stack
+	   pointer over the last instruction.  (Ie. it's got to put
+	   the saved pc somewhere.  The stack is the usual place.  In
+	   a recursive call a register is only an option if there's a
+	   prologue to do something with it.  This is even true on
+	   register window machines; the prologue sets up the new
+	   window.  It might not be true on a register window machine
+	   where the call instruction moved the register window
+	   itself.  Hmmm.  One would hope that the stack pointer would
+	   also change.  If it doesn't, somebody send me a note, and
+	   I'll work out a more general theory.
+	   randy@@wheaties.ai.mit.edu).  This is true (albeit slipperly
+	   so) on all machines I'm aware of:
+
+	      m68k:	Call changes stack pointer.  Regular jumps don't.
+
+	      sparc:	Recursive calls must have frames and therefor,
+	                prologues.
+
+	      vax:	All calls have frames and hence change the
+	                stack pointer.
+
+	b) We did a return from a recursive call.  I don't see that we
+	   have either the ability or the need to distinguish this
+	   from an ordinary jump.  The stack frame will be printed
+	   when and if the frame pointer changes; if we are in a
+	   function without a frame pointer, it's the users own
+	   lookout.
+
+	c) We did a jump within a function.  We assume that this is
+	   true if we didn't do a recursive call.
+
+	d) We are in no-man's land ("I see no symbols here").  We
+	   don't worry about this; it will make calls look like simple
+	   jumps (and the stack frames will be printed when the frame
+	   pointer moves), which is a reasonably non-violent response.
+
+#if 0
+    We skip this; it causes more problems than it's worth.
+#ifdef SUN4_COMPILER_FEATURE
+    We do a special ifdef for the sun 4, forcing it to single step
+  into calls which don't have prologues.  This means that we can't
+  nexti over leaf nodes, we can probably next over them (since they
+  won't have debugging symbols, usually), and we can next out of
+  functions returning structures (with a "call .stret4" at the end).
+#endif
+#endif
+*/
+   
+
+   
+   
+
+#include "defs.h"
+#include "param.h"
+#include "symtab.h"
+#include "frame.h"
+#include "inferior.h"
+#include "wait.h"
+#include "ui.h"
+
+#include <stdio.h>
+#include <signal.h>
+
+#ifdef TEK_HACK
+#include <sys/types.h>
+#include <sys/ptrace.h>
+#endif /* TEK_HACK */
+
+/* unistd.h is needed to #define X_OK */
+#ifdef USG
+#include <unistd.h>
+#else
+#include <sys/file.h>
+#endif
+
+#ifdef UMAX_PTRACE
+#include <aouthdr.h>
+#include <sys/param.h>
+#include <sys/ptrace.h>
+#endif /* UMAX_PTRACE */
+
+extern char *sys_siglist[];
+extern int errno;
+
+#ifdef TEK_HACK
+
+#define COMM_OFFSET \
+	((int)((struct ptrace_user *)0)->pt_comm)
+#define SIG_SOURCE_OFFSET \
+	((int)&((struct ptrace_user *)0)->pt_sigframe.sig_source)
+#define SIG_NUM_OFFSET \
+	((int)&((struct ptrace_user *)0)->pt_sigframe.sig_num)
+#define SIG_NOEXBL_OFFSET \
+	((int)&((struct ptrace_user *)0)->pt_sigframe.sig_noexbl)
+#define SIG_EXBL_OFFSET \
+	((int)((struct ptrace_user *)0)->pt_sigframe.sig_exbl)
+
+#endif /* TEK_HACK */
+
+/* Tables of how to react to signals; the user sets them.  */
+
+static char signal_stop[NSIG];
+static char signal_print[NSIG];
+static char signal_program[NSIG];
+
+/* Number of watchpoint we stopped at, or 0 if none. */
+
+extern int stop_watchpoint;
+
+/* Nonzero if commands for watchpoint we stopped at begin "silent". */
+
+extern int silent_watchpoint;
+
+/* Nonzero if the last watchpoint hit was precise (the PSR serialization bit
+   was on). */
+
+extern int last_exception_was_precise;
+
+/* Nonzero if breakpoints are now inserted in the inferior.  */
+
+static int breakpoints_inserted;
+
+/* Function inferior was in as of last step command.  */
+
+static struct symbol *step_start_function;
+
+/* This is the sequence of bytes we insert for a breakpoint.  */
+
+static char break_insn[] = BREAKPOINT;
+static char remote_break_insn[] = REMOTE_BREAKPOINT;
+
+/* Nonzero => address for special breakpoint for resuming stepping.  */
+
+static CORE_ADDR step_resume_break_address;
+
+/* Original contents of the byte where the special breakpoint is.  */
+
+static char step_resume_break_shadow[sizeof break_insn];
+
+/* Nonzero means the special breakpoint is a duplicate
+   so it has not itself been inserted.  */
+
+static int step_resume_break_duplicate;
+
+/* Nonzero if we are expecting a trace trap and should proceed from it.
+   2 means expecting 2 trace traps and should continue both times.
+   That occurs when we tell sh to exec the program: we will get
+   a trap after the exec of sh and a second when the program is exec'd.  */
+
+static int trap_expected;
+
+/* Nonzero if the next time we try to continue the inferior, it will
+   step one instruction and generate a spurious trace trap.
+   This is used to compensate for a bug in HP-UX.  */
+
+static int trap_expected_after_continue;
+
+/* Nonzero means expecting a trace trap
+   and should stop the inferior and return silently when it happens.  */
+
+int stop_after_trap;
+
+/* Nonzero means expecting a trace trap due to attaching to a process.  */
+
+int stop_after_attach;
+
+static CORE_ADDR stop_func_start;
+
+static int stop_step_resume_break;
+
+static int remove_breakpoints_on_following_step;
+
+/* Nonzero if pc has been changed by the debugger
+   since the inferior stopped.  */
+
+int pc_changed;
+
+/* Nonzero if debugging a remote machine via a serial link or ethernet.  */
+
+int remote_debugging;
+
+/* Save register contents here when about to pop a stack dummy frame.  */
+
+char stop_registers[GENERAL_REGISTER_BYTES];
+
+/* Nonzero if program stopped due to error trying to insert breakpoints.  */
+
+static int breakpoints_failed;
+
+/* Nonzero if inferior is in sh before our program got exec'd.  */
+
+static int running_in_shell;
+
+/* Nonzero after stop if current stack frame should be printed.  */
+
+static int stop_print_frame;
+
+#ifdef NO_SINGLE_STEP
+extern int one_stepped;		/* From machine dependent code */
+extern void single_step ();	/* Same. */
+#endif /* NO_SINGLE_STEP */
+
+static void insert_step_breakpoint ();
+void remove_step_breakpoint ();
+static void wait_for_inferior ();
+static void normal_stop ();
+
+
+/* Clear out all variables saying what to do when inferior is continued.
+   First do this, then set the ones you want, then call `proceed'.  */
+
+void
+clear_proceed_status ()
+{
+  trap_expected = 0;
+  step_range_start = 0;
+  step_range_end = 0;
+  step_frame_address = 0;
+  step_over_calls = -1;
+  step_resume_break_address = 0;
+  stop_after_trap = 0;
+  stop_after_attach = 0;
+
+  /* Discard any remaining commands left by breakpoint we had stopped at.  */
+  clear_breakpoint_commands ();
+}
+
+/* These variables used to be in wait_for_inferior(), but they're not set
+   by resume(). */
+static CORE_ADDR prev_sp;
+static CORE_ADDR prev_func_start;
+static char *prev_func_name;
+static int prev_pc;
+
+/*
+ * resume -- continue execution of the inferior process.
+ * If "step" is nonzero, the process is single-stepped.
+ * If "signal" is nonzero, the process is continued with that signal.
+ * This used to live in m88k-dep.c, but is moved here to get to the prev_*
+ * variables.
+ */
+resume (step, signal)
+  int step;
+  int signal;
+{
+  /* This used to happen in wait_for_inferior, but that assumed that register
+     values are available when the inferior is running, which is no longer
+     true.  These variables will not always be set correctly, but the situation
+     is no worse than in the past. */
+  prev_pc = read_pc ();
+  (void) find_pc_partial_function (prev_pc, &prev_func_name,
+				   &prev_func_start);
+  prev_func_start += FUNCTION_START_OFFSET;
+  prev_sp = read_register (SP_REGNUM);
+
+#ifdef	TEK_HACK
+  if (!step) {
+    extern last_iword;
+    last_iword = 0;	/* For 'print_effect()' in remote.c  */
+  }
+#endif /* -rcb 4/90 */
+
+  if (remote_debugging)
+    remote_resume (step, signal);
+  else
+    /* First arg 9 means single step, 7 means just continue.
+       Third arg = 1 means continue at already stored (SNIP,SFIP). */
+    call_ptrace (step ? 9 : 7, inferior_pid, 1, signal);
+
+  /* We no longer know what the inferior's registers are. */
+  forget_registers();
+}
+
+/* Basic routine for continuing the program in various fashions.
+
+   ADDR is the address to resume at, or -1 for resume where stopped.
+   SIGNAL is the signal to give it, or 0 for none,
+     or -1 for act according to how it stopped.
+   STEP is nonzero if should trap after one instruction.
+     -1 means return after that and print nothing.
+     You should probably set various step_... variables
+     before calling here, if you are stepping.
+
+   You should call clear_proceed_status before calling proceed.  */
+
+void
+proceed (addr, signal, step)
+     CORE_ADDR addr;
+     int signal;
+     int step;
+{
+  int oneproc = 0;
+  extern int last_iword;	/* -rcb 4/23/90 */
+  last_iword = 0;		/* -rcb 4/23/90 */
+
+  if (step > 0) {
+    CORE_ADDR pc = read_pc();
+    if (addr != -1) {
+      ui_badnews(-1, "proceed(addr=0x%x, signal=%d, step=%d), addr != -1\n", 
+                              addr, signal, step);
+    }
+    step_start_function = find_pc_function (pc);
+
+#ifdef TEK_HACK	/* -rcb 4/23/90 */
+    if (step_range_start == step_range_end) {
+      decode_instr_before_stepping(fetch_instruction(pc));  
+    }
+#endif
+
+  } 
+  if (step < 0)
+    stop_after_trap = 1;
+
+  if (addr == -1)
+    {
+      /* If there is a breakpoint at the address we will resume at,
+	 step one instruction before inserting breakpoints
+	 so that we do not stop right away.  */
+
+      if (!pc_changed && breakpoint_here_p (read_pc ()))
+	oneproc = 1;
+    }
+  else
+    {
+      extern simulator;
+      if (!simulator) {
+        write_register (SNIP_REGNUM, addr | IP_VALID);
+        write_register (SFIP_REGNUM, (addr+4) | IP_VALID);
+      }
+    }
+
+  if (trap_expected_after_continue)
+    {
+      /* If (step == 0), a trap will be automatically generated after
+	 the first instruction is executed.  Force step one
+	 instruction to clear this condition.  This should not occur
+	 if step is nonzero, but it is harmless in that case.  */
+      oneproc = 1;
+      trap_expected_after_continue = 0;
+    }
+
+  if (oneproc)
+    /* We will get a trace trap after one instruction.
+       Continue it automatically and insert breakpoints then.  */
+    trap_expected = 1;
+  else
+    {
+      int temp = insert_breakpoints ();
+      if (temp)
+	{
+	  print_sys_errmsg ("ptrace", temp);
+	  ui_badnews(-1,"Cannot insert breakpoints.\n\
+The same program may be running in another process.");
+	}
+      breakpoints_inserted = 1;
+
+#ifdef TEK_HACK
+      insert_watchpoints();
+#endif /* TEK_HACK */
+
+    }
+
+  /* Install inferior's terminal modes.  */
+  terminal_inferior ();
+
+  if (signal >= 0)
+    stop_signal = signal;
+  /* If this signal should not be seen by program,
+     give it zero.  Used for debugging signals.  */
+  else if (stop_signal < NSIG && !signal_program[stop_signal])
+    stop_signal= 0;
+
+  /* Resume inferior.  */
+  resume (oneproc || step, stop_signal);
+
+  /* Wait for it to stop (if not standalone)
+     and in any case decode why it stopped, and act accordingly.  */
+
+  wait_for_inferior ();
+  normal_stop ();
+}
+
+/* Start an inferior process for the first time.
+   Actually it was started by the fork that created it,
+   but it will have stopped one instruction after execing sh.
+   Here we must get it up to actual execution of the real program.  
+   When cross-debugging we don't execute any code in the target
+   until the user tells us to -rcb */
+
+void
+start_inferior ()
+{
+  /* We will get a trace trap after one instruction.
+     Continue it automatically.  Eventually (after shell does an exec)
+     it will get another trace trap.  Then insert breakpoints and continue.  */
+
+#ifdef START_INFERIOR_TRAPS_EXPECTED
+  trap_expected = START_INFERIOR_TRAPS_EXPECTED;
+#else
+  trap_expected = 2;
+#endif
+
+  running_in_shell = 0;		/* Set to 1 at first SIGTRAP, 0 at second.  */
+  trap_expected_after_continue = 0;
+  breakpoints_inserted = 0;
+  mark_breakpoints_out ();
+
+#ifdef TEK_HACK
+  mark_watchpoints_out();
+#endif
+
+  /* Set up the "saved terminal modes" of the inferior
+     based on what modes we are starting it with.  */
+  terminal_init_inferior ();
+
+  /* Install inferior's terminal modes.  */
+  terminal_inferior ();
+
+  if (remote_debugging)
+    {
+      trap_expected = 0;
+      inferior_pid = 3;
+      fetch_inferior_registers();
+      set_current_frame (create_new_frame (read_register (SYNTH_FP_REGNUM),
+					   read_pc ()));
+      stop_frame_address = FRAME_FP (get_current_frame());
+
+#ifdef NOT_DEF
+ /* This code would single step the target when first connecting to it.
+    This is undesirable in the Tektronix cross-debugging environment. */
+
+      if (insert_breakpoints())
+	ui_badnews(1,"Can't insert breakpoints");
+      breakpoints_inserted = 1;
+      proceed(-1, -1, 0);
+#endif
+    }
+  else
+    {
+      wait_for_inferior ();
+      normal_stop ();
+    }
+}
+
+/* Start remote-debugging of a machine over a serial link.  */
+
+void
+start_remote ()
+{
+  clear_proceed_status ();
+  running_in_shell = 0;
+  trap_expected = 0;
+  inferior_pid = 3;
+  breakpoints_inserted = 0;
+  mark_breakpoints_out ();
+/* wait_for_inferior ();
+  normal_stop();
+*/
+}
+
+#ifdef ATTACH_DETACH
+
+/* Attach to process PID, then initialize for debugging it
+   and wait for the trace-trap that results from attaching.  */
+
+void
+attach_program (pid)
+     int pid;
+{
+  attach (pid);
+  inferior_pid = pid;
+
+  mark_breakpoints_out ();
+
+#ifdef TEK_HACK
+  mark_watchpoints_out();
+  ui_strtSubProc(pid);
+#endif
+
+  terminal_init_inferior ();
+  clear_proceed_status ();
+  stop_after_attach = 1;
+  /*proceed (-1, 0, -2);*/
+  terminal_inferior ();
+  wait_for_inferior ();
+  normal_stop ();
+}
+#endif /* ATTACH_DETACH */
+
+#define BREAK 1
+#define CONTINUE 2
+#define FALL_THROUGH 3
+
+/* This used to be part of wait_for_inferior().  This is called just
+   after the call to wait() has returned.  We check to see if the
+   process is still alive and print messages and return 'BREAK' if it isn't.
+   -rcb 3/90
+ */
+
+static int check_for_exited_or_stopped_process(w)
+  WAITTYPE w;
+{
+  /* See if the process still exists; clean up if it doesn't.  */
+  if (WIFEXITED (w))
+    {
+      terminal_ours_for_output ();
+      if (WRETCODE (w))
+          ui_fprintf(stdout, "\nProgram exited with code 0%o.\n", WRETCODE (w));
+        else 
+          ui_fprintf(stdout, "\nProgram exited normally.\n");
+
+      ui_endSubProc();
+      ui_fflush (stdout);
+      inferior_died ();
+#ifdef NO_SINGLE_STEP
+      one_stepped = 0;
+#endif
+      stop_print_frame = 0;
+      return BREAK;
+    }
+  else if (!WIFSTOPPED (w))
+    {
+      kill_inferior ();
+      stop_print_frame = 0;
+      stop_signal = WTERMSIG (w);
+      terminal_ours_for_output ();
+      ui_fprintf(stdout, "\nProgram terminated with signal %d, %s\n",
+		  stop_signal,
+		  stop_signal < NSIG
+		  ? sys_siglist[stop_signal]
+		  : "(undocumented)");
+      ui_fprintf(stdout, "The inferior process no longer exists.\n");
+      ui_fflush (stdout);
+#ifdef NO_SINGLE_STEP
+      one_stepped = 0;
+#endif
+      return BREAK;
+    }
+      
+#ifdef NO_SINGLE_STEP
+    if (one_stepped)
+      single_step (0);	/* This actually cleans up the ss */
+#endif /* NO_SINGLE_STEP */
+    return CONTINUE;
+}
+      
+/* This used to be part of wait_for_inferior().  What we do here is
+   not easy to describe.  We do a lot of checking of signals that
+   the target or process got and we handle them.
+   -rcb 3/90
+ */
+static  int random_signal;
+
+static int preliminary_trap_handler(stop_sp, text_end)
+  CORE_ADDR stop_sp;
+  CORE_ADDR text_end;
+{
+      /* First, distinguish signals caused by the debugger from signals
+	 that have to do with the program's own actions.
+	 Note that breakpoint insns may cause SIGTRAP or SIGILL
+	 or SIGEMT, depending on the operating system version.
+	 Here we detect when a SIGILL or SIGEMT is really a breakpoint
+	 and change it to SIGTRAP.  */
+      
+      if (stop_signal == SIGTRAP
+	  || (breakpoints_inserted &&
+	      (stop_signal == SIGILL
+#ifdef	SIGEMT
+	       || stop_signal == SIGEMT
+#endif
+		))
+	  || stop_after_attach)
+        {
+	  if (stop_signal == SIGTRAP && stop_after_trap)
+	    {
+	      stop_print_frame = 0;
+	      return BREAK;
+	    }
+	  if (stop_after_attach)
+	    return BREAK;
+	  /* Don't even think about breakpoints
+	     if still running the shell that will exec the program
+	     or if just proceeded over a breakpoint.  */
+	  if (stop_signal == SIGTRAP && trap_expected)
+	    stop_breakpoint = 0;
+	  else
+	    {
+
+#ifdef TEK_HACK
+#ifdef NOTDEF /* -rcb 6/90 */
+	      /* If the stop signal was SIGTRAP, ask the kernel why it stopped.
+		 The BCS specifies these signal codes for SIGTRAP:
+		   TRAP_FORK -- ptrace-130 child fork complete
+		   TRAP_EXEC -- exec complete
+		   504-511 -- that trap instruction was executed
+		 In addition, Tektronix adds these signal codes:
+		   TRAP_WPUSER -- user-mode watchpoint trap.
+		   TRAP_WPSYS -- kernel-mode watchpoint trap. */
+	      if (stop_signal == SIGTRAP && !remote_debugging)
+		{
+		  /* Check that the signal frame looks good.
+		     When we trust the kernel, this can go away. */
+		  if (call_ptrace(3, inferior_pid, SIG_SOURCE_OFFSET, 0) != 1 ||
+		      call_ptrace(3, inferior_pid, SIG_NUM_OFFSET, 0) != SIGTRAP ||
+		      call_ptrace(3, inferior_pid, SIG_NOEXBL_OFFSET, 0) != 1 ||
+		      call_ptrace(3, inferior_pid, SIG_EXBL_OFFSET, 0) != 1)
+		    {
+		      ui_fprintf(stdout,
+			"\nINTERNAL ERROR -- invalid signal frame.\n"
+				);
+		    }
+		  else
+		    {
+		      /* Get the signal code. */
+		      int code = call_ptrace(3, inferior_pid,
+					SIG_EXBL_OFFSET+sizeof(long), 0);
+
+		      /* Some versions of the kernel store this value in
+			 an (unsigned short), so coerce it back to negative
+			 if appropriate. */
+		      if (code>0 && code & 0x8000)
+			code -= 0x10000;
+
+		      if (code == TRAP_EXEC)
+			{
+			  /* Inferior did an exec. */
+			  register int i, w;
+			  auto int comm[65];
+
+			  /* Fetch the command. */
+			  for (i=0; i<64; ++i)
+			    {
+			      /* Fetch the next word of the command. */
+			      w = call_ptrace(3, inferior_pid,
+					 COMM_OFFSET+i*sizeof(long), 0);
+			      comm[i] = w;
+
+			      /* Exit loop if we've got the null byte. */
+			      if (((w-0x01010101)&~w)&0x80808080)
+			        break;
+			    }
+			  comm[64] = 0;		/* just in case */
+
+			  ui_fprintf(stdout,
+"\nProgram executed command \"%s\".\n\
+You can use the \"exec_file\" and \"symbol-file\" commands to tell gdb where\n\
+to find the new executable file.\n\
+(The old program is gone, so don't try to examine your variables now.)\n\
+Type \"continue\" to begin execution of the new program.\n",
+				     comm);
+			  return BREAK;
+			}
+		      else if (code == TRAP_FORK)
+			{
+			  /* Inferior was a ptrace-130'd child.
+			     We should never see this. */
+			  ui_fprintf(stdout,
+"\nProgram took SIGTRAP due to child fork -- this should never happen!\n"
+					);
+			  return BREAK;
+			}
+		      else if (code == TRAP_WPUSER)
+			{
+			  /* Inferior hit a watchpoint in user mode. */
+			  if (user_watchpoint_hit())
+			    {
+			      return BREAK;
+			    }
+			  resume (0, 0);
+			  return CONTINUE;
+			}
+		      else if (code == TRAP_WPSYS)
+			{
+			  /* Inferior hit a watchpoint in kernel mode. */
+			  if (kernel_watchpoint_hit())
+			    {
+			      return BREAK;
+			    }
+			  resume (0, 0);
+			  return CONTINUE;
+			}
+		    }
+		}
+#endif /* -rcb 6/90 */
+#endif /* TEK_HACK */
+
+	      /* See if there is a breakpoint at the current PC.  */
+#if DECR_PC_AFTER_BREAK
+	      /* Notice the case of stepping through a jump
+		 that leads just after a breakpoint.
+		 Don't confuse that with hitting the breakpoint.
+		 What we check for is that 1) stepping is going on
+		 and 2) the pc before the last insn does not match
+		 the address of the breakpoint before the current pc.  */
+	      if (!(prev_pc != stop_pc - DECR_PC_AFTER_BREAK
+		    && step_range_end && !step_resume_break_address))
+#endif /* DECR_PC_AFTER_BREAK not zero */
+		{
+		  /* See if we stopped at the special breakpoint for
+		     stepping over a subroutine call.  */
+		  if (stop_pc - DECR_PC_AFTER_BREAK
+		      == step_resume_break_address)
+		    {
+		      stop_step_resume_break = 1;
+		      if (DECR_PC_AFTER_BREAK)
+			{
+			  stop_pc -= DECR_PC_AFTER_BREAK;
+#ifndef TEK_HACK
+			  write_register (PC_REGNUM, stop_pc);	/*** never! ***/
+#endif
+			  pc_changed = 0;
+			}
+		    }
+		  else
+		    {
+		      stop_breakpoint =
+			breakpoint_stop_status (stop_pc, stop_frame_address);
+		      /* Following in case break condition called a
+			 function.  */
+		      stop_print_frame = 1;
+#if defined (TEK_HACK) && (defined (m88k) || defined (__m88k__))
+		      if (stop_breakpoint)
+			{
+			  pc_changed = 0;
+			}
+#else /* not TEK_HACK or not 88k */
+		      if (stop_breakpoint && DECR_PC_AFTER_BREAK )
+			{
+			  stop_pc -= DECR_PC_AFTER_BREAK;
+			  write_register (PC_REGNUM, stop_pc);	/*** never! ***/
+#ifdef NPC_REGNUM
+			  write_register (NPC_REGNUM, stop_pc + 4);
+#endif
+			  pc_changed = 0;
+			}
+#endif /* not TEK_HACK or not 88k */
+		    }
+		}
+	    }
+	  
+          /* Figure out whether we were stopped by a signal that we
+             were expecting or not. Set 'random_signal' to 1 if were
+             not expecting to be stopped the way we did. */
+           
+	  if (stop_signal == SIGTRAP)
+	    random_signal
+	      = !(stop_breakpoint || trap_expected
+		  || stop_step_resume_break
+#ifndef CANNOT_EXECUTE_STACK
+#ifdef TEK_HACK
+                  || (stop_sp INNER_THAN stop_pc && m88k_is_dummy_active() &&
+		       (stop_pc INNER_THAN stop_frame_address || 
+                        stop_frame_address == NULL_CORE_ADDR))
+#else
+		  || (stop_sp INNER_THAN stop_pc
+		      && stop_pc INNER_THAN stop_frame_address)
+#endif
+#else
+		  || stop_pc == text_end - 2
+#endif
+		  || (step_range_end && !step_resume_break_address));
+	  else
+	    {
+	      random_signal
+		= !(stop_breakpoint
+		    || stop_step_resume_break
+#ifdef news800
+#ifdef TEK_HACK
+                    || (stop_sp INNER_THAN stop_pc) &&
+		          (stop_pc INNER_THAN stop_frame_address || 
+                           stop_frame_address == NULL_CORE_ADDR))
+#else
+		    || (stop_sp INNER_THAN stop_pc
+			&& stop_pc INNER_THAN stop_frame_address)
+#endif
+#endif
+		    
+		    );
+	      if (!random_signal)
+		stop_signal = SIGTRAP;
+	    }
+	}
+      else
+	random_signal = 1;
+
+  return FALL_THROUGH;
+}
+     
+/* This used to be a part of wait_for_inferior().  
+   For the program's own signals, act according to
+   the signal handling tables.  */
+
+static int handle_random_signal()
+{
+  if (!(running_in_shell && stop_signal == SIGSEGV))
+	{
+	  /* Signal not for debugging purposes.  */
+	  int printed = 0;
+	  
+	  stopped_by_random_signal = 1;
+	  
+	  if ((stop_signal >= NSIG
+	      || signal_print[stop_signal]) && !remote_debugging)
+	    {
+	      printed = 1;
+	      terminal_ours_for_output ();
+	      ui_fprintf(stdout, "\nProgram received signal %d, %s\n",
+		      stop_signal,
+		      stop_signal < NSIG
+		      ? sys_siglist[stop_signal]
+		      : "(undocumented)");
+	      ui_fflush (stdout);
+	    }
+	  if (stop_signal >= NSIG
+	      || signal_stop[stop_signal])
+	    return BREAK;
+	  /* If not going to stop, give terminal back
+	     if we took it away.  */
+	  else if (printed)
+	    terminal_inferior ();
+	}
+  return FALL_THROUGH;
+}
+
+
+/* This used to be a part of wait_for_inferior().  Here we do most
+   of the stuff for breakpoints.
+
+   rcb 3/90 */
+
+static int another_trap;
+static int handle_breakpoint()
+{
+  if (stop_breakpoint || stop_step_resume_break)
+	{
+	  /* Does a breakpoint want us to stop?  */
+	  if (stop_breakpoint && stop_breakpoint != -1
+	      && stop_breakpoint != -0x1000001)
+	    {
+	      /* 0x1000000 is set in stop_breakpoint as returned by
+		 breakpoint_stop_status to indicate a silent
+		 breakpoint.  */
+	      if ((stop_breakpoint > 0 ? stop_breakpoint :
+		   -stop_breakpoint)
+		  & 0x1000000)
+		{
+		  stop_print_frame = 0;
+		  if (stop_breakpoint > 0)
+		    stop_breakpoint -= 0x1000000;
+		  else
+		    stop_breakpoint += 0x1000000;
+		}
+	      return BREAK;
+	    }
+	  /* But if we have hit the step-resumption breakpoint,
+	     remove it.  It has done its job getting us here.
+	     The sp test is to make sure that we don't get hung
+	     up in recursive calls in functions without frame
+	     pointers.  If the stack pointer isn't outside of
+	     where the breakpoint was set (within a routine to be
+	     stepped over), we're in the middle of a recursive
+	     call. Not true for reg window machines (sparc)
+	     because the must change frames to call things and
+	     the stack pointer doesn't have to change if it
+	     the bp was set in a routine without a frame (pc can
+	     be stored in some other window).
+	     
+	     The removal of the sp test is to allow calls to
+	     alloca.  Nasty things were happening.  Oh, well,
+	     gdb can only handle one level deep of lack of
+	     frame pointer. */
+	  if (stop_step_resume_break
+	      && (step_frame_address == 0
+		  || (stop_frame_address == step_frame_address)))
+	    {
+	      remove_step_breakpoint ();
+	      step_resume_break_address = 0;
+	    }
+	  /* Otherwise, must remove breakpoints and single-step
+	     to get us past the one we hit.  */
+	  else
+	    {
+	      remove_breakpoints ();
+	      remove_step_breakpoint ();
+	      breakpoints_inserted = 0;
+	      another_trap = 1;
+	    }
+	  
+	  /* We come here if we hit a breakpoint but should not
+	     stop for it.  Possibly we also were stepping
+	     and should stop for that.  So fall through and
+	     test for stepping.  But, if not stepping,
+	     do not stop.  */
+	}
+  return FALL_THROUGH;
+}
+
+/* This used to be a part of wait_for_inferior().  Most of the stuff
+   for stepping the processor is done here.
+
+   -rcb 3/90 */
+
+static int handle_stepping(stop_sp, stop_func_name)
+  CORE_ADDR stop_sp;
+  char *stop_func_name;
+{
+  static CORE_ADDR prologue_pc;
+
+      if (step_resume_break_address)
+	/* Having a step-resume breakpoint overrides anything
+	   else having to do with stepping commands until
+	   that breakpoint is reached.  */
+	;
+      /* If stepping through a line, keep going if still within it.  */
+      else if (!random_signal
+	       && step_range_end
+	       && stop_pc >= step_range_start
+	       && stop_pc < step_range_end
+	       /* The step range might include the start of the
+		  function, so if we are at the start of the
+		  step range and either the stack or frame pointers
+		  just changed, we've stepped outside */
+	       && !(stop_pc == step_range_start
+		    && stop_frame_address
+#ifdef TEK_HACK
+                    && (stop_sp INNER_THAN prev_sp)))
+#else
+		    && (stop_sp INNER_THAN prev_sp
+			|| stop_frame_address != step_frame_address)))
+#endif
+	{
+
+#ifndef TEK_HACK
+	  /* I don't like this behavior -- you have to issue two "step"
+	     commands to get past a function epilog (the right curly brace
+              line).
+	     DG didn't see this because their ABOUT_TO_RETURN macro is
+	     wrong!  -=- andrew@@frip.wv.tek.com */
+
+	  /* Don't step through the return from a function
+	     unless that is the first instruction stepped through.  */
+	  if (ABOUT_TO_RETURN (stop_pc))
+	    {
+	      stop_step = 1;
+	      return BREAK;
+	    }
+#endif /* TEK_HACK */
+
+	}
+      
+      /* We stepped out of the stepping range.  See if that was due
+	 to a subroutine call that we should proceed to the end of.  */
+      else if (!random_signal && step_range_end)
+	{
+	  if (stop_func_start)
+	    {
+	      prologue_pc = stop_func_start;
+	    }
+
+	  /* Did we just take a signal?  */
+	  if (stop_func_name && prev_func_name &&
+               (!strcmp ("_sigtramp", stop_func_name)
+	      && strcmp ("_sigtramp", prev_func_name)))
+	    {
+	      /* We've just taken a signal; go until we are back to
+		 the point where we took it and one more.  */
+	      step_resume_break_address = prev_pc;
+	      step_resume_break_duplicate =
+		breakpoint_here_p (step_resume_break_address);
+	      if (breakpoints_inserted)
+		insert_step_breakpoint ();
+	      /* Make sure that the stepping range gets us past
+		 that instruction.  */
+	      if (step_range_end == 1)
+		step_range_end = (step_range_start = prev_pc) + 1;
+	      remove_breakpoints_on_following_step = 1;
+	    }
+
+	  /* ==> See comments at top of file on this algorithm.  <==*/
+	  
+	  else if (stop_pc == stop_func_start
+	      && (stop_func_start != prev_func_start
+		  || prologue_pc != stop_func_start
+		  || stop_sp != prev_sp))
+	    {
+	      /* It's a subroutine call */
+	      if (step_over_calls > 0 
+		  || (step_over_calls &&  find_pc_function (stop_pc) == 0))
+		{
+		  /* A subroutine call has happened.  */
+		  /* Set a special breakpoint after the return */
+		  step_resume_break_address =
+		    SAVED_PC_AFTER_CALL (get_current_frame ())
+#ifdef	DG_HACK
+#ifdef  m88k
+					& 0xfffffffd
+#endif
+#endif /* DG_HACK */
+							      ;
+		  step_resume_break_duplicate
+		    = breakpoint_here_p (step_resume_break_address);
+		  if (breakpoints_inserted)
+		    insert_step_breakpoint ();
+		}
+	      /* Subroutine call with source code we should not step over.
+		 Do step to the first line of code in it.  */
+	      else if (step_over_calls)
+		{
+                  struct symtab_and_line sal;
+
+		  sal = find_pc_line (stop_func_start, 0);
+		  /* Use the step_resume_break to step until
+		     the end of the prologue, even if that involves jumps
+		     (as it seems to on the vax under 4.2).  */
+		  /* If the prologue ends in the middle of a source line,
+		     continue to the end of that source line.
+		     Otherwise, just go to end of prologue.  */
+#ifdef PROLOGUE_FIRSTLINE_OVERLAP
+		  /* no, don't either.  It skips any code that's
+		     legitimately on the first line.  */
+#else
+		  if (sal.end && sal.pc != stop_func_start)
+		    stop_func_start = sal.end;
+#endif
+		  
+		  if (stop_func_start == stop_pc)
+		    {
+		      /* We are already there: stop now.  */
+		      stop_step = 1;
+		      return BREAK;
+		    }
+		  else
+		    /* Put the step-breakpoint there and go until there. */
+		    {
+		      step_resume_break_address = stop_func_start;
+		      
+		      step_resume_break_duplicate
+			= breakpoint_here_p (step_resume_break_address);
+		      if (breakpoints_inserted)
+			insert_step_breakpoint ();
+		      /* Do not specify what the fp should be when we stop
+			 since on some machines the prologue
+			 is where the new fp value is established.  */
+		      step_frame_address = 0;
+		      /* And make sure stepping stops right away then.  */
+		      step_range_end = step_range_start;
+		    }
+		}
+	      else
+		{
+		  /* We get here only if step_over_calls is 0 and we
+		     just stepped into a subroutine.  I presume
+		     that step_over_calls is only 0 when we're
+		     supposed to be stepping at the assembly
+		     language level.*/
+		  stop_step = 1;
+		  return BREAK;
+		}
+	    }
+	  /* No subroutince call; stop now.  */
+	  else
+	    {
+	      stop_step = 1;
+	      return BREAK;
+	    }
+	}
+  return FALL_THROUGH;
+}
+      
+/* We call this from wait_for_inferior() and from select_processor()
+   to force gdb to look at the machine's pc to determine the current
+   frame. -rcb 6/90 */
+void set_first_frame()
+{
+  set_current_frame ( create_new_frame (read_register (SYNTH_FP_REGNUM),
+					    read_pc ()));
+}
+
+
+/* Wait for control to return from inferior to debugger.
+   If inferior gets a signal, we may decide to start it up again
+   instead of returning.  That is why there is a loop in this function.
+   When this function actually returns it means the inferior
+   should be left stopped and GDB should read more commands.  */
+
+static void
+wait_for_inferior ()
+{
+  register int pid;
+  WAITTYPE w;
+  CORE_ADDR stop_sp;
+
+  /* Give it an initial value in case find_pc_partial_function doesn't. -rcb*/
+  char *stop_func_name = "";	
+
+  extern CORE_ADDR text_end;
+  int i;
+
+  remove_breakpoints_on_following_step = 0;
+  while (1)
+    {
+      /* Clean up saved state that will become invalid.  */
+      pc_changed = 0;
+      flush_cached_frames ();
+
+      if (remote_debugging)
+	remote_wait (&w);
+      else
+	{
+	  pid = ui_wait (&w);
+	  if (pid != inferior_pid)
+	    continue;
+	}
+
+      /* If the process has stopped to exited, return to our caller */
+      if (check_for_exited_or_stopped_process(w) == BREAK) {
+          break;
+      }
+      
+      fetch_inferior_registers ();
+      stop_pc = read_pc ();
+      set_first_frame();
+      stop_frame_address = FRAME_FP (get_current_frame ());
+      stop_sp = read_register (SP_REGNUM);
+      stop_func_start = 0;
+      /* Don't care about return value; stop_func_start will be 0
+	 if it doesn't work.  */
+      (void) find_pc_partial_function (stop_pc, &stop_func_name,
+				       &stop_func_start);
+      stop_func_start += FUNCTION_START_OFFSET;
+      another_trap = 0;
+      stop_breakpoint = 0;
+      stop_watchpoint = 0;
+      stop_step = 0;
+      stop_stack_dummy = 0;
+      stop_print_frame = 1;
+      stop_step_resume_break = 0;
+      random_signal = 0;
+      stopped_by_random_signal = 0;
+      breakpoints_failed = 0;
+      
+      /* Look at the cause of the stop, and decide what to do.
+	 The alternatives are:
+	 1) break; to really stop and return to the debugger,
+	 2) drop through to start up again
+	 (set another_trap to 1 to single step once)
+	 3) set random_signal to 1, and the decision between 1 and 2
+	 will be made according to the signal handling tables.  */
+      
+      stop_signal = WSTOPSIG (w);
+      
+      if ((i = preliminary_trap_handler(stop_sp, text_end)) == BREAK) {
+          break;
+      } else if (i == CONTINUE) {
+          continue;
+      }
+
+      /* For the program's own signals, act according to
+	 the signal handling tables.  */
+      
+      if (random_signal) {
+        if (handle_random_signal() == BREAK) {
+          break;
+        }
+      }
+
+      /* Handle cases caused by hitting a breakpoint.  */
+      
+      if (!random_signal) {
+        if (handle_breakpoint() == BREAK) {
+          break;
+        }
+      }
+      /* If this is the breakpoint at the end of a stack dummy,
+	 just stop silently.  */
+#ifndef CANNOT_EXECUTE_STACK
+#ifdef TEK_HACK
+      if (stop_sp INNER_THAN stop_pc && m88k_is_dummy_active() &&
+	                (stop_pc INNER_THAN stop_frame_address || 
+                         stop_frame_address == NULL_CORE_ADDR))
+#else
+      if (stop_sp INNER_THAN stop_pc
+	  && stop_pc INNER_THAN stop_frame_address)
+#endif
+#else
+	if (stop_pc == text_end - 2)
+#endif
+	  {
+	    stop_print_frame = 0;
+	    stop_stack_dummy = 1;
+#ifdef HP_OS_BUG
+	    trap_expected_after_continue = 1;
+#endif
+	    break;
+	  }
+      
+      if (handle_stepping(stop_sp, stop_func_name) == BREAK) {
+        break;
+      }
+
+      /* Save the pc before execution, to compare with pc after stop.  */
+      prev_pc = read_pc ();	/* Might have been DECR_AFTER_BREAK */
+      prev_func_start = stop_func_start; /* Ok, since if DECR_PC_AFTER
+					  BREAK is defined, the
+					  original pc would not have
+					  been at the start of a
+					  function. */
+      prev_func_name = stop_func_name;
+      prev_sp = stop_sp;
+
+      /* If we did not do break;, it means we should keep
+	 running the inferior and not return to debugger.  */
+
+      /* If trap_expected is 2, it means continue once more
+	 and insert breakpoints at the next trap.
+	 If trap_expected is 1 and the signal was SIGSEGV, it means
+	 the shell is doing some memory allocation--just resume it
+	 with SIGSEGV.
+	 Otherwise insert breakpoints now, and possibly single step.  */
+
+      if (trap_expected > 1)
+	{
+	  trap_expected--;
+	  running_in_shell = 1;
+	  resume (0, 0);
+	}
+      else if (running_in_shell && stop_signal == SIGSEGV)
+	{
+	  resume (0, SIGSEGV);
+	}
+      else if (trap_expected && stop_signal != SIGTRAP)
+	{
+	  /* We took a signal which we are supposed to pass through to
+	     the inferior and we haven't yet gotten our trap.  Simply
+	     continue.  */
+	  resume ((step_range_end && !step_resume_break_address)
+		  || trap_expected,
+		  stop_signal);
+	}
+      else
+	{
+	  /* Here, we are not awaiting another exec to get
+	     the program we really want to debug.
+	     Insert breakpoints now, unless we are trying
+	     to one-proceed past a breakpoint.  */
+	  running_in_shell = 0;
+
+	  /* If we've just finished a special step resume and we don't
+	     want to hit a breakpoint, pull em out.  */
+	  if (!step_resume_break_address &&
+	      remove_breakpoints_on_following_step)
+	    {
+	      remove_breakpoints_on_following_step = 0;
+	      remove_breakpoints ();
+	      breakpoints_inserted = 0;
+	    }
+	  else if (!breakpoints_inserted && !another_trap)
+	    {
+	      insert_step_breakpoint ();
+	      breakpoints_failed = insert_breakpoints ();
+	      if (breakpoints_failed)
+		break;
+	      breakpoints_inserted = 1;
+	    }
+
+#ifdef TEK_HACK
+	  insert_watchpoints();
+#endif /* TEK_HACK */
+
+	  trap_expected = another_trap;
+
+	  if (stop_signal == SIGTRAP)
+	    stop_signal = 0;
+
+	  resume ((step_range_end && !step_resume_break_address)
+		  || trap_expected,
+		  stop_signal);
+	}
+    }
+}
+
+/* Here to return control to GDB when the inferior stops for real.
+   Print appropriate messages, remove breakpoints, give terminal our modes.
+
+   RUNNING_IN_SHELL nonzero means the shell got a signal before
+   exec'ing the program we wanted to run.
+   STOP_PRINT_FRAME nonzero means print the executing frame
+   (pc, function, args, file, line number and line text).
+   BREAKPOINTS_FAILED nonzero means stop was due to error
+   attempting to insert breakpoints.  */
+
+static void
+normal_stop ()
+{
+  /* Make sure that the current_frame's pc is correct.  This
+     is a correction for setting up the frame info before doing
+     DECR_PC_AFTER_BREAK */
+  if (inferior_pid)
+    (get_current_frame ())->pc = read_pc ();
+  
+#ifdef TEK_HACK
+  remove_watchpoints();
+#endif /* TEK_HACK */
+
+  if (breakpoints_failed)
+    {
+      terminal_ours_for_output ();
+      print_sys_errmsg ("ptrace", breakpoints_failed);
+      ui_fprintf(stdout, "Stopped; cannot insert breakpoints.\n\
+The same program may be running in another process.\n");
+    }
+
+  if (inferior_pid)
+    remove_step_breakpoint ();
+
+  if (inferior_pid && breakpoints_inserted)
+    if (remove_breakpoints ())
+      {
+	terminal_ours_for_output ();
+	ui_fprintf(stdout, "Cannot remove breakpoints because program is no longer writable.\n\
+It must be running in another process.\n\
+Further execution is probably impossible.\n");
+      }
+
+  breakpoints_inserted = 0;
+
+  /* Delete the breakpoint we stopped at, if it wants to be deleted.
+     Delete any breakpoint that is to be deleted at the next stop.  */
+
+  breakpoint_auto_delete (stop_breakpoint);
+
+  /* If an auto-display called a function and that got a signal,
+     delete that auto-display to avoid an infinite recursion.  */
+
+  if (stopped_by_random_signal)
+    disable_current_display ();
+
+  if (step_multi && stop_step)
+    return;
+
+  terminal_ours ();
+
+  if (running_in_shell)
+    {
+      if (stop_signal == SIGSEGV)
+	{
+	  char *exec_file = (char *) get_exec_file (1);
+
+#ifdef NOTDEF
+	  if (access (exec_file, X_OK) != 0)
+	    ui_fprintf(stdout, "The file \"%s\" is not executable.\n", exec_file);
+	  else
+#endif
+	    ui_fprintf(stdout, "\
+You have just encountered a bug in \"sh\".  GDB starts your program\n\
+by running \"sh\" with a command to exec your program.\n\
+This is so that \"sh\" will process wildcards and I/O redirection.\n\
+This time, \"sh\" crashed.\n\
+\n\
+One known bug in \"sh\" bites when the environment takes up a lot of space.\n\
+Try \"info env\" to see the environment; then use \"delete env\" to kill\n\
+some variables whose values are large; then do \"run\" again.\n\
+\n\
+If that works, you might want to put those \"delete env\" commands\n\
+into a \".gdbinit\" file in this directory so they will happen every time.\n");
+	}
+      /* Don't confuse user with his program's symbols on sh's data.  */
+      stop_print_frame = 0;
+    }
+
+  if (inferior_pid == 0)
+    return;
+
+  /* Select innermost stack frame except on return from a stack dummy routine,
+     or if the program has exited.  */
+  if (!stop_stack_dummy)
+    {
+      select_frame (get_current_frame (), 0);
+
+      if (stop_print_frame)
+	{
+	  if (stop_breakpoint > 0) { 
+	    ui_fprintf(stdout, "\nBpt %d, ", stop_breakpoint);
+          }
+
+	  /*
+	   * If we stopped for a precise watchpoint, try to display the
+	   * program portion which caused the watchpoint hit.
+	   * (If we stopped for an imprecise watchpoint, we don't know the
+	   * location of the instruction(s) that caused the watchpoint hit(s),
+	   * so there's no point in even trying.)
+	   */
+	  if (stop_watchpoint && last_exception_was_precise)
+	    {
+	      if (!silent_watchpoint)
+		{
+		  print_watchpoint_frame(read_register(SXIP_REGNUM));
+		}
+	    }
+	  else
+	    {
+              print_sel_frame (stop_step
+			   && step_frame_address == stop_frame_address
+			   && step_start_function == find_pc_function (stop_pc));
+	    }
+
+	  /* Display the auto-display expressions.  */
+	  do_displays ();
+	}
+    }
+
+  /* Save the function value return registers
+     We might be about to restore their previous contents.  */
+  read_register_bytes (0, stop_registers, GENERAL_REGISTER_BYTES);
+
+  if (stop_stack_dummy)
+    {
+      /* Pop the empty frame that contains the stack dummy.
+         POP_FRAME ends with a setting of the current frame, so we
+	 can use that next. */
+      POP_FRAME;
+      select_frame (get_current_frame (), 0);
+    }
+}
+
+static void
+insert_step_breakpoint ()
+{
+  if (step_resume_break_address && !step_resume_break_duplicate)
+    {
+      read_memory (step_resume_break_address,
+		   step_resume_break_shadow, sizeof break_insn, M_NORMAL);
+      write_memory (step_resume_break_address,
+ 		    remote_debugging ? remote_break_insn : break_insn, 
+                    sizeof break_insn);
+    }
+}
+
+void
+remove_step_breakpoint ()
+{
+  if (step_resume_break_address && !step_resume_break_duplicate)
+    write_memory (step_resume_break_address, step_resume_break_shadow,
+		  sizeof break_insn);
+}
+
+/* Specify how various signals in the inferior should be handled.  */
+
+static void
+handle_command (args, from_tty)
+     char *args;
+     int from_tty;
+{
+  register char *p = args;
+  int signum = 0;
+  register int digits, wordlen;
+
+  if (!args)
+    error_no_arg ("signal to handle");
+
+  while (*p)
+    {
+      /* Find the end of the next word in the args.  */
+      for (wordlen = 0; p[wordlen] && p[wordlen] != ' ' && p[wordlen] != '\t';
+	   wordlen++);
+#ifdef TEK_PROG_HACK
+      if (!signum) {
+      /* Expect signal number if we don't have one */
+#endif /* TEK_PROG_HACK */
+          for (digits = 0; p[digits] >= '0' && p[digits] <= '9'; digits++);
+
+      /* If it is all digits, it is signal number to operate on.  */
+          if (digits == wordlen)
+#ifndef TEK_PROG_HACK
+	    {
+#endif /* TEK_PROG_HACK */
+	      signum = atoi (p);
+#ifdef TEK_PROG_HACK
+          else if (strncmp(p, "SIG", 3) == 0) {
+      /* Look for SIG*** type signal name */
+	      int n = 1;
+
+              while (n < NSIG) {
+	       if (strlen(sys_siglist[n]) == wordlen &&
+	        strncmp(p, sys_siglist[n], wordlen) == 0) {
+	          signum = n;
+		  break;
+	       }
+	       n++;
+	      }
+          }
+#endif /* TEK_PROG_HACK */
+	  if (signum <= 0 || signum >= NSIG)
+	    {
+	      p[wordlen] = '\0';
+	      ui_badnews(-1,"Invalid signal %s given as argument to \"handle\".", p);
+	    }
+	  if (signum == SIGTRAP || signum == SIGINT)
+	    {
+	      if (!query ("Signal %d is used by the debugger.\nAre you sure you want to change it? ", signum))
+		ui_badnews(-1,"Not confirmed.");
+	    }
+      } /* endif !signal */
+      else if (signum == 0)
+        ui_badnews(-1,"First argument is not a signal number.");
+
+      /* Else, if already got a signal number, look for flag words
+	 saying what to do for it.  */
+      else if (!strncmp (p, "stop", wordlen))
+	{
+	  signal_stop[signum] = 1;
+	  signal_print[signum] = 1;
+	}
+      else if (wordlen >= 2 && !strncmp (p, "print", wordlen))
+	signal_print[signum] = 1;
+      else if (wordlen >= 2 && !strncmp (p, "pass", wordlen))
+	signal_program[signum] = 1;
+      else if (!strncmp (p, "ignore", wordlen))
+	signal_program[signum] = 0;
+      else if (wordlen >= 3 && !strncmp (p, "nostop", wordlen))
+	signal_stop[signum] = 0;
+      else if (wordlen >= 4 && !strncmp (p, "noprint", wordlen))
+	{
+	  signal_print[signum] = 0;
+	  signal_stop[signum] = 0;
+	}
+      else if (wordlen >= 4 && !strncmp (p, "nopass", wordlen))
+	signal_program[signum] = 0;
+      else if (wordlen >= 3 && !strncmp (p, "noignore", wordlen))
+	signal_program[signum] = 1;
+      /* Not a number and not a recognized flag word => complain.  */
+      else
+	{
+	  p[wordlen] = 0;
+	  ui_badnews(-1,"Unrecognized flag word: \"%s\".", p);
+	}
+
+      /* Find start of next word.  */
+      p += wordlen;
+      while (*p == ' ' || *p == '\t') p++;
+    }
+
+  if (from_tty)
+    {
+      /* Show the results.  */
+      ui_fprintf(stdout, "Number\tStop\tPrint\tPass to program\tDescription\n");
+      ui_fprintf(stdout, "%d\t", signum);
+      ui_fprintf(stdout, "%s\t", signal_stop[signum] ? "Yes" : "No");
+      ui_fprintf(stdout, "%s\t", signal_print[signum] ? "Yes" : "No");
+      ui_fprintf(stdout, "%s\t\t", signal_program[signum] ? "Yes" : "No");
+      ui_fprintf(stdout, "%s\n", sys_siglist[signum]);
+    }
+}
+
+/* Print current contents of the tables set by the handle command.  */
+
+static void
+signals_info (signum_exp)
+     char *signum_exp;
+{
+  register int i;
+  register char *heading =
+    "Number\tStop\tPrint\tPass to program\tDescription\n";
+
+  if (signum_exp)
+    {
+      i = parse_and_eval_address (signum_exp);
+      if ((i < NSIG) && (i > 0))
+      {
+        printf_filtered (heading);
+        printf_filtered ("%d\t", i);
+        printf_filtered ("%s\t", signal_stop[i] ? "Yes" : "No");
+        printf_filtered ("%s\t", signal_print[i] ? "Yes" : "No");
+        printf_filtered ("%s\t\t", signal_program[i] ? "Yes" : "No");
+        printf_filtered ("%s\n", sys_siglist[i]);
+        return;
+      }
+      else
+      {
+	char  bummer[128];
+        sprintf(bummer,
+	   "Invalid signal %d given as arguemnt to \"info signal\"", i);
+        ui_badnews(-1, bummer);
+      }
+    }
+
+  printf_filtered (heading);
+  printf_filtered ("\n");
+  for (i = 1; i < NSIG; i++)
+    {
+      QUIT;
+
+      printf_filtered ("%d\t", i);
+      printf_filtered ("%s\t", signal_stop[i] ? "Yes" : "No");
+      printf_filtered ("%s\t", signal_print[i] ? "Yes" : "No");
+      printf_filtered ("%s\t\t", signal_program[i] ? "Yes" : "No");
+      printf_filtered ("%s\n", sys_siglist[i]);
+    }
+
+  printf_filtered ("\nUse the \"handle\" command to change these tables.\n");
+}
+
+/* Save all of the information associated with the inferior<==>gdb
+   connection.  INF_STATUS is a pointer to a "struct inferior_status"
+   (defined in inferior.h).  */
+
+struct command_line *get_breakpoint_commands ();
+
+void
+save_inferior_status (inf_status, restore_stack_info)
+     struct inferior_status *inf_status;
+     int restore_stack_info;
+{
+  inf_status->pc_changed = pc_changed;
+  inf_status->stop_signal = stop_signal;
+  inf_status->stop_pc = stop_pc;
+  inf_status->stop_frame_address = stop_frame_address;
+  inf_status->stop_breakpoint = stop_breakpoint;
+  inf_status->stop_step = stop_step;
+  inf_status->stop_stack_dummy = stop_stack_dummy;
+  inf_status->stopped_by_random_signal = stopped_by_random_signal;
+  inf_status->trap_expected = trap_expected;
+  inf_status->step_range_start = step_range_start;
+  inf_status->step_range_end = step_range_end;
+  inf_status->step_frame_address = step_frame_address;
+  inf_status->step_over_calls = step_over_calls;
+  inf_status->step_resume_break_address = step_resume_break_address;
+  inf_status->stop_after_trap = stop_after_trap;
+  inf_status->stop_after_attach = stop_after_attach;
+  inf_status->breakpoint_commands = get_breakpoint_commands ();
+  inf_status->restore_stack_info = restore_stack_info;
+  
+  bcopy (stop_registers, inf_status->stop_registers, GENERAL_REGISTER_BYTES);
+  
+  record_selected_frame (&(inf_status->selected_frame_address),
+			 &(inf_status->selected_level));
+  return;
+}
+
+void
+restore_inferior_status (inf_status)
+     struct inferior_status *inf_status;
+{
+  FRAME fid;
+  int level = inf_status->selected_level;
+
+  pc_changed = inf_status->pc_changed;
+  stop_signal = inf_status->stop_signal;
+  stop_pc = inf_status->stop_pc;
+  stop_frame_address = inf_status->stop_frame_address;
+  stop_breakpoint = inf_status->stop_breakpoint;
+  stop_step = inf_status->stop_step;
+  stop_stack_dummy = inf_status->stop_stack_dummy;
+  stopped_by_random_signal = inf_status->stopped_by_random_signal;
+  trap_expected = inf_status->trap_expected;
+  step_range_start = inf_status->step_range_start;
+  step_range_end = inf_status->step_range_end;
+  step_frame_address = inf_status->step_frame_address;
+  step_over_calls = inf_status->step_over_calls;
+  step_resume_break_address = inf_status->step_resume_break_address;
+  stop_after_trap = inf_status->stop_after_trap;
+  stop_after_attach = inf_status->stop_after_attach;
+  set_breakpoint_commands (inf_status->breakpoint_commands);
+
+  bcopy (inf_status->stop_registers, stop_registers, GENERAL_REGISTER_BYTES);
+
+  if (inf_status->restore_stack_info)
+    {
+      fid = find_relative_frame (get_current_frame (),
+				 &level);
+      
+      if (FRAME_FP (fid) != inf_status->selected_frame_address ||
+	  level != 0)
+	{
+#ifndef TEK_HACK
+	  ui_fprintf (stderr, "Unable to restore previously selected frame.\n");
+#endif
+	  select_frame (get_current_frame (), 0);
+	  return;
+	}
+      
+      select_frame (fid, inf_status->selected_level);
+    }
+  return;
+}
+
+
+void
+_initialize_infrun ()
+{
+  register int i;
+
+  add_info ("signals", signals_info,
+	    "What debugger does when program gets various signals.\n\
+Specify a signal number as argument to print info on that signal only.");
+
+  add_com ("handle", class_run, handle_command,
+	   "Specify how to handle a signal.\n\
+Args are signal number followed by flags.\n\
+Flags allowed are \"stop\", \"print\", \"pass\",\n\
+ \"nostop\", \"noprint\" or \"nopass\".\n\
+Print means print a message if this signal happens.\n\
+Stop means reenter debugger if this signal happens (implies print).\n\
+Pass means let program see this signal; otherwise program doesn't know.\n\
+Pass and Stop may be combined.");
+
+  for (i = 0; i < NSIG; i++)
+    {
+      signal_stop[i] = 1;
+      signal_print[i] = 1;
+      signal_program[i] = 1;
+    }
+
+  /* Signals caused by debugger's own actions
+     should not be given to the program afterwards.  */
+  signal_program[SIGTRAP] = 0;
+  signal_program[SIGINT] = 0;
+
+  /* Signals that are not errors should not normally enter the debugger.  */
+#ifdef SIGALRM
+  signal_stop[SIGALRM] = 0;
+  signal_print[SIGALRM] = 0;
+#endif /* SIGALRM */
+#ifdef SIGVTALRM
+  signal_stop[SIGVTALRM] = 0;
+  signal_print[SIGVTALRM] = 0;
+#endif /* SIGVTALRM */
+#ifdef SIGPROF
+  signal_stop[SIGPROF] = 0;
+  signal_print[SIGPROF] = 0;
+#endif /* SIGPROF */
+#ifdef SIGCHLD
+  signal_stop[SIGCHLD] = 0;
+  signal_print[SIGCHLD] = 0;
+#endif /* SIGCHLD */
+#ifdef SIGCLD
+  signal_stop[SIGCLD] = 0;
+  signal_print[SIGCLD] = 0;
+#endif /* SIGCLD */
+#ifdef SIGIO
+  signal_stop[SIGIO] = 0;
+  signal_print[SIGIO] = 0;
+#endif /* SIGIO */
+#ifdef SIGURG
+  signal_stop[SIGURG] = 0;
+  signal_print[SIGURG] = 0;
+#endif /* SIGURG */
+}
+
+@
+
+
+1.47
+log
+@Now only modify SNIP and SFIP after the target stops when cross debugging
+a real 88k.  But not in the simulator.
+@
+text
+@d4 2
+a5 2
+   $Header: /home/vlsi/u2/cs568/g88/RCS/infrun.c,v 1.46 90/08/19 21:22:52 robertb Exp $
+   $Locker:  $
+d806 1
+a806 1
+                  || (stop_sp INNER_THAN stop_pc &&
+d1233 1
+a1233 1
+      if (stop_sp INNER_THAN stop_pc &&
+@
+
+
+1.46
+log
+@Fixed segmentation fault that happened when 'prev_func_name'
+was nil.
+@
+text
+@d4 1
+a4 1
+   $Header: /home/vlsi/u2/cs568/g88/RCS/infrun.c,v 1.45 90/06/30 17:54:31 robertb Exp $
+d380 5
+a384 2
+      write_register (SNIP_REGNUM, addr | IP_VALID);
+      write_register (SFIP_REGNUM, (addr+4) | IP_VALID);
+@
+
+
+1.45
+log
+@Deleted large useless comment at top of file.
+Made new routine set_first_frame() to allow the MP simulator to
+cause gdb to dump its idea of the current function on process
+switches.
+@
+text
+@d4 2
+a5 2
+   $Header: /home/bigbird/Usr.U6/robertb/gdb/RCS/infrun.c,v 1.44 90/05/08 03:23:08 robertb Exp Locker: robertb $
+   $Locker: robertb $
+d1013 3
+a1015 2
+	  if (!strcmp ("_sigtramp", stop_func_name)
+	      && strcmp ("_sigtramp", prev_func_name))
+@
+
+
+1.44
+log
+@Fixed an uninitialized variable, "stop_func_name" that was causing
+gdb to core dump.
+Tweaked dummy-frame-detection code.  It could stand more improvement.
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.43 90/04/25 10:21:49 robertb Exp $
+a6 56
+This file is part of GDB.
+
+GDB is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+GDB is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GDB; see the file COPYING.  If not, write to
+the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+
+
+/* 
+ * Changes made by Tektronix are marked by TEK_HACK, TEK_PROG_HACK, 
+ * and GHSFORTRAN.
+ * Changes made by Data General are marked by DG_HACK.  Compiling without these
+ * #defines should be equivalent to compiling vanilla 3.2, more or less.
+ *
+ * The changes done by Tektronix fit into three catagories:
+ *	TEK_HACK -- these were done just to get GDB to work in our environment,
+ *		    including work done to support the Green Hills C compiler.
+ *	TEK_PROG_HACK -- These were done to extend GDB by adding programming
+ *			 support: things like if-elif-else-endif, while, and
+ *			 arguments to user defined commands.
+ *	GHSFORTRAN -- These changes make (will make) GDB work with the Green
+ *		      Hills Fortran compiler.
+ *
+ *
+ * In addition, I/O routines were renamed so that I/O could be directed
+ * to/from the X interface if used.  See the files ui.c and ui.h for
+ * more information.  Here are the routines renamed:
+ *    Old name:			Renamed to:
+ *	fprintf			ui_fprintf
+ *	printf			ui_fprintf(stdout
+ *	putchar			ui_putchar
+ *	putc			ui_putc
+ *	fputc			ui_putc
+ *	fputs			ui_fputs
+ *	puts			ui_puts
+ *	gets			ui_gets
+ *	fgets			ui_fgets
+ *	fflush			ui_fflush
+ *	system			ui_system
+ *	wait			ui_wait
+ *	error			ui_badnews(-1
+ *	fatal			ui_badnews(1
+ *	getc, fgetc		replaced with ui_gets, ui_fgets
+ * These changes are not demarcated by ifdef.   
+ *
+ *					November 16, 1989
+d259 1
+a259 1
+static void remove_step_breakpoint ();
+d642 1
+d736 1
+d1121 9
+d1173 1
+a1173 3
+      set_current_frame ( create_new_frame (read_register (SYNTH_FP_REGNUM),
+					    read_pc ()));
+      
+d1400 1
+d1404 1
+@
+
+
+1.43
+log
+@Removed code for motomode and put it in a new file, 'motomode.c'
+Removed decls needed by both remote.c and motomode.c and put
+them in a file 'remote.h'.
+Made 'regs' command work both when debugging processes and whe
+cross-debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.42 90/03/28 15:50:03 robertb Exp $
+   $Locker:  $
+d857 3
+a859 1
+                  || (stop_sp INNER_THAN stop_pc)
+d875 3
+a877 1
+                    || (stop_sp INNER_THAN stop_pc)
+d1188 4
+a1191 1
+  char *stop_func_name;
+d1276 3
+a1278 1
+      if (stop_sp INNER_THAN stop_pc)
+@
+
+
+1.42
+log
+@Split wait_for_inferior() up into a number of functions to make it
+easier to understand.  Fixed a bug with single stepping in cross-gdb.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.41 90/03/15 09:08:30 andrew Exp $
+   $Locker: robertb $
+d367 7
+d404 2
+d407 15
+a421 2
+  if (step > 0)
+    step_start_function = find_pc_function (read_pc ());
+d1526 1
+a1526 1
+static void
+@
+
+
+1.41
+log
+@Register rework.
+Also, #ifdef out the code which stops a single-step command when it
+reaches a `jmp r1' return-from-subroutine instruction.  The effect of
+this code was to require two "step" commands to get past the "}" line
+at the end of a procedure.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.40 90/02/21 10:16:51 andrew Exp $
+   $Locker:  $
+d241 1
+a241 1
+static char remote_break_insn[] = {0xf0, 0, 0xd0, 0xfe }; /* rcb */
+d278 6
+a574 6
+
+/* Wait for control to return from inferior to debugger.
+   If inferior gets a signal, we may decide to start it up again
+   instead of returning.  That is why there is a loop in this function.
+   When this function actually returns it means the inferior
+   should be left stopped and GDB should read more commands.  */
+d576 12
+a587 2
+static void
+wait_for_inferior ()
+d589 2
+a590 14
+  register int pid;
+  WAITTYPE w;
+  int another_trap;
+  int random_signal;
+  CORE_ADDR stop_sp;
+  CORE_ADDR stop_func_start;
+  char *stop_func_name;
+  CORE_ADDR prologue_pc;
+  int stop_step_resume_break;
+  struct symtab_and_line sal;
+  extern CORE_ADDR text_end;
+  int remove_breakpoints_on_following_step = 0;
+
+  while (1)
+d592 5
+a596 3
+      /* Clean up saved state that will become invalid.  */
+      pc_changed = 0;
+      flush_cached_frames ();
+d598 3
+a600 20
+      if (remote_debugging)
+	remote_wait (&w);
+      else
+	{
+	  pid = ui_wait (&w);
+	  if (pid != inferior_pid)
+	    continue;
+	}
+
+      /* See if the process still exists; clean up if it doesn't.  */
+      if (WIFEXITED (w))
+	{
+	  terminal_ours_for_output ();
+	  if (WRETCODE (w))
+	    ui_fprintf(stdout, "\nProgram exited with code 0%o.\n", WRETCODE (w));
+	  else 
+	    ui_fprintf(stdout, "\nProgram exited normally.\n");
+          ui_endSubProc();
+	  ui_fflush (stdout);
+	  inferior_died ();
+d602 1
+a602 1
+	  one_stepped = 0;
+d604 10
+a613 10
+	  stop_print_frame = 0;
+	  break;
+	}
+      else if (!WIFSTOPPED (w))
+	{
+	  kill_inferior ();
+	  stop_print_frame = 0;
+	  stop_signal = WTERMSIG (w);
+	  terminal_ours_for_output ();
+	  ui_fprintf(stdout, "\nProgram terminated with signal %d, %s\n",
+d618 2
+a619 2
+	  ui_fprintf(stdout, "The inferior process no longer exists.\n");
+	  ui_fflush (stdout);
+d621 1
+a621 1
+	  one_stepped = 0;
+d623 2
+a624 2
+	  break;
+	}
+d627 2
+a628 2
+      if (one_stepped)
+	single_step (0);	/* This actually cleans up the ss */
+d630 2
+d633 11
+a643 34
+      fetch_inferior_registers ();
+      stop_pc = read_pc ();
+      set_current_frame ( create_new_frame (read_register (SYNTH_FP_REGNUM),
+					    read_pc ()));
+      
+      stop_frame_address = FRAME_FP (get_current_frame ());
+      stop_sp = read_register (SP_REGNUM);
+      stop_func_start = 0;
+      /* Don't care about return value; stop_func_start will be 0
+	 if it doesn't work.  */
+      (void) find_pc_partial_function (stop_pc, &stop_func_name,
+				       &stop_func_start);
+      stop_func_start += FUNCTION_START_OFFSET;
+      another_trap = 0;
+      stop_breakpoint = 0;
+      stop_watchpoint = 0;
+      stop_step = 0;
+      stop_stack_dummy = 0;
+      stop_print_frame = 1;
+      stop_step_resume_break = 0;
+      random_signal = 0;
+      stopped_by_random_signal = 0;
+      breakpoints_failed = 0;
+      
+      /* Look at the cause of the stop, and decide what to do.
+	 The alternatives are:
+	 1) break; to really stop and return to the debugger,
+	 2) drop through to start up again
+	 (set another_trap to 1 to single step once)
+	 3) set random_signal to 1, and the decision between 1 and 2
+	 will be made according to the signal handling tables.  */
+      
+      stop_signal = WSTOPSIG (w);
+      
+d663 1
+a663 1
+	      break;
+d666 1
+a666 1
+	    break;
+d736 1
+a736 1
+			  break;
+d745 1
+a745 1
+			  break;
+d752 1
+a752 1
+			      break;
+d755 1
+a755 1
+			  continue;
+d762 1
+a762 1
+			      break;
+d765 1
+a765 1
+			  continue;
+d825 4
+d831 1
+a831 1
+	      = !(stop_breakpoint || trap_expected || remote_debugging
+d848 1
+a848 1
+		    || stop_step_resume_break || remote_debugging
+d864 4
+a867 1
+	random_signal = !remote_debugging;
+d869 7
+a875 5
+      /* For the program's own signals, act according to
+	 the signal handling tables.  */
+      
+      if (random_signal
+	  && !(running_in_shell && stop_signal == SIGSEGV))
+d882 2
+a883 2
+	  if (stop_signal >= NSIG
+	      || signal_print[stop_signal])
+d896 1
+a896 1
+	    break;
+d902 13
+a914 5
+      
+      /* Handle cases caused by hitting a breakpoint.  */
+      
+      if (!random_signal
+	  && (stop_breakpoint || stop_step_resume_break))
+d933 1
+a933 1
+	      break;
+d975 14
+a988 22
+      
+      /* If this is the breakpoint at the end of a stack dummy,
+	 just stop silently.  */
+#ifndef CANNOT_EXECUTE_STACK
+#ifdef TEK_HACK
+      if (stop_sp INNER_THAN stop_pc && !remote_debugging)
+#else
+      if (stop_sp INNER_THAN stop_pc
+	  && stop_pc INNER_THAN stop_frame_address)
+#endif
+#else
+	if (stop_pc == text_end - 2)
+#endif
+	  {
+	    stop_print_frame = 0;
+	    stop_stack_dummy = 1;
+#ifdef HP_OS_BUG
+	    trap_expected_after_continue = 1;
+#endif
+	    break;
+	  }
+      
+d1015 2
+a1016 1
+	     commands to get past a function epilog (the } line).
+d1025 1
+a1025 1
+	      break;
+d1088 2
+d1109 1
+a1109 1
+		      break;
+d1136 1
+a1136 1
+		  break;
+d1143 1
+a1143 1
+	      break;
+d1146 9
+d1156 112
+a1341 6
+#ifdef TEK_HACK
+          /* I'm do not know if this is correct, it is an experiment -rcb */
+          if (remote_debugging && stop_signal != SIGTRAP) {
+              break;
+          }
+#endif
+d1497 1
+a1497 1
+		   step_resume_break_shadow, sizeof break_insn);
+@
+
+
+1.40
+log
+@Stop treating signal number 0 as a real signal.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.39 90/02/16 16:13:56 andrew Exp $
+   $Locker: andrew $
+d289 1
+a289 1
+char stop_registers[REGISTER_BYTES];
+d333 39
+d408 2
+a409 2
+      write_register (SNIP_REGNUM, addr | 2);
+      write_register (SFIP_REGNUM, (addr+4) | 2);
+a462 15
+#ifndef TEK_HACK
+	/*** This seems never to be used, and it's a bad idea in any case.
+	 *** -=- andrew@@frip.wv.tek.com ***/
+/* Writing the inferior pc as a register calls this function
+   to inform infrun that the pc has been set in the debugger.  */
+
+void
+writing_pc (val)
+     CORE_ADDR val;
+{
+  stop_pc = val;
+  pc_changed = 1;
+}
+#endif /* TEK_HACK */
+
+d504 1
+a504 1
+      set_current_frame (create_new_frame (read_register (FP_REGNUM),
+d583 3
+a585 3
+  CORE_ADDR stop_sp, prev_sp;
+  CORE_ADDR prev_func_start, stop_func_start;
+  char *prev_func_name, *stop_func_name;
+a588 1
+  int prev_pc;
+a591 6
+  prev_pc = read_pc ();
+  (void) find_pc_partial_function (prev_pc, &prev_func_name,
+				   &prev_func_start);
+  prev_func_start += FUNCTION_START_OFFSET;
+  prev_sp = read_register (SP_REGNUM);
+
+d650 1
+a650 1
+      set_current_frame ( create_new_frame (read_register (FP_REGNUM),
+d1041 7
+d1055 2
+d1390 1
+a1390 1
+  read_register_bytes (0, stop_registers, REGISTER_BYTES);
+d1609 1
+a1609 1
+  bcopy (stop_registers, inf_status->stop_registers, REGISTER_BYTES);
+d1641 1
+a1641 1
+  bcopy (inf_status->stop_registers, stop_registers, REGISTER_BYTES);
+@
+
+
+1.39
+log
+@Make silent watchpoints silent.
+Use new TRAP_* symbols from /usr/include/sys/signal.h.
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.38 90/02/09 13:03:56 davidl Exp $
+d1518 1
+a1518 1
+      if ((i < NSIG) && (i >= 0))
+d1539 1
+a1539 1
+  for (i = 0; i < NSIG; i++)
+@
+
+
+1.38
+log
+@When we attach to a new process the X interface is now informed.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.37 90/02/09 12:51:49 andrew Exp $
+   $Locker: davidl $
+d221 4
+d699 2
+a700 2
+		   -1 -- ptrace-130 child fork complete
+		   -2 -- exec complete
+d702 3
+a704 2
+		 In addition, Tektronix adds this signal code:
+		   -100 -- watchpoint trap. */
+d730 1
+a730 1
+		      if (code == -2)
+d759 1
+a759 1
+		      else if (code == -1)
+d768 1
+a768 1
+		      else if (code == -100)
+d770 2
+a771 2
+			  /* Inferior hit a watchpoint. */
+			  if (watchpoint_hit())
+d778 10
+d1345 4
+a1348 1
+	      print_watchpoint_frame(read_register(SXIP_REGNUM));
+@
+
+
+1.37
+log
+@Print a better message when the program stops for a precise
+watchpoint hit.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.36 90/02/07 16:04:35 andrew Exp $
+   $Locker: andrew $
+d529 1
+@
+
+
+1.36
+log
+@Change interface to watchpoint hit mechanism.
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.35 90/01/02 18:04:59 robertb Exp $
+d221 5
+d1319 15
+a1333 1
+          print_sel_frame (stop_step
+d1336 2
+@
+
+
+1.35
+log
+@Simplified and improved machine-step printing code, only enabled
+when cross-debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.34 89/12/31 00:41:48 robertb Exp $
+   $Locker: robertb $
+a208 6
+static int prev_stop_pc;
+extern int kernel_support_for_watch;
+extern int watchpoint_enabled_count;
+extern int hunting_watchpoint;
+extern int source_code_stepping;
+extern int should_be_hunting;
+d217 4
+d388 5
+a404 4
+#ifdef TEK_HACK
+    insert_watchpoints();
+#endif /* TEK_HACK */
+
+d455 4
+d521 5
+d636 1
+d760 6
+a765 7
+			  /* Insert code here someday to facilitate watchpoint
+			     handling. */
+                          if (kernel_support_for_watch && memory_hit())
+                            {
+                              hunting_watchpoint = 0;
+                              break;
+                            }
+a861 7
+#ifdef TEK_HACK
+			/* if watchpoints are active, SIGTRAPs are taken as a
+				 sign that a watchpoint break has occured. */
+      if ( (stop_signal == SIGTRAP) && hunting_watchpoint)
+      random_signal = 0;  /* cancel out the SIGTRAP */
+#endif /* TEK_HACK */
+ 
+a1135 24
+#ifdef TEK_HACK
+      /* this is where watchpoint support is serviced */
+      if (stop_signal == SIGTRAP && hunting_watchpoint)
+        {
+          if (kernel_support_for_watch)
+            {
+              if (memory_hit())
+                {
+                  hunting_watchpoint = 0;
+                  break;
+                }
+            }
+          else
+            {
+              if (watchpoints_changed())
+                {
+                  hunting_watchpoint = 0;
+                  break;
+                }
+            }
+        }
+      prev_stop_pc = prev_pc;
+#endif /* TEK_HACK */
+
+a1172 13
+#ifdef TEK_HACK
+		/* This is to guarantee that watchpoints will be set
+			 on a "run"  command */
+    if ( should_be_hunting &&
+         !hunting_watchpoint &&
+         insert_watchpoints(1)
+       )
+       {
+         should_be_hunting = 0;
+       }
+#endif /* TEK_HACK */
+
+
+d1191 4
+a1225 11
+#ifdef TEK_HACK
+  int print_watchpoint = 0;      /* record that we stopped for watchpoint */
+  struct symtab_and_line sal;    /* record&print info for this watchpoint */
+
+	/* action to take on a watchpoint stop */
+  if (!hunting_watchpoint && watchpoint_enabled_count &&
+      !stop_step && !stop_breakpoint)
+    print_watchpoint = 1;
+  remove_watchpoints();
+#endif /* TEK_HACK */
+
+d1232 4
+a1313 19
+#ifdef TEK_HACK
+					/* if it was a watchpoint stop print a preamble to 
+						 identify the watchpoint break location */
+          if (print_watchpoint)
+            {
+              if (!kernel_support_for_watch) {
+                sal = find_pc_line(prev_stop_pc);
+                if (source_code_stepping) 
+                  printf_filtered("(%s line %d)\n",
+                                  sal.symtab->filename, sal.line);
+                else
+                  printf_filtered("%x (%s line %d)\n", prev_stop_pc,
+                                  sal.symtab->filename, sal.line);
+              }
+              else {
+                printf_filtered("imprecise\n");
+              }
+            }
+#endif /* TEK_HACK */
+@
+
+
+1.34
+log
+@Minor changes that should only affect (by improving) cross-debugging.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.33 89/12/22 15:31:17 donhar Exp $
+   $Locker:  $
+d466 1
+d471 5
+a475 2
+      inferior_pid = 3;
+   /*
+d479 2
+a480 1
+      proceed(-1, -1, 0); */
+d500 1
+a500 1
+  wait_for_inferior ();
+d502 1
+d661 1
+a661 1
+	{
+d689 4
+a692 4
+		  if (ptrace(3, inferior_pid, SIG_SOURCE_OFFSET, 0) != 1 ||
+		      ptrace(3, inferior_pid, SIG_NUM_OFFSET, 0) != SIGTRAP ||
+		      ptrace(3, inferior_pid, SIG_NOEXBL_OFFSET, 0) != 1 ||
+		      ptrace(3, inferior_pid, SIG_EXBL_OFFSET, 0) != 1)
+d701 1
+a701 1
+		      int code = ptrace(3, inferior_pid,
+d720 1
+a720 1
+			      w = ptrace(3, inferior_pid,
+d819 1
+a819 1
+	      = !(stop_breakpoint || trap_expected
+d836 1
+a836 1
+		    || stop_step_resume_break
+d852 1
+a852 1
+	random_signal = 1;
+d962 1
+a962 1
+      if (stop_sp INNER_THAN stop_pc)
+d1232 4
+a1235 4
+          /* This is a test, I'm not sure that we never want to resume
+             here when cross-debugging -rcb */
+          if (remote_debugging) {
+            break;
+d1237 1
+a1237 1
+
+@
+
+
+1.33
+log
+@changes to support watchpoints in a "run" command 
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.32 89/12/19 13:20:17 andrew Exp $
+d234 1
+d434 3
+a436 1
+   Here we must get it up to actual execution of the real program.  */
+d471 1
+d475 1
+a475 1
+      proceed(-1, -1, 0);
+d679 1
+a679 1
+	      if (stop_signal == SIGTRAP)
+d1226 6
+d1396 2
+a1397 1
+		    break_insn, sizeof break_insn);
+@
+
+
+1.32
+log
+@Revise manipulation of instruction pointers, in part to fix bug BLK1795.
+Add comments pointing out that it's WRONG ever to write the SXIP back
+into the inferior's register set.  (The value written would never be used,
+so any attempt to write it indicates a logic error in gdb.)
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.31 89/12/18 17:18:38 andrew Exp $
+   $Locker: andrew $
+d214 1
+d845 2
+d1145 2
+a1146 2
+          }
+        prev_stop_pc = prev_pc;
+d1185 14
+d1243 2
+a1244 2
+  int print_watchpoint = 0;
+  struct symtab_and_line sal;
+d1246 1
+d1338 2
+@
+
+
+1.31
+log
+@Refer to SFIP_REGNUM by name, not by "38".
+Delete commented-out code which munges the instruction pointers.
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.30 89/12/12 17:22:11 andrew Exp $
+d360 2
+a361 13
+#ifdef TEK_HACK
+      addr = addr | 2;
+      write_register (PC_REGNUM, 0);
+      write_register (NPC_REGNUM, 0);
+      write_register (SFIP_REGNUM, addr);
+#else
+      write_register (PC_REGNUM, addr);
+#ifdef NPC_REGNUM
+      write_register (NPC_REGNUM, addr + 4);
+      write_register (38, addr + 8); /* KLUDGE ... make this nice if it wor
+ks */
+#endif
+#endif
+d414 3
+d427 1
+d774 1
+a774 1
+			  write_register (PC_REGNUM, stop_pc);
+d795 1
+a795 1
+			  write_register (PC_REGNUM, stop_pc);
+@
+
+
+1.30
+log
+@Delete confusing SKIP_PROLOGUE invocations.
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.29 89/12/06 15:20:38 donhar Exp $
+d364 1
+a364 1
+      write_register (38, addr);
+a795 6
+/*****
+                          write_register (SFIP_REGNUM, read_register (
+                                          SNIP_REGNUM));
+                          write_register (NPC_REGNUM, read_register (
+                                          SXIP_REGNUM));
+****/
+a1210 23
+
+#ifdef m88k
+          /* For 88K, after stepping we need to shift SXIP, SNIP, and SFIP
+             or else when we resume execution we will grab the next
+             instruction without looking at the executing instruction (which
+             is the one we want to execute, since it has not been executed
+             yet).  We only want to shift, though, if we actually did
+             stop at this breakpoint.  If the breakpoint was a false
+             conditional breakpoint, simply resume.  In the case where
+             the user program had a child that terminated, that signal
+             (SIGCLD -- Death of a Child) is propagated up to gdb...we need to
+             ignore it and simply resume execution.  */
+
+          if (!stop_breakpoint && (stop_signal != SIGCLD))
+          {
+#ifndef TEK_HACK
+            write_register (SFIP_REGNUM, read_register (SNIP_REGNUM));
+            write_register (SNIP_REGNUM, read_register (SXIP_REGNUM));
+#endif
+          }
+#endif /* m88k */
+
+
+@
+
+
+1.29
+log
+@removed comments from commented out code used to provide one
+of the exits from wait_for_inferior on a watchpoint hit.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.28 89/12/04 18:21:08 donhar Exp $
+   $Locker: donhar $
+a1017 1
+	      SKIP_PROLOGUE (prologue_pc);
+a1067 1
+		  SKIP_PROLOGUE (stop_func_start);
+@
+
+
+1.28
+log
+@small cosmetic changes to watchpoint display
+
+hpoints to defend
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.27 89/12/04 12:55:36 andrew Exp $
+d749 1
+a749 2
+/* not quite ready, i guess
+                          if (kernel_support_for_watch && memory_match())
+a753 1
+*/                     
+d1143 1
+a1143 1
+              if (memory_match())
+@
+
+
+1.27
+log
+@Correct two bugs found running gdb under a newer kernel.
+These relate to the SIGTRAP code.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.26 89/12/04 12:14:35 andrew Exp $
+   $Locker: andrew $
+d411 4
+a552 4
+#ifdef TEK_HACK
+    insert_watchpoints();
+#endif /* TEK_HACK */
+
+d749 7
+@
+
+
+1.26
+log
+@Taught the SIGTRAP handler how to interpret the signal execution block so
+as to find out the reason for the SIGTRAP.  Used this information to
+print an appropriate message when the program gets SIGTRAP because
+of exec(2).  Left in a spot where watchpoints can hook on.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.26 89/12/04 11:50:21 andrew Exp $
+   $Locker:  $
+d703 1
+a703 1
+		      if (code & 0x8000)
+d716 2
+a717 1
+			      w = ptrace(3, inferior_pid, COMM_OFFSET, 0);
+d721 1
+a721 1
+			      if (!(((w-0x01010101)&~w)&0x80808080))
+@
+
+
+1.25
+log
+@altered where watchpoints get inserted from proceed() to 
+wait_for_inferior()
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.24 89/12/01 11:32:56 marvinw Exp $
+   $Locker: donhar $
+d175 5
+d197 12
+d672 81
+@
+
+
+1.24
+log
+@Ifdeffed out error message, "Unable to restore previously selected frame",
+in restore_inferior_status.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.23 89/11/30 20:11:52 donhar Exp $
+   $Locker: marvinw $
+a393 4
+#ifdef TEK_HACK
+  insert_watchpoints();
+#endif /* TEK_HACK */
+
+d531 4
+@
+
+
+1.23
+log
+@integration of watchpoints with other commands
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.22 89/11/29 10:04:38 donhar Exp $
+   $Locker: donhar $
+d1540 1
+d1542 1
+@
+
+
+1.22
+log
+@machine code level stepping of watchpoints implemented
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.21 89/11/17 08:07:06 davidl Exp $
+d196 1
+d394 4
+d1160 1
+d1162 5
+a1250 3
+#ifdef TEK_HACK
+          hunting_watchpoint = 0;
+#endif /* TEK_HACK */
+d1254 1
+a1254 1
+	  if (!hunting_watchpoint && watchpoint_enabled_count) 
+d1256 12
+a1267 4
+              sal = find_pc_line(prev_stop_pc);
+              printf_filtered("%x (%s line %d)\n", prev_stop_pc,
+                              sal.symtab->filename, sal.line);
+              watchpoint_enabled_count = 0;
+@
+
+
+1.21
+log
+@Added Tek header information.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.20 89/11/17 00:29:33 marvinw Exp $
+   $Locker: davidl $
+d192 3
+a194 1
+extern int watchpoint_count;
+a195 1
+char watchbuf[256]; /* to delay output of breakpoint when watchpoint is hit */
+d746 6
+a751 1
+      
+d1028 24
+d1154 4
+a1238 4
+#ifdef TEK_HACK
+          if (watchpoints_changed ()) hunting_watchpoint = 0;
+#endif /* TEK_HACK */
+
+d1246 7
+a1252 1
+	  if (!hunting_watchpoint) 
+@
+
+
+1.20
+log
+@Added missing "))".
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.19 89/11/17 00:17:57 marvinw Exp $
+   $Locker: marvinw $
+d22 42
+@
+
+
+1.19
+log
+@Fixed BLK01243 and BLK01351.  The jump command now works.  This involved
+a fix to jump_command in infcmd.c and proceed found in this module.
+Function calls now also work, this ivolved fixes to wait_for_inferior
+found in this module and call_function found in valops.c.
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.18 89/11/16 23:56:35 donhar Exp $
+d839 1
+a839 1
+                    && (stop_sp INNER_THAN prev_sp)
+@
+
+
+1.18
+log
+@more support for watchpoints
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.17 89/11/16 17:05:29 donhar Exp $
+   $Locker: donhar $
+d299 6
+d311 1
+d672 3
+d677 1
+d688 3
+d694 1
+d804 3
+d809 1
+d838 3
+d843 1
+@
+
+
+1.17
+log
+@corrected wrong test for finished hunting for watchpoints.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.16 89/11/16 16:59:37 donhar Exp $
+   $Locker:  $
+d1144 4
+a1147 1
+	  if (stop_breakpoint > 0) 
+d1149 5
+a1153 1
+	  print_sel_frame (stop_step
+@
+
+
+1.16
+log
+@initial support of watchpoints imposed in normal_stop()
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.15 89/11/16 15:18:46 marvinw Exp $
+   $Locker: donhar $
+d1141 1
+a1141 1
+          watchpoints_changed ();
+d1143 2
+a1144 4
+	  if (stop_breakpoint > 0) {
+#ifdef TEK_HACK
+            hunting_watchpoint = 0;
+#endif TEK_HACK
+a1145 1
+          }
+@
+
+
+1.15
+log
+@The write_register calls in wait_for_inferior have been temporarily
+disabled until we can sort each one of them out.  Prior to the kernel
+installed on Thursday, November 16, they were NOPS anyway.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.14 89/10/16 17:25:34 davidl Exp $
+   $Locker: marvinw $
+d149 6
+d1140 7
+a1146 1
+	  if (stop_breakpoint > 0)
+d1148 1
+@
+
+
+1.14
+log
+@Clean up after running Saber-C; mostly removed unused automatic vars.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.13 89/09/26 11:02:23 paulg Exp $
+   $Locker:  $
+d615 1
+d617 1
+d631 1
+d636 1
+d1024 1
+d1027 1
+@
+
+
+1.13
+log
+@change TEK_DEF_HACK to TEK_PROG_HACK
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.12 89/09/23 14:05:57 paulg Exp $
+   $Locker: paulg $
+a456 2
+  CORE_ADDR pc;
+  int tem;
+a463 3
+  CORE_ADDR step_resume_break_sp;
+  int newmisc;
+  int newfun_pc;
+a839 1
+	      step_resume_break_sp = stop_sp;
+a871 1
+		  step_resume_break_sp = stop_sp;
+a904 1
+		      step_resume_break_sp = stop_sp;
+@
+
+
+1.12
+log
+@fixed the problem that prevented the 68k verion from working.
+@
+text
+@d4 1
+a4 1
+   $Header: infrun.c,v 1.11 89/09/23 10:38:06 paulg Exp $
+d1199 1
+a1199 1
+#ifdef TEK_DEF_HACK
+d1202 1
+a1202 1
+#endif
+d1207 1
+a1207 1
+#ifndef TEK_DEF_HACK
+d1209 1
+a1209 1
+#endif
+d1211 1
+a1211 1
+#ifdef TEK_DEF_HACK
+d1225 1
+a1225 1
+#endif
+@
+
+
+1.11
+log
+@added "#ifdef m88k" around some DG_HACK stuff that's realy machine dependent.
+@
+text
+@d4 2
+a5 2
+   $Header: infrun.c,v 1.10 89/09/21 10:18:33 paulg Exp $
+   $Locker:  $
+d631 2
+a632 5
+		      if (stop_breakpoint
+#ifndef	DG_HACK
+                                          && DECR_PC_AFTER_BREAK
+#endif
+                                                                )
+a633 6
+#ifndef	DG_HACK
+			  stop_pc -= DECR_PC_AFTER_BREAK;
+			  write_register (PC_REGNUM, stop_pc);
+#endif
+#ifdef NPC_REGNUM
+#ifdef	DG_HACK
+d638 8
+a645 1
+#else
+d647 1
+a647 2
+#endif 	/* DG_HACK */
+#endif	/* NPC_REGNUM */
+d650 1
+@
+
+
+1.10
+log
+@add rcsid stuff
+@
+text
+@d4 1
+a4 1
+   $Header:  $
+d873 1
+d876 1
+@
+
+
+1.9
+log
+@Added ability to understand symbolic signal names (SIGKILL, SIGTERM, etc.)
+as well as numeric signals.
+@
+text
+@d4 3
+@
+
+
+1.8
+log
+@change calles to "fatal" to "ui_badnews" with a first argument of 1.
+@
+text
+@d1196 5
+a1200 1
+      for (digits = 0; p[digits] >= '0' && p[digits] <= '9'; digits++);
+d1203 20
+a1222 3
+      if (digits == wordlen)
+	{
+	  signum = atoi (p);
+d1233 1
+a1233 1
+	}
+d1235 1
+a1235 1
+	ui_badnews(-1,"First argument is not a signal number.");
+@
+
+
+1.7
+log
+@change ui_badnews(0 to ui_badnews(-1
+@
+text
+@d394 1
+a394 1
+	fatal("Can't insert breakpoints");
+@
+
+
+1.6
+log
+@apply bug fixes from the net
+@
+text
+@d318 1
+a318 1
+	  ui_badnews(0,"Cannot insert breakpoints.\n\
+d1205 1
+a1205 1
+	      ui_badnews(0,"Invalid signal %s given as argument to \"handle\".", p);
+d1210 1
+a1210 1
+		ui_badnews(0,"Not confirmed.");
+d1214 1
+a1214 1
+	ui_badnews(0,"First argument is not a signal number.");
+d1244 1
+a1244 1
+	  ui_badnews(0,"Unrecognized flag word: \"%s\".", p);
+d1292 1
+a1292 1
+        ui_badnews(0, bummer);
+@
+
+
+1.5
+log
+@merge in Data General stuff: get clean compile.
+@
+text
+@d1271 2
+a1272 1
+  printf_filtered ("Number\tStop\tPrint\tPass to program\tDescription\n");
+d1277 17
+a1293 6
+      printf_filtered ("%d\t", i);
+      printf_filtered ("%s\t", signal_stop[i] ? "Yes" : "No");
+      printf_filtered ("%s\t", signal_print[i] ? "Yes" : "No");
+      printf_filtered ("%s\t\t", signal_program[i] ? "Yes" : "No");
+      printf_filtered ("%s\n", sys_siglist[i]);
+      return;
+d1296 1
+@
+
+
+1.4
+log
+@Changed wait() to ui_wait().
+@
+text
+@d293 2
+d576 4
+a579 1
+	       || stop_signal == SIGEMT))
+d628 5
+a632 1
+		      if (stop_breakpoint && DECR_PC_AFTER_BREAK)
+d634 1
+d637 1
+d639 6
+d646 2
+a647 1
+#endif
+d868 5
+a872 1
+		    SAVED_PC_AFTER_CALL (get_current_frame ());
+d1010 21
+@
+
+
+1.3
+log
+@Added call to ui_endSubProc.
+@
+text
+@d485 1
+a485 1
+	  pid = wait (&w);
+@
+
+
+1.2
+log
+@Changes for initial runnable xgdb version.
+@
+text
+@d496 1
+a496 1
+	  else
+d498 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d125 1
+d316 1
+a316 1
+	  error ("Cannot insert breakpoints.\n\
+d495 1
+a495 1
+	    printf ("\nProgram exited with code 0%o.\n", WRETCODE (w));
+d497 2
+a498 2
+	    printf ("\nProgram exited normally.\n");
+	  fflush (stdout);
+d512 1
+a512 1
+	  printf ("\nProgram terminated with signal %d, %s\n",
+d517 2
+a518 2
+	  printf ("The inferior process no longer exists.\n");
+	  fflush (stdout);
+d680 1
+a680 1
+	      printf ("\nProgram received signal %d, %s\n",
+d685 1
+a685 1
+	      fflush (stdout);
+d1018 1
+a1018 1
+      printf ("Stopped; cannot insert breakpoints.\n\
+d1029 1
+a1029 1
+	printf ("Cannot remove breakpoints because program is no longer writable.\n\
+d1059 1
+a1059 1
+	    printf ("The file \"%s\" is not executable.\n", exec_file);
+d1061 1
+a1061 1
+	    printf ("\
+d1090 1
+a1090 1
+	    printf ("\nBpt %d, ", stop_breakpoint);
+d1161 1
+a1161 1
+	      error ("Invalid signal %s given as argument to \"handle\".", p);
+d1166 1
+a1166 1
+		error ("Not confirmed.");
+d1170 1
+a1170 1
+	error ("First argument is not a signal number.");
+d1200 1
+a1200 1
+	  error ("Unrecognized flag word: \"%s\".", p);
+d1211 6
+a1216 6
+      printf ("Number\tStop\tPrint\tPass to program\tDescription\n");
+      printf ("%d\t", signum);
+      printf ("%s\t", signal_stop[signum] ? "Yes" : "No");
+      printf ("%s\t", signal_print[signum] ? "Yes" : "No");
+      printf ("%s\t\t", signal_program[signum] ? "Yes" : "No");
+      printf ("%s\n", sys_siglist[signum]);
+d1327 1
+a1327 1
+	  fprintf (stderr, "Unable to restore previously selected frame.\n");
+@

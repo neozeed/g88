@@ -1,0 +1,460 @@
+head     1.3;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.3
+date     88.11.14.07.55.53;  author andrew;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     88.04.15.14.13.50;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.11.19.12.56;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Hack version of scc.c, provides a simple console that
+generates interrupts on receive.
+@
+
+
+1.3
+log
+@Change an error message from "tell robertb@@blue" to "please report
+this bug".
+@
+text
+@/*
+ * Hacked newcons simulator to support system V simulation.
+ *
+ * based on the 88000 8530 SCC simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: newcons.c,v 1.2 88/04/15 14:13:50 robertb Exp $
+ */
+
+#include <errno.h>
+#include <sys/file.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <sgtty.h>
+#include <stdio.h>
+
+#include "sim.h"
+#include "io.h"
+
+extern char *getenv();
+
+/*
+ * Size in bytes of the simulator's input buffer.
+ */
+#define IN_BUFFSIZ  (20000)
+
+/*
+ * Number of bytes presently in in_buff, pointed to by in_bp
+ */
+static u_long in_buffcnt;
+
+/*
+ * Buffer of bytes received by the simulator.
+ */
+static u_char in_buff[IN_BUFFSIZ];
+
+/*
+ * Points to the first unread byte in in_buff.
+ */
+static u_char *in_bp;
+
+/*
+ * File descriptor to use for reading and writing the tty line.
+ */
+static int newcons_fd;
+
+/*
+ * Name of the tty special file.
+ */
+static char *newcons_filename;
+
+/*
+ * Number of resets and nmi's, and all characters received.
+ */
+static u_long reset_cnt, nmi_cnt, total_chars_read;
+
+/*
+ * SCC simulator debugging flag.
+ */
+static unsigned int sdbg;
+
+/*
+ * True when we are messing with the buffer pointer and buffer length.
+ */
+static unsigned int newcons_mutex;
+
+
+/*
+ * This reads in more characters from a tty line if any are
+ * waiting.  It does not stop and wait for characters.
+ */
+static void check_tty_line()
+{
+    u_char *from_bp, *to_bp;
+    int i, chars_read;
+    int cnt = in_buffcnt;
+
+    /*
+     * Don't do anything if this port is not connected to a tty.
+     *
+     * We don't read in more characters if the buffer is full.  This
+     * means that it is possible to ignore a NMI or reset code.
+     */
+    if (!newcons_filename || cnt == IN_BUFFSIZ) {
+        return;
+    }
+
+    if (newcons_mutex) {
+/*        sim_printf("newcons_mutex=%d in check_tty_line, tell robertb@@blue.GWD\n", */
+          sim_printf("newcons_mutex=%d in check_tty_line, please report this bug\n",
+                              newcons_mutex);
+        return;
+    }
+    /*
+     * Check to see if there are any characters waiting to be read.
+     */
+    if (fcntl(newcons_fd, F_GETFL, FNDELAY) == -1) {
+        extern errno;
+
+        if (errno != EWOULDBLOCK) {
+            sim_printf("newcons: fcntl in check_tty_line returns -1");
+            sim_printf("     errno=%d\n", errno);
+        }
+        return;
+    }
+
+    from_bp = in_bp;
+    to_bp = &in_buff[0];
+    in_bp = to_bp;
+
+    /*
+     * Make room in the buffer by moving all the characters
+     * that have not been read by the 88k program
+     * to the beginning of the buffer.  Don't bother doing this
+     * if the characters are already at the beginning of the buffer.
+     */
+    if (from_bp != to_bp) {
+        for (i = 0 ; i < cnt ; i++) {
+            *to_bp++ = *from_bp++;
+        }
+    }
+    
+    /*
+     * 'bp' now points to the first free character slot in the
+     * input buffer.
+     *
+     * Append as many characters as there are waiting, up to the
+     * limit of the buffer, to the input buffer.
+     */
+    chars_read = read(newcons_fd, &in_buff[cnt], IN_BUFFSIZ - cnt);
+    if (sdbg) {
+        fprintf(stderr, "chars_read=%d  cnt=%d  from_bp=%X  to_bp=%X\n",
+                         chars_read,    cnt,    from_bp,    to_bp);
+    }
+
+    if (chars_read <= 0) {
+        sim_printf("newcons: error on reading from tty line\n");
+        chars_read = 0;
+    } 
+    in_buffcnt += chars_read; 
+    total_chars_read += chars_read;
+
+    /*
+     *  generate a CE interrupt.
+     */
+    set_ce_interrupt(10);
+}
+
+/*
+ * This checks a tty line to see if the file is closed.
+ */
+static void check_for_hangup()
+{
+    struct stat buf;
+    int status;
+
+    if (newcons_fd == 0) {
+        return;
+    }
+
+    status = fstat(newcons_fd, &buf);
+    if (status == -1) {
+        newcons_fd = 0;
+        in_buffcnt = 0;
+        in_bp = &in_buff[0];
+        sim_printf("%s closed due to hangup\n", newcons_filename);
+    } else {
+        if (sdbg) {
+            sim_printf("check_for_hangup on %s, status=%d\n", 
+                                  newcons_filename, status);
+            sim_printf("ino=%d uid=%d mode=0x%X\n", 
+                    buf.st_ino, buf.st_uid, buf.st_mode);
+        }
+    }
+}
+
+
+/*
+ * This inializes the serial tty line.
+ */
+static void init_serial_line()
+{
+    struct sgttyb tt;
+    struct tchars tc;
+    int localmask = LLITOUT | LDOCTS | LDODTR;
+    int ldisc = NTTYDISC;
+    int time_constant;
+    int speed;
+
+    if (!newcons_filename) {
+        return;
+    }
+
+    if (newcons_fd == 0) {
+        if ((newcons_fd = open(newcons_filename, O_RDWR)) < 0) {
+            sim_printf("cannot open `%s'", newcons_filename);
+            return;
+        }
+    }
+
+    speed = B9600;
+    tt.sg_ispeed = speed;
+    tt.sg_ospeed = speed;
+    tt.sg_flags = RAW;
+
+    tt.sg_flags |= DODTR | DOCTS;
+    tt.sg_kill = -1;
+    tt.sg_erase = -1;
+    tc.t_intrc = -1;
+    tc.t_quitc = -1;
+    tc.t_startc = -1;
+    tc.t_stopc = -1;
+    tc.t_eofc = -1;
+    tc.t_brkc = -1;
+    
+    if (ioctl(newcons_fd, TIOCSETD, &ldisc) < 0 ||
+        ioctl(newcons_fd, TIOCSETP, &tt) < 0 || 
+        ioctl(newcons_fd, TIOCSETC, &tc) < 0 || 
+        ioctl(newcons_fd, TIOCLBIS, &localmask) < 0) {
+
+        sim_printf("Unable to do ioctl to %s\n", newcons_filename);
+    }
+
+    /*
+     * We get a signal if there is IO for the tty line.
+     * We check to see if any are 0x80 or 0x81, the reset and NMI
+     * codes.
+     */
+    if (fcntl(newcons_fd, F_SETOWN, getpid()) == -1) {
+        sim_printf("error doing fcntl with F_SETOWN to %s\n", 
+                                   newcons_filename);
+    }
+    if (fcntl(newcons_fd, F_SETFL, FASYNC) == -1) {
+        sim_printf("error doing fcntl with F_SETFL to %s\n", 
+                                   newcons_filename);
+    }
+
+    (void)signal(SIGIO, check_tty_line);
+    (void)signal(SIGHUP, check_for_hangup);
+}
+
+/*
+ * Initialize either the a or b side of the newcons simulator.
+ */
+void newcons_init(restore)
+{
+    if (!restore) {
+        newcons_filename = sim_strdup(getenv("SIMNEWCONS"));
+
+        reset_cnt = 0;
+        nmi_cnt = 0;
+        total_chars_read = 0;
+        in_buffcnt = 0;
+        in_bp = &in_buff[0];
+        sdbg = getenv("SDBG") != 0;
+        newcons_mutex = 0;
+    } else {
+        newcons_fd = 0;
+    }
+    init_serial_line();
+}
+
+int newcons_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+    int      override;
+{
+    if (size != BYTE) {
+        sim_printf("newcons IO must use byte operations.\n");
+        return E_DACC;
+    }
+
+    if (mem_op_type == XMEM || mem_op_type == XMEM_U) {
+        sim_printf("newcons simulator does not support XMEM and XMEM_U\n");
+        return E_DACC;
+    }
+
+    switch (address_offset) {
+        case 0:
+            return do_data(reg_ptr, mem_op_type);
+
+        default:
+            sim_printf("newcons_operation: address offset=0x%X\n", address_offset);
+            return E_DACC;
+    }
+}
+
+
+/*
+ * This handles operations with the SCC's data port.
+ */
+static int do_data(reg_ptr, mem_op_type)
+    u_long *reg_ptr;
+    int mem_op_type;
+{
+    u_char data_register;
+
+    switch (mem_op_type) {
+
+        case LD:
+        case LD_U:
+            /*
+             * Get the character from
+             * the buffer and put it into the receive character
+             * register.
+             */
+            if (in_buffcnt > 0) {
+                newcons_mutex = 1;
+                in_buffcnt--;
+                *reg_ptr = *in_bp++;
+                newcons_mutex = 0;
+            } else {
+                *reg_ptr = 0;
+            }
+
+            if (mem_op_type == LD) {
+                *reg_ptr = (*reg_ptr << 24) >> 24;
+            }
+
+            /*
+             * If there are more characters
+             * to read, generate a CE interrupt.
+             */
+            if (in_buffcnt > 0) {
+                set_ce_interrupt(10);
+            }
+            break;
+    
+        case ST:
+            data_register = *reg_ptr;
+            /*
+             * If there is no tty line connected to this port,
+             * just drop the characters on the floor.
+             */
+            if (newcons_filename != 0 &&
+                write(newcons_fd, &data_register, 1)!= 1) {
+                sim_printf("newcons: write error on %s\n", newcons_filename);
+                return E_ERR;
+            }
+            break;
+    
+        default:
+            sim_printf("case error in newcons_operation\n");
+            break;
+    }
+
+    return E_NONE;
+}
+
+/*
+ * This displays the SCC's internal state.
+ */
+void newcons_print()
+{
+    int i;
+
+    if (newcons_filename) {
+        sim_printf("This new console port uses %s\n", newcons_filename);
+    } else {
+        sim_printf("This new console port is not connected to a tty\n");
+    }
+
+    if (newcons_filename) {
+        int cnt = in_buffcnt;
+
+        sim_printf("reset count=%d  nmi count=%d\n", reset_cnt, nmi_cnt);
+        sim_printf("unread characters=%d pointer offset=%d total characters read=%d\n",
+                    cnt, in_bp - &in_buff[0], total_chars_read);
+
+        if (cnt > 0) {
+            int lim = cnt <= 16 ? cnt : 16;
+            sim_printf("First %d unread characters in buffer:\n", lim);
+            for (i = 0; i < lim ; i++) {
+                sim_printf("0x%x ", in_bp[i]);
+            }
+        }
+    }
+}
+@
+
+
+1.2
+log
+@added stuf to support checkpointing.
+@
+text
+@d9 1
+a9 1
+ * $Header: newcons.c,v 1.1 88/04/11 19:12:56 robertb Exp $
+d93 2
+a94 1
+        sim_printf("newcons_mutex=%d in check_tty_line, tell robertb@@blue.GWD\n",
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d9 1
+a9 1
+ * $Header: newcons.c,v 1.15 88/04/08 21:33:19 robertb Exp $
+d248 1
+a248 1
+void newcons_init()
+d250 2
+a251 1
+    newcons_filename = getenv("SIMNEWCONS");
+d253 10
+a262 7
+    reset_cnt = 0;
+    nmi_cnt = 0;
+    total_chars_read = 0;
+    in_buffcnt = 0;
+    in_bp = &in_buff[0];
+    sdbg = getenv("SDBG") != 0;
+    newcons_mutex = 0;
+@

@@ -1,0 +1,4110 @@
+head     1.31;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.31
+date     90.05.11.11.55.31;  author robertb;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     90.04.29.19.17.26;  author robertb;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     89.07.14.09.01.50;  author robertb;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     88.10.24.12.59.33;  author andrew;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     88.05.26.18.45.34;  author robertb;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     88.05.11.10.46.12;  author andrew;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     88.05.06.10.37.25;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.05.05.23.15.21;  author robertb;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.05.05.17.26.30;  author andrew;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.05.05.15.59.59;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.05.05.13.27.48;  author andrew;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.05.05.12.35.24;  author andrew;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.05.04.18.02.02;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.05.04.12.24.54;  author andrew;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.04.29.17.03.26;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.04.15.14.18.38;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.04.08.21.33.19;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.03.19.10.23.34;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.28.14.43.09;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.02.12.16.13.45;  author robertb;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.04.14.24.20;  author robertb;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     87.12.03.20.09.56;  author robertb;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     87.12.02.15.50.05;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     87.12.01.21.15.02;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     87.12.01.15.52.27;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     87.11.30.19.21.44;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.11.30.18.07.27;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.25.11.55.18;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.24.17.20.12;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.19.19.33.11;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.19.15.41.58;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Serial chip (8530) simulator.
+@
+
+
+1.31
+log
+@Made it so that if simttya or simttyb are not linked to a tty,
+the debug console is used.
+This simulator still does not interrupt when characters are received.
+System V doesn't have SIGIO, so something other than what we do in
+d88 must be done.
+@
+text
+@/*
+ * 88000 8530 SCC simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: scc.c,v 1.30 90/04/29 19:17:26 robertb Exp $
+ *
+ * This simulates the AmZ8030/8530 Serial Communications Controller.
+ * This simulator looks at the environment variables SIMTTYA and
+ * SIMTTYB.  If either SIMTTYA or SIMTTYB is set, it is interpreted
+ * as the device filename of a serial port.  SIMTTYA controls the A
+ * port of the SCC and SIMTTYB controls the B port.  If one of these
+ * environment variables is not set, its port's data is dropped on the
+ * floor.
+ *
+ * Setting the time constant register in the A or B port will cause the
+ * simulator to change the baud of the tty line (it does this with an
+ * ioctl).  Likewise, setting the flow control bit in register 3 causes
+ * the simulator to do an ioctl on the tty line to set hardware flow
+ * control.  Loopback mode is supported.
+ *
+ * None of the synchronous modes are supported.
+ */
+
+/*
+ * Table of contents:
+ *
+ * unimpl - print an unimplemented-function error message.
+ * check_for_nmi - send a RESET or NMI if the character is a magic cookie.
+ * clear_in_buff - clear a typeahead buffer.
+ * enqueue - add a character to a typeahead buffer.
+ * dequeue - get a character from a typeahead buffer.
+ * check_tty_line - read any typeahead that's available on a single line.
+ * check_tty_lines - read any typeahead on both lines.
+ * hardware_reset - simulate a hardware reset of the SCC.
+ * init_serial_line - initialize a serial tty line.
+ * scc_init - initialize either the a or b side of the scc simulator.
+ * scc_a_init - initialize the A side.
+ * scc_b_init - initialize the B side.
+ * scc_a_operation - do an operation on port A.
+ * scc_b_operation - do an operation on port B.
+ * scc_operation - do a single operation (load or store).
+ * reset_channel - do a channel reset.
+ * do_cntl - handle IO operations with the control register.
+ * do_data - handle operations with the SCC's data port.
+ * disp_field - display the bit fields associated with a SCC register.
+ * disp_baud_rate - display the baud rate.
+ * scc_print - display the SCC's internal state.
+ * scc_a_print - display status of port A.
+ * scc_b_print - display status of port B.
+ */
+
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <stdio.h>
+#include <sys/ioctl.h>
+#include <sys/termio.h>
+
+#include "sim.h"
+#include "io.h"
+
+extern int errno;
+
+/*
+ * Most data structures in this simulator are arrays of two elements
+ * that are indexed by SCC_A or SCC_B.  The half of the array indexed
+ * by SCC_A is for the A port of the SCC chip and similarly for SCC_B.
+ */
+#define SCC_A   0
+#define SCC_B   1
+
+/*
+ * This models the write registers of the SCC.
+ */
+static u_char write_registers[2][16];
+
+/*
+ * This models the read registers of the SCC.
+ */
+static u_char read_registers[2][16];
+
+/*
+ * This maintains the SCC's register pointer that is set by the
+ * lowest 3 bits in the main status register.
+ */
+static u_long register_pointer[2];
+
+/*
+ * This is boolean that when true means that the value in
+ * register_pointer should be used to index the read_registers
+ * or write_registers array.
+ */
+static int use_register_pointer[2];
+
+static int warned;
+
+/*
+ * Circular typeahead buffers.
+ */
+#define IN_BUFFSIZ  (20000)		/* size of buffer */
+static u_char in_buff[2][IN_BUFFSIZ];	/* the buffers */
+static u_char *in_buff_front[2];	/* ptr to next char to read */
+static u_char *in_buff_rear[2];		/* ptr to next char to write */
+static u_long in_buff_count[2];		/* number of bytes in buffer */
+
+/*
+ * File descriptor to use for reading and writing the tty line.
+ */
+static int scc_fd[2];
+
+/*
+ * Name of the tty special file.
+ */
+static char *scc_filename[2];
+
+/*
+ * True if this tty line has been inited.  Used to decide whether
+ * to open it on restore.
+ */
+static char scc_inited[2];
+
+/*
+ * Used to implement the first-received character interrupt.
+ */
+static first_char[2];
+
+/*
+ * Number of resets and nmi's, and all characters received.
+ */
+static u_long reset_cnt, nmi_cnt, total_chars_read;
+
+/*
+ * SCC simulator debugging flag.
+ */
+int sdbg;
+
+static void set_sim_baud();
+
+/*
+ * unimpl - print an unimplemented-function error message.
+ */
+void
+unimpl(fmt)
+    char *fmt;
+{
+    sim_printf("scc: unimplemented: %s\n", fmt);
+}
+
+/*
+ * check_for_nmi - send a RESET or NMI if the character is a magic cookie.
+ * Here we simulate the cross-debugging kludge
+ * board that yanks the reset line if it sees
+ * a 0x81 go by and the NMI line if it sees
+ * a 0x82.
+ */
+static void check_for_nmi(c)
+    u_char c;
+{
+    switch (c) {
+        case 0x81:
+            sim_interrupt_flag |= INT_RESET;
+            reset_cnt++;
+            break;
+
+        case 0x82:
+            set_ce_interrupt(13);
+            nmi_cnt++;
+            break;
+
+        default:
+            break;
+    }
+}
+
+/*
+ * clear_in_buff - clear a typeahead buffer.
+ */
+clear_in_buff(a_or_b)
+int a_or_b;
+{
+	in_buff_front[a_or_b] = in_buff[a_or_b];
+	in_buff_rear [a_or_b] = in_buff[a_or_b];
+	in_buff_count[a_or_b] = 0;
+}
+
+/*
+ * enqueue - add a character to a typeahead buffer.
+ */
+static enqueue(a_or_b, c)
+int a_or_b, c;
+{
+    if (in_buff_count[a_or_b] >= IN_BUFFSIZ) {
+	return;	/* no room */
+    }
+    ++in_buff_count[a_or_b];
+    *in_buff_rear[a_or_b]++ = c;
+    if (in_buff_rear[a_or_b] >= &in_buff[a_or_b][IN_BUFFSIZ]) {
+	in_buff_rear[a_or_b] = in_buff[a_or_b];
+    }
+}
+
+/*
+ * dequeue - get a character from a typeahead buffer.
+ */
+static int dequeue(a_or_b)
+int a_or_b;
+{
+    int c;
+
+    if (in_buff_count[a_or_b]==0) {
+	sim_printf("scc: dequeue but count=0\n");
+	return 0;
+    }
+    c = *in_buff_front[a_or_b]++;
+    if (--in_buff_count[a_or_b]) {
+	if (in_buff_front[a_or_b] >= &in_buff[a_or_b][IN_BUFFSIZ]) {
+	    in_buff_front[a_or_b] = in_buff[a_or_b];
+	}
+    } else {
+	clear_in_buff(a_or_b);
+    }
+    return c;
+}
+
+/*
+ * check_tty_line - read any typeahead that's available.
+ * This reads in more characters from a tty line if any are
+ * waiting.  It does not stop and wait for characters.
+ */
+static void check_tty_line(a_or_b)
+{
+    int i, chars_read;
+    int cnt;
+    int chars_to_read;
+    unsigned char buf[1];
+
+    /*
+     * Don't do anything if this port is not connected to a tty.
+     */
+    if (!scc_filename[a_or_b]) {
+        return;
+    }
+
+    /*
+     * See how many characters there are to read.
+     * If there are none, don't try to read any.
+     */
+    if (ioctl(scc_fd[a_or_b], FIONREAD, &chars_to_read) == -1) {
+	sim_printf("scc: ioctl(FIONREAD) failed, errno=%d\n", errno);
+	return;
+    }
+    if (chars_to_read==0) {
+	return;
+    }
+
+    /*
+     * Append as many characters as there are waiting, up to the
+     * limit of the buffer, to the input buffer.
+     */
+    while (chars_to_read) {
+	chars_read = read(scc_fd[a_or_b], buf, 1);
+	if (chars_read != 1) {
+	    sim_printf("scc: read error code %d, errno=%d\n",
+			chars_read, errno);
+	    return;
+	}
+	enqueue(a_or_b, buf[0]);
+	total_chars_read += 1;
+	chars_to_read -= 1;
+	if (a_or_b == SCC_B) {
+	    check_for_nmi(buf[0]);
+	}
+    }
+
+    /*
+     * If the receiver isn't enabled, throw away the characters.
+     */
+    if (!(write_registers[a_or_b][3] & 1)) {
+	clear_in_buff(a_or_b);
+	return;
+    }
+
+    /*
+     * Set Rx character available.
+     * Put the first char in RR8 (for the pio command).
+     * If Rx interrupts are enabled, generate a CE interrupt.
+     */
+    read_registers[a_or_b][0] |= 1;
+    read_registers[a_or_b][8] = *in_buff_front[a_or_b];
+    if (write_registers[a_or_b][9] & 8 &&
+        ((write_registers[a_or_b][1] & 0x18) == 0x08 && first_char[a_or_b] ||
+	 (write_registers[a_or_b][1] & 0x18) == 0x10)) {
+        set_ce_interrupt(9);
+	read_registers[SCC_A][3] |= a_or_b == SCC_A ? 0x20 : 4;
+	first_char[a_or_b] = 0;
+    }
+}
+
+/*
+ * check_tty_lines - read any typeahead on both lines.
+ */
+static void check_tty_lines()
+{
+    check_tty_line(SCC_A);
+    check_tty_line(SCC_B);
+}
+
+/*
+ * hardware_reset - simulate a hardware reset of the SCC.
+ * This sets the bits in the SCC's simulated registers to the
+ * hardware-reset state.
+ */
+static void hardware_reset(a_or_b)
+    int a_or_b;
+{
+    int i;
+
+    for (i = 0 ; i < 16 ; i++) {
+        write_registers[a_or_b][i] = 0;
+        read_registers[a_or_b][i] = 0;
+    }
+    register_pointer[a_or_b] = 0;
+    use_register_pointer[a_or_b] = 0;
+
+    /*
+     * Hardware reset values, as defined on page 8-3 of the SCC technical
+     * manual.
+     */
+    write_registers[a_or_b][4] = 4;
+    write_registers[a_or_b][9] = 0xc0;
+    write_registers[a_or_b][11] = 0x8;
+    write_registers[a_or_b][14] = 0x20;
+    write_registers[a_or_b][15] = read_registers[a_or_b][15] = 0xf8;
+    read_registers[a_or_b][0] = 0x6C;	/* raise CTS and DCD */
+    read_registers[a_or_b][1] = 7;
+    first_char[a_or_b] = 1;
+}
+
+/*
+ * init_serial_line - initialize a serial tty line.
+ */
+static void init_serial_line(a_or_b)
+    int a_or_b;
+{
+  int time_constant;
+  int speed;
+  struct termio t;
+  char *env_tty_name;
+  int baud_rate_flags;
+
+  if (!scc_filename[a_or_b]) {
+    return;
+  }
+
+  if (scc_fd[a_or_b] == 0) {
+    if ((scc_fd[a_or_b] = open(scc_filename[a_or_b], O_RDWR)) < 0) {
+      if (!warned) {
+        sim_printf("scc: cannot open `%s', using debug terminal\n", 
+                                      scc_filename[a_or_b]);
+        warned = 1;
+      }
+      scc_fd[a_or_b] = 0;
+      scc_inited[a_or_b] = 1;
+      return;
+    }
+  }
+
+  /*
+   * Based on the time constant that the 88k program loaded the
+   * scc with, do an ioctl to set the baud of the host tty port
+   * that we are using.  This assumes the scc is being clocked
+   * at the rate that the hardware designers of the Tek CE board
+   * told me.  -rcb
+   */
+  time_constant = (write_registers[a_or_b][13] << 8) |
+                       write_registers[a_or_b][12];
+
+  /* During initialization, quietly set for 9600 baud. */
+  if (!scc_inited[a_or_b] && time_constant==0) {
+    time_constant = 22;
+  }
+
+  /*
+   * If we already have a tty line open, close it to conserve
+   * on file descriptors.
+   */
+  if (scc_fd[a_or_b] > 0) {
+    if (close(scc_fd[a_or_b]) != 0) {
+      sim_printf("\nUnable to close tty line\n");
+    }
+  }
+
+  if ((scc_fd[a_or_b] = open(scc_filename[a_or_b], O_RDWR | O_NDELAY)) < 0) {
+    scc_fd[a_or_b] = 0;
+    sim_printf("Cannot open %s, but was able to open it earlier\n",
+                                  scc_filename[a_or_b]);
+    return;
+  }
+
+  if (ioctl(scc_fd[a_or_b], TCGETA, &t) < 0) {
+    rerr("open_remote_tty: Error in doing TCGETA ioctl to %s", 
+                                scc_filename[a_or_b]);
+  }
+
+  t.c_oflag = 0;
+  t.c_cflag = CS8 | CREAD | (t.c_cflag & CBAUD);
+  t.c_line = 0;
+
+  t.c_cc[VMIN] = 1;	/* Make sure this is 0 or 1, doesn't matter which */
+
+  t.c_iflag = IGNBRK | IGNPAR;
+
+  t.c_lflag = 0;
+  if (ioctl(scc_fd[a_or_b], TCSETA, &t) < 0) {
+    err("open_remote_tty: Error in doing TCSETA ioctl");
+  }
+
+  /* Make IO with the remote device synchronous.  */
+  if (fcntl(scc_fd[a_or_b], F_SETFL, 0) < 0) {
+    err("open_remote_tty: Error doing fcntl to set flags on %s", 
+                                                   scc_filename[a_or_b]);
+  }
+  switch (time_constant) {
+    case 4: speed = 38400; break;
+    case 10: speed = 19200; break;
+    case 22: speed = 9600; break;
+    case 46: speed = 4800; break;
+    case 94: speed = 2400; break;
+    case 190: speed = 1200; break;
+    case 382: speed = 600; break;
+    case 766: speed = 300; break;
+    case 1534: speed = 150; break;
+    default:
+      sim_printf("scc: bad baud rate 0x%04x, using 9600 baud\n", time_constant);
+      speed = 9600;
+      break;
+  }
+
+  set_sim_baud(speed, a_or_b);
+
+  /*
+   * If the auto-enables bit in the Receive Parameters registers
+   * is set, tell the host OS to do hardware flow-control.
+   */
+#ifdef HMMM
+  if (write_registers[a_or_b][3] & 0x20) {
+    localmask |= /* LDOCTS|LDODTR */;
+  }
+
+  (void)simsignal(SIGIO, check_tty_lines);
+
+  /*
+   * We get a signal if there is IO for the tty line.
+   * We check to see if any are 0x81 or 0x82, the reset and NMI
+   * codes.
+   */
+
+  if (fcntl(scc_fd[a_or_b], F_SETOWN, getpid()) == -1) {
+    sim_printf("scc: error doing fcntl with F_SETOWN to %s\n",
+                                 scc_filename[a_or_b]);
+  }
+  if (fcntl(scc_fd[a_or_b], F_SETFL, FASYNC) == -1) {
+    sim_printf("scc: error doing fcntl with F_SETFL to %s\n",
+                                 scc_filename[a_or_b]);
+  }
+#endif
+
+  scc_inited[a_or_b] = 1;
+}
+
+/*
+ * scc_init - initialize either the a or b side of the scc simulator.
+ */
+static void scc_init(a_or_b, restore)
+    unsigned a_or_b;
+{
+    if (!restore) {
+        scc_filename[a_or_b] = a_or_b == SCC_A ? "simttya" : "simttyb";
+        hardware_reset(a_or_b);
+        reset_cnt = 0;
+        nmi_cnt = 0;
+        total_chars_read = 0;
+	clear_in_buff(a_or_b);
+        sdbg = varvalue("sdbg") != 0;
+        scc_inited[a_or_b] = 0;
+    } else {
+        if (scc_inited[a_or_b]) {
+            init_serial_line(a_or_b);
+        }
+    }
+}
+
+/*
+ * scc_a_init - initialize the A side.
+ * This is the initialization entry point that is called by
+ * io_operation for the A port of the SCC.
+ */
+void scc_a_init(restore)
+{
+    scc_init(SCC_A, restore);
+}
+
+/*
+ * scc_b_init - initialize the B side.
+ * This is the initialization entry point that is called by
+ * io_operation for the B port of the SCC.
+ */
+void scc_b_init(restore)
+{
+    scc_init(SCC_B, restore);
+}
+
+/*
+ * scc_a_operation - do an operation on port A.
+ * This is the entry point that is called by io_operation for the
+ * A port of the SCC.
+ */
+int scc_a_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+    int      override;
+{
+    return
+     scc_operation(address_offset, reg_ptr, size, mem_op_type, override, SCC_A);
+}
+
+/*
+ * scc_b_operation - do an operation on port B.
+ * This is the entry point that is called by io_operation for the
+ * B port of the SCC.
+ */
+int scc_b_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+    int      override;
+{
+    return
+     scc_operation(address_offset, reg_ptr, size, mem_op_type, override, SCC_B);
+}
+
+/*
+ * scc_operation - do a single operation (load or store).
+ */
+static
+int scc_operation(address_offset, reg_ptr, size, mem_op_type, override, a_or_b)
+    unsigned address_offset;
+    unsigned *reg_ptr;
+    unsigned size;
+    unsigned mem_op_type;
+    int      override;
+    unsigned a_or_b;
+{
+    int was_an_interrupt = read_registers[SCC_A][3] & 0x3f;
+    int is_an_interrupt;
+    int status;
+
+    if (size != BYTE) {
+        sim_printf("scc: IO must use byte operations.\n");
+        return E_DACC;
+    }
+
+    if (mem_op_type == XMEM || mem_op_type == XMEM_U) {
+        sim_printf("scc: simulator does not support XMEM and XMEM_U\n");
+        return E_DACC;
+    }
+
+    switch (address_offset) {
+        case 3:
+            status = do_cntl(reg_ptr, mem_op_type, a_or_b);
+            break;
+
+        case 7:
+            status = do_data(reg_ptr, mem_op_type, a_or_b);
+            break;
+
+        default:
+            sim_printf("scc_operation: address offset=0x%x\n", address_offset);
+            status = E_DACC;
+            break;
+    }
+
+    is_an_interrupt = read_registers[SCC_A][3] & 0x3f;
+    if (was_an_interrupt && !is_an_interrupt) {
+        reset_ce_interrupt(9);
+    } else {
+        if (!was_an_interrupt && is_an_interrupt) {
+            set_ce_interrupt(9);
+        }
+    }
+    return status;
+}
+
+/*
+ * reset_channel - do a channel reset.
+ */
+static void reset_channel(a_or_b)
+    int a_or_b;
+{
+    int i;
+
+    for (i = 0 ; i < 16 ; i++) {
+        write_registers[a_or_b][i] = 0;
+    }
+    write_registers[a_or_b][4] = 4;
+    write_registers[a_or_b][14] = 0x20;
+    write_registers[a_or_b][15] = read_registers[a_or_b][15] = 0xf8;
+
+    /*
+     * Tx underrun/eom and Tx buffer empty set, receive character available.
+     */
+    read_registers[a_or_b][0] = 0x6C;	/* raise CTS and DCD */
+
+    read_registers[a_or_b][1] = 7;
+
+    init_serial_line(a_or_b);
+    first_char[a_or_b] = 1;
+}
+
+/*
+ * do_cntl - handle IO operations with the control register.
+ */
+static int do_cntl(reg_ptr, mem_op_type, a_or_b)
+    u_long *reg_ptr;
+    int mem_op_type;
+    int a_or_b;
+{
+    u_long rp, i;
+
+    /*
+     * If the last operation loaded the register pointer bits
+     * of the command register, then use this value to index
+     * one of the register arrays.  Otherwise register 0 is
+     * addressed.
+     */
+    if (use_register_pointer[a_or_b]) {
+        use_register_pointer[a_or_b] = 0;
+        rp = register_pointer[a_or_b];
+    } else {
+        rp = 0;
+    }
+
+    switch (mem_op_type) {
+        char byte, oldbyte;
+
+        case ST:
+            byte = *reg_ptr;
+
+	    /*
+	     * If this is a write of register 8, then it should act like a write
+	     * to the data port.
+	     */
+	    if (rp==8) {
+		return do_data(reg_ptr, mem_op_type, a_or_b);
+	    }
+
+	    oldbyte = write_registers[a_or_b][rp];
+            write_registers[a_or_b][rp] = byte;
+
+            switch (rp) {
+                case 0:
+                    register_pointer[a_or_b] = write_registers[a_or_b][0] & 7;
+
+                    /*
+                     * Execute the command in bits 3-5 of the command register.
+                     */
+                    switch ((byte >> 3) & 7) {
+                        case 0:
+                            /*
+                             * Null command (no effect).
+                             */
+                            break;
+
+                        case 1:
+                            /*
+                             * Point high command.
+                             */
+                            register_pointer[a_or_b] += 8;
+                            break;
+
+                        case 2:
+                            /*
+                             * Reset external status interrupt pending bits.
+                             */
+                            read_registers[SCC_A][3] &=
+                                    (a_or_b == SCC_A) ? ~8 : ~1;
+			    break;
+
+                        case 3:
+			    unimpl("send abort");
+                            break;
+
+                        case 4:
+                            /*
+                             * Enable interrupt on next Rx character.
+                             */
+                            first_char[a_or_b] = 1;
+                            break;
+
+                        case 5:
+                            /*
+                             * Reset Tx interrupt pending bit
+                             */
+                            read_registers[SCC_A][3] &=
+                                               (a_or_b == SCC_A) ? ~0x10 : ~2;
+                            break;
+
+                        case 6:
+                            /*
+                             * Error reset.
+                             */
+                            read_registers[a_or_b][1] &= 0x8f;
+                            break;
+
+                        case 7:
+                            unimpl("reset highest ius");
+                            break;
+                    }
+
+                    /*
+                     * Execute the command in bits 7-6 of the command register.
+                     */
+                    switch ((byte >> 6) & 3) {
+                        case 0: /* null command */                     break;
+                        case 1: unimpl("reset Rx crc checker");        break;
+                        case 2: unimpl("resest Tx crc generator");     break;
+
+                        /*
+                         * Reset the Tx underrun/eom latch.
+			 * This bit should always be ON in async
+			 * mode, so if the program issues this command it's
+			 * probably in error; therefore print a warning
+			 * message.
+                         */
+                        case 3: read_registers[a_or_b][0] &= ~0x40;
+				sim_printf(
+"scc: warning: you have just reset the Tx underrun/EOM latch.\
+      This doesn't make sense when the SCC is in asynchronous mode.\n");
+				break;
+                    }
+
+                    use_register_pointer[a_or_b] = 1;
+                    break;
+
+		case 3:
+		    /*
+		     * If Rx enable is turned off, flush the internal buffer
+		     * and turn off "Rx char avail" and "Rx IP".
+		     */
+		    if (!(byte&1)) {
+			clear_in_buff(a_or_b);
+			read_registers[a_or_b][0] &= ~1;
+			read_registers[SCC_A][3] &= a_or_b==SCC_A ? ~0x20 : ~4;
+		    }
+
+		    /*
+		     * If "auto enables" changes, do an ioctl.
+		     */
+		    if ((oldbyte^byte)&0x20) {
+			init_serial_line(a_or_b);
+		    }
+		    break;
+
+                case 9:
+                    switch ((byte >> 6) & 3) {
+                        case 1:
+                            reset_channel(SCC_B);
+                            break;
+
+                        case 2:
+                            reset_channel(SCC_A);
+                            break;
+
+                        case 3:
+                            hardware_reset(SCC_A);
+                            hardware_reset(SCC_B);
+                            break;
+                    }
+                    break;
+
+		case 12:
+                    read_registers[a_or_b][12] = write_registers[a_or_b][12];
+		    break;
+
+                case 13:
+                    read_registers[a_or_b][13] = write_registers[a_or_b][13];
+                    break;
+
+		case 14:
+		    /*
+		     * Check that no DPLL command is being issued.
+		     */
+		    if ((byte&0xE0)!=0) {
+			sim_printf("scc: you issued WR14 DPLL command %02x\n",
+				   byte&0xE0);
+		    }
+
+		    /*
+		     * When the baud rate generator is enabled, do an ioctl to
+		     * change the baud rate of the serial line we're talking to.
+		     * We can't do it when WR12 or WR13 is changed because we
+		     * don't want to make a change when only one of the two
+		     * registers has been updated.
+		     */
+		    if (!(oldbyte&1) && byte&1) {
+			init_serial_line(a_or_b);
+		    }
+		    break;
+
+		case 15:
+		    /*
+		     * Enforce always-zero bits.
+		     */
+		    write_registers[a_or_b][15] &= ~5;
+
+		    /*
+		     * Reflect WR15 in RR15.
+		     */
+		    read_registers[a_or_b][15] = write_registers[a_or_b][15];
+		    break;
+
+
+            }
+
+            break;
+
+
+        case LD:
+        case LD_U:
+            /*
+             * The program is reading the status port.
+             */
+
+	    /*
+	     * If this is a read of register 8, then it should act like a read
+	     * from the data port.
+	     */
+	    if (rp==8) {
+		return do_data(reg_ptr, mem_op_type, a_or_b);
+	    }
+
+            if (mem_op_type == LD) {
+                *reg_ptr = ((char *)read_registers[a_or_b])[rp];
+            } else {
+                *reg_ptr = ((unsigned char *)read_registers[a_or_b])[rp];
+            }
+            break;
+
+        default:
+            sim_printf("scc_operation: case error.\n");
+            return E_DACC;
+    }
+    return E_NONE;
+}
+
+/*
+ * do_data - handle operations with the SCC's data port.
+ */
+static int do_data(reg_ptr, mem_op_type, a_or_b)
+    u_long *reg_ptr;
+    int mem_op_type;
+    int a_or_b;
+{
+
+    switch (mem_op_type) {
+
+        case LD:
+        case LD_U:
+            if (write_registers[a_or_b][3] & 1) {
+                /*
+                 * If we are in loop mode, get the character from the
+                 * transmit buffer.
+                 */
+                if (write_registers[a_or_b][14] & 0x10) {
+                    read_registers[a_or_b][8] = write_registers[a_or_b][8];
+                } else if (write_registers[a_or_b][3] & 1) {
+                    /*
+                     * We are not in loop mode, and the receiver is enabled.
+		     * Get the character from the buffer and put it into the
+		     * receive character register.
+		     * If there is no character (or if the receiver is
+		     * disabled), the last character remains in the buffer.
+		     * Block SIGIO during this operation to establish
+		     * exclusive access to our input buffer.
+                     */
+                    if (in_buff_count[a_or_b] > 0) {
+			read_registers[a_or_b][8] = dequeue(a_or_b);
+
+			/*
+			 * If this is the last character from the buffer,
+			 * clear the "Rx char avail" and "Rx IP" bits.
+			 */
+                        if (in_buff_count[a_or_b] == 0) {
+			    read_registers[a_or_b][0] &= ~1;
+			    read_registers[SCC_A][3] &=
+				a_or_b==SCC_A ? ~0x20 : ~4;
+			}
+                    }
+                }
+            }
+
+            if (mem_op_type == LD) {
+                *reg_ptr = ((char *)read_registers[a_or_b])[8];
+            } else {
+                *reg_ptr = ((unsigned char *)read_registers[a_or_b])[8];
+            }
+
+            break;
+
+        case ST:
+            if ((write_registers[a_or_b][5] & 8) == 0) {
+                sim_printf("scc: character write with transmitter disabled.\n");
+            }
+            write_registers[a_or_b][8] = *reg_ptr;
+            /*
+             * If there is no tty line connected to this port,
+             * just drop the characters on the floor.
+             */
+            if (scc_filename[a_or_b] != 0 &&
+                write(scc_fd[a_or_b], &write_registers[a_or_b][8], 1)!= 1) {
+                sim_printf("scc: write error on %s\n", scc_filename[a_or_b]);
+                return E_ERR;
+            }
+            /*
+             * If we are in local loopback mode, set the receive-buffer-full
+             * flag.
+	     *** Should set receiver IP if receiver interrupts enabled.
+             */
+            if (write_registers[a_or_b][14] & 0x10) {
+                read_registers[a_or_b][0] |= 1;
+            }
+            /*
+             * If Tx interrupts are enabled, generate a CE interrupt.
+             */
+            if (write_registers[a_or_b][9] & 8 &&
+                write_registers[a_or_b][1] & 2) {
+                read_registers[SCC_A][3] |= a_or_b == SCC_A ? 0x10 : 2;
+            }
+            /*
+             * Set the all-sent bit.
+	     * This is redundant; the bit never gets cleared.
+             */
+            read_registers[a_or_b][1] |= 1;
+            break;
+
+        default:
+            sim_printf("scc: case error in scc_operation\n");
+            break;
+    }
+
+    return E_NONE;
+}
+
+struct fields {
+	unsigned char mask;
+	unsigned char value;
+	char *desc;
+};
+
+static struct fields WR0f[] = {
+	0xC0, 0x40, "reset Rx CRC checker",
+	0xC0, 0x80, "reset Tx CRC generator",
+	0xC0, 0xC0, "reset Tx underrun/EOM latch",
+	0x38, 0x10, "reset ext/status interrupts",
+	0x38, 0x18, "send abort (SDLC)",
+	0x38, 0x20, "enable int on next Rx char",
+	0x38, 0x28, "reset TxINT pending",
+	0x38, 0x30, "error reset",
+	0x38, 0x38, "reset highest IUS",
+	0x0F, 0x00, "->R0",
+	0x0F, 0x01, "->R1",
+	0x0F, 0x02, "->R2",
+	0x0F, 0x03, "->R3",
+	0x0F, 0x04, "->R4",
+	0x0F, 0x05, "->R5",
+	0x0F, 0x06, "->R6",
+	0x0F, 0x07, "->R7",
+	0x3F, 0x08, "->R8",
+	0x3F, 0x09, "->R9",
+	0x3F, 0x0A, "->R10",
+	0x3F, 0x0B, "->R11",
+	0x3F, 0x0C, "->R12",
+	0x3F, 0x0D, "->R13",
+	0x3F, 0x0E, "->R14",
+	0x3F, 0x0F, "->R15",
+	0x00, 0x00, 0
+};
+
+static struct fields WR1f[] = {
+	0x80, 0x80, "wait/DMA request enable",
+	0x40, 0x40, "wait/DMA request function",
+	0x20, 0x20, "wait/DMA request on receive",
+	0x18, 0x00, "Rx int disable",
+	0x18, 0x08, "Rx int on first char or special cond",
+	0x18, 0x10, "int on all Rx chars or special cond",
+	0x18, 0x18, "Rx int on special cond only",
+	0x04, 0x04, "parity is special cond",
+	0x02, 0x02, "Tx int enable",
+	0x01, 0x01, "ext int enable",
+	0x00, 0x00, 0
+};
+
+static struct fields WR3f[] = {
+	0xC0, 0x00, "Rx 5 bits/char",
+	0xC0, 0x40, "Rx 7 bits/char",
+	0xC0, 0x80, "Rx 6 bits/char",
+	0xC0, 0xC0, "Rx 8 bits/char",
+	0x20, 0x20, "auto enables",
+	0x10, 0x10, "enter hunt mode",
+	0x08, 0x08, "Rx CRC enable",
+	0x04, 0x04, "address search mode (SDLC)",
+	0x02, 0x02, "sync character load inhibit",
+	0x01, 0x01, "Rx enabled",
+	0x01, 0x00, "Rx disabled"
+	0x00, 0x00, 0
+};
+
+static struct fields WR4f[] = {
+	0xC0, 0x00, "x1 clock",
+	0xC0, 0x40, "x16 clock",
+	0xC0, 0x80, "x32 clock",
+	0xC0, 0xC0, "x64 clock",
+	0x3C, 0x00, "8 bit sync char",
+	0x3C, 0x10, "16 bit sync char",
+	0x3C, 0x20, "SDLC mode",
+	0x3C, 0x30, "external sync mode",
+	0x0C, 0x04, "1 stop bit/char",
+	0x0C, 0x08, "1.5 stop bits/char",
+	0x0C, 0x0C, "2 stop bits/char",
+	0x02, 0x02, "even parity",
+	0x01, 0x01, "parity enable",
+	0x00, 0x00, 0
+};
+
+static struct fields WR5f[] = {
+	0x80, 0x80, "DTR",
+	0x60, 0x00, "Tx 5 bits/char",
+	0x60, 0x20, "Tx 7 bits/char",
+	0x60, 0x40, "Tx 6 bits/char",
+	0x60, 0x60, "Tx 8 bits/char",
+	0x10, 0x10, "send break",
+	0x08, 0x08, "Tx enabled",
+	0x08, 0x00, "Tx disabled",
+	0x04, 0x04, "CRC-16",
+	0x02, 0x02, "RTS",
+	0x01, 0x01, "Tx CRC enable",
+	0x00, 0x00, 0
+};
+
+static struct fields WR9f[] = {
+	0xC0, 0x40, "channel reset B",
+	0xC0, 0x80, "channel reset A",
+	0xC0, 0xC0, "force hardware reset",
+	0x20, 0x20, "MUST BE ZERO",
+	0x10, 0x10, "status high",
+	0x08, 0x08, "master interrupt enable",
+	0x04, 0x04, "disable lwoer chain",
+	0x02, 0x02, "no vector",
+	0x01, 0x01, "vector includes status",
+	0x00, 0x00, 0
+};
+
+static struct fields WR10f[] = {
+	0x80, 0x80, "CRC preset I",
+	0x60, 0x00, "NRZ",
+	0x60, 0x20, "NRZI",
+	0x60, 0x40, "FM1",
+	0x60, 0x60, "FM0",
+	0x10, 0x10, "go active on poll",
+	0x08, 0x08, "mark idle",
+	0x04, 0x04, "abort on underrun",
+	0x02, 0x02, "loop mode",
+	0x01, 0x01, "6 bit sync",
+	0x00, 0x00, 0
+};
+
+static struct fields WR11f[] = {
+	0x80, 0x80, "RTxC crystal",
+	0x80, 0x00, "no crystal",
+	0x60, 0x00, "Rx clock = RTxC",
+	0x60, 0x20, "Rx clock = TRxC",
+	0x60, 0x40, "Rx clock = BR gen",
+	0x60, 0x60, "Rx clock = DPLL",
+	0x18, 0x00, "Tx clock = RTxC",
+	0x18, 0x08, "Tx clock = TRxC",
+	0x18, 0x10, "Tx clock = BR gen",
+	0x18, 0x18, "Tx clock = DPLL",
+	0x04, 0x00, "TRxC is input",
+	0x07, 0x04, "TRxC out = crystal"
+	0x07, 0x05, "TRxC out = transmit clock",
+	0x07, 0x06, "TRxC out = BR gen",
+	0x07, 0x07, "TRxC out = DPLL",
+	0x00, 0x00, 0
+};
+
+static struct fields WR14f[] = {
+	0xE0, 0x20, "enter search mode",
+	0xE0, 0x40, "reset clock missing",
+	0xE0, 0x60, "disable PLL",
+	0xE0, 0x80, "set source = BR gen",
+	0xE0, 0xA0, "set source = RTxC",
+	0xE0, 0xC0, "set FM mode",
+	0xE0, 0xE0, "set NRZI mode",
+	0x10, 0x10, "local loopback",
+	0x08, 0x08, "auto echo",
+	0x04, 0x04, "DTR=transmit request",
+	0x04, 0x00, "DTR=DTR",
+	0x02, 0x02, "baud rate gen source = PCLK",
+	0x02, 0x00, "baud rate gen source = RTxC|XTAL",
+	0x01, 0x01, "baud rate gen enabled",
+	0x01, 0x00, "baud rate gen disabled",
+	0x00, 0x00, 0
+};
+
+static struct fields WR15f[] = {
+	0x80, 0x80, "break/abort IE",
+	0x40, 0x40, "Tx underrun/EOM IE",
+	0x20, 0x20, "CTS IE",
+	0x10, 0x10, "sync/hunt IE",
+	0x08, 0x08, "DCE IE",
+	0x04, 0x04, "MUST BE ZERO",
+	0x02, 0x02, "zero count IE",
+	0x01, 0x01, "MUST BE ZERO",
+	0x00, 0x00, 0
+};
+
+static struct fields RR0f[] = {
+	0x80, 0x80, "break",
+/*	0x40, 0x40, "Tx underrun/EOM",	*//* always on in ASYNC */
+	0x20, 0x20, "CTS",
+	0x20, 0x00, "not CTS",
+	0x10, 0x10, "sync/hunt",
+	0x10, 0x00, "not sync/hunt",
+	0x08, 0x08, "DCD",
+	0x08, 0x00, "not DCD",
+	0x04, 0x04, "Tx buffer empty",
+	0x04, 0x00, "Tx buffer not empty",
+	0x02, 0x02, "zero count",
+	0x01, 0x01, "Rx char available",
+	0x01, 0x00, "no Rx char available",
+	0x00, 0x00, 0
+};
+
+static struct fields RR1f[] = {
+	0x80, 0x80, "end of frame (SDLC)",
+	0x40, 0x40, "CRC/framing error",
+	0x20, 0x20, "Rx overrun error",
+	0x10, 0x10, "parity error",
+	0x0E, 0x00, "residue=0",
+	0x0E, 0x02, "residue=1",
+	0x0E, 0x04, "residue=2",
+/*	0x0E, 0x06, "residue=3",	*/ /* always in ASYNC mode */
+	0x0E, 0x08, "residue=4",
+	0x0E, 0x0A, "residue=5",
+	0x0E, 0x0C, "residue=6",
+	0x0E, 0x0E, "residue=7",
+	0x01, 0x01, "all sent",
+	0x01, 0x00, "not all sent",
+	0x00, 0x00, 0
+};
+
+static struct fields RR3f[] = {
+	0x80, 0x80, "MUST BE ZERO",
+	0x40, 0x40, "MUST BE ZERO",
+	0x20, 0x20, "channel A Rx IP",
+	0x10, 0x10, "channel A Tx IP",
+	0x08, 0x08, "channel A ext/stat IP",
+	0x04, 0x04, "channel B Rx IP",
+	0x02, 0x02, "channel B Tx IP",
+	0x01, 0x01, "channel B ext/stat IP",
+	0x00, 0x00, 0
+};
+
+static struct fields RR10f[] = {
+	0x80, 0x80, "one clock missing",
+	0x40, 0x40, "two clocks missing",
+	0x20, 0x20, "MUST BE ZERO",
+	0x10, 0x10, "loop sending",
+	0x08, 0x08, "MUST BE ZERO",
+	0x04, 0x04, "MUST BE ZERO",
+	0x02, 0x02, "on loop",
+	0x01, 0x01, "MUST BE ZERO",
+	0x00, 0x00, 0
+};
+
+/* RR15f is the same as WR15f */
+
+static struct fields *WRfields[] = {
+	WR0f,  WR1f,     0,  WR3f, WR4f, WR5f,     0,     0,
+	   0,  WR9f, WR10f, WR11f,    0,    0, WR14f, WR15f
+};
+
+static struct fields *RRfields[] = {
+	RR0f,  RR1f,     0,  RR3f,    0,    0,     0,     0,
+	   0,     0, RR10f,     0,    0,    0,     0, WR15f
+};
+
+/*
+ * disp_field - display the bit fields associated with a SCC register.
+ */
+disp_fields(fieldp, value)
+    register struct fields *fieldp;
+    register long value;
+{
+    char buf[1024];
+
+    /* If there's no field structure, say nothing. */
+    if (!fieldp) {
+	return;
+    }
+
+    buf[0] = '\0';
+
+    /* For each (mask,value) pair which matches this value, append the
+       associated descriptor string to the buffer, separated by vertical bars.
+       */
+    while (fieldp->mask) {
+	if ((fieldp->mask & value) == fieldp->value) {
+	    if (buf[0]) {
+		strcat(buf, "|");
+	    }
+	    strcat(buf, fieldp->desc);
+	}
+	++fieldp;
+    }
+
+    /* If the buffer will fit on the remainder of this line, put it there,
+       otherwise print it on its own line. */
+    if (strlen(buf) > (80-34)) {
+	sim_printf("\n  %s", buf);
+    } else {
+	sim_printf(" %s", buf);
+    }
+}
+
+/*
+ * disp_baud_rate - display the baud rate.
+ */
+disp_baud_rate(a_or_b)
+    unsigned a_or_b;
+{
+    register int timeConstant;
+    double baudRate;
+
+    timeConstant = ((write_registers[a_or_b][13] & 0xFF) << 8) |
+		    (write_registers[a_or_b][12] & 0xFF);
+    baudRate = (7372800.0/16.0)/(double)(2*(timeConstant+2));
+    sim_printf(" baud rate=%g", baudRate);
+}
+
+/*
+ * scc_print - display the SCC's internal state.
+ */
+static void scc_print(a_or_b)
+    unsigned a_or_b;
+{
+    int i;
+    register struct fields **fieldpp;
+    static char *wr_names[16] = {
+            "command register     ",
+            "Tx/Rx interrupt      ",
+            "interrupt vector     ",
+            "receive parameters   ",
+            "Tx/Rx misc parameters",
+            "transmit parameters  ",
+            "sync character or adr",
+            "sync character or flg",
+            "transmit buffer      ",
+            "master intr. control ",
+            "misc T/R control bits",
+            "clock mode control   ",
+            "l byte time contant  ",
+            "u byte time contant  ",
+            "misc control bits    ",
+            "external status      " };
+
+    static char *rd_names[16] = {
+            "xmit/rec buff status ",
+            "rec condition status ",
+            "interrupt vector     ",
+            "interrupt pending    ",
+            "",
+            "",
+            "",
+            "",
+            "receive buffer       ",
+            "",
+            "loop/clock status    ",
+            "",
+            "l byte time constant ",	/* unused */
+            "u byte time constant ",	/* unused */
+            "",				/* unused */
+            "external status      "};	/* unused */
+
+    if (scc_filename[a_or_b]) {
+        sim_printf("This simulated SCC port uses %s\n", scc_filename[a_or_b]);
+    } else {
+        sim_printf("This simulated SCC port is not connected to a tty\n");
+    }
+
+#ifdef ANCIENT
+	/* This is the way the code looked before I got my hands on it. /AJK */
+    for (i = 0 ; i < 15 ; i++) {
+        sim_printf(" [WR%-2d] %20s = 0x%02x",
+                    i, wr_names[i], write_registers[a_or_b][i]);
+        if (strlen(rd_names[i]) && !(a_or_b == SCC_B && i == 3)) {
+            sim_printf("  [RR%-2d]  %20s = 0x%02x",
+                         i, rd_names[i], read_registers[a_or_b][i]);
+        }
+        sim_printf("\n");
+    }
+#else
+
+    /* Display write registers. */
+    for (i = 0, fieldpp = WRfields; i<=15; i++, fieldpp++) {
+        sim_printf("[WR%-2d] %20s = 0x%02x",
+                    i, wr_names[i], write_registers[a_or_b][i]);
+	if (i==12) {
+	    disp_baud_rate(a_or_b);
+	} else {
+	    disp_fields(*fieldpp, write_registers[a_or_b][i]);
+	}
+	sim_printf("\n");
+    }
+
+    /* Display read registers, only through RR10; 12, 13, and 15 are copies
+       of write registers and their display is redundant. */
+    for (i = 0, fieldpp = RRfields; i<=10; i++, fieldpp++) {
+        if (strlen(rd_names[i]) && !(a_or_b == SCC_B && i == 3)) {
+            sim_printf("[RR%-2d] %20s = 0x%02x",
+                         i, rd_names[i], read_registers[a_or_b][i]);
+	    disp_fields(*fieldpp, read_registers[a_or_b][i]);
+	    sim_printf("\n");
+	}
+    }
+
+#endif
+
+    if (scc_filename[a_or_b]) {
+        int cnt = in_buff_count[a_or_b];
+	u_char *cp;
+
+        sim_printf("reset count=%d  nmi count=%d\n", reset_cnt, nmi_cnt);
+	sim_printf("unread chars=%d front pointer=%d rear pointer=%d total chars read=%d\n",
+		cnt, in_buff_front[a_or_b]-in_buff[a_or_b],
+		     in_buff_rear [a_or_b]-in_buff[a_or_b], total_chars_read);
+
+        if (cnt > 0) {
+            int lim = cnt <= 16 ? cnt : 16;
+            sim_printf("First %d unread characters in buffer:\n", lim);
+	    cp = in_buff_front[a_or_b];
+            for (i = 0; i < lim ; i++) {
+                sim_printf("0x%x ", *cp++);
+		if (cp >= &in_buff[a_or_b][IN_BUFFSIZ]) {
+		    cp = in_buff[a_or_b];
+		}
+            }
+        }
+    }
+}
+
+/*
+ * scc_a_print - display status of port A.
+ */
+void scc_a_print() { scc_print(SCC_A); }
+
+/*
+ * scc_b_print - display status of port B.
+ */
+void scc_b_print() { scc_print(SCC_B); }
+
+/*
+ * Set the data rate of the remote tty line.
+ */
+static void set_sim_baud(new_baud, a_or_b)
+  int new_baud;
+  int a_or_b;
+{
+  struct termio t;
+  int baud_code;
+
+  switch (new_baud) {
+    case 50:	baud_code = B50;	break;
+    case 75:	baud_code = B75;	break;
+    case 110:	baud_code = B110;	break;
+    case 150:	baud_code = B150;	break;
+    case 200:	baud_code = B200;	break;
+    case 300:	baud_code = B300;	break;
+    case 600:	baud_code = B600;	break;
+    case 1200:	baud_code = B1200;	break;
+    case 1800:	baud_code = B1800;	break;
+    case 2400:	baud_code = B2400;	break;
+    case 4800:	baud_code = B4800;	break;
+    case 9600:	baud_code = B9600;	break;
+    case 19200:	baud_code = EXTA;	break;
+
+    case 0:
+    case 38400:	baud_code = EXTB;	break;
+
+    default:
+      err("Can't set remote tty line to %d baud", new_baud);
+  }
+  if (ioctl(scc_fd[a_or_b], TCGETA, &t) < 0) {
+    err("setbaud: Error in doing TCGETA ioctl to %s", scc_filename[a_or_b]);
+  }
+
+  t.c_cflag = (t.c_cflag & ~CBAUD) | baud_code;
+
+  if (ioctl(scc_fd[a_or_b], TCSETA, &t) < 0) {
+    err("setbaud: Error in doing TCSETA ioctl to %s", scc_filename[a_or_b]);
+  }
+}
+@
+
+
+1.30
+log
+@Ported to System V.  Changed calls of ioctl's to a least compile
+on system V.  Don't know if it works yet, good chance it doesn't.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.29 89/07/14 09:01:50 robertb Exp $
+d99 2
+d359 10
+a368 5
+    if (scc_fd[a_or_b] == 0) {
+        if ((scc_fd[a_or_b] = open(scc_filename[a_or_b], O_RDWR)) < 0) {
+            sim_printf("scc: cannot open `%s'", scc_filename[a_or_b]);
+            return;
+        }
+d370 1
+d372 9
+a380 9
+    /*
+     * Based on the time constant that the 88k program loaded the
+     * scc with, do an ioctl to set the baud of the host tty port
+     * that we are using.  This assumes the scc is being clocked
+     * at the rate that the hardware designers of the Tek CE board
+     * told me.  -rcb
+     */
+    time_constant = (write_registers[a_or_b][13] << 8) |
+                         write_registers[a_or_b][12];
+d382 4
+a385 4
+    /* During initialization, quietly set for 9600 baud. */
+    if (!scc_inited[a_or_b] && time_constant==0) {
+	time_constant = 22;
+    }
+d398 4
+a401 2
+    scc_fd[a_or_b] = -1;
+    rerr("Cannot open %s", scc_filename[a_or_b]);
+d406 1
+a406 1
+                            scc_filename[a_or_b]);
+d425 1
+a425 1
+                                                             scc_filename[a_or_b]);
+d427 15
+a441 16
+    switch (time_constant) {
+        case 4: speed = 38400; break;
+        case 10: speed = 19200; break;
+        case 22: speed = 9600; break;
+        case 46: speed = 4800; break;
+        case 94: speed = 2400; break;
+        case 190: speed = 1200; break;
+        case 382: speed = 600; break;
+        case 766: speed = 300; break;
+        case 1534: speed = 150; break;
+        default:
+	    sim_printf("scc: bad baud rate 0x%04x, using 9600 baud\n",
+			time_constant);
+            speed = 9600;
+            break;
+    }
+d445 4
+a448 4
+    /*
+     * If the auto-enables bit in the Receive Parameters registers
+     * is set, tell the host OS to do hardware flow-control.
+     */
+d450 3
+a452 3
+    if (write_registers[a_or_b][3] & 0x20) {
+	localmask |= /* LDOCTS|LDODTR */;
+    }
+d454 1
+a454 1
+    (void)simsignal(SIGIO, check_tty_lines);
+d456 5
+a460 5
+    /*
+     * We get a signal if there is IO for the tty line.
+     * We check to see if any are 0x81 or 0x82, the reset and NMI
+     * codes.
+     */
+d462 8
+a469 8
+    if (fcntl(scc_fd[a_or_b], F_SETOWN, getpid()) == -1) {
+        sim_printf("scc: error doing fcntl with F_SETOWN to %s\n",
+                                   scc_filename[a_or_b]);
+    }
+    if (fcntl(scc_fd[a_or_b], F_SETFL, FASYNC) == -1) {
+        sim_printf("scc: error doing fcntl with F_SETFL to %s\n",
+                                   scc_filename[a_or_b]);
+    }
+d472 1
+a472 1
+    scc_inited[a_or_b] = 1;
+@
+
+
+1.29
+log
+@Fixed some type-matching problems shown by the new compiler.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.28 88/10/24 12:59:33 andrew Exp $
+a54 1
+#include <sys/file.h>
+a58 1
+#include <sgtty.h>
+d61 1
+a66 1
+extern char *getenv();
+d139 2
+d347 5
+a351 6
+    struct sgttyb tt;
+    struct tchars tc;
+    int localmask = LLITOUT;
+    int ldisc = NTTYDISC;
+    int time_constant;
+    int speed;
+d353 3
+a355 3
+    if (!scc_filename[a_or_b]) {
+        return;
+    }
+d379 38
+d418 9
+a426 9
+        case 4: speed = EXTB; break;
+        case 10: speed = EXTA; break;
+        case 22: speed = B9600; break;
+        case 46: speed = B4800; break;
+        case 94: speed = B2400; break;
+        case 190: speed = B1200; break;
+        case 382: speed = B600; break;
+        case 766: speed = B300; break;
+        case 1534: speed = B150; break;
+d430 1
+a430 1
+            speed = B9600;
+d434 1
+a434 3
+    tt.sg_ispeed = speed;
+    tt.sg_ospeed = speed;
+    tt.sg_flags = RAW;
+d440 1
+d442 1
+a442 1
+	localmask |= LDOCTS|LDODTR;
+a443 8
+    tt.sg_kill = -1;
+    tt.sg_erase = -1;
+    tc.t_intrc = -1;
+    tc.t_quitc = -1;
+    tc.t_startc = -1;
+    tc.t_stopc = -1;
+    tc.t_eofc = -1;
+    tc.t_brkc = -1;
+a444 8
+    if (ioctl(scc_fd[a_or_b], TIOCSETD, &ldisc) < 0 ||
+        ioctl(scc_fd[a_or_b], TIOCSETP, &tt) < 0 ||
+        ioctl(scc_fd[a_or_b], TIOCSETC, &tc) < 0 ||
+        ioctl(scc_fd[a_or_b], TIOCLBIS, &localmask) < 0) {
+
+        sim_printf("scc: unable to do ioctl to %s\n", scc_filename[a_or_b]);
+    }
+
+d452 1
+d461 1
+d473 1
+a473 2
+        scc_filename[a_or_b] =
+                   sim_strdup(getenv(a_or_b == SCC_A ? "SIMTTYA" : "SIMTTYB"));
+d479 1
+a479 1
+        sdbg = getenv("SDBG") != 0;
+d576 1
+a576 1
+            sim_printf("scc_operation: address offset=0x%X\n", address_offset);
+d1370 41
+@
+
+
+1.28
+log
+@Fix test of when to signal a receive interrupt.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.27 88/05/26 18:45:34 robertb Exp $
+d1318 1
+a1318 1
+	char *cp;
+@
+
+
+1.27
+log
+@Added a new signal handling mechanism to avoid race
+conditions inside the simulator.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.26 88/05/11 10:46:12 andrew Exp $
+d293 2
+a294 2
+        ((write_registers[a_or_b][1] & 0x30) == 0x08 && first_char[a_or_b] ||
+	 (write_registers[a_or_b][1] & 0x30) == 0x10)) {
+@
+
+
+1.26
+log
+@Lots of changes to make me happier.  -=- Andrew
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.25 88/05/06 10:37:25 robertb Exp $
+d295 1
+a295 1
+        set_ce_interrupt(10);
+d425 1
+a425 1
+    (void)signal(SIGIO, check_tty_lines);
+d562 1
+a562 1
+        reset_ce_interrupt(10);
+d565 1
+a565 1
+            set_ce_interrupt(10);
+a840 1
+    int omask;
+a862 1
+		    omask = sigblock(1<<(SIGIO-1));	/* BEGIN MUTEX */
+a875 1
+		    sigsetmask(omask);			/* END MUTEX */
+@
+
+
+1.25
+log
+@more tweaking of interrupt bits.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.24 88/05/05 23:15:21 robertb Exp $
+d26 28
+d62 1
+d67 1
+d102 1
+a102 1
+ * Size in bytes of the simulator's input buffer.
+d104 5
+a108 1
+#define IN_BUFFSIZ  (20000)
+a110 15
+ * Number of bytes presently in in_buff, pointed to by in_bp
+ */
+static u_long in_buffcnt[2];
+
+/*
+ * Buffer of bytes received by the simulator.
+ */
+static u_char in_buff[2][IN_BUFFSIZ];
+
+/*
+ * Points to the first unread byte in in_buff.
+ */
+static u_char *in_bp[2];
+
+/*
+d142 1
+a142 1
+ * True when we are messing with the buffer pointer and buffer length.
+a143 5
+int scc_mutex;
+
+/*
+ * This prints an unimplemented-function error message.
+ */
+d152 1
+d155 2
+a156 2
+ * a 0x80 go by and the NMI line if it sees
+ * a 0x81.
+d178 51
+a233 1
+    u_char *from_bp, *to_bp;
+d235 3
+a237 1
+    int cnt = in_buffcnt[a_or_b];
+a240 3
+     *
+     * We don't read in more characters if the buffer is full.  This
+     * means that it is possible to ignore a NMI or reset code.
+d242 1
+a242 1
+    if (!scc_filename[a_or_b] || cnt == IN_BUFFSIZ) {
+a245 5
+    if (scc_mutex) {
+        sim_printf("scc_mutex=%d in check_tty_line, tell robertb@@blue.GWD\n",
+                              scc_mutex);
+        return;
+    }
+d247 2
+a248 1
+     * Check to see if there are any characters waiting to be read.
+d250 3
+a252 8
+    if (fcntl(scc_fd[a_or_b], F_GETFL, FNDELAY) == -1) {
+        extern errno;
+
+        if (errno != EWOULDBLOCK) {
+            sim_printf("scc: fcntl in check_tty_line returns -1");
+            sim_printf("     errno=%d\n", errno);
+        }
+        return;
+d254 3
+a257 4
+    from_bp = in_bp[a_or_b];
+    to_bp = &in_buff[a_or_b][0];
+    in_bp[a_or_b] = to_bp;
+
+a258 15
+     * Make room in the buffer by moving all the characters
+     * that have not been read by the 88k program
+     * to the beginning of the buffer.  Don't bother doing this
+     * if the characters are already at the beginning of the buffer.
+     */
+    if (from_bp != to_bp) {
+        for (i = 0 ; i < cnt ; i++) {
+            *to_bp++ = *from_bp++;
+        }
+    }
+    
+    /*
+     * 'bp' now points to the first free character slot in the
+     * input buffer.
+     *
+d262 13
+a274 4
+    chars_read = read(scc_fd[a_or_b], &in_buff[a_or_b][cnt], IN_BUFFSIZ - cnt);
+    if (sdbg) {
+        fprintf(stderr, "chars_read=%d  cnt=%d  from_bp=%X  to_bp=%X\n",
+                         chars_read,    cnt,    from_bp,    to_bp);
+a276 7
+    if (chars_read <= 0) {
+        sim_printf("scc: error on reading from tty line\n");
+        chars_read = 0;
+    } 
+    in_buffcnt[a_or_b] += chars_read; 
+    total_chars_read += chars_read;
+
+d278 1
+a278 2
+     * Now we check for the special kludge-board codes, this is the
+     * whole reason that we read in the bytes (so we could do this check).
+d280 3
+a282 2
+    for (i = 0 ; i < chars_read ; i++) {
+        check_for_nmi(*to_bp++);
+d286 2
+d290 5
+a294 3
+    if (write_registers[a_or_b][9] & 8 && 
+        ((write_registers[a_or_b][1] & 0x30) == 0x10 && first_char[a_or_b] ||
+	 (write_registers[a_or_b][1] & 0x30) == 0x20)) {
+a297 1
+
+d301 3
+d311 1
+d342 1
+a342 1
+ * This checks a tty line to see if the file is closed.
+a343 38
+static void check_for_hangup(a_or_b)
+    int a_or_b;
+{
+    struct stat buf;
+    int status;
+
+    if (scc_fd[a_or_b] == 0) {
+        return;
+    }
+
+    status = fstat(scc_fd[a_or_b], &buf);
+    if (status == -1) {
+        scc_fd[a_or_b] = 0;
+        in_buffcnt[a_or_b] = 0;
+        in_bp[a_or_b] = &in_buff[a_or_b][0];
+        sim_printf("%s closed due to hangup\n", scc_filename[a_or_b]);
+    } else {
+        if (sdbg) {
+            sim_printf("check_for_hangup on %s, status=%d\n", 
+                                  scc_filename[a_or_b], status);
+            sim_printf("ino=%d uid=%d mode=0x%X\n", 
+                    buf.st_ino, buf.st_uid, buf.st_mode);
+        }
+    }
+}
+
+/*
+ * This is the signal handler for SIGHUP.
+ */
+static void tty_hangup()
+{
+    check_for_hangup(SCC_A);
+    check_for_hangup(SCC_B);
+}
+
+/*
+ * This inializes the serial tty line.
+ */
+d349 1
+a349 1
+    int localmask = LLITOUT | LDOCTS | LDODTR;
+d360 1
+a360 1
+            sim_printf("cannot open `%s'", scc_filename[a_or_b]);
+d372 1
+a372 1
+    time_constant = (write_registers[a_or_b][13] << 8) | 
+d375 5
+d391 3
+a393 1
+            speed = EXTB;
+d396 1
+a396 1
+    
+d406 1
+a406 1
+        tt.sg_flags |= DODTR | DOCTS;
+d416 1
+a416 1
+    
+d418 2
+a419 2
+        ioctl(scc_fd[a_or_b], TIOCSETP, &tt) < 0 || 
+        ioctl(scc_fd[a_or_b], TIOCSETC, &tc) < 0 || 
+d422 1
+a422 1
+        sim_printf("Unable to do ioctl to %s\n", scc_filename[a_or_b]);
+d425 2
+d429 1
+a429 1
+     * We check to see if any are 0x80 or 0x81, the reset and NMI
+d433 1
+a433 1
+        sim_printf("error doing fcntl with F_SETOWN to %s\n", 
+d437 1
+a437 1
+        sim_printf("error doing fcntl with F_SETFL to %s\n", 
+a440 2
+    (void)signal(SIGIO, check_tty_lines);
+    (void)signal(SIGHUP, tty_hangup);
+d443 1
+d445 1
+a445 1
+ * Initialize either the a or b side of the scc simulator.
+d451 1
+a451 1
+        scc_filename[a_or_b] = 
+d457 1
+a457 2
+        in_buffcnt[a_or_b] = 0;
+        in_bp[a_or_b] = &in_buff[a_or_b][0];
+a458 1
+        scc_mutex = 0;
+d468 1
+d478 1
+d488 1
+d499 1
+a499 1
+    return 
+d504 1
+d515 1
+a515 1
+    return 
+d519 3
+d531 1
+a531 1
+    int was_an_interrupt = read_registers[a_or_b][3] & 0x3f;
+d536 1
+a536 1
+        sim_printf("scc IO must use byte operations.\n");
+d541 1
+a541 1
+        sim_printf("scc simulator does not support XMEM and XMEM_U\n");
+d560 1
+a560 1
+    is_an_interrupt = read_registers[a_or_b][3] & 0x3f != 0;
+d563 1
+a563 1
+    } else {     
+d572 1
+a572 1
+ * This does a channel reset.
+d598 1
+a598 1
+ * This handles IO operations with the control register.
+d621 1
+a621 1
+        char byte;
+d626 9
+d636 1
+a636 1
+    
+d662 1
+a662 1
+                            read_registers[a_or_b][3] &=
+d666 2
+a667 2
+                        case 3: 
+                            sim_printf("scc: not implemented: send abort\n");
+d681 1
+a681 1
+                            read_registers[a_or_b][3] &= 
+d692 1
+a692 1
+                        case 7: 
+d696 1
+a696 1
+    
+d707 4
+d712 5
+a716 1
+                        case 3: read_registers[a_or_b][0] &= ~0x40;    break;
+d722 19
+a757 6
+                /*
+                 * Program is loading the time constant that determines
+                 * the baud rate.  Call the serial line initialization
+                 * routine so that the host's serial line changes to the
+                 * new data rate.
+                 */
+d759 3
+d763 2
+a764 4
+                     read_registers[a_or_b][12] = write_registers[a_or_b][12];
+                     read_registers[a_or_b][13] = write_registers[a_or_b][13];
+                     init_serial_line(a_or_b);
+                     break;
+d766 34
+d801 1
+a801 3
+            write_registers[a_or_b][15] &= ~5;
+            read_registers[SCC_B][3] = 0;
+            read_registers[a_or_b][15] = write_registers[a_or_b][15];
+d808 1
+a808 4
+             * The program is reading the status port.  If the scc
+             * port is not in local loop mode then we have to
+             * find out if there are any characters waiting in order
+             * to set the receive-buffer-full bit properly.
+d810 9
+a818 12
+            if (rp == 0 && (write_registers[a_or_b][14] & 0x10) == 0) {
+                /*
+                 * See if we have some bytes in our input
+                 * buffer.  If so, tell the program that there
+                 * is a character in the SCC's input register.
+                 */
+                if (in_buffcnt[a_or_b] > 0) {
+                    read_registers[a_or_b][0] |= 1;
+                } else {
+                    read_registers[a_or_b][0] &= ~1;
+                }
+            }
+d820 1
+a820 1
+                *reg_ptr = read_registers[a_or_b][rp];
+d822 1
+a822 1
+                *reg_ptr = read_registers[a_or_b][rp] & 0xff;
+d834 1
+a834 1
+ * This handles operations with the SCC's data port.
+d841 2
+d854 1
+a854 1
+                } else {
+d856 7
+a862 3
+                     * We are not in loop mode.  Get the character from
+                     * the buffer and put it into the receive character
+                     * register.
+d864 13
+a876 5
+                    if (in_buffcnt[a_or_b] > 0) {
+                        scc_mutex = 1;
+                        in_buffcnt[a_or_b]--;
+                        read_registers[a_or_b][8] = *in_bp[a_or_b]++;
+                        scc_mutex = 0;
+d878 1
+a879 9
+                /*
+                 * Reset the receive-buffer-full flag.
+                 */
+                read_registers[a_or_b][0] &= ~1; 
+
+                /*
+                 * Reset the receive-interrupt-pending bit.
+                 */
+                read_registers[a_or_b][3] &= a_or_b == SCC_A ? ~0x20 : 4;
+a880 1
+            *reg_ptr = read_registers[a_or_b][8] & 0xff;
+d883 3
+a885 1
+                *reg_ptr = (*reg_ptr << 24) >> 24;
+a887 16
+            /*
+             * If there are more characters to read, set the
+             * receive-buffer full flag and check for whether we
+             * should set the receive IUS bit in read register 3 for
+             * this channel.
+             */
+            if (in_buffcnt[a_or_b] > 0) {
+                read_registers[a_or_b][0] |= 1; 
+                if (write_registers[a_or_b][9] & 8 && 
+                    ((write_registers[a_or_b][1] & 0x30) == 0x20) ||
+                    ((write_registers[a_or_b][1] & 0x30) == 0x10) &&
+                     first_char[a_or_b]) {
+                    read_registers[SCC_A][3] |= a_or_b == SCC_A ? 0x20 : 4;
+                    first_char[a_or_b] = 0;
+                }
+            }
+d889 1
+a889 1
+    
+d892 1
+a892 1
+                sim_printf("scc: character read with transmitter disabled.\n");
+d907 1
+d915 1
+a915 1
+            if (write_registers[a_or_b][9] & 8 && 
+d921 1
+d925 1
+a925 1
+    
+d927 1
+a927 1
+            sim_printf("case error in scc_operation\n");
+d958 8
+a965 8
+	0x0F, 0x08, "->R8",
+	0x0F, 0x09, "->R9",
+	0x0F, 0x0A, "->R10",
+	0x0F, 0x0B, "->R11",
+	0x0F, 0x0C, "->R12",
+	0x0F, 0x0D, "->R13",
+	0x0F, 0x0E, "->R14",
+	0x0F, 0x0F, "->R15",
+d1179 1
+a1179 1
+ * Display the bit fields associated with a SCC register.
+d1217 1
+a1217 1
+ * Display the baud rate.
+d1232 1
+a1232 1
+ * This displays the SCC's internal state.
+d1239 2
+a1240 2
+    static char *wr_names[16] = { 
+            "command register     ", 
+d1242 1
+a1242 1
+            "interrupt vector     ", 
+d1284 1
+a1284 1
+        sim_printf(" [WR%-2d] %20s = 0x%02x", 
+d1287 1
+a1287 1
+            sim_printf("  [RR%-2d]  %20s = 0x%02x", 
+d1296 1
+a1296 1
+        sim_printf("[WR%-2d] %20s = 0x%02x", 
+d1310 1
+a1310 1
+            sim_printf("[RR%-2d] %20s = 0x%02x", 
+d1320 2
+a1321 1
+        int cnt = in_buffcnt[a_or_b];
+d1324 3
+a1326 2
+        sim_printf("unread characters=%d pointer offset=%d total characters read=%d\n",
+                    cnt, in_bp[a_or_b] - &in_buff[a_or_b][0], total_chars_read);
+d1331 1
+d1333 4
+a1336 1
+                sim_printf("0x%x ", in_bp[a_or_b][i]);
+d1342 3
+d1346 4
+@
+
+
+1.24
+log
+@some tweaks to the interrupt code.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.23 88/05/05 17:26:30 andrew Exp $
+d785 9
+a793 1
+                read_registers[a_or_b][0] &= ~1; /* Reset receive-buffer-full */
+d802 4
+a805 2
+             * If Rx interrupts are enabled and there are more characters
+             * to read, generate a CE interrupt.
+d807 9
+a815 7
+            if (in_buffcnt[a_or_b] > 0 &&
+                write_registers[a_or_b][9] & 8 && 
+                ((write_registers[a_or_b][1] & 0x30) == 0x20) ||
+                ((write_registers[a_or_b][1] & 0x30) == 0x10) &&
+                 first_char[a_or_b]) {
+                read_registers[SCC_A][3] |= a_or_b == SCC_A ? 0x20 : 4;
+                first_char[a_or_b] = 0;
+@
+
+
+1.23
+log
+@More code to set "Rx interrupt pending" at the right time.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.22 88/05/05 15:59:59 robertb Exp $
+d509 1
+d537 2
+a538 1
+    if (was_an_interrupt && (read_registers[a_or_b][3] & 0x3f) == 0) {
+d540 5
+a544 1
+    }     
+a801 1
+                set_ce_interrupt(10);
+a832 1
+                set_ce_interrupt(10);
+@
+
+
+1.22
+log
+@Hopefully fixes receive-disabled bug.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.21 88/05/05 13:27:48 andrew Exp $
+d251 3
+@
+
+
+1.21
+log
+@In check_tty_line, the test for whether read registers were enabled
+didn't take an interrupt if "receive interrupt on all characters"
+was selected, and didn't check the first_char flag for "receive
+interrupt on first character."  I changed it to look like the
+code in do_data, which is correct.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.19 88/05/04 18:02:02 robertb Exp $
+d521 1
+a521 1
+	    break;
+d525 1
+a525 1
+	    break;
+d530 1
+d756 1
+a756 10
+            if ((write_registers[a_or_b][3] & 1) == 0) {
+                sim_printf("scc: character read with receiver disabled\n");
+            }
+            /*
+             * If we are in loop mode, get the character from the
+             * transmit buffer.
+             */
+            if (write_registers[a_or_b][14] & 0x10) {
+                read_registers[a_or_b][8] = write_registers[a_or_b][8];
+            } else {
+d758 2
+a759 3
+                 * We are not in loop mode.  Get the character from
+                 * the buffer and put it into the receive character
+                 * register.
+d761 14
+a774 5
+                if (in_buffcnt[a_or_b] > 0) {
+                    scc_mutex = 1;
+                    in_buffcnt[a_or_b]--;
+                    read_registers[a_or_b][8] = *in_bp[a_or_b]++;
+                    scc_mutex = 0;
+d776 1
+a777 1
+            read_registers[a_or_b][0] &= ~1;    /* Reset receive-buffer-full */
+@
+
+
+1.20
+log
+@Put "break" statements after each case in a new "switch".  Without this,
+every attempt to access an SCC control or data byte caused a DACC.
+@
+text
+@d248 2
+a249 1
+        (write_registers[a_or_b][1] & 0x30) == 0x20) {
+@
+
+
+1.19
+log
+@made on-board scc interrupt turn off if the interrupt bits
+in read register 3 have been turned off.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.18 88/05/04 12:24:54 andrew Exp $
+d520 1
+d524 1
+@
+
+
+1.18
+log
+@Implement symbolic display for the "pio" command.
+Fix up a few register initial conditions.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.17 88/04/29 17:03:26 robertb Exp $
+d504 3
+d519 1
+a519 1
+            return do_cntl(reg_ptr, mem_op_type, a_or_b);
+d522 1
+a522 1
+            return do_data(reg_ptr, mem_op_type, a_or_b);
+d526 1
+a526 1
+            return E_DACC;
+d528 5
+@
+
+
+1.17
+log
+@Added function in the area of interrupt status bits
+and commands to reset them.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.16 88/04/15 14:18:38 robertb Exp $
+d283 3
+a285 3
+    write_registers[a_or_b][15] = 0xf8;
+    read_registers[a_or_b][0] = 0x24;
+    read_registers[a_or_b][1] = 0x46;
+d539 2
+a540 2
+    write_registers[a_or_b][10] = 0x40;
+    write_registers[a_or_b][15] = 0xf8;
+d545 1
+a545 1
+    read_registers[a_or_b][0] = 0x44;
+d611 1
+d831 244
+d1076 53
+d1135 1
+d1167 4
+a1170 4
+            "l byte time constant ",
+            "u byte time constant ",
+            "",
+            "external status      "};
+d1178 2
+d1189 26
+@
+
+
+1.16
+log
+@added ability to restart scc simulation after reading
+a checkpoint file.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.15 88/04/08 21:33:19 robertb Exp $
+d108 5
+d128 10
+d282 1
+d284 1
+d286 1
+d515 1
+a515 1
+        case 0:
+d518 1
+a518 1
+        case 4:
+d539 1
+d547 1
+a547 1
+    read_registers[a_or_b][1] = 6;
+d550 1
+a553 36
+ * This tells the user what command was encoded in bits 3,4,5 of
+ * write register 0, if any.
+ */
+static void display_command1(c)
+    unsigned char c;
+{
+    switch (c) {
+        case 0: break;
+        case 1: break;
+        case 2: sim_printf("scc: reset ext/status interrupts\n"); break;
+        case 3: sim_printf("scc: send abort\n");                  break;
+        case 4: sim_printf("enable int on next Rx character\n");  break;
+        case 5: sim_printf("reset TxINT pending\n");              break;
+        case 6: sim_printf("scc: error reset\n");                 break;
+        case 7: sim_printf("scc: reset highest ius\n");           break;
+        default: sim_printf("scc: case error\n");                 break;
+    }
+}
+
+/*
+ * This tells the user what command was encoded in write register
+ * 0, bits 6 and 7, if any.
+ */
+static void display_command2(c)
+    unsigned char c;
+{
+    switch (c) {
+        case 0: break;
+        case 1: sim_printf("scc: reset Rx crc checker\n");        break;
+        case 2: sim_printf("scc: resest Tx crc generator\n");     break;
+        case 3: sim_printf("scc: reset Tx underrun/eod latch\n"); break;
+        default: sim_printf("case error in scc_operation\n");     break;
+    }
+}
+
+/*
+d589 1
+a589 1
+                     * Execute the command in bits 7-6 of the command register.
+d591 5
+a595 6
+                    switch ((byte >> 6) & 3) {
+                        /*
+                         * Reset the Tx underrun/eom latch.
+                         */
+                        case 3:
+                            read_registers[a_or_b][0] &= ~0x40;
+a596 1
+                    }
+a597 4
+                    /*
+                     * Execute the command in bits 3-5 of the command register.
+                     */
+                    switch ((byte >> 3) & 7) {
+d599 3
+d605 26
+d632 3
+d637 4
+d643 14
+a657 2
+                    display_command1(write_registers[a_or_b][0] >> 3);
+                    display_command2(write_registers[a_or_b][0] >> 6);
+d778 3
+a780 1
+                (write_registers[a_or_b][1] & 0x30) == 0x20) {
+d782 2
+d814 1
+d816 4
+a904 4
+void scc_a_print()
+{
+    scc_print(SCC_A);
+}
+d906 2
+a907 4
+void scc_b_print()
+{
+    scc_print(SCC_B);
+}
+@
+
+
+1.15
+log
+@Added ability of scc to interrupt processor.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.14 88/03/19 10:23:34 robertb Exp $
+d102 6
+a271 36
+ * Initialize either the a or b side of the scc simulator.
+ */
+static void scc_init(a_or_b)
+    unsigned a_or_b;
+{
+    scc_filename[a_or_b] = getenv(a_or_b == SCC_A ? "SIMTTYA" : "SIMTTYB");
+
+    hardware_reset(a_or_b);
+    reset_cnt = 0;
+    nmi_cnt = 0;
+    total_chars_read = 0;
+    in_buffcnt[a_or_b] = 0;
+    in_bp[a_or_b] = &in_buff[a_or_b][0];
+    sdbg = getenv("SDBG") != 0;
+    scc_mutex = 0;
+}
+
+/*
+ * This is the initialization entry point that is called by
+ * io_operation for the A port of the SCC.
+ */
+void scc_a_init()
+{
+    scc_init(SCC_A);
+}
+
+/*
+ * This is the initialization entry point that is called by
+ * io_operation for the B port of the SCC.
+ */
+void scc_b_init()
+{
+    scc_init(SCC_B);
+}
+
+/*
+d402 43
+@
+
+
+1.14
+log
+@Made it do ansychronous IO with tty lines.  Removed support for
+doing IO with debug console if SIMTTYA or SIMTTYB is not defined.
+Added comments and enhanced information printed by scc_print.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.13 88/02/28 14:43:09 robertb Exp $
+d214 1
+d222 8
+d715 3
+a717 2
+                 * We are not in loop mode.  Either get the character
+                 * from the terminal or the user-specified tty port.
+d732 10
+d764 7
+@
+
+
+1.13
+log
+@Deleted code to flush the tty line that the SCC simulator
+opens.  The characters in the tty line queue may be ones that
+we want.
+@
+text
+@d2 1
+a2 1
+ * 78000 8530 SCC simulator.
+d7 17
+a23 1
+ * $Header: scc.c,v 1.12 88/02/12 16:13:45 robertb Exp $
+d26 1
+a26 1
+#include "sim.h"
+d28 4
+a31 1
+#include <sys/time.h>
+d35 10
+d48 21
+a68 3
+static unsigned char write_registers[2][16];
+static unsigned char read_registers[2][16];
+static unsigned register_pointer[2];
+d71 3
+a74 3
+static unsigned in_buffcnt[2];
+static unsigned char in_buff[2][IN_BUFFSIZ];
+static unsigned char *in_bp[2];
+d76 18
+a94 2
+static char *scc_file_name[2];
+static int use_console[2];
+d96 28
+a123 1
+scc_a_init()
+d125 14
+a138 1
+    scc_init(SCC_A);
+d141 5
+a145 1
+scc_b_init()
+d147 74
+a220 1
+    scc_init(SCC_B);
+d223 37
+a259 1
+scc_init(a_or_b)
+d262 1
+a262 1
+    char *getenv();
+d265 8
+a272 1
+    scc_file_name[a_or_b] = getenv(a_or_b == SCC_A ? "SIMTTYA" : "SIMTTYB");
+d274 7
+a280 1
+    use_console[a_or_b] = !scc_file_name[a_or_b];
+d284 47
+d333 1
+a333 1
+init_serial_line(a_or_b)
+d343 3
+a345 2
+    in_buffcnt[a_or_b] = 0;
+    in_bp[a_or_b] = &in_buff[a_or_b][0];
+d348 2
+a349 2
+        if ((scc_fd[a_or_b] = open(scc_file_name[a_or_b], O_RDWR)) < 0) {
+            sim_printf("cannot open `%s'", scc_file_name[a_or_b]);
+d354 7
+d381 9
+a389 1
+    tt.sg_flags = RAW | DODTR | DOCTS;
+d404 1
+a404 1
+        sim_printf("Unable to do ioctl to %s\n", scc_file_name[a_or_b]);
+a405 1
+}
+a406 16
+/*
+ * This sets the bits in the SCC's simulated registers to the
+ * hardware-reset state.
+ */
+hardware_reset(a_or_b)
+    int a_or_b;
+{
+    int i;
+
+    for (i = 0 ; i < 16 ; i++) {
+        write_registers[a_or_b][i] = 0;
+        read_registers[a_or_b][i] = 0;
+    }
+    register_pointer[a_or_b] = 0;
+    use_register_pointer[a_or_b] = 0;
+
+d408 3
+a410 2
+     * Hardware reset values, as defined on page 8-3 of the SCC technical
+     * manual.
+d412 8
+a419 5
+    write_registers[a_or_b][4] = 4;
+    write_registers[a_or_b][9] = 0xc0;
+    write_registers[a_or_b][11] = 0x8;
+    write_registers[a_or_b][15] = 0xf8;
+    read_registers[a_or_b][1] = 0x46;
+d421 2
+d425 5
+a429 1
+scc_a_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d436 2
+a437 1
+    scc_operation(address_offset, reg_ptr, size, mem_op_type, override, SCC_A);
+d440 5
+a444 1
+scc_b_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d451 2
+a452 1
+    scc_operation(address_offset, reg_ptr, size, mem_op_type, override, SCC_B);
+d455 2
+a456 1
+scc_operation(address_offset, reg_ptr, size, mem_op_type, override, a_or_b)
+a463 8
+    /*
+     * If the front end is doing the IO, convert the operation
+     * to be a byte-wide load or store.
+     */
+    if (override) {
+        size = BYTE;
+    }
+
+d488 60
+d550 2
+a551 2
+do_cntl(reg_ptr, mem_op_type, a_or_b)
+    unsigned *reg_ptr;
+d555 1
+a555 1
+    unsigned rp;
+d637 4
+a640 8
+                        read_registers[a_or_b][12] = 
+                                                   write_registers[a_or_b][12];
+                        read_registers[a_or_b][13] = 
+                                                   write_registers[a_or_b][13];
+                        if (!use_console[a_or_b]) {
+                            init_serial_line(a_or_b);
+                        }
+                        break;
+a657 2
+                int fd;
+
+d659 1
+a659 1
+                 * See if we already have some bytes in out input
+d664 1
+a664 1
+                    read_registers[a_or_b][rp] |= 1;
+d666 1
+a666 38
+                    int ready;
+                    struct timeval tv;
+                    unsigned rmask;
+
+                    if (use_console[a_or_b]) {
+                        fd = 1;
+                    } else {
+                        fd = scc_fd[a_or_b];
+                    }
+
+#ifdef 0
+                    tv.tv_sec = 0;
+                    tv.tv_usec = 1000;
+                    rmask = 1 << fd;
+                    ready = select(32, &rmask, (int *)0, (int *)0, &tv);
+#endif
+
+                    if (ioctl(fd, FIONREAD, &ready) < 0) {
+                        sim_printf("scc: ioctl error.\n");
+                    }
+
+                    /*
+                     * If there are bytes waiting to be read, read them
+                     * into our input buffer.
+                     */
+                    if (ready) {
+                        int count;
+
+                        read_registers[a_or_b][rp] |= 1;
+                        count = read(fd, &in_buff[a_or_b][0], IN_BUFFSIZ);
+                        if (count <= 0) {
+                            sim_printf("scc: error on reading from tty line\n");
+                        }
+                        in_buffcnt[a_or_b] = count;
+                        in_bp[a_or_b] = &in_buff[a_or_b][0];
+                    } else {
+                        read_registers[a_or_b][rp] &= ~1;
+                    }
+a683 26
+ * This does a channel reset.
+ */
+reset_channel(a_or_b)
+    int a_or_b;
+{
+    int i;
+
+    for (i = 0 ; i < 16 ; i++) {
+        write_registers[a_or_b][i] = 0;
+    }
+    write_registers[a_or_b][4] = 4;
+    write_registers[a_or_b][15] = 0xf8;
+
+    /*
+     * Tx underrun/eom and Tx buffer empty set, receive character available.
+     */
+    read_registers[a_or_b][0] = 0x44;
+
+    read_registers[a_or_b][1] = 6;
+
+    if (!use_console[a_or_b]) {
+        init_serial_line(a_or_b);
+    }
+}
+
+/*
+d686 2
+a687 2
+do_data(reg_ptr, mem_op_type, a_or_b)
+    unsigned *reg_ptr;
+d710 1
+d713 1
+a713 11
+                } else {
+                    if (use_console[a_or_b]) {
+                        read_registers[a_or_b][8] = sim_getchar();
+                    } else {
+                        if (read(scc_fd[a_or_b], &read_registers[a_or_b][8], 1) 
+                                                                       != 1) {
+                            sim_printf("scc: read error on %s\n", 
+                                                    scc_file_name[a_or_b]);
+                            return E_ERR;
+                        }
+                    }
+d729 8
+a736 8
+            if (use_console[a_or_b]) {
+                sim_putchar(write_registers[a_or_b][8]);
+            } else {
+                if (write(scc_fd[a_or_b], &write_registers[a_or_b][8], 1)!= 1) {
+                    sim_printf("scc: write error on %s\n", 
+                                                scc_file_name[a_or_b]);
+                    return E_ERR;
+                }
+a755 81
+ * This tells the user what command was encoded in bits 3,4,5 of
+ * write register 0, if any.
+ */
+display_command1(c)
+    unsigned char c;
+{
+    switch (c) {
+        case 0:
+            break;
+
+        case 1:
+            break;
+
+        case 2:
+            sim_printf("scc: reset ext/status interrupts\n");
+            break;
+
+        case 3:
+            sim_printf("scc: send abort\n");
+            break;
+
+        case 4:
+            sim_printf("enable int on next Rx character\n");
+            break;
+
+        case 5:
+            sim_printf("reset TxINT pending\n");
+            break;
+
+        case 6:
+            sim_printf("scc: error reset\n");
+            break;
+
+        case 7:
+            sim_printf("scc: reset highest ius\n");
+            break;
+
+        default:
+            sim_printf("scc: case error\n");
+    }
+}
+
+/*
+ * This tells the user what command was encoded in write register
+ * 0, bits 6 and 7, if any.
+ */
+display_command2(c)
+    unsigned char c;
+{
+    switch (c) {
+        case 0:
+            break;
+
+        case 1:
+            sim_printf("scc: reset Rx crc checker\n");
+            break;
+
+        case 2:
+            sim_printf("scc: resest Tx crc generator\n");
+            break;
+
+        case 3:
+            sim_printf("scc: reset Tx underrun/eod latch\n");
+            break;
+
+        default:
+            sim_printf("case error in scc_operation\n");
+    }
+}
+
+scc_a_print()
+{
+    scc_print(SCC_A);
+}
+
+scc_b_print()
+{
+    scc_print(SCC_B);
+}
+
+/*
+d758 1
+a758 1
+scc_print(a_or_b)
+d798 4
+a801 2
+    if (scc_file_name[a_or_b]) {
+        sim_printf("This simulated SCC port uses %s\n", scc_file_name[a_or_b]);
+d805 1
+a805 1
+        printf(" [WR%-2d] %20s = 0x%02x", 
+d808 1
+a808 1
+            printf("  [RR%-2d]  %20s = 0x%02x", 
+d811 1
+a811 1
+        printf("\n");
+d813 16
+d830 10
+@
+
+
+1.12
+log
+@Added copyright notice.
+@
+text
+@d7 1
+a7 1
+ * $Header: scc.c,v 1.11 88/02/04 14:24:20 robertb Exp $
+a74 7
+    }
+
+    /*
+     * Tell UTek to flush all the characters in the tty line.
+     */
+    if (ioctl(scc_fd[a_or_b], TIOCFLUSH, 0) < 0) {
+        sim_printf("cannot flush %s\n", scc_file_name[a_or_b]);
+@
+
+
+1.11
+log
+@Added code to set the baud of the tty line(s) based on the
+value loaded into the scc's baud registers.
+@
+text
+@a0 2
+/* $Header: scc.c,v 1.10 87/12/03 20:09:56 robertb Exp $ */
+
+d3 5
+d71 1
+a71 1
+        if ((scc_fd[a_or_b] = open(scc_file_name[a_or_b], 2)) < 0) {
+@
+
+
+1.10
+log
+@Added an input buffer for the SCC simulator to make it more
+efficient.
+@
+text
+@d1 1
+a1 1
+/* $Header: scc.c,v 1.9 87/12/02 15:50:05 robertb Exp $ */
+d13 2
+a14 2
+#define	SCC_A	0
+#define	SCC_B	1
+d21 1
+a21 1
+#define	IN_BUFFSIZ	(20000)
+d32 1
+a32 1
+	scc_init(SCC_A);
+d37 1
+a37 1
+	scc_init(SCC_B);
+d41 1
+a41 1
+	unsigned a_or_b;
+d43 1
+a43 1
+	char *getenv();
+d45 2
+a46 2
+	hardware_reset(a_or_b);
+	scc_file_name[a_or_b] = getenv(a_or_b == SCC_A ? "SIMTTYA" : "SIMTTYB");
+d48 1
+a48 1
+	use_console[a_or_b] = !scc_file_name[a_or_b];
+d55 1
+a55 1
+	int a_or_b;
+d57 6
+a62 4
+	struct sgttyb tt;
+	struct tchars tc;
+	int localmask = LLITOUT | LDOCTS | LDODTR;
+	int ldisc = NTTYDISC;
+d64 2
+a65 2
+	in_buffcnt[a_or_b] = 0;
+	in_bp[a_or_b] = &in_buff[a_or_b][0];
+d67 6
+a72 4
+	if ((scc_fd[a_or_b] = open(scc_file_name[a_or_b], 2)) < 0) {
+		sim_printf("cannot open `%s'", scc_file_name[a_or_b]);
+		return;
+	}
+d74 6
+a79 6
+	/*
+	 * Tell UTek to flush all the characters in the tty line.
+	 */
+	if (ioctl(scc_fd[a_or_b], TIOCFLUSH, 0) < 0) {
+		sim_printf("cannot flush %s\n", scc_file_name[a_or_b]);
+	}
+d81 32
+a112 14
+	tt.sg_ispeed = EXTB;
+	tt.sg_ospeed = EXTB;
+	tt.sg_flags = RAW | DODTR | DOCTS;
+	tt.sg_kill = -1;
+	tt.sg_erase = -1;
+	tc.t_intrc = -1;
+	tc.t_quitc = -1;
+	tc.t_startc = -1;
+	tc.t_stopc = -1;
+	tc.t_eofc = -1;
+	tc.t_brkc = -1;
+	
+	if (ioctl(scc_fd[a_or_b], TIOCSETD, &ldisc) < 0 ||
+		ioctl(scc_fd[a_or_b], TIOCSETP, &tt) < 0 || 
+d116 2
+a117 2
+		sim_printf("Unable to do ioctl to %s\n", scc_file_name[a_or_b]);
+	}
+d125 1
+a125 1
+	int a_or_b;
+d127 1
+a127 1
+	int i;
+d129 6
+a134 6
+	for (i = 0 ; i < 16 ; i++) {
+		write_registers[a_or_b][i] = 0;
+		read_registers[a_or_b][i] = 0;
+	}
+	register_pointer[a_or_b] = 0;
+	use_register_pointer[a_or_b] = 0;
+d136 9
+a144 9
+	/*
+	 * Hardware reset values, as defined on page 8-3 of the SCC technical
+	 * manual.
+	 */
+	write_registers[a_or_b][4] = 4;
+	write_registers[a_or_b][9] = 0xc0;
+	write_registers[a_or_b][11] = 0x8;
+	write_registers[a_or_b][15] = 0xf8;
+	read_registers[a_or_b][1] = 0x46;
+d149 5
+a153 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d155 1
+a155 1
+	scc_operation(address_offset, reg_ptr, size, mem_op_type, override, SCC_A);
+d159 5
+a163 5
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+d165 1
+a165 1
+	scc_operation(address_offset, reg_ptr, size, mem_op_type, override, SCC_B);
+d169 6
+a174 6
+	unsigned address_offset;
+	unsigned *reg_ptr;
+	unsigned size;
+	unsigned mem_op_type;
+	int      override;
+	unsigned a_or_b;
+d176 7
+a182 7
+	/*
+	 * If the front end is doing the IO, convert the operation
+	 * to be a byte-wide load or store.
+	 */
+	if (override) {
+		size = BYTE;
+	}
+d184 4
+a187 4
+	if (size != BYTE) {
+		sim_printf("scc IO must use byte operations.\n");
+		return E_DACC;
+	}
+d189 4
+a192 4
+	if (mem_op_type == XMEM || mem_op_type == XMEM_U) {
+		sim_printf("scc simulator does not support XMEM and XMEM_U\n");
+		return E_DACC;
+	}
+d194 3
+a196 3
+	switch (address_offset) {
+		case 0:
+			return do_cntl(reg_ptr, mem_op_type, a_or_b);
+d198 2
+a199 2
+		case 4:
+			return do_data(reg_ptr, mem_op_type, a_or_b);
+d201 4
+a204 4
+		default:
+			sim_printf("scc_operation: address offset=0x%X\n", address_offset);
+			return E_DACC;
+	}
+d211 3
+a213 3
+	unsigned *reg_ptr;
+	int mem_op_type;
+	int a_or_b;
+d215 1
+a215 1
+	unsigned rp;
+d217 12
+a228 12
+	/*
+	 * If the last operation loaded the register pointer bits
+	 * of the command register, then use this value to index
+	 * one of the register arrays.  Otherwise register 0 is
+	 * addressed.
+	 */
+	if (use_register_pointer[a_or_b]) {
+		use_register_pointer[a_or_b] = 0;
+		rp = register_pointer[a_or_b];
+	} else {
+		rp = 0;
+	}
+d230 2
+a231 2
+	switch (mem_op_type) {
+		char byte;
+d233 2
+a234 2
+		case ST:
+			byte = *reg_ptr;
+d236 5
+a240 5
+			write_registers[a_or_b][rp] = byte;
+	
+			switch (rp) {
+				case 0:
+					register_pointer[a_or_b] = write_registers[a_or_b][0] & 7;
+d242 11
+a252 11
+					/*
+					 * Execute the command in bits 7-6 of the command register.
+					 */
+					switch ((byte >> 6) & 3) {
+						/*
+						 * Reset the Tx underrun/eom latch.
+						 */
+						case 3:
+							read_registers[a_or_b][0] &= ~0x40;
+							break;
+					}
+d254 7
+a260 7
+					/*
+					 * Execute the command in bits 3-5 of the command register.
+					 */
+					switch ((byte >> 3) & 7) {
+						case 1:
+							register_pointer[a_or_b] += 8;
+							break;
+d262 9
+a270 9
+						case 6:
+							read_registers[a_or_b][1] &= 0x8f;
+							break;
+					}
+	
+					use_register_pointer[a_or_b] = 1;
+					display_command1(write_registers[a_or_b][0] >> 3);
+					display_command2(write_registers[a_or_b][0] >> 6);
+					break;
+d272 5
+a276 5
+				case 9:
+					switch ((byte >> 6) & 3) {
+						case 1:
+							reset_channel(SCC_B);
+							break;
+d278 3
+a280 3
+						case 2:
+							reset_channel(SCC_A);
+							break;
+d282 6
+a287 13
+						case 3:
+							hardware_reset(SCC_A);
+							hardware_reset(SCC_B);
+							break;
+					}
+					break;
+			}
+			write_registers[a_or_b][15] &= ~5;
+			read_registers[SCC_B][3] = 0;
+			read_registers[a_or_b][12] = write_registers[a_or_b][12];
+			read_registers[a_or_b][13] = write_registers[a_or_b][13];
+			read_registers[a_or_b][15] = write_registers[a_or_b][15];
+			break;
+d289 16
+d306 11
+a316 4
+		case LD:
+		case LD_U:
+			/*
+			 * The program is reading the status port.  If the scc
+d318 5
+a322 5
+			 * find out if there are any characters waiting in order
+			 * to set the receive-buffer-full bit properly.
+			 */
+			if (rp == 0 && (write_registers[a_or_b][14] & 0x10) == 0) {
+				int fd;
+d324 11
+a334 11
+				/*
+				 * See if we already have some bytes in out input
+				 * buffer.  If so, tell the program that there
+				 * is a character in the SCC's input register.
+				 */
+				if (in_buffcnt[a_or_b] > 0) {
+					read_registers[a_or_b][rp] |= 1;
+				} else {
+					int ready;
+					struct timeval tv;
+					unsigned rmask;
+d336 5
+a340 5
+					if (use_console[a_or_b]) {
+						fd = 1;
+					} else {
+						fd = scc_fd[a_or_b];
+					}
+d343 4
+a346 4
+					tv.tv_sec = 0;
+					tv.tv_usec = 1000;
+					rmask = 1 << fd;
+					ready = select(32, &rmask, (int *)0, (int *)0, &tv);
+d349 3
+a351 3
+					if (ioctl(fd, FIONREAD, &ready) < 0) {
+						sim_printf("scc: ioctl error.\n");
+					}
+d353 6
+a358 6
+					/*
+					 * If there are bytes waiting to be read, read them
+					 * into our input buffer.
+					 */
+					if (ready) {
+						int count;
+d360 18
+a377 18
+						read_registers[a_or_b][rp] |= 1;
+						count = read(fd, &in_buff[a_or_b][0], IN_BUFFSIZ);
+						if (count <= 0) {
+							sim_printf("scc: error on reading from tty line\n");
+						}
+						in_buffcnt[a_or_b] = count;
+						in_bp[a_or_b] = &in_buff[a_or_b][0];
+					} else {
+						read_registers[a_or_b][rp] &= ~1;
+					}
+				}
+			}
+			if (mem_op_type == LD) {
+				*reg_ptr = read_registers[a_or_b][rp];
+			} else {
+				*reg_ptr = read_registers[a_or_b][rp] & 0xff;
+			}
+			break;
+d379 5
+a383 5
+		default:
+			sim_printf("scc_operation: case error.\n");
+			return E_DACC;
+	}
+	return E_NONE;
+d390 1
+a390 1
+	int a_or_b;
+d392 1
+a392 1
+	int i;
+d394 5
+a398 5
+	for (i = 0 ; i < 16 ; i++) {
+		write_registers[a_or_b][i] = 0;
+	}
+	write_registers[a_or_b][4] = 4;
+	write_registers[a_or_b][15] = 0xf8;
+d400 4
+a403 4
+	/*
+	 * Tx underrun/eom and Tx buffer empty set, receive character available.
+	 */
+	read_registers[a_or_b][0] = 0x44;
+d405 1
+a405 1
+	read_registers[a_or_b][1] = 6;
+d407 3
+a409 3
+	if (!use_console[a_or_b]) {
+		init_serial_line(a_or_b);
+	}
+d416 3
+a418 3
+	unsigned *reg_ptr;
+	int mem_op_type;
+	int a_or_b;
+d420 1
+a420 1
+	switch (mem_op_type) {
+d422 24
+a445 24
+		case LD:
+		case LD_U:
+			if ((write_registers[a_or_b][3] & 1) == 0) {
+				sim_printf("scc: character read with receiver disabled\n");
+			}
+			/*
+			 * If we are in loop mode, get the character from the
+			 * transmit buffer.
+			 */
+			if (write_registers[a_or_b][14] & 0x10) {
+				read_registers[a_or_b][8] = write_registers[a_or_b][8];
+			} else {
+				/*
+				 * We are not in loop mode.  Either get the character
+				 * from the terminal or the user-specified tty port.
+				 */
+				if (in_buffcnt[a_or_b] > 0) {
+					in_buffcnt[a_or_b]--;
+					read_registers[a_or_b][8] = *in_bp[a_or_b]++;
+				} else {
+					if (use_console[a_or_b]) {
+						read_registers[a_or_b][8] = sim_getchar();
+					} else {
+						if (read(scc_fd[a_or_b], &read_registers[a_or_b][8], 1) 
+d447 9
+a455 9
+							sim_printf("scc: read error on %s\n", 
+   	                                           		scc_file_name[a_or_b]);
+							return E_ERR;
+						}
+					}
+				}
+			}
+			read_registers[a_or_b][0] &= ~1;	/* Reset receive-buffer-full */
+			*reg_ptr = read_registers[a_or_b][8] & 0xff;
+d457 34
+a490 34
+			if (mem_op_type == LD) {
+				*reg_ptr = (*reg_ptr << 24) >> 24;
+			}
+			break;
+	
+		case ST:
+			if ((write_registers[a_or_b][5] & 8) == 0) {
+				sim_printf("scc: character read with transmitter disabled.\n");
+			}
+			write_registers[a_or_b][8] = *reg_ptr;
+			if (use_console[a_or_b]) {
+				sim_putchar(write_registers[a_or_b][8]);
+			} else {
+				if (write(scc_fd[a_or_b], &write_registers[a_or_b][8], 1)!= 1) {
+					sim_printf("scc: write error on %s\n", 
+   	                                            scc_file_name[a_or_b]);
+					return E_ERR;
+				}
+			}
+			/*
+			 * If we are in local loopback mode, set the receive-buffer-full
+			 * flag.
+			 */
+			if (write_registers[a_or_b][14] & 0x10) {
+				read_registers[a_or_b][0] |= 1;
+			}
+			break;
+	
+		default:
+			sim_printf("case error in scc_operation\n");
+			break;
+	}
+
+	return E_NONE;
+d498 1
+a498 1
+	unsigned char c;
+d500 3
+a502 3
+	switch (c) {
+		case 0:
+			break;
+d504 2
+a505 2
+		case 1:
+			break;
+d507 3
+a509 3
+		case 2:
+			sim_printf("scc: reset ext/status interrupts\n");
+			break;
+d511 3
+a513 3
+		case 3:
+			sim_printf("scc: send abort\n");
+			break;
+d515 3
+a517 3
+		case 4:
+			sim_printf("enable int on next Rx character\n");
+			break;
+d519 3
+a521 3
+		case 5:
+			sim_printf("reset TxINT pending\n");
+			break;
+d523 3
+a525 3
+		case 6:
+			sim_printf("scc: error reset\n");
+			break;
+d527 3
+a529 3
+		case 7:
+			sim_printf("scc: reset highest ius\n");
+			break;
+d531 3
+a533 3
+		default:
+			sim_printf("scc: case error\n");
+	}
+d541 1
+a541 1
+	unsigned char c;
+d543 3
+a545 3
+	switch (c) {
+		case 0:
+			break;
+d547 3
+a549 3
+		case 1:
+			sim_printf("scc: reset Rx crc checker\n");
+			break;
+d551 3
+a553 3
+		case 2:
+			sim_printf("scc: resest Tx crc generator\n");
+			break;
+d555 3
+a557 3
+		case 3:
+			sim_printf("scc: reset Tx underrun/eod latch\n");
+			break;
+d559 3
+a561 3
+		default:
+			sim_printf("case error in scc_operation\n");
+	}
+d566 1
+a566 1
+	scc_print(SCC_A);
+d571 1
+a571 1
+	scc_print(SCC_B);
+d578 1
+a578 1
+	unsigned a_or_b;
+d580 18
+a597 18
+	int i;
+	static char *wr_names[16] = { 
+			"command register     ", 
+			"Tx/Rx interrupt      ",
+			"interrupt vector     ", 
+			"receive parameters   ",
+			"Tx/Rx misc parameters",
+			"transmit parameters  ",
+			"sync character or adr",
+			"sync character or flg",
+			"transmit buffer      ",
+			"master intr. control ",
+			"misc T/R control bits",
+			"clock mode control   ",
+			"l byte time contant  ",
+			"u byte time contant  ",
+			"misc control bits    ",
+			"external status      " };
+d599 17
+a615 17
+	static char *rd_names[16] = {
+			"xmit/rec buff status ",
+			"rec condition status ",
+			"interrupt vector     ",
+			"interrupt pending    ",
+			"",
+			"",
+			"",
+			"",
+			"receive buffer       ",
+			"",
+			"loop/clock status    ",
+			"",
+			"l byte time constant ",
+			"u byte time constant ",
+			"",
+			"external status      "};
+d617 3
+a619 3
+	if (scc_file_name[a_or_b]) {
+		sim_printf("This simulated SCC port uses %s\n", scc_file_name[a_or_b]);
+	}
+d621 2
+a622 2
+	for (i = 0 ; i < 15 ; i++) {
+		printf(" [WR%-2d] %20s = 0x%02x", 
+d624 2
+a625 2
+		if (strlen(rd_names[i]) && !(a_or_b == SCC_B && i == 3)) {
+			printf("  [RR%-2d]  %20s = 0x%02x", 
+d627 3
+a629 3
+		}
+		printf("\n");
+	}
+@
+
+
+1.9
+log
+@Fixed ioctls to really put the line in dtr/cts mode.
+@
+text
+@d1 1
+a1 1
+/* $Header: scc.c,v 1.8 87/12/01 21:15:02 robertb Exp $ */
+d9 1
+d21 5
+d62 3
+d284 1
+a284 1
+				int count, fd;
+d286 7
+a292 2
+				if (use_console[a_or_b]) {
+					fd = 1;
+d294 3
+a296 2
+					fd = scc_fd[a_or_b];
+				}
+d298 34
+a331 2
+				if (ioctl(fd, FIONREAD, &count) < 0) {
+					sim_printf("scc: ioctl error\n");
+a332 5
+				if (count) {
+					read_registers[a_or_b][rp] |= 1;
+				} else {
+					read_registers[a_or_b][rp] &= ~1;
+				}
+d400 3
+a402 2
+				if (use_console[a_or_b]) {
+					read_registers[a_or_b][8] = sim_getchar();
+d404 4
+a407 1
+					if (read(scc_fd[a_or_b], &read_registers[a_or_b][8], 1) 
+d409 4
+a412 3
+						sim_printf("scc: read error on %s\n", 
+   	                                           scc_file_name[a_or_b]);
+						return E_ERR;
+@
+
+
+1.8
+log
+@Tuned the ioctl's that manipulate the tty lines.  deferred the
+open of the tty line until the channel is reset by software.
+@
+text
+@d1 1
+a1 1
+/* $Header: scc.c,v 1.7 87/12/01 15:52:27 robertb Exp $ */
+d53 2
+a54 1
+	int localmask = LLITOUT;
+d80 2
+a81 1
+	if (ioctl(scc_fd[a_or_b], TIOCSETP, &tt) < 0 || 
+@
+
+
+1.7
+log
+@Made the receive-buffer-full bit of the status register reflect
+whether a character is actually waiting at the keyboard or tty
+line.
+@
+text
+@d1 1
+a1 1
+/* $Header: scc.c,v 1.6 87/11/30 19:21:44 robertb Exp $ */
+a36 4
+	struct sgttyb tt;
+	struct tchars tc;
+	int localmask = LLITOUT;
+	unsigned i;
+d42 2
+a43 4
+	if (!scc_file_name[a_or_b]) {
+		use_console[a_or_b] = 1;
+		return;
+	}
+d45 10
+d59 6
+a64 5
+	/*  (I would use shared locks, but they don't work) */
+/*
+	if (flock(scc_fd[a_or_b], LOCK_EX | LOCK_NB) < 0) {
+		sim_printf("warning: someone else may be using %s\n", 
+                                       scc_file_name[a_or_b]);
+a65 1
+*/
+d112 1
+d324 4
+@
+
+
+1.6
+log
+@Fixed several bugs. implemented channel resets.
+@
+text
+@d1 1
+a1 1
+/* $Header: scc.c,v 1.5 87/11/30 18:07:27 robertb Exp $ */
+d203 1
+d205 12
+d260 9
+a268 2
+			*reg_ptr = read_registers[a_or_b][rp];
+			break;
+d270 20
+a289 2
+		case LD_U:
+			*reg_ptr = read_registers[a_or_b][rp] & 0xff;
+d316 1
+a316 1
+	read_registers[a_or_b][0] = 45;
+d333 3
+d358 1
+a358 1
+
+d367 3
+d379 7
+@
+
+
+1.5
+log
+@Fixed a number of bugs.  Implemented the local loop back
+mechanism.
+@
+text
+@d1 1
+a1 1
+/* $Header: scc.c,v 1.4 87/11/25 11:55:18 timd Exp $ */
+d43 1
+a43 22
+	for (i = 0 ; i < 16 ; i++) {
+		write_registers[a_or_b][i] = 0;
+		read_registers[a_or_b][i] = 0;
+	}
+	register_pointer[a_or_b] = 0;
+	use_register_pointer[a_or_b] = 0;
+
+	/*
+	 * Tx underrun/eom and Tx buffer empty set, receive character available.
+	 */
+	read_registers[a_or_b][0] = 0x45;	
+
+	/*
+	 * Hardware reset values, as defined on page 8-3 of the SCC technical
+	 * manual.
+	 */
+	write_registers[a_or_b][4] = 4;
+	write_registers[a_or_b][9] = 0xc0;
+	write_registers[a_or_b][11] = 0x8;
+	write_registers[a_or_b][15] = 0xf8;
+	read_registers[a_or_b][1] = 0x46;
+
+d83 27
+d193 2
+d196 3
+a198 1
+			write_registers[a_or_b][rp] = *reg_ptr;
+d200 37
+a236 8
+			if (rp == 0) {
+				register_pointer[a_or_b] = write_registers[a_or_b][0] & 7;
+				if (write_registers[a_or_b][0] & 8) {
+					register_pointer[a_or_b] += 8;
+				}
+				use_register_pointer[a_or_b] = 1;
+				display_command1(write_registers[a_or_b][0] >> 3);
+				display_command2(write_registers[a_or_b][0] >> 6);
+d259 22
+@
+
+
+1.4
+log
+@Added header so colast will work
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+a131 2
+	unsigned write_register;
+
+d133 2
+a134 2
+	 * If the front-end is doing the IO, then we fudge and convert
+	 * the operation to be byte-wide.
+d150 3
+a152 2
+	if (address_offset == 0) {
+		unsigned rp;
+d154 26
+a179 11
+		/*
+		 * If the last operation loaded the register pointer bits
+		 * of the command register, then use this value to index
+		 * one of the register arrays.  Otherwise register 0 is
+		 * addressed.
+		 */
+		if (use_register_pointer[a_or_b]) {
+			rp = register_pointer[a_or_b];
+		} else {
+			rp = 0;
+		}
+d181 4
+d186 4
+a189 3
+		if (mem_op_type == ST) {
+			write_registers[a_or_b][rp] = *(unsigned char *)reg_ptr;
+		
+d204 1
+a204 1
+		}
+d206 12
+a217 8
+		if (mem_op_type == LD || mem_op_type == LD_U) {
+			if (mem_op_type == LD) {
+				*(int *)reg_ptr = read_registers[a_or_b][rp];
+			} else {
+				*(unsigned *)reg_ptr = read_registers[a_or_b][rp];
+			}
+		}
+		return E_NONE;
+d219 2
+d222 8
+a229 3
+	/*
+	 * The operation must be with the data port.
+	 */
+a230 1
+		char buf[1];
+d234 6
+a239 2
+			if (use_console[a_or_b]) {
+				buf[0] = getchar();
+d241 13
+a253 3
+				if (read(scc_fd[a_or_b], buf, 1) != 1) {
+					sim_printf("scc: read error on %s\n", scc_file_name[a_or_b]);
+					return E_ERR;
+d256 6
+a261 1
+			*reg_ptr = buf[0];
+d263 1
+a263 1
+
+d265 1
+a265 1
+			buf[0] = *reg_ptr;
+d267 1
+a267 1
+				putchar(buf[0]);
+d269 3
+a271 2
+				if (write(scc_fd[a_or_b], buf, 1) != 1) {
+					sim_printf("scc: write error on %s\n", scc_file_name[a_or_b]);
+d276 1
+a276 1
+
+a281 3
+	if (mem_op_type == LD) {
+		*reg_ptr = (*reg_ptr << 24) >> 24;
+	}
+@
+
+
+1.3
+log
+@
+@
+text
+@d1 1
+a1 1
+
+@
+
+
+1.2
+log
+@Fixed some initial bugs.  It partly works now.
+@
+text
+@d77 1
+d82 1
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d12 2
+a13 6
+static unsigned char write_registers[16];
+static unsigned char read_registers[16];
+static unsigned register_pointer;
+static int use_register_pointer;
+static int scc_fd;
+static char *scc_file_name;
+d15 14
+d31 6
+d44 2
+a45 2
+		write_registers[i] = 0;
+		read_registers[i] = 0;
+d47 2
+a48 2
+	register_pointer = 0;
+	use_register_pointer = 0;
+d53 1
+a53 1
+	read_registers[0] = 0x45;	
+d59 5
+a63 5
+	write_registers[4] = 4;
+	write_registers[9] = 0xc0;
+	write_registers[11] = 0x8;
+	write_registers[15] = 0xf8;
+	read_registers[1] = 0x46;
+d65 5
+a69 2
+	if (!(scc_file_name = getenv("SIMTTY"))) {
+		scc_file_name = "/dev/tty";
+d72 2
+a73 7
+	/*
+	 * open and init the tty port for the remote;
+	 * boot the remote.
+	 */
+
+	if ((scc_fd = open(scc_file_name,2)) < 0) {
+		sim_printf("cannot open `%s'",scc_file_name);
+d77 3
+a79 2
+	if (flock(scc_fd, LOCK_EX | LOCK_NB) < 0) {
+		sim_printf("warning: someone else may be using %s\n", scc_file_name);
+d84 1
+a84 1
+	tt.sg_flags = CRMOD;
+d94 3
+a96 3
+	if (ioctl(scc_fd, TIOCSETP, &tt) < 0 || 
+        ioctl(scc_fd, TIOCSETC, &tc) < 0 || 
+        ioctl(scc_fd, TIOCLBIS, &localmask) < 0) {
+d98 1
+a98 1
+		sim_printf("Unable to do ioctl to %s\n", scc_file_name);
+d102 10
+d119 11
+d159 2
+a160 2
+		if (use_register_pointer) {
+			rp = register_pointer;
+d164 1
+a164 1
+		use_register_pointer = 0;
+d167 1
+a167 1
+			write_registers[rp] = *(unsigned char *)reg_ptr;
+d170 3
+a172 3
+				register_pointer = write_registers[0] & 7;
+				if (write_registers[0] & 8) {
+					register_pointer += 8;
+d174 3
+a176 3
+				use_register_pointer = 1;
+				display_command1(write_registers[0] >> 3);
+				display_command2(write_registers[0] >> 6);
+d178 5
+a182 4
+			write_registers[15] &= ~5;
+			read_registers[12] = write_registers[12];
+			read_registers[13] = write_registers[13];
+			read_registers[15] = write_registers[15];
+d187 1
+a187 1
+				*(int *)reg_ptr = read_registers[rp];
+d189 1
+a189 1
+				*(unsigned *)reg_ptr = read_registers[rp];
+d192 1
+a192 1
+		return;
+d195 3
+d199 2
+a201 3
+			*reg_ptr = (sim_getchar() << 24) >> 24;
+			break;
+
+d203 9
+a211 1
+			*reg_ptr = sim_getchar() & 0xff;
+d215 9
+a223 1
+			sim_putchar(*reg_ptr & 0xff);
+a225 10
+		case XMEM:
+			sim_putchar(*reg_ptr & 0xff);
+			*reg_ptr = (sim_getchar() << 24) >> 24;
+			break;
+
+		case XMEM_U:
+			sim_putchar(*reg_ptr);
+			*reg_ptr = sim_getchar() & 0xff;
+			break;
+
+d230 4
+d304 1
+a304 1
+			sim_printf("case error in scc_b_operation\n");
+d308 10
+d321 2
+a322 1
+scc_b_print()
+d347 1
+a347 1
+			"interrupt pending (A)",
+d361 3
+a363 1
+	sim_printf("simulated SCC B port uses %s\n", scc_file_name);
+d366 5
+a370 3
+		printf(" [WR%d] %20s = 0x%x", i, wr_names[i], write_registers[i]);
+		if (strlen(rd_names[i])) {
+			printf("  [RR%d]  %20s = 0x%x\n", i, rd_names[i], read_registers[i]);
+d372 1
+@

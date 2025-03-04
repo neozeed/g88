@@ -1,0 +1,381 @@
+head     1.3;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.3
+date     87.12.07.15.10.23;  author timd;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.23.14.43.03;  author timd;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.19.16.53.00;  author timd;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@/*------------------------------------------------------------------------
+ * dp8571.h
+ *
+ * This header file describes the NSC DP8571 Timer Clock Peripheral (TCP).
+ *
+ * "The DP8571 is intended for use in microprocessor based systems where
+ * information is required for multi-tasking, data logging or general time
+ * of day/date information. This device is implemented in low-voltage
+ * silicon gate microCMOS technology to provide low standby power in
+ * battery back-up environments. The circuit's architecture is such that it
+ * looks like a contiguous block of memory of I/O ports. The address space
+ * is organized as 2 software selectable pages of 32 bytes. This includes
+ * the Control Registers, the Clock Counters, the Alarm Compare RAM, the
+ * Timers and their data RAM, and the Time Save RAM. Any of the RAM locations
+ * that are not being used for their intended purpose may be used as
+ * general purpose CMOS RAM."
+ *
+ *
+ * Copyright (C) 1987, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: dp8571.h,v 1.2 87/11/23 14:43:03 timd Exp $
+ *------------------------------------------------------------------------
+ */
+
+#ifndef DP8571_H
+#define DP8571_H
+
+
+/*------------------------------------------------------------------------
+ * Offsets into Internal Memory.
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define DP8571_MSR			0x00	/* main status register */
+#define	DP8571_TIMER_0_CTRL		0x01	/* timer 0 control register */
+#define	DP8571_TIMER_1_CTRL		0x02	/* timer 1 control register */
+#define	DP8571_PERIODIC_FLAG		0x03	/* timer periodic flag register */
+#define	DP8571_INTR_ROUTE		0x04	/* interrupt routing register */
+#define	DP8571_REAL_TIME_MODE		0x01	/* real-time mode register */
+#define	DP8571_OUTPUT_MODE		0x02	/* output mode register */
+#define	DP8571_INTR_CTRL_0		0x03	/* interrupt control register */
+#define	DP8571_INTR_CTRL_1		0x04	/* interrupt control register */
+#define	DP8571_COUNTER_100		0x05	/* 1/100th second counter */
+#define	DP8571_COUNTER_SEC		0x06	/* seconds clock counter */
+#define	DP8571_COUNTER_MIN		0x07	/* minutes clock counter */
+#define	DP8571_COUNTER_HRS		0x08	/* hours clock counter */
+#define	DP8571_COUNTER_DOM		0x09	/* day of month clock counter */
+#define	DP8571_COUNTER_MON		0x0a	/* month clock counter */
+#define	DP8571_COUNTER_YRS		0x0b	/* years clock counter */
+#define	DP8571_COUNTER_JULIAN_1		0x0c	/* units julian clock counter */
+#define	DP8571_COUNTER_JULIAN_100	0x0d	/* 100's julian clock counter */
+#define	DP8571_COUNTER_DOW		0x0e	/* day of week clock counter */
+#define	DP8571_TIMER_0_LSB		0x0f	/* timer 0 lsb */
+#define	DP8571_TIMER_0_MSB		0x10	/* timer 0 msb */
+#define	DP8571_TIMER_1_LSB		0x11	/* timer 1 lsb */
+#define	DP8571_TIMER_1_MSB		0x12	/* timer 1 msb */
+#define	DP8571_COMPARE_SEC		0x13	/* seconds compare ram */
+#define	DP8571_COMPARE_MIN		0x14	/* minutes compare ram */
+#define	DP8571_COMPARE_HRS		0x15	/* hours compare ram */
+#define	DP8571_COMPARE_DOM		0x16	/* day of month compare ram */
+#define	DP8571_COMPARE_MON		0x17	/* month compare ram */
+#define	DP8571_COMPARE_DOW		0x18	/* day of week compare ram */
+#define	DP8571_SAVE_SEC			0x19	/* seconds save ram */
+#define	DP8571_SAVE_MIN			0x1a	/* minutes save ram */
+#define	DP8571_SAVE_HRS			0x1b	/* hours save ram */
+#define	DP8571_SAVE_DOM			0x1c	/* day of month save ram */
+#define	DP8571_SAVE_MON			0x1d	/* month save ram */
+#define	DP8571_TEST_REGISTER		0x1f	/* test register */
+
+/*------------------------------------------------------------------------
+ * Main Status Register
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define DP8571_MSR_INTERRUPT_STATUS	0x01
+#define DP8571_MSR_POWER_FAIL_INTERRUPT	0x02
+#define DP8571_MSR_PERIOD_INTERRUPT	0x04
+#define DP8571_MSR_ALARM_INTERRUPT	0x08
+#define DP8571_MSR_TIMER_0_INTERRUPT	0x10
+#define DP8571_MSR_TIMER_1_INTERRUPT	0x20
+#define DP8571_MSR_REGISTER_SELECT	0x40
+#define DP8571_MSR_PAGE_SELECT		0x80
+
+
+
+/*------------------------------------------------------------------------
+ * Timer 0 and 1 Control Register 
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	DP8571_TCR_TIMER_START		0x01
+#define	DP8571_TCR_MS_1			0x02
+#define	DP8571_TCR_MS_2			0x04
+#define	DP8571_TCR_ICS_1		0x08
+#define	DP8571_TCR_ICS_2		0x10
+#define	DP8571_TCR_ICS_3		0x20
+#define	DP8571_TCR_TIMER_READ		0x40
+#define	DP8571_TCR_COUNT_HOLD		0x80
+
+
+/* Clock Select Bits */
+#define	DP8571_TCR_CLOCK_TIMER1_OUTPUT	0x00
+#define	DP8571_TCR_CLOCK_OSCILLATOR	(DP8571_TCR_ICS_1)
+#define	DP8571_TCR_CLOCK_OSC_DIV_4	(DP8571_TCR_ICS_2)
+#define	DP8571_TCR_CLOCK_10700		(DP8571_TCR_ICS_1 | DP8571_TCR_ICS_2)
+#define	DP8571_TCR_CLOCK_1000		(DP8571_TCR_ICS_3)
+#define	DP8571_TCR_CLOCK_100		(DP8571_TCR_ICS_1 | DP8571_TCR_ICS_3)
+#define	DP8571_TCR_CLOCK_10		(DP8571_TCR_ICS_2 | DP8571_TCR_ICS_3)
+#define	DP8571_TCR_CLOCK_1		(DP8571_TCR_ICS_1 | DP8571_TCR_ICS_2 | DP8571_TCR_ICS_3)
+
+
+/* Timer Mode Selection Bits */
+#define DP8571_TCR_SINGLE_PULSE_GEN	0x00
+#define DP8571_TCR_RATE_GEN		(DP8571_TCR_MS_1)
+#define DP8571_TCR_SQUARE_WAVE		(DP8571_TCR_MS_2)
+#define DP8571_TCR_ONE_SHOT		(DP8571_TCR_MS_1 | DP8571_TCR_MS_2)
+#define DP8571_TCR_MODE_0		(DP8571_TCR_SINGLE_PULSE_GEN)
+#define DP8571_TCR_MODE_1		(DP8571_TCR_RATE_GEN)
+#define DP8571_TCR_MODE_2		(DP8571_TCR_SQUARE_WAVE)
+#define DP8571_TCR_MODE_3		(DP8571_TCR_ONE_SHOT)
+
+
+/*------------------------------------------------------------------------
+ * Periodic Flag Register
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define DP8571_PFR_MIN_FLAG		0x01
+#define DP8571_PFR_10_SEC_FLAG		0x02
+#define DP8571_PFR_SEC_FLAG		0x04
+#define DP8571_PFR_100_MSEC_FLAG	0x08
+#define DP8571_PFR_10_MSEC_FLAG		0x10
+#define DP8571_PFR_MSEC_FLAG		0x20
+#define DP8571_PFR_FAILURE		0x40
+#define DP8571_PFR_TEST_MODE_ENABLE	0x80
+
+
+
+
+/*------------------------------------------------------------------------
+ * Interrupt Routing Register
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define DP8571_IRR_POWER_FAIL		0x01
+#define DP8571_IRR_PERIODIC		0x02
+#define DP8571_IRR_ALARM		0x04
+#define DP8571_IRR_TIMER_0		0x08
+#define DP8571_IRR_TIMER_1		0x10
+#define DP8571_IRR_PF_DELAY_ENABLE	0x20
+#define DP8571_IRR_LOW_BATTERY		0x40
+#define DP8571_IRR_TIME_SAVE_ENABLE	0x80
+
+/*------------------------------------------------------------------------
+ * Real-time Mode Register 
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	DP8571_RMR_LEAP_YEAR_LSB	0x01
+#define	DP8571_RMR_LEAP_YEAR_MSB	0x02
+#define	DP8571_RMR_MILITARY		0x04
+#define	DP8571_RMR_CLOCK_START		0x08
+#define	DP8571_RMR_INTERRUPT_PF_OP	0x10
+#define	DP8571_RMR_TIMER_PF_OP		0x20
+#define	DP8571_RMR_CRYSTAL_FREQ_LSB	0x40
+#define	DP8571_RMR_CRYSTAL_FREQ_MSB	0x80
+
+
+
+/* Leap Year Bits */
+
+#define DP8571_RTM_LEAP_YEAR_CURRENT_YEAR	0x0
+#define DP8571_RTM_LEAP_YEAR_LAST_YEAR		0x1
+#define DP8571_RTM_LEAP_YEAR_2_YEARS_AGO	0x2
+#define DP8571_RTM_LEAP_YEAR_3_YEARS_AGO	0x3
+
+
+
+
+/* Crystal Frequency Bits */
+
+#define	DP8571_RTM_FREQ_32768		0x0
+#define	DP8571_RTM_FREQ_4194300		0x1
+#define	DP8571_RTM_FREQ_4915200		0x2
+#define	DP8571_RTM_FREQ_32000		0x3
+
+/*------------------------------------------------------------------------
+ * Output Mode Register
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	DP8571_OMR_RAM_1		0x01
+#define	DP8571_OMR_RAM_2		0x02
+#define	DP8571_OMR_INTR_ACTIVE_HIGH	0x04
+#define	DP8571_OMR_INTR_PUSHPULL	0x08
+#define	DP8571_OMR_MFO_ACTIVE_HIGH	0x10
+#define	DP8571_OMR_MFO_ACTIVE_PUSHPULL	0x20
+#define	DP8571_OMR_MFO_TIMER_0		0x40
+#define	DP8571_OMR_MFO_OSCILLATOR	0x80
+
+
+
+/*------------------------------------------------------------------------
+ * Interrupt Control Register 0
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define DP8571_ICR_MIN_FLAG		0x01
+#define DP8571_ICR_10_SEC_FLAG		0x02
+#define DP8571_ICR_SEC_FLAG		0x04
+#define DP8571_ICR_100_MSEC_FLAG	0x08
+#define DP8571_ICR_10_MSEC_FLAG		0x10
+#define DP8571_ICR_MSEC_FLAG		0x20
+#define DP8571_ICR_TIMER_0		0x40
+#define DP8571_ICR_TIMER_1		0x80
+
+
+
+/*------------------------------------------------------------------------
+ * Interrupt Control Register 1
+ *
+ *------------------------------------------------------------------------
+ */
+
+#define	DP8571_ICR1_SEC_COMPARE_ENABLE	0x01
+#define	DP8571_ICR1_MIN_COMPARE_ENABLE	0x02
+#define	DP8571_ICR1_HRS_COMPARE_ENABLE	0x04
+#define	DP8571_ICR1_DOM_COMPARE_ENABLE	0x08
+#define	DP8571_ICR1_MON_COMPARE_ENABLE	0x10
+#define	DP8571_ICR1_DOW_COMPARE_ENABLE	0x20
+#define DP8571_ICR1_ALARM_INTR_ENABLE	0x40
+#define DP8571_ICR1_POWER_FAIL_ENABLE	0x80
+
+
+#ifdef DP8571_C_STRUCTURES
+
+union Timer_Clock_Peripheral {    /* tcp_ */
+       unsigned char	Ram[32];
+       struct {
+		unsigned char	Msr;
+		unsigned char	Timer0_Ctrl;
+    		unsigned char	Timer1_Ctrl;
+		unsigned char	PeriodicFlag;
+		unsigned char	InterruptRouting;
+		unsigned char	Hz100_Counter;
+		unsigned char	Sec_Counter;
+		unsigned char	Min_Counter;
+		unsigned char	Hrs_Counter;
+		unsigned char	DayOfMonth_Counter;
+		unsigned char	Mon_Counter;
+		unsigned char	Yrs_Counter;
+		unsigned char	JulianUnits_Counter;
+		unsigned char	Julian100s_Counter;
+		unsigned char	DayOfWeek_Counter;
+		unsigned char	Timer0_Lsb;
+		unsigned char	Timer0_Msb;
+		unsigned char	Timer1_Lsb;
+		unsigned char	Timer1_Msb;
+		unsigned char	Sec_Compare;
+		unsigned char	Min_Compare;
+		unsigned char	Hrs_Compare;
+		unsigned char	DayOfMonth_Compare;
+		unsigned char	Mon_Compare;
+		unsigned char	DayOfWeek_Compare;
+		unsigned char	Sec_Save;
+		unsigned char	Min_Save;
+		unsigned char	Hrs_Save;
+		unsigned char	DayOfMonth_Save;
+		unsigned char	Mon_Save;
+		unsigned char	Ram;
+		unsigned char	Test;
+	} Rs0;    /* Register Select 1 */
+        struct {
+		unsigned char	Msr;
+		unsigned char	RealTimeMode;
+    		unsigned char	OutputMode;
+		unsigned char	Intr0_Ctrl;
+		unsigned char	Intr1_Ctrl;
+		unsigned char	Hz100_Counter;
+		unsigned char	Sec_Counter;
+		unsigned char	Min_Counter;
+		unsigned char	Hrs_Counter;
+		unsigned char	DayOfMonth_Counter;
+		unsigned char	Mon_Counter;
+		unsigned char	Yrs_Counter;
+		unsigned char	JulianUnits_Counter;
+		unsigned char	Julian100s_Counter;
+		unsigned char	DayOfWeek_Counter;
+		unsigned char	Timer0_Lsb;
+		unsigned char	Timer0_Msb;
+		unsigned char	Timer1_Lsb;
+		unsigned char	Timer1_Msb;
+		unsigned char	Sec_Compare;
+		unsigned char	Min_Compare;
+		unsigned char	Hrs_Compare;
+		unsigned char	DayOfMonth_Compare;
+		unsigned char	Mon_Compare;
+		unsigned char	DayOfWeek_Compare;
+		unsigned char	Sec_Save;
+		unsigned char	Min_Save;
+		unsigned char	Hrs_Save;
+		unsigned char	DayOfMonth_Save;
+		unsigned char	Mon_Save;
+		unsigned char	Ram;
+		unsigned char	Test;
+	} Rs1;    /* Register Select 1 */
+};
+
+
+#endif    /* DP8571_C_STRUCTURES */
+
+#endif	  /* DP8571_H */
+
+@
+
+
+1.2
+log
+@Added header field for colast
+@
+text
+@a0 1
+/* $Header$ */
+d22 1
+a22 1
+ * $Header: dp8571.h,v 1.1 87/11/19 16:53:00 timd Exp $
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+d23 1
+a23 1
+ * $Header: dp8571.h,v 1.4 87/11/17 09:52:20 timd Exp $
+@

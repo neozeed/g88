@@ -1,0 +1,85 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.02.12.16.14.35;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.11.22.29.25;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@describes changes made Nov 9, 1987 to the simulator and front ends.
+@
+
+
+1.2
+log
+@Added copyright notice and rcs header.
+@
+text
+@
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * $Header: $
+
+Date: Mon,  9 Nov 87 22:35:06 PST
+From: robertb
+To: 78tools
+Fcc: outbox
+Subject: New versions of ad78 and d78 installed on cupcake. Also m78kreorder...
+
+
+The cmmu simulator now simulates the data cache.  Unlike the real chip,
+the simulated cmmu's cache only has what was written to it explicitly.
+This should be good enough for the diagnostics that will test the cache
+before turning it on.  I believe that the real cmmu's cache also has
+only whatever was written to it explicitly before it is turned on.  If
+the real cmmu's cache is turned on and doesn't work, well, the program
+won't go very far before crashing.  So all the testing of the real
+cmmu's cache ought to be done before the cache is turned on.
+
+There is now a note describing the front-end's interface to the
+simulator in //cupcake/usr/robertb/s78/sim_interface.doc.
+
+The IO section has been modified to allow the user interface to
+override the read-onlyness or write-onlyness of device registers.  This
+allows for setting breakpoints in ROM's.  It also allows the BATC ports
+to be write-only to the program but read-write to the user interface.
+
+The cmmu section now no longer wastes 4 KB of memory for each cmmu.  It
+is also cleaner inside so I have more confidence that it is correct.
+The cmmu section is barely tested however.
+
+On another tool ...
+
+One of the recent changes that I made to the compiler to improve dbx
+debugging information consisted of having the compiler add text
+pseudo-ops in certain places.  This causes a bug that is in the
+assembly code optimizer to appear.  The bug is that if the optimizer
+sees a text directive without a matching data directive at the end of
+the input file it generates incorrect code.   Motorola will fix it, but
+probably not in the next release.  The symptoms are assembler error
+messages complaining about multiple label definitions.  So I suggest
+not using the -O flag with the 78000 compiler until the optimizer is
+fixed.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 5
+@

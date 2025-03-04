@@ -1,0 +1,103 @@
+head     1.3;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.3
+date     88.05.14.15.41.47;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     88.02.12.16.14.59;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.19.19.53.07;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Describes changes that I made today.
+@
+
+
+1.3
+log
+@added rcsid's and copyrights
+@
+text
+@
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * $Header: changes_nov19.doc,v 1.2 88/02/12 16:14:59 robertb Exp $
+
+To: timd,brents
+Cc: davep,andrew,johnl
+Fcc: outbox
+Subject: I checked in a bunch of s78 files, also d78 is under rcs now.
+-------
+
+Fellow simulator coders,
+
+   I checked in a number of files that implement a change to the basic
+simulator code.  So next time you make, you might see a lot recompile.
+If you get many undefines when you link with the front end it means
+that you are using the latest, i.e. broken, GH compiler.  This compiler
+does not support asm inserts.  So if that happens go back to the old
+compiler at least to compiler execute.c.  You can find the old compiler
+in //cupcake/lib/GHcomp.old
+
+  The SCC simulator is at least partly working.  It looks for two
+environment variables, SIMTTYA and SIMTTYB.  These are the file names of
+the tty lines to use for the A and B ports of the SCC.  If either
+variable is not defined the SCC simulator will use your terminal for the
+one that's not defined.  If neither variable is defined both ports
+will use your terminal.
+
+  When the SCC simulator uses a tty line, it sets it up to run at 34 KB
+in raw (8 bit) mode with hardware handshaking enabled.  As a test I had
+one terminal with SIMTTYB set to "/dev/ttya0" and the with SIMTTYB set
+to "/dev/ttya1".  These two ports on cupcake are connected to each
+other.  I wrote to one the data port of SCC B while reading from the
+same port on the other simulator.  And the data showed up!
+
+  d78 is now under RCS.  You should do 
+
+	"ln -s //cupcake/usr/robertb/d78/RCS" 
+
+in a clean d78 directory.  It still makes symbolic links to files in
+"../ad78".  The first time you run the makefile you will have to
+explicitly check out all of the .c files.  I couldn't figure out the
+problem with the makefile that prevents it from checking them out
+itself.  The new Makefile knows about a lot more of the dependencies,
+include the one on ../s78/sim.o.
+
+	Rob
+@
+
+
+1.2
+log
+@Added copyright notice and rcs header.
+@
+text
+@a1 1
+
+d4 1
+a4 1
+ * $Header: $
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 6
+@

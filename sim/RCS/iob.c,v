@@ -1,0 +1,2732 @@
+head     1.25;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.25
+date     89.08.25.14.05.37;  author robertb;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     88.12.02.09.49.31;  author andrew;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     88.09.08.11.40.39;  author andrew;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     88.09.08.09.34.07;  author andrew;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     88.07.20.22.40.37;  author andrew;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     88.06.22.14.25.12;  author brents;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.05.26.18.46.11;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.05.20.20.53.49;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.05.20.16.59.23;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.05.18.10.00.10;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.05.14.16.54.54;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.05.13.17.54.14;  author robertb;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.05.11.17.05.55;  author robertb;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.03.01.14.55.39;  author brents;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.29.16.20.41;  author brents;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.02.29.15.44.21;  author brents;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.02.26.12.41.25;  author brents;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.02.25.14.55.29;  author brents;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.02.24.14.48.01;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.02.23.13.55.57;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.12.07.15.09.09;  author timd;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.12.07.08.31.23;  author brents;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.12.02.13.52.30;  author timd;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.12.02.09.39.33;  author brents;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.25.11.54.07;  author timd;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@I/O Board Simulator
+@
+
+
+1.25
+log
+@moved header files, so had to changed include lines in this
+file.
+@
+text
+@/*
+ * iob.c
+ *
+ * This module simulates the FBus CSR space for two IOB's, in
+ * slots 1 and 4 respectively.
+ *
+ * Copyright (C) 1987, 1988, Tektronix, Inc.
+ * All Rights Reserved.
+ *
+ * $Header: iob.c,v 1.24 88/12/02 09:49:31 andrew Exp $
+ */
+
+#include "sim.h"
+#include "io.h"
+#undef PAGE_SIZE
+#include "FBUS_defs.h"
+#include "IOB_defs.h"
+
+extern u_char  CE_fbus_csr_space[4096];
+
+static u_char  IOB_fbus_csr[2][4096];
+static int     IOB_reset[2];
+static int     IOB_parity[2];
+static int     IOB_mspc[2];
+
+static u_short *sr_ptr[2];
+
+static u_short *sent_ptr[2];
+static u_char *priority_class_status[2];
+
+static u_short *vme_sr_ptr[2];
+static u_char  *vme_mask_ptr[2];
+
+/*
+ * Initializes the I/O board simulator, by setting the local base address
+ * register and calling the init routines for all the I/O Board devices
+ * that are simulated.
+ */
+static void iob_init(iob)
+{
+    int    i;
+
+    IOB_parity[iob] = 0;
+    IOB_reset[iob] = 0;
+    IOB_mspc[iob] = 0;
+
+    /* 
+     * clear out the simulated CSR space 
+      */
+    for (i = 0;    i < 4096;    i++) {
+        IOB_fbus_csr[iob][i] = 0xff;
+    }
+
+    /* Initialize the ID PROM */
+    IOB_fbus_csr[iob][0x03] = 'T';
+    IOB_fbus_csr[iob][0x07] = 'e';
+    IOB_fbus_csr[iob][0x0b] = 'k';
+    IOB_fbus_csr[iob][0x0f] = ' ';
+
+    IOB_fbus_csr[iob][0x13] = '6';
+    IOB_fbus_csr[iob][0x17] = '7';
+    IOB_fbus_csr[iob][0x1b] = '1';
+    IOB_fbus_csr[iob][0x1f] = '0';
+    IOB_fbus_csr[iob][0x23] = '5';
+    IOB_fbus_csr[iob][0x27] = '3';
+    IOB_fbus_csr[iob][0x2b] = '8';
+
+    /* 
+     * init FBUS_SR reg 
+     */
+    IOB_fbus_csr[iob][FBUS_SR] = iob ? 4: 1;       /* fbus_slot1 */
+
+    /* 
+     * init FBUS_ICR reg 
+     */
+    IOB_fbus_csr[iob][FBUS_ICR] = 0x0;    /* zeroed on pwr_up */
+
+    /* 
+     * FBUS_ESR reg pwrsup randomly 
+     */
+    IOB_fbus_csr[iob][FBUS_ESR] = 0xee;
+
+    sr_ptr[iob] = (u_short *)&IOB_fbus_csr[iob][IOB_GEN_INTR_SR];
+    *sr_ptr[iob] = 0xffff;
+
+    sent_ptr[iob] = (u_short *)&IOB_fbus_csr[iob][IOB_INTR_SENT_SR];
+    *sent_ptr[iob] = 0xffff;
+
+    priority_class_status[iob] =
+		(u_char *)&IOB_fbus_csr[iob][IOB_INTR_PRIOR_SR];
+    *priority_class_status[iob] = ~0;
+
+    vme_sr_ptr[iob] = (u_short *)&IOB_fbus_csr[iob][IOB_VME_INTR_SR];
+    *vme_sr_ptr[iob] =0xffff;
+
+    vme_mask_ptr[iob] = (u_char *)&IOB_fbus_csr[iob][IOB_INTR_MSK];
+    *vme_mask_ptr[iob] = 0;
+}
+
+void iob1_init() { iob_init(0); }
+void iob2_init() { iob_init(1); }
+
+/*
+ * Print information about the I/O Board.
+ */
+static void iob_print(iob)
+{
+    sim_printf("IOB in slot %d: Futurebus CSR Space\n", iob ? 4 : 1);
+    sim_printf("   Local base address register: 0x%x\n", 
+                         IOB_fbus_csr[iob][IOB_LRBAR] << 24);
+
+    sim_printf("    FTV base address register: 0x%x\n", 
+                         IOB_fbus_csr[iob][IOB_FTV_BAR] << 24);
+    sim_printf("    PARITY is %s\n", IOB_parity[iob] ? "enabled" : "disabled");
+    sim_printf("    MSPC is %s\n", IOB_mspc[iob] ? "enabled" : "disabled");
+    sim_printf("    IRST is %s asserted\n", 
+                                  IOB_reset[iob] ? "" : "not");
+    sim_printf("    VME interrupts are %senabled\n", 
+                                  *vme_mask_ptr[iob]&1 ? "" : "not ");
+    sim_printf("    Timer interrupts are %senabled\n", 
+                                  *vme_mask_ptr[iob]&0x40 ? "" : "not ");
+    sim_printf("    VME status register=0x%x\n", *vme_sr_ptr[iob]);
+    sim_printf("    interrupt status register=0x%x\n", *sr_ptr[iob]);
+    sim_printf("    priority class status register=0x%x\n",
+				*priority_class_status[iob]);
+    sim_printf("    current sent status=0x%x\n", *sent_ptr[iob]);
+}
+
+void iob1_print() { iob_print(0); }
+void iob2_print() { iob_print(1); }
+
+/*
+ * This maps IOB priority classes to CE interrupt levels.
+ */
+static class_to_ce_level[9] = { 2, 3, 4, 5, 6, 7, 8, 10, 12 };
+
+/*
+ * Send an interrupt to the CE interrupt controller if we haven't
+ * already done so for this interrupt class.
+ */
+static void
+send_interrupt(class, iob)
+    u_long class;
+{
+    if (class > 8) {
+        sim_printf("send_interrupt: bad class number: %d\n", class);
+        return;
+    }
+    /*
+     * If this class has already been sent to the ce, and hasn't
+     * been reset yet, ignore it.
+     */
+    if (((1 << class) & *sent_ptr[iob]) == 0) {
+        return;
+    }
+    *sent_ptr[iob] &= ~(1 << class);
+    set_ce_interrupt(class_to_ce_level[class]);
+}
+
+/*
+ *          power fail -----\      scsi, etc--\     /--- timer
+ *                          v                 v     v
+ */
+static iob_class_map[9] = { 8, 5, 5, 5, 5, 5, 5, 5, 7 };
+
+/*
+ * This is called by any function that simulates a device that can
+ * cause an IOB interrupt.
+ */
+void
+set_iob_interrupt(bit, iob)
+    u_long bit;
+{
+    int class;
+
+    if (bit > 8) {
+        sim_printf("set_iob_interrupt: bad bit number: %d\n", bit);
+    } else {
+        *sr_ptr[iob] &= ~(1 << bit);
+        class = iob_class_map[bit];
+	if (class<8) {
+	    *priority_class_status[iob] &= ~(1<<class);
+	}
+        send_interrupt(class, iob);
+    }
+}
+
+/*
+ * Check to see if there is another general interrupt
+ * waiting to be sent.
+ */
+void
+check_for_more_interrupts(iob)
+    int iob;
+{
+    u_long sr, i;
+
+    sr = *sr_ptr[iob];
+    if (sr != 0xffff) {
+        for (i = 0 ; i < 9 ; i++) {
+            if ((sr & 1) == 0) {
+                set_iob_interrupt(i, iob);
+            }
+            sr >>= 1;
+        }
+    }
+}
+
+/*
+ */
+void
+reset_iob_interrupt(bit, iob)
+    u_char bit;
+{
+    int class;
+
+    if (bit > 8) {
+        sim_printf("reset_iob_interrupt: bad bit number: %d\n", bit);
+    } else {
+        *sr_ptr[iob] |= 1 << bit;
+        class = iob_class_map[bit];
+	if (class<8) {
+	    *priority_class_status[iob] |= (1<<class);
+	}
+        check_for_more_interrupts(iob);
+    }
+}
+
+static vme_class_map[12] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
+
+/*
+ * This is called by any function that simulates a device that can
+ * cause an IOB interrupt.
+ */
+void
+set_vme_interrupt(bit, iob)
+    u_long bit;
+{
+    int class;
+
+    if (bit > 11) {
+        sim_printf("set_vme_interrupt: bad bit number: %d\n", bit);
+    } else {
+        *vme_sr_ptr[iob] &= ~(1 << bit);
+        class = vme_class_map[bit];
+        if (*vme_mask_ptr[iob]&1) {
+            send_interrupt(class, iob);
+        }
+    }
+}
+
+/*
+ */
+void
+reset_vme_interrupt(bit, iob)
+    u_char bit;
+{
+    u_long sr, i;
+
+    if (bit > 11) {
+        sim_printf("reset_vme_interrupt: bad bit number: %d\n", bit);
+    } else {
+        *vme_sr_ptr[iob] |= 1 << bit;
+
+        /*
+         * Check to see if there is another general interrupt
+         * waiting to be sent.
+         */
+        sr = *sr_ptr[iob];
+        if (sr != 0xffff) {
+            for (i = 0 ; i < 9 ; i++) {
+                if (sr & 1) {
+                    set_vme_interrupt(i, iob);
+                }
+                sr >>= 1;
+            }
+        }
+    }
+}
+
+/*
+ * Does an IOB operation.
+ */
+static iob_operation(address_offset, reg, size, mem_op_type, override, iob)
+    u_long address_offset;
+    long *reg;
+{
+    u_long iob_local_base;
+
+    switch (address_offset) {
+        case FBUS_FUNC_PAR_ENABLE:
+            IOB_parity[iob] = 1;
+            IOB_fbus_csr[iob][FBUS_SR] |= FBUS_SR_PON;
+            break;
+
+        case FBUS_FUNC_PAR_DISABLE:
+            IOB_parity[iob] = 0;
+            IOB_fbus_csr[iob][FBUS_SR] &= ~FBUS_SR_PON;
+            break;
+
+        case FBUS_FUNC_MSPC_ATTACH:
+            IOB_mspc[iob] = 1;
+            IOB_fbus_csr[iob][FBUS_SR] |= FBUS_SR_MSPC;
+
+            /* 
+             * re-attach the IOB local space- based on LRBAR reg value 
+             */
+            iob_local_base = (u_long)(IOB_fbus_csr[iob][IOB_LRBAR]<<24);
+            iob_change_local_base(iob_local_base, iob);
+            break;
+
+        case FBUS_FUNC_MSPC_DETACH:
+            IOB_mspc[iob] = 0;
+            IOB_fbus_csr[iob][FBUS_SR] &= ~FBUS_SR_MSPC;
+
+            /* 
+             * detach the IOB local space 
+             */
+            iob_change_local_base(0, iob);
+            break;
+
+        case FBUS_FUNC_IRST_ON:
+            iob_init(iob);
+            IOB_reset[iob] = 1;
+            IOB_fbus_csr[iob][FBUS_SR] |= FBUS_SR_IRST;
+            break;
+
+        case FBUS_FUNC_IRST_OFF:
+            IOB_reset[iob] = 0;
+            IOB_fbus_csr[iob][FBUS_SR] &= ~FBUS_SR_IRST;
+            break;
+
+        case FBUS_ICR:
+            if(IOB_fbus_csr[iob][FBUS_ICR]&FBUS_ICR_SRST){
+                IOB_fbus_csr[iob][FBUS_ESR] = 0x0;        /* reset FBUS_ESR */
+            }
+            break;
+
+        case FBUS_SR:
+            if((mem_op_type==ST)&&!override){
+                sim_printf("   IOBfbus_sr- illegal store op\n");
+                return E_DACC;
+            }
+            if(CE_fbus_csr_space[FBUS_ICR]&FBUS_ICR_EC){ /* ill ext cmd */
+                IOB_fbus_csr[iob][FBUS_ESR] = FBUS_ESR_AD; /* addr phase */
+                return E_DACC;     /* causes DACC except */
+            }
+            break;
+
+        case FBUS_ESR:
+            if((mem_op_type==ST)&&!override){
+                sim_printf("   IOBfbus_esr- illegal store op\n");
+                return E_DACC;
+            }
+            break;
+
+        case IOB_FTV_BAR:
+            break;
+
+        case IOB_LRBAR:
+            break;
+
+        case IOB_GEN_INTR_SR:
+            if (size != HALF || !(mem_op_type == LD || mem_op_type == LD_U)) {
+                sim_printf("IOB interrupt status reg, halfword read-only\n");
+                return E_DACC;
+            }
+            break;
+
+        case IOB_VME_INTR_SR:
+            if (size != HALF || !(mem_op_type == LD || mem_op_type == LD_U)) {
+                sim_printf("VME interrupt status reg, halfword read-only\n");
+                return E_DACC;
+            }
+            break;
+
+        case IOB_INTR_MSK:
+            if (size != BYTE || mem_op_type != ST) {
+                sim_printf("IOB VME interrupt mask reg, byte/wrote-only\n");
+                return E_DACC;
+            }
+            break;
+
+        case IOB_INTR_EDGE_RST:
+            if (size != BYTE || mem_op_type != ST) {
+                sim_printf("IOB edge reset is byte/write-only\n");
+                return E_DACC;
+            }
+            if (*reg & 1) {
+                reset_vme_interrupt(10, iob);
+            }
+            if (*reg & 2) {
+                reset_vme_interrupt(8, iob);
+            }
+            if (*reg & 4) {
+                reset_vme_interrupt(11, iob);
+            }
+            if (*reg & 8) {
+                reset_iob_interrupt(0, iob);
+            }
+            break;
+
+        case IOB_INTR_SENT_SR:
+            if (size != HALF || !(mem_op_type == LD || mem_op_type == LD_U)) {
+                sim_printf("IOB interrupt sent reg, halfword read-only\n");
+                return E_DACC;
+            }
+            *reg = *sent_ptr[iob];
+            if (mem_op_type == LD) {
+                *reg = (*reg << 16) >> 16;
+            }
+            return E_NONE;
+
+        case IOB_INTR_SENT_RST:
+            if (size != HALF || mem_op_type != ST) {
+                sim_printf("IOB interrupt sent rest, halfword write-only\n");
+                return E_DACC;
+            }
+            *sent_ptr[iob] |= *reg;
+            check_for_more_interrupts(iob);
+            break;
+
+        case IOB_INTR_PRIOR_SR:
+            if (size != BYTE || !(mem_op_type == LD || mem_op_type == LD_U)) {
+                sim_printf("IOB priority class status is byte/read-only\n");
+                return E_DACC;
+            }
+	    *reg = *priority_class_status[iob];
+            if (mem_op_type == LD) {
+                *reg = (*reg << 24) >> 24;
+            }
+            return E_NONE;
+            
+        default:
+            if (address_offset < 0x400) {
+                    break;          /* simulate IDPROM area */
+            }
+            sim_printf ("iob: warning... address 0x%x not simulated\n",
+                                                   address_offset);
+            break;
+    }
+
+    do_mem_op(reg, &IOB_fbus_csr[iob][address_offset], size, mem_op_type);
+    iob_local_base = *reg & 0xff000000;
+
+    /* 
+     * if MSPC is attached then re-map the IOB local space 
+     */
+    if (!(mem_op_type == LD || mem_op_type == LD_U) &&
+        address_offset == IOB_LRBAR &&
+        IOB_fbus_csr[iob][FBUS_SR] & FBUS_SR_MSPC) {
+        iob_change_local_base(IOB_fbus_csr[iob][IOB_LRBAR] << 24, iob); 
+    }
+    *vme_mask_ptr[iob] &= 0x41;
+    timer_new_vmemask(*vme_mask_ptr[iob] & 0x40);
+    return E_NONE;
+}
+
+/*
+ * This routine is the interface of the I/O Board simualtor to the m88k
+ * simulator.
+ */
+int iob1_operation (address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    int    size;
+    int    mem_op_type;
+    int    override;
+{
+    return iob_operation(address_offset, reg, size, mem_op_type, override, 0);
+}
+
+/*
+ * This routine is the interface of the I/O Board simualtor to the m88k
+ * simulator.
+ */
+int iob2_operation (address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    int    size;
+    int    mem_op_type;
+    int    override;
+{
+    return iob_operation(address_offset, reg, size, mem_op_type, override, 1);
+}
+
+iob_change_local_base(iob_local_base, iob)
+    u_long iob_local_base;
+{
+#define LEN(l) (iob_local_base != 0 ? (l) : 0)
+
+    if (iob_local_base) {
+        io_change_addr(timer_operation,
+                       iob_local_base + IOB_TIMER, 
+                       4 * LEN(32));
+
+        io_change_addr(dmaca_operation,
+                       iob_local_base + IOB_DMAC_A, 
+                       LEN(2048));
+
+        io_change_addr(dmacb_operation,
+                       iob_local_base + IOB_DMAC_B, 
+                       LEN(2048));
+
+        io_change_addr(lanram1_operation,
+                       iob_local_base + IOB_LAN_MEM_BEGIN, 
+                       LEN(256*1024));
+
+        if (iob == 0) {
+            io_change_addr(iob1_ctl_operation,
+                           iob_local_base + IOB_CTL,
+                           LEN(1)); 
+
+            io_change_addr(iob1_stat_operation,
+                           iob_local_base + IOB_STAT,
+                           LEN(1));
+
+            io_change_addr(iob1_ftvmap_operation,
+                           iob_local_base + IOB_FTV_MAP,
+                           LEN(64));
+
+            io_change_addr(iob1_dramc_operation,
+                           iob_local_base + IOB_DRAMC_PROGRAM,
+                           LEN(4));
+        } else {
+            io_change_addr(iob2_ctl_operation,
+                           iob_local_base + IOB_CTL,
+                           LEN(1)); 
+
+            io_change_addr(iob2_stat_operation,
+                           iob_local_base + IOB_STAT,
+                           LEN(1));
+
+            io_change_addr(iob2_ftvmap_operation,
+                           iob_local_base + IOB_FTV_MAP,
+                           LEN(64));
+
+            io_change_addr(iob2_dramc_operation,
+                           iob_local_base + IOB_DRAMC_PROGRAM,
+                           LEN(4));
+        }
+    } 
+#undef LEN
+}
+
+/*
+ * IOB stat_reg simulator
+ */
+static u_char iob_stat_reg[2];
+
+static void iob_stat_init(iob)
+{
+        iob_stat_reg[iob] = 0x3e;   /* PONSW on, others float */
+}
+
+void iob1_stat_init() { iob_stat_init(0); }
+void iob2_stat_init() { iob_stat_init(1); }
+
+static int
+iob_stat_operation(address_offset, reg, size, mem_op_type, override, iob)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    if (size != BYTE) {
+        sim_printf("iob_stat_reg: only byte operations allowed.\n");
+        return E_DACC;
+    }
+
+    if (!override &&
+         (mem_op_type == ST || mem_op_type == XMEM || mem_op_type == XMEM_U)) {
+        sim_printf("iob_stat_reg: read-only register.\n");
+        return E_DACC;
+    }
+
+    if(!(IOB_fbus_csr[iob][FBUS_SR]&FBUS_SR_MSPC)){
+        sim_printf("iob_stat access while MSPC_detached\n");
+        return E_DACC;
+    }
+
+    do_mem_op(reg, &iob_stat_reg[iob], BYTE, mem_op_type);
+    return E_NONE;
+}
+
+int iob1_stat_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_stat_operation(address_offset, reg, size, mem_op_type, override, 0);
+}
+
+int iob2_stat_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_stat_operation(address_offset, reg, size, mem_op_type, override, 1);
+}
+
+void static
+iob_stat_print(iob)
+{
+    sim_printf("iob_stat_reg=0x%x\n", iob_stat_reg[iob]);
+}
+
+void iob1_stat_print() { iob_stat_print(0); }
+void iob2_stat_print() { iob_stat_print(1); }
+
+/*
+ * IOB ctl_reg simulator
+ */
+static u_char iob_ctl_reg[2];
+
+static void
+iob_ctl_init(iob)
+{
+        iob_ctl_reg[iob] = 0x3e;    /* PONSW on, others float */
+}
+
+void iob1_ctl_init() { iob_ctl_init(0); }
+void iob2_ctl_init() { iob_ctl_init(1); }
+
+static int
+iob_ctl_operation(address_offset, reg, size, mem_op_type, override, iob)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    if (size != BYTE) {
+        sim_printf("iob_ctl_reg: only byte operations allowed.\n");
+        return E_ERR;
+    }
+
+    do_mem_op(reg, &iob_ctl_reg[iob], BYTE, mem_op_type);
+    return E_NONE;
+}
+
+int
+iob1_ctl_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_ctl_operation(address_offset, reg, size, mem_op_type, override, 0);
+}
+
+int
+iob2_ctl_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_ctl_operation(address_offset, reg, size, mem_op_type, override, 1);
+}
+
+static void
+iob_ctl_print(iob)
+{
+    sim_printf("iob_ctl_reg=0x%x\n",iob_ctl_reg[iob]);
+}
+
+void iob1_ctl_print() { iob_ctl_print(0); }
+void iob2_ctl_print() { iob_ctl_print(1); }
+
+/*
+ * IOB DRAMC simulator
+ */
+static u_long iob_dramc[2];
+
+void iob2_dramc_init() { /* no initialization */ }
+void iob1_dramc_init() { /* no initialization */ }
+
+static int
+iob_dramc_operation(address_offset, reg, size, mem_op_type, override, iob)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    if(!(IOB_fbus_csr[iob][FBUS_SR]&FBUS_SR_MSPC)){
+        sim_printf("iob_dramc access while MSPC_detached\n");
+        return E_DACC;
+    }
+    if (mem_op_type > WORD) {
+        sim_printf("iob_dramc_operation: double word ops not supported.\n");
+        return E_DACC;
+    }
+
+    do_mem_op(reg, &iob_dramc[iob], size, mem_op_type);
+    return E_NONE;
+}
+
+int
+iob1_dramc_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_dramc_operation(address_offset, reg, size, mem_op_type, override, 0);
+}
+
+int
+iob2_dramc_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_dramc_operation(address_offset, reg, size, mem_op_type, override, 1);
+}
+
+static void
+iob_dramc_print(iob)
+{
+    sim_printf("iob_dramc_addr_offset=0x%x\n",IOB_DRAMC_PROGRAM);
+}
+
+void iob1_dramc_print() { iob_dramc_print(0); }
+void iob2_dramc_print() { iob_dramc_print(1); }
+
+/*
+ * IOB ftvmap simulator
+ */
+
+static u_char iob_ftvmap[2][16*sizeof(long)];
+
+void iob1_ftvmap_init() { /* pwr_up's randomly- no initialization */ }
+void iob2_ftvmap_init() { /* pwr_up's randomly- no initialization */ }
+
+static int
+iob_ftvmap_operation(address_offset, reg, size, mem_op_type, override, iob)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+
+/* only upper and lower byte have storage */
+    do_mem_op(reg, &iob_ftvmap[iob][address_offset], size, mem_op_type);
+    return E_NONE;
+}
+
+int
+iob1_ftvmap_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_ftvmap_operation(address_offset, reg, size, mem_op_type, override, 0);
+}
+
+int
+iob2_ftvmap_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+    return iob_ftvmap_operation(address_offset, reg, size, mem_op_type, override, 1);
+}
+
+void iob_ftvmap_print(iob)
+{
+    int i;
+
+    for(i=0;i<=15;i++){
+        sim_printf("iob_ftvmap[%d]=0x%x\n",
+                                i,   *(int *)&iob_ftvmap[iob][i*sizeof(long)]);
+    } 
+
+}
+
+void iob1_ftvmap_print() { iob_ftvmap_print(0); }
+void iob2_ftvmap_print() { iob_ftvmap_print(1); }
+@
+
+
+1.24
+log
+@Fixed simulation of the priority class status register, to match
+the actual hardware.
+@
+text
+@d10 1
+a10 1
+ * $Header: iob.c,v 1.23 88/09/08 11:40:39 andrew Exp $
+d16 2
+a17 2
+#include "../bb_hdrs/FBUS_defs.h"
+#include "../bb_hdrs/IOB_defs.h"
+@
+
+
+1.23
+log
+@When the VME INTERRUPT ENABLE register changes, call timer_new_vmemask
+with the new bit value.  This allows the timer to generate interrupts
+only when this mask enables them.
+@
+text
+@d5 1
+a5 1
+ * slots 1 and 4 respectively
+d7 1
+a7 2
+ *
+ * Copyright (C) 1987, Tektronix, Inc.
+d10 1
+a10 1
+ * $Header: iob.c,v 1.22 88/09/08 09:34:07 andrew Exp $
+d29 1
+a29 1
+static u_short sent_save[2];
+d89 4
+d124 2
+a125 3
+    sim_printf("    priority class status register=0x%x\n", 
+                                                         sent_save[iob] & 0xff);
+    sim_printf("    sent status at last SR read=0x%x\n", sent_save[iob]);
+d181 3
+d215 2
+d221 4
+a367 1
+            sent_save[iob] = *sent_ptr[iob];
+d408 1
+a408 1
+            *reg = sent_save[iob];
+a412 1
+            break;
+d428 1
+a428 1
+            *reg = sent_save[iob] & 0xff;
+a432 1
+            break;
+@
+
+
+1.22
+log
+@New implementation of VME interrupt enable: byte not halfword,
+includes timer interrupt enable bit.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.21 88/07/20 22:40:37 andrew Exp $
+d447 1
+@
+
+
+1.21
+log
+@Header file "../bb_hdrs/BB_defs.h" is gone, but it wasn't needed anyway.
+Deleted the #include.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.20 88/06/22 14:25:12 brents Exp $
+d33 1
+a33 1
+static u_short *vme_mask_ptr[2];
+d93 1
+a93 1
+    vme_mask_ptr[iob] = (u_short *)&IOB_fbus_csr[iob][IOB_VME_INTR_MSK];
+d116 3
+a118 1
+                                  *vme_mask_ptr[iob] ? "" : "not ");
+d235 1
+a235 1
+        if (*vme_mask_ptr) {
+d367 3
+a369 3
+        case IOB_VME_INTR_MSK:
+            if (size != HALF) {
+                sim_printf("IOB VME interrupt mask reg, halfword only\n");
+d446 1
+a446 1
+    *vme_mask_ptr[iob] &= 1;
+@
+
+
+1.20
+log
+@changed FBUS ID brdnum
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.19 88/05/26 18:46:11 robertb Exp $
+a16 1
+#include "../bb_hdrs/BB_defs.h"
+@
+
+
+1.19
+log
+@fixed the interrupt simulator.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.18 88/05/20 20:53:49 robertb Exp $
+d62 7
+a68 4
+    IOB_fbus_csr[iob][0x13] = '9';
+    IOB_fbus_csr[iob][0x17] = '0';
+    IOB_fbus_csr[iob][0x1b] = '0';
+    IOB_fbus_csr[iob][0x1f] = '1';
+@
+
+
+1.18
+log
+@tweaks.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.17 88/05/20 16:59:23 robertb Exp $
+d120 1
+d154 5
+a158 1
+static iob_class_map[9] = { 9, 5, 5, 5, 5, 5, 5, 5, 7 };
+d180 2
+d184 19
+a205 2
+    u_long sr, i;
+
+d210 1
+a210 14
+
+        /*
+         * Check to see if there is another general interrupt
+         * waiting to be sent.
+         */
+        sr = *sr_ptr[iob];
+        if (sr != 0xffff) {
+            for (i = 0 ; i < 9 ; i++) {
+                if ((sr & 1) == 0) {
+                    set_iob_interrupt(i, iob);
+                }
+                sr >>= 1;
+            }
+        }
+d407 1
+@
+
+
+1.17
+log
+@Fixed bug, now the IOB interrupts seem to work.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.16 88/05/18 10:00:10 robertb Exp $
+d194 1
+a194 1
+                if (sr & 1) {
+d395 1
+a395 1
+            *sent_ptr[iob] &= ~*reg;
+d470 1
+a470 1
+                       LEN(32));
+@
+
+
+1.16
+log
+@bunch of fixes.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.15 88/05/14 16:54:54 robertb Exp $
+a35 2
+static u_char *prio_sr_ptr[2];
+
+a92 3
+
+    prio_sr_ptr[iob] = (u_char *)&IOB_fbus_csr[iob][IOB_INTR_PRIOR_SR];
+    *prio_sr_ptr[iob] = 0xff;
+d117 2
+a118 1
+    sim_printf("    priority class status register=0x%x\n", *prio_sr_ptr[iob]);
+d342 1
+a349 1
+            sent_save[iob] = *sent_ptr[iob];
+@
+
+
+1.15
+log
+@many tweaks, not done yet.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.14 88/05/13 17:54:14 robertb Exp $
+d36 1
+a36 2
+static u_short *prio_sr_ptr[2];
+static u_short prio_sr_save[2];
+d72 1
+a72 1
+    IOB_fbus_csr[iob][FBUS_SR] = 1;       /* fbus_slot1 */
+d108 1
+a108 1
+    sim_printf("IOB in slot %d: Futurebus CSR Space\n", iob);
+a123 2
+    sim_printf("    priority class status at last SR read=0x%x\n", 
+                                                         prio_sr_save[iob]);
+d184 2
+d190 14
+d236 2
+d242 14
+d287 1
+a287 1
+            iob_change_local_base(iob_local_base);
+d297 1
+a297 1
+            iob_change_local_base(0);
+a338 12
+            if (size != WORD || mem_op_type != ST) {
+                sim_printf("IOB Local base register is word/write-only\n");
+                return E_DACC;
+            }
+            iob_local_base = *reg & 0xff000000;
+
+            /* 
+             * if MSPC is attached then re-map the IOB local space 
+             */
+            if(IOB_fbus_csr[iob][FBUS_SR]&FBUS_SR_MSPC){
+                iob_change_local_base(iob_local_base); 
+            }
+a353 1
+            prio_sr_save[iob] = *prio_sr_ptr[iob];
+d407 1
+a407 1
+            *reg = prio_sr_save[iob];
+d409 1
+a409 1
+                *reg = (*reg << 16) >> 16;
+d424 10
+d466 1
+a466 1
+iob_change_local_base(iob_local_base)
+d469 54
+a522 19
+    if(iob_local_base){
+        io_change_addr(timer_operation,iob_local_base+IOB_TIMER, 32);
+        io_change_addr(dmaca_operation,iob_local_base+IOB_DMAC_A, 2048);
+        io_change_addr(dmacb_operation,iob_local_base+IOB_DMAC_B, 2048);
+        io_change_addr(lanram1_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 256*1024);
+        io_change_addr(iob1_ctl_operation,iob_local_base+IOB_CTL,1); 
+        io_change_addr(iob1_stat_operation,iob_local_base+IOB_STAT,1);
+        io_change_addr(iob1_ftvmap_operation,iob_local_base+IOB_FTV_MAP,64);
+        io_change_addr(iob1_dramc_operation,iob_local_base+IOB_DRAMC_PROGRAM,4);
+    }else{
+        io_change_addr(timer_operation,iob_local_base+IOB_TIMER, 0);
+        io_change_addr(dmaca_operation,iob_local_base+IOB_DMAC_A, 0);
+        io_change_addr(dmacb_operation,iob_local_base+IOB_DMAC_B, 0);
+        io_change_addr(lanram1_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 0);
+        io_change_addr(iob1_ctl_operation,iob_local_base+IOB_CTL, 0); 
+        io_change_addr(iob1_stat_operation,iob_local_base+IOB_STAT, 0);
+        io_change_addr(iob1_ftvmap_operation,iob_local_base+IOB_FTV_MAP, 0);
+        io_change_addr(iob1_dramc_operation,iob_local_base+IOB_DRAMC_PROGRAM,0);
+    }
+d674 1
+a674 1
+        sim_printf("iob1_dramc access while MSPC_detached\n");
+d677 4
+d711 1
+a711 1
+    sim_printf("iob1_dramc_addr_offset=0x%x\n",IOB_DRAMC_PROGRAM);
+d721 1
+a721 1
+static u_char iob1_ftvmap[2][16*sizeof(long)];
+d736 1
+a736 1
+    do_mem_op(reg, &iob1_ftvmap[iob][address_offset], size, mem_op_type);
+d767 2
+a768 2
+        sim_printf("iob1_ftvmap[%d]=0x%x\n",
+                                i,   *(int *)&iob1_ftvmap[iob][i*sizeof(long)]);
+@
+
+
+1.14
+log
+@closer to real hardware.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.13 88/05/11 17:05:55 robertb Exp $
+d29 1
+d31 2
+d35 1
+d37 1
+d95 1
+a95 1
+    *vme_mask_ptr = 0;
+d97 2
+a98 2
+    prio_sr_ptr[iob] = (u_short *)&IOB_fbus_csr[iob][IOB_INTR_PRIOR_SR];
+    *prio_sr_ptr[iob] = 0xffff;
+d124 3
+d235 1
+a235 1
+    u_long *reg;
+d272 1
+a272 1
+            iob1_init();
+d310 5
+a314 1
+            iob_local_base = *(u_char *)reg << 24;
+d336 2
+d371 5
+d391 5
+@
+
+
+1.13
+log
+@Added IOB simulator.
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.12 88/03/01 14:55:39 brents Exp $
+d32 1
+d81 1
+a81 1
+    *sr_ptr[iob] = 0;
+d84 1
+a84 1
+    *sent_ptr[iob] = 0;
+d87 1
+a87 1
+    *vme_sr_ptr[iob] =0;
+d91 3
+d114 3
+a116 1
+
+d118 1
+d145 1
+a145 1
+    if ((1 << class) & *sent_ptr[iob]) {
+d148 1
+a148 1
+    *sent_ptr[iob] |= 1 << class;
+d167 1
+a167 1
+        *sr_ptr[iob] |= 1 << bit;
+d182 1
+a182 1
+        *sr_ptr[iob] &= ~(1 << bit);
+d201 1
+a201 1
+        *vme_sr_ptr[iob] |= 1 << bit;
+d203 3
+a205 1
+        send_interrupt(class, iob);
+d218 1
+a218 1
+        *vme_sr_ptr[iob] &= ~(1 << bit);
+a323 2
+            *reg = *vme_sr_ptr[iob] & *vme_mask_ptr[iob];
+            return E_NONE;
+d384 1
+@
+
+
+1.12
+log
+@corrected improper array declarations
+@
+text
+@d1 1
+a1 1
+/*------------------------------------------------------------------------
+d11 1
+a11 2
+ * $Header: iob.c,v 1.11 88/02/29 16:20:41 brents Exp $
+ *------------------------------------------------------------------------
+d23 4
+a26 4
+u_char  IOB1_fbus_csr_space[4096];
+int     IOB1_reset;
+int	IOB1_parity;
+int     IOB1_mspc;
+d28 6
+a33 3
+/*------------------------------------------------------------------------
+ * iob1_init()
+ *
+a36 1
+ *------------------------------------------------------------------------
+d38 3
+d42 3
+a44 3
+void    iob1_init()
+    {
+        int    i;
+d46 5
+a50 28
+        IOB1_parity = 0;
+        IOB1_reset = 0;
+	IOB1_mspc = 0;
+
+        /* clear out the simulated CSR space */
+        for (i = 0;    i < 4096;    i++) {
+            IOB1_fbus_csr_space[i] = 0xff;
+        }
+
+        /* Initialize the ID PROM */
+	IOB1_fbus_csr_space[0x03] = 'T';
+	IOB1_fbus_csr_space[0x07] = 'e';
+	IOB1_fbus_csr_space[0x0b] = 'k';
+	IOB1_fbus_csr_space[0x0f] = ' ';
+
+	IOB1_fbus_csr_space[0x13] = '9';
+	IOB1_fbus_csr_space[0x17] = '0';
+	IOB1_fbus_csr_space[0x1b] = '0';
+	IOB1_fbus_csr_space[0x1f] = '1';
+
+/* init FBUS_SR reg */
+	IOB1_fbus_csr_space[FBUS_SR] = 1;	/* fbus_slot1 */
+/* init FBUS_ICR reg */
+	IOB1_fbus_csr_space[FBUS_ICR] = 0x0;	/* zeroed on pwr_up */
+/* FBUS_ESR reg pwrsup randomly */
+	IOB1_fbus_csr_space[FBUS_ESR] = 0xee;
+
+        /* call init routines for I/O board devices */
+a51 7
+
+/*------------------------------------------------------------------------
+ * iob1_print()
+ *
+ * Print information about the I/O Board.
+ *------------------------------------------------------------------------
+ */
+d53 5
+a57 5
+void    iob1_print()
+    {
+        sim_printf("IOB in slot 1: Futurebus CSR Space\n");
+        sim_printf("   Local base address register: 0x%x\n", 
+                             IOB1_fbus_csr_space[IOB_LRBAR] << 24);
+d59 4
+a62 16
+        sim_printf("    FTV base address register: 0x%x\n", 
+                             IOB1_fbus_csr_space[IOB_FTV_BAR] << 24);
+        sim_printf("    PARITY is %s\n", IOB1_parity ? "enabled" : "disabled");
+        sim_printf("    MSPC is %s\n", IOB1_mspc ? "enabled" : "disabled");
+        sim_printf("    IRST is %s asserted\n", 
+                                      IOB1_reset ? "" : "not");
+    }
+
+/*------------------------------------------------------------------------
+ * iob1_operation()
+ *
+ * This routine is the interface of the I/O Board simualtor to the m78k
+ * simulator.
+ *
+ *------------------------------------------------------------------------
+ */
+d64 4
+a67 6
+int    iob1_operation (address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    int    size;
+    int    mem_op_type;
+    int    override;
+d69 4
+a72 1
+    {
+d74 4
+a77 1
+	u_long iob_local_base;
+d79 2
+a80 5
+        switch (address_offset) {
+            case FBUS_FUNC_PAR_ENABLE:
+                IOB1_parity = 1;
+		IOB1_fbus_csr_space[FBUS_SR] |= FBUS_SR_PON;
+                break;
+d82 2
+a83 4
+            case FBUS_FUNC_PAR_DISABLE:
+                IOB1_parity = 0;
+		IOB1_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_PON;
+                break;
+d85 2
+a86 7
+            case FBUS_FUNC_MSPC_ATTACH:
+                IOB1_mspc = 1;
+		IOB1_fbus_csr_space[FBUS_SR] |= FBUS_SR_MSPC;
+/* re-attach the IOB local space- based on LRBAR reg value */
+		iob_local_base = (u_long)(IOB1_fbus_csr_space[IOB_LRBAR]<<24);
+		iob1_change_local_base(iob_local_base);
+                break;
+d88 3
+a90 6
+            case FBUS_FUNC_MSPC_DETACH:
+                IOB1_mspc = 0;
+		IOB1_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_MSPC;
+/* detach the IOB local space */
+		iob1_change_local_base(0);
+                break;
+d92 2
+a93 5
+            case FBUS_FUNC_IRST_ON:
+                iob1_init();
+                IOB1_reset = 1;
+		IOB1_fbus_csr_space[FBUS_SR] |= FBUS_SR_IRST;
+                break;
+d95 8
+a102 4
+            case FBUS_FUNC_IRST_OFF:
+                IOB1_reset = 0;
+		IOB1_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_IRST;
+                break;
+d104 6
+a109 5
+            case FBUS_ICR:
+		if(IOB1_fbus_csr_space[FBUS_ICR]&FBUS_ICR_SRST){
+		    IOB1_fbus_csr_space[FBUS_ESR] = 0x0;	/* reset FBUS_ESR */
+		}
+                break;
+d111 2
+a112 10
+            case FBUS_SR:
+		if((mem_op_type==ST)&&!override){
+		    sim_printf("   IOB1fbus_sr- illegal store op\n");
+		    return(E_DACC);
+		}
+		if(CE_fbus_csr_space[FBUS_ICR]&FBUS_ICR_EC){ /* ill ext cmd */
+		    IOB1_fbus_csr_space[FBUS_ESR] = FBUS_ESR_AD; /* addr phase */
+		    return(E_DACC);	/* causes DACC except */
+		}
+                break;
+d114 2
+a115 6
+            case FBUS_ESR:
+		if((mem_op_type==ST)&&!override){
+		    sim_printf("   IOBfbus_esr- illegal store op\n");
+		    return(E_DACC);
+		}
+                break;
+d117 4
+a120 2
+            case IOB_FTV_BAR:
+                break;
+d122 7
+a128 26
+            case IOB_LRBAR:
+                iob_local_base = *(u_char *)reg << 24;
+/* if MSPC is attached then re-map the IOB local space */
+		if(IOB1_fbus_csr_space[FBUS_SR]&FBUS_SR_MSPC){
+		    iob1_change_local_base(iob_local_base); 
+		}
+                break;
+
+            default:
+		if((address_offset>0) && (address_offset<0x400)){
+			break;		/* simulate IDPROM area */
+		}
+                sim_printf ("iob1: warning... address 0x%x not simulated\n",
+                                                       address_offset);
+                break;
+        }
+
+        /* do operation */
+        do_mem_op (reg, &IOB1_fbus_csr_space[address_offset], 
+                   size, mem_op_type);
+
+        return (E_NONE);
+    }
+
+iob1_change_local_base(iob_local_base)
+u_long iob_local_base;
+d130 3
+a132 19
+
+    if(iob_local_base){
+        io_change_addr(timer_operation,iob_local_base+IOB_TIMER, 32);
+        io_change_addr(dmaca_operation,iob_local_base+IOB_DMAC_A, 2048);
+        io_change_addr(dmacb_operation,iob_local_base+IOB_DMAC_B, 2048);
+        io_change_addr(lanram1_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 256*1024);
+        io_change_addr(iob1_ctl_operation,iob_local_base+IOB_CTL,1); 
+        io_change_addr(iob1_stat_operation,iob_local_base+IOB_STAT,1);
+        io_change_addr(iob1_ftvmap_operation,iob_local_base+IOB_FTV_MAP,64);
+	io_change_addr(iob1_dramc_operation,iob_local_base+IOB_DRAMC_PROGRAM,4);
+    }else{
+        io_change_addr(timer_operation,iob_local_base+IOB_TIMER, 0);
+        io_change_addr(dmaca_operation,iob_local_base+IOB_DMAC_A, 0);
+        io_change_addr(dmacb_operation,iob_local_base+IOB_DMAC_B, 0);
+        io_change_addr(lanram1_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 0);
+        io_change_addr(iob1_ctl_operation,iob_local_base+IOB_CTL, 0); 
+        io_change_addr(iob1_stat_operation,iob_local_base+IOB_STAT, 0);
+        io_change_addr(iob1_ftvmap_operation,iob_local_base+IOB_FTV_MAP, 0);
+	io_change_addr(iob1_dramc_operation,iob_local_base+IOB_DRAMC_PROGRAM,0);
+d134 9
+d145 2
+d148 2
+a149 1
+ * IOB stat_reg simulator
+a150 3
+
+static u_char iob1_stat_reg;
+
+d152 2
+a153 1
+iob1_stat_init()
+d155 1
+a155 2
+	iob1_stat_reg = 0x3e;	/* PONSW on, others float */
+}
+d157 6
+a162 12
+int
+iob1_stat_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+
+    if (size != BYTE) {
+        sim_printf("iob1_stat_reg: only byte operations allowed.\n");
+        return E_DACC;
+a163 14
+
+    if (!override &&
+         (mem_op_type == ST || mem_op_type == XMEM || mem_op_type == XMEM_U)) {
+        sim_printf("iob1_stat_reg: read-only register.\n");
+        return E_DACC;
+    }
+
+    if(!(IOB1_fbus_csr_space[FBUS_SR]&FBUS_SR_MSPC)){
+	sim_printf("iob1_stat access while MSPC_detached\n");
+	return E_DACC;
+    }
+
+    do_mem_op(reg, &iob1_stat_reg, BYTE, mem_op_type);
+    return E_NONE;
+d166 2
+d169 2
+a170 1
+iob1_stat_print()
+d172 6
+d179 1
+a179 1
+    sim_printf("iob1_stat_reg=0x%x\n",iob1_stat_reg);
+a180 2
+}
+
+d182 2
+a183 1
+ * IOB ctl_reg simulator
+a184 3
+
+static u_char iob1_ctl_reg;
+
+d186 2
+a187 1
+iob1_ctl_init()
+d189 1
+a189 2
+	iob1_ctl_reg = 0x3e;	/* PONSW on, others float */
+}
+d191 6
+a196 12
+int
+iob1_ctl_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+
+    if (size != BYTE) {
+        sim_printf("iob1_ctl_reg: only byte operations allowed.\n");
+        return E_DACC;
+a197 3
+
+    do_mem_op(reg, &iob1_ctl_reg, BYTE, mem_op_type);
+    return E_NONE;
+d200 2
+d203 2
+a204 1
+iob1_ctl_print()
+d206 5
+a210 1
+    sim_printf("iob1_ctl_reg=0x%x\n",iob1_ctl_reg);
+d214 1
+a214 1
+ * IOB DRAMC simulator
+d216 1
+a216 11
+
+static u_long iob1_dramc;
+
+void
+iob1_dramc_init()
+{
+	/* no initialization */
+}
+
+int
+iob1_dramc_operation(address_offset, reg, size, mem_op_type, override)
+a218 3
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+d220 1
+d222 5
+a226 4
+    if(!(IOB1_fbus_csr_space[FBUS_SR]&FBUS_SR_MSPC)){
+	sim_printf("iob1_dramc access while MSPC_detached\n");
+	return E_DACC;
+    }
+d228 4
+a231 3
+    do_mem_op(reg, &iob1_dramc, size, mem_op_type);
+    return E_NONE;
+}
+d233 3
+a235 4
+void
+iob1_dramc_print()
+{
+    sim_printf("iob1_dramc_addr_offset=0x%x\n",IOB_DRAMC_PROGRAM);
+d237 6
+a242 1
+}
+d244 3
+d248 5
+a252 3
+/*
+ * IOB ftvmap simulator
+ */
+d254 5
+a258 1
+static u_char iob1_ftvmap[16*sizeof(long)];
+d260 4
+a263 5
+void
+iob1_ftvmap_init()
+{
+	/* pwr_up's randomly- no initialization */
+}
+d265 5
+a269 8
+int
+iob1_ftvmap_operation(address_offset, reg, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+d271 10
+a280 4
+/* only upper and lower byte have storage */
+    do_mem_op(reg, &iob1_ftvmap[address_offset], size, mem_op_type);
+    return E_NONE;
+}
+d282 6
+a287 4
+void
+iob1_ftvmap_print()
+{
+    int i;
+d289 2
+a290 4
+    for(i=0;i<=15;i++){
+        sim_printf("iob1_ftvmap[%d]=0x%x\n",
+                                i,   *(int *)&iob1_ftvmap[i*sizeof(long)]);
+    } 
+d292 2
+a293 1
+}
+d295 7
+d303 6
+a308 4
+u_char  IOB2_fbus_csr_space[4096];
+int     IOB2_reset;
+int	IOB2_parity;
+int     IOB2_mspc;
+d310 8
+a317 3
+void    iob2_init()
+    {
+        int    i;
+d319 6
+a324 3
+        IOB2_parity = 0;
+        IOB2_reset = 0;
+	IOB2_mspc = 0;
+d326 18
+a343 4
+        /* clear out the simulated CSR space */
+        for (i = 0;    i < 4096;    i++) {
+            IOB2_fbus_csr_space[i] = 0xff;
+        }
+d345 6
+a350 5
+        /* Initialize the ID PROM */
+	IOB2_fbus_csr_space[0x03] = 'T';
+	IOB2_fbus_csr_space[0x07] = 'e';
+	IOB2_fbus_csr_space[0x0b] = 'k';
+	IOB2_fbus_csr_space[0x0f] = ' ';
+d352 7
+a358 4
+	IOB2_fbus_csr_space[0x13] = '9';
+	IOB2_fbus_csr_space[0x17] = '0';
+	IOB2_fbus_csr_space[0x1b] = '0';
+	IOB2_fbus_csr_space[0x1f] = '1';
+d360 14
+a373 8
+/* init FBUS_SR reg */
+	IOB2_fbus_csr_space[FBUS_SR] = 4;	/* fbus_slot4 */
+/* init FBUS_ICR reg */
+	IOB2_fbus_csr_space[FBUS_ICR] = 0x0;	/* zeroed on pwr_up */
+/* FBUS_ESR reg pwrsup randomly */
+	IOB2_fbus_csr_space[FBUS_ESR] = 0xee;
+
+        /* call init routines for I/O board devices */
+a374 7
+
+/*------------------------------------------------------------------------
+ * iob2_print()
+ *
+ * Print information about the I/O Board.
+ *------------------------------------------------------------------------
+ */
+d376 3
+a378 5
+void    iob2_print()
+    {
+        sim_printf("IOB in slot 4: Futurebus CSR Space\n");
+        sim_printf("   Local base address register: 0x%x\n", 
+                             IOB2_fbus_csr_space[IOB_LRBAR] << 24);
+d380 2
+a381 12
+        sim_printf("    FTV base address register: 0x%x\n", 
+                             IOB2_fbus_csr_space[IOB_FTV_BAR] << 24);
+        sim_printf("    PARITY is %s\n", IOB2_parity ? "enabled" : "disabled");
+        sim_printf("    MSPC is %s\n", IOB2_mspc ? "enabled" : "disabled");
+        sim_printf("    IRST is %s asserted\n", 
+                                      IOB2_reset ? "" : "not");
+    }
+
+/*------------------------------------------------------------------------
+ * iob2_operation()
+ *
+ * This routine is the interface of the I/O Board simualtor to the m78k
+a382 2
+ *
+ *------------------------------------------------------------------------
+d384 1
+a384 2
+
+int    iob2_operation (address_offset, reg, size, mem_op_type, override)
+d390 3
+a393 92
+    {
+
+	u_long iob_local_base;
+
+        switch (address_offset) {
+            case FBUS_FUNC_PAR_ENABLE:
+                IOB2_parity = 1;
+		IOB2_fbus_csr_space[FBUS_SR] |= FBUS_SR_PON;
+                break;
+
+            case FBUS_FUNC_PAR_DISABLE:
+                IOB2_parity = 0;
+		IOB2_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_PON;
+                break;
+
+            case FBUS_FUNC_MSPC_ATTACH:
+                IOB2_mspc = 1;
+		IOB2_fbus_csr_space[FBUS_SR] |= FBUS_SR_MSPC;
+/* re-attach the IOB local space- based on LRBAR reg value */
+		iob_local_base = (u_long)(IOB2_fbus_csr_space[IOB_LRBAR]<<24);
+		iob2_change_local_base(iob_local_base);
+                break;
+
+            case FBUS_FUNC_MSPC_DETACH:
+                IOB2_mspc = 0;
+		IOB2_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_MSPC;
+/* detach the IOB local space */
+		iob2_change_local_base(0);
+                break;
+
+            case FBUS_FUNC_IRST_ON:
+                iob2_init();
+                IOB2_reset = 1;
+		IOB2_fbus_csr_space[FBUS_SR] |= FBUS_SR_IRST;
+                break;
+
+            case FBUS_FUNC_IRST_OFF:
+                IOB2_reset = 0;
+		IOB2_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_IRST;
+                break;
+
+            case FBUS_ICR:
+		if(IOB2_fbus_csr_space[FBUS_ICR]&FBUS_ICR_SRST){
+		    IOB2_fbus_csr_space[FBUS_ESR] = 0x0;	/* reset FBUS_ESR */
+		}
+                break;
+
+            case FBUS_SR:
+		if((mem_op_type==ST)&&!override){
+		    sim_printf("   IOB2fbus_sr- illegal store op\n");
+		    return(E_DACC);
+		}
+		if(CE_fbus_csr_space[FBUS_ICR]&FBUS_ICR_EC){ /* ill ext cmd */
+		    IOB2_fbus_csr_space[FBUS_ESR] = FBUS_ESR_AD; /* addr phase */
+		    return(E_DACC);	/* causes DACC except */
+		}
+                break;
+
+            case FBUS_ESR:
+		if((mem_op_type==ST)&&!override){
+		    sim_printf("   IOB2fbus_esr- illegal store op\n");
+		    return(E_DACC);
+		}
+                break;
+
+            case IOB_FTV_BAR:
+                break;
+
+            case IOB_LRBAR:
+                iob_local_base = *(u_char *)reg << 24;
+/* if MSPC is attached then re-map the IOB local space */
+		if(IOB2_fbus_csr_space[FBUS_SR]&FBUS_SR_MSPC){
+		    iob2_change_local_base(iob_local_base); 
+		}
+                break;
+
+            default:
+		if((address_offset>0) && (address_offset<0x400)){
+			break;		/* simulate IDPROM area */
+		}
+                sim_printf ("iob2: warning... address 0x%x not simulated\n",
+                                                       address_offset);
+                break;
+        }
+
+        /* do operation */
+        do_mem_op (reg, &IOB2_fbus_csr_space[address_offset], 
+                   size, mem_op_type);
+
+        return (E_NONE);
+    }
+
+d395 2
+a396 1
+ * This changes the ...
+d398 6
+a403 2
+iob2_change_local_base(iob_local_base)
+u_long iob_local_base;
+d405 2
+d408 3
+d415 5
+a419 5
+        io_change_addr(lanram2_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 256*1024);
+        io_change_addr(iob2_ctl_operation,iob_local_base+IOB_CTL,1); 
+        io_change_addr(iob2_stat_operation,iob_local_base+IOB_STAT,1);
+        io_change_addr(iob2_ftvmap_operation,iob_local_base+IOB_FTV_MAP,64);
+        io_change_addr(iob2_dramc_operation,iob_local_base+IOB_DRAMC_PROGRAM,4); 
+d424 5
+a428 5
+        io_change_addr(lanram2_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 0);
+        io_change_addr(iob2_ctl_operation,iob_local_base+IOB_CTL, 0); 
+        io_change_addr(iob2_stat_operation,iob_local_base+IOB_STAT, 0);
+        io_change_addr(iob2_ftvmap_operation,iob_local_base+IOB_FTV_MAP, 0);
+        io_change_addr(iob2_dramc_operation,iob_local_base+IOB_DRAMC_PROGRAM,0);
+a431 1
+
+d435 1
+d437 1
+a437 4
+static u_char iob2_stat_reg;
+
+void
+iob2_stat_init()
+d439 1
+a439 1
+	iob2_stat_reg = 0x3e;	/* PONSW on, others float */
+d442 5
+a446 2
+int
+iob2_stat_operation(address_offset, reg, size, mem_op_type, override)
+a452 1
+
+d454 1
+a454 1
+        sim_printf("iob2_stat_reg: only byte operations allowed.\n");
+d460 1
+a460 1
+        sim_printf("iob2_stat_reg: read-only register.\n");
+d464 3
+a466 3
+    if(!(IOB2_fbus_csr_space[FBUS_SR]&FBUS_SR_MSPC)){
+	sim_printf("iob2_stat access while MSPC_detached\n");
+	return E_DACC;
+d469 1
+a469 1
+    do_mem_op(reg, &iob2_stat_reg, BYTE, mem_op_type);
+d473 6
+a478 2
+void
+iob2_stat_print()
+d480 2
+a481 1
+    int i;
+d483 9
+a491 1
+    sim_printf("iob2_stat_reg=0x%x\n",iob2_stat_reg);
+d493 4
+d499 3
+d505 1
+d507 2
+a508 4
+static u_char iob2_ctl_reg;
+
+void
+iob2_ctl_init()
+d510 1
+a510 1
+	iob2_ctl_reg = 0x3e;	/* PONSW on, others float */
+d513 5
+a517 2
+int
+iob2_ctl_operation(address_offset, reg, size, mem_op_type, override)
+a523 1
+
+d525 2
+a526 2
+        sim_printf("iob2_ctl_reg: only byte operations allowed.\n");
+        return E_DACC;
+d529 1
+a529 1
+    do_mem_op(reg, &iob2_ctl_reg, BYTE, mem_op_type);
+d533 7
+a539 2
+void
+iob2_ctl_print()
+d541 1
+a541 1
+    sim_printf("iob2_ctl_reg=0x%x\n",iob2_ctl_reg);
+d543 21
+d567 1
+d569 2
+a570 1
+static u_long iob2_dramc;
+d572 7
+a578 2
+void
+iob2_dramc_init()
+d580 7
+a586 1
+	/* no initialization */
+d590 11
+d608 1
+a608 8
+
+    if(!(IOB2_fbus_csr_space[FBUS_SR]&FBUS_SR_MSPC)){
+	sim_printf("iob2_dramc access while MSPC_detached\n");
+	return E_DACC;
+    }
+
+    do_mem_op(reg, &iob2_dramc, size, mem_op_type);
+    return E_NONE;
+d611 2
+a612 2
+void
+iob2_dramc_print()
+d614 1
+a614 2
+    sim_printf("iob2_dramc_addr_offset=0x%x\n",IOB_DRAMC_PROGRAM);
+
+d617 3
+d624 1
+a624 1
+static u_char iob2_ftvmap[16 * sizeof(long)];
+d626 10
+a635 2
+void
+iob2_ftvmap_init()
+d637 4
+a640 1
+	/* pwr_up's randomly- no initialization */
+d644 11
+d662 1
+a662 4
+
+/* only upper and lower byte have storage */
+    do_mem_op(reg, &iob2_ftvmap[address_offset], size, mem_op_type);
+    return E_NONE;
+d665 1
+a665 2
+void
+iob2_ftvmap_print()
+d670 2
+a671 2
+        sim_printf("iob2_ftvmap[%d]=0x%x\n",
+                                i,   *(int *)&iob2_ftvmap[i*sizeof(long)]);
+d675 3
+@
+
+
+1.11
+log
+@added iob_dramc
+@
+text
+@d11 1
+a11 1
+ * $Header: iob.c,v 1.10 88/02/29 15:44:21 brents Exp $
+d53 3
+a55 3
+	IOB1_fbus_csr_space[0x07] = 'E';
+	IOB1_fbus_csr_space[0x0b] = 'K';
+	IOB1_fbus_csr_space[0x0f] = 'T';
+d353 1
+a353 1
+static u_long iob1_ftvmap[16];
+d381 2
+a382 1
+        sim_printf("iob1_ftvmap[%d]=0x%x\n",i,iob1_ftvmap[i]);
+d408 3
+a410 3
+	IOB2_fbus_csr_space[0x07] = 'E';
+	IOB2_fbus_csr_space[0x0b] = 'K';
+	IOB2_fbus_csr_space[0x0f] = 'T';
+d556 3
+d711 1
+a711 1
+static u_long iob2_ftvmap[16];
+d739 2
+a740 1
+        sim_printf("iob2_ftvmap[%d]=0x%x\n",i,iob2_ftvmap[i]);
+@
+
+
+1.10
+log
+@two iob support
+@
+text
+@d11 1
+a11 1
+ * $Header: iob1.c,v 1.9 88/02/26 12:41:25 brents Exp $
+d213 1
+d222 1
+a225 1
+
+a269 1
+    int i;
+d312 38
+d563 1
+a563 1
+        io_change_addr(lanram1_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 256*1024);
+d567 1
+d572 1
+a572 1
+        io_change_addr(lanram1_operation,iob_local_base+IOB_LAN_MEM_BEGIN, 0);
+d576 1
+d665 36
+@
+
+
+1.9
+log
+@brents got rid of redeclaration of PAGE_SIZE
+@
+text
+@d4 2
+a5 1
+ * This module simulates the FBus CSR space of the I/O Board.
+d11 1
+a11 1
+ * $Header: iob.c,v 1.8 88/02/25 14:55:29 brents Exp $
+d24 4
+a27 4
+u_char  IOB_fbus_csr_space[4096];
+int     IOBreset;
+int	IOBparity;
+int     IOBmspc;
+d30 1
+a30 1
+ * iob_init()
+d38 1
+a38 1
+void    iob_init()
+d42 3
+a44 3
+        IOBparity = 0;
+        IOBreset = 0;
+	IOBmspc = 0;
+d48 1
+a48 1
+            IOB_fbus_csr_space[i] = 0xff;
+d52 4
+a55 4
+	IOB_fbus_csr_space[0x03] = 'T';
+	IOB_fbus_csr_space[0x07] = 'E';
+	IOB_fbus_csr_space[0x0b] = 'K';
+	IOB_fbus_csr_space[0x0f] = 'T';
+d57 4
+a60 4
+	IOB_fbus_csr_space[0x13] = '9';
+	IOB_fbus_csr_space[0x17] = '0';
+	IOB_fbus_csr_space[0x1b] = '0';
+	IOB_fbus_csr_space[0x1f] = '1';
+d63 1
+a63 1
+	IOB_fbus_csr_space[FBUS_SR] = 1;	/* fbus_slot1 only */
+d65 1
+a65 1
+	IOB_fbus_csr_space[FBUS_ICR] = 0x0;	/* zeroed on pwr_up */
+d67 1
+a67 1
+	IOB_fbus_csr_space[FBUS_ESR] = 0xee;
+d73 1
+a73 1
+ * iob_print()
+d79 1
+a79 1
+void    iob_print()
+d81 1
+a81 1
+        sim_printf("I/O Board Futurebus CSR Space\n");
+d83 1
+a83 1
+                             IOB_fbus_csr_space[IOB_LRBAR] << 24);
+d86 3
+a88 3
+                             IOB_fbus_csr_space[IOB_FTV_BAR] << 24);
+        sim_printf("    PARITY is %s\n", IOBparity ? "enabled" : "disabled");
+        sim_printf("    MSPC is %s\n", IOBmspc ? "enabled" : "disabled");
+d90 1
+a90 1
+                                      IOBreset ? "" : "not");
+d94 1
+a94 1
+ * iob_operation()
+a98 4
+ * This simulator is very simplistic in that it prints informative messages
+ * when certain addresses are accessed, and in general, allows any ol'
+ * operation to any ol' address by simulating the FBus CSR space as a
+ * register bank (which is by no means a faithful h/w simulation).
+d102 1
+a102 1
+int    iob_operation (address_offset, reg, size, mem_op_type, override)
+a109 1
+        u_long new_addr;
+d111 2
+d115 2
+a116 2
+                IOBparity = 1;
+		IOB_fbus_csr_space[FBUS_SR] |= FBUS_SR_PON;
+d120 2
+a121 2
+                IOBparity = 0;
+		IOB_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_PON;
+d125 5
+a129 2
+                IOBmspc = 1;
+		IOB_fbus_csr_space[FBUS_SR] |= FBUS_SR_MSPC;
+d133 4
+a136 2
+                IOBmspc = 0;
+		IOB_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_MSPC;
+d140 3
+a142 3
+                iob_init();
+                IOBreset = 1;
+		IOB_fbus_csr_space[FBUS_SR] |= FBUS_SR_IRST;
+d146 2
+a147 2
+                IOBreset = 0;
+		IOB_fbus_csr_space[FBUS_SR] &= ~FBUS_SR_IRST;
+d151 2
+a152 2
+		if(IOB_fbus_csr_space[FBUS_ICR]&FBUS_ICR_SRST){
+		    IOB_fbus_csr_space[FBUS_ESR] = 0x0;	/* reset FBUS_ESR */
+d158 1
+a158 1
+		    sim_printf("   IOBfbus_sr- illegal store op\n");
+d162 1
+a162 1
+		    IOB_fbus_csr_space[FBUS_ESR] = FBUS_ESR_AD; /* addr phase */
+d178 5
+a182 7
+                new_addr = *(u_char *)reg << 24;
+                io_change_addr(timer_operation, new_addr + IOB_TIMER, 32);
+                io_change_addr(dmaca_operation, new_addr + IOB_DMAC_A, 2048);
+                io_change_addr(lanram_operation, new_addr + IOB_LAN_MEM_BEGIN, 256*1024);
+		io_change_addr(iobctl_operation, new_addr + IOB_CTL); 
+		io_change_addr(iobstat_operation, new_addr + IOB_STAT);
+		io_change_addr(ftvmap_operation, new_addr + IOB_FTV_MAP);
+d189 1
+a189 1
+                sim_printf ("iob: warning... address 0x%03x not simulated\n",
+d195 1
+a195 1
+        do_mem_op (reg, &IOB_fbus_csr_space[address_offset], 
+d201 24
+d229 1
+a229 1
+static u_char iobstat_reg;
+d232 1
+a232 1
+iobstat_init()
+d234 1
+a234 1
+	iobstat_reg = 0x3e;	/* PONSW on, others float */
+d238 1
+a238 1
+iobstat_operation(address_offset, reg, size, mem_op_type, override)
+d247 1
+a247 1
+        sim_printf("iobstat_reg: only byte operations allowed.\n");
+d253 1
+a253 1
+        sim_printf("iobstat_reg: read-only register.\n");
+d257 6
+a262 1
+    do_mem_op(reg, &iobstat_reg, BYTE, mem_op_type);
+d267 1
+a267 1
+iobstat_print()
+d271 1
+a271 1
+    sim_printf("iobstat_reg=0x%x\n",iobstat_reg);
+d279 1
+a279 1
+static u_char iobctl_reg;
+d282 1
+a282 1
+iobctl_init()
+d284 1
+a284 1
+	iobctl_reg = 0x3e;	/* PONSW on, others float */
+d288 1
+a288 1
+iobctl_operation(address_offset, reg, size, mem_op_type, override)
+d297 1
+a297 1
+        sim_printf("iobctl_reg: only byte operations allowed.\n");
+d301 266
+d569 1
+a569 1
+        sim_printf("iobctl_reg: read-only register.\n");
+d573 6
+a578 1
+    do_mem_op(reg, &iobctl_reg, BYTE, mem_op_type);
+d583 1
+a583 1
+iobctl_print()
+d585 4
+a588 1
+    sim_printf("iobctl_reg=0x%x\n",iobctl_reg);
+d592 36
+d631 1
+a631 1
+static u_long ftvmap[16];
+d634 1
+a634 1
+ftvmap_init()
+d640 1
+a640 1
+ftvmap_operation(address_offset, reg, size, mem_op_type, override)
+a646 1
+    u_long ftvmap_data;
+d649 1
+a649 2
+    ftvmap_data = ((ftvmap[address_offset]&0xFF0000FF)|0x00FFFF00);
+    do_mem_op(reg, &ftvmap_data, size, mem_op_type);
+d654 1
+a654 1
+ftvmap_print()
+d659 1
+a659 1
+        sim_printf("ftvmap[%d]=0x%x\n",i,ftvmap[i]);
+@
+
+
+1.8
+log
+@brents changes
+@
+text
+@d10 1
+a10 1
+ * $Header: iob.c,v 1.6 88/02/23 13:55:57 robertb Exp $
+d16 1
+@
+
+
+1.7
+log
+@Added Brents iostat register simulator to iob.c
+@
+text
+@d16 3
+d20 1
+a20 7
+/*------------------------------------------------------------------------
+ * FutureBus CSR Register Map
+ *
+ * The following offsets are relative to the start of a board's FutureBus
+ * CSR space.
+ *------------------------------------------------------------------------
+ */
+d22 4
+a25 15
+#define	FBUS_ID_PROM		0x003	/* Start of ID PROM in lane Z */
+#define	FBUS_ID_BYTE_1		0x003	/* 1st byte of Manfufacturer's code */
+#define	FBUS_ID_BYTE_2		0x007	/* 2nd byte of Manfufacturer's code */
+#define	FBUS_ID_BYTE_3		0x00b	/* 3rd byte of Manfufacturer's code */
+#define	FBUS_ID_BYTE_4		0x00f	/* 4th byte of Manfufacturer's code */
+#define	FBUS_ICR		0x803	/* FBus Interface Command Register */
+#define	FBUS_SR			0x807	/* FBus Status Register */
+#define	FBUS_ESR		0x80b	/* FBus Error Status Register */
+#define	FBUS_SPARE_REG_1	0x80c	/* Spare Register Location */
+#define	FBUS_SPARE_REG_2	0x81c	/* Spare Register Location */
+#define	FBUS_INTR_SR		0x822	/* FBus Interrupt Status Register */
+#define	FBUS_INTR_MSK		0x826	/* FBus Interrupt Mask Register */
+#define	FBUS_SPARE_REG_3	0x83c	/* Spare Register Location */
+#define	FBUS_EVENT_SPACE	0xf00	/* Start of Event Space */
+#define	FBUS_FUNCTION_SPACE	0xf80	/* Start of Function Space */
+a26 16
+/* specific to I/O Board */
+#define	IOB_LRBAR		0x810	/* IOB Local Register Base Address Reg*/
+#define	IOB_VME_BAR		0x814	/* IOB VMEbus->FBus Base Address Reg  */
+#define	IOB_FBUS_BAR		0x81b	/* CE FBus->VMEbus Base Address Reg   */
+
+#define	IOB_INTR_SENT_SR	0x832	/* Interrupt Sent Status Register */
+#define	IOB_INTR_SENT_RST	0x83a	/* IOB Interrupt Sent Reset Register */
+#define IOB_RESET_ASSERT	0xfd8	/* Assert internal reset */
+#define IOB_RESET_RELEASE	0xfdc	/* Release internal reset */
+#define IOB_PARITY_ENABLE	0xff0	/* IOB Parity Check Enable */
+#define IOB_PARITY_DISABLE	0xff4	/* IOB Parity Check Disable */
+
+u_char  Iob_Fbus_Csr_Space[4096];
+int     fResetAsserted;
+int     parity;
+
+d40 3
+a42 2
+        parity = 0;
+        fResetAsserted = 0;
+d46 1
+a46 1
+            Iob_Fbus_Csr_Space[i] = 0xff;
+a48 3
+        /* must agree with device table in "io.c" */
+        Iob_Fbus_Csr_Space[IOB_LRBAR] = 0xc0;
+
+d50 4
+a53 4
+	Iob_Fbus_Csr_Space[0x03] = 'T';
+	Iob_Fbus_Csr_Space[0x07] = 'E';
+	Iob_Fbus_Csr_Space[0x0b] = 'K';
+	Iob_Fbus_Csr_Space[0x0f] = 'T';
+d55 4
+a58 4
+	Iob_Fbus_Csr_Space[0x13] = '9';
+	Iob_Fbus_Csr_Space[0x17] = '0';
+	Iob_Fbus_Csr_Space[0x1b] = '0';
+	Iob_Fbus_Csr_Space[0x1f] = '1';
+d60 7
+d80 2
+a81 2
+        sim_printf("   Local base address register: 0x%02X\n", 
+                             Iob_Fbus_Csr_Space[IOB_LRBAR] << 24);
+d83 6
+a88 5
+        sim_printf("    FBUS base address register: 0x%08X\n", 
+                             Iob_Fbus_Csr_Space[IOB_FBUS_BAR] << 24);
+        sim_printf("    parity is %s\n", parity ? "enabled" : "disabled");
+        sim_printf("    fbus reset is %s asserted\n", 
+                                      fResetAsserted ? "" : "not");
+d104 6
+a109 6
+int    iob_operation (ulAddress_offset, pulReg, cSize, cMem_op_type, fOverride)
+    u_long ulAddress_offset;
+    u_long *pulReg;
+    int    cSize;
+    int    cMem_op_type;
+    int    fOverride;
+d114 5
+a118 4
+        /* validate */
+        if (cSize != BYTE) {
+            sim_printf("iob: non-byte access of FBUS CSR space is hazardous\n");
+        }
+d120 3
+a122 4
+        /* print messages */
+        switch (ulAddress_offset) {
+            case IOB_PARITY_ENABLE:
+                parity = 1;
+d125 3
+a127 2
+            case IOB_PARITY_DISABLE:
+                parity = 0;
+d130 6
+a135 1
+            case IOB_RESET_ASSERT:
+d137 2
+a138 1
+                fResetAsserted = 1;
+d141 3
+a143 2
+            case IOB_RESET_RELEASE:
+                fResetAsserted = 0;
+d146 4
+a149 1
+            case IOB_FBUS_BAR:
+d152 21
+d174 7
+a180 5
+                new_addr = *(u_char *)pulReg << 24;
+                io_change_addr(timer_operation, new_addr + 0x1000, 32);
+                io_change_addr(dmaca_operation, new_addr + 0x10000, 2048);
+                io_change_addr(lanram_operation, new_addr + 0x100000, 256*1024);
+                io_change_addr(iobstat_operation, new_addr + 0xa002, 1);
+d184 1
+a184 1
+		if((ulAddress_offset>0) && (ulAddress_offset<0x400)){
+d187 2
+a188 2
+                sim_printf ("iob: warning... address 0x%03x not simulated\n", 
+                                                       ulAddress_offset);
+d193 2
+a194 2
+        do_mem_op (pulReg, &Iob_Fbus_Csr_Space[ulAddress_offset], 
+                   cSize, cMem_op_type);
+a202 1
+
+d212 1
+a212 1
+iobstat_operation(address_offset, reg_ptr, size, mem_op_type, override)
+d214 1
+a214 1
+    u_long *reg_ptr;
+a218 1
+    u_char *mem_ptr;
+d221 1
+a221 1
+        sim_printf("iobstat: only byte operations allowed.\n");
+d227 1
+a227 1
+        sim_printf("iobstat: read-only register.\n");
+d231 1
+a231 1
+    do_mem_op(reg_ptr, &iobstat_reg, BYTE, mem_op_type);
+d240 82
+a321 1
+    sim_printf("IOBstat_reg=0x%x\n",iobstat_reg);
+@
+
+
+1.6
+log
+@spiffed up print function.
+made LBAR register really control the base address of
+the timer, lanram, and dma.
+@
+text
+@d10 1
+a10 1
+ * $Header: iob.c,v 1.5 87/12/07 15:09:09 timd Exp $
+d169 2
+a170 1
+                io_change_addr(lanram_operation, new_addr + 0x100000, 512*1024);
+d188 47
+@
+
+
+1.5
+log
+@Corrected for IOB spec change
+@
+text
+@d10 1
+a10 1
+ * $Header: iob.c,v 1.4 87/12/07 08:31:23 brents Exp $
+d13 1
+a13 1
+
+d15 1
+a16 1
+
+d42 3
+a44 3
+#define	IOB_LRBAR		0x810	/* IOB Local Register Base Address Register */
+#define	IOB_VME_BAR		0x814	/* IOB VMEbus->FBus Base Address Register */
+#define	IOB_FBUS_BAR		0x81b	/* CE FBus->VMEbus Base Address Register */
+d53 3
+a56 5
+unsigned char  Iob_Fbus_Csr_Space[4096];
+
+unsigned int   fResetAsserted = 0;
+
+
+d70 3
+a91 1
+
+d104 9
+a112 14
+        sim_printf ("\n");
+        sim_printf ("I/O Board Futurebus CSR Space\n");
+        sim_printf ("-----------------------------\n");
+        sim_printf ("    Operations Currently Simulated:\n");
+        sim_printf ("        0x%03x Local Reg Base Addr (r/w, but no effect on device sim addrs)\n", IOB_LRBAR);
+        sim_printf ("        0x%03x Fbus->Vme Window Base Addr (r/w, but no effect\n", IOB_FBUS_BAR);
+        sim_printf ("        0x%03x Parity Check Enable (message only)\n", IOB_PARITY_ENABLE);
+        sim_printf ("        0x%03x Parity Check Disable (message only)\n", IOB_PARITY_DISABLE);
+        sim_printf ("        0x%03x Reset (calls init routines of all simualted IOB devices)\n", IOB_RESET_ASSERT);
+        sim_printf ("\n");
+        sim_printf ("    Location Contents:\n");
+        sim_printf ("        0x%03x LRBAR:    0x%02x000000\n", IOB_LRBAR, Iob_Fbus_Csr_Space[IOB_LRBAR]);
+        sim_printf ("        0x%03x FBUS BAR: 0x%02x000000\n", IOB_FBUS_BAR, Iob_Fbus_Csr_Space[IOB_FBUS_BAR]);
+        sim_printf ("\n");
+d129 5
+a133 5
+    unsigned int    ulAddress_offset;
+    unsigned int    *pulReg;
+    int             cSize;
+    int             cMem_op_type;
+    int             fOverride;
+d136 2
+d140 1
+a140 1
+            sim_printf ("iob: non-byte accesses of FBUS CSR space are hazardous!\n");
+d146 1
+a146 1
+                sim_printf ("iob: parity checking enabled\n");
+d148 1
+d150 1
+a150 1
+                sim_printf ("iob: parity checking disabled\n");
+d152 1
+d157 1
+d160 2
+d163 2
+d166 4
+d171 1
+a180 2
+
+
+d184 1
+a184 3
+
+    
+                
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d10 1
+a10 1
+ * $Header: iob.c,v 1.3 87/12/02 13:52:30 timd Exp $
+d48 2
+a51 1
+#define IOB_RESET_BOARD		0xffc	/* Reset I/O Board */
+d56 2
+d112 1
+a112 1
+        sim_printf ("        0x%03x Reset (calls init routines of all simualted IOB devices)\n", IOB_RESET_BOARD);
+d154 1
+a154 1
+            case IOB_RESET_BOARD:
+d156 1
+d158 2
+@
+
+
+1.3
+log
+@Changed CSR space simulation to char-wide instead of long-wide.
+@
+text
+@d10 1
+a10 1
+ * $Header: iob.c,v 1.2 87/12/02 09:39:33 brents Exp $
+d161 2
+a162 1
+                sim_printf ("iob: warning... address 0x%03x not simulated\n", ulAddress_offset);
+d169 2
+a170 1
+        do_mem_op (pulReg, Iob_Fbus_Csr_Space[ulAddress_offset], cSize, cMem_op_type);
+@
+
+
+1.2
+log
+@brents added IPROM simulation
+@
+text
+@d10 1
+a10 1
+ * $Header: iob.c,v 1.1 87/11/25 11:54:07 timd Exp $
+d53 1
+a53 1
+unsigned long  Iob_Fbus_Csr_Space[1024];    /* 4KB */
+d67 7
+d75 1
+a75 1
+        Iob_Fbus_Csr_Space[IOB_LRBAR >> 2] = 0xc0000000;
+d77 5
+a81 5
+/* Initialize the ID PROM */
+	Iob_Fbus_Csr_Space[3] = 'T';
+	Iob_Fbus_Csr_Space[7] = 'E';
+	Iob_Fbus_Csr_Space[b] = 'K';
+	Iob_Fbus_Csr_Space[f] = 'T';
+d83 4
+a86 4
+	Iob_Fbus_Csr_Space[13] = '9';
+	Iob_Fbus_Csr_Space[17] = '0';
+	Iob_Fbus_Csr_Space[1b] = '0';
+	Iob_Fbus_Csr_Space[1f] = '1';
+d112 2
+a113 2
+        sim_printf ("        0x%03x LRBAR:    0x%08x\n", IOB_LRBAR, Iob_Fbus_Csr_Space[IOB_LRBAR >> 2]);
+        sim_printf ("        0x%03x FBUS BAR: 0x%08x\n", IOB_FBUS_BAR, Iob_Fbus_Csr_Space[IOB_FBUS_BAR >> 2]);
+d138 5
+d168 1
+a168 1
+        do_mem_op (pulReg, Iob_Fbus_Csr_Space[ulAddress_offset >> 2], cSize, cMem_op_type);
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d10 1
+a10 1
+ * $Header$
+d70 5
+d76 6
+d146 3
+@

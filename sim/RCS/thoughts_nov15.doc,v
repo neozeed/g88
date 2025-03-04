@@ -1,0 +1,104 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     88.02.12.16.14.42;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.11.15.18.00.23;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Ideas about changes that could be made to the simulator.
+@
+
+
+1.2
+log
+@Added copyright notice and rcs header.
+@
+text
+@
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ * $Header: $
+
+To: andrew
+Fcc: outbox
+Subject: Some ideas about improving the simulator.
+-------
+
+Andrew,
+
+  After studying and making notes on the kernel, I decided to take a
+break and write some more simulator documentation.  That got me
+thinking about How It Really Ought To Be.  Now, before I go any further
+I should say that I don't think its worth it to make these changes -
+the improvement just isn't big enough.  But I want to record the ideas.
+They may be useful at some later date.
+
+After thinking about how to speed up the disassembler that is in both
+the front-ends and in the simulator itself I realized that we could
+take advantage of the layout of the opcode bits in the 78000
+instructions.  There are 14 bits that in almost all cases will tell you
+what the instruction is (bits 31 thru 26 and 15 thru 8).  Build a table
+of 2**14 pointers to the instruction structures of the current table
+based on these 14 bits at compile time.  When we go to look up the
+instruction we use the current linear algorithm with one change.  We
+don't start at the beginning as we do now, but instead start the search
+at the instruction structure indicated by the entry of the table of
+pointers indexed by the 14-bit number that is constructed by
+concatenating bits 31 thru 26 and 15 thru 8 of the instruction being
+disassembled.  In almost every case the pointer will point right at the
+instruction that is being searched for.  In the rest of the cases (a
+few of the FP instructions) the linear search will find the instruction
+in just a few elements.
+
+Disassembler performance could become important if we have to dump our
+decoded instruction pages often.  This could happen if we switch to
+having the decoded pages be based on logical rather than physical
+addresses.  Right now decoded instruction pages are associated with
+physical memory pages.  Switching to having them be associated with
+logical addresses has some performance advantages if you don't switch
+memory mapping of instruction pages too often.
+
+If we associate decoded instructions with logical addresses then we
+would not have to keep both a decoded instruction pointer and a logical
+instruction pointer (the 78000's sxip)  up to date.  The logical ip
+could just be a field of the decoded instruction.  This would save one
+68020 instruction per 78000 instruction executed.
+
+Another advantage would be that off-page branches would be as fast as
+on-page branches.  Right now if a branch is taken and its target is on
+the same page as the branch, it is pretty fast.  But if the branch is
+off-page, there are a few function calls and is relatively slow.
+
+
+As I said before, I think we should follow a direct path to getting
+UTek running well enough so that it can be shipped.  I doubt that these
+improvements are on that path.  I'd like to wait on the bulk of the
+simulator documentation in case I have to make changes to fix some kind
+of problem that arises.
+
+I've been checking all the significant pieces of email that I send
+out regarding the simulator into s78's RCS.  I'll do the same with this.
+
+	Rob
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 5
+@

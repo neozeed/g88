@@ -1,0 +1,244 @@
+head     1.1;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.1
+date     89.07.30.23.52.10;  author paulg;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@\input texinfo    @@c -*-texinfo-*-
+@@comment %**start of header (This is for running Texinfo on a region.)
+@@setfilename readline.info
+@@settitle Line Editing Commands
+@@comment %**end of header (This is for running Texinfo on a region.)
+@@synindex fn vr
+
+@@iftex
+@@comment finalout
+@@end iftex
+
+@@ifinfo
+This document describes the GNU Readline Library, a utility for aiding
+in the consitency of user interface across discrete programs that need
+to provide a command line interface.
+
+Copyright (C) 1988 Free Software Foundation, Inc.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+@@ignore
+Permission is granted to process this file through TeX and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+(this paragraph not being relevant to the printed manual).
+
+@@end ignore
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the Foundation.
+@@end ifinfo
+
+@@setchapternewpage odd
+@@titlepage
+@@sp 11
+@@center @@titlefont{GNU Readline Library}
+@@sp 2
+@@center by Brian Fox
+@@sp 2
+@@center Version 1.0
+@@sp 2
+@@center February 1989
+
+@@comment   Include the Distribution inside the titlepage environment so
+@@c that headings are turned off. 
+
+@@page
+@@vskip 0pt plus 1filll
+Copyright @@copyright{} 1989 Free Software Foundation, Inc.
+
+@@sp 2
+This document describes the GNU Readline Library, a utility for aiding
+in the consistency of user interface across discrete programs that need
+to provide a command line interface.
+@@sp 2
+
+Published by the Free Software Foundation @@*
+675 Massachusetts Avenue, @@*
+Cambridge, MA 02139 USA @@*
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the Foundation.
+
+@@end titlepage
+
+@@node Top, Readline Top, ,(DIR)
+@@chapter GNU Readline Library
+
+@@ifinfo
+This document describes the GNU Readline Library, a utility for aiding
+in the consitency of user interface across discrete programs that need
+to provide a command line interface.
+
+The text of this document is from the file @@file{inc-readline.texinfo},
+which is designed for inclusion in the documentation for other systems.
+The first node in that file is Readline Top.
+@@end ifinfo
+
+@@menu
+* Readline Top::	GNU Readline User's Manual
+* Readline Technical::	GNU Readline Programmer's Manual
+@@end menu
+@@include inc-readline.texinfo
+@@node Readline Technical
+@@chapter Readline Programmer's Manual
+
+This manual describes the interface between the GNU Readline Library and
+user programs.  If you are a programmer, and you wish to include the
+features found in GNU Readline in your own programs, such as completion,
+line editing, and interactive history manipulation, this documentation
+is for you.
+
+@@menu
+* Default Behaviour::	Using the default behaviour of Readline.
+* Custom Functions::	Adding your own functions to Readline.
+* Custom Completers::	Supplanting or supplementing Readline's
+			completion functions.
+* Variable Index::	Index of externally tweakable variables.
+@@end menu
+
+@@node Default Behaviour, Custom Functions, Readline Technical, Readline Technical
+@@section Default Behaviour
+
+Many programs provide a command line interface, such as @@code{mail},
+@@code{ftp}, and @@code{sh}.  For such programs, the default behaviour of
+Readline is sufficient.  This section describes how to use Readline in
+the simplest way possible, perhaps to replace calls in your code to
+@@code{gets ()}.
+
+@@findex readline ()
+@@cindex readline, function
+The function @@code{readline} prints a prompt and then reads and returns
+a single line of text from the user.  The line which @@code{readline ()}
+returns is allocated with @@code{malloc ()}; you should @@code{free ()}
+the line when you are done with it.  The declaration in ANSI C is
+
+@@example
+@@code{char *readline (char *@@var{prompt});}
+@@end example
+
+So, one might say
+@@example
+@@code{char *line = readline ("Enter a line: ");}
+@@end example
+in order to read a line of text from the user.
+
+The line which is returned has the final newline removed, so only the
+text of the line remains.
+
+If readline encounters an EOF while reading the line, it does something
+which I will document as soon as I know what it is.
+
+If you want the user to be able to get at the line later, (with
+@@key{C-p} for example), you must call @@code{add_history ()} to save the
+line away in a @@dfn{history} list of such lines.
+
+@@example
+@@code{add_history (line)};
+@@end example
+
+For full details on the GNU History Library, see the associated manual.
+
+It is polite to avoid saving empty lines on the history list, since
+no one has a burning need to reuse a blank line.  Here is a function
+which usefully replaces the standard @@code{gets ()} library function:
+
+@@example
+/* A static variable for holding the line. */
+static char *my_gets_line = (char *)NULL;
+
+/* Read a string, and return a pointer to it. */
+char *
+my_gets ()
+@@{
+  /* If the buffer has already been allocated, return the memory
+     to the free pool. */
+  if (my_gets_line != (char *)NULL)
+    free (my_gets_line);
+
+  /* Get a line from the user. */
+  my_gets_line = readline ("");
+
+  if (*my_gets_line)
+    add_history (my_gets_line);
+
+  return (my_gets_line);
+@@}
+@@end example
+
+The above code gives the user the default behaviour of @@key{TAB}
+completion; completion on file names.  If you do not want readline to
+complete on filenames, you can change the binding of the @@key{TAB} key
+with @@code{rl_bind_key ()}.
+
+@@findex rl_bind_key ()
+
+@@example
+@@code{int rl_bind_key (int @@var{key}, (int (*)())@@var{function});}
+@@end example
+
+@@code{rl_bind_key ()} takes 2 arguments; @@var{key} is the character that
+you want to bind, and @@var{function} is the address of the function to
+run when @@var{key} is pressed.  Binding @@key{TAB} to @@code{rl_insert ()}
+makes @@key{TAB} just insert itself.
+
+@@code{rl_bind_key ()} returns non-zero if @@var{key} is not a valid
+ASCII character code (between 0 and 255).
+
+@@example
+@@code{rl_bind_key ('\t', rl_insert);}
+@@end example
+
+@@node Custom Functions, Custom Completers, Default Behaviour, Readline Technical
+@@node Custom Completers, Variable Index, Custom Functions, Readline Technical
+@@node Variable Index, , Custom Completers, Readline Technical
+@@appendix Variable Index
+@@printindex vr
+@@contents
+
+@@bye
+
+@

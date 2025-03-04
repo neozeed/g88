@@ -1,0 +1,195 @@
+head     1.4;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.4
+date     90.04.29.19.30.56;  author robertb;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     88.05.01.11.48.02;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     88.04.30.22.56.24;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     88.04.30.21.46.18;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@program to decode an execution trace and print it in ascii.
+@
+
+
+1.4
+log
+@Ported to System V.  Compiles, but is untested.
+@
+text
+@
+/*
+ *
+ * (c) 1987, 1988 Tektronix
+ */
+
+char *rcsid = "$Header: trace.c,v 1.3 88/05/01 11:48:02 robertb Exp $";
+
+#include <stdio.h>
+#include "sim_interface.h"
+
+/*
+ * This displays an execution trace in readable form.
+ */
+
+FILE *fd;
+
+/*
+ * Opens the trace data file.
+ */
+void
+open_trace_file(fname)
+    char *fname;
+{
+    if ((fd = fopen(fname, "r")) ==  0) {
+        fprintf(stderr, "unable to open %s for reading\n", fname);
+        exit(1);
+    }
+}
+
+/*
+ * Closes the trace file.
+ */
+void
+close_trace_file()
+{
+    if (fclose(fd) != 0) {
+       fprintf(stderr, "close_trace_file: error in closing file.\n");
+       exit(1);
+    }
+}
+
+main(argc, argv)
+    int argc;
+    char *argv[];
+{
+    struct etrace et;
+    char write, lock, mode, cacheinhibit, global, writethru;
+    int start;
+
+    if (argc != 2 && argc != 3) {
+        fprintf(stderr, "usage: prt <fname> [startrecord]\n");
+        exit(1);
+    }
+    if (argc == 2 && !strcmp(argv[1], "-H")) {
+        printf("First field is address of access in hex.\n");
+        printf("Second field is size of access, 1, 2, or 4\n");
+        printf("Flags:\n");
+        printf("\tS - supervisor space access \n");
+        printf("\tU - user space access \n");
+        printf("\tW - data write\n");
+        printf("\tR - data read\n");
+        printf("\tF - instruction fetch\n");
+        printf("\tL - locked access (xmem)\n");
+        printf("\tI - cache inhibit bit set\n");
+        printf("\tT - write through bit set\n");
+        printf("\tG - global bit set\n");
+        printf("Bottom six bits of data at the end of the line in hex.\n");
+        exit(0);
+    }
+
+    open_trace_file(argv[1]);
+
+    if (argc == 3) {
+        start = atoi(argv[2]);
+        if (start < 0) {
+            fprintf(stderr, "starting record number must be non-negative.\n");
+            exit(1);
+        }
+        if (fseek(fd, start * sizeof(struct etrace), 0) == -1) {
+            fprintf(stderr, "error fseeking to record %d.\n", start);
+            exit(1);
+        }
+    }
+
+    while (fread(&et, sizeof(struct etrace), 1, fd) != 0) {
+        write = et.write ? 'W' : 'R';
+        write = et.fetch ? 'F' : write;
+        lock = et.lock ? 'L' : '-';
+        mode = et.usmode ? 'S' : 'U';
+        cacheinhibit = et.cacheinhibit ? 'I' : '-';
+        writethru = et.writethru ? 'T' : '-';
+        global = et.global ? 'G' : '-';
+        printf("%08x %d %c%c%c%c%c%c %02x\n", 
+                          et.physical_address, 
+                          et.size, 
+                          mode,
+                          write, 
+                          lock, 
+                          cacheinhibit,
+                          writethru,
+                          global,
+                          et.lowdata);
+    }
+    close_trace_file();
+}
+
+@
+
+
+1.3
+log
+@Added copyright and rcsid.
+@
+text
+@a2 3
+ * Copyright (c) 1983 Regents of the University of California.
+ * All rights reserved.  The Berkeley software License Agreement
+ * specifies the terms and conditions for redistribution.
+d7 1
+a7 1
+char *rcsid = "$Header: trace.c,v 1.10 88/04/28 11:55:21 robertb Exp $";
+d94 1
+a94 1
+        printf("%08X %d %c%c%c%c%c%c %02x\n", 
+@
+
+
+1.2
+log
+@abreviated the display format.
+@
+text
+@d2 10
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d41 1
+a41 1
+    char *write, *lock, *mode, *cacheinhibit, *global, *writethru;
+d48 17
+d80 8
+a87 8
+        write = et.write ? "write" : "read ";
+        write = et.fetch ? "fetch" : write;
+        lock = et.lock ? "lock" : "    ";
+        mode = et.usmode ? "super" : "user ";
+        cacheinhibit = et.cacheinhibit ? "ci" : "  ";
+        writethru = et.writethru ? "wt" : "  ";
+        global = et.global ? "gl" : "  ";
+        printf("[0x%08X] %d %s %s %s %s %s %s [0x%02x]\n", 
+@

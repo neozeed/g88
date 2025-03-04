@@ -1,0 +1,60 @@
+head     1.2;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     89.09.02.09.42.17;  author paulg;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     89.08.11.15.08.02;  author davidl;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@File of input commands for ex to convert IO commands to ui_ format.  This
+has a bug in that it doesn't know about comments, thus any time the 
+word 'system' (for example) appears in a comment, it is replaced with
+'ui_system'.  Probably should be replaced with a simple C program or
+an awk or sed script.
+@
+
+
+1.2
+log
+@in gdb, error doesn't return.  changed ui_badnews to do the same thing
+with the -1 argument.
+@
+text
+@g/\<fprintf\>/s//ui_fprintf/g
+g/\<printf\>[ 	]*(/s//ui_fprintf(stdout, /g
+g/\<putchar\>/s//ui_putchar/g
+g/\<putc\>/s//ui_putc/g
+g/\<fputc\>/s//ui_putc/g
+g/\<fputs\>/s//ui_fputs/g
+g/\<puts\>/s//ui_puts/g
+g/\<gets\>/s//ui_gets/g
+g/\<fgets\>/s//ui_fgets/g
+g/\<fflush\>/s//ui_fflush/g
+g/\<system\>/s//ui_system/g
+g/\<wait\>/s//ui_wait/g
+g/\<error\>[ 	]*(/s//ui_badnews(-1,/g
+g/\<faltal\>[ 	]*(/s//ui_badnews(1,/g
+wq
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d13 2
+a14 1
+g/\<error\>[ 	]*(/s//ui_badnews(0,/g
+@

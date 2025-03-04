@@ -1,0 +1,545 @@
+head     1.22;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.22
+date     90.09.29.21.12.43;  author robertb;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     90.07.01.12.30.09;  author robertb;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     90.06.30.19.19.05;  author robertb;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     88.05.26.18.46.03;  author robertb;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     88.04.30.22.58.31;  author robertb;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     88.04.28.10.35.47;  author robertb;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     88.04.14.17.17.06;  author robertb;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     88.04.11.17.09.30;  author robertb;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     88.03.01.13.05.00;  author brents;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     88.02.29.16.20.36;  author brents;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     88.02.29.15.44.15;  author brents;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     88.02.26.12.41.22;  author brents;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     88.02.25.14.56.12;  author brents;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     88.02.24.14.47.57;  author robertb;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     88.02.23.13.52.41;  author robertb;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     88.02.12.16.54.14;  author robertb;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     88.02.12.16.13.22;  author robertb;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     87.12.22.18.09.17;  author robertb;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     87.11.23.14.43.35;  author timd;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     87.11.13.18.58.59;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     87.11.11.22.26.40;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     87.10.27.18.38.39;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Added header field so colast will work.
+@
+
+
+1.22
+log
+@Added CIO simulator
+@
+text
+@/*
+ * Header file for IO part of 88000 simulator.
+ *
+ * Copyright (c) 1987, 1988, Tektronix Inc.
+ * All Rights Reserved
+ *
+ * $Header: /home/vlsi/u2/cs568/g88/sim/RCS/io.h,v 1.21 90/07/01 12:30:09 robertb Exp Locker: robertb $
+ */
+
+struct io_dev {
+    u_long    l_addr;         /* Lowest address device responds to    */
+    u_long    size;           /* 1, 2, 4, or 8.  Size of IO operation.*/
+    u_long    restore;        /* boolean, 1 => call after checkpoint  */
+    u_long    cnt;            /* Number of IO transactions performed  */
+    char      *name;          /* Name of IO device.                   */
+    void      (*init)();      /* function called at initialization.   */
+    int       (*operation)(); /* function called for each IO operation*/
+    void      (*print)();     /* function called to print dev state.  */
+};
+
+struct io_trace {
+    u_long cnt;               /* Number of this transaction.          */
+    u_long addr;              /* IO address transaction is done with. */
+    struct io_dev *io_ptr;    /* Points to IO device structure.       */
+    u_long ip;                /* Instruction pointer at time of IO.   */
+    u_long value;             /* Word that is loaded or stored to IO. */
+    u_char mem_op_type;       /* Type of IO operation (LD, ST, LD_U..)*/
+    u_char size;              /* Size of IO operation (BYTE, HALF, ..)*/
+    short  pad; };            /* Make this word aligned.              */
+
+extern struct io_dev io_dev_tab[];
+extern u_long cmmus;
+
+#define DECL(name)  extern void name/**/_init();      \
+                    extern int  name/**/_operation(); \
+                    extern void name/**/_print()
+
+DECL(data_cmmu_0); DECL(data_cmmu_1); DECL(data_cmmu_2); DECL(data_cmmu_3);
+DECL(code_cmmu_0); DECL(code_cmmu_1); DECL(code_cmmu_2); DECL(code_cmmu_3);
+
+DECL(console);     DECL(clrint);      DECL(duart);        DECL(whoami);
+DECL(disk1);       DECL(disk2);       DECL(disk3);       DECL(disk4);       
+DECL(special);     DECL(gettime);     DECL(trivial_timer);                  
+DECL(ien0);	   DECL(cio);
+DECL(ien1);        DECL(ien2);        DECL(ien3);        DECL(ien);
+DECL(ist);         DECL(setswi);      DECL(clrswi);      DECL(istate);
+
+
+#undef DECL
+@
+
+
+1.21
+log
+@Added forward decl for some new devices.
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/io.h,v 1.20 90/06/30 19:19:05 robertb Exp Locker: robertb $
+d44 1
+a44 1
+DECL(ien0);
+@
+
+
+1.20
+log
+@Changed forward decl's to match new set of IO simulators.
+@
+text
+@d7 1
+a7 1
+ * $Header: /home/bigbird/Usr.U6/robertb/gdb/sim/RCS/io.h,v 1.19 88/05/26 18:46:03 robertb Exp Locker: robertb $
+d41 1
+a41 1
+DECL(console);     DECL(clrint);
+@
+
+
+1.19
+log
+@spiffed up the io command.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.18 88/04/30 22:58:31 robertb Exp $
+d41 1
+a41 2
+DECL(rom);         DECL(led);         DECL(dram_cmperr); DECL(dram_parerr);
+DECL(map_csr_reg); DECL(mapaddr_reg); DECL(map_access);  DECL(console);
+d43 5
+a47 8
+DECL(special);     DECL(timer);       DECL(cecsr);       DECL(ce_serctl);
+DECL(ce_wo_bitbucket);                DECL(ce_rw_bitbucket);
+DECL(scc_a);       DECL(scc_b);       DECL(lcsr);        DECL(iob1);
+DECL(iob2);        DECL(lanram1);     DECL(lanram2);     DECL(dmaca);
+DECL(dmacb);       DECL(iob1_stat);   DECL(iob1_ctl);    DECL(iob1_dramc);
+DECL(iob2_dramc);  DECL(iob1_ftvmap); DECL(iob2_stat);   DECL(iob2_ctl);
+DECL(iob2_ftvmap); DECL(CEfbus);      DECL(CEberr_loc);  DECL(newcons);
+DECL(gettime);
+@
+
+
+1.18
+log
+@added execution trace facility
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.17 88/04/28 10:35:47 robertb Exp $
+d22 1
+@
+
+
+1.17
+log
+@Made changes described in changes_apr28.doc
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.16 88/04/14 17:17:06 robertb Exp $
+d43 1
+a43 2
+DECL(return_to_front_end);
+DECL(interrupt);   DECL(timer);       DECL(cecsr);       DECL(ce_serctl);
+@
+
+
+1.16
+log
+@Added field to io table structure to support checkpointing.
+@
+text
+@d2 1
+a2 1
+ * Header file for IO part of 78000 simulator.
+d7 1
+a7 1
+ * $Header: io.h,v 1.15 88/04/11 17:09:30 robertb Exp $
+d11 8
+a18 7
+    unsigned    l_addr;         /* Lowest address device responds to    */
+    unsigned    size;           /* 1, 2, 4, or 8.  Size of IO operation.*/
+    int         restore;        /* boolean, 1 => call after checkpoint  */
+    char        *name;          /* Name of IO device.                   */
+    int         (*init)();      /* function called at initialization.   */
+    int         (*operation)(); /* function called for each IO operation*/
+    int         (*print)();     /* function called to print dev state.  */
+d22 7
+a28 7
+    unsigned addr;              /* IO address transaction is done with. */
+    struct io_dev *io_ptr;      /* Points to IO device structure.       */
+    unsigned ip;                /* Instruction pointer at time of IO.   */
+    unsigned value;             /* Word that is loaded or stored to IO. */
+    char     mem_op_type;       /* Type of IO operation (LD, ST, LD_U..)*/
+    char     size;              /* Size of IO operation (BYTE, HALF, ..)*/
+    short    pad; };            /* Make this word aligned.              */
+d37 2
+a38 4
+DECL(data_cmmu_0);
+DECL(data_cmmu_1);
+DECL(data_cmmu_2);
+DECL(data_cmmu_3);
+d40 3
+a42 15
+DECL(code_cmmu_0);
+DECL(code_cmmu_1);
+DECL(code_cmmu_2);
+DECL(code_cmmu_3);
+
+DECL(rom);
+DECL(led);
+DECL(dram_cmperr);
+DECL(dram_parerr);
+DECL(map_csr_reg);
+DECL(mapaddr_reg);
+DECL(map_access);
+DECL(console);
+DECL(disk1);
+DECL(disk2);
+d44 7
+a50 26
+DECL(interrupt);
+DECL(timer);
+DECL(cecsr);
+DECL(ce_serctl);
+DECL(ce_wo_bitbucket);
+DECL(ce_rw_bitbucket);
+DECL(scc_a);
+DECL(scc_b);
+DECL(lcsr);
+DECL(iob1);
+DECL(iob2);
+DECL(lanram1);
+DECL(lanram2);
+DECL(dmaca);
+DECL(dmacb);
+DECL(iob1_stat);
+DECL(iob1_ctl);
+DECL(iob1_dramc);
+DECL(iob2_dramc);
+DECL(iob1_ftvmap);
+DECL(iob2_stat);
+DECL(iob2_ctl);
+DECL(iob2_ftvmap);
+DECL(CEfbus);
+DECL(CEberr_loc);
+DECL(newcons);
+d52 2
+@
+
+
+1.15
+log
+@added newcons and gettime.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.14 88/03/01 13:05:00 brents Exp $
+d13 1
+@
+
+
+1.14
+log
+@added ce serctl and bitbucket simulators
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.13 88/02/29 16:20:36 brents Exp $
+d81 2
+@
+
+
+1.13
+log
+@added iob_dramc
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.12 88/02/29 15:44:15 brents Exp $
+d59 3
+@
+
+
+1.12
+log
+@two iob support
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.11 88/02/26 12:41:22 brents Exp $
+d70 2
+@
+
+
+1.11
+log
+@brents added CEberr_loc simulator
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.10 88/02/25 14:56:12 brents Exp $
+d62 4
+a65 2
+DECL(iob);
+DECL(lanram);
+d67 7
+a73 3
+DECL(iobstat);
+DECL(iobctl);
+DECL(ftvmap);
+@
+
+
+1.10
+log
+@brents changed/added iob/ce FBUS simulators
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.9 88/02/24 14:47:57 robertb Exp $
+d69 1
+@
+
+
+1.9
+log
+@Added Brents iostat register simulator to iob.c
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.8 88/02/23 13:52:41 robertb Exp $
+d66 3
+a68 1
+
+@
+
+
+1.8
+log
+@Moved decl's of IO device simulator functions into this file
+from io.c.  Gave the type void to the init and print functions.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.7 88/02/12 16:54:14 robertb Exp $
+d58 1
+d65 1
+@
+
+
+1.7
+log
+@deleted extra */ in header comment
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.6 88/02/12 16:13:22 robertb Exp $
+d29 36
+@
+
+
+1.6
+log
+@Added copyright message.
+@
+text
+@d7 1
+a7 1
+ * $Header: io.h,v 1.5 87/12/22 18:09:17 robertb Exp $ */
+@
+
+
+1.5
+log
+@Fixed comments, expanded tabs.
+@
+text
+@a0 1
+/* $Header: io.h,v 1.4 87/11/23 14:43:35 timd Exp $ */
+d3 5
+@
+
+
+1.4
+log
+@Added header field for colast
+@
+text
+@d1 1
+a1 1
+/* $Header$ */
+d7 6
+a12 6
+	unsigned	l_addr;			/* Lowest address device responds to	*/
+	unsigned	size;			/* Number of byte from l_addr dev is	*/
+	char		*name;			/* Name of IO device.					*/
+	int			(*init)();		/* function called at initialization.	*/
+	int			(*operation)();
+	int			(*print)();		/* function called to print dev state.	*/
+d16 7
+a22 7
+	unsigned addr;				/* IO address transaction is done with.	*/
+	struct io_dev *io_ptr;		/* Points to IO device structure.		*/
+	unsigned ip;				/* Instruction pointer at time of IO.	*/
+	unsigned value;				/* Word that is loaded or stored to IO.	*/
+	char     mem_op_type;		/* Type of IO operation (LD, ST, LD_U..)*/
+	char     size; 				/* Size of IO operation (BYTE, HALF, ..)*/
+	short	 pad; };			/* Make this word aligned.              */
+@
+
+
+1.3
+log
+@See changes_nov_13.doc
+@
+text
+@d1 1
+@
+
+
+1.2
+log
+@see changes_10_11.doc
+@
+text
+@d14 9
+@
+
+
+1.1
+log
+@78000 simulator
+@
+text
+@d6 4
+a9 3
+	unsigned	l_addr;			/* Lowest address device responds to */
+	unsigned	size;			/* Number of byte from l_addr dev is */
+	int			(*init)();		/* function called at initialization. */
+d11 1
+@

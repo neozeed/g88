@@ -1,0 +1,1489 @@
+head     1.71;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.71
+date     90.08.19.21.45.31;  author robertb;  state Exp;
+branches ;
+next     1.70;
+
+1.70
+date     90.08.06.10.23.03;  author robertb;  state Exp;
+branches ;
+next     1.69;
+
+1.69
+date     90.05.11.12.10.26;  author robertb;  state Exp;
+branches ;
+next     1.68;
+
+1.68
+date     90.05.09.16.49.42;  author jrb;  state Exp;
+branches ;
+next     1.67;
+
+1.67
+date     90.05.08.11.38.03;  author jrb;  state Exp;
+branches ;
+next     1.66;
+
+1.66
+date     90.05.08.10.28.01;  author marvinw;  state Exp;
+branches ;
+next     1.65;
+
+1.65
+date     90.05.08.03.55.52;  author robertb;  state Exp;
+branches ;
+next     1.64;
+
+1.64
+date     90.05.07.13.25.46;  author jrb;  state Exp;
+branches ;
+next     1.63;
+
+1.63
+date     90.05.02.12.32.47;  author marvinw;  state Exp;
+branches ;
+next     1.62;
+
+1.62
+date     90.04.30.14.10.22;  author robertb;  state Exp;
+branches ;
+next     1.61;
+
+1.61
+date     90.04.29.20.05.43;  author robertb;  state Exp;
+branches ;
+next     1.60;
+
+1.60
+date     90.04.27.18.39.32;  author robertb;  state Exp;
+branches ;
+next     1.59;
+
+1.59
+date     90.04.26.14.29.19;  author robertb;  state Exp;
+branches ;
+next     1.58;
+
+1.58
+date     90.04.25.10.44.57;  author robertb;  state Exp;
+branches ;
+next     1.57;
+
+1.57
+date     90.04.24.11.48.42;  author jrb;  state Exp;
+branches ;
+next     1.56;
+
+1.56
+date     90.04.23.15.11.13;  author andrew;  state Exp;
+branches ;
+next     1.55;
+
+1.55
+date     90.04.23.13.24.08;  author andrew;  state Exp;
+branches ;
+next     1.54;
+
+1.54
+date     90.04.23.10.43.12;  author robertb;  state Exp;
+branches ;
+next     1.53;
+
+1.53
+date     90.04.16.15.18.01;  author jrb;  state Exp;
+branches ;
+next     1.52;
+
+1.52
+date     90.04.16.12.02.05;  author andrew;  state Exp;
+branches ;
+next     1.51;
+
+1.51
+date     90.04.05.09.33.11;  author marvinw;  state Exp;
+branches ;
+next     1.50;
+
+1.50
+date     90.03.30.09.28.00;  author jrb;  state Exp;
+branches ;
+next     1.49;
+
+1.49
+date     90.03.28.15.51.33;  author robertb;  state Exp;
+branches ;
+next     1.48;
+
+1.48
+date     90.03.28.15.41.14;  author robertb;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     90.03.26.11.42.33;  author davidl;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     90.03.23.14.48.48;  author jrb;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     90.03.22.11.33.29;  author jrb;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     90.03.16.11.25.34;  author andrew;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     90.03.16.08.08.33;  author andrew;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     90.03.15.10.06.56;  author marvinw;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     90.03.15.09.37.03;  author andrew;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     90.03.12.10.20.25;  author marvinw;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     90.03.08.16.21.35;  author davidl;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     90.03.08.14.40.10;  author andrew;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     90.03.08.12.33.15;  author marvinw;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     90.03.07.16.03.05;  author marvinw;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     90.03.06.15.30.20;  author marvinw;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     90.03.01.15.42.30;  author marvinw;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     90.02.27.21.05.49;  author marvinw;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     90.02.26.15.05.16;  author andrew;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     90.02.26.11.36.58;  author andrew;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     90.02.23.15.33.40;  author andrew;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     90.02.23.14.45.54;  author andrew;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     90.02.23.14.08.10;  author andrew;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     90.02.23.09.38.07;  author andrew;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     90.02.22.14.34.04;  author andrew;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     90.02.22.13.10.28;  author andrew;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     90.02.22.13.08.26;  author davidl;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     90.02.21.11.09.20;  author andrew;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     90.02.21.10.23.31;  author davidl;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     90.02.21.10.17.34;  author andrew;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     90.02.20.11.42.17;  author andrew;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     90.02.16.16.17.22;  author andrew;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     90.02.13.09.13.32;  author andrew;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     90.02.09.13.05.17;  author davidl;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     90.02.09.12.55.23;  author andrew;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     90.02.07.19.23.41;  author davidl;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     90.02.07.16.23.55;  author andrew;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     90.02.06.10.38.33;  author marvinw;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     90.02.02.15.13.44;  author andrew;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     90.02.02.15.00.43;  author davidl;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     90.02.01.14.15.43;  author davidl;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     90.01.26.10.51.09;  author marvinw;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     90.01.23.11.13.21;  author marvinw;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     90.01.19.13.28.09;  author davidl;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     90.01.19.13.23.54;  author davidl;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     90.01.18.17.05.16;  author davidl;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     90.01.18.14.40.27;  author davidl;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     90.01.18.13.39.02;  author jrb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     90.01.10.15.10.20;  author jrb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.01.08.11.33.08;  author jrb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.71
+log
+@*** empty log message ***
+@
+text
+@Keep track of src files changed here.
+Also keep track of official gdb builds; i.e., when/rcsid
+
+Who		When		Files		Why
+
+1. jrb		1/8/90		source.c	bugfix BLK1915	
+2. jrb		1/10/90		watchpoint.c    got watch command working again						and made improvement in
+						length semantics for
+					        machine watchpoint. 
+3. jrb		1/18/90		watchpoint.c    truncated unimplemented in()
+					        at end of info watch display
+4. davidl	1/15/90  	Xdbif/xdbw/xui.c
+						bugfix BLK1934
+				Xdbif/XuLib/XuDialog.c
+						bugfix BLK1933
+5. davidl	1/18/90		Xdbif/xdbw/xui.c
+						changed -dumpfile cmd line
+					arg to -doDump to match name of 
+					actual X resource
+6. davidl	1/19/90		Xdbif/XdVPaned/*
+						new directory; fixes bug in
+					VPaned widget (including BLK1159 
+					I hope)
+				Xdbif/Makefile
+						added new directory
+7. marvinw	1/23/90		coffread.c	part of the fix for BLK1399
+						(back traces for leaf functions)
+8. marvinw	1/26/90		eval.c,valarith.c
+						added parameter to call to
+						call_function.  Part of fix
+						to BLK1924.
+				valops.c	We now pass arguments by ref
+						to FORTRAN functions.  Fixes
+						BLK1924.
+9. davidl	2/1/90		symtab.c, Xdbif/xdbw/gdb.[ch]
+						Fixed bug BLK1969.  The X
+						interface code now correctly
+						deals with all output formats
+						from 'info break'. Necessitated
+						a new function in symtab.c
+						(xif_find_pc_line_and_filename)
+10.davidl	2/1/90		gdb-dbx_script
+						fixes to 'call' and 'stopi'
+						commands to fix bugs BLK1965,
+						BLK1977, and BLK1995.
+11.andrew	2/2/90		m-m88k.h	Use exception 129 instead of
+						511 for breakpoint instruction;
+						new kernels will implement
+						different semantics for 511.
+12. marvinw	2/2/90		valops.c	Fixed bugs BLK1999 and BLK1977.
+						Floats are no longer coerced to
+						doubles when calling FORTRAN
+						procedures.  Call_function no
+						longer mallocs zero bytes when
+						calling functions with no args.
+13. andrew	2/7/90		breakpoint.c	Revised: new watchpoint model.
+				eval.c		Added
+						evaluate_expression_with_offset.
+				infcmd.c	Revised: new watchpoint model.
+				inflow.c	Revised: new watchpoint model.
+				infrun.c	Revised: new watchpoint model.
+				main.c		Revised: new watchpoint model.
+				remote.c	Revised: new watchpoint model.
+				symmisc.c	Revised: new watchpoint model.
+				m88k-dep.c	Undo old watchpoint support.
+				watchpoint.c	Complete rewrite
+				programmer.c	Change references to wcommands.
+14. davidl	2/7/90	 	main.c		Added setjmps to preclude
+						infinite loops when reading
+						in initial source command files.
+				m88k-dep.c	Inform X interface for 'detach'.
+				Xdbif/xdbw/xui.c
+						Minor cleanup re: backtrace
+15. andrew	2/9/90		watchpoint.c	} Print a better message on
+				infrun.c	} precise watchpoint hit,
+				stack.c		} identifying hitting code.
+16. davidl	2/9/90		infrun.c	Inform X interface when 
+						attaching to new process.
+17. andrew	2/13/90		utils.c		extend error() and
+						printf_filtered() to take as
+						many as 8 arguments.
+18. andrew	2/16/90		breakpoint.c	Fix a help message.
+				infrun.c	Make silent watchpoints silent;
+						use new symbols from
+						<sys/signal.h>.
+				stack.c		Make watchpoint-hit message
+						slightly more readable.
+				m88k-dep.c	Fix $PC again.
+						Check for subscript overflow
+						for array instruction_buf.
+				watchpoint.c	Extensive bug fixes.
+19. andrew	2/20/90		readline.c	}
+				main.c		}
+				programmer.c	} make control-D work correctly.
+				symtab.c	}
+				utils.c		}
+20. andrew	2/21/90		infcmd.c	} stop treating signal # 0
+				infrun.c	} as a real signal
+				utils.c		}
+21. davidl	2/20/90		Xdbif/xdbw/gdb.h, xui.c, xdbw.c
+				XResources	Remove 'help' button from XIF
+22. davidl	2/21/90		gdb-dbx_script	Remove obsolete 'wcommands'
+				watchpoint.c	Add missing param to
+						read_command_lines()
+						Fix misleading error message
+23. andrew	2/21/90		main.c		with "set editing off", don't
+						quit when user hits ^Z.
+24. davidl	2/21/90		breakpoint.c    Fix bug BLK2040.
+				watchpoint.c      ""    ""
+25. andrew	2/22/90		coffread.c	Add begin-of-function line
+						number information to the line
+						number table.  Fixes BLK2009.
+26. andrew	2/22/90		printcmd.c	} Make "p/i 1" work.
+				m88k-pinsn.c	}
+27. andrew	2/23/90		main.c		Make 'set history filename'
+						not truncate the filename.
+						Fixes bug BLK1981.
+28. andrew	2/23/90		printcmd.c	Disallow print/s; the error msg
+						suggests print & instead.
+						Addresses bug BLK2042.
+29. andrew	2/23/90		utils.c		Change fprintf_filtered so that
+						it passes all args along to
+						sprintf, instead of just the
+						first three.
+30. andrew	2/23/90		main.c		Move initialization of info_cmd
+						up so that it's assigned to
+						before it's used.
+31. andrew	2/26/90		watchpoint.c	When taking the address of an
+						lvalue, include the value's
+						offset.
+32. andrew	2/26/90		coffread.c	Back out change number 25.
+				symtab.c	Make decode_line_1 smarter about
+						finding the object code
+						following the prolog, and the
+						corresponding source line, when
+						setting a breakpoint.
+33. marvinw	2/27/90		coffread.c	Fixed bug BLK01876.  We can
+						print FORTRAN arrays of complex
+						numbers.  The fix is in 
+						decode_type.
+34. marvinw	3/1/90		eval.c		Fixed bug BLK01610.  We can now
+				valprint.c	print out FORTRAN arrays of
+						strings and their elements.  The
+						global variable, 
+						fortran_string_length, has been
+						introduced.  This is a kludge,
+						what we really need is a
+						FORTRAN expression parser.
+35. marvinw	3/6/90		coffread.c	Added support for debugging
+						FORTRAN compilers compiled with
+						GHS 1.8.5.  Build gdb with
+						GHS185 defined, the default is
+						1.8.4 support.
+36. marvinw	3/7/90		values.c	Fixed BLK02077, printing FORTRAN
+						arrays defined in common blocksM
+37. marvinw	3/8/90		coffread.c	GHS185 now provides the ability
+						to debug FORTRAN programs 
+						compiled with either the 1.8.4
+						or 1.8.5 versions of the GHS
+						compilers.  If the user has
+						global variables of the form
+						"_name_" this version of gdb
+						will not find them if the 1.8.4
+						FORTRAN compiler is used.
+38. andrew	3/8/90		coffread.c	} Make gcc_compiled_flag more
+				dbxread.c	} general, to distinguish
+				findvar.c	} gcc -ga.  Change
+				m88k-dep.c	} ADJUST_FRAME_OFFSET to
+				symseg.h	} distinguish between the two.
+				symtab.h	} This fixes bug BLK1962.
+				values.c	}
+39. davidl	3/8/90		Xdbif/xdbw/xui.c
+						Fix bug BLK1957; conditional
+					 	    breakpoints no longer
+						    break the X interface.
+40. marvinw	3/12/90		printcmd.c	Fixed bug BLK02086.  
+						Print_command now resets
+						fortran_string_length back
+						to zero.
+41. andrew	3/15/90		core.c		Fix a comment.
+				expread.y	Register rework.
+				findvar.c	Register rework.
+				frame.h		Register rework.
+				getpagesize.h	Rewrite for BCS.
+				infcmd.c	Register rework.
+				inferior.h	Register rework.
+				inflow.c	Register rework.
+				infrun.c	Register rework.
+				m-m88k.h	Much rewriting; register rework.
+				m88k-dep.c	Much rewriting; register rework.
+				remote.c	Register rework.
+				stack.c		Register rework.
+				valops.c	Register rework.
+				value.h		Register rework.
+				values.c	Register rework.
+						Return value correction.
+				watchpoint.c	Move some routines to
+						m88k-dep.c.
+42. marvinw	3/15/90		eval.c		We can now print out elements
+				valarith.c	of FORTRAN arrays of type
+						INTEGER*1.
+43. andrew	3/16/90		m-m88k.h	} smarten up frame chaining:
+				m88k-dep.c	} don't assume VAX architecture
+44. andrew	3/16/90		printcmd.c	Implement "pd" command,
+						fix two other bugs.
+
+45. jrb		3/21/90		main.c		Changed quit_command
+					        to call kill_inferior_fast()
+						instead of kill_inferior() due
+						to problem with no being able
+						to quit on ptrace error.
+
+46. jrb		3/22/90		m88k-dep.c	slightly changed algorithm
+				 		in m88k_find_saved_register
+						to improve odds of successful
+						backtrace.
+
+47. davidl	3/26/90		Xdbif/xdbw/xdbw.c
+				Xdbif/xdbw/xui.c
+				Xdbif/XuLib/XuDialog.c
+						provide good behavior when
+						run under Motif window manager
+						and using X interface. Xgdb is
+						now broken if run under tekwm.
+
+48. robertb      3/28/90	breakpoint.c
+				coffread.c
+				core.c
+				eval.c
+				findvar.c
+				infcmd.c
+				inflow.c
+				printcmd.c
+				remote.c
+				valops.c
+				valprint.c
+				values.c
+				defs.h
+				Makefile
+				m-m88k.h
+				m88k-pinsn.c
+				m88k-dep.c
+				programmer.c
+                                                Added the examine-user command.
+						Made function calling work
+						in cross-gdb.
+						Improved underlying stack 
+						tracing code.  This made
+						the bt work much better in
+						its display of parameter values.
+						Fixed bugs with bzero and
+						bcopy commands (cross-gdb).
+
+49. robertb      3/28/90	infrun.c
+						Split wait_for_inferior().
+
+50. robertb      3/29/90	remote.c	Fixed two declarations that
+						caused remote.c not to compile
+						with 1.8.5 GHC C.	
+
+51. marvinw	4/5/90		findvar.c	Fixed bug BLK02149.  We can now
+						examine individual registers 
+						in the innermost function call.
+
+---------------------------------------------------------------
+gdb rebuilt and installed on ernest: rcs 1.73:
+Fri March 30 1990
+---------------------------------------------------------------
+
+52. andrew	4/16/90		m88k-pinsn.c	Fixed bug: if there is no symbol
+						table, disassembly of branch
+						instructions emits the last
+						operand, e.g., "bcnd eq0,r0,".
+						Also, even if there is a symbol
+						table, include the absolute
+						address of the branch target in
+						parens -- makes life easier for
+						us asm programmers.
+
+53. jrb		4/16/90		source.c,	fixed bug where gdb
+				programmer.c 	was telling us that file
+						had N+1 lines, when file
+						actually had N lines.
+
+54. robertb	4/23/90		findvar.c	Fixed bug introduced in 
+				coffread.c	find_saved_register() intro-
+				valops.c	duced in revision 51 and bug
+				m88k-vec.c	that this revision fixed.
+				remote.c	Regroved stack unwinding code.
+				utils.c		Added support in remote.c
+						for cross-debugging programs
+						on Motorola 188's.
+
+55. andrew	4/23/90		infcmd.c	Improvement to change #52: limit
+				printcmd.c	the cases in which
+				m88k-pinsn.c	sprint_address prints the raw
+						hex number.
+
+56. andrew	4/23/90		breakpoint.c	Fix breakpoint_1 to get the
+						correct sign when displaying
+						symbol+offset.  (It used to come
+						out as "symbol+-offset".)
+
+---------------------------------------------------------------
+gdb rebuilt and installed on ernest: rcs 1.75:
+Tue Apr 24 11:46:56 PDT 1990
+---------------------------------------------------------------
+
+57. robertb	4/25/90		m88k-dep.c	Made "info regs" frame-relative
+				infrun.c	again.  Emit detailed informa-
+				infcmd.c	tion on single-stepping by
+				stack.c		machine instructions.  Split
+				remote.c	code from remote.c to make two
+				motomode.c	new files, motomode.c and
+				remote.h	remote.h.  Made 'regs' command
+						available also when not
+						cross-debugging.
+
+58. robertb	4/26/90		motomode.c	Added rcsid's.
+				remote.h
+
+59. robertb	4/27/90		remote.c	Split remote.c into a number
+				remote.h	files.  Added the lasta, lastr,
+				remcmd.c	lastr commands.  Added comments.
+				remrun.c	Added dacc_rerr() and rerr().
+				remmem.c	Fixed sw command.
+				Makefile
+
+60. robertb	4/29/90		remote.c	Added support for 88000
+				remote.h	simulator.  If a directory
+				remcmd.c	exists, the makefile will
+				remrun.c	cd into and build the simulator
+				remmem.c	there.  Otherwise, the file
+				Makefile	sim.c is compiled, it has stubs
+				infcmd.c	for the simulator functions.
+				sim.c
+
+61. robertb	4/30/90		coffread.c	Removed use of ADJUST_FRAME_
+				findvar.c	OFFSET to correct GHS frame
+				printcmd.c	offsets. Instead we fix the
+						offsets in coffread.  This
+						fixed some tutorial results.
+						Fixed bug w/ gcc-compiled code.
+
+				stack.c		Fixed minor bug w/ display
+						of detailed instruction-step
+						information.
+62. marvinw	5/2/90		coffread.c	Fixed BLK01493.  We now do a
+				values.c	much better job of printing
+						out members of a FORTRAN
+						common block.
+
+63. jrb		5/7/90		coffread.c      Fixed BLK01545. (at least
+						improved the situation). coff
+						format only allows 16 bits for
+						size of structure. attempt made
+						here to determine true size
+						of structure and fix it if
+						necessary. This keeps gdb
+						from core dumping. 
+						
+64. robertb	5/8/90		infrun.c	Fixed an uninitialized variable
+				Makefile	Improved dummy-frame-detection
+						code somewhat.  Added tags
+						target in Makefile.
+
+65. marvinw	5/8/90		coffread.c	Fixed BLK02317, we no longer
+				valprint.c	ignore the length of an enum.
+						Gdb was always assuming length
+						sizeof(int), which is not true
+						for Pascal's boolean type.
+
+66. jrb		5/8/90		coffread.c
+				Makefile	turned on -DOLDCOFF in makefile					        to go with change 63 above
+						(robert had it locked so I
+					         couldn't change it), removed
+						hardwired #define OLDCOFF in
+					        coffread.c.
+
+---------------------------------------------------------------
+gdb rebuilt and installed on ernest: rcs 1.79:
+Wed May  9 16:30:57 PDT 1990
+---------------------------------------------------------------
+
+67. jrb		5/9/90		xdbw/xui.c      changed src to prevent
+				 	        /lib/cpp bug from screwing
+					        up line numbers. See BLK2338.	
+						Comments like #ifdef TRUE /* Hi
+								           */
+						are not a good idea.
+
+68. robertb	5/11/90		remote.c	Tweaks to cross-debugging
+				remcmd.c	and simulator support.
+				remrun.c	See rcsdiffs for more info.
+				motomode.c
+
+69. robertb	7/1/90
+				breakpoint.c	Ported to the SUN-4.  Fixed
+				coffread.c	numerous nil-derefernce
+				core.c          bugs.  Add multiprocessor
+				defs.h		support.  Added IO simulators
+				findvar.c	for devices on the Moto 188
+				frame.h		CPU board.
+				infcmd.c
+				infrun.c
+				m-m88k.h
+				m88k-dep.c
+				main.c
+				malloc.c
+				motomode.c
+				programmer.c
+				remcmd.c
+				remrun.c
+				stuff.c
+				symtab.c
+				ui.c
+				utils.c
+				valops.c
+				value.h
+				values.c
+				watchpoint.c
+				watchstub.c
+				Makefile
+
+				sim/Makefile
+				sim/cmmu.c
+				sim/execute.c
+				sim/io.c
+				sim/io.h
+				sim/mvme188.c
+				sim/sim.h
+				sim/sim_interface.h
+				sim/simgdb.c
+				sim/siminit.c
+
+				readline/Makefile
+                              
+70. robertb	8/20/90		dbxread.c	Made it use a.out.gnu.h so that
+				core.c		it has the right format for a
+				m88k-dep.c	88k a.out file.  Deleted 
+				motomode.c	includes that were causing
+				remote.c	lots of compiler warnings.
+				sim/simgdb.c	fixed bug where 'init' command
+				infcmd.c	did not erase pending 
+				inflow.c	exception.  Fixed segmentation
+				infrun.c	fault in infrun.c.
+				m-m88k.h	Switched to a.out (from COFF).
+				main.c
+				programmer.c
+				remcmd.c
+				source.c
+				ui.c
+				ui.h
+				utils.c
+				a.out.gnu.h	Checked in new a.out.gnu.h
+				Makefile
+@
+
+
+1.70
+log
+@*** empty log message ***
+@
+text
+@d438 19
+@
+
+
+1.69
+log
+@*** empty log message ***
+@
+text
+@d396 42
+@
+
+
+1.68
+log
+@change to xdbw/xui.c src to prevent line number botch.
+@
+text
+@d391 5
+@
+
+
+1.67
+log
+@minor change to coffread.c makefile to turn on new define
+@
+text
+@d379 12
+@
+
+
+1.66
+log
+@Fixed BLK02317.
+@
+text
+@d372 7
+@
+
+
+1.65
+log
+@*** empty log message ***
+@
+text
+@d366 6
+@
+
+
+1.64
+log
+@describes changes to coffread.c for bugfix BLK1545.
+@
+text
+@d362 4
+@
+
+
+1.63
+log
+@Fixed BLK01493.
+@
+text
+@d352 10
+@
+
+
+1.62
+log
+@*** empty log message ***
+@
+text
+@d348 4
+@
+
+
+1.61
+log
+@*** empty log message ***
+@
+text
+@d338 10
+@
+
+
+1.60
+log
+@*** empty log message ***
+@
+text
+@d328 9
+@
+
+
+1.59
+log
+@*** empty log message ***
+@
+text
+@d322 5
+@
+
+
+1.58
+log
+@*** empty log message ***
+@
+text
+@d318 4
+@
+
+
+1.57
+log
+@made note of when gdb was rebuilt on ernest. jrb.
+@
+text
+@d308 10
+@
+
+
+1.56
+log
+@Describe fix to breakpoint.c.
+@
+text
+@d2 1
+d265 5
+d303 5
+@
+
+
+1.55
+log
+@Describe changes to sprint_address().
+@
+text
+@d293 4
+@
+
+
+1.54
+log
+@*** empty log message ***
+@
+text
+@d288 5
+@
+
+
+1.53
+log
+@fixed bug that has to do with off by one error on line number
+error message.
+@
+text
+@d278 10
+@
+
+
+1.52
+log
+@Describe change 52: branch disassembly fix in m88k-pinsn.c.
+@
+text
+@d273 5
+@
+
+
+1.51
+log
+@Fixed BLK02149.
+@
+text
+@d263 10
+@
+
+
+1.50
+log
+@fixed 1.8.5 C compile problems with remote.c - robertb did this.
+@
+text
+@d259 4
+@
+
+
+1.49
+log
+@*** empty log message ***
+@
+text
+@d255 4
+@
+
+
+1.48
+log
+@*** empty log message ***
+@
+text
+@d252 3
+@
+
+
+1.47
+log
+@Added changes for Motif window manager support in Xgdb.
+@
+text
+@d224 28
+@
+
+
+1.46
+log
+@*** empty log message ***
+@
+text
+@d216 8
+@
+
+
+1.45
+log
+@*** empty log message ***
+@
+text
+@d211 5
+@
+
+
+1.44
+log
+@Describe changes to printcmd.c.
+@
+text
+@d205 6
+@
+
+
+1.43
+log
+@Discuss changes to m-m88k.h and m88k-dep.c which smarten up frame
+chaining.
+@
+text
+@d203 2
+@
+
+
+1.42
+log
+@Fixed BLK02096.
+@
+text
+@d201 2
+@
+
+
+1.41
+log
+@Describe extensive changes in support of register rework.
+@
+text
+@d198 3
+@
+
+
+1.40
+log
+@Fixed bug BLK02086.
+@
+text
+@d179 19
+@
+
+
+1.39
+log
+@xui.c changes to fix BLK1957.
+@
+text
+@d175 4
+@
+
+
+1.38
+log
+@Describe changes to fix BLK1962.
+@
+text
+@d171 4
+@
+
+
+1.37
+log
+@We can now debug FORTRAN programs compiled by either 1.8.4 or 1.8.5 if
+GHS185 has been defined.
+@
+text
+@d164 7
+@
+
+
+1.36
+log
+@Fixed BLK02077.
+@
+text
+@d155 9
+@
+
+
+1.35
+log
+@Added GHS 1.8.5 FORTRAN debugging support.
+@
+text
+@d153 2
+@
+
+
+1.34
+log
+@Fixed BLK01610.
+@
+text
+@d148 5
+@
+
+
+1.33
+log
+@Fixed BLK01876.
+@
+text
+@d140 8
+@
+
+
+1.32
+log
+@Describe changes to coffread.c and symtab.c to make breakpoints happen
+only after the function prolog has executed.
+@
+text
+@d136 4
+@
+
+
+1.31
+log
+@Describe fix to bug in watchpoint.c.
+@
+text
+@d130 6
+@
+
+
+1.30
+log
+@Discuss change to main.c to make display of command lists containing
+"info" commands work.
+@
+text
+@d127 3
+@
+
+
+1.29
+log
+@Describe change to utils.c.
+@
+text
+@d124 3
+@
+
+
+1.28
+log
+@Describe change which disallows print/s.
+@
+text
+@d120 4
+@
+
+
+1.27
+log
+@Describe bugfix BLK1981: 'set history filename' truncates last character
+of filename.
+@
+text
+@d117 3
+@
+
+
+1.26
+log
+@Describe changes to make "p/i 1" work.
+@
+text
+@d114 3
+@
+
+
+1.25
+log
+@Describe line number information changes to coffread.c.
+@
+text
+@d109 1
+a109 1
+25. andrew	2/2290		coffread.c	Add begin-of-function line
+d112 2
+@
+
+
+1.24
+log
+@Fixes for BLK2040.
+@
+text
+@d109 3
+@
+
+
+1.23
+log
+@Describe changes made to prevent "^Z, fg" from shutting down gdb
+when "set editing off".
+@
+text
+@d107 2
+@
+
+
+1.22
+log
+@Changes to remove the 'help' button from the default button list
+for the X interface, and minor cleanup in watchpoint.c.
+
+Change 'wcommands' in gdb-dbx_script to 'commands', as the latter 
+replaces the former in the gdb command set.
+@
+text
+@d105 2
+@
+
+
+1.21
+log
+@Describe changes involved in not treating signal number 0 as a real signal.
+@
+text
+@d99 6
+@
+
+
+1.20
+log
+@Describe changes involved in making control-D work correctly.
+@
+text
+@d96 3
+@
+
+
+1.19
+log
+@Describe new changes for watchpoint support.
+@
+text
+@d91 5
+@
+
+
+1.18
+log
+@Describe change to utils.c.
+@
+text
+@d81 10
+@
+
+
+1.17
+log
+@Fixed bug BLK2002.
+@
+text
+@d78 3
+@
+
+
+1.16
+log
+@Describe recent watchpoint changes.
+@
+text
+@d76 2
+@
+
+
+1.15
+log
+@Changes for main.c, Xdbif/xdbw/xui.c, m88k-dep.c.
+@
+text
+@d73 3
+@
+
+
+1.14
+log
+@Discuss changes accompanying checkin of watchpoint revision.
+(Watchpoints don't yet work.)
+@
+text
+@d67 6
+@
+
+
+1.13
+log
+@Fixed bugs BLK1999 and BLK1977.
+@
+text
+@d55 12
+@
+
+
+1.12
+log
+@Describe change to m-m88k.h which changes breakpoint instruction
+from exception 511 to exception 129.
+@
+text
+@d49 6
+@
+
+
+1.11
+log
+@Bugfixes relating to gdb-dbx_script.
+@
+text
+@d45 4
+@
+
+
+1.10
+log
+@Fix for BLK1969
+@
+text
+@d41 4
+@
+
+
+1.9
+log
+@Fixes for BLK01924.
+@
+text
+@d34 7
+@
+
+
+1.8
+log
+@Fix to BLK1399.
+@
+text
+@d27 7
+@
+
+
+1.7
+log
+@Added Xdbif/Makefile change.
+@
+text
+@d25 2
+a26 1
+
+@
+
+
+1.6
+log
+@Added XdVPaned directory.
+@
+text
+@d23 2
+@
+
+
+1.5
+log
+@Changed -dumpfile to -doDump for Xgdb.
+@
+text
+@d18 5
+a22 1
+					actual X resourece
+@
+
+
+1.4
+log
+@Added changes for bugfixes BLK1933 and 1934.
+@
+text
+@d15 5
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d5 2
+a6 2
+1. jrb		1/8/89		source.c	bugfix BLK1915	
+2. jrb		1/10/89		watchpoint.c    got watch command working again						and made improvement in
+d9 1
+a9 1
+3. jrb		1/18/89		watchpoint.c    truncated unimplemented in()
+d11 4
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d9 2
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d6 3
+@

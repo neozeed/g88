@@ -1,0 +1,1089 @@
+head     1.3;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.3
+date     90.10.30.23.53.19;  author robertb;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     90.09.29.21.12.50;  author robertb;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     90.07.01.12.32.36;  author robertb;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@This has device simulators for devices on the Motorola 188
+CPU board.
+@
+
+
+1.3
+log
+@CIO simulator now works at least a little.
+@
+text
+@
+/* Simulators for interrupt mechanism, DUART, and WHOAMI registers
+   on the MVME 188 CPU board from Motorola.  Not all of the registers 
+   are modelled.  
+
+   CIO (Counter/Timer) simulator added 8/22/90 */
+
+#include "sim.h"
+#include <sys/time.h>
+#include <signal.h>
+
+/* Words that model the four interrupt mask registers and the interrupt
+   status register. */
+u_long ien0, ien1, ien2, ien3, ist;
+
+/* Called when a change of state in the machine may have enabled
+   an interrupt. */
+void check_for_interrupt()
+{
+  int i;
+
+  switch (selected_processor) {
+    case 0: i = ien0; break;
+    case 1: i = ien1; break;
+    case 2: i = ien2; break;
+    case 3: i = ien3; break;
+  }
+  i &= ist;
+  if (i) {
+    sim_interrupt_flag |= INT_DEVICE;
+  }
+}
+
+/* Pass the number of the bit (0..31) in the interrupt status register
+   that you want to set.  This will cause an interrupt any processor
+   that has unmasked this interrupt. */
+void set_ist(bit)
+  int bit;
+{
+  ist |= 1 << bit;
+  check_for_interrupt();;
+}
+
+/* Pass the number of the bit (0..31) in the interrupt status register
+   that you want to reset. */
+void clear_ist(bit)
+  int bit;
+{
+  ist &= ~(1 << bit);
+}
+
+void ien0_init() { ien0 = 0; }
+void ien1_init() { ien1 = 0; }
+void ien2_init() { ien2 = 0; }
+void ien3_init() { ien3 = 0; }
+void ien_init() {}
+void ist_init() { ist = 0; }
+void setswi_init() {}
+void clrswi_init() {}
+void istate_init() {}
+void clrint_init() {}
+
+
+int ien0_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("interrupt enable register does not support double operations\n");
+    return E_DACC;
+  }
+  do_mem_op(reg_ptr, &ien0, size, mem_op_type);
+  check_for_interrupt();
+  return E_NONE;
+}
+
+int ien1_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("interrupt enable register does not support double operations\n");
+    return E_DACC;
+  }
+  do_mem_op(reg_ptr, &ien1, size, mem_op_type);
+  check_for_interrupt();
+  return E_NONE;
+}
+
+int ien2_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("interrupt enable register does not support double operations\n");
+    return E_DACC;
+  }
+  do_mem_op(reg_ptr, &ien2, size, mem_op_type);
+  check_for_interrupt();
+  return E_NONE;
+}
+
+int ien3_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("interrupt enable register does not support double operations\n");
+    return E_DACC;
+  }
+  do_mem_op(reg_ptr, &ien3, size, mem_op_type);
+  check_for_interrupt();
+  return E_NONE;
+}
+
+int ien_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("interrupt enable register does not support double operations\n");
+    return E_DACC;
+  }
+  if (mem_op_type != ST) {
+    sim_printf("ien is write-only\n");
+    return E_DACC;
+  }
+  do_mem_op(reg_ptr, &ien0, size, mem_op_type);
+  do_mem_op(reg_ptr, &ien1, size, mem_op_type);
+  do_mem_op(reg_ptr, &ien2, size, mem_op_type);
+  do_mem_op(reg_ptr, &ien3, size, mem_op_type);
+  check_for_interrupt();
+  return E_NONE;
+}
+
+int ist_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("interrupt status register does not support double operations\n");
+    return E_DACC;
+  }
+  if (mem_op_type != LD && mem_op_type != LD_U) {
+    sim_printf("interrupt status register is read-only\n");
+    return E_DACC;
+  }
+  do_mem_op(reg_ptr, &ist, size, mem_op_type);
+  return E_NONE;
+}
+
+/* Set the software interrupt bits in the interrupt status register
+   that correspond to set bits in the register being stored to this
+   device. */
+int setswi_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("setswi register does not support double operations\n");
+    return E_DACC;
+  }
+  if (mem_op_type != ST) {
+    sim_printf("setswi is write-only\n");
+    return E_DACC;
+  }
+  ist |= (*reg_ptr & 0xf) | (((*reg_ptr >> 4) & 0xf) << 24);
+  return E_NONE;
+}
+
+/* Clear the software interrupt bits in the interrupt status register
+   that correspond to set bits in the register being stored to this
+   device. */
+int clrswi_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("clrswi register does not support double operations\n");
+    return E_DACC;
+  }
+  if (mem_op_type != ST) {
+    sim_printf("clrswi is write-only\n");
+    return E_DACC;
+  }
+  ist &= ~((*reg_ptr & 0xf) | (((*reg_ptr >> 4) & 0xf) << 24));
+  return E_NONE;
+}
+
+int istate_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("istate register does not support double operations\n");
+    return E_DACC;
+  }
+  if (mem_op_type != LD && mem_op_type != LD_U) {
+    sim_printf("istate register is read-only\n");
+    return E_DACC;
+  }
+  sim_printf("istate register is not implemented\n");
+  return E_DACC;
+}
+
+int clrint_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("clrint register does not support double operations\n");
+    return E_DACC;
+  }
+  if (mem_op_type != ST) {
+    sim_printf("clrint is write-only\n");
+    return E_DACC;
+  }
+  sim_printf("clrint register is not implemented\n");
+  return E_DACC;
+}
+
+void ien0_print() {sim_printf("ien0 = 0x%x\n", ien0);}
+void ien1_print() {sim_printf("ien1 = 0x%x\n", ien1);}
+void ien2_print() {sim_printf("ien2 = 0x%x\n", ien2);}
+void ien3_print() {sim_printf("ien3 = 0x%x\n", ien3);}
+void ien_print() {ien0_print(); ien1_print(); ien2_print(); ien3_print(); }
+void ist_print() 
+{
+  sim_printf("ist = 0x%x  %s\n", ist, (ist & (1<< 20)) ? "<cio>" : "");
+}
+
+void setswi_print() {}
+void clrswi_print() {}
+void istate_print() {}
+void clrint_print() {}
+
+
+
+/* This is the model for the WHOAMI register of a 4-CPU, 8-CMMU 188
+   board.  See page 4-51 of the
+   MVME188 VMEmodule RISC Microcomputer User's Manual. */
+void whoami_init() {}
+int whoami_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  int whoami;
+  if (size > WORD) {
+    sim_printf("duart does not support double operations\n");
+    return E_DACC;
+  }
+  if (mem_op_type != LD && mem_op_type != LD_U) {
+    sim_printf("whoami register is read-only\n");
+    return E_DACC;
+  }
+  whoami = 1 << selected_processor;
+  do_mem_op(reg_ptr, &whoami, size, mem_op_type);
+  return E_NONE;
+}
+
+void whoami_print() 
+{
+  int whoami = 1 << selected_processor;
+  sim_printf("whoami= 0x%x\n", whoami);
+}
+
+/* This simulator is a subset of the functions provided by the
+   Zilog 8536 Counter/Timer and Parallel I/O Unit. 
+
+   We do not model: 
+    connections of the parallel ports to anything
+    interrupt vectors
+
+/* This structure defines the registers inside of the CIO */
+
+struct cio_regs {
+
+  /* Main control registers */
+  u_char c_micr;		/* Master interrupt control		   */
+  u_char c_mccr;		/* Master configuration control		   */
+  u_char c_porta_iv;		/* Port A's interrupt vector		   */
+  u_char c_portb_iv;		/* Port B's interrupt vector		   */
+  u_char c_ctim_iv;		/* Counter/Timer's interrupt vector	   */
+  u_char c_portc_pol;		/* Port C's data path polarity		   */
+  u_char c_portc_dir;		/* Port C's data direction		   */
+  u_char c_portc_ioctl;		/* Port C's I/O control			   */
+
+  /* Most often accessed registers */
+  u_char c_porta_com;		/* Port A's command and status		   */
+  u_char c_portb_com;		/* Port B's command and status		   */
+  u_char c_ctim1_com;		/* Coutner/Timer 1's command and status	   */
+  u_char c_ctim2_com;		/* Coutner/Timer 2's command and status	   */
+  u_char c_ctim3_com;		/* Coutner/Timer 3's command and status	   */
+  u_char c_porta_data;		/* Port A's data (can be accessed directly)*/
+  u_char c_portb_data;		/* Port B's data (can be accessed directly)*/
+  u_char c_portc_data;		/* Port C's data (can be accessed directly)*/
+
+  /* Counter/Timer related registers */
+  u_char c_ctime1_cur_msb;	/* Counter/Timer 1's current count MSB	   */
+  u_char c_ctime1_cur_lsb;	/* Counter/Timer 1's current count LSB	   */
+  u_char c_ctime2_cur_msb;	/* Counter/Timer 2's current count MSB	   */
+  u_char c_ctime2_cur_lsb;	/* Counter/Timer 2's current count LSB	   */
+  u_char c_ctime3_cur_msb;	/* Counter/Timer 3's current count MSB	   */
+  u_char c_ctime3_cur_lsb;	/* Counter/Timer 3's current count LSB	   */
+
+  u_char c_ctime1_const_msb;	/* Counter/Timer 1's time constant MSB	   */
+  u_char c_ctime1_const_lsb;	/* Counter/Timer 1's time constant LSB	   */
+  u_char c_ctime2_const_msb;	/* Counter/Timer 2's time constant MSB	   */
+  u_char c_ctime2_const_lsb;	/* Counter/Timer 2's time constant LSB	   */
+  u_char c_ctime3_const_msb;	/* Counter/Timer 3's time constant MSB	   */
+  u_char c_ctime3_const_lsb;	/* Counter/Timer 3's time constant LSB	   */
+
+  u_char c_tim1_mode;		/* Counter/Timer 1's mode specification	   */
+  u_char c_tim2_mode;		/* Counter/Timer 2's mode specification	   */
+  u_char c_tim3_mode;		/* Counter/Timer 3's mode specification	   */
+
+  u_char c_current_vector;
+
+/* Port A specification registers */
+  u_char c_porta_mode;		/* Port A's mode specification		   */
+  u_char c_porta_hand;		/* Port A's handshake specification	   */
+  u_char c_porta_polarity;
+  u_char c_porta_dir;
+  u_char c_porta_ioctl;
+  u_char c_porta_pat_pol;
+  u_char c_porta_pat_tran;
+  u_char c_porta_pat_mask;
+
+/* Port B specification registers */
+  u_char c_portb_mode;		/* Port B's mode specification		   */
+  u_char c_portb_hand;		/* Port B's handshake specification	   */
+  u_char c_portb_polarity;
+  u_char c_portb_dir;
+  u_char c_portb_ioctl;
+  u_char c_portb_pat_pol;
+  u_char c_portb_pat_tran;
+  u_char c_portb_pat_mask;
+
+  /* We pad this structure to make it be 64 bytes long.
+     This is to handle the case when the pointer register is loaded
+     with an out-of-range value. */
+
+  u_char c_pad[0x40 - 0x2f]; } cio_regs;
+
+/* This models the states that the CIO can be in */
+
+enum cio_state {cio_reset, cio_state0, cio_state1} cio_state;
+
+/* This points to the next register to be read from state 0 or 1 and
+   the next register to be written from state 1. */
+
+static u_char *cio_reg_pointer;
+extern void check_for_cio_interrupt();
+
+void set_cio_interrupt()
+{
+  cio_regs.c_ctim1_com |= 0x20;
+  check_for_cio_interrupt();
+}
+
+/* This does to the simulated CIO what a reset command or signal
+   does to the real CIO */
+
+void cio_do_reset()
+{
+  cio_reg_pointer = &cio_regs.c_micr;
+  bzero(&cio_regs, sizeof(struct cio_regs));
+  cio_regs.c_micr = 1;
+  cio_state = cio_reset;
+  cio_regs.c_porta_com = 0x8; /* Set output-register-empty bit, others clear */
+  cio_regs.c_portb_com = 0x8; /* Set output-register-empty bit, others clear */
+}
+
+/* This decodes writes to the port and coutner/timer 
+   command/status registers */
+
+void cio_write_command_reg(command, cio_reg_pointer)
+  int command;
+  u_char *cio_reg_pointer;
+{
+  extern int timer_on, timer_count;
+  switch ((command >> 5) & 7) {
+    case 0: break;                              /* Null code */
+    case 1: *cio_reg_pointer &= ~0xa0; break;   /* Clear IP and IUS */
+    case 2: *cio_reg_pointer |= 0x80;  break;   /* Set IUS */
+    case 3: *cio_reg_pointer &= ~0x80; break;   /* Clear IUS */
+    case 4: *cio_reg_pointer |= 0x20; break;    /* Set IP */
+    case 5: *cio_reg_pointer &= ~0x20; break;   /* Clear IP */
+    case 6: *cio_reg_pointer |= 0x40;  break;   /* Set IE */
+    case 7: *cio_reg_pointer &= ~0x40; break;   /* Clear IE */
+  }
+  if (cio_reg_pointer == &cio_regs.c_ctim1_com ||
+      cio_reg_pointer == &cio_regs.c_ctim2_com ||
+      cio_reg_pointer == &cio_regs.c_ctim3_com) {
+
+    /* Set the timer based on the gate bit in the command. */
+    int old_timer_on = timer_on;
+    int ticks_per_int = varvalue("simticksperint");
+    if (ticks_per_int == 0) {
+      sim_printf("$simticksperint not set, setting to 3\n");
+      setvar("simticksperint", 3);
+      ticks_per_int = 3;
+    }
+    timer_on = (command & 4) ? ticks_per_int : 0;
+
+    if (timer_on && !old_timer_on) {
+      HoldOscillator();
+      ReleaseOscillator();
+      timer_count = timer_on;
+    }
+
+    *cio_reg_pointer &= ~4;
+    *cio_reg_pointer |= command & 4;
+
+    /* We don't do anything with the trigger command bit in the
+       counter/timer commands.  */
+  }
+}
+
+/* Check to see if the program just did something that should
+   enable the process virtual timer, i.e., that enabled the
+   simulated CIO timer.
+
+   Really, we can go ahead and just start the timer.  We don't actually
+   interrupt the simulated CPU unless all the right enable bits are set */
+
+
+/* Check to see if there is an interrupt pending in the CIO, and if so,
+   propogate it to the CPU's interrupt logic.
+
+   There are five interrupt sources within the CIO. We check them in
+   their priority order.  A set interrupt-in-service (IUS) bit in a higher
+   priority source will mask lower priority interrupts. */
+
+void check_for_cio_interrupt()
+{
+  /* Check to see that the master interrupt enable bit is on. */
+  if (!(cio_regs.c_micr & 0x80)) {
+    clear_ist(21);
+    return;
+  }
+
+  /* Check to see that the Counter/Timer 3 interrupt-in-service bit is off */
+  if (cio_regs.c_ctim3_com & 0x80) {
+    return;
+  }
+
+  /* See if an unmasked interrupt from Counter/Timer 3 is pending. */
+  if ((cio_regs.c_ctim3_com & 0x60) == 0x60) {
+    set_ist(21);
+    return;
+  }
+
+  /* Check to see that the port A interrupt-in-service bit is off */
+  if (cio_regs.c_porta_com & 0x80) {
+    return;
+  }
+
+  /* See if an unmasked interrupt from port A is pending. */
+  if ((cio_regs.c_porta_com & 0x60) == 0x60) {
+    set_ist(21);
+    return;
+  }
+
+  /* Check to see that the Counter/Timer 2 interrupt-in-service bit is off */
+  if (cio_regs.c_ctim2_com & 0x80) {
+    return;
+  }
+
+  /* See if an unmasked interrupt from Counter/Timer 2 is pending. */
+  if ((cio_regs.c_ctim2_com & 0x60) == 0x60) {
+    set_ist(21);
+    return;
+  }
+
+  /* Check to see that the port B interrupt-in-service bit is off */
+  if (cio_regs.c_portb_com & 0x80) {
+    return;
+  }
+
+  /* See if an unmasked interrupt from port B is pending. */
+  if ((cio_regs.c_portb_com & 0x60) == 0x60) {
+    set_ist(21);
+    return;
+  }
+
+  /* Check to see that the Counter/Timer 1 interrupt-in-service bit is off */
+  if (cio_regs.c_ctim1_com & 0x80) {
+    return;
+  }
+
+  /* See if an unmasked interrupt from Counter/Timer 1 is pending. */
+  if ((cio_regs.c_ctim1_com & 0x60) == 0x60) {
+    set_ist(21);
+    return;
+  }
+  clear_ist(21);
+}
+
+/* Reload the current count register fromthe time constant register for
+   the specified coutner/timer. */
+
+
+void reload_timer(t)
+  int t;
+{
+  switch (t) {
+    case 1:
+      cio_regs.c_ctime1_cur_msb = cio_regs.c_ctime1_const_msb;
+      cio_regs.c_ctime1_cur_lsb = cio_regs.c_ctime1_const_lsb;
+      break;
+
+    case 2:
+      cio_regs.c_ctime2_cur_msb = cio_regs.c_ctime2_const_msb;
+      cio_regs.c_ctime2_cur_lsb = cio_regs.c_ctime2_const_lsb;
+      break;
+
+    case 3:
+      cio_regs.c_ctime3_cur_msb = cio_regs.c_ctime3_const_msb;
+      cio_regs.c_ctime3_cur_lsb = cio_regs.c_ctime3_const_lsb;
+      break;
+
+    default:
+      sim_printf("Case error in reload_timer() (in 88k simulator) \n");
+  }
+}
+
+/* This is called by the code in io.c when the simulator is first
+   started and when the user types 'init' */
+
+void cio_init() 
+{
+  cio_do_reset();
+}
+
+/* This is called when the simulated program or the front end accesses
+   the counter/timer simulator. */
+
+int cio_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int    override;
+{
+  if (size != WORD) {
+    sim_printf("cio does not support byte, short, or double operations\n");
+    return E_DACC;
+  }
+
+  if (mem_op_type != LD && mem_op_type != LD_U && mem_op_type != ST) {
+    sim_printf("cio only supports ld and st operations\n");
+    return E_DACC;
+  }
+
+  /* There are only four byte locations that are addressable by the
+     processor.  Switch on the address offset to find which location
+     is being accessed. */
+
+  switch (address_offset) {
+    case 0:
+      do_mem_op(reg_ptr, &cio_regs.c_porta_data, BYTE, mem_op_type);
+      break;
+
+    case 4:
+      do_mem_op(reg_ptr, &cio_regs.c_portb_data, BYTE, mem_op_type);
+      break;
+
+    case 8:
+      do_mem_op(reg_ptr, &cio_regs.c_portc_data, BYTE, mem_op_type);
+      break;
+
+    case 12:
+      switch (cio_state) {
+        case cio_reset:
+          do_mem_op(reg_ptr, &cio_regs.c_micr, BYTE, mem_op_type);
+          if (cio_regs.c_micr & 1) {
+            cio_regs.c_micr = 1;	/* Force top 7 bits to zero */
+          } else {
+            cio_state = cio_state0;
+          }
+          break;
+
+        /* We come to this state after reset and after writing a
+           register from state 1.  A write will update the cio-internal-
+           register-pointer.  A read will return whatever this pointer
+           register currently points to.  */
+
+        case cio_state0:
+          if (mem_op_type == ST) {
+            cio_reg_pointer = (u_char *)&cio_regs + (*reg_ptr & 0x3f);
+            cio_state = cio_state1;
+          } else {
+            do_mem_op(reg_ptr, cio_reg_pointer, BYTE, mem_op_type);
+          }
+          break;
+
+        /* We come to this state after writing the pointer registers
+           (from state 0). A read or a write will return or write to
+           the register pointed to by the cio-internal-register-pointer
+           and change to state 0. */
+
+        case cio_state1:
+          if (mem_op_type == ST && 
+               (cio_reg_pointer == &cio_regs.c_porta_com ||
+                cio_reg_pointer == &cio_regs.c_portb_com ||
+                cio_reg_pointer == &cio_regs.c_ctim1_com ||
+                cio_reg_pointer == &cio_regs.c_ctim2_com ||
+                cio_reg_pointer == &cio_regs.c_ctim3_com)) {
+            cio_write_command_reg(*reg_ptr, cio_reg_pointer);
+          } else {
+            do_mem_op(reg_ptr, cio_reg_pointer, BYTE, mem_op_type);
+          }
+          cio_state = cio_state0;
+          break;
+
+        default:
+          sim_printf("Case error in CIO simulator!\n");
+          return E_DACC;
+          break;
+      }
+      break;
+
+    default:
+      sim_printf("lower two bits of cio address must be 00\n");
+      return E_DACC;
+  }
+  check_for_cio_interrupt();
+  return E_NONE;
+}
+
+/* This is called when the user enters the "pio" command with the
+   device index for the CIO. We display information that we think
+   will be useful to him or her. */
+
+void cio_print()
+{
+  sim_printf("CIO: %s.\n", cio_state == cio_reset ? "reset state" : 
+                         (cio_state == cio_state0 ? 
+         "next write will modify register pointer" : 
+         "next write will modify register pointed to"));
+
+  sim_printf(" Counter/Timer 1, current value=0x%x   time constant=0x%x\n",
+             (cio_regs.c_ctime1_cur_msb << 8) | cio_regs.c_ctime1_cur_lsb,
+             (cio_regs.c_ctime1_const_msb << 8) | cio_regs.c_ctime1_const_lsb);
+
+  sim_printf(" Counter/Timer 2, current value=0x%x   time constant=0x%x\n",
+             (cio_regs.c_ctime2_cur_msb << 8) | cio_regs.c_ctime2_cur_lsb,
+             (cio_regs.c_ctime2_const_msb << 8) | cio_regs.c_ctime2_const_lsb);
+
+  sim_printf(" Counter/Timer 3, current value=0x%x   time constant=0x%x\n",
+             (cio_regs.c_ctime3_cur_msb << 8) | cio_regs.c_ctime3_cur_lsb,
+             (cio_regs.c_ctime3_const_msb << 8) | cio_regs.c_ctime3_const_lsb);
+
+  sim_printf(" Master interrupt control = 0x%x\n", cio_regs.c_micr);
+  sim_printf(" Master configuration control = 0x%x\n", cio_regs.c_mccr);
+  sim_printf(" Counter/Timer 1, command/status = 0x%x\n", cio_regs.c_ctim1_com);
+  sim_printf(" Counter/Timer 1, mode spec = 0x%x\n", cio_regs.c_tim1_mode);
+}
+@
+
+
+1.2
+log
+@Added CIO simulator, but totally untested.
+@
+text
+@d252 10
+a261 6
+void ien0_print() {}
+void ien1_print() {}
+void ien2_print() {}
+void ien3_print() {}
+void ien_print() {}
+void ist_print() {}
+a267 18
+/* This is the model for the DUART that is on the Motorola 188 CPU
+   board. */
+void duart_init() {}
+int duart_operation(address_offset, reg_ptr, size, mem_op_type, override)
+    u_long address_offset;
+    u_long *reg_ptr;
+    u_long size;
+    u_long mem_op_type;
+    int      override;
+{
+  if (size > WORD) {
+    sim_printf("duart does not support double operations\n");
+    return E_DACC;
+  }
+  sim_printf("duart is not implemented\n");
+  return E_DACC;
+}
+void duart_print() {}
+a268 1
+
+a292 1
+void whoami_print() {}
+d294 6
+a306 160
+ 
+   This simulation is driven by the SUN OS  setitimer() function using 
+   virtual time mode (i.e., the timer only runs when this process is
+   running, as opposed to real/walltime).
+  
+   The oscillator is simulated by Oscillator(). The clock is simulated by
+   Clock().
+  
+   Because the simulator runs a little less then 25 times slower than the
+   real hardware, this section must simulate an oscillator than is 25
+   slower than realtime. To further complicate things, the SUN OS system
+   clock cannot provide a granularity any finer than 60Hz. Therefore, the
+   fast frequency that can be simulated is (60Hz * 25) = 1.5 kHz. The most
+   convenient TCP frequency to use is 32kHz, so a compromise is reached:
+   each tick of the simulated oscillator is considered to be 2 tics of
+   the TCP's 32kHz oscillator. Only a 32kHz oscillator is supported by
+   this simulation   */
+
+static struct itimerval itvCurrent;
+static int timer_going = 0;
+
+/* Initializes the timer simulator, both the hardware simulation and the
+   housekeeping stuff.  */
+
+void timer_init(restore)
+{
+  char *getenv();
+  char *simslow = getenv("SIMSLOW");
+  unsigned int cMicrosecondsIn60Hz;
+  unsigned int slowdownfactor;
+  extern void Oscillator();
+
+  /* install the signal handler */
+  (void) simsignal(SIGVTALRM, Oscillator);
+
+  if (simslow == (char *)0) {
+    slowdownfactor = 1;
+  } else {
+    slowdownfactor = atoi(simslow);
+    if (slowdownfactor <= 0 || slowdownfactor > 100000) {
+      sim_printf("SIMSLOW must be in 1..100000\n");
+      slowdownfactor = 1;
+    }
+  }
+  cMicrosecondsIn60Hz = 16667 * slowdownfactor;
+
+  /* set UTek timer for 60Hz */
+  itvCurrent.it_interval.tv_sec = cMicrosecondsIn60Hz / 1000000;
+  itvCurrent.it_interval.tv_usec = cMicrosecondsIn60Hz % 1000000;
+
+  if (restore) {
+    return;
+  }
+
+  itvCurrent.it_value.tv_sec = cMicrosecondsIn60Hz / 1000000;
+  itvCurrent.it_value.tv_usec = cMicrosecondsIn60Hz % 1000000;
+}
+
+/* This routine simulatate the oscillator. This routine gets called by SUN OS
+   in response to a SIGVTALRM. In response, 2 pulses are added to the
+   oscillation count, and the clock, timer, and alarm management routines
+   are called.  */
+
+void Oscillator()
+{
+}
+
+/* Stop the oscillator simulation by stoping the SUN/OS clock.  */
+
+static void StopOscillator()
+{
+  struct itimerval    timer_off;
+        
+  /* If the oscillator is already stopped, do nothing.  */
+  if (!timer_going) {
+    return;
+  }
+
+  timer_off.it_interval.tv_sec = 0;
+  timer_off.it_interval.tv_usec = 0;
+  timer_off.it_value.tv_sec = 0;
+  timer_off.it_value.tv_usec = 0;
+  setitimer (ITIMER_VIRTUAL, &timer_off, &itvCurrent);
+  timer_going = 0;
+}
+
+/* Start the oscillator simulation by starting the UTek clock.  */
+
+static void StartOscillator()
+{
+  struct itimerval itvDummy;
+
+  /* If the oscillator is already started, do nothing.  */
+  if (timer_going) {
+    return;
+  }
+  /* start the UTek clock */
+  itvCurrent.it_value.tv_usec += 30; /* Compensate for startup time. */
+  (void) setitimer (ITIMER_VIRTUAL, &itvCurrent, &itvDummy);
+  timer_going = 1;
+}
+
+/* Temporarily stop the oscillator by stopping the UTek timer that drives
+   it. This is also very handy when doing a rollover in case the simulation
+   code requires more than 1/60sec to execute!, and to make it effectively
+   "non-interruptable" (by the SUN OS timer).  */
+
+static int hold_count=0;
+
+#ifdef NOTDEF
+void HoldOscillator()
+{
+  struct itimerval    itvOff;
+
+  /* If the timer isn't ticking, there's nothing to hold.  */
+  if (!timer_going) {
+    return;
+  }
+
+  /* Consistency check: make sure that calls to HoldOscillator and
+     ReleaseOscillator are in the proper sequence.  */
+  if (hold_count != 0) {
+    sim_printf("HoldOscillator called while already held\n");
+    return;
+  }
+  hold_count = 1;
+
+  /* Turn off the interval timer, and save its old value.  */
+  itvOff.it_interval.tv_sec = 0;
+  itvOff.it_interval.tv_usec = 0;
+  itvOff.it_value.tv_sec = 0;
+  itvOff.it_value.tv_usec = 0;
+
+  (void) setitimer (ITIMER_VIRTUAL, &itvOff, &itvCurrent);
+}
+
+/* Restart the oscillator simulation by re-starting the UTek timer used to
+   drive it. This routine assumes that the SUN/OS timer has been stopped by
+   HoldOscillator().  */
+
+void ReleaseOscillator()
+{
+  struct itimerval    itvDummy;
+
+  /* If the timer isn't supposed to be ticking, there's nothing to hold.  */
+  if (!timer_going) {
+    return;
+  }
+
+  if (hold_count != 1) {
+    sim_printf("ReleaseOscillator called when not held\n");
+    return;
+  }
+  hold_count = 0;
+
+  itvCurrent.it_value.tv_usec += 30;
+  (void) setitimer (ITIMER_VIRTUAL, &itvCurrent, &itvDummy);
+}
+
+#endif
+d312 8
+a319 8
+  char c_micr;			/* Master interrupt control		   */
+  char c_mccr;			/* Master configuration control		   */
+  char c_porta_iv;		/* Port A's interrupt vector		   */
+  char c_portb_iv;		/* Port B's interrupt vector		   */
+  char c_ctim_iv;		/* Counter/Timer's interrupt vector	   */
+  char c_portc_pol;		/* Port C's data path polarity		   */
+  char c_portc_dir;		/* Port C's data direction		   */
+  char c_portc_ioctl;		/* Port C's I/O control			   */
+d322 8
+a329 8
+  char c_porta_com;		/* Port A's command and status		   */
+  char c_portb_com;		/* Port B's command and status		   */
+  char c_ctim1_com;		/* Coutner/Timer 1's command and status	   */
+  char c_ctim2_com;		/* Coutner/Timer 2's command and status	   */
+  char c_ctim3_com;		/* Coutner/Timer 3's command and status	   */
+  char c_porta_data;		/* Port A's data (can be accessed directly)*/
+  char c_portb_data;		/* Port B's data (can be accessed directly)*/
+  char c_portc_data;		/* Port C's data (can be accessed directly)*/
+d332 6
+a337 13
+  char c_ctime1_cur_msb;	/* Counter/Timer 1's current count MSB	   */
+  char c_ctime1_cur_lsb;	/* Counter/Timer 1's current count LSB	   */
+  char c_ctime2_cur_msb;	/* Counter/Timer 2's current count MSB	   */
+  char c_ctime2_cur_lsb;	/* Counter/Timer 2's current count LSB	   */
+  char c_ctime3_cur_msb;	/* Counter/Timer 3's current count MSB	   */
+  char c_ctime3_cur_lsb;	/* Counter/Timer 3's current count LSB	   */
+
+  char c_ctime1_const_msb;	/* Counter/Timer 1's time constant MSB	   */
+  char c_ctime1_const_lsb;	/* Counter/Timer 1's time constant LSB	   */
+  char c_ctime2_const_msb;	/* Counter/Timer 2's time constant MSB	   */
+  char c_ctime2_const_lsb;	/* Counter/Timer 2's time constant LSB	   */
+  char c_ctime3_const_msb;	/* Counter/Timer 3's time constant MSB	   */
+  char c_ctime3_const_lsb;	/* Counter/Timer 3's time constant LSB	   */
+d339 6
+a344 3
+  char c_tim1_mode;		/* Counter/Timer 1's mode specification	   */
+  char c_tim2_mode;		/* Counter/Timer 2's mode specification	   */
+  char c_tim3_mode;		/* Counter/Timer 3's mode specification	   */
+d346 3
+a348 1
+  char c_current_vector;
+d350 2
+d353 8
+a360 8
+  char c_porta_mode;		/* Port A's mode specification		   */
+  char c_porta_hand;		/* Port A's handshake specification	   */
+  char c_porta_polarity;
+  char c_porta_dir;
+  char c_porta_ioctl;
+  char c_porta_pat_pol;
+  char c_porta_pat_tran;
+  char c_porta_pat_mask;
+d363 8
+a370 8
+  char c_portb_mode;		/* Port B's mode specification		   */
+  char c_portb_hand;		/* Port B's handshake specification	   */
+  char c_portb_polarity;
+  char c_portb_dir;
+  char c_portb_ioctl;
+  char c_portb_pat_pol;
+  char c_portb_pat_tran;
+  char c_portb_pat_mask;
+d376 1
+a376 1
+  char c_pad[0x40 - 0x2f]; } cio_regs;
+d385 2
+a386 1
+static char *cio_reg_pointer;
+d388 6
+d407 3
+a409 1
+/* This decodes writes to the port command/status registers */
+d412 1
+a412 1
+  char *cio_reg_pointer;
+d414 1
+d425 26
+d453 8
+d462 1
+a462 1
+   propogate it to the CPU's interrupt logic. */
+d464 4
+d472 1
+d476 2
+a477 2
+  /* Check to see that the interrupt-in-service bit is off */
+  if (!(cio_regs.c_porta_com & 0x80)) {
+d481 11
+d495 1
+d498 2
+a499 2
+  /* Check to see that the interrupt-in-service bit is off */
+  if (!(cio_regs.c_portb_com & 0x80)) {
+d503 11
+d517 1
+d519 12
+d533 28
+d579 2
+a580 2
+  if (size != BYTE) {
+    sim_printf("cio does not support short, word, or double operations\n");
+d585 1
+a585 1
+    sim_printf("cio only supports, ld.b, ld.bu, and st.b operations\n");
+d594 2
+a595 2
+    case 3:
+      do_mem_op(reg_ptr, &cio_regs.c_porta_data, size, mem_op_type);
+d598 2
+a599 2
+    case 7:
+      do_mem_op(reg_ptr, &cio_regs.c_portb_data, size, mem_op_type);
+d602 2
+a603 2
+    case 11:
+      do_mem_op(reg_ptr, &cio_regs.c_portc_data, size, mem_op_type);
+d606 1
+a606 1
+    case 15:
+d609 1
+a609 1
+          do_mem_op(reg_ptr, &cio_regs.c_micr, size, mem_op_type);
+a612 1
+            cio_regs.c_micr = 0;	/* Come out of reset condition */
+d624 1
+a624 1
+            cio_reg_pointer = (char *)&cio_regs + (*reg_ptr & 0x3f);
+d627 1
+a627 1
+            do_mem_op(reg_ptr, cio_reg_pointer, size, mem_op_type);
+d637 6
+a642 2
+          if (cio_reg_pointer == &cio_regs.c_porta_com ||
+              cio_reg_pointer == &cio_regs.c_portb_com) {
+d645 1
+a645 1
+            do_mem_op(reg_ptr, cio_reg_pointer, size, mem_op_type);
+d658 1
+a658 1
+      sim_printf("lower two bits of cio address must be 11\n");
+d671 1
+a671 1
+  sim_printf("CIO: %s\n", cio_state == cio_reset ? "reset state" : 
+d688 4
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 1
+a4 1
+   are modelled.  */
+d6 2
+d9 2
+d309 434
+@
