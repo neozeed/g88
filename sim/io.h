@@ -31,9 +31,10 @@ struct io_trace {
 extern struct io_dev io_dev_tab[];
 extern u_long cmmus;
 
-#define DECL(name)  extern void name/**/_init();      \
-                    extern int  name/**/_operation(); \
-                    extern void name/**/_print()
+#define DECL(name)  extern void name##_init();      \
+                    extern int  name##_operation(); \
+                    extern void name##_print();
+
 
 DECL(data_cmmu_0); DECL(data_cmmu_1); DECL(data_cmmu_2); DECL(data_cmmu_3);
 DECL(code_cmmu_0); DECL(code_cmmu_1); DECL(code_cmmu_2); DECL(code_cmmu_3);

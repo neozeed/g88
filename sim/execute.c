@@ -60,8 +60,9 @@
 
 #define L(name)                           \
     { name:;                              \
-      asm(" .globl _sim_/**/name");       \
-      asm("_sim_/**/name:"); }
+      asm(" .globl _sim_" #name);         \
+      asm("_sim_" #name ":"); }
+
 
 
 /*
@@ -115,10 +116,11 @@
     ptr = SRC1 + SRC2;                                                        \
     if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto macc;                       \
     else ptr &= ~(SIZE - 1);                                                  \
-    ptr = (u_long)TLB/**/_tlb[btos(ptr)][btop(ptr)] + poff(ptr);              \
+    ptr = (u_long)TLB##_tlb[btos(ptr)][btop(ptr)] + poff(ptr);                \
     if (ptr < PAGESIZE) { ip = IP;                                            \
         ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, MODE);         \
         if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }
+
 
 /*
  * Like the above macro except for use in scaled memory instructions.
@@ -127,10 +129,11 @@
     ptr = SRC1 + SRC2 * SIZE;                                                 \
     if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto macc;                       \
     else ptr &= ~(SIZE - 1);                                                  \
-    ptr = (u_long)TLB/**/_tlb[btos(ptr)][btop(ptr)] + poff(ptr);              \
+    ptr = (u_long)TLB##_tlb[btos(ptr)][btop(ptr)] + poff(ptr);                \
     if (ptr < PAGESIZE) { ip = IP;                                            \
         ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, MODE);  \
         if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }
+
 
 /*
  * This sets our local pointers to either the user's or supervisors
@@ -2157,8 +2160,9 @@ L(br);
 L(br_n);
     TAKE_DELAYED_BRANCH;
 
-#define BB0(bit) L(bb0_/**/bit); if ((SRC1 & (1 << bit)) == 0) TAKE_BRANCH; \
-                                  DISPATCH_NEXT;
+#define BB0(bit) L(bb0_##bit); if ((SRC1 & (1 << bit)) == 0) TAKE_BRANCH; \
+                               DISPATCH_NEXT;
+
 
 BB0(0);  BB0(1);  BB0(2);  BB0(3);  BB0(4);  BB0(5);  BB0(6);  BB0(7);
 BB0(8);  BB0(9);  BB0(10); BB0(11); BB0(12); BB0(13); BB0(14); BB0(15);
@@ -2167,7 +2171,7 @@ BB0(24); BB0(25); BB0(26); BB0(27); BB0(28); BB0(29); BB0(30); BB0(31);
 
 #undef BB0
 
-#define BB1(bit) L(bb1_/**/bit); if (SRC1 & (1 << bit)) TAKE_BRANCH; \
+#define BB1(bit) L(bb1_##bit); if (SRC1 & (1 << bit)) TAKE_BRANCH; \
                                   DISPATCH_NEXT;
 
 BB1(0);  BB1(1);  BB1(2);  BB1(3);  BB1(4);  BB1(5);  BB1(6);  BB1(7);
@@ -2177,7 +2181,7 @@ BB1(24); BB1(25); BB1(26); BB1(27); BB1(28); BB1(29); BB1(30); BB1(31);
 
 #undef BB1
 
-#define BB0_N(bit) L(bb0_n_/**/bit); if ((SRC1 & (1 << bit)) == 0)  \
+#define BB0_N(bit) L(bb0_n_##bit); if ((SRC1 & (1 << bit)) == 0)  \
                                         TAKE_DELAYED_BRANCH;        \
                                      DISPATCH_NEXT;
 
@@ -2192,7 +2196,7 @@ BB0_N(28); BB0_N(29); BB0_N(30); BB0_N(31);
 
 #undef BB0_N
 
-#define BB1_N(bit) L(bb1_n_/**/bit); if (SRC1 & (1 << bit))        \
+#define BB1_N(bit) L(bb1_n_##bit); if (SRC1 & (1 << bit))        \
                                          TAKE_DELAYED_BRANCH;      \
                                      DISPATCH_NEXT;
 
@@ -2224,10 +2228,11 @@ dummies:
 
 #undef L
 #define L(x) if (sim_zero()) goto x;
-#define BB0(x) if (sim_zero()) goto bb0_/**/x;
-#define BB1(x) if (sim_zero()) goto bb1_/**/x;
-#define BB0_N(x) if (sim_zero()) goto bb0_n_/**/x;
-#define BB1_N(x) if (sim_zero()) goto bb1_n_/**/x;
+#define BB0(x) if (sim_zero()) goto bb0_##x;
+#define BB1(x) if (sim_zero()) goto bb1_##x;
+#define BB0_N(x) if (sim_zero()) goto bb0_n_##x;
+#define BB1_N(x) if (sim_zero()) goto bb1_n_##x;
+
 
 asm("| START DELETING HERE");
 #include "extern.h"

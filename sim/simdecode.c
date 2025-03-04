@@ -15,11 +15,12 @@
 /*
  * These macros turn the lines of extern.h into extern declarations.
  */
-#define L(x)  extern sim_/**/x();
-#define BB0(x) extern sim_bb0_/**/x();
-#define BB1(x) extern sim_bb1_/**/x();
-#define BB0_N(x) extern sim_bb0_n_/**/x();
-#define BB1_N(x) extern sim_bb1_n_/**/x();
+#define L(x)      extern sim_##x();
+#define BB0(x)    extern sim_bb0_##x();
+#define BB1(x)    extern sim_bb1_##x();
+#define BB0_N(x)  extern sim_bb0_n_##x();
+#define BB1_N(x)  extern sim_bb1_n_##x();
+
 
 #include "extern.h"
 
@@ -424,7 +425,7 @@ fix_or_u(instr_info, instr, p)
     fix_r0(instr_info, instr, p);
 }
 
-#define REF(x)  (struct instr_info *)0, sim_/**/x
+#define REF(x)  (struct instr_info *)0, sim_##x
 #define NOFIX   ((int (*)())0)
 
 static
