@@ -34,7 +34,7 @@
 # is where it should be according to Posix).
 
 #CC=gcc -O
-CC=cc
+CC=gcc
 #CC=gcc -traditional
 #CC=/bin/cc
 #YACC=bison -y -v
@@ -44,7 +44,7 @@ SHELL=/bin/sh
 # Set this up with gcc if you have gnu ld and the loader will print out
 # line numbers for undefinded refs.  
 #CC-LD=cc -Bstatic
-CC-LD=cc
+CC-LD=gcc
 
 # -I. for "#include <obstack.h>".  Possibly regex.h also. 
 HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -Dm88k -DNON_NATIVE 
@@ -145,7 +145,7 @@ MFILES88 = m-m88k.h
 MFILES =
 
 ALLFILES88 = $(DEPFILES88) $(PINSNS88) $(OPCODES88) $(MFILES88)
-READLINE = readline
+READLINE =  readline
 
 
 POSSLIBS = obstack.h obstack.c regex.c regex.h malloc.c alloca.c
@@ -355,7 +355,7 @@ expread.o : expread.tab.c defs.h param.h symtab.h frame.h expression.h
 # history.o: history.c history.h general.h 
 #	${CC} -c ${CFLAGS} ${SYSV_DEFINE} history.c
 
-readline/libreadline.a : force_update
+ readline/libreadline.a : force_update
 	cd readline ;\
 	  make ${MFLAGS} "SYSV_DEFINE=${SYSV_DEFINE}" "HACKFLAGS=${HACKFLAGS}" libreadline.a
 

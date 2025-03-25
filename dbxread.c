@@ -29,7 +29,23 @@ This file is part of GDB.  */
 #include "a.out.h"		/* -rcb 8/90 */
 #endif
 
+#ifndef _WIN32
 #include <stab.h>
+#else
+
+#define __GNU_STAB__
+
+#define __define_stab(NAME, CODE, STRING) NAME=CODE,
+
+enum __stab_debug_code
+{
+#include "stab.def"
+LAST_UNUSED_STAB_CODE
+};
+
+#undef __define_stab
+
+#endif
 #endif
 #include <ctype.h>
 
@@ -1516,7 +1532,7 @@ symbol_file_command (name)
   char *stringtab;
   long buffer;
   register int val;
-  extern void close ();
+//  extern void close ();
   struct cleanup *old_chain;
   struct symtab *symseg;
   struct stat statbuf;
@@ -2677,7 +2693,7 @@ psymtab_to_symtab(pst)
   int stsize, val;
   struct stat statbuf;
   struct cleanup *old_chain;
-  extern void close ();
+//  extern void close ();
   struct symtab *result;
   char *name = symfile;		/* Some of the macros require the */
 				/* variable "name" to be defined in */
@@ -3408,7 +3424,7 @@ add_file_command (arg_string)
   char *stringtab;
   long buffer;
   register int val;
-  extern void close ();
+//  extern void close ();
   struct cleanup *old_chain;
   struct symtab *symseg;
   struct stat statbuf;

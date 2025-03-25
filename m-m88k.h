@@ -28,7 +28,7 @@ This file is part of GDB. */
 #define USG
 
 /* USG systems need these */
-#define vfork() fork()
+//#define vfork() fork()
 #ifndef MAXPATHLEN
 #define MAXPATHLEN 500
 #endif
@@ -55,9 +55,9 @@ This file is part of GDB. */
 #endif
 
 /* Get rid of any system-imposed stack limit if possible.  */
-
+#ifndef _WIN32
 #define SET_STACK_LIMIT_HUGE
-
+#endif
 /* Define this if the C compiler puts an underscore at the front
    of external names before giving them to the linker.  */
 

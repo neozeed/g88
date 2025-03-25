@@ -10,10 +10,14 @@
 
 #include <sys/types.h>
 #include <stdio.h>
+#ifndef _WIN32
 #include <sys/dir.h>
+#endif
 #include <signal.h>
 #include <sys/time.h>
+#ifndef _WIN32
 #include <sys/ptrace.h>
+#endif
 #include <fcntl.h>
 
 #ifdef USEDGCOFF	/* -rcb 6/90 */
@@ -79,11 +83,13 @@ serr()
 {
   static char errbuf[80];
 
+#ifndef _WIN32
   if (0<errno && errno<sys_nerr)
     {
       return sys_errlist[errno];
     }
   else
+#endif
     {
       (void) sprintf(errbuf, "unknown system error (%d)", errno);
       return errbuf;

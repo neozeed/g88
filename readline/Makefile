@@ -27,6 +27,7 @@ CFLAGS = $(DEBUG_FLAGS) $(SYSV_DEFINE) $(HACKFLAGS) -DBSD
 
 # If you don't have Gcc use cc.
 # CC = cc
+CC = gcc -g
 AR = ar
 RANLIB = /usr/bin/ranlib
 #RANLIB = ar qs

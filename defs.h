@@ -74,7 +74,7 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 extern char *savestring ();
 extern char *concat ();
 extern char *xmalloc (), *xrealloc ();
-extern char *alloca ();
+//extern char *alloca ();
 extern int parse_escape ();
 extern char *reg_names[];
 
@@ -128,8 +128,8 @@ extern void free_current_contents ();
 extern void reinitialize_more_filter ();
 extern void fputs_filtered ();
 extern void fprintf_filtered ();
-extern void printf_filtered ();
-extern void print_spaces_filtered ();
+//extern void printf_filtered ();
+//extern void print_spaces_filtered ();
 
 /* Structure for saved commands lines
    (for breakpoints, defined commands, etc).  */
@@ -177,9 +177,21 @@ void print_command_lines ();
 
 char *current_directory;
 
-#ifdef sun-4 /* -rcb 6/90 */
+/* -rcb 6/90 */
+#ifdef sun-4
 #include <alloca.h>
 #endif
 
 extern char *index(); /* -rcb 6/90 */
 extern char *rindex(); /* -rcb 6/90 */
+
+#ifdef _WIN32
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+typedef unsigned long u_long;
+#define __sys_types_h
+#define SIGTRAP 33
+#define SIGINT 32
+#define index rindex
+#endif

@@ -1,5 +1,6 @@
 
 # Makefile to build sim.o, the object file with the 88000 simulator.
+CC = gcc
 
 CFLAGS= -g 
 
@@ -89,16 +90,16 @@ ce.o: sim.h sim_interface.h io.h CE_defs.h FBUS_defs.h IOB_defs.h
 cmmu.o: sim.h sim_interface.h cmmu.h io.h
 console.o: sim.h sim_interface.h
 simdecode.o: sim.h sim_interface.h decode.h format.h fields88.h extern.h
-simdisasm.o: /usr/include/stdio.h fields88.h disasm.h format.h
-disk.o: /usr/include/sys/types.h /usr/include/sys/fcntl.h sim.h
+simdisasm.o:  fields88.h disasm.h format.h
+disk.o: sim.h
 disk.o: sim_interface.h
 dmac.o: sim.h sim_interface.h dma.h we32104.h
 dram_errs.o: sim.h sim_interface.h cmmu.h
 dram_mapper.o: sim.h sim_interface.h
 execute.o: sim.h sim_interface.h fields88.h montraps.h extern.h
-gettime.o: sim.h sim_interface.h /usr/include/sys/time.h
-siminit.o: sim.h sim_interface.h /usr/include/signal.h
-siminit.o: /usr/include/sys/signal.h
+gettime.o: sim.h sim_interface.h 
+siminit.o: sim.h sim_interface.h 
+siminit.o: 
 io.o: sim.h sim_interface.h io.h
 iob.o: sim.h sim_interface.h io.h FBUS_defs.h IOB_defs.h
 lanram.o: sim_interface.h
@@ -106,23 +107,19 @@ lcsr.o: sim.h sim_interface.h io.h
 led.o: sim.h sim_interface.h led.h
 memory.o: sim.h sim_interface.h
 misc.o: sim.h sim_interface.h cmmu.h decode.h format.h fields88.h
-misc.o: /usr/include/string.h /usr/include/signal.h /usr/include/sys/signal.h
-misc.o: /usr/include/stdio.h
-newcons.o: /usr/include/errno.h /usr/include/sys/errno.h
-newcons.o: /usr/include/sys/file.h /usr/include/sys/types.h
-newcons.o: /usr/include/sys/stat.h /usr/include/fcntl.h
-newcons.o: /usr/include/sys/fcntl.h /usr/include/signal.h
-newcons.o: /usr/include/sys/signal.h /usr/include/sgtty.h
-newcons.o: /usr/include/stdio.h sim.h sim_interface.h io.h
-rom.o: /usr/include/sys/fcntl.h /usr/include/sys/types.h sim.h
+misc.o:   
+misc.o: 
+newcons.o:  
+newcons.o: 
+newcons.o:  
+newcons.o: 
+newcons.o:  sim.h sim_interface.h io.h
+rom.o: sim.h
 rom.o: sim_interface.h
-scc.o: /usr/include/errno.h /usr/include/sys/errno.h /usr/include/sys/types.h
-scc.o: /usr/include/sys/stat.h /usr/include/fcntl.h /usr/include/sys/fcntl.h
-scc.o: /usr/include/signal.h /usr/include/sys/signal.h /usr/include/stdio.h
-scc.o: /usr/include/sys/ioctl.h /usr/include/sys/termio.h sim.h
+scc.o: sim.h
 scc.o: sim_interface.h io.h
-simgdb.o: /usr/include/stdio.h sim_interface.h m-m88k.h ../ui.h ../defs.h
-simgdb.o: /usr/include/signal.h /usr/include/sys/signal.h
-timer.o: /usr/include/sys/time.h /usr/include/signal.h
-timer.o: /usr/include/sys/signal.h sim.h sim_interface.h dp8571.h
+simgdb.o:  sim_interface.h m-m88k.h ../ui.h ../defs.h
+simgdb.o:  
+timer.o:  
+timer.o:  sim.h sim_interface.h dp8571.h
 mvme188.o: sim.h sim_interface.h

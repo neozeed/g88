@@ -265,6 +265,7 @@ static void pass_sigstphandler()
 {
   passthroughmode = false;
   restore_terminal_mode();
+#ifndef _WIN32
   signal(SIGTSTP, SIG_DFL);
 #ifdef SYSV
   sigsetmask(sigblock() & ~sigmask(SIGTSTP));
@@ -273,6 +274,7 @@ static void pass_sigstphandler()
 #endif
   kill(getpid(), SIGTSTP);
   signal(SIGTSTP, pass_sigstphandler);
+#endif
   passthroughmode = true;
   init_terminal_mode();
   put_remote_char('\r');
@@ -602,7 +604,9 @@ void do_pass_command(str, from_tty, verbose_parameter)
   if (setjmp(pass_env)) {
     passthroughmode = false;
     spllo();	/* This will reset handler to be request_quit() */
+#ifndef _WIN32
     signal(SIGTSTP, SIG_DFL);
+#endif
     restore_terminal_mode();
     restore_remote_mode();
     return;
@@ -618,7 +622,9 @@ void do_pass_command(str, from_tty, verbose_parameter)
   spllo();
   if (from_tty) {
     verbose = true;
+#ifndef _WIN32
     signal(SIGTSTP, pass_sigstphandler);
+#endif
     init_terminal_mode(); 
   }
  
@@ -933,7 +939,9 @@ eat_it_Dijkstra:
     ui_fflush(stdout);
   }
   spllo();	/* This will reset handler to be request_quit() */
+#ifndef _WIN32
   signal(SIGTSTP, SIG_DFL);
+#endif
   restore_terminal_mode();
   restore_remote_mode();
 }

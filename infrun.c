@@ -116,6 +116,10 @@
 #include <stdio.h>
 #include <signal.h>
 
+#ifdef _WIN32
+#undef TEK_HACK
+#endif
+
 #ifdef TEK_HACK
 #include <sys/types.h>
 #include <sys/ptrace.h>
@@ -579,11 +583,13 @@ static int check_for_exited_or_stopped_process(w)
       stop_print_frame = 0;
       stop_signal = WTERMSIG (w);
       terminal_ours_for_output ();
+#ifndef _WIN32
       ui_fprintf(stdout, "\nProgram terminated with signal %d, %s\n",
 		  stop_signal,
 		  stop_signal < NSIG
 		  ? sys_siglist[stop_signal]
 		  : "(undocumented)");
+#endif
       ui_fprintf(stdout, "The inferior process no longer exists.\n");
       ui_fflush (stdout);
 #ifdef NO_SINGLE_STEP
@@ -761,7 +767,9 @@ Type \"continue\" to begin execution of the new program.\n",
 			{
 			  stop_pc -= DECR_PC_AFTER_BREAK;
 #ifndef TEK_HACK
+#ifndef _WIN32
 			  write_register (PC_REGNUM, stop_pc);	/*** never! ***/
+#endif
 #endif
 			  pc_changed = 0;
 			}
@@ -782,7 +790,9 @@ Type \"continue\" to begin execution of the new program.\n",
 		      if (stop_breakpoint && DECR_PC_AFTER_BREAK )
 			{
 			  stop_pc -= DECR_PC_AFTER_BREAK;
+#ifndef _WIN32
 			  write_register (PC_REGNUM, stop_pc);	/*** never! ***/
+#endif
 #ifdef NPC_REGNUM
 			  write_register (NPC_REGNUM, stop_pc + 4);
 #endif
@@ -859,11 +869,13 @@ static int handle_random_signal()
 	    {
 	      printed = 1;
 	      terminal_ours_for_output ();
+#ifndef _WIN32
 	      ui_fprintf(stdout, "\nProgram received signal %d, %s\n",
 		      stop_signal,
 		      stop_signal < NSIG
 		      ? sys_siglist[stop_signal]
 		      : "(undocumented)");
+#endif
 	      ui_fflush (stdout);
 	    }
 	  if (stop_signal >= NSIG
@@ -1535,6 +1547,7 @@ handle_command (args, from_tty)
       /* Look for SIG*** type signal name */
 	      int n = 1;
 
+#ifndef _WIN32
               while (n < NSIG) {
 	       if (strlen(sys_siglist[n]) == wordlen &&
 	        strncmp(p, sys_siglist[n], wordlen) == 0) {
@@ -1543,6 +1556,7 @@ handle_command (args, from_tty)
 	       }
 	       n++;
 	      }
+#endif
           }
 #endif /* TEK_PROG_HACK */
 	  if (signum <= 0 || signum >= NSIG)
@@ -1603,7 +1617,9 @@ handle_command (args, from_tty)
       ui_fprintf(stdout, "%s\t", signal_stop[signum] ? "Yes" : "No");
       ui_fprintf(stdout, "%s\t", signal_print[signum] ? "Yes" : "No");
       ui_fprintf(stdout, "%s\t\t", signal_program[signum] ? "Yes" : "No");
+#ifndef _WIN32
       ui_fprintf(stdout, "%s\n", sys_siglist[signum]);
+#endif
     }
 }
 
@@ -1627,7 +1643,9 @@ signals_info (signum_exp)
         printf_filtered ("%s\t", signal_stop[i] ? "Yes" : "No");
         printf_filtered ("%s\t", signal_print[i] ? "Yes" : "No");
         printf_filtered ("%s\t\t", signal_program[i] ? "Yes" : "No");
+#ifndef _WIN32
         printf_filtered ("%s\n", sys_siglist[i]);
+#endif
         return;
       }
       else
@@ -1649,7 +1667,9 @@ signals_info (signum_exp)
       printf_filtered ("%s\t", signal_stop[i] ? "Yes" : "No");
       printf_filtered ("%s\t", signal_print[i] ? "Yes" : "No");
       printf_filtered ("%s\t\t", signal_program[i] ? "Yes" : "No");
+#ifndef _WIN32
       printf_filtered ("%s\n", sys_siglist[i]);
+#endif
     }
 
   printf_filtered ("\nUse the \"handle\" command to change these tables.\n");

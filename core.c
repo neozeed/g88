@@ -41,7 +41,9 @@ This file is part of GDB.  */
 #endif
 #include <stdio.h>
 #include <signal.h>
+#ifndef _WIN32
 #include <sys/dir.h>
+#endif
 #include <sys/file.h>
 #include <sys/stat.h>
 

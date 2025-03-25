@@ -111,21 +111,25 @@ static void Oscillator()
 /* Turn off the SIGVTALRM, regardless of the setting of timer_on. */
 void HoldOscillator()
 {
+#ifndef _WIN32
   struct itimerval    new_timer_value, old_timer_value;
       
   new_timer_value.it_interval.tv_sec = 0;
   new_timer_value.it_interval.tv_usec = 0;
   new_timer_value.it_value.tv_sec = 0;
   new_timer_value.it_value.tv_usec = 0;
+
   if (setitimer (ITIMER_VIRTUAL, &new_timer_value, &old_timer_value) != 0) {
     sim_printf("g88: setitimer(ITIMER_VIRTUAL,..) in HoldOscillator() returns error\n");
   }
+#endif
 }
 
 /* Turn on SIGVTALRM only if the trivial timer is on or if we are
    waiting for a multiprocessor switch interrupt. */
 void ReleaseOscillator()
 {
+#ifndef _WIN32
   struct itimerval new_timer_value, old_timer_value;
   u_long usec;
 
@@ -146,6 +150,8 @@ SUN-OS will not interrupt any faster, so $simtick is effectively 10000\n");
       sim_printf("g88: setitimer() in ReleaseOscillator() returns error.\n");
     }
   }
+#else
+#endif
 }
 
 /* The trivial timer pulls the interrupt line of the currently 

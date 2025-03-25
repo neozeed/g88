@@ -153,8 +153,10 @@ struct compress compress_table[] = {
 
 static int direction;		/* 1 or 2 for receiving or transmitting       */
 
+#ifndef _WIN32
 static struct itimerval new_timerval;
 static struct itimerval old_timerval;
+#endif
 
 extern char *malloc();
 
@@ -1130,6 +1132,7 @@ void setbaud(new_baud)
  */
 void open_debug_port()
 {
+#ifndef _WIN32
 #ifdef SYSV
   struct termio t;
 #endif
@@ -1194,6 +1197,8 @@ void open_debug_port()
     rerr("open_debug_port: Error doing fcntl to set flags on %s", 
                                                              remote_tty_name);
   }
+#else
+#endif
 }
 
 /*
@@ -1592,6 +1597,7 @@ void put_remote_char(c)
  */
 static void flush_output_buffer()
 {
+#ifndef _WIN32
   int cnt;
   struct timeval tv;
   fd_set fdset;
@@ -1614,6 +1620,8 @@ static void flush_output_buffer()
     bytes_transmitted += output_buffercnt;
   }
   init_output_buffer();
+#else
+#endif
 }
 
 /* Reset the variables associated with the input buffer. */
@@ -1672,6 +1680,7 @@ u_char get_remote_char(timeout_action, timeout)
   timeout_action_t timeout_action;
   int timeout;
 {
+#ifndef _WIN32
   int firsttime = true;
 
   if (input_buffer_cnt > 0) {
@@ -1730,6 +1739,8 @@ u_char get_remote_char(timeout_action, timeout)
      }
 #endif
   }
+#else
+#endif
 }
 
 /*
@@ -1771,12 +1782,15 @@ static control_fd = -1;
 
 static void open_control_port()
 {
+#ifndef _WIN32
   if (control_fd == -1) {
     if ((control_fd = open(reset_tty_name(), O_RDWR|O_NDELAY)) < 0) {
       ui_badnews(-1, "cannot open %s, err code = %d", 
                                   reset_tty_name(), control_fd);
     }
   }
+#else
+#endif
 }
 
 /* Close the control port if it is open */

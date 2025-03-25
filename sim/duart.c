@@ -52,9 +52,11 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
+#ifndef _WIN32
 #include <sys/ioctl.h>
 #ifdef SYSV
 #include <sys/termio.h>
+#endif
 #endif
 
 #include "sim.h"
@@ -215,6 +217,7 @@ int a_or_b;
  */
 static void check_tty_line(a_or_b)
 {
+#ifndef _WIN32
     int i, chars_read, fd;
     int cnt;
     int chars_to_read;
@@ -280,6 +283,7 @@ static void check_tty_line(a_or_b)
            set_ist(17);
         }
     }
+#endif
 }
 
 /*

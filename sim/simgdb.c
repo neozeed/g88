@@ -586,7 +586,11 @@ void multiprocessor_switch()
   }
 }
 
+#ifndef _WIN32
 #include <sys/signal.h>
+#else
+#include <signal.h>
+#endif
 /* Let the simulated 88000 system execute instructions.  If step is
    non-zero, execute one instruction and return.  If step is zero,
    execute instructions until a breakpoint, front-end interrupt,

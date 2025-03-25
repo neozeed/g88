@@ -18,7 +18,9 @@
 #include <signal.h>
 
 #ifdef BSD
+#ifndef _WIN32
 #include <util.h>
+#endif
 #endif
 
 #ifdef TEK_HACK
@@ -209,9 +211,11 @@ perror_with_name (string)
   char *err;
   char *combined;
 
+#ifndef _WIN32
   if (errno < sys_nerr)
     err = sys_errlist[errno];
   else
+#endif
     err = "unknown error";
 
   combined = (char *) alloca (strlen (err) + strlen (string) + 3);
@@ -235,9 +239,11 @@ print_sys_errmsg (string, errcode)
   char *err;
   char *combined;
 
+#ifndef _WIN32
   if (errcode < sys_nerr)
     err = sys_errlist[errcode];
   else
+#endif
     err = "unknown error";
 
   combined = (char *) alloca (strlen (err) + strlen (string) + 3);
@@ -258,6 +264,7 @@ quit ()
   }
 #endif
 
+#ifndef _WIN32
 #ifdef HAVE_TERMIO
   ioctl (fileno (stdout), TCFLSH, 1);
 #else /* not HAVE_TERMIO */
@@ -268,6 +275,9 @@ quit ()
 #else
   ui_badnews(-1,"Quit (expect signal %d when inferior is resumed)", SIGINT);
 #endif /* TIOCGPGRP */
+#else
+  ui_badnews(-1,"Quit");
+#endif
 }
 
 /* Control C comes here */
@@ -835,12 +845,14 @@ bcmp (from, to, count)
 	return (memcmp (to, from, count));
 }
 
+#ifndef _WIN32
 bzero (to, count)
 char *to;
 {
 	while (count--)
 		*to++ = 0;
 }
+#endif
 
 #ifdef	DG_HACK
 getwoid (buf)
@@ -882,7 +894,7 @@ strstr (s, c)
 }
 #endif /* TEK_HACK */
 
-
+#ifndef _WIN32
 char *
 index (s, c)
      char *s;
@@ -898,6 +910,7 @@ rindex (s, c)
   char *strrchr ();
   return strrchr (s, c);
 }
+#endif
 
 #ifndef USG
 char *sys_siglist[NSIG] = {
@@ -1044,6 +1057,7 @@ The second argument (optional) is the number of characters on a line.",
   lines_per_page = 24;
   chars_per_line = 80;
 
+#ifndef _WIN32
 #ifdef USG
   /* Initialize signal names.  */
 	sys_siglist[0] = "non-existent signal 0";
@@ -1156,4 +1170,5 @@ The second argument (optional) is the number of characters on a line.",
 	sys_siglist[SIGPOLL	] = "SIGPOLL";
 #endif
 #endif /* USG */
+#endif /* _WIN32 */
 }

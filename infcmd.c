@@ -399,6 +399,7 @@ signal_command (signum_exp, from_tty)
   if (!signum_exp)
     error_no_arg ("signal number");
 
+#ifndef _WIN32
 #ifdef TEK_HACK
  /* Add support for SIGxxx type signal names */
   if (strncmp(signum_exp, "SIG", 3) == 0) {
@@ -419,11 +420,12 @@ signal_command (signum_exp, from_tty)
   else {
 #endif /* TEK_HACK */
 
-
   signum = parse_and_eval_address (signum_exp);
 #ifdef TEK_HACK
   }
 #endif /* TEK_HACK */
+#endif /* _WIN32   */
+
 
   clear_proceed_status ();
 
@@ -721,9 +723,11 @@ program_info ()
     ui_fprintf(stdout, "It stopped at breakpoint %d.\n", stop_breakpoint);
   else if (stop_watchpoint > 0)
     ui_fprintf(stdout, "It stopped at watchpoint %d.\n", stop_watchpoint);
+#ifndef _WIN32
   else if (stop_signal)
     ui_fprintf(stdout, "It stopped with signal %d (%s).\n",
 	    stop_signal, sys_siglist[stop_signal]);
+#endif
 
   ui_fprintf(stdout, "\nType \"info stack\" or \"info reg\" for more information.\n");
 }
@@ -839,7 +843,7 @@ read_memory_integer (memaddr, len)
   long lbuf;
   int result_err;
   extern int sys_nerr;
-//  extern char *sys_errlist[];
+  extern char *sys_errlist[];
 
   if (len == sizeof (char))
     {

@@ -18,9 +18,12 @@ This file is part of GDB.  */
 #endif
 
 #include <stdio.h>
+#ifndef _WIN32
 #include <sys/dir.h>
+#endif
 #include <signal.h>
 
+#ifndef _WIN32
 #ifdef HAVE_TERMIO
 #include <termio.h>
 #undef TIOCGETP
@@ -35,6 +38,7 @@ This file is part of GDB.  */
 #include <fcntl.h>
 #include <sgtty.h>
 #define TERMINAL struct sgttyb
+#endif
 #endif
 
 #ifdef SET_STACK_LIMIT_HUGE
@@ -53,8 +57,10 @@ int attach_flag;
 
 /* Record terminal status separately for debugger and inferior.  */
 
+#ifndef _WIN32
 static TERMINAL sg_inferior;
 static TERMINAL sg_ours;
+#endif
 
 static int tflags_inferior;
 static int tflags_ours;
@@ -97,6 +103,7 @@ static int terminal_is_ours;
 void
 terminal_init_inferior ()
 {
+#ifndef _WIN32
   if (remote_debugging)
     return;
 
@@ -120,6 +127,9 @@ terminal_init_inferior ()
 #endif /* TIOCGPGRP */
 
   terminal_is_ours = 1;
+#else
+return;
+#endif
 }
 
 /* Put the inferior's terminal settings into effect.
@@ -128,6 +138,7 @@ terminal_init_inferior ()
 void
 terminal_inferior ()
 {
+#ifndef _WIN32
   if (remote_debugging)
     return;
 
@@ -155,6 +166,9 @@ terminal_inferior ()
 #endif /* TIOCGPGRP */
     }
   terminal_is_ours = 0;
+#else
+return;
+#endif
 }
 
 /* Put some of our terminal settings into effect,
@@ -191,6 +205,7 @@ static void
 terminal_ours_1 (output_only)
      int output_only;
 {
+#ifndef _WIN32
 #ifdef TIOCGPGRP
   /* Ignore this signal since it will happen when we try to set the pgrp.  */
   int (*osigttou) ();
@@ -255,11 +270,13 @@ terminal_ours_1 (output_only)
 #else /* not HAVE_TERMIO */
   sg_ours.sg_flags &= ~RAW & ~CBREAK;
 #endif /* not HAVE_TERMIO */
+#endif /* _WIN32 */
 }
 
 static void
 term_status_command ()
 {
+#ifndef _WIN32
   register int i;
 
   if (remote_debugging)
@@ -306,12 +323,14 @@ term_status_command ()
 #ifdef TIOCLGET
   printf_filtered ("lmode:  %x\n", lmode_inferior);
 #endif
+#endif	/* _WIN32 */
 }
 
 static void
 new_tty (ttyname)
      char *ttyname;
 {
+#ifndef _WIN32
   register int tty;
 
 #ifdef TIOCNOTTY
@@ -339,6 +358,7 @@ new_tty (ttyname)
     { close (2); dup (tty); }
   if (tty > 2)
     close(tty);
+#endif
 }
 
 /* Start an inferior process and returns its pid.
@@ -354,6 +374,7 @@ create_inferior (allargs, env)
      char *allargs;
      char **env;
 {
+#ifndef _WIN32
   int pid;
   char *shell_command;
   extern int sys_nerr;
@@ -428,6 +449,9 @@ create_inferior (allargs, env)
   CREATE_INFERIOR_HOOK (pid);
 #endif  
   return pid;
+#else
+  return -1;
+#endif
 }
 
 /* Kill the inferior process.  Make us have no inferior.  */
@@ -508,6 +532,7 @@ Report which ones can be written.");
 
   inferior_pid = 0;
 
+#ifndef _WIN32
   ioctl (0, TIOCGETP, &sg_ours);
   fcntl (0, F_GETFL, tflags_ours);
 
@@ -524,6 +549,7 @@ Report which ones can be written.");
 #ifdef TIOCGPGRP
   ioctl (0, TIOCGPGRP, &pgrp_ours);
 #endif /* TIOCGPGRP */
+#endif
 
   terminal_is_ours = 1;
 }

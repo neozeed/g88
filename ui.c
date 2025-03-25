@@ -102,7 +102,8 @@ int	xx_initialize_gdb(), xx_fprintf(), xx_fputc(), xx_puts(), xx_fputs(),
 char	*xx_gets(), *xx_fgets();
 #endif
 
-int     fgetc(), fprintf(), fputc(), puts(), fputs(), fflush(), loc_call(),
+//int     fgetc(), fprintf(), fputc(), puts(), fputs(), fflush(), loc_call(),
+int     fgetc(), fputc(), puts(), fputs(), fflush(), loc_call(),
 	wait(), dflt_initialize(), retNothing(), system();
 char    *gets(), *fgets();
 
