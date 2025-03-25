@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <signal.h>
 
-extern char *sys_siglist[];
+//extern char *sys_siglist[];
 
 #define ERROR_NO_INFERIOR \
    if (inferior_pid == 0) ui_badnews(-1,"The program is not being run.");
@@ -140,7 +140,7 @@ run_command (args, from_tty)
   char *allargs;
 
   extern int sys_nerr;
-  extern char *sys_errlist[];
+//  extern char *sys_errlist[];
   extern int errno;
 
   dont_repeat ();
@@ -839,7 +839,7 @@ read_memory_integer (memaddr, len)
   long lbuf;
   int result_err;
   extern int sys_nerr;
-  extern char *sys_errlist[];
+//  extern char *sys_errlist[];
 
   if (len == sizeof (char))
     {

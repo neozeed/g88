@@ -50,7 +50,7 @@ extern struct block *block_for_pc();
 
 extern int errno;
 extern int sys_nerr;
-extern char *sys_errlist[];
+//extern char *sys_errlist[];
 extern int simulator;
 
 REGISTER_TYPE read_register();

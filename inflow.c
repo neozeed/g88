@@ -357,7 +357,7 @@ create_inferior (allargs, env)
   int pid;
   char *shell_command;
   extern int sys_nerr;
-  extern char *sys_errlist[];
+//  extern char *sys_errlist[];
   extern int errno;
 
   /* If desired, concat something onto the front of ALLARGS.

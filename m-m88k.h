@@ -46,7 +46,9 @@ This file is part of GDB. */
 #define NBPG NBPC		/* number of bytes per page */
 #define UPAGES USIZE		/* number of pages in kernel per-user area */
 
+#ifdef SYSV
 #define HAVE_TERMIO
+#endif
 
 #ifdef __GNUC__
 #define alloca __builtin_alloca

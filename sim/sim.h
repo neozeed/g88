@@ -354,8 +354,3 @@ extern void emit_trace_record();
 /* True when we are using the SIGVTALRM to switch between simulated
    processors. */
 extern int waiting_for_mpswitch_interrupt;
-
-#ifndef SIGINT
-#define SIGINT 100
-#define SIGTRAP 101
-#endif

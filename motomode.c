@@ -13,7 +13,7 @@
 #include <sys/file.h>
 #include <setjmp.h>
 #include <sys/types.h>
-#include <termio.h>
+//#include <termio.h>
 #include <string.h>
 
 #include "defs.h"
@@ -27,8 +27,11 @@ static unsigned long download_or_checksum_monitor();
 static boolean waiting_for_echoed_character;
 static boolean verbose;			/* Print lots of info in pass mode   */
 static boolean terminal_mode_altered;	/* True if we've diddled the terminal*/
+#ifdef SYSV
 static struct termio old_terminal_mode;
 static struct termio old_remote_mode;
+#else
+#endif
 static int terminal_fd = 0;		/* We do ioctl's on this             */
 static jmp_buf int_env;                 /* longjmp on this on SIGINT sometimes*/
 static jmp_buf pass_env;		/* longjmp on this to bale out of pass*/
@@ -97,6 +100,7 @@ remote_188syscall(code, arg1, arg2, arg3, arg4, timeout_action, timeout)
 /* Turn off echoing of characters typed at the terminal. */
 void init_terminal_mode()
 {
+#ifdef SYSV
   struct termio t;
  
   if (ioctl(terminal_fd, TCGETA, &t) < 0) {
@@ -118,15 +122,20 @@ void init_terminal_mode()
     ui_badnews(-1, "init_terminal_mode: Error in TCSETAW ioctl with terminal");
   }
   terminal_mode_altered = true;
+#else
+  terminal_mode_altered = false;
+#endif
 }
 
 /* Make a copy of the current terminal mode so that we can restore it
    later. */
 void save_terminal_mode()
 {
+#ifdef SYSV
   if (ioctl(terminal_fd, TCGETA, &old_terminal_mode) < 0) {
     ui_badnews(-1, "do_pass_command: Error in TCGETA ioctl with terminal");
   }
+#endif
 }
 
 /* Restore the terminal mode to be the way it was
@@ -136,9 +145,12 @@ void restore_terminal_mode()
   if (!terminal_mode_altered) {
     return;
   }
+#ifdef SYSV
  if (ioctl(terminal_fd, TCSETAW, &old_terminal_mode) < 0) {
     fatal("restore_terminal_mode: Error in TCSETAW ioctl");
   }
+#else
+#endif
   terminal_mode_altered = false;
 }
 
@@ -146,9 +158,11 @@ void restore_terminal_mode()
    when we entered do_pass_command().  */
 static void restore_remote_mode()
 {
+#ifdef SYSV
   if (ioctl(remote_fd, TCSETAW, &old_remote_mode) < 0) {
     fatal("restore_remote_mode: Error in TCSETAW ioctl");
   }
+#endif
 }
 
 /* Return true if the checksum of the text segment of the file mfname1 
@@ -252,7 +266,11 @@ static void pass_sigstphandler()
   passthroughmode = false;
   restore_terminal_mode();
   signal(SIGTSTP, SIG_DFL);
+#ifdef SYSV
   sigsetmask(sigblock() & ~sigmask(SIGTSTP));
+#else
+//	motomode.c:269: too few arguments to function `sigblock'
+#endif
   kill(getpid(), SIGTSTP);
   signal(SIGTSTP, pass_sigstphandler);
   passthroughmode = true;
@@ -507,6 +525,7 @@ download_or_checksum_monitor(filename1,
 static void turn_on_xon_mode(fd)
   int fd;
 {
+#ifdef SYSV
   struct termio t;
 
   if (ioctl(fd, TCGETA, &t) < 0) {
@@ -520,6 +539,8 @@ static void turn_on_xon_mode(fd)
   if (ioctl(fd, TCSETAW, &t) < 0) {
     fatal("turn_on_xon_mode: Error in doing TCSETAW ioctl");
   }
+#else
+#endif
 }
  
 /* Command to pass ascii between gdb user and 188BUG */
@@ -588,9 +609,11 @@ void do_pass_command(str, from_tty, verbose_parameter)
   }
   verbose = verbose_parameter;
   save_terminal_mode();
+#ifdef SYSV
   if (ioctl(remote_fd, TCGETA, &old_remote_mode) < 0) {
     ui_badnews(-1, "do_pass_command: Error in TCGETA ioctl with remote");
   }
+#endif
   passthroughmode = true;
   spllo();
   if (from_tty) {
@@ -699,11 +722,14 @@ void do_pass_command(str, from_tty, verbose_parameter)
               break;
 
             case 'B':
+#ifdef SYSV
               if (ioctl(remote_fd, TCSBRK, 0) < 0) {
                 ui_fprintf(stderr, 
              "Error doing TCSBRK ioctl, trying to send break to target on %s\n",
                                                             remote_tty_name);
               }
+#else
+#endif
               break;
              
 

@@ -48,6 +48,7 @@ CC-LD=cc
 
 # -I. for "#include <obstack.h>".  Possibly regex.h also. 
 HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -Dm88k -DNON_NATIVE 
+# HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBSD -Dm88k -DNON_NATIVE 
 
 # -DUSEDGCOFF  use this only if you build you executables on an Aviion.
 
@@ -101,7 +102,7 @@ MUNCH_DEFINE =
 
 # Flags that describe where you can find the termcap library.
 # You may need to make other arrangements for USG.
-TERMCAP = -ltermcap
+TERMCAP = #-ltermcap
 
 #tek define this is you are using a fast malloc other than GNU malloc
 #MALLOC_LIB = -lmalloc

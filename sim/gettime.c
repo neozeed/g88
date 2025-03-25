@@ -12,7 +12,7 @@
 
 struct {
     struct timeval tp;
-//    struct timezone tzp;
+    struct timezone tzp;
 } tu;
 
 void
@@ -28,7 +28,7 @@ gettime_operation(address_offset, reg_ptr, size, mem_op_type, override)
 	int      override;
 {
         if (address_offset == 0) {
-            gettimeofday(&tu.tp);	//, &tu.tzp);
+            gettimeofday(&tu.tp, &tu.tzp);
         }
         do_mem_op(reg_ptr, (char *)&tu + address_offset, size, mem_op_type);
 	return E_NONE;
@@ -39,6 +39,6 @@ gettime_print()
     sim_printf("gettime: tv_sec = %d tv_usec = %d\n", 
                                   tu.tp.tv_sec, tu.tp.tv_usec);
 
-//    sim_printf("gettime: tz_minuteswest = %d tz_dsttime = %d\n", 
-//                    tu.tzp.tz_minuteswest, tu.tzp.tz_dsttime);
+    sim_printf("gettime: tz_minuteswest = %d tz_dsttime = %d\n", 
+                    tu.tzp.tz_minuteswest, tu.tzp.tz_dsttime);
 }

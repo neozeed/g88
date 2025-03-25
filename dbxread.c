@@ -3297,7 +3297,9 @@ read_addl_syms (desc, stringtab, nlistlen, text_addr, text_size)
 #endif
 		)
 	       && (!strcmp (namestring + strlen (namestring) - 2, ".o"))
-	       || ! strcmp (namestring, "-l", 2))
+	       || ! strcmp (namestring, "-l"))
+// too many args to strcmp
+//	       || ! strcmp (namestring, "-l", 2))
 	{
 	  if (num_object_files++ == 1)
 	    first_object_file_end = bufp->n_value;

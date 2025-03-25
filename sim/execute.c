@@ -60,9 +60,8 @@
 
 #define L(name)                           \
     { name:;                              \
-      asm(" .globl _sim_" #name);         \
+      asm(" .globl _sim_" #name);       \
       asm("_sim_" #name ":"); }
-
 
 
 /*
@@ -116,11 +115,10 @@
     ptr = SRC1 + SRC2;                                                        \
     if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto macc;                       \
     else ptr &= ~(SIZE - 1);                                                  \
-    ptr = (u_long)TLB##_tlb[btos(ptr)][btop(ptr)] + poff(ptr);                \
+    ptr = (u_long)TLB##_tlb[btos(ptr)][btop(ptr)] + poff(ptr);              \
     if (ptr < PAGESIZE) { ip = IP;                                            \
         ex = l_mem_op(SRC1 + SRC2, REG_PTR, SIZE, MEM_OP_TYPE, MODE);         \
         if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }
-
 
 /*
  * Like the above macro except for use in scaled memory instructions.
@@ -129,11 +127,10 @@
     ptr = SRC1 + SRC2 * SIZE;                                                 \
     if (ptr & (SIZE - 1) && PSR_MA_CHECK_ON) goto macc;                       \
     else ptr &= ~(SIZE - 1);                                                  \
-    ptr = (u_long)TLB##_tlb[btos(ptr)][btop(ptr)] + poff(ptr);                \
+    ptr = (u_long)TLB##_tlb[btos(ptr)][btop(ptr)] + poff(ptr);              \
     if (ptr < PAGESIZE) { ip = IP;                                            \
         ex = l_mem_op(SRC1 + SRC2 * SIZE, REG_PTR, SIZE, MEM_OP_TYPE, MODE);  \
         if (ex != E_NONE) goto gen_exception; else DISPATCH_NEXT; }
-
 
 /*
  * This sets our local pointers to either the user's or supervisors
@@ -2161,8 +2158,7 @@ L(br_n);
     TAKE_DELAYED_BRANCH;
 
 #define BB0(bit) L(bb0_##bit); if ((SRC1 & (1 << bit)) == 0) TAKE_BRANCH; \
-                               DISPATCH_NEXT;
-
+                                  DISPATCH_NEXT;
 
 BB0(0);  BB0(1);  BB0(2);  BB0(3);  BB0(4);  BB0(5);  BB0(6);  BB0(7);
 BB0(8);  BB0(9);  BB0(10); BB0(11); BB0(12); BB0(13); BB0(14); BB0(15);
@@ -2232,7 +2228,6 @@ dummies:
 #define BB1(x) if (sim_zero()) goto bb1_##x;
 #define BB0_N(x) if (sim_zero()) goto bb0_n_##x;
 #define BB1_N(x) if (sim_zero()) goto bb1_n_##x;
-
 
 asm("| START DELETING HERE");
 #include "extern.h"

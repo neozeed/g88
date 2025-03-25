@@ -134,7 +134,7 @@
 #include <sys/ptrace.h>
 #endif /* UMAX_PTRACE */
 
-extern char *sys_siglist[];
+//extern char *sys_siglist[];
 extern int errno;
 
 #ifdef TEK_HACK

@@ -15,9 +15,13 @@ This file is part of GDB. */
 #include <fcntl.h>
 #include <sys/file.h>
 #include <sys/time.h>
+#ifdef SYSV
 #include <termio.h>
+#endif
 #include <string.h>
+#ifdef SYSV
 #include <stropts.h>
+#endif
 #include <sys/types.h>
 #include <sys/timeb.h>
 
@@ -664,7 +668,9 @@ boolean wait_for_exception(expected_exception, timeout_action, timeout)
   unsigned i, new_processor;
   u_long actual_length;	/* # of characters read to satisfy db_read */
   u_long length;		/* Length of target's db_read buffer       */
+#ifdef SYSV
   struct termio t, old_t;
+#endif
   boolean ioctl_flag;
   static int terminal_fd = 0;		/* We do ioctl's on this             */
 
@@ -1072,13 +1078,16 @@ void get_monitor_addresses()
 void setbaud(new_baud)
   int new_baud;
 {
+#ifdef SYSV
   struct termio t;
+#endif
   int baud_code;
 
   if (new_baud == current_baud) {
     return;
   }
   switch (new_baud) {
+#ifdef SYSV
     case 50:	baud_code = B50;	break;
     case 75:	baud_code = B75;	break;
     case 110:	baud_code = B110;	break;
@@ -1095,10 +1104,12 @@ void setbaud(new_baud)
 
     case 0:
     case 38400:	baud_code = EXTB;	break;
-
+#else
+#endif
     default:
       rerr("Can't set remote tty line to %d baud", new_baud);
   }
+#ifdef SYSV
   if (ioctl(remote_fd, TCGETA, &t) < 0) {
     rerr("setbaud: Error in doing TCGETA ioctl to %s", remote_tty_name);
   }
@@ -1108,6 +1119,8 @@ void setbaud(new_baud)
   if (ioctl(remote_fd, TCSETAW, &t) < 0) {
         rerr("setbaud: Error in doing TCSETAW ioctl to %s", remote_tty_name);
   }
+#else
+#endif
   current_baud = new_baud == 0 ? 38400 : new_baud;
 }
 
@@ -1117,7 +1130,9 @@ void setbaud(new_baud)
  */
 void open_debug_port()
 {
+#ifdef SYSV
   struct termio t;
+#endif
   char *env_tty_name;
   char *getenv();
 
@@ -1134,6 +1149,7 @@ void open_debug_port()
     rerr("Cannot open %s", remote_tty_name);
   }
 
+#ifdef SYSV
   if (ioctl(remote_fd, TCGETA, &t) < 0) {
     rerr("open_debug_port: Error in doing TCGETA ioctl");
   }
@@ -1158,6 +1174,8 @@ void open_debug_port()
   if (ioctl(remote_fd, TCSETA, &t) < 0) {
     rerr("open_debug_port: Error in doing TCSETA ioctl");
   }
+#else
+#endif
   setbaud(varvalue("baudrate"));
 
 #ifdef	SIGIO_WORKS	/* Doesn't work in SUN-OS   91.1.1 */
@@ -1693,6 +1711,7 @@ u_char get_remote_char(timeout_action, timeout)
       spllo();
     } while (start_time + timeout > time((time_t *)0));
       
+#ifdef SYSV
     switch (timeout_action) {
       case ta_none:
         break;
@@ -1709,6 +1728,7 @@ u_char get_remote_char(timeout_action, timeout)
       default:
         longjmp(timeout_action, 1);
      }
+#endif
   }
 }
 
@@ -1774,10 +1794,13 @@ void close_control_port()
 /* Reset the target */
 void send_reset_signal()
 {
+#ifdef SYSV
   struct termio t;
+#endif
   int i,flags;
 
   open_control_port();
+#ifdef SYSV
   ioctl(control_fd,I_POP,0);
   ioctl(control_fd,I_POP,0);
 
@@ -1794,15 +1817,20 @@ void send_reset_signal()
   if(ioctl(control_fd,TIOCMSET,&i) < 0) {
     ui_badnews(-1, "Error performing TIOCMSET on control port");
   }
+#else
+#endif
 }
 
 /* Interrupt the target */
 void send_interrupt_signal()
 {
+#ifdef SYSV
   struct termio t;
+#endif
   int i,flags;
   
   open_control_port();
+#ifdef SYSV
   ioctl(control_fd,I_POP,0);
   ioctl(control_fd,I_POP,0);
 
@@ -1816,6 +1844,8 @@ void send_interrupt_signal()
   if(ioctl(control_fd,TIOCMSET,&i) < 0) {
     ui_badnews(-1, "Error performing TIOCMSET on control port");
   }
+#else
+#endif
 }
 
 _initialize_remote()

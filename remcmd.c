@@ -796,7 +796,8 @@ static void dl_command(exp, from_tty)
   int f;
   extern CORE_ADDR text_start, text_end;
   extern CORE_ADDR exec_data_start, exec_data_end;
-  extern data_size, text_offset, exec_data_offset;
+//  extern data_size, text_offset, exec_data_offset;
+  extern text_offset, exec_data_offset;
     
   u_long text_size = text_end - text_start;
   u_long data_size = exec_data_end - exec_data_start;

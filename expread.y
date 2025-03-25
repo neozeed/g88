@@ -28,7 +28,8 @@ This file is part of GDB.  */
 #include <ctype.h>
 #endif /* TEK_HACK */
 #include <stdio.h>
-#include <a.out.h>
+//#include <a.out.h>
+#include "a.out.gnu.h"
 
 #ifdef GHSFORTRAN
 #include "value.h"

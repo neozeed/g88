@@ -17,6 +17,10 @@
 #include <stdio.h>
 #include <signal.h>
 
+#ifdef BSD
+#include <util.h>
+#endif
+
 #ifdef TEK_HACK
 #include <assert.h>
 #endif /* TEK_HACK */
@@ -200,7 +204,7 @@ perror_with_name (string)
      char *string;
 {
   extern int sys_nerr;
-  extern char *sys_errlist[];
+//  extern char *sys_errlist[];
   extern int errno;
   char *err;
   char *combined;
@@ -227,7 +231,7 @@ print_sys_errmsg (string, errcode)
      int errcode;
 {
   extern int sys_nerr;
-  extern char *sys_errlist[];
+//  extern char *sys_errlist[];
   char *err;
   char *combined;
 
@@ -1006,7 +1010,7 @@ struct queue *item;
    we must initialize them at runtime.  */
 static char undoc[] = "(undocumented)";
 
-char *sys_siglist[NSIG];
+// char *sys_siglist[NSIG];
 #endif /* USG */
 
 extern struct cmd_list_element *setlist;

@@ -52,6 +52,10 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
+#include <sys/ioctl.h>
+#ifdef SYSV
+#include <sys/termio.h>
+#endif
 
 #include "sim.h"
 #include "io.h"
@@ -229,15 +233,10 @@ static void check_tty_line(a_or_b)
      * See how many characters there are to read.
      * If there are none, don't try to read any.
      */
-//JASON
-#if 0
 	if (ioctl(fd, FIONREAD, &chars_to_read) == -1) {
 		sim_printf("duart: ioctl(FIONREAD) failed, errno=%d\n", errno);
 		return;
     	}
-#else
-	chars_to_read=0;
-#endif
     if (chars_to_read==0) {
 	return;
     }
@@ -324,7 +323,7 @@ static void hardware_reset()
 static void init_serial_line(a_or_b)
     int a_or_b;
 {
-#if 0
+#ifdef SYSV
   int time_constant;
   int speed;
   struct termio t;
@@ -444,8 +443,9 @@ static void init_serial_line(a_or_b)
   }
 /* #endif */
 
-#endif
   du_inited[a_or_b] = 1;
+#else
+#endif
 }
 
 /*
@@ -1346,7 +1346,7 @@ static void set_sim_baud(new_baud, a_or_b)
   int new_baud;
   int a_or_b;
 {
-#if 0
+#ifdef SYSV
   struct termio t;
   int baud_code;
 
@@ -1381,5 +1381,6 @@ static void set_sim_baud(new_baud, a_or_b)
   if (ioctl(duart_fd[a_or_b], TCSETA, &t) < 0) {
     err("setbaud: Error in doing TCSETA ioctl to %s", du_filename[a_or_b]);
   }
+#else
 #endif
 }

@@ -15,12 +15,11 @@
 /*
  * These macros turn the lines of extern.h into extern declarations.
  */
-#define L(x)      extern sim_##x();
-#define BB0(x)    extern sim_bb0_##x();
-#define BB1(x)    extern sim_bb1_##x();
-#define BB0_N(x)  extern sim_bb0_n_##x();
-#define BB1_N(x)  extern sim_bb1_n_##x();
-
+#define L(x)  extern sim_##x();
+#define BB0(x) extern sim_bb0_##x();
+#define BB1(x) extern sim_bb1_##x();
+#define BB0_N(x) extern sim_bb0_n_##x();
+#define BB1_N(x) extern sim_bb1_n_##x();
 
 #include "extern.h"
 

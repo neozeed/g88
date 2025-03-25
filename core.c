@@ -67,7 +67,7 @@ This file is part of GDB.  */
 #endif
 #endif
 
-extern char *sys_siglist[];
+//extern char *sys_siglist[];
 
 extern core_file_command (), exec_file_command ();
 

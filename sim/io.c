@@ -30,10 +30,9 @@ struct io_trace *io_trace_buf;
 
 #define ROUTINES(name)  0,                     \
                         "name",                \
-                         name##_init,          \
-                         name##_operation,     \
+                         name##_init,        \
+                         name##_operation,   \
                          name##_print
-
 
 struct io_dev io_dev_tab[] = {
 0xfff6f000, PAGESIZE,           0, ROUTINES(data_cmmu_0),
@@ -112,7 +111,6 @@ static void Oscillator()
 /* Turn off the SIGVTALRM, regardless of the setting of timer_on. */
 void HoldOscillator()
 {
-#ifdef HAVE_ITIMER_VIRTUAL
   struct itimerval    new_timer_value, old_timer_value;
       
   new_timer_value.it_interval.tv_sec = 0;
@@ -122,14 +120,12 @@ void HoldOscillator()
   if (setitimer (ITIMER_VIRTUAL, &new_timer_value, &old_timer_value) != 0) {
     sim_printf("g88: setitimer(ITIMER_VIRTUAL,..) in HoldOscillator() returns error\n");
   }
-#endif
 }
 
 /* Turn on SIGVTALRM only if the trivial timer is on or if we are
    waiting for a multiprocessor switch interrupt. */
 void ReleaseOscillator()
 {
-#ifdef HAVE_ITIMER_VIRTUAL
   struct itimerval new_timer_value, old_timer_value;
   u_long usec;
 
@@ -150,7 +146,6 @@ SUN-OS will not interrupt any faster, so $simtick is effectively 10000\n");
       sim_printf("g88: setitimer() in ReleaseOscillator() returns error.\n");
     }
   }
-#endif
 }
 
 /* The trivial timer pulls the interrupt line of the currently 
