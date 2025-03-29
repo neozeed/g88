@@ -843,7 +843,7 @@ read_memory_integer (memaddr, len)
   long lbuf;
   int result_err;
   extern int sys_nerr;
-  extern char *sys_errlist[];
+  //extern char *sys_errlist[];
 
   if (len == sizeof (char))
     {

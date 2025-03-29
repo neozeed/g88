@@ -58,10 +58,18 @@
  */
 #define INC_D_IP            { p += r_size; }
 
+//BSD vs SysV underbars
+#if 0
 #define L(name)                           \
     { name:;                              \
       asm(" .globl _sim_" #name);       \
       asm("_sim_" #name ":"); }
+#else
+#define L(name)                           \
+    { name:;                              \
+      asm(" .globl sim_" #name);       \
+      asm("sim_" #name ":"); }
+#endif
 
 
 /*

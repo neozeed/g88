@@ -1,6 +1,7 @@
 
 # Makefile to build sim.o, the object file with the 88000 simulator.
-CC = gcc
+CC = i586-linux-gcc
+AS = i586-linux-as
 
 CFLAGS= -g 
 
@@ -31,7 +32,7 @@ OBJECTS= cmmu.o console.o disk.o simdecode.o simdisasm.o execute.o \
 	 simgdb.o duart.o
 
 sim.o: $(OBJECTS)
-	ld -r -o sim.o $(OBJECTS)
+	i586-linux-ld -r -o sim.o $(OBJECTS)
 
 extern.h: execute.c
 	egrep "^L" execute.c > extern.h

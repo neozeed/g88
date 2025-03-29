@@ -19,7 +19,7 @@
 
 #ifdef BSD
 #ifndef _WIN32
-#include <util.h>
+//#include <util.h>
 #endif
 #endif
 
@@ -338,8 +338,9 @@ fatal(string, arg)
    (and add a null character at the end in the copy).
    Uses malloc to get the space.  Returns the address of the copy.  */
 
+/* new readline has a savestring */
 char *
-savestring (ptr, size)
+Lsavestring (ptr, size)
      char *ptr;
      int size;
 {

@@ -8,6 +8,9 @@ This file is part of GDB.  */
 
 #include "param.h"
 #include "ui.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #ifdef READ_DBX_FORMAT
 

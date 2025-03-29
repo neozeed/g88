@@ -49,6 +49,7 @@ This file is part of GDB. */
 #ifdef SYSV
 #define HAVE_TERMIO
 #endif
+#define HAVE_TERMIO
 
 #ifdef __GNUC__
 #define alloca __builtin_alloca
