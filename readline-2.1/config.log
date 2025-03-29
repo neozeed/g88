@@ -1,0 +1,301 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:629: checking host system type
+configure:656: checking for gcc
+configure:733: checking whether the C compiler (gcc -g ) works
+configure:747: gcc -o conftest -g   conftest.c  1>&5
+configure:744:1: warning: return type defaults to 'int' [-Wimplicit-int]
+  744 | main(){return(0);}
+      | ^~~~
+configure:767: checking whether the C compiler (gcc -g ) is a cross-compiler
+configure:772: checking whether we are using GNU C
+configure:781: gcc -E conftest.c
+configure:796: checking whether gcc accepts -g
+configure:828: checking how to run the C preprocessor
+configure:849: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:890: checking whether gcc needs -traditional
+configure:946: checking for a BSD compatible install
+configure:998: checking for ranlib
+configure:1026: checking return type of signal handlers
+configure:1048: gcc -c -g -O  conftest.c 1>&5
+configure:1068: checking whether stat file-mode macros are broken
+configure:1128: checking for dirent.h that defines DIR
+configure:1141: gcc -c -g -O  conftest.c 1>&5
+configure:1166: checking for opendir in -ldir
+configure:1185: gcc -o conftest -g -O   conftest.c -ldir   1>&5
+/usr/bin/ld: cannot find -ldir: No such file or directory
+collect2: error: ld returned 1 exit status
+configure: failed program was:
+#line 1174 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char opendir();
+
+int main() {
+opendir()
+; return 0; }
+configure:1252: checking for strcasecmp
+configure:1280: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1264:6: warning: conflicting types for built-in function 'strcasecmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
+ 1264 | char $ac_func();
+      |      ^~~~~~~~~~
+configure:1252: checking for select
+configure:1280: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1252: checking for setenv
+configure:1280: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1252: checking for putenv
+configure:1280: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1252: checking for tcgetattr
+configure:1280: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1252: checking for setlocale
+configure:1280: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1252: checking for lstat
+configure:1280: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1306: checking for working strcoll
+configure:1324: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1316:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ 1316 | main ()
+      | ^~~~
+configure: In function 'main':
+configure:1318:3: warning: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
+ 1318 |   exit (strcoll ("abc", "def") >= 0 ||
+      |   ^~~~
+configure:1316:1: note: include '<stdlib.h>' or provide a declaration of 'exit'
+ 1315 | #include <string.h>
+  +++ |+#include <stdlib.h>
+ 1316 | main ()
+configure:1318:3: warning: incompatible implicit declaration of built-in function 'exit' [-Wbuiltin-declaration-mismatch]
+ 1318 |   exit (strcoll ("abc", "def") >= 0 ||
+      |   ^~~~
+configure:1318:3: note: include '<stdlib.h>' or provide a declaration of 'exit'
+configure:1353: checking for unistd.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for stdlib.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for varargs.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+In file included from configure:1359:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/varargs.h:4:2: error: #error "GCC no longer implements <varargs.h>."
+    4 | #error "GCC no longer implements <varargs.h>."
+      |  ^~~~~
+/usr/lib/gcc/x86_64-linux-gnu/11/include/varargs.h:5:2: error: #error "Revise your code to use <stdarg.h>."
+    5 | #error "Revise your code to use <stdarg.h>."
+      |  ^~~~~
+configure: failed program was:
+#line 1358 "configure"
+#include "confdefs.h"
+#include <varargs.h>
+configure:1353: checking for stdarg.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for string.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for sys/ptem.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1359:10: fatal error: sys/ptem.h: No such file or directory
+ 1359 | #include <$ac_hdr>
+      |          ^~~~~~~~~   
+compilation terminated.
+configure: failed program was:
+#line 1358 "configure"
+#include "confdefs.h"
+#include <sys/ptem.h>
+configure:1353: checking for sys/pte.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1359:10: fatal error: sys/pte.h: No such file or directory
+ 1359 | #include <$ac_hdr>
+      |          ^~~~~~~~~  
+compilation terminated.
+configure: failed program was:
+#line 1358 "configure"
+#include "confdefs.h"
+#include <sys/pte.h>
+configure:1353: checking for sys/stream.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1359:10: fatal error: sys/stream.h: No such file or directory
+ 1359 | #include <$ac_hdr>
+      |          ^~~~~~~~~     
+compilation terminated.
+configure: failed program was:
+#line 1358 "configure"
+#include "confdefs.h"
+#include <sys/stream.h>
+configure:1353: checking for sys/select.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for termcap.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1359:10: fatal error: termcap.h: No such file or directory
+ 1359 | #include <$ac_hdr>
+      |          ^~~~~~~~~  
+compilation terminated.
+configure: failed program was:
+#line 1358 "configure"
+#include "confdefs.h"
+#include <termcap.h>
+configure:1353: checking for termios.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for termio.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for sys/file.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1353: checking for locale.h
+configure:1363: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1392: checking for type of signal functions
+configure:1411: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1493: checking if signal handlers must be reinstalled when invoked
+configure:1548: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1537:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ 1537 | main()
+      | ^~~~
+configure: In function 'main':
+configure:1543:9: warning: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
+ 1543 |         exit(nsigint != 2);
+      |         ^~~~
+configure:1506:1: note: include '<stdlib.h>' or provide a declaration of 'exit'
+ 1505 | #include <unistd.h>
+  +++ |+#include <stdlib.h>
+ 1506 | #endif
+configure:1543:9: warning: incompatible implicit declaration of built-in function 'exit' [-Wbuiltin-declaration-mismatch]
+ 1543 |         exit(nsigint != 2);
+      |         ^~~~
+configure:1543:9: note: include '<stdlib.h>' or provide a declaration of 'exit'
+configure:1573: checking for presence of POSIX-style sigsetjmp/siglongjmp
+configure:1622: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1590:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ 1590 | main()
+      | ^~~~
+configure: In function 'main':
+configure:1609:3: warning: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
+ 1609 |   exit(0);      /* could get sigmask and compare to oset here. */
+      |   ^~~~
+configure:1589:1: note: include '<stdlib.h>' or provide a declaration of 'exit'
+ 1588 | #include <setjmp.h>
+  +++ |+#include <stdlib.h>
+ 1589 | 
+configure:1609:3: warning: incompatible implicit declaration of built-in function 'exit' [-Wbuiltin-declaration-mismatch]
+ 1609 |   exit(0);      /* could get sigmask and compare to oset here. */
+      |   ^~~~
+configure:1609:3: note: include '<stdlib.h>' or provide a declaration of 'exit'
+configure:1617:1: warning: incompatible implicit declaration of built-in function 'exit' [-Wbuiltin-declaration-mismatch]
+ 1617 | exit(1);
+      | ^~~~
+configure:1617:1: note: include '<stdlib.h>' or provide a declaration of 'exit'
+configure:1646: checking for lstat
+configure:1661: gcc -o conftest -g -O   conftest.c  1>&5
+configure: In function 'main':
+configure:1657:2: warning: argument 2 null where non-null expected [-Wnonnull]
+ 1657 |  lstat("",(struct stat *)0);
+      |  ^~~~~
+In file included from configure:1654:
+/usr/include/x86_64-linux-gnu/sys/stat.h:313:12: note: in a call to function 'lstat' declared 'nonnull'
+  313 | extern int lstat (const char *__restrict __file,
+      |            ^~~~~
+configure:1682: checking whether programs are able to redeclare getpw functions
+configure:1696: gcc -c -g -O  conftest.c 1>&5
+configure:1718: checking whether or not strcoll and strcmp differ
+configure:1765: gcc -o conftest -g -O   conftest.c  1>&5
+configure:1733:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ 1733 | main(c, v)
+      | ^~~~
+configure: In function 'main':
+configure:1747:14: warning: implicit declaration of function 'strcoll' [-Wimplicit-function-declaration]
+ 1747 |         r1 = strcoll("abd", "aXd");
+      |              ^~~~~~~
+configure:1751:14: warning: implicit declaration of function 'strcmp' [-Wimplicit-function-declaration]
+ 1751 |         r2 = strcmp("abd", "aXd");
+      |              ^~~~~~
+configure:1731:1: note: include '<string.h>' or provide a declaration of 'strcmp'
+ 1730 | #include <locale.h>
+  +++ |+#include <string.h>
+ 1731 | #endif
+configure:1760:9: warning: implicit declaration of function 'exit' [-Wimplicit-function-declaration]
+ 1760 |         exit (r1 > 0 && r2 > 0);
+      |         ^~~~
+configure:1731:1: note: include '<stdlib.h>' or provide a declaration of 'exit'
+ 1730 | #include <locale.h>
+  +++ |+#include <stdlib.h>
+ 1731 | #endif
+configure:1760:9: warning: incompatible implicit declaration of built-in function 'exit' [-Wbuiltin-declaration-mismatch]
+ 1760 |         exit (r1 > 0 && r2 > 0);
+      |         ^~~~
+configure:1760:9: note: include '<stdlib.h>' or provide a declaration of 'exit'
+configure: failed program was:
+#line 1726 "configure"
+#include "confdefs.h"
+
+#include <stdio.h>
+#if defined (HAVE_LOCALE_H)
+#include <locale.h>
+#endif
+
+main(c, v)
+int     c;
+char    *v[];
+{
+        int     r1, r2;
+        char    *deflocale, *defcoll;
+
+#ifdef HAVE_SETLOCALE
+        deflocale = setlocale(LC_ALL, "");
+	defcoll = setlocale(LC_COLLATE, "");
+#endif
+
+#ifdef HAVE_STRCOLL
+	/* These two values are taken from tests/glob-test. */
+        r1 = strcoll("abd", "aXd");
+#else
+	r1 = 0;
+#endif
+        r2 = strcmp("abd", "aXd");
+
+	/* These two should both be greater than 0.  It is permissible for
+	   a system to return different values, as long as the sign is the
+	   same. */
+
+        /* Exit with 1 (failure) if these two values are both > 0, since
+	   this tests whether strcoll(3) is broken with respect to strcmp(3)
+	   in the default locale. */
+	exit (r1 > 0 && r2 > 0);
+}
+
+configure:1790: checking whether signal handlers are of type void
+configure:1810: gcc -c -g -O  conftest.c 1>&5
+configure:1830: checking for TIOCGWINSZ in sys/ioctl.h
+configure:1843: gcc -c -g -O  conftest.c 1>&5
+configure:1864: checking for TIOCSTAT in sys/ioctl.h
+configure:1877: gcc -c -g -O  conftest.c 1>&5
+configure: In function 'main':
+configure:1873:9: error: 'TIOCSTAT' undeclared (first use in this function); did you mean 'TIOCSTI'?
+ 1873 | int x = TIOCSTAT;
+      |         ^~~~~~~~
+      |         TIOCSTI
+configure:1873:9: note: each undeclared identifier is reported only once for each function it appears in
+configure: failed program was:
+#line 1869 "configure"
+#include "confdefs.h"
+#include <sys/types.h>
+#include <sys/ioctl.h>
+int main() {
+int x = TIOCSTAT;
+; return 0; }
+configure:1898: checking for FIONREAD in sys/ioctl.h
+configure:1911: gcc -c -g -O  conftest.c 1>&5
+configure:1932: checking for speed_t in sys/types.h
+configure:1944: gcc -c -g -O  conftest.c 1>&5
+configure: In function 'main':
+configure:1940:1: error: unknown type name 'speed_t'
+ 1940 | speed_t x;
+      | ^~~~~~~
+configure: failed program was:
+#line 1937 "configure"
+#include "confdefs.h"
+#include <sys/types.h>
+int main() {
+speed_t x;
+; return 0; }
+configure:1966: checking if struct dirent has a d_ino member
+configure:2000: gcc -c -g -O  conftest.c 1>&5
+configure:2022: checking if struct dirent has a d_fileno member
+configure:2056: gcc -c -g -O  conftest.c 1>&5

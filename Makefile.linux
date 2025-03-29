@@ -146,7 +146,7 @@ MFILES88 = m-m88k.h
 MFILES =
 
 ALLFILES88 = $(DEPFILES88) $(PINSNS88) $(OPCODES88) $(MFILES88)
-READLINE =  readline
+READLINE =  readline-2.1
 
 
 POSSLIBS = obstack.h obstack.c regex.c regex.h malloc.c alloca.c
@@ -231,7 +231,7 @@ co-all: FRC
 	colast ${ALLFILES88}
 	colast ${SFILES} ${DEPFILES} ${PINSNS} ${HFILES} ${OPCODES} ${MFILES} \
 	${POSSLIBS} COPYING copying.awk config.gdb munch
-	cd readline; colast Makefile ; make co-all
+	cd readline-2.1; colast Makefile ; make co-all
 	cd sim; colast Makefile; make co-all
 
 Xco-all: co-all
@@ -356,8 +356,8 @@ expread.o : expread.tab.c defs.h param.h symtab.h frame.h expression.h
 # history.o: history.c history.h general.h 
 #	${CC} -c ${CFLAGS} ${SYSV_DEFINE} history.c
 
- readline/libreadline.a : force_update
-	cd readline ;\
+ readline-2.1/libreadline.a : force_update
+	cd readline-2.1 ;\
 	  make ${MFLAGS} "SYSV_DEFINE=${SYSV_DEFINE}" "HACKFLAGS=${HACKFLAGS}" libreadline.a
 
 # sim.o contains either a stub of a simulator or the real thing.  If
