@@ -1062,10 +1062,14 @@ re_match (pbufp, string, size, pos, regs)
 
 /* Maximum size of failure stack.  Beyond this, overflow is an error.  */
 
+#ifdef _LINUX
 /*  duplicate under linux
 int re_max_failures = 2000;
 */
 extern int re_max_failures;
+#else
+int re_max_failures = 2000;
+#endif
 
 static int bcmp_translate();
 /* Match the pattern described by PBUFP

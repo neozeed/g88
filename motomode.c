@@ -546,7 +546,7 @@ static void turn_on_xon_mode(fd)
 }
  
 /* Command to pass ascii between gdb user and 188BUG */
-static void pass_command(str, from_tty)
+void pass_command(str, from_tty)
 {
   do_pass_command(str, from_tty, from_tty);
 }

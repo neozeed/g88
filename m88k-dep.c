@@ -53,7 +53,7 @@
 extern struct block *block_for_pc();
 
 extern int errno;
-extern int sys_nerr;
+//extern int sys_nerr;
 //extern char *sys_errlist[];
 extern int simulator;
 
@@ -1474,7 +1474,6 @@ fetch_instruction(addr)
  * Free up all space allocated for text chunks, reset instruction_buf back to
  * NULL and number_of_chunks to 0.
  */
-static
 clear_instruction_buf()
 {
   register int i;

@@ -139,7 +139,7 @@ run_command (args, from_tty)
   char *exec_file;
   char *allargs;
 
-  extern int sys_nerr;
+//  extern int sys_nerr;
 //  extern char *sys_errlist[];
   extern int errno;
 
@@ -569,7 +569,7 @@ finish_command (arg, from_tty)
 {
 
 #ifdef TEK_HACK
-  extern void finish_or_complete();
+//  extern void finish_or_complete();
 
   finish_or_complete (arg, from_tty, 0, 0);
 }
@@ -577,7 +577,7 @@ finish_command (arg, from_tty)
 /* "complete": Just like finish, except ignore all breakpoints
    until we actually return from selected frame. */
 
-static void
+void
 complete_command (arg, from_tty)
      char *arg;
      int from_tty;
@@ -608,7 +608,7 @@ rfinish_command (arg, from_tty)
 
 
 
-static void
+void
 finish_or_complete (arg, from_tty, ignore_breakpoints, do_continue)
      char *arg;
      int from_tty;
@@ -842,7 +842,7 @@ read_memory_integer (memaddr, len)
   int ibuf;
   long lbuf;
   int result_err;
-  extern int sys_nerr;
+  //extern int sys_nerr;
   //extern char *sys_errlist[];
 
   if (len == sizeof (char))

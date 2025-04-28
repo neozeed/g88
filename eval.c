@@ -1128,7 +1128,7 @@ evaluate_subexp_for_sizeof (exp, pos)
  *
  */
 
-static int 
+int 
 endofexpr(exp, pos)
 register struct expression *exp;
 register int *pos;

@@ -377,7 +377,7 @@ create_inferior (allargs, env)
 #ifndef _WIN32
   int pid;
   char *shell_command;
-  extern int sys_nerr;
+//  extern int sys_nerr;
 //  extern char *sys_errlist[];
   extern int errno;
 

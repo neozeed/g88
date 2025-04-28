@@ -1442,7 +1442,7 @@ static boolean dl_remote(object_fd, t_start, t_length,
 /*
  * This fills a block of target memory with zeros.
  */
-static void remote_zeromem(addr, length)
+void remote_zeromem(addr, length)
     u_long addr;
     int length;
 {

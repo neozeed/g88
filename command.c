@@ -646,14 +646,20 @@ lookup_cmd (line, list, cmdtype, allow_unknown, ignore_help_classes)
      int ignore_help_classes;
 {
   struct cmd_list_element *last_list = 0;
+//printf("command.c 658? strlen is %d on [%s]\n",strlen(*line),*line);
+fflush(stdout);
+if(strlen(*line)<2)
+	return 0;
   struct cmd_list_element *c =
     lookup_cmd_1 (line, list, &last_list, ignore_help_classes);
   char *ptr = (*line) + strlen (*line) - 1;
 
   /* Clear off trailing whitespace.  */
+#if 0
   while (ptr >= *line && (*ptr == ' ' || *ptr == '\t'))
     ptr--;
   *(ptr + 1) = '\0';
+#endif
   
   if (!c)
     {

@@ -25,7 +25,8 @@ This file is part of GDB. */
 #endif
 
 /* define USG if you are using sys5 /usr/include's */
-#define USG
+//should be in the makefile
+//#define USG
 
 /* USG systems need these */
 //#define vfork() fork()
@@ -49,7 +50,7 @@ This file is part of GDB. */
 #ifdef SYSV
 #define HAVE_TERMIO
 #endif
-#define HAVE_TERMIO
+//#define HAVE_TERMIO
 
 #ifdef __GNUC__
 #define alloca __builtin_alloca

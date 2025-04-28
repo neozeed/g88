@@ -205,7 +205,7 @@ void
 perror_with_name (string)
      char *string;
 {
-  extern int sys_nerr;
+//  extern int sys_nerr;
 //  extern char *sys_errlist[];
   extern int errno;
   char *err;
@@ -234,7 +234,7 @@ print_sys_errmsg (string, errcode)
      char *string;
      int errcode;
 {
-  extern int sys_nerr;
+//  extern int sys_nerr;
 //  extern char *sys_errlist[];
   char *err;
   char *combined;
@@ -268,7 +268,8 @@ quit ()
 #ifdef HAVE_TERMIO
   ioctl (fileno (stdout), TCFLSH, 1);
 #else /* not HAVE_TERMIO */
-  ioctl (fileno (stdout), TIOCFLUSH, 0);
+  //ioctl (fileno (stdout), TIOCFLUSH, 0);
+fflush(stdout);
 #endif /* not HAVE_TERMIO */
 #ifdef TIOCGPGRP
   ui_badnews(-1,"Quit");
@@ -835,6 +836,7 @@ print_spaces_filtered (n, stream)
 
 
 #ifdef USG
+#ifndef BSD
 bcopy (from, to, count)
 char *from, *to;
 {
@@ -911,7 +913,8 @@ rindex (s, c)
   char *strrchr ();
   return strrchr (s, c);
 }
-#endif
+#endif //BSD
+#endif  //USG
 
 #ifndef USG
 char *sys_siglist[NSIG] = {

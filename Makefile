@@ -34,7 +34,8 @@
 # is where it should be according to Posix).
 
 #CC=gcc -O
-CC=gcc
+# CC=gcc-3.3 -arch ppc
+CC=gcc -arch i386
 #CC=gcc -traditional
 #CC=/bin/cc
 #YACC=bison -y -v
@@ -44,10 +45,17 @@ SHELL=/bin/sh
 # Set this up with gcc if you have gnu ld and the loader will print out
 # line numbers for undefinded refs.  
 #CC-LD=cc -Bstatic
-CC-LD=gcc
+CC-LD=i586-linux-gcc
+CC-LD=$(CC)
 
 # -I. for "#include <obstack.h>".  Possibly regex.h also. 
-HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -Dm88k -DNON_NATIVE 
+#
+# BSD OS X PPC
+# HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DBSD -Dm88k -DNON_NATIVE 
+HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBSD -Dm88k -DNON_NATIVE 
+#
+#
+# HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBYTES_BIG_ENDIAN -DSYSV -Dm88k -DNON_NATIVE 
 # HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_DETACH -DBSD -Dm88k -DNON_NATIVE 
 
 # -DUSEDGCOFF  use this only if you build you executables on an Aviion.
@@ -55,8 +63,8 @@ HACKFLAGS = -DDG_HACK -DTEK_HACK -DTEK_PROG_HACK -DGHSFORTRAN -DGHS185 -DATTACH_
 CFLAGS = -g -I. -c ${HACKFLAGS}
 #CFLAGS = -I. -g -pg
 #CFLAGS = -O -g -I.
-LDFLAGS =
-#LDFLAGS = -g
+# LDFLAGS =
+LDFLAGS = -g
 
 # define this to be "obstack.o" if you don't have the obstack library installed
 # you must at the same time define OBSTACK1 as "obstack.o" 
@@ -102,7 +110,7 @@ MUNCH_DEFINE =
 
 # Flags that describe where you can find the termcap library.
 # You may need to make other arrangements for USG.
-TERMCAP = #-ltermcap
+TERMCAP = -lncurses #-ltermcap
 
 #tek define this is you are using a fast malloc other than GNU malloc
 #MALLOC_LIB = -lmalloc

@@ -169,6 +169,8 @@ condition_command (arg, from_tty)
   ui_badnews(-1,"No breakpoint or watchpoint number %d.", bnum);
 }
 
+extern void free_command_lines ();
+
 static void
 #ifdef TEK_PROG_HACK
 either_commands_command (arg, l)
@@ -236,7 +238,7 @@ End with a line saying just \"end\".\n", bnum);
            executing.  Otherwise, free the memory now.  */
         if (breakpoint_commands)
           {
-            extern void free_command_lines ();
+            //extern void free_command_lines ();
             struct command_line **kill_me;
 
             kill_me = (struct command_line **)

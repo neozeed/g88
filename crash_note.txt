@@ -1,0 +1,12 @@
+
+
+Program received signal SIGSEGV, Segmentation fault.
+0x080a79a4 in lookup_cmd (line=0xffffd1ac, list=0x814ea78, cmdtype=0x81050a3 "", allow_unknown=-1, ignore_help_classes=1) at command.c:656
+656       *(ptr + 1) = '\0';
+(gdb) bt
+#0  0x080a79a4 in lookup_cmd (line=0xffffd1ac, list=0x814ea78, cmdtype=0x81050a3 "", allow_unknown=-1,
+    ignore_help_classes=1) at command.c:656
+#1  0x0807bdf6 in init_cmd_pointers () at programmer.c:3171
+#2  0x0804bed2 in initialize_main () at main.c:2563
+#3  0x080486ff in main (argc=1, argv=0xffffd324, envp=0xffffd32c) at main.c:450
+(gdb)

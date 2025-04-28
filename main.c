@@ -65,6 +65,9 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #if	defined (DG_HACK) && defined (USG)
 /* changed name of getwd to getwoid to avoid syscall confilicts -- jfs */
 #endif /* not DG_HACK or not USG */
+#ifdef BSD
+#define getwoid getwd
+#endif
 
 #include "defs.h"
 #include "command.h"
@@ -470,9 +473,10 @@ main (argc, argv, envp)
 	 as a filename.  */
       if (arg[0] == '-')
 	{
-	  extern void exec_file_command (), symbol_file_command ();
-	  extern void core_file_command (), directory_command ();
-	  extern void tty_command ();
+	  /*void exec_file_command (), symbol_file_command ();
+	  void core_file_command (), directory_command ();
+	  void tty_command ();
+*/
 
 	  if (!strcmp (arg, "-q") || !strcmp (arg, "-nx")
 #ifdef TEK_HACK

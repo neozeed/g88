@@ -391,7 +391,7 @@ int text_buffer_index, text_buffer_size;
 /* Set up a buffer for transmitted and received characters so that
    the user can look look at a transactions w/ the target after it
    has happened. */
-static void init_buffers()
+void init_buffers()
 {
   int buffersize = varvalue("buffersize");
   if (buffersize == 0) {
